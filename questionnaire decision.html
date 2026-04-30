@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test satirique d’aide à la décision managériale</title>
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --panel: #ffffff;
+      --panel-2: #edf3f6;
+      --text: #18242f;
+      --muted: #536273;
+      --night: #102033;
+      --accent: #0f9f98;
+      --accent-2: #2f8b57;
+      --warn: #d97706;
+      --danger: #b42318;
+      --border: #d9e2ea;
+      --shadow: 0 18px 45px rgba(16,32,51,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(16,32,51,.96), rgba(16,32,51,.76)) top / 100% 320px no-repeat,
+        linear-gradient(180deg, #edf3f6 0, #f7f9fb 390px, #f7f9fb 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 8px;
+      color: #eef8f7;
+      background: rgba(255,255,255,.08);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .hero,
+    .question,
+    .result,
+    .footer-note {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 24px;
+      border-top: 5px solid var(--accent);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      color: var(--night);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef8f7;
+      color: var(--night);
+      border: 1px solid #bfe4df;
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .question {
+      padding: 18px;
+    }
+
+    .question h3 {
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+
+    .question p {
+      color: var(--muted);
+      margin-top: -4px;
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    label.option {
+      display: block;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    label.option:hover,
+    label.option:has(input:checked) {
+      border-color: var(--accent);
+      background: #eef8f7;
+      transform: translateY(-1px);
+    }
+
+    label.option input {
+      margin-right: 10px;
+      transform: scale(1.1);
+      vertical-align: middle;
+      accent-color: var(--accent);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+      position: sticky;
+      bottom: 14px;
+      z-index: 2;
+      padding: 14px;
+      background: rgba(255,255,255,.94);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease;
+      font-weight: 800;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--night);
+      border: 1px solid var(--border);
+    }
+
+    .result {
+      margin-top: 26px;
+      display: none;
+      padding: 22px;
+      border-top: 5px solid var(--warn);
+    }
+
+    .score-box {
+      display: inline-block;
+      padding: 10px 16px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--night);
+    }
+
+    .category {
+      font-size: 1.35rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: var(--night);
+    }
+
+    .result-block {
+      background: #f7f9fb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .result-block h4 {
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .quote {
+      font-style: italic;
+      padding: 12px 14px;
+      border-left: 4px solid var(--accent);
+      background: #eef8f7;
+      border-radius: 8px;
+    }
+
+    .warning {
+      color: var(--danger);
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding: 14px;
+    }
+
+    .small {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .missing {
+      color: var(--danger);
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    ul {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+
+    .legend {
+      margin-bottom: 20px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 24px 14px 44px;
+      }
+      .hero, .question, .result {
+        padding: 16px;
+      }
+      .actions {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="index.html">← Retour à Soutenable</a>
+    <section class="hero">
+      <h1>Test satirique d’aide à la décision</h1>
+      <div class="subtitle">
+        Quand un manager te fait une demande floue, urgente, politique, et potentiellement inutile.
+      </div>
+
+      <div class="badge">Satirique</div>
+      <div class="badge">Mais utilisable</div>
+      <div class="badge">Compatible open space</div>
+
+      <p class="legend">
+        <strong>Mode d’emploi :</strong> réponds à chaque question, puis clique sur <em>Calculer mon diagnostic</em>.
+        Le score final permet d’estimer si tu dois :
+      </p>
+      <ul class="small">
+        <li>traiter sérieusement la demande,</li>
+        <li>produire un minimum propre,</li>
+        <li>cadrer avant d’agir,</li>
+        <li>ou arrêter de compenser le flou par ton énergie vitale.</li>
+      </ul>
+    </section>
+
+    <form id="quizForm">
+      <div class="question">
+        <h3>1. La demande est-elle formulée clairement ?</h3>
+        <p>Objectif, livrable, échéance, destinataire : est-ce qu’on sait au moins ce qu’on fabrique ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" value="0"> Oui : tout est clair.</label>
+          <label class="option"><input type="radio" name="q1" value="1"> À peu près : je comprends le besoin général.</label>
+          <label class="option"><input type="radio" name="q1" value="2"> Non : beaucoup de flou, peu de faits.</label>
+          <label class="option"><input type="radio" name="q1" value="3"> Le manager a dit : “tu vois l’idée”.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>2. L’urgence est-elle réelle ?</h3>
+        <p>Il y a-t-il un jalon, une réunion, une décision, ou juste une panique de dernière minute ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q2" value="0"> Oui : échéance formelle et compréhensible.</label>
+          <label class="option"><input type="radio" name="q2" value="1"> Oui, mais le contexte reste vague.</label>
+          <label class="option"><input type="radio" name="q2" value="2"> C’est “pour demain” sans justification solide.</label>
+          <label class="option"><input type="radio" name="q2" value="3"> C’est urgent parce que quelqu’un n’a rien anticipé.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>3. Quel est l’impact réel si tu fais seulement le minimum ?</h3>
+        <p>Évalue les conséquences en dehors des émotions hiérarchiques.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3" value="0"> Une décision importante risque d’être mauvaise.</label>
+          <label class="option"><input type="radio" name="q3" value="1"> Le manager sera un peu moins confortable.</label>
+          <label class="option"><input type="radio" name="q3" value="2"> Quelqu’un improvisera vaguement à l’oral.</label>
+          <label class="option"><input type="radio" name="q3" value="3"> Rien de tangible, mais on parlera de “mise en visibilité”.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>4. Qui porte réellement cette demande ?</h3>
+        <p>Mandat explicite ou brouillard organisationnel ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q4" value="0"> Moi, c’est mon rôle et c’est clair.</label>
+          <label class="option"><input type="radio" name="q4" value="1"> Mon manager, et je suis en support.</label>
+          <label class="option"><input type="radio" name="q4" value="2"> Plusieurs personnes, donc probablement personne.</label>
+          <label class="option"><input type="radio" name="q4" value="3"> “On” doit faire quelque chose.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>5. Le livrable attendu est-il défini ?</h3>
+        <p>Slide ? Mail ? Tableau ? Démo ? Backup ? Capture d’écran ? Chant grégorien ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q5" value="0"> Oui : le livrable est explicitement nommé.</label>
+          <label class="option"><input type="radio" name="q5" value="1"> Partiellement : “quelques éléments”.</label>
+          <label class="option"><input type="radio" name="q5" value="2"> Non : “il faudrait être prêt”.</label>
+          <label class="option"><input type="radio" name="q5" value="3"> Il faut tout à la fois, au cas où.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>6. Es-tu en train d’imaginer un livrable meilleur que celui demandé ?</h3>
+        <p>Autrement dit : compenses-tu le flou par du zèle ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q6" value="0"> Non : je reste strictement sur le besoin.</label>
+          <label class="option"><input type="radio" name="q6" value="1"> Un peu, mais je peux me limiter.</label>
+          <label class="option"><input type="radio" name="q6" value="2"> Oui : je commence à tout sur-concevoir.</label>
+          <label class="option"><input type="radio" name="q6" value="3"> J’ai déjà ouvert PowerPoint, Excel et ma culpabilité.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>7. Combien de temps faut-il pour produire une version “suffisante” ?</h3>
+        <p>Pas la version parfaite. La version suffisante.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q7" value="0"> Moins de 15 minutes.</label>
+          <label class="option"><input type="radio" name="q7" value="1"> Entre 30 et 60 minutes.</label>
+          <label class="option"><input type="radio" name="q7" value="2"> Plusieurs heures.</label>
+          <label class="option"><input type="radio" name="q7" value="3"> Une éternité bureaucratique emballée en “quick win”.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>8. Y a-t-il un enjeu politique ou d’image ?</h3>
+        <p>Présence de direction, démonstration, prestige, théâtre d’entreprise.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q8" value="0"> Oui, et mon rôle est clairement attendu.</label>
+          <label class="option"><input type="radio" name="q8" value="1"> Oui, mais je suis surtout un support technique.</label>
+          <label class="option"><input type="radio" name="q8" value="2"> Peut-être, mais rien n’est cadré.</label>
+          <label class="option"><input type="radio" name="q8" value="3"> On m’a dit : “tu seras là au cas où”.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>9. Le manager est-il disponible pour clarifier ?</h3>
+        <p>Ou a-t-il lancé la demande avant de disparaître dans un tunnel Teams ?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q9" value="0"> Oui : il répond précisément.</label>
+          <label class="option"><input type="radio" name="q9" value="1"> Oui : brièvement.</label>
+          <label class="option"><input type="radio" name="q9" value="2"> Non : il est parti en réunion.</label>
+          <label class="option"><input type="radio" name="q9" value="3"> Il a dit : “fais au mieux”.</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>10. Quel est le coût personnel si tu t’y mets à fond ?</h3>
+        <p>Énergie, soirée, récupération, concentration, temps volé à quelque chose de plus utile.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q10" value="0"> Faible : ça rentre dans ma journée.</label>
+          <label class="option"><input type="radio" name="q10" value="1"> Modéré : je décale autre chose.</label>
+          <label class="option"><input type="radio" name="q10" value="2"> Élevé : je sacrifie ma récupération.</label>
+          <label class="option"><input type="radio" name="q10" value="3"> Je transforme le flou en dette psychologique.</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" onclick="calculateResult()">Calculer mon diagnostic</button>
+        <button type="reset" class="btn-secondary" onclick="resetResult()">Réinitialiser</button>
+      </div>
+
+      <div id="missingMsg" class="missing"></div>
+    </form>
+
+    <section id="result" class="result">
+      <div class="score-box">Score total : <span id="scoreValue">0</span> / 30</div>
+      <div class="category" id="categoryTitle"></div>
+
+      <div class="result-block">
+        <h4>Lecture de la situation</h4>
+        <p id="interpretation"></p>
+      </div>
+
+      <div class="result-block">
+        <h4>Action recommandée</h4>
+        <p id="action"></p>
+      </div>
+
+      <div class="result-block">
+        <h4>Réponse type au manager</h4>
+        <div class="quote" id="managerReply"></div>
+      </div>
+
+      <div class="result-block">
+        <h4>Règle opérationnelle</h4>
+        <p id="rule"></p>
+      </div>
+
+      <p class="warning" id="warningLine"></p>
+    </section>
+
+    <div class="footer-note">
+      <strong>Note méthodologique :</strong> ce test est satirique. Il n’a aucune validité psychométrique,
+      ce qui le rend compatible avec une part non négligeable des outils RH utilisés avec assurance.
+      Il sert à remettre un peu de causalité, de proportion et d’hygiène mentale dans le traitement des demandes floues.
+    </div>
+  </div>
+
+  <script>
+    function calculateResult() {
+      const form = document.getElementById("quizForm");
+      const result = document.getElementById("result");
+      const missingMsg = document.getElementById("missingMsg");
+
+      let total = 0;
+      let missing = [];
+
+      for (let i = 1; i <= 10; i++) {
+        const checked = form.querySelector(`input[name="q${i}"]:checked`);
+        if (!checked) {
+          missing.push(i);
+        } else {
+          total += parseInt(checked.value, 10);
+        }
+      }
+
+      if (missing.length > 0) {
+        missingMsg.textContent = "Il manque des réponses aux questions : " + missing.join(", ") + ".";
+        result.style.display = "none";
+        return;
+      } else {
+        missingMsg.textContent = "";
+      }
+
+      let category = "";
+      let interpretation = "";
+      let action = "";
+      let managerReply = "";
+      let rule = "";
+      let warning = "";
+
+      if (total <= 6) {
+        category = "0 à 6 — Demande saine";
+        interpretation = "La demande semble légitime, cadrée, avec un enjeu identifiable. Le besoin existe réellement et le niveau d’ambiguïté reste faible.";
+        action = "Traite la demande normalement. Fais un livrable propre, utile, proportionné. Pas besoin de surjouer l’anticipation ni de construire une cathédrale PowerPoint.";
+        managerReply = "Je prépare une version propre et directement exploitable pour l’échéance.";
+        rule = "Quand l’objectif, l’échéance et le niveau attendu sont clairs, on exécute sans suranalyser.";
+        warning = "Risque dominant : faire trop bien quelque chose qui demandait juste d’être bien fait.";
+      } else if (total <= 13) {
+        category = "7 à 13 — Demande normale de bureau moderne";
+        interpretation = "La demande est imparfaite mais gérable. Il y a du flou, mais pas au point de tout bloquer. Le principal risque n’est pas l’échec du livrable, c’est la surproduction.";
+        action = "Fais court, utile et plafonné. Une version simple, quelques messages clés, éventuellement un backup. Rien qui consomme trois heures pour rassurer vaguement quelqu’un.";
+        managerReply = "Je te prépare un support court : objectif, message clé et une option de backup. Si tu veux plus, il faudra arbitrer le niveau d’effort.";
+        rule = "Ambiguïté modérée = livrable court + effort limité + option de clarification.";
+        warning = "Risque dominant : transformer une demande moyenne en chantier personnel.";
+      } else if (total <= 21) {
+        category = "14 à 21 — Demande floue à potentiel de bullshit";
+        interpretation = "La demande ressemble moins à un besoin opérationnel qu’à une incertitude hiérarchique cherchant une matérialisation visuelle. L’enjeu réel est faible ou mal défini.";
+        action = "Ne compense pas le flou par ton énergie. Produis un minimum robuste : une slide, une capture, trois messages clés, et éventuellement un mail de cadrage.";
+        managerReply = "Compte tenu du délai et du cadrage, je propose de sécuriser un support minimal : une slide de synthèse, une capture, et trois messages oraux. Ça permet de répondre sans surproduire.";
+        rule = "Flou élevé = version minimale robuste, pas version exhaustive imaginaire.";
+        warning = "Risque dominant : sacrifier ta soirée à une demande dont personne ne se souviendra dans 48 heures.";
+      } else {
+        category = "22 à 30 — Demande-piège à cadrer immédiatement";
+        interpretation = "Urgence floue, responsabilité diffuse, livrable imprécis, fort potentiel politique. Tu es possiblement en présence d’une demande de confort managérial plus que d’un besoin réel.";
+        action = "Avant de produire, cadre. Demande l’objectif exact, le niveau attendu, le destinataire, le format, et propose toi-même une version minimale. Sans cadrage, tu deviens l’absorbeur officiel de désorganisation.";
+        managerReply = "Pour sécuriser demain, je propose un format court : 1 slide, 2 ou 3 messages clés, et quelques captures en backup. Si un niveau plus détaillé est attendu, il me faut un cadrage plus précis sur l’objectif et le livrable.";
+        rule = "Quand la demande est très floue et très urgente, la bonne réponse n’est pas l’héroïsme, c’est le cadrage.";
+        warning = "Risque dominant : convertir une imprécision managériale en charge mentale privée.";
+      }
+
+      document.getElementById("scoreValue").textContent = total;
+      document.getElementById("categoryTitle").textContent = category;
+      document.getElementById("interpretation").textContent = interpretation;
+      document.getElementById("action").textContent = action;
+      document.getElementById("managerReply").textContent = managerReply;
+      document.getElementById("rule").textContent = rule;
+      document.getElementById("warningLine").textContent = warning;
+
+      result.style.display = "block";
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetResult() {
+      document.getElementById("result").style.display = "none";
+      document.getElementById("missingMsg").textContent = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>

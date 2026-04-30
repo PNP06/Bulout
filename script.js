@@ -1,0 +1,798 @@
+(function () {
+  "use strict";
+
+  const ratingLabels = [
+    "0 - jamais ou presque jamais",
+    "1 - rarement",
+    "2 - parfois",
+    "3 - souvent",
+    "4 - presque toujours"
+  ];
+
+  const sections = [
+    {
+      id: "A",
+      title: "A. Épuisement",
+      shortTitle: "A Épuisement",
+      type: "symptoms",
+      questions: [
+        "Après une journée de travail, je n'ai plus assez d'énergie pour mes activités personnelles habituelles.",
+        "Même après repos court, j'ai l'impression de ne pas récupérer réellement.",
+        "Je commence certaines journées déjà saturé à l'idée de ce qui m'attend.",
+        "Les tâches ordinaires me demandent un effort disproportionné.",
+        "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales.",
+        "J'ai du mal à maintenir mon attention ou ma mémoire de travail au niveau habituel."
+      ]
+    },
+    {
+      id: "B",
+      title: "B. Distance mentale / cynisme",
+      shortTitle: "B Distance mentale",
+      type: "symptoms",
+      questions: [
+        "Je me surprends à me détacher mentalement du travail pour me protéger.",
+        "Je deviens plus cynique sur l'utilité de ce que je fais.",
+        "J'évite certaines interactions professionnelles parce qu'elles me coûtent trop.",
+        "Je ressens moins d'empathie ou de patience envers des personnes avec qui je travaille.",
+        "Je fais le minimum relationnel nécessaire pour tenir la journée.",
+        "L'idée de quitter ou d'être absent me sert surtout d'échappatoire psychologique."
+      ]
+    },
+    {
+      id: "C",
+      title: "C. Efficacité / sens altérés",
+      shortTitle: "C Efficacité/sens",
+      type: "symptoms",
+      questions: [
+        "Je doute plus souvent de ma capacité à produire un travail de qualité.",
+        "Je constate une baisse de qualité ou de fiabilité malgré mes efforts.",
+        "J'ai du mal à voir le sens concret de mon travail.",
+        "Je me sens moins compétent dans des tâches que je maîtrisais auparavant.",
+        "Je termine des journées avec le sentiment de n'avoir rien accompli d'utile.",
+        "Je ne me reconnais plus dans ma façon de travailler."
+      ]
+    },
+    {
+      id: "D",
+      title: "D. Exigences professionnelles",
+      shortTitle: "D Exigences",
+      type: "work",
+      questions: [
+        "La quantité de travail dépasse régulièrement ce qui peut être fait correctement dans le temps disponible.",
+        "Les urgences ou interruptions empêchent de travailler de manière soutenable.",
+        "Je reçois des priorités contradictoires ou insuffisamment arbitrées.",
+        "Je porte une responsabilité forte sans moyens ou autorité suffisants.",
+        "Les exigences émotionnelles ou relationnelles de mon poste sont élevées.",
+        "Je dois compenser des dysfonctionnements d'organisation pour que le travail sorte quand même."
+      ]
+    },
+    {
+      id: "E",
+      title: "E. Ressources professionnelles - score inversé",
+      shortTitle: "E Manque de ressources",
+      type: "work",
+      reversed: true,
+      help: "Cette section est inversée au calcul : plus la ressource est présente, moins elle ajoute au score de risque.",
+      questions: [
+        "Je dispose d'une marge de manœuvre réelle pour organiser mon travail.",
+        "Mon manager m'aide à arbitrer lorsque la charge dépasse la capacité réelle.",
+        "Mes collègues constituent un soutien concret en cas de difficulté.",
+        "Les objectifs et responsabilités sont suffisamment clairs.",
+        "Mes efforts sont reconnus de manière crédible et proportionnée.",
+        "Les décisions qui me concernent me paraissent globalement équitables."
+      ]
+    },
+    {
+      id: "F",
+      title: "F. Récupération et signaux de santé",
+      shortTitle: "F Récupération/santé",
+      type: "recovery",
+      questions: [
+        "Je rumine le travail le soir, le week-end ou pendant les congés.",
+        "Mon sommeil est moins réparateur ou perturbé par le travail.",
+        "J'ai réduit mes loisirs, activités physiques ou relations sociales à cause du travail.",
+        "J'ai des symptômes physiques inhabituels ou aggravés en période de travail.",
+        "J'utilise davantage des stratégies de compensation pour tenir ou dormir : alcool, substances, écrans, alimentation, médicaments hors cadre prescrit.",
+        "J'ai eu des oublis, erreurs, quasi-accidents ou comportements impulsifs inhabituels liés à la fatigue."
+      ]
+    }
+  ];
+
+  const alertQuestions = [
+    "J'ai eu des idées noires ou suicidaires.",
+    "Je me sens incapable de continuer à fonctionner normalement.",
+    "J'ai des symptômes physiques inquiétants : malaise, douleur thoracique, essoufflement inhabituel, perte de contrôle."
+  ];
+
+  const itemInsights = {
+    A1: { interpretation: "Récupération insuffisante après la journée.", action: "Identifier ce qui peut être arrêté ou réduit en fin de journée." },
+    A2: { interpretation: "Récupération courte insuffisante.", action: "Prévoir une récupération plus protégée et moins fragmentée." },
+    A3: { interpretation: "Dette d'énergie anticipée dès le matin.", action: "Réduire temporairement l'exposition aux tâches les plus coûteuses." },
+    A4: { interpretation: "Effort disproportionné pour des tâches ordinaires.", action: "Simplifier le niveau de qualité attendu et limiter le multitâche." },
+    A5: { interpretation: "Irritabilité ou saturation face aux sollicitations.", action: "Réduire les interruptions et restaurer des plages calmes." },
+    A6: { interpretation: "Saturation cognitive ou mémoire de travail fragilisée.", action: "Protéger des temps de concentration et réduire les bascules de contexte." },
+    B1: { interpretation: "Mise à distance protectrice.", action: "Identifier ce qui coûte trop : conflit, absurdité, charge relationnelle ou perte de sens." },
+    B2: { interpretation: "Cynisme défensif.", action: "Nommer les sources d'absurde et distinguer ce qui peut être changé de ce qui doit être arbitré." },
+    B3: { interpretation: "Évitement d'interactions coûteuses.", action: "Réduire les interactions non utiles ou cadrer les échanges difficiles." },
+    B4: { interpretation: "Patience ou empathie entamée.", action: "Traiter la charge émotionnelle et éviter d'ajouter du relationnel décoratif." },
+    B5: { interpretation: "Retrait relationnel pour tenir.", action: "Alléger la charge sociale et clarifier les interactions indispensables." },
+    B6: { interpretation: "Échappatoire psychologique.", action: "Prendre le signal au sérieux et discuter des options de réduction d'exposition." },
+    C1: { interpretation: "Confiance professionnelle fragilisée.", action: "Clarifier les attentes et demander un feedback utile sur le travail réel." },
+    C2: { interpretation: "Qualité ou fiabilité en baisse malgré les efforts.", action: "Réduire le multitâche et traiter les causes d'erreur." },
+    C3: { interpretation: "Perte de sens.", action: "Relier les tâches aux décisions utiles ou supprimer les livrables décoratifs." },
+    C4: { interpretation: "Sentiment de compétence altéré.", action: "Restaurer la maîtrise par des tâches cadrées et un périmètre réaliste." },
+    C5: { interpretation: "Sentiment d'inutilité en fin de journée.", action: "Définir un résultat utile et atteignable avant d'empiler les demandes." },
+    C6: { interpretation: "Décalage entre soi et sa manière de travailler.", action: "Identifier ce qui force à travailler contre ses standards professionnels." },
+    D1: { interpretation: "Surcharge.", action: "Lister les tâches et demander ce qui doit être arrêté, reporté ou simplifié." },
+    D2: { interpretation: "Interruptions ou urgences excessives.", action: "Bloquer des plages sans interruption et trier les urgences réelles." },
+    D3: { interpretation: "Contradictions de priorité.", action: "Demander un arbitrage écrit sur la priorité de la semaine." },
+    D4: { interpretation: "Responsabilité sans moyens.", action: "Rendre visible l'écart entre responsabilité, autorité et ressources." },
+    D5: { interpretation: "Charge émotionnelle ou relationnelle élevée.", action: "Organiser du soutien, du relais ou un temps de décompression après les séquences lourdes." },
+    D6: { interpretation: "Compensation organisationnelle.", action: "Documenter les dysfonctionnements compensés et demander un arbitrage." },
+    E1: { interpretation: "Autonomie insuffisante.", action: "Négocier au moins une marge de manœuvre sur la méthode ou le rythme." },
+    E2: { interpretation: "Soutien managérial insuffisant.", action: "Demander un arbitrage concret plutôt qu'un encouragement général." },
+    E3: { interpretation: "Soutien collectif insuffisant.", action: "Identifier un relais, un binôme ou un partage de charge." },
+    E4: { interpretation: "Clarté faible.", action: "Clarifier objectif, livrable, délai et niveau de détail attendu." },
+    E5: { interpretation: "Reconnaissance faible.", action: "Rendre visible le travail invisible et demander un retour proportionné aux efforts." },
+    E6: { interpretation: "Équité faible.", action: "Expliciter les critères de répartition, de décision ou de reconnaissance." },
+    F1: { interpretation: "Rumination.", action: "Installer un rituel de fermeture et limiter les relances hors travail." },
+    F2: { interpretation: "Sommeil perturbé.", action: "Protéger les soirées et consulter si le trouble persiste." },
+    F3: { interpretation: "Loisirs et liens sociaux réduits.", action: "Réserver une activité non négociable hors travail cette semaine." },
+    F4: { interpretation: "Symptômes physiques liés au travail.", action: "Surveiller l'évolution et demander un avis santé si cela persiste ou s'aggrave." },
+    F5: { interpretation: "Stratégies de compensation.", action: "Chercher un appui professionnel si ces stratégies augmentent ou deviennent nécessaires pour tenir." },
+    F6: { interpretation: "Risque fonctionnel ou sécurité.", action: "Réduire l'exposition aux tâches à risque et demander de l'aide rapidement." }
+  };
+
+  const sectionComments = {
+    A: {
+      faible: "L'épuisement déclaré reste bas.",
+      vigilance: "L'épuisement mérite une surveillance active.",
+      élevé: "Le score d'épuisement indique une dette d'énergie importante.",
+      alerte: "L'épuisement est très marqué et justifie une réduction rapide de l'exposition."
+    },
+    B: {
+      faible: "La distance mentale reste limitée.",
+      vigilance: "Un retrait protecteur commence peut-être à s'installer.",
+      élevé: "La distance mentale suggère une mise à distance protectrice ou un cynisme défensif.",
+      alerte: "Le retrait mental est très marqué : il ne faut pas le réduire à de la mauvaise volonté."
+    },
+    C: {
+      faible: "Le sentiment d'efficacité et de sens reste relativement préservé.",
+      vigilance: "Le rapport au travail commence à perdre en maîtrise ou en utilité.",
+      élevé: "Le score efficacité/sens suggère une perte de maîtrise ou une baisse du sentiment d'utilité.",
+      alerte: "La perte de maîtrise ou de sens est très forte et peut amplifier l'usure."
+    },
+    D: {
+      faible: "Les exigences déclarées restent contenues.",
+      vigilance: "Les exigences deviennent un point de vigilance.",
+      élevé: "Les exigences professionnelles ressortent comme un facteur d'usure probable.",
+      alerte: "Les exigences sont très hautes : le travail semble difficilement soutenable en l'état."
+    },
+    E: {
+      faible: "Les ressources semblent globalement présentes.",
+      vigilance: "Certaines ressources protectrices manquent.",
+      élevé: "Le manque de ressources devient un facteur de risque net.",
+      alerte: "Les ressources sont très insuffisantes face aux contraintes déclarées."
+    },
+    F: {
+      faible: "La récupération semble encore fonctionner.",
+      vigilance: "La récupération montre des signes de fragilité.",
+      élevé: "La récupération et les signaux de santé demandent une attention particulière.",
+      alerte: "La récupération est très dégradée : avis santé conseillé si cela persiste ou s'aggrave."
+    }
+  };
+
+  const profileRecommendations = {
+    protected: {
+      title: "Profil protégé",
+      recommendation: "Maintenir les protections : charge réaliste, marges de manœuvre, soutien, récupération et signaux faibles suivis régulièrement."
+    },
+    tension: {
+      title: "Profil sous tension",
+      recommendation: "Agir rapidement sur la charge, les priorités et les ressources avant que l'usure ne s'installe."
+    },
+    exhaustion: {
+      title: "Profil d'épuisement installé",
+      recommendation: "Réduire l'exposition, protéger la récupération et envisager un échange avec le médecin du travail ou le médecin traitant."
+    },
+    disengagement: {
+      title: "Profil de désengagement / cynisme",
+      recommendation: "Travailler sur reconnaissance, sens, équité, conflits, charge émotionnelle et arbitrages de charge."
+    },
+    alert: {
+      title: "Profil d'alerte",
+      recommendation: "Demander un avis médical rapide. En cas de danger immédiat : 15 / 112. En cas d'idées suicidaires en France : 3114."
+    },
+    mixed: {
+      title: "Profil de vigilance mixte",
+      recommendation: "Identifier les sections les plus élevées, réduire les contraintes les plus coûteuses et renforcer les ressources concrètes cette semaine."
+    }
+  };
+
+  const questionnaireRoot = document.querySelector("#questionnaire-root");
+  const form = document.querySelector("#burnout-form");
+  const formError = document.querySelector("#form-error");
+  const progressCount = document.querySelector("#progress-count");
+  const progressTotal = document.querySelector("#progress-total");
+  const progressBar = document.querySelector("#progress-bar");
+  const resultsPanel = document.querySelector("#results");
+  const profileTitle = document.querySelector("#profile-title");
+  const profileSummary = document.querySelector("#profile-summary");
+  const globalLevel = document.querySelector("#global-level");
+  const globalScore = document.querySelector("#global-score");
+  const alertMessage = document.querySelector("#alert-message");
+  const scoreBars = document.querySelector("#score-bars");
+  const modelReadings = document.querySelector("#model-readings");
+  const topItemsList = document.querySelector("#top-items-list");
+  const priorityActions = document.querySelector("#priority-actions");
+  const recommendationText = document.querySelector("#recommendation-text");
+  const resetButton = document.querySelector("#reset-form");
+  const copyResultsButton = document.querySelector("#copy-results");
+
+  let latestResultText = "";
+
+  function buildQuestionnaire() {
+    const fragment = document.createDocumentFragment();
+
+    sections.forEach((section) => {
+      const sectionElement = document.createElement("section");
+      sectionElement.className = "question-section";
+      sectionElement.setAttribute("aria-labelledby", `section-${section.id}`);
+
+      const title = document.createElement("h3");
+      title.id = `section-${section.id}`;
+      title.textContent = section.title;
+      sectionElement.appendChild(title);
+
+      if (section.help) {
+        const help = document.createElement("p");
+        help.textContent = section.help;
+        sectionElement.appendChild(help);
+      }
+
+      section.questions.forEach((question, index) => {
+        sectionElement.appendChild(createRatingQuestion(section, question, index));
+      });
+
+      fragment.appendChild(sectionElement);
+    });
+
+    const alertSection = document.createElement("section");
+    alertSection.className = "question-section";
+    alertSection.setAttribute("aria-labelledby", "section-alerts");
+    alertSection.innerHTML = "<h3 id=\"section-alerts\">Questions d'alerte</h3><p>Répondez oui ou non. Une réponse oui déclenche un message de prudence médicale.</p>";
+    alertQuestions.forEach((question, index) => {
+      alertSection.appendChild(createYesNoQuestion(question, index));
+    });
+    fragment.appendChild(alertSection);
+
+    questionnaireRoot.appendChild(fragment);
+    progressTotal.textContent = String(sections.length * 6 + alertQuestions.length);
+    console.debug("Questionnaire initialisé", { sections: sections.length, alertQuestions: alertQuestions.length });
+  }
+
+  function createRatingQuestion(section, question, index) {
+    const name = `${section.id}${index + 1}`;
+    const wrapper = document.createElement("fieldset");
+    wrapper.className = "question-item";
+    wrapper.innerHTML = `<legend class="question-text">${question}</legend>`;
+
+    const options = document.createElement("div");
+    options.className = "rating-options";
+
+    ratingLabels.forEach((label, value) => {
+      const option = document.createElement("label");
+      option.className = "option-pill";
+      option.innerHTML = `<input type="radio" name="${name}" value="${value}" required> <span>${label}</span>`;
+      options.appendChild(option);
+    });
+
+    wrapper.appendChild(options);
+    return wrapper;
+  }
+
+  function createYesNoQuestion(question, index) {
+    const name = `alert${index + 1}`;
+    const wrapper = document.createElement("fieldset");
+    wrapper.className = "question-item";
+    wrapper.innerHTML = `<legend class="question-text">${question}</legend>`;
+
+    const options = document.createElement("div");
+    options.className = "yesno-options";
+    [
+      { label: "Non", value: "no" },
+      { label: "Oui", value: "yes" }
+    ].forEach((choice) => {
+      const option = document.createElement("label");
+      option.className = "option-pill";
+      option.innerHTML = `<input type="radio" name="${name}" value="${choice.value}" required> <span>${choice.label}</span>`;
+      options.appendChild(option);
+    });
+    wrapper.appendChild(options);
+    return wrapper;
+  }
+
+  function getAnsweredCount() {
+    const names = new Set([...form.querySelectorAll("input[type='radio']")].map((input) => input.name));
+    let answered = 0;
+    names.forEach((name) => {
+      if (form.querySelector(`input[name="${name}"]:checked`)) {
+        answered += 1;
+      }
+    });
+    return { answered, total: names.size };
+  }
+
+  function updateProgress() {
+    const { answered, total } = getAnsweredCount();
+    const percentage = total === 0 ? 0 : Math.round((answered / total) * 100);
+    progressCount.textContent = String(answered);
+    progressTotal.textContent = String(total);
+    progressBar.style.width = `${percentage}%`;
+    console.debug("Progression mise à jour", { answered, total, percentage });
+  }
+
+  function getLevel(score) {
+    if (score <= 6) return { label: "faible", className: "faible", riskClass: "risk-low" };
+    if (score <= 12) return { label: "vigilance", className: "vigilance", riskClass: "risk-watch" };
+    if (score <= 18) return { label: "élevé", className: "eleve", riskClass: "risk-high" };
+    return { label: "alerte", className: "alerte", riskClass: "risk-alert" };
+  }
+
+  function getGlobalLevel(score, hasAlert) {
+    if (hasAlert || score >= 109) return { label: "alerte", riskClass: "risk-alert" };
+    if (score >= 73) return { label: "élevé", riskClass: "risk-high" };
+    if (score >= 37) return { label: "vigilance", riskClass: "risk-watch" };
+    return { label: "faible", riskClass: "risk-low" };
+  }
+
+  function getSectionScore(section) {
+    const rawValues = section.questions.map((_, index) => {
+      const selected = form.querySelector(`input[name="${section.id}${index + 1}"]:checked`);
+      return selected ? Number(selected.value) : null;
+    });
+    if (rawValues.includes(null)) {
+      return null;
+    }
+
+    const values = section.reversed ? rawValues.map((value) => 4 - value) : rawValues;
+    const score = values.reduce((sum, value) => sum + value, 0);
+    const level = getLevel(score);
+    const highItems = values.map((value, index) => ({ id: `${section.id}${index + 1}`, value })).filter((item) => item.value >= 3);
+    const maxItems = values.map((value, index) => ({ id: `${section.id}${index + 1}`, value })).filter((item) => item.value === 4);
+    const result = {
+      id: section.id,
+      title: section.title,
+      shortTitle: section.shortTitle,
+      score,
+      rawValues,
+      values,
+      level,
+      percent: Math.round((score / 24) * 100),
+      highItems,
+      maxItems,
+      comment: sectionComments[section.id][level.label]
+    };
+
+    console.debug("Score section calculé", {
+      section: section.id,
+      rawValues,
+      values,
+      reversed: Boolean(section.reversed),
+      score,
+      level: level.label,
+      highItems,
+      maxItems
+    });
+    if (section.reversed) {
+      console.debug("Inversion de E appliquée", { rawValues, riskValues: values });
+    }
+    return result;
+  }
+
+  function getAlertAnswers() {
+    return alertQuestions.map((question, index) => {
+      const selected = form.querySelector(`input[name="alert${index + 1}"]:checked`);
+      return { question, yes: selected?.value === "yes", answered: Boolean(selected) };
+    });
+  }
+
+  function buildAnswerItems(sectionResults) {
+    return sections.flatMap((section) => {
+      const result = sectionResults[section.id];
+      return section.questions.map((question, index) => {
+        const id = `${section.id}${index + 1}`;
+        return {
+          id,
+          sectionId: section.id,
+          sectionTitle: section.shortTitle,
+          question,
+          rawScore: result.rawValues[index],
+          riskScore: result.values[index],
+          interpretation: itemInsights[id]?.interpretation || "Signal à investiguer.",
+          action: itemInsights[id]?.action || "Clarifier ce qui rend cet item coûteux."
+        };
+      });
+    });
+  }
+
+  function getTopItems(answers, minScore = 3) {
+    const topItems = answers
+      .filter((answer) => answer.riskScore >= minScore)
+      .sort((left, right) => right.riskScore - left.riskScore || left.id.localeCompare(right.id))
+      .slice(0, 5);
+    console.debug("Top items détectés", { minScore, topItems });
+    return topItems;
+  }
+
+  function determineProfile(sectionScores, totalScore, hasAlert) {
+    const { A, B, C, D, E, F } = sectionScores;
+    const allLow = Object.values(sectionScores).every((score) => score <= 6);
+
+    let profileKey = "mixed";
+    if (hasAlert || totalScore >= 109 || Object.values(sectionScores).some((score) => score >= 22)) {
+      profileKey = "alert";
+    } else if (A >= 13 && F >= 13) {
+      profileKey = "exhaustion";
+    } else if (B >= 13 && (C >= 13 || D >= 13 || E >= 13)) {
+      profileKey = "disengagement";
+    } else if (D >= 13 && A < 13 && B < 13 && C < 13 && F < 13) {
+      profileKey = "tension";
+    } else if (allLow) {
+      profileKey = "protected";
+    }
+
+    const profile = { key: profileKey, ...profileRecommendations[profileKey] };
+    console.debug("Choix du profil", { profileKey, sectionScores, totalScore, hasAlert });
+    return profile;
+  }
+
+  function getDominantDimensions(sectionResults) {
+    const sorted = Object.values(sectionResults).sort((left, right) => right.score - left.score);
+    const elevated = sorted.filter((section) => section.score >= 13);
+    return elevated.length ? elevated : sorted.slice(0, 2);
+  }
+
+  function buildOverallSummary(result) {
+    const dominantNames = result.dominantDimensions.map((section) => section.shortTitle.replace(/^[A-F] /, "")).join(" et ");
+    if (result.hasAlert) {
+      return "Votre profil contient au moins un signal d'alerte. Ce résultat ne constitue pas un diagnostic, mais il justifie un avis médical rapide.";
+    }
+    if (result.profile.key === "protected") {
+      return "Votre profil montre des protections encore présentes. L'enjeu est de les maintenir avant qu'elles ne deviennent optionnelles dans l'organisation réelle.";
+    }
+    if (result.profile.key === "tension") {
+      return "Votre profil montre surtout une tension liée aux exigences professionnelles. Les symptômes cœur ne sont pas tous au niveau maximal, mais la dynamique est défavorable si rien ne change.";
+    }
+    if (result.profile.key === "exhaustion") {
+      return "Votre profil montre surtout un épuisement associé à une récupération dégradée. Votre profil est compatible avec un niveau de risque élevé et justifie une action.";
+    }
+    if (result.profile.key === "disengagement") {
+      return "Votre profil montre surtout un retrait mental, du cynisme défensif ou une perte de sens. Ce signal mérite d'être relié aux causes de travail, pas traité comme un défaut d'attitude.";
+    }
+    return `Votre profil fait ressortir principalement ${dominantNames}. Votre profil est compatible avec un niveau de risque à investiguer et justifie une action ciblée.`;
+  }
+
+  function buildModelReadings(result) {
+    const scores = result.sectionScores;
+    const maslachLines = [];
+    if (scores.A >= 13) maslachLines.push("Le score d'épuisement indique une dette d'énergie importante.");
+    if (scores.B >= 13) maslachLines.push("Le score de distance mentale suggère une mise à distance protectrice ou un cynisme défensif.");
+    if (scores.C >= 13) maslachLines.push("Le score d'efficacité/sens suggère une perte de maîtrise ou une baisse du sentiment d'utilité.");
+    if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Les trois dimensions cœur sont simultanément élevées : il faut éviter de réduire le problème à une simple fatigue.");
+    if (!maslachLines.length) maslachLines.push("Les dimensions cœur ne sont pas toutes élevées, mais leur évolution reste utile à suivre.");
+
+    const jdRCauses = result.topItems
+      .filter((item) => ["D", "E"].includes(item.sectionId))
+      .map((item) => item.interpretation);
+    const jdrLines = [
+      "Le modèle JD-R suggère que le risque vient surtout d'un déséquilibre entre ce que le travail demande et ce qu'il donne comme ressources pour y faire face."
+    ];
+    if (scores.D >= 13) jdrLines.push("Les demandes professionnelles sont fortes.");
+    if (scores.E >= 13) jdrLines.push("Les ressources protectrices semblent insuffisantes.");
+    if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Demandes élevées + ressources faibles : la balance est défavorable.");
+    if (jdRCauses.length) jdrLines.push(`Causes probables : ${unique(jdRCauses).join(", ")}.`);
+
+    const eriSignals = [];
+    if (getItem(result.answers, "D4")?.riskScore >= 3 || getItem(result.answers, "D6")?.riskScore >= 3) eriSignals.push("effort élevé");
+    if (getItem(result.answers, "E5")?.riskScore >= 3) eriSignals.push("récompense ou reconnaissance faible");
+    if (getItem(result.answers, "E6")?.riskScore >= 3) eriSignals.push("injustice ou équité faible");
+    if (getItem(result.answers, "F1")?.riskScore >= 3) eriSignals.push("surengagement ou rumination");
+    if (getItem(result.answers, "F5")?.riskScore >= 3) eriSignals.push("stratégies de compensation");
+    const eriLines = [
+      "Le modèle ERI suggère un possible déséquilibre effort / récompense lorsque les efforts sont élevés, la reconnaissance faible et la récupération dégradée."
+    ];
+    if (eriSignals.length) eriLines.push(`Signaux détectés : ${unique(eriSignals).join(", ")}.`);
+    if (!eriSignals.length) eriLines.push("Les signaux ERI ciblés ne dominent pas, mais reconnaissance et équité restent à surveiller.");
+
+    return [
+      { title: "Lecture Maslach", tag: "Symptômes", lines: maslachLines },
+      { title: "Lecture JD-R", tag: "Demandes / ressources", lines: jdrLines },
+      { title: "Lecture ERI", tag: "Effort / reconnaissance", lines: eriLines }
+    ];
+  }
+
+  function generatePriorityActions(result) {
+    const actions = [];
+    const scores = result.sectionScores;
+    const addAction = (id, title, text) => {
+      if (!actions.some((action) => action.id === id)) {
+        actions.push({ id, title, text });
+      }
+    };
+
+    if (result.hasAlert) {
+      addAction("alert", "Demander un avis médical rapidement", "En danger immédiat : 15 / 112. Idées suicidaires : 3114.");
+    }
+    if (scores.D >= 13) {
+      addAction("load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
+    }
+    if (scores.E >= 13) {
+      addAction("resources", "Renforcer les ressources", "Identifier le manque principal : autonomie, soutien, clarté, reconnaissance ou équité.");
+    }
+    if (scores.A >= 13) {
+      addAction("recovery", "Protéger la récupération", "Réduire temporairement l'exposition et restaurer des temps sans sollicitation.");
+    }
+    if (scores.B >= 13) {
+      addAction("meaning", "Traiter la perte de sens ou le retrait", "Identifier ce qui génère cynisme, évitement ou détachement : conflit de valeurs, absurdité, surcharge relationnelle.");
+    }
+    if (scores.C >= 13) {
+      addAction("mastery", "Restaurer la maîtrise", "Clarifier les critères de qualité, réduire le multi-tâche, traiter les sources d'erreurs.");
+    }
+    if (scores.F >= 13) {
+      addAction("health", "Avis santé / récupération", "Le score de récupération et de santé justifie une attention particulière. Si les troubles persistent, consulter un professionnel de santé.");
+    }
+    if (!actions.length) {
+      addAction("maintain", "Maintenir les protections", "Conserver les marges de manœuvre, les temps de récupération et les arbitrages qui maintiennent le travail soutenable.");
+    }
+
+    const priority = actions.slice(0, 5);
+    console.debug("Actions prioritaires générées", priority);
+    return priority;
+  }
+
+  function calculateResults() {
+    const sectionResults = {};
+    for (const section of sections) {
+      const result = getSectionScore(section);
+      if (result === null) {
+        return null;
+      }
+      sectionResults[section.id] = result;
+    }
+
+    const alertAnswers = getAlertAnswers();
+    if (alertAnswers.some((answer) => !answer.answered)) {
+      return null;
+    }
+
+    const sectionScores = Object.fromEntries(Object.entries(sectionResults).map(([id, result]) => [id, result.score]));
+    const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
+    const hasAlert = alertAnswers.some((answer) => answer.yes);
+    const totalLevel = getGlobalLevel(totalScore, hasAlert);
+    const profile = determineProfile(sectionScores, totalScore, hasAlert);
+    const answers = buildAnswerItems(sectionResults);
+    const topItems = getTopItems(answers);
+    const dominantDimensions = getDominantDimensions(sectionResults);
+    const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
+    const actions = generatePriorityActions({ sectionScores, hasAlert });
+    const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
+
+    const result = {
+      sectionResults,
+      sectionScores,
+      alertAnswers,
+      totalScore,
+      totalLevel,
+      hasAlert,
+      profile,
+      answers,
+      topItems,
+      dominantDimensions,
+      modelReadings: modelReadingCards,
+      actions,
+      summary
+    };
+    console.debug("Résultat global calculé", result);
+    return result;
+  }
+
+  function renderResults(result) {
+    profileTitle.textContent = result.profile.title;
+    profileSummary.textContent = result.summary;
+    globalLevel.innerHTML = `Niveau global : <span class="risk-tag ${result.totalLevel.riskClass}">${result.totalLevel.label}</span>`;
+    globalScore.textContent = String(result.totalScore);
+    alertMessage.hidden = !result.hasAlert;
+    recommendationText.textContent = result.profile.recommendation;
+
+    renderScoreBars(result);
+    renderModelReadings(result.modelReadings);
+    renderTopItems(result.topItems);
+    renderPriorityActions(result.actions);
+
+    latestResultText = buildResultText(result);
+    resultsPanel.hidden = false;
+    resultsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    console.debug("Affichage des résultats terminé", { latestResultText });
+  }
+
+  function renderScoreBars(result) {
+    scoreBars.innerHTML = "";
+    sections.forEach((section) => {
+      const sectionResult = result.sectionResults[section.id];
+      const row = document.createElement("div");
+      row.className = "score-row";
+      row.innerHTML = `
+        <div class="score-row-header">
+          <span>${sectionResult.shortTitle}</span>
+          <span><span class="risk-tag ${sectionResult.level.riskClass}">${sectionResult.level.label}</span> ${sectionResult.score}/24 - ${sectionResult.percent}%</span>
+        </div>
+        <div class="bar-track" aria-hidden="true"><span class="bar-fill ${sectionResult.level.className}" style="width: ${sectionResult.percent}%"></span></div>
+        <p>${sectionResult.comment}</p>
+      `;
+      scoreBars.appendChild(row);
+    });
+  }
+
+  function renderModelReadings(readings) {
+    modelReadings.innerHTML = "";
+    readings.forEach((reading) => {
+      const card = document.createElement("article");
+      card.className = "model-reading-card";
+      card.innerHTML = `
+        <h5>${reading.title}</h5>
+        <span class="risk-tag risk-watch">${reading.tag}</span>
+        <ul>${reading.lines.map((line) => `<li>${line}</li>`).join("")}</ul>
+      `;
+      modelReadings.appendChild(card);
+    });
+  }
+
+  function renderTopItems(items) {
+    topItemsList.innerHTML = "";
+    if (!items.length) {
+      topItemsList.innerHTML = "<li>Aucun item à 3 ou 4. Les signaux forts ne dominent pas dans les réponses actuelles.</li>";
+      return;
+    }
+    items.forEach((item) => {
+      const element = document.createElement("li");
+      element.innerHTML = `
+        <strong>${item.id} - ${item.sectionTitle} : ${item.riskScore}/4</strong>
+        <p>${item.question}</p>
+        <p><strong>Interprétation :</strong> ${item.interpretation}</p>
+        <p><strong>Action associée :</strong> ${item.action}</p>
+      `;
+      topItemsList.appendChild(element);
+    });
+  }
+
+  function renderPriorityActions(actions) {
+    priorityActions.innerHTML = "";
+    actions.forEach((action) => {
+      const card = document.createElement("article");
+      card.className = "priority-action";
+      card.innerHTML = `<strong>${action.title}</strong><p>${action.text}</p>`;
+      priorityActions.appendChild(card);
+    });
+  }
+
+  function buildResultText(result) {
+    const sectionLines = sections.map((section) => {
+      const sectionResult = result.sectionResults[section.id];
+      return `${sectionResult.shortTitle} : ${sectionResult.score}/24 (${sectionResult.level.label})`;
+    });
+    const dominantLines = result.dominantDimensions.map((section) => `- ${section.shortTitle} : ${section.score}/24 (${section.level.label})`);
+    const topItemLines = result.topItems.length
+      ? result.topItems.map((item) => `- ${item.id} ${item.question} Score : ${item.riskScore}/4. ${item.interpretation}`)
+      : ["- Aucun item à 3 ou 4."];
+    const actionLines = result.actions.map((action) => `- ${action.title} : ${action.text}`);
+    const yesAlerts = result.alertAnswers.filter((answer) => answer.yes).length;
+
+    return [
+      "Résultat questionnaire Soutenable",
+      `Profil : ${result.profile.title}`,
+      `Score global : ${result.totalScore}/144 (${result.totalLevel.label})`,
+      "Scores :",
+      ...sectionLines,
+      "",
+      "Dimensions dominantes :",
+      ...dominantLines,
+      "",
+      "Items les plus élevés :",
+      ...topItemLines,
+      "",
+      "Actions prioritaires :",
+      ...actionLines,
+      "",
+      `Alerte oui/non : ${yesAlerts > 0 ? "oui" : "non"} (${yesAlerts}/3)`,
+      "Ce résultat ne constitue pas un diagnostic médical."
+    ].join("\n");
+  }
+
+  function getItem(answers, id) {
+    return answers.find((answer) => answer.id === id);
+  }
+
+  function unique(values) {
+    return [...new Set(values)];
+  }
+
+  async function copyText(text, button) {
+    const originalLabel = button.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "Copié";
+      console.debug("Copie réussie", { length: text.length });
+    } catch (error) {
+      console.debug("Clipboard API indisponible, fallback textarea", error);
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+      button.textContent = "Copié";
+    }
+    window.setTimeout(() => {
+      button.textContent = originalLabel;
+    }, 1600);
+  }
+
+  form.addEventListener("change", updateProgress);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formError.hidden = true;
+    const result = calculateResults();
+
+    if (!result) {
+      formError.textContent = "Merci de répondre à toutes les questions avant d'afficher le résultat.";
+      formError.hidden = false;
+      const firstMissing = form.querySelector("input:invalid");
+      firstMissing?.closest(".question-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      console.debug("Calcul interrompu : réponses manquantes");
+      return;
+    }
+
+    renderResults(result);
+  });
+
+  resetButton.addEventListener("click", () => {
+    form.reset();
+    resultsPanel.hidden = true;
+    formError.hidden = true;
+    latestResultText = "";
+    updateProgress();
+    console.debug("Questionnaire réinitialisé");
+  });
+
+  copyResultsButton.addEventListener("click", () => {
+    if (latestResultText) {
+      copyText(latestResultText, copyResultsButton);
+    }
+  });
+
+  document.querySelectorAll(".copy-template").forEach((button) => {
+    button.addEventListener("click", () => {
+      const text = button.closest(".template-card").querySelector("p").textContent;
+      copyText(text, button);
+    });
+  });
+
+  window.SoutenableDebug = {
+    sections,
+    alertQuestions,
+    itemInsights,
+    getLevel,
+    getGlobalLevel,
+    getTopItems,
+    determineProfile,
+    generatePriorityActions
+  };
+
+  buildQuestionnaire();
+  updateProgress();
+})();
