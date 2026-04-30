@@ -104,6 +104,16 @@
     "J'ai des symptômes physiques inquiétants : malaise, douleur thoracique, essoufflement inhabituel, perte de contrôle."
   ];
 
+  const contextQuestions = [
+    { id: "harassment", label: "Harcèlement, humiliations, menaces ou violences", text: "Je subis ou pense subir du harcèlement, des humiliations, des menaces ou des violences." },
+    { id: "ethicalConflict", label: "Conflit éthique", text: "Je vis un conflit éthique : on me demande de faire un travail contraire à mes valeurs professionnelles, à la qualité ou à la sécurité." },
+    { id: "personalBurden", label: "Situation personnelle lourde", text: "Je vis en parallèle une situation personnelle lourde : deuil, séparation, maladie, aidance, charge familiale importante." },
+    { id: "previousMedicalAlert", label: "Arrêt ou alerte médicale antérieure", text: "J'ai déjà eu un arrêt, une alerte médicale ou une consultation liée à cette situation de travail." },
+    { id: "collectiveSignal", label: "Plusieurs collègues touchés", text: "Plusieurs collègues semblent vivre le même type d'usure ou de surcharge." },
+    { id: "safetySensitiveJob", label: "Poste à enjeu de sécurité", text: "Mon poste comporte des enjeux de sécurité : conduite, machines, soins, décisions critiques, erreurs à conséquences graves." },
+    { id: "fearToSpeak", label: "Peur de parler", text: "J'ai peur de parler de la situation à mon manager ou à mon organisation." }
+  ];
+
   const itemInsights = {
     A1: { interpretation: "Récupération insuffisante après la journée.", action: "Identifier ce qui peut être arrêté ou réduit en fin de journée." },
     A2: { interpretation: "Récupération courte insuffisante.", action: "Prévoir une récupération plus protégée et moins fragmentée." },
@@ -296,6 +306,8 @@
   const alertMessage = document.querySelector("#alert-message");
   const scoreBars = document.querySelector("#score-bars");
   const modelReadings = document.querySelector("#model-readings");
+  const contextFactors = document.querySelector("#context-factors");
+  const collectiveSummary = document.querySelector("#collective-summary");
   const topItemsList = document.querySelector("#top-items-list");
   const priorityActions = document.querySelector("#priority-actions");
   const recommendedStakeholders = document.querySelector("#recommended-stakeholders");
@@ -332,18 +344,27 @@
       fragment.appendChild(sectionElement);
     });
 
+    const contextSection = document.createElement("section");
+    contextSection.className = "question-section";
+    contextSection.setAttribute("aria-labelledby", "section-context");
+    contextSection.innerHTML = "<h3 id=\"section-context\">Contexte particulier — ne compte pas dans le score</h3><p>Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.</p>";
+    contextQuestions.forEach((question, index) => {
+      contextSection.appendChild(createYesNoQuestion(question.text, index, "context"));
+    });
+    fragment.appendChild(contextSection);
+
     const alertSection = document.createElement("section");
     alertSection.className = "question-section";
     alertSection.setAttribute("aria-labelledby", "section-alerts");
     alertSection.innerHTML = "<h3 id=\"section-alerts\">Questions d'alerte</h3><p>Répondez oui ou non. Une réponse oui déclenche un message de prudence médicale.</p>";
     alertQuestions.forEach((question, index) => {
-      alertSection.appendChild(createYesNoQuestion(question, index));
+      alertSection.appendChild(createYesNoQuestion(question, index, "alert"));
     });
     fragment.appendChild(alertSection);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + alertQuestions.length);
-    console.debug("Questionnaire initialisé", { sections: sections.length, alertQuestions: alertQuestions.length });
+    progressTotal.textContent = String(sections.length * 6 + contextQuestions.length + alertQuestions.length);
+    console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
   function createRatingQuestion(section, question, index) {
@@ -366,8 +387,8 @@
     return wrapper;
   }
 
-  function createYesNoQuestion(question, index) {
-    const name = `alert${index + 1}`;
+  function createYesNoQuestion(question, index, prefix = "alert") {
+    const name = `${prefix}${index + 1}`;
     const wrapper = document.createElement("fieldset");
     wrapper.className = "question-item";
     wrapper.innerHTML = `<legend class="question-text">${question}</legend>`;
@@ -470,6 +491,16 @@
       const selected = form.querySelector(`input[name="alert${index + 1}"]:checked`);
       return { question, yes: selected?.value === "yes", answered: Boolean(selected) };
     });
+  }
+
+  function getContextAnswers() {
+    const answers = contextQuestions.map((question, index) => {
+      const selected = form.querySelector(`input[name="context${index + 1}"]:checked`);
+      return { ...question, yes: selected?.value === "yes", answered: Boolean(selected) };
+    });
+    console.debug("Réponses contexte", answers);
+    console.debug("Contexte détecté", answers.filter((answer) => answer.yes).map((answer) => answer.id));
+    return answers;
   }
 
   function buildAnswerItems(sectionResults) {
@@ -588,45 +619,58 @@
   }
 
   function generatePriorityActions(result) {
-    const actions = [];
+    const buckets = {
+      safety: [],
+      exposure: [],
+      resources: [],
+      recovery: [],
+      meaning: [],
+      followup: []
+    };
     const scores = result.sectionScores;
-    const addAction = (id, title, text) => {
-      if (!actions.some((action) => action.id === id)) {
-        actions.push({ id, title, text });
+    const contextAnswers = result.contextAnswers || [];
+    const contextYes = new Set(contextAnswers.filter((answer) => answer.yes).map((answer) => answer.id));
+    const addAction = (bucket, id, title, text) => {
+      if (!Object.values(buckets).flat().some((action) => action.id === id)) {
+        buckets[bucket].push({ id, title, text });
       }
     };
 
-    if (result.hasAlert) {
-      addAction("alert", "Demander un avis médical rapidement", "En danger immédiat : 15 / 112. Idées suicidaires : 3114.");
+    if (result.hasAlert || scores.F >= 19 || contextYes.has("safetySensitiveJob")) {
+      addAction("safety", "alert", "Sécurité / santé d'abord", "En cas de danger immédiat : 15 / 112. Idées suicidaires : 3114. Si un poste à enjeu de sécurité est concerné, réduire l'exposition aux tâches à risque.");
     }
     if (scores.D >= 13) {
-      addAction("load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
+      addAction("exposure", "load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
     }
     if (scores.E >= 13) {
-      addAction("resources", "Renforcer les ressources", "Identifier le manque principal : autonomie, soutien, clarté, reconnaissance ou équité.");
+      addAction("resources", "resources", "Renforcer les ressources", "Identifier le manque principal : autonomie, soutien, clarté, reconnaissance ou équité.");
     }
-    if (scores.A >= 13) {
-      addAction("recovery", "Protéger la récupération", "Réduire temporairement l'exposition et restaurer des temps sans sollicitation.");
+    if (scores.A >= 13 || scores.F >= 13) {
+      addAction("recovery", "recovery", "Protéger la récupération", "Réduire temporairement l'exposition et restaurer des temps sans sollicitation.");
     }
     if (scores.B >= 13) {
-      addAction("meaning", "Traiter la perte de sens ou le retrait", "Identifier ce qui génère cynisme, évitement ou détachement : conflit de valeurs, absurdité, surcharge relationnelle.");
+      addAction("meaning", "meaning", "Traiter la perte de sens ou le retrait", "Identifier ce qui génère cynisme, évitement ou détachement : conflit de valeurs, absurdité, surcharge relationnelle.");
     }
     if (scores.C >= 13) {
-      addAction("mastery", "Restaurer la maîtrise", "Clarifier les critères de qualité, réduire le multi-tâche, traiter les sources d'erreurs.");
+      addAction("meaning", "mastery", "Restaurer la maîtrise", "Clarifier les critères de qualité, réduire le multi-tâche, traiter les sources d'erreurs.");
     }
-    if (scores.F >= 13) {
-      addAction("health", "Avis santé / récupération", "Le score de récupération et de santé justifie une attention particulière. Si les troubles persistent, consulter un professionnel de santé.");
+    if (contextYes.has("ethicalConflict")) {
+      addAction("meaning", "ethics", "Clarifier le conflit éthique", "Documenter les faits, clarifier les responsabilités et chercher un appui professionnel ou collectif.");
     }
-    if (!actions.length) {
-      addAction("maintain", "Maintenir les protections", "Conserver les marges de manœuvre, les temps de récupération et les arbitrages qui maintiennent le travail soutenable.");
+    if (contextYes.has("collectiveSignal")) {
+      addAction("followup", "collective", "Lire aussi le signal comme collectif", "Comparer les contraintes partagées et envisager une remontée collective plutôt qu'une adaptation individuelle isolée.");
+    }
+    addAction("followup", "followup", "Suivre la trajectoire", "Refaire le questionnaire dans 2 à 4 semaines et conserver le résumé pour comparer.");
+    if (!Object.values(buckets).flat().length) {
+      addAction("followup", "maintain", "Maintenir les protections", "Conserver les marges de manœuvre, les temps de récupération et les arbitrages qui maintiennent le travail soutenable.");
     }
 
-    const priority = actions.slice(0, 5);
-    console.debug("Actions prioritaires générées", priority);
+    const priority = ["safety", "exposure", "resources", "recovery", "meaning", "followup"].flatMap((bucket) => buckets[bucket]).slice(0, 5);
+    console.debug("Actions prioritaires générées", { buckets, priority, context: [...contextYes] });
     return priority;
   }
 
-  function getRecommendedStakeholders(scores, alertFlags, profile) {
+  function getRecommendedStakeholders(scores, alertFlags, profile, contextAnswers = []) {
     const recommendations = [];
     const addRecommendation = (key, why) => {
       if (!recommendations.some((recommendation) => recommendation.key === key)) {
@@ -635,6 +679,7 @@
     };
 
     const hasAlert = alertFlags.some((alert) => alert.yes);
+    const contextYes = new Set(contextAnswers.filter((answer) => answer.yes).map((answer) => answer.id));
 
     if (hasAlert) {
       addRecommendation("emergency", "Réponse positive à une question d'alerte : en cas de danger immédiat, aide immédiate.");
@@ -685,15 +730,59 @@
       addRecommendation("generalPractitioner", "À envisager si la perte de fonctionnement dépasse le travail.");
     }
 
-    if (profile.key === "protected" && recommendations.length === 0) {
+    if (profile.key === "protected" && recommendations.length === 0 && contextYes.size === 0) {
       addRecommendation("manager", "Profil protégé : maintenir la clarté, les priorités et les protections existantes.");
       addRecommendation("occupationalNurse", "Question santé-travail ou prévention : premier échange possible.");
       addRecommendation("occupationalDoctor", "Question d'aménagement ou de prévention : avis santé-travail possible.");
     }
 
-    if (recommendations.length === 0) {
+    if (recommendations.length === 0 && contextYes.size === 0) {
       addRecommendation("occupationalNurse", "Premier échange possible si vous hésitez sur le bon interlocuteur.");
       addRecommendation("manager", "Maintenir la clarté de charge et d'arbitrage.");
+    }
+
+    if (contextYes.has("harassment")) {
+      addRecommendation("occupationalDoctor", "Contexte de harcèlement, humiliations ou violences : prévention santé-travail et confidentialité médicale.");
+      addRecommendation("generalPractitioner", "Retentissement santé possible en contexte de violence ou harcèlement.");
+      addRecommendation("hr", "Procédure ou signalement possible, avec prudence sur la confidentialité.");
+      addRecommendation("cse", "Appui possible des représentants du personnel si la situation doit être tracée ou portée collectivement.");
+      if (hasAlert) addRecommendation("emergency", "Danger immédiat ou alerte : aide urgente à envisager.");
+    }
+    if (contextYes.has("ethicalConflict")) {
+      addRecommendation("occupationalDoctor", "Conflit éthique : impact santé-travail et prévention à discuter.");
+      addRecommendation("manager", "Discussion possible si le climat permet un arbitrage clair.");
+      addRecommendation("cse", "Appui collectif possible si l'enjeu dépasse la situation individuelle.");
+      addRecommendation("hr", "Procédure ou arbitrage organisationnel possible si nécessaire.");
+    }
+    if (contextYes.has("personalBurden")) {
+      addRecommendation("generalPractitioner", "Situation personnelle lourde : évaluer le retentissement global et les besoins de soin.");
+      addRecommendation("psychologist", "Soutien utile pour charge émotionnelle, récupération et limites.");
+      addRecommendation("socialWorker", "Droits, démarches ou aides possibles si la situation a des conséquences sociales ou administratives.");
+      addRecommendation("occupationalDoctor", "Impact possible sur le poste ou besoin d'aménagement.");
+    }
+    if (contextYes.has("previousMedicalAlert")) {
+      addRecommendation("occupationalDoctor", "Arrêt ou alerte antérieure : préparer le maintien, l'aménagement ou la reprise.");
+      addRecommendation("generalPractitioner", "Suivi clinique utile après alerte ou arrêt.");
+      addRecommendation("psychologist", "Soutien possible si la situation reste psychologiquement coûteuse.");
+      if (scores.F >= 19 || hasAlert) addRecommendation("psychiatrist", "Gravité possible : avis spécialisé à envisager selon symptômes.");
+    }
+    if (contextYes.has("collectiveSignal")) {
+      addRecommendation("cse", "Plusieurs collègues touchés : signal potentiellement collectif de conditions de travail.");
+      addRecommendation("occupationalDoctor", "Analyse santé-travail collective possible sans diagnostic individuel transmis.");
+      addRecommendation("manager", "Action possible si climat de confiance et arbitrage réel.");
+      addRecommendation("hr", "Action collective ou dispositif interne possible.");
+    }
+    if (contextYes.has("safetySensitiveJob")) {
+      addRecommendation("occupationalDoctor", "Poste à enjeu de sécurité : compatibilité santé/poste et réduction du risque.");
+      addRecommendation("manager", "Réduction immédiate du risque ou ajustement temporaire des tâches.");
+      addRecommendation("generalPractitioner", "Fatigue ou symptômes santé à évaluer si la sécurité peut être engagée.");
+      if (hasAlert || scores.F >= 19) addRecommendation("emergency", "Symptôme aigu ou danger immédiat : aide urgente.");
+    }
+    if (contextYes.has("fearToSpeak")) {
+      addRecommendation("occupationalDoctor", "Peur de parler : échange confidentiel santé-travail possible.");
+      addRecommendation("occupationalNurse", "Premier point confidentiel et orientation possible.");
+      addRecommendation("psychologist", "Soutien pour clarifier la situation et préparer des limites.");
+      addRecommendation("cse", "Appui possible selon le contexte relationnel et la confidentialité souhaitée.");
     }
 
     const selected = recommendations.slice(0, 5).map((recommendation) => ({
@@ -703,6 +792,7 @@
     console.debug("Recommandations d'interlocuteurs", {
       scores,
       alertFlags,
+      contextAnswers,
       profile: profile.key,
       selected: selected.map((recommendation) => ({
         key: recommendation.key,
@@ -727,6 +817,10 @@
     if (alertAnswers.some((answer) => !answer.answered)) {
       return null;
     }
+    const contextAnswers = getContextAnswers();
+    if (contextAnswers.some((answer) => !answer.answered)) {
+      return null;
+    }
 
     const sectionScores = Object.fromEntries(Object.entries(sectionResults).map(([id, result]) => [id, result.score]));
     const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
@@ -737,14 +831,15 @@
     const topItems = getTopItems(answers);
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
-    const actions = generatePriorityActions({ sectionScores, hasAlert });
-    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile);
+    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers });
+    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers);
     const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
 
     const result = {
       sectionResults,
       sectionScores,
       alertAnswers,
+      contextAnswers,
       totalScore,
       totalLevel,
       hasAlert,
@@ -771,6 +866,8 @@
 
     renderScoreBars(result);
     renderModelReadings(result.modelReadings);
+    renderContextFactors(result.contextAnswers);
+    renderCollectiveReading(result.contextAnswers);
     renderTopItems(result.topItems);
     renderPriorityActions(result.actions);
     renderResultTakeaways(result);
@@ -812,6 +909,28 @@
       `;
       modelReadings.appendChild(card);
     });
+  }
+
+  function renderContextFactors(contextAnswers) {
+    const positive = contextAnswers.filter((answer) => answer.yes);
+    if (!positive.length) {
+      contextFactors.innerHTML = "<p>Aucun élément de contexte particulier signalé dans cette section. Cela n'exclut pas qu'un contexte non listé soit important.</p>";
+      console.debug("Rendu contexte", { positive });
+      return;
+    }
+    contextFactors.innerHTML = `
+      <p>Ces éléments ne posent pas de diagnostic, mais ils peuvent changer les interlocuteurs à mobiliser et le niveau de prudence.</p>
+      <ul>${positive.map((answer) => `<li><strong>${answer.label}</strong> — ${answer.text}</li>`).join("")}</ul>
+    `;
+    console.debug("Rendu contexte", { positive });
+  }
+
+  function renderCollectiveReading(contextAnswers) {
+    const collective = contextAnswers.some((answer) => answer.id === "collectiveSignal" && answer.yes);
+    collectiveSummary.textContent = collective
+      ? "Le résultat ne doit pas être lu uniquement comme une difficulté individuelle. Si plusieurs personnes décrivent surcharge, flou, manque de ressources ou récupération dégradée, c'est possiblement un signal d'organisation du travail."
+      : "Le résultat décrit votre situation déclarée. Si vous découvrez que d'autres personnes vivent les mêmes difficultés, la lecture peut devenir collective.";
+    console.debug("Lecture individuel / collectif", { collective });
   }
 
   function renderTopItems(items) {
@@ -877,7 +996,7 @@
       card.className = `recommended-stakeholder ${recommendation.key === "emergency" ? "stakeholder-emergency" : ""}`;
       card.innerHTML = `
         <h5>${recommendation.stakeholder.name}</h5>
-        <p><strong>Pourquoi :</strong> ${recommendation.why}</p>
+        <p><strong>Pourquoi cet acteur est proposé : score + contexte.</strong> ${recommendation.why}</p>
         <p><strong>Rôle court :</strong> ${recommendation.stakeholder.shortRole}</p>
         <p><strong>Phrase utile :</strong> “${recommendation.stakeholder.script}”</p>
         <a href="${recommendation.stakeholder.anchor}">Voir la carte détaillée</a>
@@ -898,14 +1017,30 @@
       : ["- Aucun item à 3 ou 4."];
     const actionLines = result.actions.map((action) => `- ${action.title} : ${action.text}`);
     const stakeholderLines = result.stakeholderRecommendations.map((recommendation) => `- ${recommendation.stakeholder.name} : ${recommendation.why}`);
+    const contextLines = result.contextAnswers.filter((answer) => answer.yes).map((answer) => `- ${answer.label}`);
+    const collectiveLine = result.contextAnswers.some((answer) => answer.id === "collectiveSignal" && answer.yes)
+      ? "Le signal peut aussi être collectif : plusieurs personnes semblent touchées."
+      : "Lecture d'abord individuelle, à réviser si d'autres personnes décrivent les mêmes difficultés.";
     const yesAlerts = result.alertAnswers.filter((answer) => answer.yes).length;
 
+    console.debug("Résumé copiable généré", {
+      context: contextLines,
+      collectiveLine,
+      stakeholders: stakeholderLines.length
+    });
     return [
       "Résultat questionnaire Soutenable",
+      "Période de référence : 4 dernières semaines",
       `Profil : ${result.profile.title}`,
       `Score global : ${result.totalScore}/144 (${result.totalLevel.label})`,
-      "Scores :",
+      "Scores A-F :",
       ...sectionLines,
+      "",
+      "Éléments de contexte signalés :",
+      ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
+      "",
+      "Lecture individuel / collectif :",
+      `- ${collectiveLine}`,
       "",
       "Dimensions dominantes :",
       ...dominantLines,
@@ -920,7 +1055,9 @@
       ...stakeholderLines,
       "",
       `Alerte oui/non : ${yesAlerts > 0 ? "oui" : "non"} (${yesAlerts}/3)`,
-      "Ce résultat ne constitue pas un diagnostic médical."
+      "Rappel : un score faible ne suffit pas toujours à exclure un problème si votre sommeil, votre humeur, votre sécurité ou votre fonctionnement se dégrade.",
+      "Limite :",
+      "Ce résultat ne constitue pas un diagnostic médical et ne doit pas être utilisé pour évaluer professionnellement une personne."
     ].join("\n");
   }
 
@@ -1001,6 +1138,7 @@
   window.SoutenableDebug = {
     sections,
     alertQuestions,
+    contextQuestions,
     itemInsights,
     getLevel,
     getGlobalLevel,
@@ -1008,6 +1146,7 @@
     determineProfile,
     generatePriorityActions,
     stakeholders,
+    getContextAnswers,
     getRecommendedStakeholders
   };
 

@@ -472,11 +472,11 @@
       <div class="progress-wrap">
         <div class="progress-top">
           <span id="progressText">0 / 12 réponses</span>
-          <span id="progressLabel">Diagnostic non stabilisé</span>
+          <span id="progressLabel">Profil non stabilisé</span>
         </div>
         <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
       </div>
-      <button type="button" id="resultBtn" disabled>Générer mon diagnostic</button>
+      <button type="button" id="resultBtn" disabled>Générer mon profil satirique</button>
     </div>
 
     <section class="result-card" id="resultCard" aria-live="polite">
@@ -506,7 +506,7 @@
       </div>
 
       <div class="result-actions">
-        <button type="button" id="copyBtn">Copier mon diagnostic</button>
+        <button type="button" id="copyBtn">Copier mon résultat</button>
         <button type="button" class="secondary" id="resetBtn">Recommencer</button>
         <span class="copy-status" id="copyStatus">Copié.</span>
       </div>
@@ -631,7 +631,7 @@
       },
       {
         text: "À la fin d’une semaine, tu as surtout l’impression :",
-        sub: "Diagnostic émotionnel non remboursé par la médecine du travail.",
+        sub: "Lecture satirique non remboursée par la médecine du travail.",
         options: [
           { text: "D’avoir avancé sur des sujets concrets.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
           { text: "D’avoir évité quelques dégâts invisibles.", weights: { absurd: 2, meeting: 1, dashboard: 1, ghost: 2 } },
@@ -724,11 +724,11 @@
       liveScore.textContent = `${Number.isFinite(partialScores.percent) ? partialScores.percent : 0}%`;
       resultBtn.disabled = answered !== questions.length;
 
-      if (answered === 0) progressLabel.textContent = "Diagnostic non stabilisé";
+      if (answered === 0) progressLabel.textContent = "Profil non stabilisé";
       else if (answered < 4) progressLabel.textContent = "Échantillon fragile";
       else if (answered < 8) progressLabel.textContent = "Absurdité en cours de consolidation";
       else if (answered < questions.length) progressLabel.textContent = "Comité de lecture presque prêt";
-      else progressLabel.textContent = "Diagnostic prêt à être surinterprété";
+      else progressLabel.textContent = "Résultat prêt à être surinterprété";
     }
 
     function getDominantDimension(dimensionPercents) {
