@@ -13,6 +13,7 @@
       <nav class="main-nav" aria-label="Navigation principale">
         <a href="#comprendre">Comprendre</a>
         <a href="#questionnaire">Questionnaire</a>
+        <a href="#aide">Aide</a>
         <a href="#agir">Agir</a>
         <a href="#outils">Boîte à outils</a>
         <a href="#science">Anti-bullshit</a>
@@ -338,6 +339,14 @@
 
             <section class="result-section">
               <div class="result-section-title">
+                <h4>Interlocuteurs recommandés selon votre profil</h4>
+                <p>Interlocuteurs potentiellement utiles, à envisager selon votre situation. Les informations médicales restent avec les professionnels de santé.</p>
+              </div>
+              <div id="recommended-stakeholders" class="recommended-stakeholders"></div>
+            </section>
+
+            <section class="result-section">
+              <div class="result-section-title">
                 <h4>Messages à copier / préparer pour un entretien</h4>
                 <p>Le résumé copiable reprend les scores, dimensions dominantes, items hauts et actions prioritaires.</p>
               </div>
@@ -345,6 +354,124 @@
             </section>
             <button class="button secondary" type="button" id="copy-results">Copier mes résultats</button>
           </section>
+        </div>
+      </section>
+
+      <section id="aide" class="section-band help-section">
+        <div class="content">
+          <div class="section-heading">
+            <p class="kicker">Aide</p>
+            <h2>Qui peut m'aider ?</h2>
+            <p>Le bon interlocuteur dépend du niveau de risque : santé, travail, organisation, conflit, urgence.</p>
+          </div>
+          <p class="help-intro">Le questionnaire ne pose pas de diagnostic. Il sert à repérer des signaux et à choisir le bon niveau d'aide. Certains acteurs relèvent du soin, d'autres de la prévention au travail, d'autres de l'organisation. Les confondre fait perdre du temps.</p>
+          <div class="notice strong">
+            <strong>Confidentialité utile.</strong>
+            Vous n'êtes pas obligé de tout dire à tout le monde. Les informations médicales doivent rester avec les professionnels de santé. Avec le manager ou les RH, il est souvent préférable de parler de charge, priorités, contraintes, récupération et aménagements plutôt que de diagnostic.
+          </div>
+
+          <div class="stakeholder-grid">
+            <article id="aide-medecin-travail" class="stakeholder-card">
+              <h3>Médecin du travail</h3>
+              <span class="stakeholder-badge">Travail / prévention / aménagement</span>
+              <p class="stakeholder-role">Acteur central de la prévention en santé au travail. Il évalue le lien entre état de santé et conditions de travail, conseille sur les adaptations possibles et peut proposer des aménagements de poste.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Symptômes qui durent</li><li>Score élevé ou alerte au questionnaire</li><li>Surcharge durable</li><li>Conflit entre santé et exigences du poste</li><li>Retour après arrêt</li><li>Besoin d'aménagement</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Évaluer la compatibilité entre santé et poste</li><li>Proposer des aménagements</li><li>Conseiller sur la reprise ou le maintien au travail</li><li>Orienter vers d'autres professionnels</li><li>Alerter sur les risques collectifs sans transmettre de diagnostic personnel</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas le médecin traitant</li><li>Il ne prescrit pas toujours comme un médecin de soin</li><li>Il ne doit pas transmettre vos informations médicales à l'employeur</li></ul></details>
+              <p class="stakeholder-script">“Je souhaite un échange confidentiel sur l'impact de ma charge et de mes conditions de travail sur ma santé, et sur les aménagements possibles.”</p>
+              <p class="stakeholder-note">En France, le médecin du travail est soumis au secret médical.</p>
+            </article>
+
+            <article id="aide-generaliste" class="stakeholder-card">
+              <h3>Médecin généraliste</h3>
+              <span class="stakeholder-badge">Soin / diagnostic / arrêt si nécessaire</span>
+              <p class="stakeholder-role">Premier interlocuteur médical pour évaluer l'état de santé global, rechercher les diagnostics différentiels et décider d'une prise en charge.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Fatigue intense persistante</li><li>Insomnie</li><li>Anxiété ou humeur dépressive</li><li>Symptômes physiques</li><li>Perte de fonctionnement</li><li>Besoin d'arrêt de travail</li><li>Doute sur un problème médical associé</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Évaluer l'état clinique</li><li>Rechercher d'autres causes : anémie, thyroïde, trouble du sommeil, dépression, anxiété, pathologie somatique</li><li>Prescrire si nécessaire</li><li>Proposer un arrêt de travail</li><li>Orienter vers psychologue, psychiatre, spécialiste ou médecin du travail</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne connaît pas toujours le travail réel</li><li>Il ne peut pas, seul, corriger l'organisation du travail</li></ul></details>
+              <p class="stakeholder-script">“Je viens parce que mon état se dégrade depuis plusieurs semaines : fatigue, sommeil, fonctionnement et travail. J'aimerais vérifier les causes médicales possibles et discuter de la conduite à tenir.”</p>
+            </article>
+
+            <article id="aide-infirmier-travail" class="stakeholder-card">
+              <h3>Infirmier·ère en santé au travail</h3>
+              <span class="stakeholder-badge">Repérage / écoute / orientation</span>
+              <p class="stakeholder-role">Professionnel de santé du service de prévention et de santé au travail. Il peut participer au suivi, au repérage, aux visites d'information et de prévention, et orienter vers le médecin du travail si nécessaire.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Besoin d'un premier échange santé-travail</li><li>Signaux précoces</li><li>Difficulté à formuler la situation</li><li>Besoin d'orientation vers le médecin du travail</li><li>Suivi après un premier signal</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Écouter et objectiver les signaux</li><li>Aider à préparer une demande au médecin du travail</li><li>Orienter vers le bon professionnel</li><li>Participer au suivi de santé au travail</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas une consultation médicale complète</li><li>Il ne décide pas seul des aménagements médicaux complexes</li></ul></details>
+              <p class="stakeholder-script">“J'aimerais faire un premier point santé-travail, car je constate plusieurs signaux de surcharge et je ne sais pas encore vers qui me tourner.”</p>
+            </article>
+
+            <article id="aide-psychologue" class="stakeholder-card">
+              <h3>Psychologue</h3>
+              <span class="stakeholder-badge">Soutien / coping / clarification</span>
+              <p class="stakeholder-role">Professionnel de l'accompagnement psychologique. Il peut aider à comprendre les mécanismes d'épuisement, les ruminations, la culpabilité, les limites personnelles et les stratégies de récupération.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Rumination</li><li>Anxiété</li><li>Culpabilité à poser des limites</li><li>Perte de confiance</li><li>Difficultés de récupération</li><li>Besoin de soutien hors cadre hiérarchique</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Aider à mettre des mots sur la situation</li><li>Travailler les stratégies de coping</li><li>Aider à poser des limites</li><li>Accompagner la récupération psychologique</li><li>Repérer si une orientation médicale est nécessaire</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas un médecin en cas de symptômes sévères</li><li>Il ne peut pas corriger seul les causes organisationnelles</li></ul></details>
+              <p class="stakeholder-script">“Je souhaite être accompagné pour comprendre ce qui m'épuise, réduire la rumination et préparer des limites réalistes au travail.”</p>
+            </article>
+
+            <article id="aide-psychiatre" class="stakeholder-card">
+              <h3>Psychiatre</h3>
+              <span class="stakeholder-badge">Médical / troubles sévères / traitement</span>
+              <p class="stakeholder-role">Médecin spécialiste de la santé mentale. À contacter en cas de symptômes sévères, persistants ou associés à une dépression, anxiété intense, idées suicidaires, attaques de panique ou perte importante de fonctionnement.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Idées suicidaires</li><li>Dépression sévère</li><li>Anxiété majeure</li><li>Attaques de panique</li><li>Incapacité à fonctionner</li><li>Échec d'une première prise en charge</li><li>Besoin d'un avis spécialisé ou d'un traitement</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Poser un diagnostic psychiatrique si nécessaire</li><li>Prescrire un traitement</li><li>Coordonner une prise en charge</li><li>Proposer ou organiser une hospitalisation si risque majeur</li><li>Orienter vers psychothérapie ou autres soins</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas l'analyse des causes professionnelles</li><li>Il ne doit pas être mobilisé uniquement pour “tenir” dans un système intenable</li></ul></details>
+              <p class="stakeholder-script">“Mes symptômes deviennent sévères et impactent mon fonctionnement. J'ai besoin d'un avis spécialisé sur l'anxiété, l'humeur, le sommeil et le risque.”</p>
+            </article>
+
+            <article id="aide-manager" class="stakeholder-card">
+              <h3>Manager direct</h3>
+              <span class="stakeholder-badge">Organisation / priorités / charge</span>
+              <p class="stakeholder-role">Interlocuteur pour arbitrer la charge, clarifier les priorités, réduire les contradictions et ajuster le travail réel.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Surcharge</li><li>Priorités contradictoires</li><li>Flou sur le livrable</li><li>Objectifs irréalistes</li><li>Besoin de délai, renfort ou arbitrage</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Prioriser</li><li>Retirer ou reporter des tâches</li><li>Clarifier le niveau de qualité attendu</li><li>Protéger du flux de demandes</li><li>Organiser du soutien ou du binômage</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne doit pas recevoir de détails médicaux</li><li>Il ne remplace pas un professionnel de santé</li><li>Il peut faire partie du problème si le management produit la surcharge</li></ul></details>
+              <p class="stakeholder-script">“J'ai besoin d'un arbitrage sur ma charge. Voici les sujets en cours, les délais et ce qui me semble non soutenable. Qu'est-ce qu'on retire, reporte ou simplifie ?”</p>
+            </article>
+
+            <article id="aide-rh" class="stakeholder-card">
+              <h3>Ressources humaines</h3>
+              <span class="stakeholder-badge">Procédures / organisation / dispositifs</span>
+              <p class="stakeholder-role">Interlocuteur pour les dispositifs internes, les procédures, les aménagements organisationnels, les conflits, les signalements et l'accès aux ressources de l'entreprise.</p>
+              <details class="stakeholder-when" open><summary>Quand les contacter</summary><ul><li>Conflit durable</li><li>Besoin de procédure</li><li>Demande d'aménagement organisationnel</li><li>Situation de harcèlement ou violence</li><li>Besoin de médiation</li><li>Absence de réponse managériale</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Expliquer les dispositifs internes</li><li>Organiser une médiation</li><li>Mobiliser des ressources</li><li>Traiter des alertes</li><li>Coordonner certains aménagements avec les acteurs compétents</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'ils ne font pas</summary><ul><li>Ils ne sont pas un espace médical</li><li>Ils ne garantissent pas toujours la confidentialité au même niveau qu'un professionnel de santé</li><li>Ils représentent aussi l'organisation</li></ul></details>
+              <p class="stakeholder-script">“Je souhaite connaître les dispositifs internes disponibles pour traiter une situation de surcharge durable / conflit / risque psychosocial, sans transmettre de détails médicaux.”</p>
+            </article>
+
+            <article id="aide-cse" class="stakeholder-card">
+              <h3>CSE / CSSCT / représentants du personnel</h3>
+              <span class="stakeholder-badge">Collectif / conditions de travail / alerte</span>
+              <p class="stakeholder-role">Acteurs de représentation du personnel. Ils peuvent contribuer aux sujets de santé, sécurité et conditions de travail, faire remonter des situations collectives et accompagner des salariés.</p>
+              <details class="stakeholder-when" open><summary>Quand les contacter</summary><ul><li>Problème collectif</li><li>Surcharge partagée</li><li>Organisation dysfonctionnelle</li><li>Absence de réponse managériale</li><li>Risque psychosocial récurrent</li><li>Besoin de conseil sur ses droits</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Écouter et conseiller</li><li>Faire remonter un problème collectif</li><li>Demander des actions de prévention</li><li>Contribuer aux sujets santé, sécurité et conditions de travail</li><li>Accompagner dans certaines démarches</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'ils ne font pas</summary><ul><li>Ils ne posent pas de diagnostic</li><li>Ils ne remplacent pas les professionnels de santé</li><li>Ils doivent être utilisés avec prudence selon le contexte relationnel et la confidentialité souhaitée</li></ul></details>
+              <p class="stakeholder-script">“Je souhaite savoir si d'autres personnes rencontrent les mêmes difficultés de charge ou d'organisation, et quelles démarches collectives sont possibles.”</p>
+            </article>
+
+            <article id="aide-assistant-social" class="stakeholder-card">
+              <h3>Assistant·e social·e du travail</h3>
+              <span class="stakeholder-badge">Soutien social / démarches / droits</span>
+              <p class="stakeholder-role">Interlocuteur utile quand la situation de travail a des conséquences sociales, financières, familiales ou administratives.</p>
+              <details class="stakeholder-when" open><summary>Quand le contacter</summary><ul><li>Arrêt prolongé</li><li>Difficulté financière</li><li>Démarches administratives</li><li>Handicap ou maintien dans l'emploi</li><li>Articulation santé / famille / travail</li><li>Besoin d'aide pour droits et dispositifs</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Aider à comprendre les droits</li><li>Accompagner les démarches</li><li>Orienter vers des dispositifs d'aide</li><li>Soutenir le maintien ou le retour au travail</li></ul></details>
+              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas le médecin</li><li>Il ne règle pas seul l'organisation du travail</li></ul></details>
+              <p class="stakeholder-script">“Ma situation professionnelle commence à avoir des conséquences sur mon équilibre personnel ou administratif. J'ai besoin d'aide pour comprendre les options et démarches possibles.”</p>
+            </article>
+
+            <article id="aide-urgence" class="stakeholder-card stakeholder-emergency">
+              <h3>Urgence médicale / 3114</h3>
+              <span class="stakeholder-badge">Danger immédiat</span>
+              <p class="stakeholder-role">À contacter immédiatement en cas de risque suicidaire, danger immédiat, perte de contrôle, malaise, douleur thoracique, essoufflement inhabituel ou situation aiguë.</p>
+              <details class="stakeholder-when" open><summary>Quand contacter</summary><ul><li>Idées suicidaires</li><li>Risque de passage à l'acte</li><li>Danger immédiat</li><li>Malaise ou douleur thoracique</li><li>Crise sévère</li><li>Impossibilité de rester seul en sécurité</li></ul></details>
+              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Évaluer l'urgence</li><li>Déclencher une prise en charge</li><li>Orienter vers les soins adaptés</li><li>Protéger en situation de danger</li></ul></details>
+              <p class="stakeholder-script">“Je ne me sens pas en sécurité / j'ai peur de passer à l'acte / j'ai besoin d'aide immédiatement.”</p>
+              <p class="emergency-line">Danger immédiat : 15 / 112. Idées suicidaires en France : 3114.</p>
+            </article>
+          </div>
         </div>
       </section>
 

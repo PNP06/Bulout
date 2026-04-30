@@ -899,6 +899,40 @@ h3 {
   gap: 12px;
 }
 
+.recommended-stakeholders,
+.stakeholder-priority-list {
+  display: grid;
+  gap: 12px;
+}
+
+.recommended-stakeholders {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.recommended-stakeholder {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.recommended-stakeholder h5 {
+  margin: 0 0 8px;
+  color: var(--night);
+  font-size: 1rem;
+}
+
+.recommended-stakeholder p {
+  margin: 8px 0;
+  color: var(--muted-ink);
+}
+
+.recommended-stakeholder a {
+  color: var(--turquoise);
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .recommendation-text {
   padding: 16px;
   border: 1px solid #bfe4df;
@@ -965,6 +999,112 @@ h3 {
   margin: 18px 0;
 }
 
+.help-section {
+  background: #f7f9fb;
+}
+
+.help-intro {
+  max-width: 920px;
+  color: var(--muted-ink);
+  font-size: 1.04rem;
+}
+
+.stakeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.stakeholder-card {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(16, 32, 51, 0.06);
+}
+
+.stakeholder-card h3 {
+  font-size: 1.25rem;
+}
+
+.stakeholder-badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eef8f7;
+  border: 1px solid #bfe4df;
+  color: var(--night);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.stakeholder-role,
+.stakeholder-note {
+  margin: 0;
+  color: var(--muted-ink);
+}
+
+.stakeholder-when,
+.stakeholder-can,
+.stakeholder-limit {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.stakeholder-card summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--night);
+  font-weight: 900;
+}
+
+.stakeholder-card details ul {
+  margin: 0;
+  padding: 0 14px 14px 30px;
+  color: var(--muted-ink);
+}
+
+.stakeholder-script {
+  margin: 0;
+  padding: 14px;
+  border-left: 5px solid var(--turquoise);
+  border-radius: 8px;
+  background: #eef8f7;
+  color: var(--night);
+  font-weight: 700;
+}
+
+.stakeholder-note {
+  font-size: 0.9rem;
+}
+
+.stakeholder-emergency {
+  border-color: #f3b5ae;
+  border-top: 5px solid var(--red);
+  background: #fffafa;
+}
+
+.stakeholder-emergency .stakeholder-badge {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.emergency-line {
+  margin: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 900;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -1020,6 +1160,8 @@ th {
   .model-map-flow,
   .result-model-grid,
   .priority-actions,
+  .recommended-stakeholders,
+  .stakeholder-grid,
   .science-path,
   .template-grid,
   .result-header,

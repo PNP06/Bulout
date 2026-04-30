@@ -209,6 +209,79 @@
     }
   };
 
+  const stakeholders = {
+    occupationalDoctor: {
+      name: "Médecin du travail",
+      anchor: "#aide-medecin-travail",
+      shortRole: "Prévention santé-travail, analyse du lien santé/poste et aménagements possibles.",
+      script: "Je souhaite un échange confidentiel sur l'impact de ma charge sur ma santé.",
+      defaultWhy: "Peut être utile pour analyser le lien entre santé, poste, charge et aménagements."
+    },
+    generalPractitioner: {
+      name: "Médecin généraliste",
+      anchor: "#aide-generaliste",
+      shortRole: "Évaluation clinique, diagnostics différentiels, arrêt ou orientation si nécessaire.",
+      script: "Je constate une dégradation de mon sommeil, de mon énergie et de mon fonctionnement.",
+      defaultWhy: "Peut être utile si les signaux santé, sommeil ou fonctionnement deviennent importants."
+    },
+    occupationalNurse: {
+      name: "Infirmier·ère en santé au travail",
+      anchor: "#aide-infirmier-travail",
+      shortRole: "Premier point santé-travail, écoute, repérage et orientation.",
+      script: "J'aimerais faire un premier point santé-travail et savoir vers qui me tourner.",
+      defaultWhy: "Peut être utile pour un premier échange et une orientation vers le bon acteur."
+    },
+    psychologist: {
+      name: "Psychologue",
+      anchor: "#aide-psychologue",
+      shortRole: "Soutien psychologique, rumination, limites, récupération et clarification.",
+      script: "Je souhaite comprendre ce qui m'épuise et préparer des limites réalistes au travail.",
+      defaultWhy: "Peut être utile en cas de rumination, culpabilité, retrait ou difficulté de récupération."
+    },
+    psychiatrist: {
+      name: "Psychiatre",
+      anchor: "#aide-psychiatre",
+      shortRole: "Avis médical spécialisé en santé mentale, troubles sévères ou traitement.",
+      script: "Mes symptômes deviennent sévères et impactent mon fonctionnement.",
+      defaultWhy: "Peut être utile si les symptômes sont sévères, persistants ou associés à un risque."
+    },
+    manager: {
+      name: "Manager direct",
+      anchor: "#aide-manager",
+      shortRole: "Arbitrage de charge, priorités, délais, ressources et niveau de qualité attendu.",
+      script: "Qu'est-ce qu'on retire, reporte ou simplifie ?",
+      defaultWhy: "Peut être utile pour traiter la charge et les priorités, sans transmettre de détail médical."
+    },
+    hr: {
+      name: "Ressources humaines",
+      anchor: "#aide-rh",
+      shortRole: "Dispositifs internes, procédures, médiation, signalements et organisation.",
+      script: "Je souhaite connaître les dispositifs internes disponibles sans transmettre de détails médicaux.",
+      defaultWhy: "Peut être utile si l'arbitrage managérial ne suffit pas ou si une procédure est nécessaire."
+    },
+    cse: {
+      name: "CSE / CSSCT / représentants du personnel",
+      anchor: "#aide-cse",
+      shortRole: "Conditions de travail, problème collectif, alerte et conseil sur les démarches.",
+      script: "Je souhaite savoir si d'autres personnes rencontrent les mêmes difficultés et quelles démarches collectives sont possibles.",
+      defaultWhy: "Peut être utile si la difficulté semble collective ou récurrente dans l'organisation."
+    },
+    socialWorker: {
+      name: "Assistant·e social·e du travail",
+      anchor: "#aide-assistant-social",
+      shortRole: "Droits, démarches, conséquences sociales, financières ou administratives.",
+      script: "J'ai besoin d'aide pour comprendre les options et démarches possibles.",
+      defaultWhy: "Peut être utile si la situation a des conséquences sociales, familiales ou administratives."
+    },
+    emergency: {
+      name: "Urgence médicale / 3114",
+      anchor: "#aide-urgence",
+      shortRole: "Danger immédiat, risque suicidaire ou situation aiguë.",
+      script: "Je ne me sens pas en sécurité et j'ai besoin d'aide immédiatement.",
+      defaultWhy: "Réponse positive à une question d'alerte ou situation de danger immédiat."
+    }
+  };
+
   const questionnaireRoot = document.querySelector("#questionnaire-root");
   const form = document.querySelector("#burnout-form");
   const formError = document.querySelector("#form-error");
@@ -225,6 +298,7 @@
   const modelReadings = document.querySelector("#model-readings");
   const topItemsList = document.querySelector("#top-items-list");
   const priorityActions = document.querySelector("#priority-actions");
+  const recommendedStakeholders = document.querySelector("#recommended-stakeholders");
   const recommendationText = document.querySelector("#recommendation-text");
   const resetButton = document.querySelector("#reset-form");
   const copyResultsButton = document.querySelector("#copy-results");
@@ -551,6 +625,93 @@
     return priority;
   }
 
+  function getRecommendedStakeholders(scores, alertFlags, profile) {
+    const recommendations = [];
+    const addRecommendation = (key, why) => {
+      if (!recommendations.some((recommendation) => recommendation.key === key)) {
+        recommendations.push({ key, why });
+      }
+    };
+
+    const hasAlert = alertFlags.some((alert) => alert.yes);
+
+    if (hasAlert) {
+      addRecommendation("emergency", "Réponse positive à une question d'alerte : en cas de danger immédiat, aide immédiate.");
+      addRecommendation("generalPractitioner", "Signaux d'alerte : avis médical général à envisager rapidement.");
+      addRecommendation("psychiatrist", "Signaux sévères possibles : avis spécialisé à envisager selon la situation.");
+      addRecommendation("occupationalDoctor", "Lien santé-travail à analyser sans transmettre de détail médical à l'employeur.");
+    }
+
+    if (scores.F >= 13) {
+      addRecommendation("generalPractitioner", "Score récupération/santé élevé : sommeil, symptômes ou fonctionnement à évaluer.");
+      addRecommendation("occupationalDoctor", "Récupération dégradée : analyse santé-travail et aménagements possibles.");
+      addRecommendation("psychologist", "Récupération psychologique, rumination ou stratégies de compensation à travailler.");
+      addRecommendation("occupationalNurse", "Premier point santé-travail et orientation possible.");
+    }
+
+    if (scores.A >= 13) {
+      addRecommendation("occupationalDoctor", "Épuisement élevé : compatibilité santé/poste et réduction d'exposition à discuter.");
+      addRecommendation("generalPractitioner", "Épuisement élevé : causes médicales et conduite à tenir à vérifier.");
+      addRecommendation("manager", "Arbitrage de charge possible, sans détail médical.");
+      addRecommendation("psychologist", "Soutien utile pour récupération, limites et culpabilité.");
+    }
+
+    if (scores.D >= 13) {
+      addRecommendation("manager", "Exigences élevées : besoin d'arbitrage sur charge, délais et priorités.");
+      addRecommendation("occupationalDoctor", "Exigences élevées : lien santé-travail et prévention à analyser.");
+      addRecommendation("cse", "Si le problème est collectif, les représentants peuvent aider à le faire remonter.");
+      addRecommendation("hr", "Si l'arbitrage manque, les dispositifs internes peuvent être mobilisés.");
+    }
+
+    if (scores.E >= 13) {
+      addRecommendation("manager", "Manque de ressources : autonomie, soutien, clarté ou reconnaissance à discuter.");
+      addRecommendation("occupationalDoctor", "Manque de ressources : impact santé-travail et aménagements possibles.");
+      addRecommendation("hr", "Ressources ou dispositifs internes à clarifier.");
+      addRecommendation("cse", "Si le manque de ressources est partagé, une approche collective peut être utile.");
+    }
+
+    if (scores.B >= 13) {
+      addRecommendation("psychologist", "Distance mentale ou cynisme élevés : soutien pour clarifier retrait, sens et limites.");
+      addRecommendation("occupationalDoctor", "Retrait lié au travail : analyse santé-travail à envisager.");
+      addRecommendation("manager", "Si la perte de sens vient de l'organisation, clarifier objectifs et absurdités sans détail médical.");
+      addRecommendation("cse", "Si le problème est collectif, une remontée sur les conditions de travail peut être utile.");
+    }
+
+    if (scores.C >= 13) {
+      addRecommendation("occupationalDoctor", "Efficacité ou sens altérés : analyser l'adéquation entre exigences, santé et poste.");
+      addRecommendation("manager", "Clarifier critères de qualité, priorités et sources d'erreur.");
+      addRecommendation("psychologist", "Soutien utile en cas de perte de confiance ou de maîtrise.");
+      addRecommendation("generalPractitioner", "À envisager si la perte de fonctionnement dépasse le travail.");
+    }
+
+    if (profile.key === "protected" && recommendations.length === 0) {
+      addRecommendation("manager", "Profil protégé : maintenir la clarté, les priorités et les protections existantes.");
+      addRecommendation("occupationalNurse", "Question santé-travail ou prévention : premier échange possible.");
+      addRecommendation("occupationalDoctor", "Question d'aménagement ou de prévention : avis santé-travail possible.");
+    }
+
+    if (recommendations.length === 0) {
+      addRecommendation("occupationalNurse", "Premier échange possible si vous hésitez sur le bon interlocuteur.");
+      addRecommendation("manager", "Maintenir la clarté de charge et d'arbitrage.");
+    }
+
+    const selected = recommendations.slice(0, 5).map((recommendation) => ({
+      ...recommendation,
+      stakeholder: stakeholders[recommendation.key]
+    }));
+    console.debug("Recommandations d'interlocuteurs", {
+      scores,
+      alertFlags,
+      profile: profile.key,
+      selected: selected.map((recommendation) => ({
+        key: recommendation.key,
+        name: recommendation.stakeholder.name,
+        why: recommendation.why
+      }))
+    });
+    return selected;
+  }
+
   function calculateResults() {
     const sectionResults = {};
     for (const section of sections) {
@@ -576,6 +737,7 @@
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
     const actions = generatePriorityActions({ sectionScores, hasAlert });
+    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile);
     const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
 
     const result = {
@@ -591,6 +753,7 @@
       dominantDimensions,
       modelReadings: modelReadingCards,
       actions,
+      stakeholderRecommendations,
       summary
     };
     console.debug("Résultat global calculé", result);
@@ -609,6 +772,7 @@
     renderModelReadings(result.modelReadings);
     renderTopItems(result.topItems);
     renderPriorityActions(result.actions);
+    renderRecommendedStakeholders(result.stakeholderRecommendations);
 
     latestResultText = buildResultText(result);
     resultsPanel.hidden = false;
@@ -676,6 +840,23 @@
     });
   }
 
+  function renderRecommendedStakeholders(recommendations) {
+    recommendedStakeholders.innerHTML = "";
+    recommendations.forEach((recommendation) => {
+      const card = document.createElement("article");
+      card.className = `recommended-stakeholder ${recommendation.key === "emergency" ? "stakeholder-emergency" : ""}`;
+      card.innerHTML = `
+        <h5>${recommendation.stakeholder.name}</h5>
+        <p><strong>Pourquoi :</strong> ${recommendation.why}</p>
+        <p><strong>Rôle court :</strong> ${recommendation.stakeholder.shortRole}</p>
+        <p><strong>Phrase utile :</strong> “${recommendation.stakeholder.script}”</p>
+        <a href="${recommendation.stakeholder.anchor}">Voir la carte détaillée</a>
+      `;
+      recommendedStakeholders.appendChild(card);
+    });
+    console.debug("Rendu des interlocuteurs recommandés", recommendations.map((recommendation) => recommendation.key));
+  }
+
   function buildResultText(result) {
     const sectionLines = sections.map((section) => {
       const sectionResult = result.sectionResults[section.id];
@@ -686,6 +867,7 @@
       ? result.topItems.map((item) => `- ${item.id} ${item.question} Score : ${item.riskScore}/4. ${item.interpretation}`)
       : ["- Aucun item à 3 ou 4."];
     const actionLines = result.actions.map((action) => `- ${action.title} : ${action.text}`);
+    const stakeholderLines = result.stakeholderRecommendations.map((recommendation) => `- ${recommendation.stakeholder.name} : ${recommendation.why}`);
     const yesAlerts = result.alertAnswers.filter((answer) => answer.yes).length;
 
     return [
@@ -703,6 +885,9 @@
       "",
       "Actions prioritaires :",
       ...actionLines,
+      "",
+      "Interlocuteurs potentiellement utiles :",
+      ...stakeholderLines,
       "",
       `Alerte oui/non : ${yesAlerts > 0 ? "oui" : "non"} (${yesAlerts}/3)`,
       "Ce résultat ne constitue pas un diagnostic médical."
@@ -746,6 +931,7 @@
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     formError.hidden = true;
+    console.debug("Soumission du questionnaire burn-out");
     const result = calculateResults();
 
     if (!result) {
@@ -790,7 +976,9 @@
     getGlobalLevel,
     getTopItems,
     determineProfile,
-    generatePriorityActions
+    generatePriorityActions,
+    stakeholders,
+    getRecommendedStakeholders
   };
 
   buildQuestionnaire();
