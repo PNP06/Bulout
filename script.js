@@ -299,6 +299,7 @@
   const topItemsList = document.querySelector("#top-items-list");
   const priorityActions = document.querySelector("#priority-actions");
   const recommendedStakeholders = document.querySelector("#recommended-stakeholders");
+  const resultTakeaways = document.querySelector("#result-takeaways");
   const recommendationText = document.querySelector("#recommendation-text");
   const resetButton = document.querySelector("#reset-form");
   const copyResultsButton = document.querySelector("#copy-results");
@@ -772,6 +773,7 @@
     renderModelReadings(result.modelReadings);
     renderTopItems(result.topItems);
     renderPriorityActions(result.actions);
+    renderResultTakeaways(result);
     renderRecommendedStakeholders(result.stakeholderRecommendations);
 
     latestResultText = buildResultText(result);
@@ -838,6 +840,34 @@
       card.innerHTML = `<strong>${action.title}</strong><p>${action.text}</p>`;
       priorityActions.appendChild(card);
     });
+  }
+
+  function renderResultTakeaways(result) {
+    if (!resultTakeaways) return;
+    const dominant = result.dominantDimensions[0];
+    const topItem = result.topItems[0];
+    const firstAction = result.actions[0];
+    const cards = [
+      {
+        title: "Signal principal",
+        text: dominant ? `${dominant.shortTitle} ressort à ${dominant.score}/24 (${dominant.level.label}).` : "Aucune dimension ne domine fortement."
+      },
+      {
+        title: "Point concret",
+        text: topItem ? `${topItem.id} : ${topItem.interpretation}` : "Aucun item à 3 ou 4 dans les réponses actuelles."
+      },
+      {
+        title: "Prochaine étape",
+        text: firstAction ? `${firstAction.title} : ${firstAction.text}` : "Maintenir les protections existantes."
+      }
+    ];
+    resultTakeaways.innerHTML = cards.map((card) => `
+      <article class="takeaway-card">
+        <strong>${card.title}</strong>
+        <p>${card.text}</p>
+      </article>
+    `).join("");
+    console.debug("Synthèse rapide générée", cards);
   }
 
   function renderRecommendedStakeholders(recommendations) {
