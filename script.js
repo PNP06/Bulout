@@ -153,6 +153,49 @@
     F6: { interpretation: "Risque fonctionnel ou sécurité.", action: "Réduire l'exposition aux tâches à risque et demander de l'aide rapidement." }
   };
 
+  const humanItemLabels = {
+    A1: "énergie personnelle insuffisante après le travail",
+    A2: "récupération courte insuffisante",
+    A3: "saturation anticipée dès le début de journée",
+    A4: "effort disproportionné pour les tâches ordinaires",
+    A5: "irritabilité ou hypersensibilité",
+    A6: "attention ou mémoire de travail fragilisée",
+    B1: "mise à distance mentale",
+    B2: "cynisme défensif",
+    B3: "évitement d'interactions coûteuses",
+    B4: "empathie ou patience entamée",
+    B5: "retrait relationnel",
+    B6: "envie d'échappatoire",
+    C1: "doute sur la qualité du travail",
+    C2: "qualité ou fiabilité en baisse",
+    C3: "perte de sens",
+    C4: "sentiment de compétence altéré",
+    C5: "sentiment d'utilité faible",
+    C6: "décalage avec sa manière habituelle de travailler",
+    D1: "surcharge",
+    D2: "interruptions ou urgences excessives",
+    D3: "priorités contradictoires",
+    D4: "responsabilité sans moyens",
+    D5: "charge émotionnelle ou relationnelle élevée",
+    D6: "compensation de dysfonctionnements",
+    E1: "autonomie insuffisante",
+    E2: "soutien managérial insuffisant",
+    E3: "soutien collectif insuffisant",
+    E4: "clarté insuffisante",
+    E5: "reconnaissance faible",
+    E6: "équité faible",
+    F1: "rumination",
+    F2: "sommeil perturbé",
+    F3: "loisirs ou liens sociaux réduits",
+    F4: "symptômes physiques liés au travail",
+    F5: "stratégies de compensation",
+    F6: "risque fonctionnel ou sécurité"
+  };
+
+  function getHumanItemLabel(itemId) {
+    return humanItemLabels[itemId] || itemInsights[itemId]?.interpretation || "signal à investiguer";
+  }
+
   const sectionComments = {
     A: {
       faible: "L'épuisement déclaré reste bas.",
@@ -515,6 +558,7 @@
           question,
           rawScore: result.rawValues[index],
           riskScore: result.values[index],
+          humanLabel: getHumanItemLabel(id),
           interpretation: itemInsights[id]?.interpretation || "Signal à investiguer.",
           action: itemInsights[id]?.action || "Clarifier ce qui rend cet item coûteux."
         };
@@ -942,7 +986,8 @@
     items.forEach((item) => {
       const element = document.createElement("li");
       element.innerHTML = `
-        <strong>${item.id} - ${item.sectionTitle} : ${item.riskScore}/4</strong>
+        <strong>${item.humanLabel} : ${item.riskScore}/4</strong>
+        <p class="item-section">${item.sectionTitle}</p>
         <p>${item.question}</p>
         <p><strong>Interprétation :</strong> ${item.interpretation}</p>
         <p><strong>Action associée :</strong> ${item.action}</p>
@@ -973,7 +1018,7 @@
       },
       {
         title: "Point concret",
-        text: topItem ? `${topItem.id} : ${topItem.interpretation}` : "Aucun item à 3 ou 4 dans les réponses actuelles."
+        text: topItem ? `${topItem.humanLabel} : ${topItem.interpretation}` : "Aucun item à 3 ou 4 dans les réponses actuelles."
       },
       {
         title: "Prochaine étape",
@@ -1013,7 +1058,7 @@
     });
     const dominantLines = result.dominantDimensions.map((section) => `- ${section.shortTitle} : ${section.score}/24 (${section.level.label})`);
     const topItemLines = result.topItems.length
-      ? result.topItems.map((item) => `- ${item.id} ${item.question} Score : ${item.riskScore}/4. ${item.interpretation}`)
+      ? result.topItems.map((item) => `- ${item.humanLabel} (${item.id}) : ${item.question} Score : ${item.riskScore}/4. ${item.interpretation}`)
       : ["- Aucun item à 3 ou 4."];
     const actionLines = result.actions.map((action) => `- ${action.title} : ${action.text}`);
     const stakeholderLines = result.stakeholderRecommendations.map((recommendation) => `- ${recommendation.stakeholder.name} : ${recommendation.why}`);
@@ -1093,53 +1138,79 @@
     }, 1600);
   }
 
-  form.addEventListener("change", updateProgress);
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formError.hidden = true;
-    console.debug("Soumission du questionnaire burn-out");
-    const result = calculateResults();
-
-    if (!result) {
-      formError.textContent = "Merci de répondre à toutes les questions avant d'afficher le résultat.";
-      formError.hidden = false;
-      const firstMissing = form.querySelector("input:invalid");
-      firstMissing?.closest(".question-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
-      console.debug("Calcul interrompu : réponses manquantes");
-      return;
-    }
-
-    renderResults(result);
-  });
-
-  resetButton.addEventListener("click", () => {
-    form.reset();
-    resultsPanel.hidden = true;
-    formError.hidden = true;
-    latestResultText = "";
-    updateProgress();
-    console.debug("Questionnaire réinitialisé");
-  });
-
-  copyResultsButton.addEventListener("click", () => {
-    if (latestResultText) {
-      copyText(latestResultText, copyResultsButton);
-    }
-  });
-
-  document.querySelectorAll(".copy-template").forEach((button) => {
-    button.addEventListener("click", () => {
-      const text = button.closest(".template-card").querySelector("p").textContent;
-      copyText(text, button);
+  function initCopyButtons() {
+    const copyButtons = document.querySelectorAll(".copy-template, .copy-template-button, [data-copy-text]");
+    copyButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const explicitText = button.dataset.copyText;
+        const container = button.closest(".template-card, .manager-tool, .manager-checklist, .causal-checklist");
+        const source = container?.querySelector(".copy-source") || container?.querySelector("p");
+        const text = explicitText || source?.innerText || source?.textContent || "";
+        if (!text.trim()) {
+          console.debug("Copie ignorée : aucun texte trouvé", { button });
+          return;
+        }
+        console.debug("Bouton copier activé", { page: document.body.className || "index", length: text.length });
+        copyText(text.trim(), button);
+      });
     });
-  });
+    console.debug("Boutons copier initialisés", { count: copyButtons.length });
+  }
+
+  initCopyButtons();
+
+  const hasQuestionnaire = Boolean(questionnaireRoot && form);
+
+  if (hasQuestionnaire) {
+    form.addEventListener("change", updateProgress);
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      formError.hidden = true;
+      console.debug("Soumission du questionnaire burn-out");
+      const result = calculateResults();
+
+      if (!result) {
+        formError.textContent = "Merci de répondre à toutes les questions avant d'afficher le résultat.";
+        formError.hidden = false;
+        const firstMissing = form.querySelector("input:invalid");
+        firstMissing?.closest(".question-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        console.debug("Calcul interrompu : réponses manquantes");
+        return;
+      }
+
+      renderResults(result);
+    });
+
+    resetButton?.addEventListener("click", () => {
+      form.reset();
+      resultsPanel.hidden = true;
+      formError.hidden = true;
+      latestResultText = "";
+      updateProgress();
+      console.debug("Questionnaire réinitialisé");
+    });
+
+    copyResultsButton?.addEventListener("click", () => {
+      if (latestResultText) {
+        copyText(latestResultText, copyResultsButton);
+      }
+    });
+
+    buildQuestionnaire();
+    updateProgress();
+  } else {
+    console.debug("Aucun questionnaire détecté sur cette page : initialisation limitée aux boutons copier", {
+      page: document.body.className || document.title
+    });
+  }
 
   window.SoutenableDebug = {
     sections,
     alertQuestions,
     contextQuestions,
     itemInsights,
+    getHumanItemLabel,
     getLevel,
     getGlobalLevel,
     getTopItems,
@@ -1150,6 +1221,4 @@
     getRecommendedStakeholders
   };
 
-  buildQuestionnaire();
-  updateProgress();
 })();
