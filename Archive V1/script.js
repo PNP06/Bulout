@@ -1074,7 +1074,7 @@
       stakeholders: stakeholderLines.length
     });
     return [
-      "Résultat questionnaire Bull-Out",
+      "Résultat questionnaire Soutenable",
       "Période de référence : 4 dernières semaines",
       `Profil : ${result.profile.title}`,
       `Score global : ${result.totalScore}/144 (${result.totalLevel.label})`,
@@ -1205,7 +1205,7 @@
     });
   }
 
-  window.BullOutDebug = {
+  window.SoutenableDebug = {
     sections,
     alertQuestions,
     contextQuestions,
