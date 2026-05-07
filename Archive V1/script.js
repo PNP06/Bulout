@@ -20,7 +20,7 @@
         "Même après repos court, j'ai l'impression de ne pas récupérer réellement.",
         "Je commence certaines journées déjà saturé à l'idée de ce qui m'attend.",
         "Les tâches ordinaires me demandent un effort disproportionné.",
-        "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales.",
+        "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales (sollicitation en lien avec ma fiche de poste, que je faisais sans problème, etc.).",
         "J'ai du mal à maintenir mon attention ou ma mémoire de travail au niveau habituel."
       ]
     },
@@ -35,7 +35,7 @@
         "J'évite certaines interactions professionnelles parce qu'elles me coûtent trop.",
         "Je ressens moins d'empathie ou de patience envers des personnes avec qui je travaille.",
         "Je fais le minimum relationnel nécessaire pour tenir la journée.",
-        "L'idée de quitter ou d'être absent me sert surtout d'échappatoire psychologique."
+        "L'idée de démissionner ou de changer de poste me sert d'échappatoire psychologique."
       ]
     },
     {
