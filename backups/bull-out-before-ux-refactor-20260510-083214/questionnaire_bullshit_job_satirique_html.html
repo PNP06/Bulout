@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test satirique : ton bullshit job est-il un chef-d’œuvre d’absurdité ?</title>
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --panel: #ffffff;
+      --panel-2: #edf3f6;
+      --text: #18242f;
+      --muted: #536273;
+      --night: #102033;
+      --accent: #0f9f98;
+      --accent-2: #2f8b57;
+      --warn: #d97706;
+      --danger: #b42318;
+      --ok: #2f8b57;
+      --border: #d9e2ea;
+      --shadow: 0 18px 45px rgba(16,32,51,.12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(16,32,51,.96), rgba(16,32,51,.76)) top / 100% 360px no-repeat,
+        linear-gradient(180deg, #edf3f6 0, #f7f9fb 420px, #f7f9fb 100%);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 17px;
+      line-height: 1.68;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 60px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 8px;
+      color: #eef8f7;
+      background: rgba(255,255,255,.08);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero, .side-card, .question-card, .result-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+      border-top: 5px solid var(--accent);
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 4.1rem);
+      line-height: 1.08;
+      color: var(--night);
+      max-width: 880px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .badge {
+      border: 1px solid #bfe4df;
+      background: #eef8f7;
+      color: var(--night);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: .86rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .side-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 5px solid var(--warn);
+    }
+
+    .score-preview {
+      padding: 18px;
+      border-radius: 8px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+    }
+
+    .score-preview strong {
+      display: block;
+      font-size: 2.7rem;
+      line-height: 1;
+      color: var(--warn);
+    }
+
+    .score-preview span,
+    .intro-note,
+    .q-sub {
+      color: var(--muted);
+    }
+
+    .score-preview span,
+    .intro-note {
+      font-size: .95rem;
+    }
+
+    .intro-note { margin: 0; }
+
+    form {
+      display: grid;
+      gap: 20px;
+      margin-top: 22px;
+    }
+
+    .question-card {
+      padding: clamp(20px, 3vw, 28px);
+    }
+
+    .q-head {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .q-num {
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #e8f7f5;
+      border: 1px solid #bfe4df;
+      color: var(--night);
+      font-weight: 800;
+    }
+
+    .q-title {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--night);
+    }
+
+    .q-sub {
+      margin: 4px 0 0;
+      font-size: .92rem;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    label.option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      min-height: 70px;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      line-height: 1.55;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    label.option:hover,
+    label.option:has(input:checked) {
+      transform: translateY(-1px);
+      background: #eef8f7;
+      border-color: var(--accent);
+    }
+
+    input[type="radio"] {
+      margin-top: 3px;
+      accent-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .option-text {
+      display: block;
+      color: var(--text);
+      font-size: .97rem;
+    }
+
+    .controls {
+      position: sticky;
+      bottom: 14px;
+      z-index: 10;
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .progress-wrap {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: .86rem;
+      margin-bottom: 8px;
+    }
+
+    .progress {
+      height: 10px;
+      background: #e4ebf0;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      color: #ffffff;
+      background: var(--accent);
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
+      white-space: nowrap;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .secondary {
+      background: #ffffff;
+      color: var(--night);
+      border: 1px solid var(--border);
+    }
+
+    .result-card {
+      margin-top: 26px;
+      padding: 28px;
+      display: none;
+      overflow: hidden;
+      position: relative;
+      border-top: 5px solid var(--accent);
+    }
+
+    .result-card.visible { display: block; }
+
+    .result-kicker {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: .09em;
+      font-size: .78rem;
+      margin-bottom: 8px;
+    }
+
+    .result-title {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      line-height: 1.1;
+      color: var(--night);
+    }
+
+    .result-text {
+      color: var(--muted);
+      font-size: 1.04rem;
+      max-width: 850px;
+      margin: 14px 0 0;
+    }
+
+    .meters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .meter {
+      background: #f7f9fb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .meter h3 {
+      margin: 0 0 10px;
+      font-size: .89rem;
+      color: var(--night);
+    }
+
+    .meter-value {
+      font-size: 1.7rem;
+      font-weight: 900;
+    }
+
+    .mini-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #e4ebf0;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .mini-bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--warn), var(--danger));
+      border-radius: 999px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .result-box {
+      background: #f7f9fb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .result-box h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: var(--night);
+    }
+
+    .result-box p, .result-box ul {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .result-box ul {
+      padding-left: 18px;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .copy-status {
+      color: var(--ok);
+      font-size: .9rem;
+      align-self: center;
+      display: none;
+      font-weight: 800;
+    }
+
+    .copy-status.visible { display: inline; }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: .86rem;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 860px) {
+      header, .result-grid { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+      .meters { grid-template-columns: repeat(2, 1fr); }
+      .controls { flex-direction: column; align-items: stretch; }
+      button { width: 100%; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 20px, 1080px); padding-top: 18px; }
+      .hero, .side-card, .question-card, .result-card { padding: 18px; }
+      .meters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back-link" href="index.html">← Retour à Bull-Out</a>
+    <header>
+      <section class="hero">
+        <h1>Le Grand Test du Bullshit Job</h1>
+        <p class="subtitle">
+          Mesure ton niveau d’absurdité professionnelle : réunions sans objet, tableaux de bord décoratifs,
+          mails « pour alignement », et livrables que personne ne lit mais que tout le monde commente.
+        </p>
+        <div class="badge-row" aria-label="Thèmes du test">
+          <span class="badge">Réunionite chronique</span>
+          <span class="badge">Dashboardologie</span>
+          <span class="badge">Alignement sans destination</span>
+          <span class="badge">Impact cosmétique</span>
+        </div>
+      </section>
+
+      <aside class="side-card">
+        <div class="score-preview">
+          <strong id="liveScore">0%</strong>
+          <span>Indice d’absurdité estimé en temps réel</span>
+        </div>
+        <p class="intro-note">
+          Réponds honnêtement. Ou stratégiquement. Dans les deux cas, cela sera transformé en résultat vaguement scientifique et très probablement exploitable en comité de pilotage.
+        </p>
+        <p class="intro-note">
+          Durée : 3 minutes. Valeur ajoutée : discutable. Potentiel cathartique : raisonnable.
+        </p>
+      </aside>
+    </header>
+
+    <form id="quizForm"></form>
+
+    <div class="controls">
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <span id="progressText">0 / 12 réponses</span>
+          <span id="progressLabel">Profil non stabilisé</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+      <button type="button" id="resultBtn" disabled>Générer mon profil satirique</button>
+    </div>
+
+    <section class="result-card" id="resultCard" aria-live="polite">
+      <div class="result-kicker">Résultat personnalisé</div>
+      <h2 class="result-title" id="resultTitle"></h2>
+      <p class="result-text" id="resultText"></p>
+
+      <div class="meters" id="meters"></div>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <h3>Ton mode de survie recommandé</h3>
+          <p id="survivalMode"></p>
+        </div>
+        <div class="result-box">
+          <h3>Phrase à sortir en réunion</h3>
+          <p id="meetingPhrase"></p>
+        </div>
+        <div class="result-box">
+          <h3>Ce que ton poste produit réellement</h3>
+          <ul id="produces"></ul>
+        </div>
+        <div class="result-box">
+          <h3>Plan d’action minimaliste</h3>
+          <ul id="actionPlan"></ul>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button type="button" id="copyBtn">Copier mon résultat</button>
+        <button type="button" class="secondary" id="resetBtn">Recommencer</button>
+        <span class="copy-status" id="copyStatus">Copié.</span>
+      </div>
+
+      <p class="footer-note">
+        Note pseudo-méthodologique : ce test n’a aucune validité psychométrique. Il s’inscrit donc dans la grande tradition des typologies RH brandies en séminaire : jolies catégories, faible pouvoir prédictif, forte capacité à remplir un PowerPoint. Même le MBTI, star des ateliers personnalité, est sérieusement contesté : McCrae & Costa (1989) ne trouvent pas de support pour l’idée de préférences réellement dichotomiques ou de types qualitativement distincts ; Pittenger (1993) conclut que le MBTI ne respecte pas plusieurs standards attendus d’un test psychologique. Ici, au moins, l’absence de scientificité est assumée.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        text: "Quand on te demande ce que tu as produit aujourd’hui, ta réponse la plus honnête ressemble à :",
+        sub: "Ne compte pas les mails transférés comme production industrielle.",
+        options: [
+          { text: "Un vrai livrable identifiable par un être humain sobre.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Un compte-rendu d’une réunion préparant une autre réunion.", weights: { absurd: 3, meeting: 4, dashboard: 0, ghost: 1 } },
+          { text: "Une slide qui reformule une slide précédente avec plus de flèches.", weights: { absurd: 4, meeting: 1, dashboard: 2, ghost: 2 } },
+          { text: "Une sensation diffuse d’avoir déplacé de l’air à haut niveau.", weights: { absurd: 5, meeting: 2, dashboard: 0, ghost: 3 } }
+        ]
+      },
+      {
+        text: "Combien de réunions pourraient être remplacées par un mail de 6 lignes ?",
+        sub: "Réponse intuitive autorisée. La réalité est probablement pire.",
+        options: [
+          { text: "Moins de 20 %. Mon agenda a encore une fonction biologique.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Environ la moitié, mais on perdrait le plaisir du tour de table.", weights: { absurd: 2, meeting: 3, dashboard: 0, ghost: 1 } },
+          { text: "Les trois quarts, surtout celles avec “alignement” dans le titre.", weights: { absurd: 4, meeting: 5, dashboard: 0, ghost: 2 } },
+          { text: "Toutes, sauf celle où quelqu’un partage son écran sans trouver l’onglet.", weights: { absurd: 5, meeting: 6, dashboard: 0, ghost: 2 } }
+        ]
+      },
+      {
+        text: "Ton outil de pilotage principal sert surtout à :",
+        sub: "PowerPoint, Excel, Power BI, Oracle, ou autre totem organisationnel accepté.",
+        options: [
+          { text: "Décider. Les données modifient vraiment les actions.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Rassurer. Le graphe est beau, donc le réel est sous contrôle.", weights: { absurd: 3, meeting: 1, dashboard: 4, ghost: 1 } },
+          { text: "Montrer qu’on pilote, même quand personne ne sait quoi faire.", weights: { absurd: 4, meeting: 2, dashboard: 5, ghost: 2 } },
+          { text: "Créer de nouveaux indicateurs qui justifient d’autres indicateurs.", weights: { absurd: 5, meeting: 1, dashboard: 6, ghost: 2 } }
+        ]
+      },
+      {
+        text: "La phrase “il faut qu’on se cale” signifie généralement :",
+        sub: "Indice : personne ne sait encore sur quoi.",
+        options: [
+          { text: "Fixer une décision claire avec un responsable et une échéance.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Planifier une discussion pour comprendre pourquoi on discute.", weights: { absurd: 3, meeting: 4, dashboard: 0, ghost: 1 } },
+          { text: "Créer un groupe Teams qui mourra dans 8 jours.", weights: { absurd: 4, meeting: 3, dashboard: 0, ghost: 3 } },
+          { text: "Éviter de dire qu’on n’a ni mandat, ni données, ni envie.", weights: { absurd: 5, meeting: 2, dashboard: 1, ghost: 4 } }
+        ]
+      },
+      {
+        text: "Ton niveau d’impact réel sur les décisions importantes est :",
+        sub: "On parle d’impact causal, pas de présence en copie.",
+        options: [
+          { text: "Direct : mes analyses changent des décisions.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Indirect : je prépare le terrain, parfois utilement.", weights: { absurd: 1, meeting: 1, dashboard: 1, ghost: 1 } },
+          { text: "Décoratif : je fournis la texture cognitive autour de décisions déjà prises.", weights: { absurd: 4, meeting: 2, dashboard: 2, ghost: 4 } },
+          { text: "Archéologique : je documente après coup pourquoi personne n’a décidé.", weights: { absurd: 5, meeting: 2, dashboard: 3, ghost: 5 } }
+        ]
+      },
+      {
+        text: "Quand un directeur demande une slide pour demain, tu penses :",
+        sub: "Le test mesure ici le réflexe pavlovien du cadre moderne.",
+        options: [
+          { text: "Très bien, le besoin est clair, je fais une réponse ciblée.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Je vais faire 4 versions, car le flou est une forme de gouvernance.", weights: { absurd: 4, meeting: 2, dashboard: 1, ghost: 2 } },
+          { text: "Je vais surtout chercher à deviner l’angoisse du demandeur.", weights: { absurd: 4, meeting: 1, dashboard: 1, ghost: 4 } },
+          { text: "Je vais transformer ma soirée en sacrifice rituel au dieu Template.", weights: { absurd: 5, meeting: 1, dashboard: 2, ghost: 4 } }
+        ]
+      },
+      {
+        text: "Quelle proportion de tes livrables est relue pour le fond ?",
+        sub: "Les commentaires sur la couleur des flèches ne comptent pas.",
+        options: [
+          { text: "La majorité : le contenu est discuté sérieusement.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Une partie : surtout les chiffres, parfois le raisonnement.", weights: { absurd: 1, meeting: 0, dashboard: 1, ghost: 1 } },
+          { text: "Peu : on corrige surtout la forme et les formulations molles.", weights: { absurd: 4, meeting: 1, dashboard: 2, ghost: 4 } },
+          { text: "Aucune idée : ils sont envoyés dans une grotte SharePoint.", weights: { absurd: 5, meeting: 0, dashboard: 3, ghost: 6 } }
+        ]
+      },
+      {
+        text: "La demande la plus typique que tu reçois ressemble à :",
+        sub: "Choisis celle qui te donne le plus envie de regarder par la fenêtre.",
+        options: [
+          { text: "Un problème défini, des critères, une échéance.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Il faudrait un truc simple, mais complet, pour tout expliquer en 2 minutes.", weights: { absurd: 3, meeting: 1, dashboard: 1, ghost: 2 } },
+          { text: "On veut une vision synthétique exhaustive, mais pas trop chargée.", weights: { absurd: 4, meeting: 2, dashboard: 2, ghost: 3 } },
+          { text: "Tu peux faire une analyse robuste à partir d’informations absentes ?", weights: { absurd: 5, meeting: 1, dashboard: 3, ghost: 4 } }
+        ]
+      },
+      {
+        text: "Ton agenda contient principalement :",
+        sub: "Le calendrier est parfois le scanner cérébral de l’organisation.",
+        options: [
+          { text: "Des plages de production et quelques points utiles.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Des réunions de synchronisation qui désynchronisent ma journée.", weights: { absurd: 3, meeting: 5, dashboard: 0, ghost: 1 } },
+          { text: "Des comités où chacun expose son absence de marge de manœuvre.", weights: { absurd: 4, meeting: 5, dashboard: 2, ghost: 2 } },
+          { text: "Des invitations dont je découvre l’objet après avoir accepté.", weights: { absurd: 5, meeting: 6, dashboard: 1, ghost: 3 } }
+        ]
+      },
+      {
+        text: "Le mot “transverse” dans ton environnement veut dire :",
+        sub: "Mot polymorphe à haute valeur décorative.",
+        options: [
+          { text: "Coordination utile entre métiers interdépendants.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Responsabilité diluée entre personnes très occupées.", weights: { absurd: 3, meeting: 2, dashboard: 1, ghost: 3 } },
+          { text: "Personne ne tranche, donc tout le monde est consulté.", weights: { absurd: 5, meeting: 4, dashboard: 1, ghost: 4 } },
+          { text: "Un tunnel administratif avec des livrables sur les côtés.", weights: { absurd: 5, meeting: 3, dashboard: 3, ghost: 5 } }
+        ]
+      },
+      {
+        text: "Ton rapport aux KPI est le suivant :",
+        sub: "Un KPI peut éclairer le réel. Il peut aussi le maquiller avec autorité.",
+        options: [
+          { text: "Ils servent à arbitrer et à corriger la trajectoire.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "Ils servent parfois, mais on les commente plus qu’on ne les utilise.", weights: { absurd: 2, meeting: 1, dashboard: 3, ghost: 1 } },
+          { text: "Ils servent à prouver qu’on a regardé quelque chose.", weights: { absurd: 4, meeting: 1, dashboard: 5, ghost: 2 } },
+          { text: "Ils se reproduisent entre eux quand on ferme le fichier.", weights: { absurd: 5, meeting: 0, dashboard: 6, ghost: 2 } }
+        ]
+      },
+      {
+        text: "À la fin d’une semaine, tu as surtout l’impression :",
+        sub: "Lecture satirique non remboursée par la médecine du travail.",
+        options: [
+          { text: "D’avoir avancé sur des sujets concrets.", weights: { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 } },
+          { text: "D’avoir évité quelques dégâts invisibles.", weights: { absurd: 2, meeting: 1, dashboard: 1, ghost: 2 } },
+          { text: "D’avoir été très occupé sans pouvoir prouver pourquoi.", weights: { absurd: 4, meeting: 3, dashboard: 2, ghost: 4 } },
+          { text: "D’avoir participé à une simulation sociale appelée “organisation”.", weights: { absurd: 6, meeting: 3, dashboard: 3, ghost: 5 } }
+        ]
+      }
+    ];
+
+    const form = document.getElementById('quizForm');
+    const resultBtn = document.getElementById('resultBtn');
+    const resultCard = document.getElementById('resultCard');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const progressLabel = document.getElementById('progressLabel');
+    const liveScore = document.getElementById('liveScore');
+    const copyBtn = document.getElementById('copyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const copyStatus = document.getElementById('copyStatus');
+
+    function buildQuiz() {
+      form.innerHTML = questions.map((q, idx) => `
+        <section class="question-card">
+          <div class="q-head">
+            <div class="q-num">${idx + 1}</div>
+            <div>
+              <h2 class="q-title">${q.text}</h2>
+              <p class="q-sub">${q.sub}</p>
+            </div>
+          </div>
+          <div class="options">
+            ${q.options.map((opt, oIdx) => `
+              <label class="option">
+                <input type="radio" name="q${idx}" value="${oIdx}" />
+                <span class="option-text">${opt.text}</span>
+              </label>
+            `).join('')}
+          </div>
+        </section>
+      `).join('');
+    }
+
+    function getAnswers() {
+      return questions.map((_, idx) => {
+        const checked = form.querySelector(`input[name="q${idx}"]:checked`);
+        return checked ? Number(checked.value) : null;
+      });
+    }
+
+    function computeScores(answers) {
+      const scores = { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 };
+      const maxScores = { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 };
+
+      questions.forEach((q, idx) => {
+        const maxByDimension = { absurd: 0, meeting: 0, dashboard: 0, ghost: 0 };
+        q.options.forEach(opt => {
+          Object.keys(maxByDimension).forEach(k => {
+            maxByDimension[k] = Math.max(maxByDimension[k], opt.weights[k] || 0);
+          });
+        });
+        Object.keys(maxScores).forEach(k => maxScores[k] += maxByDimension[k]);
+
+        const answer = answers[idx];
+        if (answer !== null) {
+          const weights = q.options[answer].weights;
+          Object.keys(scores).forEach(k => scores[k] += weights[k] || 0);
+        }
+      });
+
+      const percent = Math.round(
+        Object.keys(scores).reduce((sum, k) => sum + scores[k], 0) /
+        Object.keys(maxScores).reduce((sum, k) => sum + maxScores[k], 0) * 100
+      );
+
+      const dimensionPercents = Object.fromEntries(
+        Object.keys(scores).map(k => [k, Math.round((scores[k] / maxScores[k]) * 100)])
+      );
+
+      return { scores, maxScores, percent, dimensionPercents };
+    }
+
+    function updateProgress() {
+      const answers = getAnswers();
+      const answered = answers.filter(a => a !== null).length;
+      const progress = Math.round((answered / questions.length) * 100);
+      const partialScores = computeScores(answers);
+
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `${answered} / ${questions.length} réponses`;
+      liveScore.textContent = `${Number.isFinite(partialScores.percent) ? partialScores.percent : 0}%`;
+      resultBtn.disabled = answered !== questions.length;
+
+      if (answered === 0) progressLabel.textContent = "Profil non stabilisé";
+      else if (answered < 4) progressLabel.textContent = "Échantillon fragile";
+      else if (answered < 8) progressLabel.textContent = "Absurdité en cours de consolidation";
+      else if (answered < questions.length) progressLabel.textContent = "Comité de lecture presque prêt";
+      else progressLabel.textContent = "Résultat prêt à être surinterprété";
+    }
+
+    function getDominantDimension(dimensionPercents) {
+      const labels = {
+        absurd: "absurdité générale",
+        meeting: "réunionite",
+        dashboard: "dashboardologie",
+        ghost: "contribution fantôme"
+      };
+
+      const sorted = Object.entries(dimensionPercents).sort((a, b) => b[1] - a[1]);
+      return { key: sorted[0][0], label: labels[sorted[0][0]], value: sorted[0][1] };
+    }
+
+    function getProfile(percent, dominant) {
+      if (percent < 25) {
+        return {
+          title: "Profil : anomalie productive dans un environnement encore rationnel",
+          text: `Ton bullshitomètre reste bas. Tu sembles encore travailler sur des objets ayant un lien détectable avec le réel. Ton risque principal n’est pas l’absurdité, mais la jalousie passive de collègues coincés en pré-comité de pré-alignement. Dimension dominante : ${dominant.label}.`,
+          survival: "Protège tes plages de travail. Évite de signaler trop fort que ton poste a encore une utilité : cela pourrait attirer une task force.",
+          phrase: "“Je propose qu’on garde le livrable simple : décision, responsable, échéance.”",
+          produces: ["Des décisions traçables", "Un peu de clarté", "Une menace silencieuse pour la bureaucratie décorative"],
+          actions: ["Conserver des preuves de valeur réelle", "Refuser les réunions sans objectif écrit", "Ne pas créer de KPI juste pour faire joli"]
+        };
+      }
+
+      if (percent < 50) {
+        return {
+          title: "Profil : cadre semi-utile en zone de brouillard organisationnel",
+          text: `Ton poste alterne entre utilité réelle et cérémonies administratives. Tu as encore un impact, mais il est parfois emballé dans une couche de slides, de comités et de “on se redit”. Dimension dominante : ${dominant.label}.`,
+          survival: "Applique le tri froid : ce qui change une décision mérite du temps ; ce qui rassure un organigramme mérite une version courte.",
+          phrase: "“Pour éviter de produire un objet décoratif, quelle décision cette slide doit-elle permettre ?”",
+          produces: ["Des analyses parfois utiles", "Des supports de clarification", "Quelques litres d’eau tiède organisationnelle"],
+          actions: ["Limiter chaque livrable à une question directrice", "Forcer la demande à préciser l’usage", "Faire une version 80 % correcte plutôt qu’une cathédrale PowerPoint"]
+        };
+      }
+
+      if (percent < 75) {
+        return {
+          title: "Profil : architecte certifié de l’alignement circulaire",
+          text: `Ton quotidien contient une densité élevée d’objets professionnels à utilité indéterminée. Tu ne fais pas rien : tu transformes du flou en artefacts présentables. C’est une forme d’art, mais avec plus de fichiers vFinal_v8. Dimension dominante : ${dominant.label}.`,
+          survival: "Réduis l’investissement émotionnel. Ton poste est peut-être une machine à absorber l’anxiété managériale ; ne confonds pas urgence sociale et urgence réelle.",
+          phrase: "“On peut le faire, mais je propose de distinguer le besoin de décision du besoin de réassurance.”",
+          produces: ["Des slides qui calment temporairement", "Des arbitrages repoussés avec élégance", "Une impression de mouvement latéral"],
+          actions: ["Demander un format de sortie avant de commencer", "Bloquer une durée maximale par demande floue", "Garder une trace des demandes absurdes pour ne pas les internaliser"]
+        };
+      }
+
+      return {
+        title: "Profil : grand prêtre du bullshit job métastable",
+        text: `Ton indice atteint un niveau où le travail devient une performance sociale sophistiquée. Les réunions engendrent des réunions, les KPI contemplent d’autres KPI, et ton impact réel se cache probablement dans une annexe non ouverte. Dimension dominante : ${dominant.label}.`,
+        survival: "Détachement méthodique. Fais le minimum utile, livre proprement, protège ton énergie, et investis ton cerveau dans les sujets qui ont une causalité réelle.",
+        phrase: "“Je peux produire ça, mais sans clarification de l’usage, on risque surtout de fabriquer un artefact de confort.”",
+        produces: ["De la conformité narrative", "Des preuves d’activité", "Des livrables qui rassurent plus qu’ils n’agissent", "Une quantité mesurable de fatigue cognitive"],
+        actions: ["Découper les demandes en livrables bornés", "Refuser mentalement de porter le flou des autres", "Identifier 1 tâche réellement utile par jour", "Créer un sas de sortie psychologique en fin de journée"]
+      };
+    }
+
+    function renderMeters(dimensionPercents) {
+      const config = [
+        ["meeting", "Réunionite"],
+        ["dashboard", "Dashboardologie"],
+        ["ghost", "Contribution fantôme"],
+        ["absurd", "Absurdité globale"]
+      ];
+
+      document.getElementById('meters').innerHTML = config.map(([key, label]) => `
+        <div class="meter">
+          <h3>${label}</h3>
+          <div class="meter-value">${dimensionPercents[key]}%</div>
+          <div class="mini-bar"><span style="width:${dimensionPercents[key]}%"></span></div>
+        </div>
+      `).join('');
+    }
+
+    function renderList(id, items) {
+      document.getElementById(id).innerHTML = items.map(item => `<li>${item}</li>`).join('');
+    }
+
+    function generateResult() {
+      const answers = getAnswers();
+      const { percent, dimensionPercents } = computeScores(answers);
+      const dominant = getDominantDimension(dimensionPercents);
+      const profile = getProfile(percent, dominant);
+
+      document.getElementById('resultTitle').textContent = `${profile.title} — ${percent}%`;
+      document.getElementById('resultText').textContent = profile.text;
+      document.getElementById('survivalMode').textContent = profile.survival;
+      document.getElementById('meetingPhrase').textContent = profile.phrase;
+      renderMeters(dimensionPercents);
+      renderList('produces', profile.produces);
+      renderList('actionPlan', profile.actions);
+
+      resultCard.classList.add('visible');
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function getPlainResultText() {
+      const title = document.getElementById('resultTitle').textContent;
+      const text = document.getElementById('resultText').textContent;
+      const survival = document.getElementById('survivalMode').textContent;
+      const phrase = document.getElementById('meetingPhrase').textContent;
+      return `${title}\n\n${text}\n\nMode de survie : ${survival}\n\nPhrase à sortir en réunion : ${phrase}`;
+    }
+
+    buildQuiz();
+    updateProgress();
+
+    form.addEventListener('change', updateProgress);
+    resultBtn.addEventListener('click', generateResult);
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      resultCard.classList.remove('visible');
+      copyStatus.classList.remove('visible');
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(getPlainResultText());
+        copyStatus.classList.add('visible');
+        setTimeout(() => copyStatus.classList.remove('visible'), 1800);
+      } catch (e) {
+        alert("Copie impossible automatiquement. Sélectionne le résultat manuellement.");
+      }
+    });
+  </script>
+</body>
+</html>

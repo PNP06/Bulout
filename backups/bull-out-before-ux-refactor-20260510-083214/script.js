@@ -358,12 +358,6 @@
   const recommendationText = document.querySelector("#recommendation-text");
   const resetButton = document.querySelector("#reset-form");
   const copyResultsButton = document.querySelector("#copy-results");
-  const navToggle = document.querySelector(".nav-toggle");
-  const mainMenu = document.querySelector("#main-menu");
-  const navGroups = document.querySelectorAll(".nav-group");
-  const riskZoneReading = document.querySelector("#risk-zone-reading");
-  const plan72h = document.querySelector("#plan-72h");
-  const plan2Weeks = document.querySelector("#plan-2weeks");
 
   let latestResultText = "";
 
@@ -920,8 +914,6 @@
     renderCollectiveReading(result.contextAnswers);
     renderTopItems(result.topItems);
     renderPriorityActions(result.actions);
-    renderRiskZoneReading(result);
-    renderActionPlans(result);
     renderResultTakeaways(result);
     renderRecommendedStakeholders(result.stakeholderRecommendations);
 
@@ -1014,99 +1006,6 @@
     });
   }
 
-  function renderRiskZoneReading(result) {
-    if (!riskZoneReading) return;
-    const activeZone = result.hasAlert || result.totalLevel.label === "alerte" ? "red" : result.totalLevel.label === "élevé" ? "orange" : "green";
-    const zones = [
-      {
-        key: "green",
-        title: "Zone verte — tension surveillée",
-        text: "Faire le point, protéger la récupération et refaire le test dans 2 à 4 semaines.",
-        items: ["faire le point", "protéger la récupération", "surveiller la trajectoire"]
-      },
-      {
-        key: "orange",
-        title: "Zone orange — risque installé",
-        text: "Le niveau d'action recommandé augmente : agir sur la charge, la récupération et un interlocuteur utile.",
-        items: ["choisir une action sur la charge", "choisir une action sur la récupération", "parler à un interlocuteur utile"]
-      },
-      {
-        key: "red",
-        title: "Zone rouge — signaux préoccupants",
-        text: "Réduire l'exposition, demander un avis médical ou santé au travail, et ne pas rester seul avec la situation.",
-        items: ["réduire l'exposition", "demander un avis médical ou santé au travail", "15 / 112 / 3114 si urgence ou idées suicidaires"]
-      }
-    ];
-    riskZoneReading.innerHTML = zones.map((zone) => `
-      <article class="risk-zone-card zone-${zone.key} ${zone.key === activeZone ? "is-active" : ""}">
-        <h5>${zone.title}</h5>
-        <p>${zone.text}</p>
-        <ul>${zone.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-  }
-
-  function renderActionPlans(result) {
-    if (!plan72h || !plan2Weeks) return;
-    const topLabels = result.topItems.slice(0, 3).map((item) => item.humanLabel);
-    const dominant = result.dominantDimensions[0]?.shortTitle || "la dimension dominante";
-    const recoveryHigh = result.sectionScores.F >= 13;
-    const demandHigh = result.sectionScores.D >= 13;
-    const resourcesHigh = result.sectionScores.E >= 13;
-    const plan = [
-      {
-        title: "À arrêter temporairement",
-        items: [
-          "accepter une nouvelle tâche sans arbitrage",
-          demandHigh ? "répondre en temps réel à toutes les sollicitations" : "ajouter des engagements sans marge",
-          "compenser seul un dysfonctionnement collectif"
-        ]
-      },
-      {
-        title: "À clarifier",
-        items: [
-          "priorité principale de la semaine",
-          "tâches à reporter",
-          "niveau de qualité attendu",
-          topLabels.length ? `signal principal à discuter : ${topLabels.join(", ")}` : `dimension à discuter : ${dominant}`
-        ]
-      },
-      {
-        title: "À demander",
-        items: [
-          demandHigh ? "arbitrage de charge" : "point court sur les priorités",
-          resourcesHigh ? "soutien, clarté ou moyen concret" : "soutien d'un collègue si utile",
-          recoveryHigh ? "avis médecin du travail ou médecin traitant si la récupération reste dégradée" : "aménagement temporaire si la situation s'aggrave"
-        ]
-      },
-      {
-        title: "À surveiller",
-        items: ["sommeil", "irritabilité", "erreurs", "rumination", "stratégies de compensation"]
-      }
-    ];
-    plan72h.innerHTML = plan.map((block) => `
-      <article class="action-plan-card">
-        <h5>${block.title}</h5>
-        <ul>${block.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-    plan2Weeks.innerHTML = [
-      {
-        title: "Comparer",
-        items: ["refaire le questionnaire", "vérifier si le score baisse, stagne ou monte"]
-      },
-      {
-        title: "Décider",
-        items: ["vérifier si une action concrète a été obtenue", "décider si le niveau d'aide doit augmenter"]
-      }
-    ].map((block) => `
-      <article class="action-plan-card">
-        <h5>${block.title}</h5>
-        <ul>${block.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-  }
-
   function renderResultTakeaways(result) {
     if (!resultTakeaways) return;
     const dominant = result.dominantDimensions[0];
@@ -1197,14 +1096,6 @@
       "Actions prioritaires :",
       ...actionLines,
       "",
-      "Plan des 72 prochaines heures :",
-      "- À arrêter temporairement : accepter une nouvelle tâche sans arbitrage ; compenser seul un dysfonctionnement collectif.",
-      "- À clarifier : priorité principale, tâches à reporter, niveau de qualité attendu.",
-      "- À demander : arbitrage de charge, ressource concrète, appui santé-travail si nécessaire.",
-      "- À surveiller : sommeil, irritabilité, erreurs, rumination, stratégies de compensation.",
-      "",
-      "Plan à 2 semaines : refaire le questionnaire, vérifier la trajectoire, vérifier si une action concrète a été obtenue, décider si le niveau d'aide doit augmenter.",
-      "",
       "Interlocuteurs potentiellement utiles :",
       ...stakeholderLines,
       "",
@@ -1266,39 +1157,6 @@
     console.debug("Boutons copier initialisés", { count: copyButtons.length });
   }
 
-  function initNavigation() {
-    if (!navToggle || !mainMenu) return;
-    const closeMenu = () => {
-      navToggle.setAttribute("aria-expanded", "false");
-      mainMenu.classList.remove("is-open");
-      navGroups.forEach((group) => {
-        group.open = false;
-      });
-    };
-    navToggle.addEventListener("click", () => {
-      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
-      navToggle.setAttribute("aria-expanded", String(!isOpen));
-      mainMenu.classList.toggle("is-open", !isOpen);
-    });
-    navGroups.forEach((group) => {
-      group.addEventListener("toggle", () => {
-        if (!group.open) return;
-        navGroups.forEach((otherGroup) => {
-          if (otherGroup !== group) otherGroup.open = false;
-        });
-      });
-      group.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
-      });
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
-      }
-    });
-  }
-
-  initNavigation();
   initCopyButtons();
 
   const hasQuestionnaire = Boolean(questionnaireRoot && form);
