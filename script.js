@@ -1287,9 +1287,9 @@
           if (otherGroup !== group) otherGroup.open = false;
         });
       });
-      group.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
-      });
+    });
+    mainMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {

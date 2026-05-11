@@ -186,7 +186,8 @@ ol {
   position: relative;
 }
 
-.nav-group summary {
+.nav-group summary,
+.nav-direct {
   display: inline-flex;
   align-items: center;
   min-height: 38px;
@@ -195,6 +196,7 @@ ol {
   color: var(--muted-ink);
   font-weight: 900;
   cursor: pointer;
+  text-decoration: none;
   list-style: none;
 }
 
@@ -210,7 +212,9 @@ ol {
 
 .nav-group[open] summary,
 .nav-group summary:hover,
-.nav-group summary:focus {
+.nav-group summary:focus,
+.nav-direct:hover,
+.nav-direct:focus {
   color: var(--night);
   background: #eef8f7;
 }
@@ -2343,6 +2347,7 @@ tbody tr:nth-child(even) {
   }
 
   .nav-group summary,
+  .nav-direct,
   .nav-group a {
     width: 100%;
   }
