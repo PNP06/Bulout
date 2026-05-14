@@ -1298,8 +1298,77 @@
     });
   }
 
+  function initLanguageSwitcher() {
+    const languageButtons = document.querySelectorAll("[data-translate-lang]");
+    if (!languageButtons.length) return;
+    let translateLoader;
+
+    const setTranslateCookie = (lang) => {
+      const value = `/fr/${lang}`;
+      const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `googtrans=${value}; path=/; expires=${expires}`;
+      if (window.location.hostname) {
+        document.cookie = `googtrans=${value}; domain=${window.location.hostname}; path=/; expires=${expires}`;
+      }
+    };
+
+    const loadTranslator = () => {
+      if (document.querySelector(".goog-te-combo")) {
+        return Promise.resolve();
+      }
+      if (translateLoader) {
+        return translateLoader;
+      }
+
+      translateLoader = new Promise((resolve, reject) => {
+        window.googleTranslateElementInit = function () {
+          new google.translate.TranslateElement({
+            pageLanguage: "fr",
+            includedLanguages: "it,en",
+            autoDisplay: false
+          }, "google_translate_element");
+          resolve();
+        };
+
+        const script = document.createElement("script");
+        script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        script.async = true;
+        script.onerror = reject;
+        document.body.appendChild(script);
+      });
+
+      return translateLoader;
+    };
+
+    const applyLanguage = (lang, attempt = 0) => {
+      const combo = document.querySelector(".goog-te-combo");
+      if (combo) {
+        combo.value = lang;
+        combo.dispatchEvent(new Event("change"));
+        return;
+      }
+      if (attempt < 24) {
+        window.setTimeout(() => applyLanguage(lang, attempt + 1), 250);
+      }
+    };
+
+    languageButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const lang = button.dataset.translateLang;
+        if (!lang) return;
+        setTranslateCookie(lang);
+        loadTranslator()
+          .then(() => applyLanguage(lang))
+          .catch(() => {
+            window.location.reload();
+          });
+      });
+    });
+  }
+
   initNavigation();
   initCopyButtons();
+  initLanguageSwitcher();
 
   const hasQuestionnaire = Boolean(questionnaireRoot && form);
 

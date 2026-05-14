@@ -83,6 +83,45 @@ ol {
   letter-spacing: 0;
 }
 
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.language-button {
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--muted-ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.language-button:hover,
+.language-button:focus {
+  color: var(--night);
+  background: #eef8f7;
+}
+
+.translation-widget,
+.goog-te-banner-frame,
+.goog-te-gadget,
+.goog-te-balloon-frame,
+#goog-gt-tt {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
 .nav-toggle {
   display: none;
   align-items: center;
@@ -2320,7 +2359,7 @@ tbody tr:nth-child(even) {
 
   .nav-toggle {
     display: inline-flex;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .main-nav {
