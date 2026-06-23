@@ -380,13 +380,35 @@ body {
   --section-tint: rgba(36, 99, 166, 0.055);
 }
 
+.presentation-page #definition {
+  --section-accent: var(--blue);
+  --section-tint: rgba(36, 99, 166, 0.055);
+}
+
 .presentation-page #signaux {
+  --section-accent: var(--red);
+  --section-tint: rgba(180, 35, 24, 0.045);
+}
+
+.presentation-page #distinguer {
   --section-accent: var(--red);
   --section-tint: rgba(180, 35, 24, 0.045);
 }
 
 .presentation-page #leviers,
 .presentation-page #discussion {
+  --section-accent: var(--green);
+  --section-tint: rgba(47, 139, 87, 0.055);
+}
+
+.presentation-page #modeles {
+  --section-accent: var(--violet);
+  --section-tint: rgba(109, 91, 208, 0.06);
+}
+
+.presentation-page #details-modeles,
+.presentation-page #messages-forts,
+.presentation-page #acteurs {
   --section-accent: var(--green);
   --section-tint: rgba(47, 139, 87, 0.055);
 }
