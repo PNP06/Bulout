@@ -31,7 +31,9 @@ const SECURITY = {
 };
 
 async function fromRepo(path) {
-  return fetch(REPO + path, { cf: { cacheTtl: TTL, cacheEverything: true } });
+  // Seules les réponses 200 sont gardées en cache : un fichier manquant juste après un push
+  // (GitHub met parfois quelques minutes à le servir) ne reste pas bloqué en 404.
+  return fetch(REPO + path, { cf: { cacheEverything: true, cacheTtlByStatus: { "200-299": TTL, "300-599": 0 } } });
 }
 
 export default {
@@ -65,5 +67,5 @@ export default {
 
 function notFound() {
   const html = `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page introuvable · Bull-Out</title><body style="font-family:system-ui;background:#f6efe2;color:#123a33;padding:3rem 1.5rem;max-width:40rem;margin:auto"><h1>Page introuvable</h1><p>Bull-Out · Prévention burn-out sans bullshit</p><p><a href="/" style="color:#b4512b">Retour à l'accueil</a></p></body></html>`;
-  return new Response(html, { status: 404, headers: { "content-type": "text/html; charset=utf-8", ...SECURITY } });
+  return new Response(html, { status: 404, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", ...SECURITY } });
 }
