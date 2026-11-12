@@ -352,9 +352,9 @@
   const questionnaireRoot = document.querySelector("#questionnaire-root");
   const form = document.querySelector("#burnout-form");
   const formError = document.querySelector("#form-error");
-  const progressCount = document.querySelector("#progress-count");
-  const progressTotal = document.querySelector("#progress-total");
-  const progressBar = document.querySelector("#progress-bar");
+  let progressCount = document.querySelector("#progress-count");
+  let progressTotal = document.querySelector("#progress-total");
+  let progressBar = document.querySelector("#progress-bar");
   const resultsPanel = document.querySelector("#results");
   const profileTitle = document.querySelector("#profile-title");
   const profileSummary = document.querySelector("#profile-summary");
@@ -381,156 +381,200 @@
 
   let latestResultText = "";
 
+  // ---------- Questionnaire : écran de questions repris de Psytest ----------
+  // Une partie à la fois ; fil d'Ariane des parties à gauche, numéros des questions à droite,
+  // barre de progression découpée par partie, réponses compactes avec une jauge « du moins au plus ».
+  const PART_ICONS = {
+    A: "M12 3v4M12 17v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M3 12h4M17 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8",
+    B: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.9",
+    C: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+    D: "M21 8v13H3V8M1 3h22v5H1zM10 12h4",
+    E: "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z",
+    F: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
+    context: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",
+    alerts: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"
+  };
+  const PART_TINTS = ["sapin", "orange", "anis", "creme", "sapin", "anis", "creme", "orange"];
+  const svgIcon = (d) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+  const ICON_CHECK = "M20 6 9 17l-5-5";
+  const ICON_CLOCK = "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2";
+  const ICON_LEFT = "M15 18l-6-6 6-6";
+  const ICON_RIGHT = "M9 18l6-6-6-6";
+  let questionNumber = 0;
+
+  function partHead(key, title, index, total) {
+    const tint = PART_TINTS[index % PART_TINTS.length];
+    return `<header class="screen-head"><span class="ti t-${tint}">${svgIcon(PART_ICONS[key] || PART_ICONS.context)}</span>`
+      + `<div><p class="k">Partie ${index + 1} sur ${total}</p><h3 id="section-${key}">${title}</h3></div>`
+      + `<span class="n"><b data-part-count>0</b><small>/<span data-part-total>0</span></small></span></header>`;
+  }
+
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
+    const total = sections.length + 2;
+    questionNumber = 0;
 
-    sections.forEach((section) => {
-      const sectionElement = document.createElement("section");
-      sectionElement.className = "question-section";
-      sectionElement.setAttribute("aria-labelledby", `section-${section.id}`);
+    const addPart = (key, title, period, help, items, index) => {
+      const part = document.createElement("section");
+      part.className = "question-section";
+      part.dataset.part = key;
+      part.dataset.title = title.replace(/ - score inversé$/, "");
+      part.setAttribute("aria-labelledby", `section-${key}`);
+      part.innerHTML = partHead(key, part.dataset.title, index, total)
+        + (period ? `<p class="period">${svgIcon(ICON_CLOCK)}<span>${period}</span></p>` : "")
+        + (help ? `<p class="part-help">${help}</p>` : "");
+      const list = document.createElement("ol");
+      list.className = "qlist";
+      items.forEach((item) => list.appendChild(item));
+      part.appendChild(list);
+      fragment.appendChild(part);
+    };
 
-      const title = document.createElement("h3");
-      title.id = `section-${section.id}`;
-      title.textContent = section.title;
-      sectionElement.appendChild(title);
-
-      if (section.help) {
-        const help = document.createElement("p");
-        help.textContent = section.help;
-        sectionElement.appendChild(help);
-      }
-
-      section.questions.forEach((question, index) => {
-        sectionElement.appendChild(createRatingQuestion(section, question, index));
-      });
-
-      fragment.appendChild(sectionElement);
+    sections.forEach((section, index) => {
+      addPart(section.id, section.title, "Sur les 4 dernières semaines, sauf événement exceptionnel majeur.", section.help,
+        section.questions.map((question, qIndex) => createRatingQuestion(section, question, qIndex)), index);
     });
-
-    const contextSection = document.createElement("section");
-    contextSection.className = "question-section";
-    contextSection.setAttribute("aria-labelledby", "section-context");
-    contextSection.innerHTML = "<h3 id=\"section-context\">Contexte particulier — ne compte pas dans le score</h3><p>Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.</p>";
-    contextQuestions.forEach((question, index) => {
-      contextSection.appendChild(createYesNoQuestion(question.text, index, "context"));
-    });
-    fragment.appendChild(contextSection);
-
-    const alertSection = document.createElement("section");
-    alertSection.className = "question-section";
-    alertSection.setAttribute("aria-labelledby", "section-alerts");
-    alertSection.innerHTML = "<h3 id=\"section-alerts\">Questions d'alerte</h3><p>Répondez oui ou non. Une réponse oui déclenche un message de prudence médicale.</p>";
-    alertQuestions.forEach((question, index) => {
-      alertSection.appendChild(createYesNoQuestion(question, index, "alert"));
-    });
-    fragment.appendChild(alertSection);
+    addPart("context", "Contexte particulier", "Ne compte pas dans le score.",
+      "Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.",
+      contextQuestions.map((question, index) => createYesNoQuestion(question.text, index, "context")), sections.length);
+    addPart("alerts", "Questions d'alerte", "Réponds oui ou non.",
+      "Une réponse oui déclenche un message de prudence médicale.",
+      alertQuestions.map((question, index) => createYesNoQuestion(question, index, "alert")), sections.length + 1);
 
     questionnaireRoot.appendChild(fragment);
     progressTotal.textContent = String(sections.length * 6 + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
+  function questionShell(name, text) {
+    questionNumber += 1;
+    const item = document.createElement("li");
+    item.className = "question-item q";
+    item.id = `item-${name}`;
+    item.dataset.n = String(questionNumber);
+    item.innerHTML = `<div class="q-head"><span class="q-num" aria-hidden="true">${questionNumber}</span>`
+      + `<p class="q-text" id="${name}-label"><span class="sr-only">Question ${questionNumber} : </span>${text}</p></div>`;
+    return item;
+  }
+
   function createRatingQuestion(section, question, index) {
     const name = `${section.id}${index + 1}`;
-    const wrapper = document.createElement("fieldset");
-    wrapper.className = "question-item";
-    wrapper.innerHTML = `<legend class="question-text">${question}</legend>`;
-
-    const options = document.createElement("div");
-    options.className = "rating-options";
-
-    ratingLabels.forEach((label, value) => {
-      const option = document.createElement("label");
-      option.className = "option-pill";
-      option.innerHTML = `<input type="radio" name="${name}" value="${value}" required> <span>${label}</span>`;
-      options.appendChild(option);
-    });
-
-    wrapper.appendChild(options);
-    return wrapper;
+    const item = questionShell(name, question);
+    const gauge = (value) => `<span class="gauge" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= value ? "on" : ""}"></i>`).join("")}</span>`;
+    const choices = ratingLabels.map((label, value) => {
+      const text = label.replace(/^\d+\s*-\s*/, "");
+      return `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><span class="opt-t">${text.charAt(0).toUpperCase()}${text.slice(1)}</span>${gauge(value)}</span></label>`;
+    }).join("");
+    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-5" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    return item;
   }
 
   function createYesNoQuestion(question, index, prefix = "alert") {
     const name = `${prefix}${index + 1}`;
-    const wrapper = document.createElement("fieldset");
-    wrapper.className = "question-item";
-    wrapper.innerHTML = `<legend class="question-text">${question}</legend>`;
-
-    const options = document.createElement("div");
-    options.className = "yesno-options";
-    [
+    const item = questionShell(name, question);
+    const choices = [
       { label: "Non", value: "no" },
       { label: "Oui", value: "yes" }
-    ].forEach((choice) => {
-      const option = document.createElement("label");
-      option.className = "option-pill";
-      option.innerHTML = `<input type="radio" name="${name}" value="${choice.value}" required> <span>${choice.label}</span>`;
-      options.appendChild(option);
-    });
-    wrapper.appendChild(options);
-    return wrapper;
+    ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><span class="opt-t">${choice.label}</span></span></label>`).join("");
+    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-2" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    return item;
   }
 
-  // Questionnaire paginé, comme Psytest : une partie à la fois, numéros de question, progression par partie.
   let currentPart = 0;
   let parts = [];
   let prevButton = null;
   let nextButton = null;
   let submitButton = null;
-  let partSteps = null;
+  let navStatusEl = null;
+  let partsFils = [];
+  let questionsFil = null;
+  let topSegments = null;
+  let topLabel = null;
+
+  const partStats = (part) => {
+    const items = [...part.querySelectorAll(".question-item")];
+    return { done: items.filter((item) => item.querySelector("input:checked")).length, total: items.length };
+  };
+
+  function partsFilHTML() {
+    return `<ol class="fil">${parts.map((part, i) => {
+      const st = partStats(part);
+      return `<li data-i="${i}"><button type="button" data-go="${i}" style="--p:0%"><span class="num">${i + 1}</span><span>${part.dataset.title}</span><span class="cnt">${st.done}/${st.total}</span></button></li>`;
+    }).join("")}</ol>`;
+  }
 
   function initPaging() {
     parts = [...questionnaireRoot.querySelectorAll(".question-section")];
-    if (!parts.length) {
-      return;
-    }
+    if (!parts.length) return;
     form.classList.add("is-paged");
 
-    let number = 0;
-    parts.forEach((part, index) => {
-      const title = part.querySelector("h3");
-      if (title) {
-        const kicker = document.createElement("span");
-        kicker.className = "section-k";
-        kicker.textContent = `Partie ${index + 1} sur ${parts.length}`;
-        title.prepend(kicker);
-      }
-      part.querySelectorAll(".question-item").forEach((item) => {
-        number += 1;
-        const legend = item.querySelector(".question-text");
-        const badge = document.createElement("span");
-        badge.className = "q-num";
-        badge.setAttribute("aria-hidden", "true");
-        badge.textContent = String(number);
-        legend?.prepend(badge);
-      });
-    });
+    // Mise en page à trois colonnes, comme l'écran de questions de Psytest
+    const layout = document.createElement("div");
+    layout.className = "q-layout";
+    layout.innerHTML = `<aside class="q-rail q-rail-left" aria-label="Parties du questionnaire"><p class="rail-title">Les ${parts.length} parties</p><div class="parts-fil"></div></aside>`
+      + `<div class="q-main"></div>`
+      + `<aside class="q-rail q-rail-right" aria-label="Questions de cette partie"><p class="rail-title">Dans cette partie</p><ol class="fil qfil"></ol></aside>`;
+    const main = layout.querySelector(".q-main");
+    const progress = form.querySelector(".progress-wrap");
+    form.prepend(layout);
+    form.prepend(progress);
+    [questionnaireRoot, form.querySelector(".form-actions"), form.querySelector("#form-error")].forEach((el) => el && main.appendChild(el));
 
-    partSteps = document.createElement("div");
-    partSteps.className = "progress-steps";
-    partSteps.setAttribute("aria-hidden", "true");
-    partSteps.innerHTML = parts.map(() => "<i></i>").join("");
-    form.querySelector(".progress-wrap")?.appendChild(partSteps);
+    // Barre de progression découpée par partie (sous l'en-tête)
+    progress.innerHTML = `<div class="q-top"><b class="q-top-title"></b><span class="q-top-sub"></span></div><div class="q-progress" aria-hidden="true">${parts.map((part) => `<i style="--w:${partStats(part).total}"></i>`).join("")}</div>`
+      + `<span class="sr-only"><span id="progress-count">0</span> / <span id="progress-total">0</span> réponses</span>`;
+    progressCount = progress.querySelector("#progress-count");
+    progressTotal = progress.querySelector("#progress-total");
+    progressBar = null;
+    topSegments = [...progress.querySelectorAll(".q-progress i")];
+    topLabel = progress.querySelector(".q-top");
 
-    const actions = form.querySelector(".form-actions");
+    const leftFil = layout.querySelector(".parts-fil");
+    leftFil.innerHTML = partsFilHTML();
+    questionsFil = layout.querySelector(".qfil");
+
+    // Navigation en bas de partie
+    const actions = main.querySelector(".form-actions");
+    actions.classList.add("q-nav");
     submitButton = actions.querySelector("[type='submit']");
+    const resetButtonEl = actions.querySelector("#reset-form");
+    actions.innerHTML = "";
+    navStatusEl = document.createElement("div");
+    navStatusEl.className = "nav-status";
+    navStatusEl.setAttribute("aria-live", "polite");
+    const buttons = document.createElement("div");
+    buttons.className = "nav-buttons";
     prevButton = document.createElement("button");
     prevButton.type = "button";
-    prevButton.className = "button secondary form-nav-prev";
-    prevButton.textContent = "← Partie précédente";
+    prevButton.className = "button secondary";
     nextButton = document.createElement("button");
     nextButton.type = "button";
     nextButton.className = "button primary form-nav-next";
-    nextButton.textContent = "Partie suivante →";
-    actions.prepend(prevButton);
-    actions.insertBefore(nextButton, submitButton);
+    nextButton.innerHTML = `Partie suivante ${svgIcon(ICON_RIGHT)}`;
+    submitButton.innerHTML = `Voir mon résultat ${svgIcon(ICON_RIGHT)}`;
+    buttons.append(prevButton, nextButton, submitButton);
+    const allParts = document.createElement("details");
+    allParts.className = "parts only-narrow";
+    allParts.innerHTML = `<summary>Toutes les parties</summary><div class="parts-fil">${partsFilHTML()}</div>`;
+    const resetWrap = document.createElement("p");
+    resetWrap.className = "q-reset";
+    if (resetButtonEl) { resetButtonEl.className = "button ghost small"; resetWrap.appendChild(resetButtonEl); }
+    actions.append(navStatusEl, buttons, allParts, resetWrap);
+    partsFils = [leftFil, allParts.querySelector(".parts-fil")];
 
-    prevButton.addEventListener("click", () => showPart(currentPart - 1, true));
+    prevButton.addEventListener("click", () => {
+      if (currentPart === 0) { document.querySelector("#questionnaire")?.scrollIntoView({ behavior: "smooth" }); return; }
+      showPart(currentPart - 1, true);
+    });
     nextButton.addEventListener("click", () => {
-      if (markMissing(parts[currentPart])) {
-        return;
-      }
+      if (markMissing(parts[currentPart])) return;
       showPart(currentPart + 1, true);
+    });
+    layout.addEventListener("click", (event) => {
+      const go = event.target.closest("[data-go]");
+      if (go) { allParts.open = false; showPart(Number(go.dataset.go), true); }
+      const first = event.target.closest("#first-missing");
+      if (first) markMissing(parts[currentPart]);
     });
 
     form.addEventListener("change", (event) => {
@@ -539,12 +583,44 @@
         item.classList.add("is-answered");
         item.classList.remove("is-missing");
       }
-      if (!form.querySelector(".question-item.is-missing")) {
-        formError.hidden = true;
-      }
+      if (!form.querySelector(".question-item.is-missing")) formError.hidden = true;
+      refreshPaging();
     });
 
     showPart(0, false);
+  }
+
+  function refreshPaging() {
+    if (!parts.length) return;
+    const stats = parts.map(partStats);
+    partsFils.forEach((fil) => fil.querySelectorAll("li").forEach((li, i) => {
+      const st = stats[i];
+      const complete = st.done === st.total;
+      li.className = [i === currentPart ? "here" : complete ? "past" : "", complete ? "complete" : ""].join(" ").trim();
+      const btn = li.querySelector("button");
+      btn.style.setProperty("--p", `${st.total ? Math.round((100 * st.done) / st.total) : 0}%`);
+      if (i === currentPart) btn.setAttribute("aria-current", "step"); else btn.removeAttribute("aria-current");
+      li.querySelector(".cnt").textContent = `${st.done}/${st.total}`;
+    }));
+    topSegments.forEach((seg, i) => {
+      seg.style.setProperty("--p", `${stats[i].total ? (100 * stats[i].done) / stats[i].total : 0}%`);
+      seg.classList.toggle("current", i === currentPart);
+    });
+    const done = stats.reduce((sum, st) => sum + st.done, 0);
+    const total = stats.reduce((sum, st) => sum + st.total, 0);
+    topLabel.querySelector(".q-top-title").textContent = parts[currentPart].dataset.title;
+    topLabel.querySelector(".q-top-sub").textContent = `Partie ${currentPart + 1}/${parts.length} · ${done}/${total} réponses`;
+    const part = parts[currentPart];
+    part.querySelector("[data-part-count]").textContent = String(stats[currentPart].done);
+    part.querySelector("[data-part-total]").textContent = String(stats[currentPart].total);
+    questionsFil.querySelectorAll("li").forEach((li) => {
+      const item = document.getElementById(li.dataset.item);
+      li.classList.toggle("past", Boolean(item?.querySelector("input:checked")));
+    });
+    const left = stats[currentPart].total - stats[currentPart].done;
+    navStatusEl.innerHTML = left
+      ? `<span>${left} question${left > 1 ? "s" : ""} sans réponse dans cette partie</span><button class="button link" type="button" id="first-missing">Aller à la première</button>`
+      : `<span class="done">${svgIcon(ICON_CHECK)} Partie complète</span>`;
   }
 
   function markMissing(scope) {
@@ -562,24 +638,21 @@
   }
 
   function showPart(index, scroll) {
-    if (!parts.length) {
-      return;
-    }
+    if (!parts.length) return;
     currentPart = Math.max(0, Math.min(parts.length - 1, index));
     parts.forEach((part, i) => {
       part.hidden = i !== currentPart;
     });
     const isLast = currentPart === parts.length - 1;
-    prevButton.hidden = currentPart === 0;
+    prevButton.innerHTML = `${svgIcon(ICON_LEFT)} ${currentPart === 0 ? "Présentation" : "Précédente"}`;
     nextButton.hidden = isLast;
     submitButton.hidden = !isLast;
-    [...partSteps.children].forEach((step, i) => {
-      step.className = i < currentPart ? "done" : i === currentPart ? "current" : "";
-    });
+    questionsFil.innerHTML = [...parts[currentPart].querySelectorAll(".question-item")]
+      .map((item) => `<li data-item="${item.id}"><a href="#${item.id}" aria-label="Question ${item.dataset.n}">${item.dataset.n}</a></li>`).join("");
     formError.hidden = true;
+    refreshPaging();
     if (scroll) {
-      form.scrollIntoView({ behavior: "smooth", block: "start" });
-      parts[currentPart].querySelector("h3")?.focus?.({ preventScroll: true });
+      document.querySelector(".q-layout")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
@@ -597,9 +670,9 @@
   function updateProgress() {
     const { answered, total } = getAnsweredCount();
     const percentage = total === 0 ? 0 : Math.round((answered / total) * 100);
-    progressCount.textContent = String(answered);
-    progressTotal.textContent = String(total);
-    progressBar.style.width = `${percentage}%`;
+    if (progressCount) progressCount.textContent = String(answered);
+    if (progressTotal) progressTotal.textContent = String(total);
+    if (progressBar) progressBar.style.width = `${percentage}%`;
     console.debug("Progression mise à jour", { answered, total, percentage });
   }
 
