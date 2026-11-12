@@ -6,10 +6,12 @@
     <title>Bull-Out - prévention burn-out sans bullshit</title>
     <meta name="description" content="Évaluer, comprendre et réduire l'usure au travail avec un questionnaire non diagnostique, des leviers de prévention et une section anti-bullshit scientifique.">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="charte.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23123a33'/%3E%3Ctext x='32' y='44' text-anchor='middle' fill='%23d8f25c' font-family='Arial,sans-serif' font-size='30' font-weight='800'%3EBO%3C/text%3E%3C/svg%3E">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#accueil" aria-label="Retour à l'accueil">Bull-Out</a>
+      <a class="brand" href="#accueil" aria-label="Retour à l'accueil"><i aria-hidden="true">BO</i><span>Bull-Out</span></a>
       <div class="language-switcher" aria-label="Choix de langue">
         <button class="language-button" type="button" data-translate-lang="it">italian</button>
         <button class="language-button" type="button" data-translate-lang="en">english</button>
@@ -64,60 +66,85 @@
     </nav>
 
     <main>
-      <section id="accueil" class="hero section-band">
-        <div class="hero-inner hero-compact">
-          <p class="kicker">Prévention burn-out sans bullshit</p>
-          <h1>Bull-Out</h1>
-          <p class="subtitle">Un outil pour faire le point sur l'usure au travail, comprendre ce qui coince, et choisir une action réaliste.</p>
-          <div class="home-snapshot">
-            <article>
-              <h2>Tu peux l'utiliser si...</h2>
-              <ul>
-                <li>tu es épuisé sans savoir si c'est normal ;</li>
-                <li>tu décroches mentalement ;</li>
-                <li>tu deviens cynique ;</li>
-                <li>tu sens que ton travail devient non soutenable ;</li>
-                <li>tu veux préparer une discussion avec ton manager, le médecin du travail ou les RH.</li>
-              </ul>
-            </article>
-            <article>
-              <h2>Ce que tu obtiens</h2>
-              <ul>
-                <li>un profil de risque non diagnostique ;</li>
-                <li>les dimensions qui pèsent le plus ;</li>
-                <li>les facteurs de travail probables ;</li>
-                <li>des actions concrètes ;</li>
-                <li>des phrases copiables.</li>
-              </ul>
-            </article>
-          </div>
-          <details class="home-disclosure">
-            <summary>Voir le parcours complet et les limites</summary>
-            <div class="purpose-grid">
-              <article>
-                <h3>Évaluer</h3>
-                <p>Un questionnaire non diagnostique pour repérer les signaux d'épuisement, de distance mentale, de perte d'efficacité, de surcharge, de manque de ressources et de récupération insuffisante.</p>
-              </article>
-              <article>
-                <h3>Comprendre</h3>
-                <p>Trois modèles scientifiques permettent de séparer les symptômes, les causes professionnelles et les déséquilibres de reconnaissance.</p>
-              </article>
-              <article>
-                <h3>Agir</h3>
-                <p>Des leviers concrets pour réduire la charge, clarifier les priorités, restaurer l'autonomie, renforcer les ressources et protéger la récupération.</p>
-              </article>
-              <article>
-                <h3>Respirer</h3>
-                <p>Des questionnaires satiriques pour nommer l'absurde managérial sans nier les vrais signaux de risque.</p>
-              </article>
+      <section id="accueil" class="home-hero" aria-labelledby="home-title">
+        <div class="home-hero-panel">
+          <div class="home-hero-copy">
+            <p class="home-eyebrow">Bull-Out · prévention burn-out sans bullshit</p>
+            <h1 id="home-title">Tu tiens encore.<em>Regarde ce qui t'use.</em></h1>
+            <p class="home-lead">Un outil pour faire le point sur l'usure au travail, comprendre ce qui coince, et choisir une action réaliste. Tu repars avec un profil non diagnostique, des pistes concrètes et des phrases prêtes à l'emploi.</p>
+            <div class="home-cta">
+              <a class="button anis" href="#questionnaire">Faire le questionnaire</a>
+              <a class="button secondary" href="#comprendre">Comprendre d'abord</a>
             </div>
-            <p class="guide-notice">Commencez par le questionnaire si vous voulez vous situer. Lisez ensuite les résultats par dimension : symptômes, facteurs de travail, ressources, récupération. Puis choisissez une ou deux actions réalistes. Les tests satiriques sont là pour respirer, pas pour remplacer la prévention.</p>
-          </details>
-          <div class="notice strong">
-            <strong>Repérage, pas diagnostic.</strong>
-            Ce site ne pose pas de diagnostic médical. Il aide à repérer des signaux, comprendre les facteurs de risque et identifier des actions utiles. En cas d'urgence, d'idées suicidaires ou de perte de contrôle : appeler le 15 / 112 ou le 3114 en France.
+            <p class="home-reassure">Gratuit. Rien n'est envoyé : tes réponses restent dans ton navigateur.</p>
           </div>
+          <aside class="home-hero-card" aria-labelledby="home-for">
+            <h2 id="home-for">Tu peux l'utiliser si…</h2>
+            <ul>
+              <li>tu es épuisé sans savoir si c'est normal ;</li>
+              <li>tu décroches mentalement ;</li>
+              <li>tu deviens cynique ;</li>
+              <li>tu sens que ton travail devient non soutenable ;</li>
+              <li>tu veux préparer une discussion avec ton manager, le médecin du travail ou les RH.</li>
+            </ul>
+            <p class="home-hero-foot">Le but n'est pas de coller une étiquette : c'est de <b>séparer les symptômes, les causes au travail et les leviers</b>.</p>
+          </aside>
         </div>
+      </section>
+
+      <section class="home-wrap" aria-labelledby="home-parcours">
+        <h2 id="home-parcours">Un parcours en trois temps</h2>
+        <p>Comprendre d'abord, pour ne pas lire le résultat comme un verdict. Évaluer ensuite, puis choisir une ou deux actions réalistes.</p>
+        <div class="home-steps">
+          <article class="home-step">
+            <span class="home-step-k">Étape 1</span>
+            <h3>Comprendre</h3>
+            <span class="home-step-meta">Le burn-out en langage clair</span>
+            <ul>
+              <li>Épuisement, distance mentale, efficacité réduite</li>
+              <li>Les 3 modèles : Maslach, JD-R, ERI</li>
+              <li>Ce qui ressemble au burn-out sans en être</li>
+            </ul>
+            <a href="#comprendre">Lire Comprendre →</a>
+          </article>
+          <span class="home-arrow" aria-hidden="true">→</span>
+          <article class="home-step">
+            <span class="home-step-k">Étape 2</span>
+            <h3>Évaluer</h3>
+            <span class="home-step-meta">Questionnaire non diagnostique · une partie à la fois</span>
+            <ul>
+              <li>Symptômes des 4 dernières semaines</li>
+              <li>Charge, ressources, reconnaissance</li>
+              <li>Récupération et contexte particulier</li>
+              <li>Questions d'alerte</li>
+            </ul>
+            <a href="#questionnaire">Faire le questionnaire →</a>
+          </article>
+          <span class="home-arrow" aria-hidden="true">→</span>
+          <article class="home-step home-step-out">
+            <span class="home-step-k">À la fin</span>
+            <h3>Ton résultat</h3>
+            <span class="home-step-meta">À garder pour toi ou à partager</span>
+            <ul>
+              <li>Un profil de risque non diagnostique</li>
+              <li>Les dimensions et facteurs qui pèsent le plus</li>
+              <li>Qui peut aider, et des actions concrètes</li>
+              <li>Des phrases copiables</li>
+            </ul>
+            <a href="#agir">Voir les leviers →</a>
+          </article>
+        </div>
+        <p class="home-aside">Besoin de souffler ? Les questionnaires satiriques de la rubrique <a href="#satiriques">Respirer</a> nomment l'absurde managérial, sans remplacer la prévention.</p>
+      </section>
+
+      <section class="home-wrap" aria-labelledby="home-pas">
+        <h2 id="home-pas">Ce que Bull-Out n'est pas</h2>
+        <ul class="home-not">
+          <li><b>Pas un diagnostic</b><p>Il aide à repérer des signaux. Le diagnostic se pose en consultation.</p></li>
+          <li><b>Pas un outil RH</b><p>Aucun employeur ne doit exiger, classer ou surveiller un résultat individuel.</p></li>
+          <li><b>Rien n'est envoyé</b><p>Tout se calcule dans ton navigateur. Pas de compte, pas de tracking.</p></li>
+          <li><b>En cas d'urgence</b><p>Appelle le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>. Idées suicidaires : <a href="tel:3114">3114</a>, 24 h/24, gratuit.</p></li>
+        </ul>
       </section>
 
       <section id="comprendre" class="section-band">

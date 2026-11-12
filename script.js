@@ -457,6 +457,118 @@
     return wrapper;
   }
 
+  // Questionnaire paginé, comme Psytest : une partie à la fois, numéros de question, progression par partie.
+  let currentPart = 0;
+  let parts = [];
+  let prevButton = null;
+  let nextButton = null;
+  let submitButton = null;
+  let partSteps = null;
+
+  function initPaging() {
+    parts = [...questionnaireRoot.querySelectorAll(".question-section")];
+    if (!parts.length) {
+      return;
+    }
+    form.classList.add("is-paged");
+
+    let number = 0;
+    parts.forEach((part, index) => {
+      const title = part.querySelector("h3");
+      if (title) {
+        const kicker = document.createElement("span");
+        kicker.className = "section-k";
+        kicker.textContent = `Partie ${index + 1} sur ${parts.length}`;
+        title.prepend(kicker);
+      }
+      part.querySelectorAll(".question-item").forEach((item) => {
+        number += 1;
+        const legend = item.querySelector(".question-text");
+        const badge = document.createElement("span");
+        badge.className = "q-num";
+        badge.setAttribute("aria-hidden", "true");
+        badge.textContent = String(number);
+        legend?.prepend(badge);
+      });
+    });
+
+    partSteps = document.createElement("div");
+    partSteps.className = "progress-steps";
+    partSteps.setAttribute("aria-hidden", "true");
+    partSteps.innerHTML = parts.map(() => "<i></i>").join("");
+    form.querySelector(".progress-wrap")?.appendChild(partSteps);
+
+    const actions = form.querySelector(".form-actions");
+    submitButton = actions.querySelector("[type='submit']");
+    prevButton = document.createElement("button");
+    prevButton.type = "button";
+    prevButton.className = "button secondary form-nav-prev";
+    prevButton.textContent = "← Partie précédente";
+    nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "button primary form-nav-next";
+    nextButton.textContent = "Partie suivante →";
+    actions.prepend(prevButton);
+    actions.insertBefore(nextButton, submitButton);
+
+    prevButton.addEventListener("click", () => showPart(currentPart - 1, true));
+    nextButton.addEventListener("click", () => {
+      if (markMissing(parts[currentPart])) {
+        return;
+      }
+      showPart(currentPart + 1, true);
+    });
+
+    form.addEventListener("change", (event) => {
+      const item = event.target.closest(".question-item");
+      if (item) {
+        item.classList.add("is-answered");
+        item.classList.remove("is-missing");
+      }
+      if (!form.querySelector(".question-item.is-missing")) {
+        formError.hidden = true;
+      }
+    });
+
+    showPart(0, false);
+  }
+
+  function markMissing(scope) {
+    const missing = [...scope.querySelectorAll(".question-item")].filter((item) => !item.querySelector("input:checked"));
+    missing.forEach((item) => item.classList.add("is-missing"));
+    if (missing.length) {
+      formError.textContent = missing.length === 1
+        ? "Il reste une question sans réponse dans cette partie."
+        : `Il reste ${missing.length} questions sans réponse dans cette partie.`;
+      formError.hidden = false;
+      missing[0].scrollIntoView({ behavior: "smooth", block: "center" });
+      missing[0].querySelector("input")?.focus({ preventScroll: true });
+    }
+    return missing.length > 0;
+  }
+
+  function showPart(index, scroll) {
+    if (!parts.length) {
+      return;
+    }
+    currentPart = Math.max(0, Math.min(parts.length - 1, index));
+    parts.forEach((part, i) => {
+      part.hidden = i !== currentPart;
+    });
+    const isLast = currentPart === parts.length - 1;
+    prevButton.hidden = currentPart === 0;
+    nextButton.hidden = isLast;
+    submitButton.hidden = !isLast;
+    [...partSteps.children].forEach((step, i) => {
+      step.className = i < currentPart ? "done" : i === currentPart ? "current" : "";
+    });
+    formError.hidden = true;
+    if (scroll) {
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+      parts[currentPart].querySelector("h3")?.focus?.({ preventScroll: true });
+    }
+  }
+
   function getAnsweredCount() {
     const names = new Set([...form.querySelectorAll("input[type='radio']")].map((input) => input.name));
     let answered = 0;
@@ -1298,6 +1410,32 @@
     });
   }
 
+  // Barre d'étapes : étapes passées en sapin, étape en cours en orange (fil d'Ariane de Psytest).
+  function initJourneySpy() {
+    const links = [...document.querySelectorAll(".journey-progress a")];
+    const targets = links.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+    if (!links.length || targets.length !== links.length) return;
+    const update = () => {
+      const line = window.innerHeight * 0.35;
+      let current = -1;
+      targets.forEach((target, index) => {
+        if (target.offsetParent !== null && target.getBoundingClientRect().top <= line) current = index;
+      });
+      links.forEach((link, index) => {
+        link.classList.toggle("is-past", current > index);
+        link.classList.toggle("is-current", current === index);
+        if (current === index) link.setAttribute("aria-current", "step"); else link.removeAttribute("aria-current");
+      });
+    };
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; update(); });
+    }, { passive: true });
+    update();
+  }
+
   function initLanguageSwitcher() {
     const languageButtons = document.querySelectorAll("[data-translate-lang]");
     if (!languageButtons.length) return;
@@ -1367,6 +1505,7 @@
   }
 
   initNavigation();
+  initJourneySpy();
   initCopyButtons();
   initLanguageSwitcher();
 
@@ -1385,7 +1524,13 @@
         formError.textContent = "Merci de répondre à toutes les questions avant d'afficher le résultat.";
         formError.hidden = false;
         const firstMissing = form.querySelector("input:invalid");
-        firstMissing?.closest(".question-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        const missingPart = parts.findIndex((part) => part.contains(firstMissing));
+        if (missingPart >= 0) {
+          showPart(missingPart, false);
+          markMissing(parts[missingPart]);
+        } else {
+          firstMissing?.closest(".question-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
         console.debug("Calcul interrompu : réponses manquantes");
         return;
       }
@@ -1398,6 +1543,8 @@
       resultsPanel.hidden = true;
       formError.hidden = true;
       latestResultText = "";
+      form.querySelectorAll(".question-item").forEach((item) => item.classList.remove("is-answered", "is-missing"));
+      showPart(0, true);
       updateProgress();
       console.debug("Questionnaire réinitialisé");
     });
@@ -1409,6 +1556,7 @@
     });
 
     buildQuestionnaire();
+    initPaging();
     updateProgress();
   } else {
     console.debug("Aucun questionnaire détecté sur cette page : initialisation limitée aux boutons copier", {
