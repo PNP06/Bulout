@@ -382,3 +382,30 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .hero.manager-hero, .hero.presentation-hero { padding-top: clamp(32px, 5vw, 56px) !important; padding-bottom: clamp(32px, 5vw, 56px) !important; min-height: 0 !important; }
 .hero .hero-inner, .presentation-hero-inner { min-height: 0 !important; }
 .hero .hero-inner { padding-top: 0 !important; padding-bottom: 0 !important; }
+
+/* Signature « Prévention burn-out sans bullshit » partout */
+.brand-text { display: grid; gap: 3px; }
+.brand-text small { font: 700 10px/1.2 var(--title); letter-spacing: .1em; text-transform: uppercase; color: var(--hot-ink); }
+@media (max-width: 1240px) { .brand-text small { font-size: 9px; letter-spacing: .06em; } }
+@media (max-width: 560px) {
+  .brand > .brand-text { display: grid; }
+  .brand-text > span { font-size: 15px; }
+  .brand-text small { font-size: 8px; letter-spacing: .04em; max-width: 120px; white-space: normal; line-height: 1.15; }
+}
+.home-hero h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1; }
+.home-hero h1 em { display: block; }
+.home-punch { margin: 0; font: 800 clamp(20px, 2.6vw, 28px)/1.2 var(--title); letter-spacing: -.02em; color: var(--creme); }
+.footer-tagline { font: 800 clamp(18px, 2.4vw, 24px)/1.25 var(--title) !important; letter-spacing: -.02em; color: var(--fg); margin-bottom: 6px !important; }
+.footer-tagline b { color: var(--hot-ink); }
+@media (min-width: 901px) and (max-width: 1240px) {
+  .site-header { gap: 10px; }
+  .main-nav { gap: 0; }
+  .nav-direct, .nav-group summary { padding: 8px 8px; font-size: 13.5px; }
+  .language-button { padding: 5px 8px; font-size: 11px; }
+  .brand-text small { font-size: 8.5px; letter-spacing: .03em; }
+}
+@media (min-width: 901px) and (max-width: 1040px) {
+  .lbl-long { display: none; }
+  .language-button { padding: 4px 7px; }
+  .nav-direct, .nav-group summary { padding: 7px 6px; font-size: 13px; }
+}
