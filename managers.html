@@ -3,24 +3,49 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pour les managers - Bull-Out</title>
+    <title>Pour les managers - Bull-Out, prévention burn-out sans bullshit</title>
     <meta name="description" content="Outils pratiques pour rendre le travail soutenable sans demander les scores individuels ni médicaliser la discussion managériale.">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="charte.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23123a33'/%3E%3Ctext x='32' y='44' text-anchor='middle' fill='%23d8f25c' font-family='Arial,sans-serif' font-size='30' font-weight='800'%3EBO%3C/text%3E%3C/svg%3E">
   </head>
   <body class="manager-page">
     <header class="site-header">
-      <a class="brand" href="index.html#accueil">Bull-Out</a>
-      <nav class="main-nav manager-nav" aria-label="Navigation managers">
-        <a href="#role">Rôle</a>
-        <a href="#erreurs">Erreurs</a>
-        <a href="#responsabilites">Responsabilités</a>
-        <a href="#outils-manager">Outils</a>
-        <a href="#cas">Cas</a>
-        <a href="#checklist">Checklist</a>
-        <a href="#escalade">Escalade</a>
-        <a href="index.html">Retour au site</a>
+      <a class="brand" href="index.html" aria-label="Bull-Out, accueil"><i aria-hidden="true">BO</i><span class="brand-text"><span>Bull-Out</span><small>Prévention burn-out sans bullshit</small></span></a>
+      <div class="language-switcher" aria-label="Choix de langue">
+        <button class="language-button" type="button" data-translate-lang="it">italian</button>
+        <button class="language-button" type="button" data-translate-lang="en">english</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span>Menu</span>
+      </button>
+      <nav id="main-menu" class="main-nav site-nav" aria-label="Pages du site">
+        <a class="nav-direct" href="index.html">Accueil</a>
+        <a class="nav-direct" href="comprendre.html">Comprendre</a>
+        <a class="nav-direct" href="test.html">Le test</a>
+        <a class="nav-direct" href="agir.html">Agir</a>
+        <a class="nav-direct" href="methode.html">Méthode<span class="lbl-long">&nbsp;et limites</span></a>
+        <details class="nav-group">
+          <summary class="is-current">Plus</summary>
+          <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
+            <a href="managers.html" aria-current="page">Pour les managers</a>
+            <a href="presentation.html">Présentation 15 min</a>
+            <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
+            <a href="questionnaire%20decision.html">Décision bullshit</a>
+          </div>
+        </details>
       </nav>
     </header>
+    <nav class="section-jump" aria-label="Sections de la page managers">
+      <a href="#role">Rôle</a>
+      <a href="#erreurs">Erreurs</a>
+      <a href="#responsabilites">Responsabilités</a>
+      <a href="#outils-manager">Outils</a>
+      <a href="#cas">Cas</a>
+      <a href="#checklist">Checklist</a>
+      <a href="#escalade">Escalade</a>
+    </nav>
 
     <main>
       <section class="hero section-band manager-hero">
@@ -392,15 +417,17 @@ Escalade éventuelle :</pre>
           </ul>
           <div class="quiet-links" aria-label="Liens de retour">
             <a class="text-link" href="index.html">Retour au site</a>
-            <a class="text-link" href="index.html#sources-limites">Sources du site</a>
+            <a class="text-link" href="methode.html#sources-limites">Sources du site</a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
+      <p class="footer-tagline"><b>Bull-Out</b> · Prévention burn-out sans bullshit</p>
+      <p class="footer-made">Développé avec deux psys, et en discussion avec un juge aux prud'hommes.</p>
       <p>Bull-Out est un outil éducatif et de prévention. Il ne pose pas de diagnostic et ne doit pas être utilisé pour évaluer individuellement des salariés.</p>
-      <p><a href="index.html#accueil">Retour à l'accueil</a> · <a href="#sources-managers">Sources utiles</a></p>
+      <p><a href="index.html">Retour à l'accueil</a> · <a href="#sources-managers">Sources utiles</a></p>
     </footer>
 
     <script src="script.js"></script>
