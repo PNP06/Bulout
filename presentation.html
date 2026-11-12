@@ -11,7 +11,7 @@
   </head>
   <body class="presentation-page">
     <header class="site-header">
-      <a class="brand" href="index.html#accueil" aria-label="Retour à l'accueil Bull-Out"><i aria-hidden="true">BO</i><span>Bull-Out</span></a>
+      <a class="brand" href="index.html" aria-label="Bull-Out, accueil"><i aria-hidden="true">BO</i><span>Bull-Out</span></a>
       <div class="language-switcher" aria-label="Choix de langue">
         <button class="language-button" type="button" data-translate-lang="it">italian</button>
         <button class="language-button" type="button" data-translate-lang="en">english</button>
@@ -20,13 +20,21 @@
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span>Menu</span>
       </button>
-      <nav id="main-menu" class="main-nav" aria-label="Navigation présentation">
-        <a class="nav-direct" href="#definition">Définir</a>
-        <a class="nav-direct" href="#modeles">Modèles</a>
-        <a class="nav-direct" href="#retenir">À retenir</a>
-        <a class="nav-direct" href="#questions">Questions</a>
-        <a class="nav-direct" href="#inverse">Exercice</a>
-        <a class="nav-direct" href="#questionnaire-presentation">Questionnaire</a>
+      <nav id="main-menu" class="main-nav site-nav" aria-label="Pages du site">
+        <a class="nav-direct" href="index.html">Accueil</a>
+        <a class="nav-direct" href="comprendre.html">Comprendre</a>
+        <a class="nav-direct" href="test.html">Le test</a>
+        <a class="nav-direct" href="agir.html">Agir</a>
+        <a class="nav-direct" href="methode.html">Méthode et limites</a>
+        <details class="nav-group">
+          <summary class="is-current">Plus</summary>
+          <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
+            <a href="managers.html">Pour les managers</a>
+            <a href="presentation.html" aria-current="page">Présentation 15 min</a>
+            <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
+            <a href="questionnaire%20decision.html">Décision bullshit</a>
+          </div>
+        </details>
       </nav>
     </header>
 
@@ -55,7 +63,7 @@
               </div>
               <div class="form-actions presentation-actions">
                 <a class="button primary" href="#definition">Commencer</a>
-                <a class="button ghost" href="index.html#questionnaire">Ouvrir le questionnaire</a>
+                <a class="button ghost" href="test.html#questionnaire">Ouvrir le questionnaire</a>
               </div>
             </div>
             <div class="presentation-visual" aria-label="Schéma des trois angles de lecture du burn-out">
@@ -404,12 +412,12 @@
             <article class="link-card">
               <h3>Questionnaire</h3>
               <p>Auto-positionnement privé et non diagnostique, avec pistes de réflexion.</p>
-              <a class="button primary" href="index.html#questionnaire">Ouvrir le questionnaire</a>
+              <a class="button primary" href="test.html#questionnaire">Ouvrir le questionnaire</a>
             </article>
             <article class="link-card">
               <h3>Guide complet</h3>
               <p>Définition, différentiel, modèles, acteurs utiles, leviers d'action et limites.</p>
-              <a class="button secondary" href="index.html#comprendre">Lire le guide</a>
+              <a class="button secondary" href="comprendre.html#comprendre">Lire le guide</a>
             </article>
             <article class="link-card">
               <h3>Page managers</h3>
@@ -440,7 +448,7 @@
 
     <footer class="site-footer">
       <p>Cette page est un support pédagogique. Elle ne pose pas de diagnostic et ne remplace pas une évaluation clinique ni une analyse des conditions réelles de travail.</p>
-      <p><a href="index.html#accueil">Retour à l'accueil</a> · <a href="index.html#sources-limites">Sources et limites</a> · <a href="index.html#questionnaire">Questionnaire</a></p>
+      <p><a href="index.html">Retour à l'accueil</a> · <a href="methode.html#sources-limites">Sources et limites</a> · <a href="test.html#questionnaire">Questionnaire</a></p>
     </footer>
 
     <script src="script.js"></script>

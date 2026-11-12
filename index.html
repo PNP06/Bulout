@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="charte.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23123a33'/%3E%3Ctext x='32' y='44' text-anchor='middle' fill='%23d8f25c' font-family='Arial,sans-serif' font-size='30' font-weight='800'%3EBO%3C/text%3E%3C/svg%3E">
   </head>
-  <body>
+  <body class="home-page">
     <header class="site-header">
-      <a class="brand" href="#accueil" aria-label="Retour à l'accueil"><i aria-hidden="true">BO</i><span>Bull-Out</span></a>
+      <a class="brand" href="index.html" aria-label="Bull-Out, accueil"><i aria-hidden="true">BO</i><span>Bull-Out</span></a>
       <div class="language-switcher" aria-label="Choix de langue">
         <button class="language-button" type="button" data-translate-lang="it">italian</button>
         <button class="language-button" type="button" data-translate-lang="en">english</button>
@@ -20,50 +20,23 @@
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span>Menu</span>
       </button>
-      <nav id="main-menu" class="main-nav" aria-label="Navigation principale">
-        <details class="nav-group nav-group-wide">
-          <summary>Parcours Bull-Out</summary>
-          <div class="nav-panel" role="group" aria-label="Sections de la page Bull-Out">
-            <div class="nav-panel-section">
-              <span>Essentiel</span>
-              <a href="#comprendre">Comprendre</a>
-              <a href="#questionnaire">Questionnaire</a>
-              <a href="#results">Résultats</a>
-              <a href="#agir">Agir</a>
-            </div>
-            <div class="nav-panel-section">
-              <span>Approfondir</span>
-              <a href="#mecanismes">Les 3 modèles</a>
-              <a href="#differencier">Différencier</a>
-              <a href="#science">Anti-bullshit scientifique</a>
-              <a href="#sources-limites">Sources et limites</a>
-            </div>
-            <div class="nav-panel-section">
-              <span>Outils</span>
-              <a href="#aide">Qui peut aider ?</a>
-              <a href="#outils">Boîte à outils</a>
-              <a href="#reprise">Reprise</a>
-            </div>
-          </div>
-        </details>
-        <a class="nav-direct" href="presentation.html">Présentation 15 min</a>
-        <a class="nav-direct" href="managers.html">Managers</a>
+      <nav id="main-menu" class="main-nav site-nav" aria-label="Pages du site">
+        <a class="nav-direct" href="index.html" aria-current="page">Accueil</a>
+        <a class="nav-direct" href="comprendre.html">Comprendre</a>
+        <a class="nav-direct" href="test.html">Le test</a>
+        <a class="nav-direct" href="agir.html">Agir</a>
+        <a class="nav-direct" href="methode.html">Méthode et limites</a>
         <details class="nav-group">
-          <summary>Respirer</summary>
-          <div class="nav-panel nav-panel-compact" role="group" aria-label="Outils satiriques">
+          <summary>Plus</summary>
+          <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
+            <a href="managers.html">Pour les managers</a>
+            <a href="presentation.html">Présentation 15 min</a>
             <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
             <a href="questionnaire%20decision.html">Décision bullshit</a>
           </div>
         </details>
       </nav>
     </header>
-    <nav class="journey-progress" aria-label="Progression Bull-Out">
-      <a href="#comprendre"><span>1</span> Comprendre</a>
-      <a href="#questionnaire"><span>2</span> Évaluer</a>
-      <a href="#results"><span>3</span> Lire les résultats</a>
-      <a href="#aide"><span>4</span> Identifier qui peut aider</a>
-      <a href="#agir"><span>5</span> Agir</a>
-    </nav>
 
     <main>
       <section id="accueil" class="home-hero" aria-labelledby="home-title">
@@ -73,8 +46,8 @@
             <h1 id="home-title">Tu tiens encore.<em>Regarde ce qui t'use.</em></h1>
             <p class="home-lead">Un outil pour faire le point sur l'usure au travail, comprendre ce qui coince, et choisir une action réaliste. Tu repars avec un profil non diagnostique, des pistes concrètes et des phrases prêtes à l'emploi.</p>
             <div class="home-cta">
-              <a class="button anis" href="#questionnaire">Faire le questionnaire</a>
-              <a class="button secondary" href="#comprendre">Comprendre d'abord</a>
+              <a class="button anis" href="test.html">Faire le questionnaire</a>
+              <a class="button secondary" href="comprendre.html">Commencer par comprendre</a>
             </div>
             <p class="home-reassure">Gratuit. Rien n'est envoyé : tes réponses restent dans ton navigateur.</p>
           </div>
@@ -93,48 +66,39 @@
       </section>
 
       <section class="home-wrap" aria-labelledby="home-parcours">
-        <h2 id="home-parcours">Un parcours en trois temps</h2>
-        <p>Comprendre d'abord, pour ne pas lire le résultat comme un verdict. Évaluer ensuite, puis choisir une ou deux actions réalistes.</p>
-        <div class="home-steps">
+        <h2 id="home-parcours">Un parcours en quatre temps</h2>
+        <p>Commence par le questionnaire si tu veux te situer, ou par Comprendre si c'est ta première fois. Lis ensuite les résultats par dimension : symptômes, facteurs de travail, ressources, récupération. Puis choisis une ou deux actions réalistes.</p>
+        <div class="home-steps home-steps-4">
           <article class="home-step">
             <span class="home-step-k">Étape 1</span>
             <h3>Comprendre</h3>
-            <span class="home-step-meta">Le burn-out en langage clair</span>
-            <ul>
-              <li>Épuisement, distance mentale, efficacité réduite</li>
-              <li>Les 3 modèles : Maslach, JD-R, ERI</li>
-              <li>Ce qui ressemble au burn-out sans en être</li>
-            </ul>
-            <a href="#comprendre">Lire Comprendre →</a>
+            <span class="home-step-meta">3 chapitres</span>
+            <p>Trois modèles scientifiques permettent de séparer les symptômes, les causes professionnelles et les déséquilibres de reconnaissance.</p>
+            <a href="comprendre.html">Lire Comprendre →</a>
           </article>
-          <span class="home-arrow" aria-hidden="true">→</span>
           <article class="home-step">
             <span class="home-step-k">Étape 2</span>
             <h3>Évaluer</h3>
-            <span class="home-step-meta">Questionnaire non diagnostique · une partie à la fois</span>
-            <ul>
-              <li>Symptômes des 4 dernières semaines</li>
-              <li>Charge, ressources, reconnaissance</li>
-              <li>Récupération et contexte particulier</li>
-              <li>Questions d'alerte</li>
-            </ul>
-            <a href="#questionnaire">Faire le questionnaire →</a>
+            <span class="home-step-meta">8 parties · une à la fois</span>
+            <p>Un questionnaire non diagnostique pour repérer les signaux d'épuisement, de distance mentale, de perte d'efficacité, de surcharge, de manque de ressources et de récupération insuffisante.</p>
+            <a href="test.html">Voir le test →</a>
           </article>
-          <span class="home-arrow" aria-hidden="true">→</span>
+          <article class="home-step">
+            <span class="home-step-k">Étape 3</span>
+            <h3>Agir</h3>
+            <span class="home-step-meta">Qui peut aider · leviers · phrases</span>
+            <p>Des leviers concrets pour réduire la charge, clarifier les priorités, restaurer l'autonomie, renforcer les ressources et protéger la récupération.</p>
+            <a href="agir.html">Voir les leviers →</a>
+          </article>
           <article class="home-step home-step-out">
-            <span class="home-step-k">À la fin</span>
-            <h3>Ton résultat</h3>
-            <span class="home-step-meta">À garder pour toi ou à partager</span>
-            <ul>
-              <li>Un profil de risque non diagnostique</li>
-              <li>Les dimensions et facteurs qui pèsent le plus</li>
-              <li>Qui peut aider, et des actions concrètes</li>
-              <li>Des phrases copiables</li>
-            </ul>
-            <a href="#agir">Voir les leviers →</a>
+            <span class="home-step-k">Pour souffler</span>
+            <h3>Respirer</h3>
+            <span class="home-step-meta">Deux questionnaires satiriques</span>
+            <p>Des questionnaires satiriques pour nommer l'absurde managérial sans nier les vrais signaux de risque.</p>
+            <a href="agir.html#satiriques">Décompresser →</a>
           </article>
         </div>
-        <p class="home-aside">Besoin de souffler ? Les questionnaires satiriques de la rubrique <a href="#satiriques">Respirer</a> nomment l'absurde managérial, sans remplacer la prévention.</p>
+        <p class="home-aside">Les tests satiriques sont là pour respirer, pas pour remplacer la prévention.</p>
       </section>
 
       <section class="home-wrap" aria-labelledby="home-pas">
@@ -146,888 +110,15 @@
           <li><b>En cas d'urgence</b><p>Appelle le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>. Idées suicidaires : <a href="tel:3114">3114</a>, 24 h/24, gratuit.</p></li>
         </ul>
       </section>
+      <p class="home-wrap home-method-link">Le détail des modèles, des sources et des limites est dans <a href="methode.html">Méthode et limites</a>.</p>
 
-      <section id="comprendre" class="section-band">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Comprendre</p>
-            <h2>Le burn-out en langage clair</h2>
-            <p>Le burn-out est un phénomène professionnel lié à un stress chronique au travail mal régulé. Il ne se résume ni à une fatigue ponctuelle, ni à un stress aigu, ni à une dépression, ni à un simple manque de motivation. Ce n'est pas une faiblesse individuelle : il apparaît souvent quand les exigences durent plus longtemps que les ressources disponibles.</p>
-          </div>
-          <div class="card-grid three">
-            <article class="info-card">
-              <h3>Épuisement</h3>
-              <p>Fatigue durable, récupération insuffisante, saturation cognitive.</p>
-            </article>
-            <article class="info-card">
-              <h3>Distance mentale / cynisme</h3>
-              <p>Détachement, irritabilité, perte de sens, évitement.</p>
-            </article>
-            <article class="info-card">
-              <h3>Efficacité réduite</h3>
-              <p>Impression de moins bien faire, erreurs, perte de confiance.</p>
-            </article>
-          </div>
-          <div class="micro-glossary" aria-label="Traductions rapides des termes utilisés">
-            <span><strong>Exigences du travail</strong> = ce que le travail demande.</span>
-            <span><strong>Ressources</strong> = ce qui aide à tenir et à bien faire.</span>
-            <span><strong>Distance mentale</strong> = décrocher, se détacher, devenir cynique.</span>
-            <span><strong>Récupération</strong> = récupérer vraiment hors travail.</span>
-          </div>
-          <section id="differencier" class="differential-section">
-            <div class="section-heading compact">
-              <h3>Ne pas tout appeler burn-out</h3>
-              <p>Le burn-out est une hypothèse de lecture utile quand l'usure est liée au travail et s'installe dans la durée. Mais tout malaise professionnel n'est pas un burn-out. Distinguer les situations évite les mauvaises réponses.</p>
-            </div>
-            <details class="content-accordion">
-              <summary>Voir le tableau différentiel complet</summary>
-              <div class="table-wrap">
-                <table>
-                  <thead><tr><th>Situation</th><th>Indice principal</th><th>Ce que ça change</th></tr></thead>
-                  <tbody>
-                    <tr><td>Fatigue ponctuelle</td><td>Récupère après repos, congé court ou baisse temporaire de charge.</td><td>Surveiller, ajuster la charge, protéger la récupération.</td></tr>
-                    <tr><td>Stress aigu</td><td>Réaction forte à un événement identifié : échéance, crise, conflit ponctuel.</td><td>Gérer l'événement, restaurer la récupération, vérifier que la tension ne se chronicise pas.</td></tr>
-                    <tr><td>Burn-out</td><td>Exposition professionnelle chronique, épuisement durable, distance mentale ou cynisme, efficacité réduite.</td><td>Analyser le travail réel, réduire les expositions, renforcer les ressources, demander un avis santé si nécessaire.</td></tr>
-                    <tr><td>Dépression</td><td>Humeur basse, anhédonie, culpabilité, ralentissement, symptômes qui dépassent souvent le seul travail.</td><td>Avis médical ou psychologique. Ne pas réduire à un problème d'organisation.</td></tr>
-                    <tr><td>Harcèlement / violence / conflit grave</td><td>Humiliations, menaces, isolement, propos dégradants, peur, atteintes répétées.</td><td>Protection, traçabilité, acteurs compétents : médecin du travail, RH, CSE/CSSCT, représentants, médecin, urgence selon gravité.</td></tr>
-                    <tr><td>Conflit éthique</td><td>Devoir produire un travail contraire à ses valeurs professionnelles ou à la sécurité/qualité.</td><td>Clarifier les responsabilités, documenter, chercher appui professionnel ou collectif.</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </details>
-            <p class="table-note">Le questionnaire aide à structurer la réflexion. Il ne remplace pas une évaluation clinique ou une analyse approfondie des conditions de travail.</p>
-          </section>
-        </div>
-      </section>
-
-      <section id="mecanismes" class="section-band muted">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Mécanismes</p>
-            <h2>Les 3 modèles qui structurent Bull-Out</h2>
-            <p>Ils donnent une lecture progressive : ce que vous ressentez, ce qui vous use dans le travail, puis le déséquilibre entre effort et retour.</p>
-          </div>
-          <section class="model-map" aria-labelledby="model-map-title">
-            <div class="section-heading model-map-heading">
-              <h3 id="model-map-title">Les 3 modèles en un coup d'œil</h3>
-              <p>Un modèle ne suffit pas : chacun répond à une question différente, sans transformer le score en diagnostic.</p>
-            </div>
-            <div class="model-map-flow" aria-label="Trois angles complémentaires : symptômes, organisation du travail, réciprocité effort récompense">
-              <article class="model-map-card model-map-card--maslach" tabindex="0">
-                <div class="model-map-icon" aria-hidden="true">
-                  <svg viewBox="0 0 64 64" role="img">
-                    <rect x="14" y="18" width="32" height="28" rx="5"></rect>
-                    <path d="M46 27h5v10h-5"></path>
-                    <path d="M21 38h18"></path>
-                    <path d="M21 31h10"></path>
-                  </svg>
-                </div>
-                <p class="model-map-subtitle">Maslach / MBI</p>
-                <h4 class="model-map-title">1. Qu'est-ce que je ressens ?</h4>
-                <p class="model-map-question">Épuisement, distance mentale, efficacité réduite.</p>
-                <span class="risk-tag risk-high">Symptômes</span>
-                <ul class="model-map-list">
-                  <li>Épuisement</li>
-                  <li>Distance mentale / cynisme</li>
-                  <li>Efficacité réduite</li>
-                </ul>
-                <p>Rôle : repérer les signaux.</p>
-              </article>
-
-              <div class="model-map-arrow" aria-hidden="true">→</div>
-
-              <article class="model-map-card model-map-card--jdr" tabindex="0">
-                <div class="model-map-icon" aria-hidden="true">
-                  <svg viewBox="0 0 64 64" role="img">
-                    <path d="M32 12v40"></path>
-                    <path d="M17 24h30"></path>
-                    <path d="M17 24l-8 16h16z"></path>
-                    <path d="M47 24l-8 16h16z"></path>
-                    <path d="M22 52h20"></path>
-                  </svg>
-                </div>
-                <p class="model-map-subtitle">JD-R</p>
-                <h4 class="model-map-title">2. Qu'est-ce qui m'use dans le travail ?</h4>
-                <p class="model-map-question">Demandes, ressources, récupération.</p>
-                <span class="risk-tag risk-low">Demandes vs ressources</span>
-                <div class="model-map-list two-cols">
-                  <div><strong>Demandes</strong><ul><li>Charge</li><li>Interruptions</li><li>Pression</li><li>Flou</li></ul></div>
-                  <div><strong>Ressources</strong><ul><li>Autonomie</li><li>Soutien</li><li>Clarté</li><li>Récupération</li></ul></div>
-                </div>
-                <p>Rôle : comprendre la mécanique de travail.</p>
-              </article>
-
-              <div class="model-map-arrow" aria-hidden="true">→</div>
-
-              <article class="model-map-card model-map-card--eri" tabindex="0">
-                <div class="model-map-icon" aria-hidden="true">
-                  <svg viewBox="0 0 64 64" role="img">
-                    <circle cx="23" cy="28" r="9"></circle>
-                    <circle cx="43" cy="28" r="9"></circle>
-                    <path d="M32 13v38"></path>
-                    <path d="M23 37c0 8 18 8 18 0"></path>
-                    <path d="M18 51h28"></path>
-                  </svg>
-                </div>
-                <p class="model-map-subtitle">ERI</p>
-                <h4 class="model-map-title">3. Est-ce que je donne trop pour trop peu de retour ?</h4>
-                <p class="model-map-question">Effort, reconnaissance, équité, surengagement.</p>
-                <span class="risk-tag risk-watch">Effort vs récompense</span>
-                <div class="model-map-list two-cols">
-                  <div><strong>Efforts</strong><ul><li>Responsabilité</li><li>Intensité</li><li>Surengagement</li></ul></div>
-                  <div><strong>Récompenses</strong><ul><li>Reconnaissance</li><li>Équité</li><li>Respect</li><li>Perspectives</li></ul></div>
-                </div>
-                <p>Rôle : comprendre le déséquilibre effort/récompense.</p>
-              </article>
-            </div>
-            <div class="model-map-synthesis">
-              <strong>Lecture intégrée :</strong>
-              Maslach repère les signaux. JD-R cherche les causes dans l'organisation du travail. ERI identifie les déséquilibres d'effort, de reconnaissance et d'équité.
-            </div>
-          </section>
-          <div class="model-detail-grid accordion-stack">
-            <details class="content-accordion model-detail-accordion">
-              <summary>Voir le détail scientifique — Maslach / MBI</summary>
-              <article class="model-card accent-blue">
-              <h3>Modèle 1 — Maslach / MBI : repérer les symptômes</h3>
-              <p>Le modèle de Maslach sert à décrire le tableau du burn-out. Il ne dit pas à lui seul pourquoi la situation est apparue. Il distingue trois familles de signaux : l'épuisement, la distance mentale ou le cynisme, et l'efficacité réduite.</p>
-              <div class="insight-block">
-                <h4>Ce que ce modèle permet de comprendre</h4>
-                <ul>
-                  <li>Je ne dois pas regarder seulement la fatigue.</li>
-                  <li>Le cynisme peut être une stratégie de protection devenue dysfonctionnelle.</li>
-                  <li>La baisse d'efficacité peut être une conséquence de l'usure, pas un manque de compétence.</li>
-                  <li>Un score élevé sur ces dimensions doit déclencher une analyse, pas une étiquette.</li>
-                </ul>
-              </div>
-              <div class="mistake-block">
-                <h4>Erreur fréquente</h4>
-                <p>Réduire le burn-out à : “je suis fatigué”. L'épuisement est central, mais il faut aussi regarder le retrait mental et la perte d'efficacité.</p>
-              </div>
-              </article>
-            </details>
-            <details class="content-accordion model-detail-accordion">
-              <summary>Voir le détail scientifique — JD-R</summary>
-              <article class="model-card accent-green">
-              <h3>Modèle 2 — JD-R : comprendre la balance demandes / ressources</h3>
-              <p>Le modèle JD-R explique pourquoi une situation devient usante. Le risque augmente quand les demandes du travail consomment plus d'énergie que les ressources disponibles ne permettent d'en récupérer.</p>
-              <div class="split-list">
-                <div>
-                  <h4>Demandes qui consomment</h4>
-                  <ul><li>Surcharge</li><li>Pression temporelle</li><li>Interruptions</li><li>Injonctions contradictoires</li><li>Charge émotionnelle</li><li>Complexité</li><li>Responsabilités sans moyens</li></ul>
-                </div>
-                <div>
-                  <h4>Ressources qui protègent</h4>
-                  <ul><li>Autonomie</li><li>Soutien du manager</li><li>Soutien des collègues</li><li>Clarté des objectifs</li><li>Moyens suffisants</li><li>Feedback utile</li><li>Temps de concentration</li><li>Récupération</li></ul>
-                </div>
-              </div>
-              <div class="insight-block">
-                <h4>Ce que ce modèle permet de comprendre</h4>
-                <ul>
-                  <li>La charge seule ne suffit pas à expliquer le risque.</li>
-                  <li>Une charge élevée peut être mieux tolérée si les ressources sont fortes.</li>
-                  <li>Une charge modérée peut devenir toxique si l'autonomie, le soutien et la clarté sont faibles.</li>
-                  <li>La prévention doit réduire les demandes évitables et augmenter les ressources réelles.</li>
-                </ul>
-              </div>
-              <p class="model-punch">Le bon indicateur n'est pas seulement la quantité de travail. C'est le ratio demandes / ressources / récupération.</p>
-              </article>
-            </details>
-            <details class="content-accordion model-detail-accordion">
-              <summary>Voir le détail scientifique — ERI</summary>
-              <article class="model-card accent-orange">
-              <h3>Modèle 3 — ERI : comprendre effort, reconnaissance et injustice</h3>
-              <p>Le modèle ERI explique l'usure liée au déséquilibre entre les efforts fournis et les récompenses reçues. Les récompenses ne se limitent pas au salaire : elles incluent aussi la reconnaissance, l'équité, le respect, la sécurité et les perspectives.</p>
-              <div class="subcard-grid">
-                <div><h4>Efforts élevés</h4><ul><li>Volume</li><li>Responsabilité</li><li>Disponibilité</li><li>Pression</li><li>Complexité</li><li>Compensation des dysfonctionnements</li></ul></div>
-                <div><h4>Récompenses faibles</h4><ul><li>Reconnaissance insuffisante</li><li>Décisions opaques</li><li>Sentiment d'injustice</li><li>Faible progression</li><li>Insécurité</li><li>Manque de respect</li></ul></div>
-                <div><h4>Surengagement</h4><ul><li>Difficulté à dire non</li><li>Besoin de prouver sa valeur</li><li>Travail hors temps prévu</li><li>Impossibilité de déconnecter</li><li>Peur d'être jugé si on ralentit</li></ul></div>
-              </div>
-              <div class="insight-block">
-                <h4>Ce que ce modèle permet de comprendre</h4>
-                <ul>
-                  <li>Le manque de reconnaissance n'est pas un détail émotionnel.</li>
-                  <li>L'injustice perçue peut devenir un facteur d'usure.</li>
-                  <li>Le surengagement entretient le système : plus la personne compense, plus l'organisation s'habitue à l'anormal.</li>
-                  <li>La prévention doit aussi traiter la réciprocité : effort fourni / retour reçu.</li>
-                </ul>
-              </div>
-              </article>
-            </details>
-          </div>
-          <div class="model-synthesis">
-            <h3>Comment utiliser les trois modèles ensemble ?</h3>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Question</th><th>Modèle utile</th><th>Ce que je dois regarder</th></tr></thead>
-                <tbody>
-                  <tr><td>Quels sont mes symptômes ?</td><td>Maslach / MBI</td><td>Épuisement, distance mentale, efficacité réduite</td></tr>
-                  <tr><td>Qu'est-ce qui m'use concrètement ?</td><td>JD-R</td><td>Demandes, ressources, récupération</td></tr>
-                  <tr><td>Pourquoi ai-je l'impression de donner trop pour trop peu ?</td><td>ERI</td><td>Effort, reconnaissance, équité, surengagement</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="model-punch">Maslach décrit l'état de la personne. JD-R explique la mécanique de travail. ERI montre le rôle de la reconnaissance, de l'équité et du surengagement.</p>
-          </div>
-          <blockquote class="punchline">Le problème n'est pas seulement de “tenir le stress”. Le problème est de savoir si le travail reste soutenable.</blockquote>
-        </div>
-      </section>
-
-      <section id="questionnaire" class="section-band">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Questionnaire non diagnostique</p>
-            <h2>Questionnaire de positionnement burn-out</h2>
-            <p>Cotez chaque item de 0 à 4 en pensant aux 4 dernières semaines, sauf événement exceptionnel majeur. Le questionnaire donne une photographie de votre situation actuelle : il ne pose pas de diagnostic et ne prédit pas l'avenir. Les résultats restent dans votre navigateur et ne sont envoyés nulle part.</p>
-          </div>
-
-          <details class="questionnaire-intent notice-reflection">
-            <summary>Pourquoi ce questionnaire n'est pas un diagnostic</summary>
-            <div class="questionnaire-intent-body">
-              <div class="intent-header">
-                <span class="intent-icon" aria-hidden="true">?</span>
-                <h3>À quoi sert vraiment ce questionnaire ?</h3>
-              </div>
-            <p>Ce questionnaire ne sert pas à poser une étiquette. Il ne dit pas : “vous êtes en burn-out” ou “vous ne l'êtes pas”. Son objectif est plus utile : vous aider à vous poser les bonnes questions, à mettre des mots sur des ressentis parfois flous, et à repérer les dimensions qui méritent attention.</p>
-            <ul>
-              <li>Repérer les signaux d'épuisement, de distance mentale et de perte d'efficacité ;</li>
-              <li>Identifier les facteurs de travail qui consomment vos ressources : charge, interruptions, flou, manque de soutien ;</li>
-              <li>Distinguer symptômes, causes possibles et axes d'action ;</li>
-              <li>Préparer une discussion plus claire avec un manager, un médecin du travail, un médecin généraliste, un psychologue ou un autre interlocuteur utile.</li>
-            </ul>
-            <div class="intent-grid">
-              <article class="intent-card">
-                <h4>Mettre des mots</h4>
-                <p>Transformer des ressentis diffus en éléments plus précis : fatigue, retrait, perte de sens, surcharge, manque de ressources.</p>
-              </article>
-              <article class="intent-card">
-                <h4>Repérer les dimensions</h4>
-                <p>Observer séparément les symptômes, les exigences du travail, les ressources disponibles, la reconnaissance et la récupération.</p>
-              </article>
-              <article class="intent-card">
-                <h4>Identifier les facteurs de travail</h4>
-                <p>Comprendre ce qui consomme vos ressources : charge, interruptions, flou, faible autonomie, manque de soutien, injustice.</p>
-              </article>
-              <article class="intent-card">
-                <h4>Préparer une action</h4>
-                <p>Utiliser les résultats pour choisir une prochaine étape : arbitrage de charge, échange santé-travail, récupération, soutien ou avis médical.</p>
-              </article>
-            </div>
-            <div class="score-not-diagnosis" aria-label="Formules de prudence sur le score">
-              <div class="score-not-diagnosis-item">
-                <strong>Score ≠ diagnostic</strong>
-                <p>Un score élevé ne prouve pas une maladie. Il indique une zone à investiguer.</p>
-              </div>
-              <div class="score-not-diagnosis-item">
-                <strong>Score = point de départ</strong>
-                <p>Le résultat sert à comprendre ce qui se passe et à choisir une action réaliste.</p>
-              </div>
-            </div>
-            <p>Même les questionnaires psychométriques validés ont des limites : seuils discutables, contexte d'administration, sensibilité imparfaite, spécificité imparfaite. Ici, on va encore plus loin dans la prudence : le questionnaire croise plusieurs modèles scientifiques — Maslach/MBI, JD-R et ERI — pour aider à réfléchir, pas pour diagnostiquer.</p>
-            <div class="intent-card intent-card--wide">
-              <h4>Pourquoi 4 semaines ?</h4>
-              <p>Une journée très mauvaise ou une semaine très intense peuvent déformer la perception. Une période d'environ 4 semaines aide à distinguer une tension ponctuelle d'une dynamique qui s'installe. Si votre contexte vient de changer brutalement, le résultat doit être interprété avec prudence.</p>
-              <p>Refaire le questionnaire dans 2 à 4 semaines peut aider à voir si la situation s'améliore, se stabilise ou se dégrade.</p>
-            </div>
-            <div class="score-limits-note">
-              <h4>Un score faible ne veut pas toujours dire que tout va bien</h4>
-              <p>Un score faible ou modéré ne remplace pas votre jugement. Il peut exister un malaise réel malgré un score limité : minimisation, évitement, fatigue liée à une autre cause, événement personnel, dépression, trouble du sommeil, conflit aigu, ou situation déjà partiellement compensée. Si votre sommeil, votre humeur, votre sécurité ou votre fonctionnement se dégrade nettement, demandez un avis adapté même si le score global reste modéré.</p>
-            </div>
-            <p>Le bon usage n'est donc pas de chercher une vérité clinique automatique, mais d'identifier des zones de tension : ce qui vous épuise, ce qui vous protège, ce qui manque, et ce qui peut devenir un axe de travail.</p>
-              <p class="intent-note">Ce questionnaire est volontairement non propriétaire et non diagnostique. Il s'inspire des dimensions issues de plusieurs modèles scientifiques, mais il ne remplace ni un entretien clinique, ni une analyse des conditions réelles de travail.</p>
-            </div>
-          </details>
-
-          <div class="scale-legend" aria-label="Échelle de réponse">
-            <span><strong>0</strong> jamais ou presque jamais</span>
-            <span><strong>1</strong> rarement</span>
-            <span><strong>2</strong> parfois</span>
-            <span><strong>3</strong> souvent</span>
-            <span><strong>4</strong> presque toujours</span>
-          </div>
-
-          <form id="burnout-form" class="questionnaire" novalidate>
-            <div class="progress-wrap" aria-live="polite">
-              <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
-              <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-            </div>
-            <div id="questionnaire-root"></div>
-            <div class="form-actions">
-              <button class="button primary" type="submit">Afficher mon résultat</button>
-              <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
-            </div>
-            <p id="form-error" class="form-error" role="alert" hidden></p>
-          </form>
-
-          <section id="results" class="results" aria-live="polite" hidden>
-            <section class="result-section result-summary">
-              <div class="result-header">
-                <div>
-                  <p class="kicker">Synthèse</p>
-                  <h3 id="profile-title"></h3>
-                  <p id="profile-summary"></p>
-                  <p id="global-level"></p>
-                </div>
-                <div class="score-badge"><span id="global-score"></span><small>/144</small></div>
-              </div>
-              <div id="alert-message" class="notice alert" hidden>
-                Ce résultat ne constitue pas un diagnostic, mais certains signaux justifient un avis médical rapide. En cas de danger immédiat : 15 / 112. En cas d'idées suicidaires en France : 3114.
-              </div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Lecture pratique du niveau d'action</h4>
-                <p>Le résultat n'écrit jamais “vous êtes en burn-out”. Il indique seulement que le niveau d'action recommandé augmente.</p>
-              </div>
-              <div id="risk-zone-reading" class="risk-zone-grid"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Scores par dimensions</h4>
-                <p>Un score élevé sur une dimension ne pose pas un diagnostic. Il indique une zone à investiguer.</p>
-              </div>
-              <div id="score-bars" class="score-bars"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Lecture avec les 3 modèles</h4>
-                <p>La même réponse peut être lue comme symptôme, facteur de travail ou déséquilibre de reconnaissance.</p>
-              </div>
-              <div id="model-readings" class="result-model-grid"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Éléments de contexte à prendre en compte</h4>
-                <p>Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat et les interlocuteurs à envisager.</p>
-              </div>
-              <div id="context-factors" class="context-factors"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Signal individuel ou signal collectif ?</h4>
-                <p id="collective-summary"></p>
-              </div>
-              <div class="collective-reading">
-                <div class="collective-grid">
-                  <article class="collective-card">
-                    <h5>Signal individuel</h5>
-                    <ul><li>Fatigue personnelle</li><li>Symptômes santé</li><li>Situation personnelle associée</li><li>Adéquation poste/personne</li><li>Besoin d'avis médical ou psychologique</li></ul>
-                  </article>
-                  <article class="collective-card">
-                    <h5>Signal collectif</h5>
-                    <ul><li>Surcharge partagée</li><li>Sous-effectif</li><li>Priorités contradictoires</li><li>Manque de ressources commun</li><li>Management ou processus générant l'usure</li><li>Besoin d'action collective ou organisationnelle</li></ul>
-                  </article>
-                </div>
-                <p>Une série de scores élevés sur les mêmes dimensions n'est pas une somme de fragilités individuelles : c'est souvent un signal organisationnel.</p>
-              </div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Items les plus préoccupants</h4>
-                <p>Les items les plus hauts pointent les zones où une action concrète est prioritaire.</p>
-              </div>
-              <ol id="top-items-list" class="top-items-list"></ol>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Actions prioritaires</h4>
-                <p>Choisissez une ou deux actions réalistes, pas un plan héroïque en douze chantiers parallèles.</p>
-              </div>
-              <p class="action-order-note">On ne commence pas par optimiser sa respiration si le problème principal est une surcharge non arbitrée. On commence par réduire l'exposition ou obtenir un arbitrage.</p>
-              <div id="priority-actions" class="priority-actions"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Votre plan des 72 prochaines heures</h4>
-                <p>Une aide à la décision courte : quoi arrêter temporairement, clarifier, demander et surveiller. Pas une promesse médicale.</p>
-              </div>
-              <div id="plan-72h" class="action-plan-grid"></div>
-            </section>
-
-            <section class="result-section result-takeaways">
-              <div class="result-section-title">
-                <h4>3 choses à retenir</h4>
-                <p>Une synthèse courte pour éviter de transformer le résultat en rapport de cabinet conseil intérieur.</p>
-              </div>
-              <div id="result-takeaways" class="takeaway-grid"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Interlocuteurs recommandés selon votre profil</h4>
-                <p>Interlocuteurs potentiellement utiles, à envisager selon votre situation. Les informations médicales restent avec les professionnels de santé.</p>
-              </div>
-              <div id="recommended-stakeholders" class="recommended-stakeholders"></div>
-            </section>
-
-            <section class="result-section manager-result-note">
-              <div class="result-section-title">
-                <h4>Vous voulez en parler à un manager ?</h4>
-                <p>La discussion doit porter sur la charge, les priorités, les moyens et la récupération. Les scores individuels ne doivent pas être exigés par un employeur.</p>
-              </div>
-              <a class="text-link" href="managers.html">Voir la page dédiée Managers</a>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Messages à copier / préparer pour un entretien</h4>
-                <p>Le résumé copiable reprend les scores, dimensions dominantes, items hauts et actions prioritaires.</p>
-              </div>
-              <p id="recommendation-text" class="recommendation-text"></p>
-            </section>
-            <section class="result-section trajectory-section">
-              <div class="result-section-title">
-                <h4>Plan à 2 semaines</h4>
-                <p>Ce questionnaire est une photographie. Ce qui compte aussi, c'est la trajectoire.</p>
-              </div>
-              <div id="plan-2weeks" class="action-plan-grid compact-plan"></div>
-              <div class="trajectory-grid">
-                <article><h5>Score en baisse</h5><p>Les ajustements ou le contexte semblent améliorer la soutenabilité. Maintenir les protections.</p></article>
-                <article><h5>Score stable élevé</h5><p>La situation risque de se chroniciser. Il faut passer d'une adaptation individuelle à une action sur la charge, les ressources ou l'organisation.</p></article>
-                <article><h5>Score en hausse</h5><p>Le risque augmente. Réduire l'exposition et demander de l'aide devient prioritaire.</p></article>
-              </div>
-              <p class="copy-followup-note">Conservez ce résumé si vous souhaitez comparer votre situation dans quelques semaines.</p>
-            </section>
-            <button class="button secondary" type="button" id="copy-results">Copier mes résultats</button>
-          </section>
-        </div>
-      </section>
-
-      <section id="aide" class="section-band help-section">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Aide</p>
-            <h2>Qui peut m'aider ?</h2>
-            <p>Le bon interlocuteur dépend du niveau de risque : santé, travail, organisation, conflit, urgence.</p>
-          </div>
-          <p class="help-intro">Le questionnaire ne pose pas de diagnostic. Il sert à repérer des signaux et à choisir le bon niveau d'aide. Certains acteurs relèvent du soin, d'autres de la prévention au travail, d'autres de l'organisation. Les confondre fait perdre du temps.</p>
-          <div class="notice strong">
-            <strong>Confidentialité utile.</strong>
-            Vous n'êtes pas obligé de tout dire à tout le monde. Les informations médicales doivent rester avec les professionnels de santé. Avec le manager ou les RH, il est souvent préférable de parler de charge, priorités, contraintes, récupération et aménagements plutôt que de diagnostic.
-          </div>
-
-          <div class="helper-directory" aria-label="Interlocuteurs par catégorie">
-            <article><h3>Santé</h3><p>Médecin généraliste, psychiatre, psychologue.</p><span>Utile si les symptômes, le sommeil, l'humeur ou le fonctionnement se dégradent.</span></article>
-            <article><h3>Santé au travail</h3><p>Médecin du travail, infirmier santé au travail.</p><span>Utile si le lien santé-poste, les aménagements ou la reprise sont en jeu.</span></article>
-            <article><h3>Organisation</h3><p>Manager, RH.</p><span>Utile pour arbitrer charge, priorités, moyens, procédures et dispositifs internes.</span></article>
-            <article><h3>Collectif / droits</h3><p>CSE, CSSCT, représentants, assistant social.</p><span>Utile si le signal est collectif ou si les démarches deviennent lourdes.</span></article>
-            <article class="helper-emergency"><h3>Urgence</h3><p>15 / 112 / 3114.</p><span>Utile immédiatement en cas de danger, idées suicidaires ou perte de contrôle.</span></article>
-          </div>
-
-          <section class="emergency-compass" aria-labelledby="emergency-compass-title">
-            <h3 id="emergency-compass-title">Boussole d'urgence</h3>
-            <div class="emergency-compass-grid">
-              <article class="emergency-level emergency-level--danger">
-                <h4>Danger immédiat</h4>
-                <p><strong>Signaux :</strong> risque de passage à l'acte, impossibilité de rester seul en sécurité, malaise, douleur thoracique, essoufflement inhabituel, perte de contrôle.</p>
-                <p><strong>Action :</strong> Appeler le 15 ou le 112.</p>
-              </article>
-              <article class="emergency-level emergency-level--distress">
-                <h4>Détresse suicidaire</h4>
-                <p><strong>Signaux :</strong> idées suicidaires, sentiment d'impasse, peur de passer à l'acte, besoin d'être écouté immédiatement.</p>
-                <p><strong>Action :</strong> Appeler le 3114 en France, 24h/24 et 7j/7.</p>
-              </article>
-              <article class="emergency-level emergency-level--concern">
-                <h4>Dégradation préoccupante mais non immédiate</h4>
-                <p><strong>Signaux :</strong> sommeil dégradé, fatigue persistante, anxiété, symptômes physiques, perte de fonctionnement, stratégies de compensation.</p>
-                <p><strong>Action :</strong> Médecin généraliste, médecin du travail, psychologue ou infirmier santé au travail selon la situation.</p>
-              </article>
-            </div>
-          </section>
-
-          <div class="stakeholder-grid">
-            <article id="aide-medecin-travail" class="stakeholder-card">
-              <h3>Médecin du travail</h3>
-              <span class="stakeholder-badge">Travail / prévention / aménagement</span>
-              <p class="stakeholder-role">Acteur central de la prévention en santé au travail. Il évalue le lien entre état de santé et conditions de travail, conseille sur les adaptations possibles et peut proposer des aménagements de poste.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Symptômes qui durent</li><li>Score élevé ou alerte au questionnaire</li><li>Surcharge durable</li><li>Conflit entre santé et exigences du poste</li><li>Retour après arrêt</li><li>Besoin d'aménagement</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Évaluer la compatibilité entre santé et poste</li><li>Proposer des aménagements</li><li>Conseiller sur la reprise ou le maintien au travail</li><li>Orienter vers d'autres professionnels</li><li>Alerter sur les risques collectifs sans transmettre de diagnostic personnel</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas le médecin traitant</li><li>Il ne prescrit pas toujours comme un médecin de soin</li><li>Il ne doit pas transmettre vos informations médicales à l'employeur</li></ul></details>
-              <p class="stakeholder-script">“Je souhaite un échange confidentiel sur l'impact de ma charge et de mes conditions de travail sur ma santé, et sur les aménagements possibles.”</p>
-              <p class="stakeholder-note">En France, le médecin du travail est soumis au secret médical.</p>
-            </article>
-
-            <article id="aide-generaliste" class="stakeholder-card">
-              <h3>Médecin généraliste</h3>
-              <span class="stakeholder-badge">Soin / diagnostic / arrêt si nécessaire</span>
-              <p class="stakeholder-role">Premier interlocuteur médical pour évaluer l'état de santé global, rechercher les diagnostics différentiels et décider d'une prise en charge.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Fatigue intense persistante</li><li>Insomnie</li><li>Anxiété ou humeur dépressive</li><li>Symptômes physiques</li><li>Perte de fonctionnement</li><li>Besoin d'arrêt de travail</li><li>Doute sur un problème médical associé</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Évaluer l'état clinique</li><li>Rechercher d'autres causes : anémie, thyroïde, trouble du sommeil, dépression, anxiété, pathologie somatique</li><li>Prescrire si nécessaire</li><li>Proposer un arrêt de travail</li><li>Orienter vers psychologue, psychiatre, spécialiste ou médecin du travail</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne connaît pas toujours le travail réel</li><li>Il ne peut pas, seul, corriger l'organisation du travail</li></ul></details>
-              <p class="stakeholder-script">“Je viens parce que mon état se dégrade depuis plusieurs semaines : fatigue, sommeil, fonctionnement et travail. J'aimerais vérifier les causes médicales possibles et discuter de la conduite à tenir.”</p>
-            </article>
-
-            <article id="aide-infirmier-travail" class="stakeholder-card">
-              <h3>Infirmier·ère en santé au travail</h3>
-              <span class="stakeholder-badge">Repérage / écoute / orientation</span>
-              <p class="stakeholder-role">Professionnel de santé du service de prévention et de santé au travail. Il peut participer au suivi, au repérage, aux visites d'information et de prévention, et orienter vers le médecin du travail si nécessaire.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Besoin d'un premier échange santé-travail</li><li>Signaux précoces</li><li>Difficulté à formuler la situation</li><li>Besoin d'orientation vers le médecin du travail</li><li>Suivi après un premier signal</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Écouter et objectiver les signaux</li><li>Aider à préparer une demande au médecin du travail</li><li>Orienter vers le bon professionnel</li><li>Participer au suivi de santé au travail</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas une consultation médicale complète</li><li>Il ne décide pas seul des aménagements médicaux complexes</li></ul></details>
-              <p class="stakeholder-script">“J'aimerais faire un premier point santé-travail, car je constate plusieurs signaux de surcharge et je ne sais pas encore vers qui me tourner.”</p>
-            </article>
-
-            <article id="aide-psychologue" class="stakeholder-card">
-              <h3>Psychologue</h3>
-              <span class="stakeholder-badge">Soutien / coping / clarification</span>
-              <p class="stakeholder-role">Professionnel de l'accompagnement psychologique. Il peut aider à comprendre les mécanismes d'épuisement, les ruminations, la culpabilité, les limites personnelles et les stratégies de récupération.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Rumination</li><li>Anxiété</li><li>Culpabilité à poser des limites</li><li>Perte de confiance</li><li>Difficultés de récupération</li><li>Besoin de soutien hors cadre hiérarchique</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Aider à mettre des mots sur la situation</li><li>Travailler les stratégies de coping</li><li>Aider à poser des limites</li><li>Accompagner la récupération psychologique</li><li>Repérer si une orientation médicale est nécessaire</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas un médecin en cas de symptômes sévères</li><li>Il ne peut pas corriger seul les causes organisationnelles</li></ul></details>
-              <p class="stakeholder-script">“Je souhaite être accompagné pour comprendre ce qui m'épuise, réduire la rumination et préparer des limites réalistes au travail.”</p>
-            </article>
-
-            <article id="aide-psychiatre" class="stakeholder-card">
-              <h3>Psychiatre</h3>
-              <span class="stakeholder-badge">Médical / troubles sévères / traitement</span>
-              <p class="stakeholder-role">Médecin spécialiste de la santé mentale. À contacter en cas de symptômes sévères, persistants ou associés à une dépression, anxiété intense, idées suicidaires, attaques de panique ou perte importante de fonctionnement.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Idées suicidaires</li><li>Dépression sévère</li><li>Anxiété majeure</li><li>Attaques de panique</li><li>Incapacité à fonctionner</li><li>Échec d'une première prise en charge</li><li>Besoin d'un avis spécialisé ou d'un traitement</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Poser un diagnostic psychiatrique si nécessaire</li><li>Prescrire un traitement</li><li>Coordonner une prise en charge</li><li>Proposer ou organiser une hospitalisation si risque majeur</li><li>Orienter vers psychothérapie ou autres soins</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas l'analyse des causes professionnelles</li><li>Il ne doit pas être mobilisé uniquement pour “tenir” dans un système intenable</li></ul></details>
-              <p class="stakeholder-script">“Mes symptômes deviennent sévères et impactent mon fonctionnement. J'ai besoin d'un avis spécialisé sur l'anxiété, l'humeur, le sommeil et le risque.”</p>
-            </article>
-
-            <article id="aide-manager" class="stakeholder-card">
-              <h3>Manager direct</h3>
-              <span class="stakeholder-badge">Organisation / priorités / charge</span>
-              <p class="stakeholder-role">Interlocuteur pour arbitrer la charge, clarifier les priorités, réduire les contradictions et ajuster le travail réel.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Surcharge</li><li>Priorités contradictoires</li><li>Flou sur le livrable</li><li>Objectifs irréalistes</li><li>Besoin de délai, renfort ou arbitrage</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Prioriser</li><li>Retirer ou reporter des tâches</li><li>Clarifier le niveau de qualité attendu</li><li>Protéger du flux de demandes</li><li>Organiser du soutien ou du binômage</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne doit pas recevoir de détails médicaux</li><li>Il ne remplace pas un professionnel de santé</li><li>Il peut faire partie du problème si le management produit la surcharge</li></ul></details>
-              <p class="stakeholder-script">“J'ai besoin d'un arbitrage sur ma charge. Voici les sujets en cours, les délais et ce qui me semble non soutenable. Qu'est-ce qu'on retire, reporte ou simplifie ?”</p>
-            </article>
-
-            <article id="aide-rh" class="stakeholder-card">
-              <h3>Ressources humaines</h3>
-              <span class="stakeholder-badge">Procédures / organisation / dispositifs</span>
-              <p class="stakeholder-role">Interlocuteur pour les dispositifs internes, les procédures, les aménagements organisationnels, les conflits, les signalements et l'accès aux ressources de l'entreprise.</p>
-              <details class="stakeholder-when"><summary>Quand les contacter</summary><ul><li>Conflit durable</li><li>Besoin de procédure</li><li>Demande d'aménagement organisationnel</li><li>Situation de harcèlement ou violence</li><li>Besoin de médiation</li><li>Absence de réponse managériale</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Expliquer les dispositifs internes</li><li>Organiser une médiation</li><li>Mobiliser des ressources</li><li>Traiter des alertes</li><li>Coordonner certains aménagements avec les acteurs compétents</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'ils ne font pas</summary><ul><li>Ils ne sont pas un espace médical</li><li>Ils ne garantissent pas toujours la confidentialité au même niveau qu'un professionnel de santé</li><li>Ils représentent aussi l'organisation</li></ul></details>
-              <p class="stakeholder-script">“Je souhaite connaître les dispositifs internes disponibles pour traiter une situation de surcharge durable / conflit / risque psychosocial, sans transmettre de détails médicaux.”</p>
-            </article>
-
-            <article id="aide-cse" class="stakeholder-card">
-              <h3>CSE / CSSCT / représentants du personnel</h3>
-              <span class="stakeholder-badge">Collectif / conditions de travail / alerte</span>
-              <p class="stakeholder-role">Acteurs de représentation du personnel. Ils peuvent contribuer aux sujets de santé, sécurité et conditions de travail, faire remonter des situations collectives et accompagner des salariés.</p>
-              <details class="stakeholder-when"><summary>Quand les contacter</summary><ul><li>Problème collectif</li><li>Surcharge partagée</li><li>Organisation dysfonctionnelle</li><li>Absence de réponse managériale</li><li>Risque psychosocial récurrent</li><li>Besoin de conseil sur ses droits</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Écouter et conseiller</li><li>Faire remonter un problème collectif</li><li>Demander des actions de prévention</li><li>Contribuer aux sujets santé, sécurité et conditions de travail</li><li>Accompagner dans certaines démarches</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'ils ne font pas</summary><ul><li>Ils ne posent pas de diagnostic</li><li>Ils ne remplacent pas les professionnels de santé</li><li>Ils doivent être utilisés avec prudence selon le contexte relationnel et la confidentialité souhaitée</li></ul></details>
-              <p class="stakeholder-script">“Je souhaite savoir si d'autres personnes rencontrent les mêmes difficultés de charge ou d'organisation, et quelles démarches collectives sont possibles.”</p>
-            </article>
-
-            <article id="aide-assistant-social" class="stakeholder-card">
-              <h3>Assistant·e social·e du travail</h3>
-              <span class="stakeholder-badge">Soutien social / démarches / droits</span>
-              <p class="stakeholder-role">Interlocuteur utile quand la situation de travail a des conséquences sociales, financières, familiales ou administratives.</p>
-              <details class="stakeholder-when"><summary>Quand le contacter</summary><ul><li>Arrêt prolongé</li><li>Difficulté financière</li><li>Démarches administratives</li><li>Handicap ou maintien dans l'emploi</li><li>Articulation santé / famille / travail</li><li>Besoin d'aide pour droits et dispositifs</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'il peut faire</summary><ul><li>Aider à comprendre les droits</li><li>Accompagner les démarches</li><li>Orienter vers des dispositifs d'aide</li><li>Soutenir le maintien ou le retour au travail</li></ul></details>
-              <details class="stakeholder-limit"><summary>Ce qu'il ne fait pas</summary><ul><li>Il ne remplace pas le médecin</li><li>Il ne règle pas seul l'organisation du travail</li></ul></details>
-              <p class="stakeholder-script">“Ma situation professionnelle commence à avoir des conséquences sur mon équilibre personnel ou administratif. J'ai besoin d'aide pour comprendre les options et démarches possibles.”</p>
-            </article>
-
-            <article id="aide-urgence" class="stakeholder-card stakeholder-emergency">
-              <h3>Urgence médicale / 3114</h3>
-              <span class="stakeholder-badge">Danger immédiat</span>
-              <p class="stakeholder-role">À contacter immédiatement en cas de risque suicidaire, danger immédiat, perte de contrôle, malaise, douleur thoracique, essoufflement inhabituel ou situation aiguë.</p>
-              <details class="stakeholder-when"><summary>Quand contacter</summary><ul><li>Idées suicidaires</li><li>Risque de passage à l'acte</li><li>Danger immédiat</li><li>Malaise ou douleur thoracique</li><li>Crise sévère</li><li>Impossibilité de rester seul en sécurité</li></ul></details>
-              <details class="stakeholder-can"><summary>Ce qu'ils peuvent faire</summary><ul><li>Évaluer l'urgence</li><li>Déclencher une prise en charge</li><li>Orienter vers les soins adaptés</li><li>Protéger en situation de danger</li></ul></details>
-              <p class="stakeholder-script">“Je ne me sens pas en sécurité / j'ai peur de passer à l'acte / j'ai besoin d'aide immédiatement.”</p>
-              <p class="emergency-line">Danger immédiat : 15 / 112. Idées suicidaires en France : 3114.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="agir" class="section-band muted">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Agir</p>
-            <h2>Leviers de prévention concrets</h2>
-            <p>La prévention commence souvent par rendre visibles les contraintes et par rétablir des marges de manœuvre. Les cartes ci-dessous ciblent le travail réel, pas la culpabilité individuelle.</p>
-          </div>
-          <div class="card-grid three action-playbook">
-            <article class="action-card">
-              <h3>Réduire la charge</h3>
-              <p class="action-summary">Rendre explicite ce qui doit être fait, reporté, simplifié ou arrêté.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand la quantité de travail, les interruptions ou les priorités contradictoires ressortent fortement.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Faire une liste à trois colonnes : “À faire maintenant / À reporter / À arrêter ou simplifier”.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>J'ai actuellement A, B et C en parallèle. Je peux avancer correctement sur deux sujets, pas sur trois au même niveau de qualité. Lequel est prioritaire cette semaine, et lequel peut être reporté ?</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>Dans ce cas, il faut choisir le niveau de dégradation acceptable : délai, qualité, périmètre ou charge. Je ne peux pas garantir les quatre simultanément.</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Sans arbitrage écrit, je traiterai A en priorité et je reporterai B/C. Je préfère rendre visible la limite plutôt que produire une fausse promesse.</p></div>
-            </article>
-            <article class="action-card">
-              <h3>Clarifier les priorités</h3>
-              <p class="action-summary">Transformer le flou en décisions explicites, même imparfaites.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand les demandes changent, se contredisent ou arrivent sans hiérarchie claire.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Écrire les trois priorités perçues, puis demander une priorité unique pour la semaine et une trace de ce qui passe après.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>Pour éviter de disperser l'effort, j'ai besoin de savoir quel résultat compte vraiment cette semaine. Parmi A, B et C, lequel passe en premier ?</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>Si tout reste prioritaire, je vais devoir arbitrer moi-même, avec un risque sur le délai ou la qualité. Je préfère que l'arbitrage soit explicite.</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Je ne peux pas traiter des priorités contradictoires comme si elles étaient compatibles. Merci de confirmer l'ordre de priorité avant que je m'engage.</p></div>
-            </article>
-            <article class="action-card">
-              <h3>Restaurer l'autonomie</h3>
-              <p class="action-summary">Récupérer des marges sur la méthode, le rythme ou l'organisation.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand vous avez la responsabilité du résultat sans marge réelle sur la manière de l'obtenir.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Identifier une décision de méthode à reprendre : ordre des tâches, canal de communication, niveau de détail, plage de concentration.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>Je peux atteindre le résultat attendu si j'ai de la marge sur la méthode. Je propose de travailler ainsi : A d'abord, B ensuite, et pas d'interruption sur ce créneau.</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>Sans marge sur la méthode, la contrainte augmente sans améliorer le résultat. Quel point peut être laissé à mon arbitrage ?</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Je prends la responsabilité du livrable si j'ai aussi la marge minimale pour l'organiser. Sinon, il faut revoir l'objectif ou le délai.</p></div>
-            </article>
-            <article class="action-card">
-              <h3>Augmenter les ressources</h3>
-              <p class="action-summary">Nommer la ressource manquante au lieu de compenser en silence.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand le manque de soutien, de clarté, de moyens ou d'information utile devient le facteur limitant.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Choisir une ressource concrète à demander : temps, binôme, information, arbitrage, accès, formation courte, relais.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>Pour tenir ce niveau d'exigence, il manque une ressource précise : soit du temps, soit un relais, soit un arbitrage clair. La ressource la plus utile maintenant est : X.</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>Un encouragement ne remplace pas une ressource. De quoi dispose-t-on concrètement cette semaine ?</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Sans ressource supplémentaire, je peux faire une version réduite. Je ne peux pas garantir le même périmètre avec les mêmes moyens.</p></div>
-            </article>
-            <article class="action-card">
-              <h3>Reconnaissance et équité</h3>
-              <p class="action-summary">Rendre visibles les efforts réels, les critères et les déséquilibres.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand vous donnez beaucoup sans retour suffisant, ou quand les décisions de charge et de reconnaissance semblent opaques.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Noter le travail invisible de la semaine : interruptions absorbées, urgences traitées, coordination, corrections, compensations.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>Je souhaite rendre visible la charge réelle, y compris le travail invisible. Quels critères utilise-t-on pour répartir les sujets, reconnaître l'effort et arbitrer les priorités ?</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>Si les critères restent implicites, le sentiment d'injustice augmente. J'ai besoin d'un critère explicite, même imparfait.</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Je ne peux pas continuer à absorber une charge invisible sans reconnaissance, arbitrage ou réduction de périmètre.</p></div>
-            </article>
-            <article class="action-card">
-              <h3>Récupération</h3>
-              <p class="action-summary">Protéger de vrais temps de restauration, pas seulement “tenir encore un peu”.</p>
-              <div class="action-detail"><strong>Quand l'utiliser ?</strong><p>Quand fatigue, rumination, sommeil dégradé ou stratégies de compensation ressortent dans vos résultats.</p></div>
-              <div class="action-detail"><strong>Action en 15 minutes</strong><p>Bloquer deux plages non négociables : une plage sans interruption au travail et une vraie coupure hors travail.</p></div>
-              <div class="action-detail"><strong>Phrase à envoyer / dire</strong><p>Je dois protéger un temps de récupération et réduire les sollicitations hors cadre. Je serai disponible sur ces créneaux, pas en réponse permanente.</p></div>
-              <div class="action-detail"><strong>Si la réponse est floue ou évitante</strong><p>La récupération ne se décrète pas après coup. Si les sollicitations continuent, l'exposition continue aussi.</p></div>
-              <div class="action-detail"><strong>Variante plus ferme</strong><p>Je coupe les notifications hors horaires et je traiterai les demandes non urgentes au prochain créneau de travail.</p></div>
-            </article>
-          </div>
-          <aside class="manager-teaser">
-            <div>
-              <p class="kicker">Usage collectif</p>
-              <h3>Vous êtes manager ?</h3>
-              <p>Une page dédiée explique comment utiliser Bull-Out sans demander les scores individuels, sans médicaliser la discussion, et en revenant au travail réel : charge, priorités, ressources, récupération, risques collectifs.</p>
-            </div>
-            <a class="text-link" href="managers.html">Voir la page Managers</a>
-          </aside>
-        </div>
-      </section>
-
-      <section class="section-band">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Prévention sans poudre aux yeux</p>
-            <h2>Ce qui ne suffit généralement pas</h2>
-            <p>Certaines réponses donnent l'impression d'agir, mais déplacent le problème vers l'individu sans traiter la cause.</p>
-          </div>
-          <details class="content-accordion">
-            <summary>Voir les fausses bonnes solutions et les alternatives</summary>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Fausse bonne solution</th><th>Problème</th><th>Alternative plus robuste</th></tr></thead>
-                <tbody>
-                  <tr><td>Formation gestion du stress seule</td><td>Elle peut aider certaines personnes, mais elle laisse intactes les contraintes organisationnelles.</td><td>Réduire les demandes évitables et augmenter les ressources réelles.</td></tr>
-                  <tr><td>Yoga, méditation ou respiration imposés</td><td>Utile pour certains, cosmétique si l'exposition reste la même.</td><td>Récupération + arbitrage de charge + marges de manœuvre.</td></tr>
-                  <tr><td>“Ma porte est toujours ouverte”</td><td>Ne remplace pas un arbitrage.</td><td>Point de charge, décision écrite, retrait ou report de tâches.</td></tr>
-                  <tr><td>“Il faut mieux prioriser”</td><td>Inutile si tout est présenté comme prioritaire.</td><td>Décision explicite : ce qui est prioritaire, ce qui ne l'est pas, ce qui est abandonné.</td></tr>
-                  <tr><td>“Soyez résilient”</td><td>Peut masquer une organisation non soutenable.</td><td>Rendre le travail soutenable : charge, autonomie, soutien, reconnaissance, récupération.</td></tr>
-                  <tr><td>Baromètre sans action</td><td>Mesurer sans agir augmente parfois le cynisme.</td><td>Mesure courte + décisions visibles + retour aux salariés.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </details>
-        </div>
-      </section>
-
-      <section id="reprise" class="section-band muted">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Reprise</p>
-            <h2>Reprendre sans rechuter</h2>
-            <p>Après un arrêt ou une alerte sérieuse, revenir dans exactement les mêmes conditions peut exposer à une rechute. La reprise doit être préparée.</p>
-          </div>
-          <details class="content-accordion">
-            <summary>Voir la préparation de reprise</summary>
-            <div class="card-grid three">
-              <article class="info-card"><h3>Avant la reprise</h3><ul><li>Contacter le médecin du travail si possible.</li><li>Identifier les facteurs qui ont contribué à l'arrêt ou à l'alerte.</li><li>Clarifier ce qui doit changer.</li></ul></article>
-              <article class="info-card"><h3>Au retour</h3><ul><li>Charge réduite temporaire.</li><li>Priorités écrites.</li><li>Interlocuteur identifié.</li><li>Réduction des urgences et interruptions.</li></ul></article>
-              <article class="info-card"><h3>Suivi</h3><ul><li>Point à 2 semaines.</li><li>Point à 1 mois.</li><li>Ajustements si les signaux remontent.</li><li>Ne pas attendre l'effondrement pour corriger.</li></ul></article>
-            </div>
-            <blockquote class="punchline">Je souhaite préparer une reprise soutenable : charge temporairement adaptée, priorités explicites, points de suivi et marges de manœuvre.</blockquote>
-          </details>
-        </div>
-      </section>
-
-      <section id="outils" class="section-band">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Boîte à outils</p>
-            <h2>Modèles de phrases copiables</h2>
-            <p>Des formulations sobres pour demander un arbitrage, poser une limite ou cadrer un échange sans transformer la discussion en théâtre corporate.</p>
-          </div>
-          <div class="template-grid">
-            <article class="template-card">
-              <h3>Demander un arbitrage</h3>
-              <p>J'ai besoin d'un arbitrage clair : parmi ces trois sujets, lequel est prioritaire cette semaine ? Je peux avancer correctement si on clarifie ce qui doit être fait maintenant, reporté ou abandonné.</p>
-              <button class="button copy-template" type="button">Copier</button>
-            </article>
-            <article class="template-card">
-              <h3>Poser une limite</h3>
-              <p>Je peux tenir ce délai uniquement si le périmètre est réduit ou si une autre tâche est dépriorisée. Sinon, le niveau de qualité attendu ne sera pas soutenable.</p>
-              <button class="button copy-template" type="button">Copier</button>
-            </article>
-            <article class="template-card">
-              <h3>Préparer un entretien de charge</h3>
-              <p>Je souhaite faire un point sur ma charge réelle, car plusieurs signaux montrent que le fonctionnement actuel devient difficilement soutenable.</p>
-              <button class="button copy-template" type="button">Copier</button>
-            </article>
-            <article class="template-card">
-              <h3>Signaler un flou</h3>
-              <p>Le sujet me semble insuffisamment cadré. Pour avancer efficacement, j'ai besoin de clarifier l'objectif, le livrable attendu, le délai et le niveau de détail nécessaire.</p>
-              <button class="button copy-template" type="button">Copier</button>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="science" class="section-band muted">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Anti-bullshit scientifique</p>
-            <h2>Cortisol, dopamine, fatigue surrénalienne : ce qu'on sait vraiment</h2>
-            <p>Le stress chronique a bien des effets biologiques. Mais le burn-out ne se diagnostique pas avec un dosage de cortisol, les neurotransmetteurs ne sont pas une explication simple, et la “fatigue surrénalienne” n'est pas un diagnostic reconnu.</p>
-          </div>
-          <div class="science-list">
-            <p>Les tests salivaires, cheveux ou urine vendus comme diagnostic du burn-out sont scientifiquement fragiles. Méfiance aussi envers les compléments miracles et les promesses de “rééquilibrage hormonal”.</p>
-          </div>
-          <div class="science-path">
-            <article class="info-card">
-              <h3>Oui, le stress a une biologie.</h3>
-              <p>Le sommeil, l'activation du système de stress, la récupération et certains marqueurs biologiques peuvent être modifiés dans des situations de stress chronique.</p>
-            </article>
-            <article class="info-card">
-              <h3>Non, ça ne donne pas un test simple.</h3>
-              <p>Les marqueurs comme le cortisol varient selon l'heure, le sommeil, les médicaments, les comorbidités et le protocole. Ils ne permettent pas de diagnostiquer individuellement un burn-out.</p>
-            </article>
-            <article class="info-card">
-              <h3>Donc on revient au travail réel.</h3>
-              <p>La prévention utile reste l'analyse des exigences, des ressources, de la reconnaissance, de la récupération et des signaux cliniques.</p>
-            </article>
-          </div>
-          <details class="content-accordion">
-            <summary>Voir les détails sur cortisol, dopamine, fatigue surrénalienne et biomarqueurs</summary>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Affirmation</th><th>Problème</th><th>Formulation correcte</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>“C'est ton cortisol”</td><td>Le cortisol varie selon heure, sommeil, médicaments, protocole</td><td>C'est un marqueur de stress possible, pas un diagnostic</td></tr>
-                  <tr><td>“Tes surrénales sont épuisées”</td><td>La fatigue surrénalienne n'est pas un diagnostic reconnu</td><td>Chercher les causes réelles : sommeil, charge, santé, dépression, etc.</td></tr>
-                  <tr><td>“Tu manques de dopamine”</td><td>Réduction simpliste d'un système complexe</td><td>La motivation implique des circuits complexes, pas un seul neurotransmetteur</td></tr>
-                  <tr><td>“Un test salivaire va confirmer ton burn-out”</td><td>Pas de seuil clinique validé</td><td>L'évaluation repose sur entretien, symptômes, contexte de travail</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </details>
-          <div class="notice strong">
-            <strong>Point clé.</strong>
-            Un biomarqueur peut documenter un mécanisme. Il ne remplace pas l'analyse du travail.
-          </div>
-          <blockquote class="punchline">Un biomarqueur n'est pas un diagnostic. Une corrélation n'est pas une cause. Une cause partielle n'est pas une stratégie de prévention.</blockquote>
-        </div>
-      </section>
-
-      <section id="satiriques" class="section-band">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Respiration satirique</p>
-            <h2>Décompresser : questionnaires satiriques</h2>
-            <p>Besoin de respirer ? Si ton cerveau commence à générer des slides PowerPoint en autodéfense, tu peux passer par le Bullshitomètre. Les tests satiriques ne remplacent pas les leviers sérieux : ils servent à nommer l'absurde sans le laisser piloter.</p>
-          </div>
-          <div class="card-grid two">
-            <article class="satire-card">
-              <h3>Bullshitomètre</h3>
-              <p>Mesure approximative de densité corporate, de slides inutiles et de brouillard managérial.</p>
-              <a class="text-link" href="questionnaire_bullshit_job_satirique_html.html">Ouvrir le Bullshitomètre</a>
-            </article>
-            <article class="satire-card">
-              <h3>Décision bullshit</h3>
-              <p>Aide satirique à la décision quand une demande managériale semble floue, urgente et vaguement absurde.</p>
-              <a class="text-link" href="questionnaire%20decision.html">Ouvrir Décision bullshit</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="sources-limites" class="section-band muted">
-        <div class="content">
-          <div class="section-heading">
-            <p class="kicker">Sources et limites</p>
-            <h2>Sources et limites</h2>
-            <p>Le site s'appuie sur des modèles et recommandations reconnus, mais il reste un outil éducatif. Il ne remplace ni un diagnostic clinique, ni une expertise en prévention des risques professionnels, ni une analyse complète du travail réel.</p>
-          </div>
-          <details class="content-accordion source-accordion">
-            <summary>Voir les sources principales et les limites</summary>
-            <div class="source-layout">
-              <section class="source-card">
-                <h3>Sources principales</h3>
-                <ul class="source-list">
-                  <li><a href="https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon">OMS / CIM-11</a> — Burn-out comme phénomène professionnel résultant d'un stress chronique au travail non géré avec succès.</li>
-                  <li><a href="https://www.has-sante.fr/jcms/c_2769318/fr/reperage-et-prise-en-charge-cliniques-du-syndrome-d-epuisement-professionnel-ou-burnout">HAS</a> — Repérage et prise en charge cliniques du syndrome d'épuisement professionnel.</li>
-                  <li><a href="https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html">INRS — Burn-out</a> — Épuisement professionnel et prévention des risques psychosociaux.</li>
-                  <li><a href="https://www.inrs.fr/risques/psychosociaux/prevention.html">INRS — RPS prévention</a> — Prévention des risques psychosociaux par l'organisation du travail.</li>
-                  <li><a href="https://3114.fr/">3114</a> — Numéro national de prévention du suicide en France.</li>
-                  <li>Maslach / Schaufeli / Leiter — Modèle tridimensionnel du burn-out : épuisement, distance/cynisme, efficacité réduite.</li>
-                  <li>Bakker & Demerouti — Modèle JD-R : demandes du travail et ressources du travail.</li>
-                  <li>Siegrist — Modèle ERI : déséquilibre effort / récompense.</li>
-                  <li>Danhof-Pont et al. — Biomarqueurs du burn-out : absence de biomarqueur individuel robuste.</li>
-                  <li>Cadegiani & Kater / Endocrine Society — Fatigue surrénalienne non reconnue comme diagnostic endocrinologique.</li>
-                </ul>
-              </section>
-              <section class="source-card">
-                <h3>Limites du site</h3>
-                <ul>
-                  <li>Questionnaire non diagnostique.</li>
-                  <li>Seuils indicatifs.</li>
-                  <li>Réponses auto-déclarées.</li>
-                  <li>Pas d'évaluation clinique.</li>
-                  <li>Pas d'analyse ergonomique complète.</li>
-                  <li>Pas d'évaluation du harcèlement.</li>
-                  <li>Pas d'usage RH individuel.</li>
-                  <li>Résultats à interpréter avec le contexte.</li>
-                </ul>
-                <p class="model-punch">Le résultat est un point de départ pour réfléchir et agir, pas une preuve médicale ou managériale.</p>
-                <p class="ethics-note">Ce site ne doit pas être utilisé par un employeur pour sélectionner, surveiller, classer ou évaluer individuellement des salariés. Il est destiné à l'auto-réflexion, à la prévention et à la préparation d'un échange volontaire.</p>
-                <p class="ethics-note">Un résultat individuel ne doit pas être exigé par un manager, une RH ou une organisation.</p>
-              </section>
-            </div>
-          </details>
-          <details class="content-accordion glossary-section">
-            <summary>Voir le glossaire complet</summary>
-            <div class="glossary-grid">
-              <article><h4>Exigences du travail</h4><p>Ce que le travail demande : charge, pression, interruptions, complexité, responsabilité, charge émotionnelle.</p></article>
-              <article><h4>Ressources du travail</h4><p>Ce qui aide à faire face : autonomie, soutien, clarté, moyens, feedback, reconnaissance, récupération.</p></article>
-              <article><h4>Récupération</h4><p>Capacité à restaurer l'énergie physique, cognitive et émotionnelle hors exposition.</p></article>
-              <article><h4>Reconnaissance</h4><p>Retour crédible sur l'effort, la qualité, l'utilité ou l'engagement.</p></article>
-              <article><h4>Équité</h4><p>Perception que les efforts, charges, décisions et récompenses sont distribués de manière juste.</p></article>
-              <article><h4>Surengagement</h4><p>Tendance à compenser par plus d'effort, souvent au prix de la récupération.</p></article>
-              <article><h4>Distance mentale</h4><p>Retrait psychologique vis-à-vis du travail, parfois protecteur au départ, puis problématique s'il s'installe.</p></article>
-              <article><h4>Cynisme défensif</h4><p>Forme de protection par dévalorisation ou ironie face à une situation vécue comme absurde ou coûteuse.</p></article>
-              <article><h4>Prévention primaire</h4><p>Agir sur les causes avant que les symptômes ne s'installent.</p></article>
-              <article><h4>Prévention secondaire</h4><p>Repérer tôt et ajuster avant chronicisation.</p></article>
-              <article><h4>Prévention tertiaire</h4><p>Prendre en charge, réduire les dommages, préparer la reprise ou le maintien.</p></article>
-            </div>
-          </details>
+      <section class="home-end">
+        <h2>Prêt à faire le point ?</h2>
+        <p>Commence par comprendre si c'est ta première fois. Si tu connais déjà les bases, le questionnaire t'attend.</p>
+        <div class="home-cta">
+          <a class="button primary" href="comprendre.html">Commencer par comprendre</a>
+          <a class="button secondary" href="test.html#questionnaire">J'ai lu, je fais le test</a>
+          <a class="button ghost" href="managers.html">Je suis manager</a>
         </div>
       </section>
     </main>
@@ -1036,6 +127,7 @@
       <p>Ce site est un outil éducatif et de prévention. Il ne pose pas de diagnostic. Les résultats restent dans votre navigateur. En cas d'urgence médicale : 15 / 112. En cas d'idées suicidaires en France : 3114.</p>
       <p>Aucune donnée n'est envoyée. Pas de tracking, pas de serveur, pas de pseudo-science emballée sous vide.</p>
       <p>Ce site ne doit pas être utilisé par un employeur pour sélectionner, surveiller, classer ou évaluer individuellement des salariés. Un résultat individuel ne doit pas être exigé par un manager, une RH ou une organisation.</p>
+      <p class="footer-links"><a href="comprendre.html">Comprendre</a> · <a href="test.html">Le test</a> · <a href="agir.html">Agir</a> · <a href="methode.html">Méthode et limites</a> · <a href="managers.html">Managers</a> · <a href="presentation.html">Présentation 15 min</a></p>
     </footer>
 
     <script src="script.js"></script>

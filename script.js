@@ -1,4 +1,18 @@
 (function () {
+  // Anciennes adresses (tout sur une page) : index.html#questionnaire, #agir… renvoient vers la nouvelle page.
+  const moved = {
+    comprendre: "comprendre.html", differencier: "comprendre.html", mecanismes: "comprendre.html", science: "comprendre.html",
+    questionnaire: "test.html", results: "test.html",
+    aide: "agir.html", agir: "agir.html", reprise: "agir.html", outils: "agir.html", satiriques: "agir.html",
+    "sources-limites": "methode.html"
+  };
+  const anchor = location.hash.slice(1);
+  if (document.body.classList.contains("home-page") && moved[anchor]) {
+    location.replace(`${moved[anchor]}#${anchor}`);
+  }
+})();
+
+(function () {
   "use strict";
 
   const ratingLabels = [
@@ -1436,6 +1450,56 @@
     update();
   }
 
+  // Sommaire latéral des pages de lecture (fil d'Ariane de Psytest) : chapitres passés en sapin, chapitre en cours en orange.
+  function initChapterRail() {
+    const layout = document.querySelector(".layout[data-rail-title]");
+    if (!layout) return;
+    const chapters = [...layout.querySelectorAll("[data-chapter]")];
+    if (!chapters.length) return;
+    const title = layout.dataset.railTitle;
+    const listHTML = chapters.map((chapter, index) => {
+      if (!chapter.id) chapter.id = `chapitre-${index + 1}`;
+      return `<li><a href="#${chapter.id}"><span class="num">${String(index + 1).padStart(2, "0")}</span><span>${chapter.dataset.chapter}</span></a></li>`;
+    }).join("");
+    const rail = layout.querySelector(".rail");
+    rail.innerHTML = `<p class="rail-title">${title}</p><ol class="fil">${listHTML}</ol>`;
+    const runhead = document.createElement("details");
+    runhead.className = "runhead";
+    runhead.innerHTML = `<summary><span class="rh-k">${title}</span><span class="rh-s"></span></summary><ol class="fil">${listHTML}</ol>`;
+    layout.querySelector(".page-main").prepend(runhead);
+    runhead.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => { runhead.open = false; }));
+    const runLabel = runhead.querySelector(".rh-s");
+    const lists = [rail, runhead].map((el) => [...el.querySelectorAll(".fil li")]);
+
+    const update = () => {
+      const line = window.innerHeight * 0.3;
+      let current = 0;
+      let progress = 0;
+      chapters.forEach((chapter, index) => {
+        const rect = chapter.getBoundingClientRect();
+        if (rect.top <= line) {
+          current = index;
+          progress = Math.max(0, Math.min(1, (line - rect.top) / Math.max(rect.height, 1)));
+        }
+      });
+      lists.forEach((items) => items.forEach((item, index) => {
+        item.className = index < current ? "past" : index === current ? "here" : "";
+        const link = item.querySelector("a");
+        link.style.setProperty("--p", index < current ? "100%" : index === current ? `${Math.round(progress * 100)}%` : "0%");
+        if (index === current) link.setAttribute("aria-current", "location"); else link.removeAttribute("aria-current");
+      }));
+      runLabel.textContent = `${String(current + 1).padStart(2, "0")} · ${chapters[current].dataset.chapter}`;
+    };
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; update(); });
+    }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   function initLanguageSwitcher() {
     const languageButtons = document.querySelectorAll("[data-translate-lang]");
     if (!languageButtons.length) return;
@@ -1506,6 +1570,7 @@
 
   initNavigation();
   initJourneySpy();
+  initChapterRail();
   initCopyButtons();
   initLanguageSwitcher();
 
