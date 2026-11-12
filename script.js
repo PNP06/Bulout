@@ -1500,6 +1500,87 @@
     update();
   }
 
+  // Animation d'accueil : la semaine de Sam (exemple fictif). Cinq actes, lancés quand le bandeau est visible.
+  function initHeroScene() {
+    const scene = document.querySelector("#bo-scene");
+    if (!scene) return;
+    const LEVELS = [80, 45, 15, 35, 35];
+    const CAPS = [
+      "Lundi, Sam démarre à <strong>80 %</strong>. 42 mails, 3 urgences. Normal, c'est lundi.",
+      "Mercredi, la <strong>pause déjeuner saute</strong> et le collègue qui aidait est parti. Son dossier, lui, est resté.",
+      "Vendredi : <strong>« À quoi bon ? »</strong> Sam décroche, devient cynique, fait plus d'erreurs. Plus de soirées pour souffler.",
+      "Le week-end ne recharge plus. <strong>4 semaines plus tard</strong>, Sam repart chaque lundi à 35 %.",
+      "Sam n'est pas faible. <strong>Le travail demande plus qu'il ne rend</strong>, depuis des semaines. C'est ça que Bull-Out t'aide à voir."
+    ];
+    const fill = scene.querySelector("#bo-fill");
+    const pct = scene.querySelector("#bo-pct");
+    const caption = scene.querySelector("#bo-caption");
+    const chips = [...scene.querySelectorAll("#bo-acts button")];
+    const demands = [...scene.querySelectorAll(".bo-d")];
+    const resources = [...scene.querySelectorAll(".bo-r")];
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    let shown = 80;
+    let timer = null;
+    let counter = null;
+    let act = -1;
+
+    const countTo = (target) => {
+      cancelAnimationFrame(counter);
+      const from = shown;
+      const start = performance.now();
+      const step = (now) => {
+        const k = Math.min((now - start) / 1300, 1);
+        shown = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
+        pct.textContent = `${shown} %`;
+        if (k < 1) counter = requestAnimationFrame(step);
+      };
+      if (reduce) { shown = target; pct.textContent = `${target} %`; } else counter = requestAnimationFrame(step);
+    };
+
+    const show = (next) => {
+      const previous = act;
+      act = next;
+      scene.dataset.act = String(act);
+      fill.style.setProperty("--lvl", String(LEVELS[act] / 100));
+      countTo(LEVELS[act]);
+      demands.forEach((d) => {
+        const visible = Number(d.dataset.in) <= Math.min(act, 2);
+        const wasVisible = previous >= 0 && Number(d.dataset.in) <= Math.min(previous, 2);
+        d.classList.toggle("is-hidden", !visible);
+        d.classList.remove("is-new");
+        if (visible && !wasVisible && !reduce) { void d.getBBox(); d.classList.add("is-new"); }
+      });
+      resources.forEach((r) => r.classList.toggle("is-lost", act >= Number(r.dataset.out)));
+      caption.innerHTML = CAPS[act];
+      chips.forEach((chip, i) => {
+        chip.classList.toggle("on", i === act);
+        chip.classList.toggle("done", i < act);
+        chip.setAttribute("aria-pressed", String(i === act));
+      });
+    };
+
+    const play = (from) => {
+      clearTimeout(timer);
+      show(from);
+      if (reduce || from >= CAPS.length - 1) return;
+      timer = setTimeout(() => play(from + 1), from === 0 ? 3600 : 4200);
+    };
+
+    chips.forEach((chip, i) => chip.addEventListener("click", () => { clearTimeout(timer); show(i); }));
+    scene.querySelector("#bo-replay").addEventListener("click", () => play(0));
+
+    if (reduce) { show(CAPS.length - 1); return; }
+    show(0);
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); play(0); }
+      }, { threshold: 0.4 });
+      io.observe(scene);
+    } else {
+      play(0);
+    }
+  }
+
   function initLanguageSwitcher() {
     const languageButtons = document.querySelectorAll("[data-translate-lang]");
     if (!languageButtons.length) return;
@@ -1571,6 +1652,7 @@
   initNavigation();
   initJourneySpy();
   initChapterRail();
+  initHeroScene();
   initCopyButtons();
   initLanguageSwitcher();
 

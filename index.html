@@ -52,18 +52,70 @@
             </div>
             <p class="home-reassure">Gratuit. Rien n'est envoyé : tes réponses restent dans ton navigateur.</p>
           </div>
-          <aside class="home-hero-card" aria-labelledby="home-for">
-            <h2 id="home-for">Tu peux l'utiliser si…</h2>
-            <ul>
-              <li>tu es épuisé sans savoir si c'est normal ;</li>
-              <li>tu décroches mentalement ;</li>
-              <li>tu deviens cynique ;</li>
-              <li>tu sens que ton travail devient non soutenable ;</li>
-              <li>tu veux préparer une discussion avec ton manager, le médecin du travail ou les RH.</li>
-            </ul>
-            <p class="home-hero-foot">Le but n'est pas de coller une étiquette : c'est de <b>séparer les symptômes, les causes au travail et les leviers</b>.</p>
-          </aside>
+          <figure class="bo-scene" id="bo-scene" aria-label="Exemple fictif : Sam, 38 ans">
+            <div class="bo-scene-top">
+              <span class="bo-who">Exemple fictif : Sam, 38 ans</span>
+              <button class="bo-replay" type="button" id="bo-replay">Rejouer</button>
+            </div>
+            <div class="bo-acts" id="bo-acts">
+              <button type="button" data-act="0">Lundi</button>
+              <button type="button" data-act="1">Mercredi</button>
+              <button type="button" data-act="2">Vendredi</button>
+              <button type="button" data-act="3">4 semaines plus tard</button>
+              <button type="button" data-act="4">Le vrai problème</button>
+            </div>
+            <svg class="bo-svg" viewBox="0 0 560 330" role="img" aria-labelledby="bo-svg-desc">
+              <desc id="bo-svg-desc">La batterie de Sam se vide au fil de la semaine : les demandes s'empilent, les ressources disparaissent, le week-end ne recharge plus. À la fin, une balance montre que les exigences pèsent plus lourd que les ressources.</desc>
+              <g class="bo-battery">
+                <rect class="bo-bat-cap" x="72" y="18" width="46" height="14" rx="4"/>
+                <rect class="bo-bat-body" x="40" y="30" width="110" height="250" rx="16"/>
+                <rect class="bo-bat-fill" id="bo-fill" x="52" y="42" width="86" height="226" rx="9"/>
+                <text class="bo-bat-pct" id="bo-pct" x="95" y="168" text-anchor="middle">80 %</text>
+                <text class="bo-bat-lbl" x="95" y="306" text-anchor="middle">Énergie de Sam</text>
+              </g>
+              <g class="bo-bubble" id="bo-bubble">
+                <path d="M170,62 h104 a14,14 0 0 1 14,14 v24 a14,14 0 0 1 -14,14 h-84 l-16,14 v-14 h-4 a14,14 0 0 1 -14,-14 v-24 a14,14 0 0 1 14,-14z"/>
+                <text x="222" y="95" text-anchor="middle">« À quoi bon ? »</text>
+              </g>
+              <g id="bo-demands">
+                <g class="bo-chip bo-d" data-in="0" transform="translate(304,34)"><rect width="232" height="40" rx="12"/><circle cx="18" cy="20" r="5"/><text x="32" y="26">42 mails non lus</text></g>
+                <g class="bo-chip bo-d" data-in="0" transform="translate(304,82)"><rect width="232" height="40" rx="12"/><circle cx="18" cy="20" r="5"/><text x="32" y="26">3 urgences « pour hier »</text></g>
+                <g class="bo-chip bo-d" data-in="1" transform="translate(304,130)"><rect width="232" height="40" rx="12"/><circle cx="18" cy="20" r="5"/><text x="32" y="26">Réunion à 18 h 30</text></g>
+                <g class="bo-chip bo-d" data-in="1" transform="translate(304,178)"><rect width="232" height="40" rx="12"/><circle cx="18" cy="20" r="5"/><text x="32" y="26">Le dossier du collègue parti</text></g>
+                <g class="bo-chip bo-d" data-in="2" transform="translate(304,226)"><rect width="232" height="40" rx="12"/><circle cx="18" cy="20" r="5"/><text x="32" y="26">« Tu peux juste… »</text></g>
+              </g>
+              <g id="bo-resources">
+                <g class="bo-chip bo-r" data-out="1" transform="translate(186,280)"><rect width="110" height="34" rx="17"/><text x="55" y="22" text-anchor="middle">Pause déj</text><path class="bo-strike" d="M10,17 h90"/></g>
+                <g class="bo-chip bo-r" data-out="1" transform="translate(304,280)"><rect width="110" height="34" rx="17"/><text x="55" y="22" text-anchor="middle">Un collègue</text><path class="bo-strike" d="M10,17 h90"/></g>
+                <g class="bo-chip bo-r" data-out="2" transform="translate(422,280)"><rect width="110" height="34" rx="17"/><text x="55" y="22" text-anchor="middle">Soirées</text><path class="bo-strike" d="M10,17 h90"/></g>
+              </g>
+              <g class="bo-balance" id="bo-balance">
+                <path class="bo-foot" d="M350,262 l-26,40 h52 z"/>
+                <g class="bo-beam" id="bo-beam">
+                  <line x1="210" y1="150" x2="490" y2="150"/>
+                  <circle cx="350" cy="150" r="7"/>
+                  <g class="bo-pan bo-pan-l"><line x1="230" y1="150" x2="230" y2="176"/><rect x="164" y="176" width="132" height="78" rx="12"/><text x="230" y="205" text-anchor="middle">Exigences</text><text class="bo-pan-sub" x="230" y="226" text-anchor="middle">charge, urgences,</text><text class="bo-pan-sub" x="230" y="242" text-anchor="middle">flou, pression</text></g>
+                  <g class="bo-pan bo-pan-r"><line x1="470" y1="150" x2="470" y2="176"/><rect x="404" y="176" width="132" height="78" rx="12"/><text x="470" y="205" text-anchor="middle">Ressources</text><text class="bo-pan-sub" x="470" y="226" text-anchor="middle">soutien, autonomie,</text><text class="bo-pan-sub" x="470" y="242" text-anchor="middle">reconnaissance</text></g>
+                </g>
+              </g>
+            </svg>
+            <figcaption class="bo-caption" id="bo-caption" aria-live="polite">Lundi, Sam démarre à <strong>80 %</strong>. 42 mails, 3 urgences. Normal, c'est lundi.</figcaption>
+          </figure>
         </div>
+      </section>
+
+      <section class="home-wrap home-for" aria-labelledby="home-for">
+        <div>
+          <h2 id="home-for">Tu peux l'utiliser si…</h2>
+          <ul>
+            <li>tu es épuisé sans savoir si c'est normal ;</li>
+            <li>tu décroches mentalement ;</li>
+            <li>tu deviens cynique ;</li>
+            <li>tu sens que ton travail devient non soutenable ;</li>
+            <li>tu veux préparer une discussion avec ton manager, le médecin du travail ou les RH.</li>
+          </ul>
+        </div>
+        <p class="home-for-goal">Le but n'est pas de coller une étiquette : c'est de <b>séparer les symptômes, les causes au travail et les leviers</b>.</p>
       </section>
 
       <section class="home-wrap" aria-labelledby="home-parcours">

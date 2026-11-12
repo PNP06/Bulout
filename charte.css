@@ -409,3 +409,91 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
   .language-button { padding: 4px 7px; }
   .nav-direct, .nav-group summary { padding: 7px 6px; font-size: 13px; }
 }
+
+/* =====================================================================
+   Animation d'accueil : la semaine de Sam (exemple fictif)
+   ===================================================================== */
+.bo-scene { margin: 0; background: rgba(255, 255, 255, .06); border: 1px solid rgba(246, 239, 226, .16); border-radius: var(--radius); padding: 16px; min-width: 0; display: grid; gap: 10px; }
+.bo-scene-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; }
+.bo-who { font-weight: 600; color: var(--anis); }
+.bo-replay, .bo-acts button { background: transparent; color: var(--creme); border: 1px solid rgba(246, 239, 226, .3); border-radius: 999px; font: 600 12.5px/1 var(--font); cursor: pointer; }
+.bo-replay { padding: 6px 12px; }
+.bo-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.bo-acts button { padding: 5px 11px; opacity: .6; transition: background .3s, color .3s, opacity .3s; }
+.bo-acts button.done { opacity: .9; }
+.bo-acts button.on { background: var(--anis); border-color: var(--anis); color: var(--sapin-deep); opacity: 1; }
+.bo-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bo-svg text { font-family: var(--font); }
+.bo-caption { min-height: 3.2em; font-size: 15.5px; line-height: 1.45; color: var(--creme); border-top: 1px solid rgba(246, 239, 226, .16); padding-top: 10px; }
+.bo-caption strong { color: var(--anis); font-weight: 600; }
+
+/* Batterie */
+.bo-battery { transition: opacity .6s, transform .8s var(--ease); transform-box: view-box; transform-origin: 95px 160px; }
+.bo-bat-cap, .bo-bat-body { fill: none; stroke: var(--creme); stroke-width: 4; }
+.bo-bat-cap { fill: var(--creme); stroke: none; }
+.bo-bat-fill { fill: var(--anis); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--lvl, .8)); transition: transform 1.4s var(--ease), fill 1.2s; }
+.bo-bat-pct { fill: var(--sapin-deep); font: 800 34px/1 var(--title) !important; font-family: var(--title) !important; transition: fill .8s; }
+.bo-bat-lbl { fill: rgba(246, 239, 226, .75); font-size: 13px; font-weight: 600; }
+.bo-scene[data-act="1"] .bo-bat-fill { fill: #e8c25c; }
+.bo-scene[data-act="2"] .bo-bat-fill, .bo-scene[data-act="3"] .bo-bat-fill { fill: var(--orange); }
+.bo-scene[data-act="2"] .bo-bat-fill { fill: #e5574a; }
+.bo-scene[data-act="2"] .bo-bat-pct, .bo-scene[data-act="3"] .bo-bat-pct { fill: var(--creme); }
+.bo-scene[data-act="2"] .bo-battery { animation: bo-shake .5s 1.2s 2; }
+.bo-scene[data-act="4"] .bo-battery { opacity: .18; transform: scale(.82) translateX(-10px); }
+@keyframes bo-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* Demandes qui s'empilent, ressources qui disparaissent */
+.bo-chip { transition: opacity .5s, transform .7s var(--ease); }
+.bo-d rect { fill: var(--creme); }
+.bo-d circle { fill: var(--orange); }
+.bo-d text { fill: var(--sapin-deep); font-size: 14px; font-weight: 600; }
+.bo-d.is-hidden { opacity: 0; }
+.bo-d.is-new { animation: bo-drop .7s var(--ease); }
+@keyframes bo-drop { from { opacity: 0; translate: 0 -26px; } to { opacity: 1; translate: 0 0; } }
+.bo-r rect { fill: var(--anis); }
+.bo-r text { fill: var(--sapin-deep); font-size: 13.5px; font-weight: 600; }
+.bo-strike { stroke: #e5574a; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 90; stroke-dashoffset: 90; transition: stroke-dashoffset .6s .3s; }
+.bo-r.is-lost { opacity: .35; }
+.bo-r.is-lost .bo-strike { stroke-dashoffset: 0; }
+.bo-scene[data-act="3"] .bo-d { opacity: .55; }
+.bo-scene[data-act="4"] #bo-demands, .bo-scene[data-act="4"] #bo-resources { opacity: 0; }
+#bo-demands, #bo-resources { transition: opacity .5s; }
+
+/* Bulle « À quoi bon ? » */
+.bo-bubble { opacity: 0; transform: translateY(8px); transition: opacity .5s .6s, transform .5s .6s; }
+.bo-bubble path { fill: var(--creme); }
+.bo-bubble text { fill: #b3261e; font: 800 17px var(--title) !important; font-family: var(--title) !important; }
+.bo-scene[data-act="2"] .bo-bubble { opacity: 1; transform: none; }
+
+/* Balance exigences / ressources (modèle JD-R) */
+.bo-balance { opacity: 0; transition: opacity .6s .2s; }
+.bo-scene[data-act="4"] .bo-balance { opacity: 1; }
+.bo-foot { fill: rgba(246, 239, 226, .85); }
+.bo-beam { transform-box: view-box; transform-origin: 350px 150px; transform: rotate(0deg); transition: transform 1.6s cubic-bezier(.3, 1.4, .5, 1) .5s; }
+.bo-scene[data-act="4"] .bo-beam { transform: rotate(-13deg); }
+.bo-beam > line, .bo-pan line { stroke: var(--creme); stroke-width: 4; stroke-linecap: round; }
+.bo-beam > circle { fill: var(--anis); }
+/* Les plateaux restent droits pendant que le fléau penche */
+.bo-pan { transform-box: view-box; transition: transform 1.6s cubic-bezier(.3, 1.4, .5, 1) .5s; }
+.bo-pan-l { transform-origin: 230px 150px; }
+.bo-pan-r { transform-origin: 470px 150px; }
+.bo-scene[data-act="4"] .bo-pan { transform: rotate(13deg); }
+.bo-pan-l rect { fill: var(--orange); }
+.bo-pan-r rect { fill: var(--anis); }
+.bo-pan text { fill: var(--sapin-deep); font: 800 16px var(--title) !important; font-family: var(--title) !important; }
+.bo-pan .bo-pan-sub { font: 600 11.5px var(--font) !important; font-family: var(--font) !important; }
+
+@media (prefers-reduced-motion: reduce) { .bo-scene * { transition: none !important; animation: none !important; } }
+@media (max-width: 560px) { .bo-acts button { font-size: 11.5px; padding: 4px 9px; } .bo-caption { font-size: 14.5px; } }
+
+/* « Tu peux l'utiliser si… » sous le bandeau */
+.home-for { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 16px 40px; }
+.home-for h2 { font-size: clamp(22px, 3vw, 28px); margin-bottom: 10px; }
+.home-for ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.home-for li { position: relative; padding-left: 22px; }
+.home-for li::before { content: ""; position: absolute; left: 2px; top: .6em; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+.home-for-goal { margin: 0; padding: 18px 20px; border-radius: var(--radius); background: var(--sapin); color: var(--creme); font-size: 17px; line-height: 1.5; }
+.home-for-goal b { color: var(--anis); }
+@media (max-width: 860px) { .home-for { grid-template-columns: minmax(0, 1fr); } }
+.bo-bat-pct { fill: var(--creme) !important; stroke: var(--sapin-deep); stroke-width: 6px; paint-order: stroke; stroke-linejoin: round; }
+.bo-bubble text { font-size: 15px !important; }
