@@ -497,3 +497,4 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 @media (max-width: 860px) { .home-for { grid-template-columns: minmax(0, 1fr); } }
 .bo-bat-pct { fill: var(--creme) !important; stroke: var(--sapin-deep); stroke-width: 6px; paint-order: stroke; stroke-linejoin: round; }
 .bo-bubble text { font-size: 15px !important; }
+.home-wrap .home-for-goal { color: var(--creme); }
