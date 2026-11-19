@@ -133,7 +133,7 @@ export const chapitres = [
   },
   {
     "titre": "Modèle 1 · Maslach et les trois signes",
-    "question": "Comment décrire ce qui change chez Sam ?",
+    "question": "Comment décrire ce qui change chez Lina ?",
     "objectifs": [
       "Expliquer l’origine du modèle de Maslach et la fonction du MBI.",
       "Distinguer les trois dimensions et donner un exemple de chacune."
