@@ -39,7 +39,8 @@ function sommaire(active) {
 function intro() {
   const prochain = prochaineLecture();
   return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Vendredi soir, deux collègues se disent épuisés. Lundi, un seul a récupéré. Pars de leur histoire, puis découvre trois façons de regarder leur travail.")}
-    ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}</div>
+    ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}
+    <a class="course-help-link" href="#chapitre-9">À qui en parler dès maintenant ?</a></div>
     <div class="course-programme"><span>Ton parcours</span><strong>${acquis.size} <small>/ ${chapitres.length}</small></strong><p>chapitres validés</p><div class="course-meter">${chapitres.map((_, i) => `<i class="${acquis.has(i) ? 'on' : ''}"></i>`).join("")}</div></div></header>
     <div class="course-layout">${sommaire("#formation")}<section class="course-paper"><p class="course-eyebrow">Le programme</p><h2>Ce que tu sauras faire</h2>
     <ol class="course-objectifs">${chapitres.map((c,i) => `<li><span>${String(i+1).padStart(2,"0")}</span><div><a href="${ancreChapitre(i)}">${c.titre}</a><p>${c.objectifs[0]}</p></div></li>`).join("")}</ol>
@@ -50,7 +51,7 @@ function exercice(q, termine, suivant) {
   const [question, options, bonne, correction] = q;
   return `<section class="course-exo" aria-labelledby="exo-question"><h2 id="exo-question" tabindex="-1">${question}</h2>
     <div class="course-options">${options.map((o, i) => `<button type="button" data-reponse="${i}" ${termine ? 'disabled' : ''} class="${termine && i === bonne ? 'juste' : ''}"><span aria-hidden="true">${String.fromCharCode(65+i)}</span>${o}</button>`).join("")}</div>
-    <p class="correction" role="status">${termine ? "Réponse comprise. " + correction : ""}</p>
+    <p class="correction" role="status">${termine ? "Réponse comprise. " + (Array.isArray(correction) ? correction[bonne] : correction) : ""}</p>
     <div class="exo-suite" ${termine ? '' : 'hidden'}>${suivant}</div></section>`;
 }
 
@@ -63,13 +64,15 @@ function sectionsCours(sections) {
   return sections.map(([titre, texte]) => `<section class="course-lesson"><h2>${titre}</h2><p>${texte}</p></section>`).join("");
 }
 
-function entrainement([question, options]) {
-  return `<div class="course-warmup" role="group" aria-labelledby="course-warmup-heading">
-    <h3 id="course-warmup-heading">${question}</h3>
-    <div class="course-options">${options.map((option, index) =>
-      `<button type="button" data-entrainement="${index}" aria-pressed="false">${option}</button>`).join("")}</div>
-    <p class="correction" role="status"></p>
-  </div>`;
+function repereHTML(repere, orientation) {
+  return `<section class="course-transfer course-repere">
+    <h2>${repere.titre}</h2>
+    ${repere.intro ? `<p>${repere.intro}</p>` : ""}
+    <dl class="course-notions">${repere.questions.map(([question, conseil]) =>
+      `<div><dt>${question}</dt><dd>${conseil}</dd></div>`).join("")}</dl>
+    ${repere.exemple ? `<h3>Deux phrases pour ouvrir la discussion</h3><p>${repere.exemple}</p>` : ""}
+    ${orientation ? '<p><a href="#chapitre-9">À qui en parler dès maintenant ?</a></p>' : ""}
+  </section>`;
 }
 
 function chapitre(i) {
@@ -81,6 +84,7 @@ function chapitre(i) {
       <ul>${c.objectifs.map(objectif => `<li>${objectif}</li>`).join("")}</ul></section>
     <p class="course-arrive">${c.scene}</p>
     <p class="course-key">${c.essentiel}</p>
+    ${c.repere && i !== 0 ? repereHTML(c.repere, false) : ""}
     ${sectionsCours(c.avant)}
     ${image ? `<figure class="course-diagram">
       <h2>${image.titre}</h2>
@@ -89,18 +93,20 @@ function chapitre(i) {
       </svg>
       <figcaption>${image.legende}</figcaption>
     </figure>` : ""}
-    ${sectionsCours(c.cours)}
-    ${c.tableaux.map(tableau).join("")}
-    ${c.fiches ? `<section><h2>${i === 7 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 7 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
-      ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}</section>` : ""}
-    <section class="course-practice" aria-labelledby="course-practice-heading">
-      <h2 id="course-practice-heading">À toi de jouer</h2>
-      ${entrainement(c.entrainement)}
-    </section>
+    ${i === 0 ? sectionsCours(c.cours.slice(0, 1)) + repereHTML(c.repere, true) + sectionsCours(c.cours.slice(1)) : sectionsCours(c.cours)}
+    ${c.fiches ? "" : c.tableaux.map(tableau).join("")}
     <aside class="course-transfer"><h2>Dans ton rapport Bull-Out</h2><p>${c.rapport}</p>
       <h3>Et toi ?</h3><p>${c.reflexion}</p>
       <p>${c.transition}</p></aside>
-    ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
+    <section class="course-practice" aria-label="Exercice du chapitre">
+      <h2>À toi de jouer</h2>
+      ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
+    </section>
+    ${c.fiches ? `<details class="cours-fiche course-directory">
+      <summary>${i === 7 ? "Consulter les six leviers et les fiches d’action" : "Consulter tous les interlocuteurs et les fiches de reprise"}</summary>
+      ${c.tableaux.map(tableau).join("")}
+      ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}
+    </details>` : ""}
     <details><summary>Sources scientifiques et institutionnelles</summary><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></details></article></div>`;
 }
 
@@ -274,28 +280,16 @@ async function importer(input) {
   } finally { input.value = ""; }
 }
 
-function corrigerEntrainement(btn) {
-  const chapitreActuel = chapitres[Number(page.split("-")[1]) - 1];
-  const [, , bonne, explications] = chapitreActuel.entrainement;
-  const choix = Number(btn.dataset.entrainement);
-  const bloc = btn.closest(".course-warmup");
-  bloc.querySelectorAll("[data-entrainement]").forEach(option => {
-    const selection = option === btn;
-    const correcte = Number(option.dataset.entrainement) === bonne;
-    option.classList.toggle("juste", selection && correcte);
-    option.classList.toggle("a-revoir", selection && !correcte);
-    option.setAttribute("aria-pressed", String(selection));
-  });
-  $(".correction", bloc).textContent = explications[choix];
-}
-
 function repondre(btn) {
   const final = page === "#quiz-final";
   const i = final ? bonnes : Number(page.split("-")[1])-1;
   const q = final ? examen[i] : chapitres[i].exercice;
   const bloc = btn.closest(".course-exo");
-  const ok = Number(btn.dataset.reponse) === q[2];
-  $(".correction",bloc).textContent = (ok ? "Exact. " : "À revoir. ") + q[3] + (ok ? "" : " Essaie à nouveau.");
+  const choix = Number(btn.dataset.reponse);
+  const ok = choix === q[2];
+  const correction = Array.isArray(q[3]) ? q[3][choix] : q[3];
+  $(".correction",bloc).textContent = (ok ? "Exact. " : "À revoir. ") + correction + (ok ? "" : " Essaie à nouveau.");
+  bloc.querySelectorAll(".a-revoir").forEach(option => option.classList.remove("a-revoir"));
   if (!ok) { btn.classList.add("a-revoir"); return; }
   btn.classList.add("juste");
   bloc.querySelectorAll("[data-reponse]").forEach(b => b.disabled = true);
@@ -315,7 +309,6 @@ function repondre(btn) {
 document.addEventListener("click", async e => {
   const btn = e.target.closest("button");
   if (!btn) return;
-  if (btn.hasAttribute("data-entrainement")) corrigerEntrainement(btn);
   if (btn.hasAttribute("data-reponse")) repondre(btn);
   if (btn.hasAttribute("data-suite")) {
     if (bonnes === examen.length) location.hash = "diplome";

@@ -17,24 +17,24 @@ export const illustrations = [
       <text x="220" y="150" class="">Trois semaines</text>`
   },
   {
-    titre: "Trois indices dans la journée de Sam",
-    legende: "Se sentir vidé renseigne sur l’énergie. Éviter un appel renseigne sur la relation au travail. Pour savoir comment Sam juge son efficacité, il faut le lui demander.",
+    titre: "Trois indices dans la journée de Lina",
+    legende: "Se sentir vidé renseigne sur l’énergie. Éviter un appel renseigne sur la relation au travail. Pour savoir comment Lina juge son efficacité, demande-lui ce qu’elle pense du résultat.",
     description: "Une batterie accompagne la fatigue, un téléphone le retrait relationnel et une note relue la question de l’efficacité ressentie.",
     hauteur: 164,
     dessin: `
       <rect x="22" y="16" width="42" height="25" rx="3" />
       <path d="M65 24h5v10h-5 M28 32h8" />
-      <text x="90" y="35" class="">« Je termine vidé. »</text>
+      <text x="90" y="35" class="">« Je termine vidée. »</text>
       <path d="M22 70q19 -16 41 0l-5 8 -11 -5 1 -5q-6 -2 -12 0l1 5 -10 5z" />
       <text x="90" y="76" class="">« Je laisse sonner. »</text>
       <rect x="28" y="108" width="28" height="37" rx="3" />
       <path d="M33 118h17m-17 7h15m-15 7h10" />
       <text x="90" y="124" class="">« Je relis trois fois. »</text>
-      <text x="90" y="147" class="small">Que pense-t-il du résultat ?</text>`
+      <text x="90" y="147" class="small">Que pense-t-elle du résultat ?</text>`
   },
   {
     titre: "Une matinée, deux façons de travailler",
-    legende: "Chaque rupture représente un appel fictif. Le relais libère une plage continue. Il reste à vérifier qui répond aux appels et qui arbitre les deux dossiers urgents.",
+    legende: "Chaque rupture représente un appel fictif. Le relais libère une plage continue. Il reste à vérifier qui répond aux appels et quels dossiers peuvent être reportés pendant le tutorat.",
     description: "Cinq plages de travail séparées par quatre appels occupent la première ligne. Une seule plage continue occupe la deuxième.",
     hauteur: 156,
     dessin: `
