@@ -551,7 +551,7 @@
     nextButton.type = "button";
     nextButton.className = "button primary form-nav-next";
     nextButton.innerHTML = `Partie suivante ${svgIcon(ICON_RIGHT)}`;
-    submitButton.innerHTML = `Voir mon résultat ${svgIcon(ICON_RIGHT)}`;
+    submitButton.innerHTML = `Obtenir mon rapport ${svgIcon(ICON_RIGHT)}`;
     buttons.append(prevButton, nextButton, submitButton);
     const allParts = document.createElement("details");
     allParts.className = "parts only-narrow";
@@ -1125,9 +1125,8 @@
     renderRecommendedStakeholders(result.stakeholderRecommendations);
 
     latestResultText = buildResultText(result);
-    resultsPanel.hidden = false;
-    resultsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-    console.debug("Affichage des résultats terminé", { latestResultText });
+    resultsPanel.dataset.ready = "true";
+    location.hash = "rapport";
   }
 
   function renderScoreBars(result) {
@@ -1732,12 +1731,29 @@
   const hasQuestionnaire = Boolean(questionnaireRoot && form);
 
   if (hasQuestionnaire) {
-    form.addEventListener("change", updateProgress);
+    const invalidateReport = () => {
+      delete resultsPanel.dataset.ready;
+      resultsPanel.hidden = true;
+      latestResultText = "";
+    };
+    form.addEventListener("change", () => { invalidateReport(); updateProgress(); });
+    form.addEventListener("reset", invalidateReport);
+    form.addEventListener("bullout:restored", () => {
+      invalidateReport();
+      form.querySelectorAll(".question-item").forEach(item => {
+        item.classList.toggle("is-answered", Boolean(item.querySelector("input:checked")));
+        item.classList.remove("is-missing");
+      });
+      const firstMissing = parts.findIndex(part => partStats(part).done < partStats(part).total);
+      showPart(firstMissing < 0 ? 0 : firstMissing, false);
+      updateProgress();
+    });
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       formError.hidden = true;
       console.debug("Soumission du questionnaire burn-out");
+      if (document.querySelector("#questionnaire").hidden) return;
       const result = calculateResults();
 
       if (!result) {

@@ -1,0 +1,14 @@
+# Bull-Out
+
+> Ressources francophones pour comprendre et prévenir l’épuisement professionnel. Le questionnaire informe la réflexion et les échanges, sans établir un diagnostic. Les réponses et les résultats individuels sont calculés dans le navigateur.
+
+## Comprendre
+- [Formation à la prévention du burn-out](https://bullout.ddlab.fr/formation.html) : plan public, neuf chapitres, exercices et lien vers la formation interactive.
+- [Guide d’origine archivé](https://bullout.ddlab.fr/comprendre.html) : définition, situations à différencier, Maslach, JD-R, effort–récompense, biomarqueurs.
+- [Méthode, sources et limites](https://bullout.ddlab.fr/methode.html) : barème, dimensions, limites du questionnaire et références.
+
+## Évaluer et agir
+- [Questionnaire Bull-Out](https://bullout.ddlab.fr/test.html) : questionnaire personnel, accessible après la formation, et rapport d’orientation non diagnostique.
+- [Actions et interlocuteurs](https://bullout.ddlab.fr/agir.html) : leviers, interlocuteurs et reprise après un arrêt.
+- [Prévention pour les managers](https://bullout.ddlab.fr/managers.html) : organisation du travail, échanges, arbitrages et suivi.
+- [Présentation en quinze minutes](https://bullout.ddlab.fr/presentation.html) : support de sensibilisation.
