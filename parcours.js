@@ -37,7 +37,7 @@ function sommaire(active) {
 
 function intro() {
   const prochain = prochaineLecture();
-  return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Suis Sam et Lina dans cinq situations de travail. À chaque chapitre, entraîne-toi à distinguer ce que la personne vit, ce que le travail exige et ce qu’on peut changer.")}
+  return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Trois modèles pour trois questions : quels signes observe-t-on, comment le poste sollicite-t-il la personne et que reçoit-elle en retour de ses efforts ? Apprends ensuite à lire les scores et à choisir une action de prévention.")}
     ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}</div>
     <div class="course-programme"><span>Ton parcours</span><strong>${acquis.size} <small>/ ${chapitres.length}</small></strong><p>chapitres validés</p><div class="course-meter">${chapitres.map((_, i) => `<i class="${acquis.has(i) ? 'on' : ''}"></i>`).join("")}</div></div></header>
     <div class="course-layout">${sommaire("#formation")}<section class="course-paper"><p class="course-eyebrow">Le programme</p><h2>Ce que tu sauras faire</h2>
@@ -57,12 +57,47 @@ function chapitre(i) {
   const c = chapitres[i];
   return `<div class="course-layout">${sommaire(ancreChapitre(i))}<article class="course-paper">
     ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.objectif)}
+    ${c.cours.map(([titre, texte]) => `<section><h2>${titre}</h2><p>${texte}</p></section>`).join("")}
     <div class="course-scene"><span>Situation de travail · cas fictif</span><p>${c.scene}</p></div>
     <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl>
-    <a class="course-source" href="${c.lecture[0]}" target="_blank" rel="noopener">${c.lecture[1]} <span class="sr-only">(nouvel onglet)</span> ↗</a>
+    <section><h2>Approfondir avec Bull-Out</h2>
+    ${c.guide.map(([url, selector, titre]) => `<details class="cours-guide"><summary>${titre}</summary><div data-page-guide="${url}" data-extrait="${selector}"><a href="${url}" target="_blank" rel="noopener">Ouvrir le guide complet ↗</a></div></details>`).join("")}</section>
+    <section><h2>Sources du chapitre</h2><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></section>
     <p class="course-eyebrow exo-k">Mise en pratique</p>
     ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}</article></div>`;
 }
+
+// Les approfondissements utilisent les pages de référence du site, y compris après leur mise à jour.
+const pagesGuide = new Map();
+formation.addEventListener("toggle", async event => {
+  const details = event.target;
+  if (!details.matches("details.cours-guide[open]")) return;
+  const zone = details.querySelector("[data-page-guide]");
+  if (!zone || zone.dataset.charge) return;
+  const url = zone.dataset.pageGuide;
+  if (!pagesGuide.has(url)) {
+    pagesGuide.set(url, fetch(url).then(async response => {
+      if (!response.ok) throw new Error("Lecture du guide impossible");
+      return new DOMParser().parseFromString(await response.text(), "text/html");
+    }).catch(error => { pagesGuide.delete(url); throw error; }));
+  }
+  try {
+    const documentGuide = await pagesGuide.get(url);
+    const extrait = documentGuide.querySelector(zone.dataset.extrait)?.cloneNode(true);
+    if (!extrait || !zone.isConnected || zone.dataset.charge) return;
+    extrait.removeAttribute("id");
+    extrait.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+    extrait.querySelectorAll("a[href]").forEach(a => {
+      a.href = new URL(a.getAttribute("href"), new URL(url, location.href));
+      a.target = "_blank";
+      a.rel = "noopener";
+    });
+    zone.prepend(extrait);
+    zone.dataset.charge = "oui";
+  } catch {
+    // Le lien vers le guide reste disponible si le chargement a échoué.
+  }
+}, true);
 
 function quiz() {
   let contenu;

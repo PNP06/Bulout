@@ -720,3 +720,10 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
   .rapport article, .rapport .score-row { break-inside: avoid; }
   .rapport .bar-fill, .rapport .risk-tag { print-color-adjust: exact; }
 }
+.course-paper > section > h2 + p { margin-top: .65em; max-width: 70ch; }
+.course-paper > section:has(.cours-guide) { width: 100%; }
+.cours-guide { border-bottom: 1px solid var(--line-soft); padding: .7rem 0; }
+.cours-guide summary { cursor: pointer; font-weight: 600; }
+.cours-guide[open] > div { padding: 1rem 0; }
+.cours-guide .section-band { padding: 1rem; }
+.cours-guide .card-grid, .cours-guide .helper-directory { grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),1fr)); }
