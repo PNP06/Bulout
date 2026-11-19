@@ -5,9 +5,21 @@ export const chapitres = [
     "question": "Que regarder après une semaine difficile ?",
     "objectifs": [
       "Comparer deux trajectoires de fatigue.",
-      "Repérer quand demander de l’aide et situer le terme « surmenage » dans la CIM-10."
+      "Savoir quand proposer de l’aide et comprendre le mot « surmenage »."
     ],
     "cours": [
+      [
+        "Pourquoi les soignants parlent-ils de CIM ?",
+        "La Classification internationale des maladies (CIM) est le vocabulaire commun de l’Organisation mondiale de la santé. Elle attribue des codes aux maladies et à d’autres situations qui amènent une personne à consulter. Ces codes permettent, par exemple, de comparer les motifs de consultation entre pays. Les nombres 10 et 11 désignent deux révisions successives."
+      ],
+      [
+        "Que dit-elle de l’épuisement ?",
+        "Dans la version française de la CIM-10, Z73.0 correspond au « Surmenage », précisé par « État d’épuisement ». La CIM-11 décrit plus précisément le burn-out comme un phénomène professionnel lié à un stress chronique au travail insuffisamment maîtrisé. Elle distingue l’épuisement, la distance mentale ou le cynisme envers le travail et la baisse d’efficacité professionnelle."
+      ],
+      [
+        "Que peut-on en déduire pour Sam ?",
+        "Aucune de ces rubriques ne fixe un jour où la fatigue basculerait en burn-out. Les trois semaines du récit servent à comparer deux moments. Pour Sam, la gêne dans la vie quotidienne suffit déjà à ouvrir la discussion sur sa santé, son travail et les autres causes possibles. Une souffrance intense mérite de l’aide dès son apparition."
+      ],
       [
         "Reconstituer la trajectoire",
         "Pars de la dernière période où la personne se sentait dans son état habituel. Place les événements du travail, les premiers changements, les repos et les reprises sur la même ligne du temps. Compare ensuite le travail et le hors-travail. Une amélioration en congé renseigne sur le contexte sans établir à elle seule la cause."
@@ -43,6 +55,10 @@ export const chapitres = [
       "La deuxième question fait apparaître une trajectoire. Un chiffre isolé décrit un moment. La persistance, la gêne et les conditions de récupération guident la suite. Une souffrance intense justifie de demander de l’aide d’emblée."
     ],
     "references": [
+      [
+        "Organisation mondiale de la santé · à quoi sert la classification ?",
+        "https://www.who.int/fr/standards/classifications/classification-of-diseases"
+      ],
       [
         "ATIH · CIM-10 française, chapitre XXI, Z73.0",
         "https://www.atih.sante.fr/sites/default/files/public/content/2121/chapXXI_Cim_2009_1.pdf"
@@ -114,14 +130,15 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Ce qui attire l’attention chez Sam, c’est que la fatigue continue après l’échéance et gagne sa vie quotidienne. On peut lui proposer d’en parler dès maintenant. La CIM-10 française classe le « Surmenage » sous Z73.0, avec le libellé « État d’épuisement ». Ce code ne fixe aucun nombre de jours pour trancher. La CIM-11 précise le contexte de stress chronique au travail et décrit trois dimensions."
+    "essentiel": "Vendredi, la fatigue est compatible avec l’effort que tous deux viennent de fournir. Ce qui change la lecture, c’est la suite : Léa retrouve son énergie quand la pression baisse. Chez Sam, la récupération reste incomplète et la fatigue commence à lui coûter des activités auxquelles il tient.",
+    "prediction": "Si tu n’avais entendu que leur phrase de vendredi, aurais-tu pu prévoir qui renoncerait à sa soirée trois semaines plus tard ?"
   },
   {
     "titre": "Modèle 1 · Maslach et les trois signes",
     "question": "Comment décrire ce qui change chez Sam ?",
     "objectifs": [
       "Distinguer épuisement, distance mentale et efficacité ressentie.",
-      "Expliquer ce que mesure le MBI."
+      "Expliquer ce que mesure le questionnaire de Maslach."
     ],
     "cours": [
       [
@@ -197,7 +214,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Maslach distingue l’épuisement, la distance que l’on prend avec le travail et le sentiment d’efficacité. Le MBI les mesure séparément. Sam peut finir vidé et rester fier de son travail."
+    "essentiel": "Le modèle de Christina Maslach décrit trois aspects de l’expérience au travail : l’épuisement, la distance mentale et le sentiment d’efficacité. Le Maslach Burnout Inventory (MBI) est le questionnaire construit pour les mesurer séparément. On peut se sentir vidé tout en restant proche de ses collègues et fier de son travail.",
+    "prediction": "Sam relit sa note trois fois. Est-ce suffisant pour savoir s’il se trouve moins efficace ?"
   },
   {
     "titre": "Modèle 2 · JD-R et les moyens de faire son travail",
@@ -294,7 +312,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Le modèle exigences–ressources (JD-R) examine ce que le poste demande et ce qui aide à y répondre. Ici, le nombre de dossiers reste le même. La possibilité de travailler sans interruption change."
+    "essentiel": "JD-R vient de Job Demands–Resources, « exigences et ressources du travail ». Une exigence mobilise un effort, comme répondre au téléphone en plein contrôle. Une ressource aide à accomplir la tâche, comme un relais réellement disponible. Dans la matinée de Sam, les dossiers sont identiques : ce qui change, c’est la continuité du temps pour les traiter.",
+    "prediction": "Si le téléphone cesse de sonner pendant deux heures, quel problème de Sam disparaît ? Lequel reste entier ?"
   },
   {
     "titre": "Modèle 3 · Siegrist et la reconnaissance",
@@ -424,7 +443,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Dans le modèle effort–récompense de Siegrist (ERI), on examine ce que la personne investit et reçoit en retour : estime, rémunération, sécurité ou perspectives. La formation des recrues coûte à Lina du temps et reste invisible au moment où son travail est évalué."
+    "essentiel": "ERI vient de Effort–Reward Imbalance, « déséquilibre entre efforts et récompenses ». Johannes Siegrist propose d’examiner la réciprocité au travail. La question de Lina est simple : si former des collègues fait partie de ma contribution, comment cette contribution est-elle reconnue ?",
+    "prediction": "Imagine que Lina conserve le même salaire et forme autant de recrues, mais que son tutorat compte dans son évaluation. Qu’est-ce qui change ?"
   },
   {
     "titre": "Le cortisol peut-il trancher ?",
@@ -508,7 +528,7 @@ export const chapitres = [
     ],
     "retenir": "Documenter un mécanisme, identifier une cause et choisir une intervention sont trois opérations distinctes.",
     "transition": "Applique maintenant la même exigence de preuve au score de Bull-Out lui-même.",
-    "consigne": "Quelles preuves faudrait-il pour passer d’une moyenne de groupe à une conclusion sur Sam ? Et de là à une décision de prévention ?",
+    "consigne": "Repère deux personnes qui pourraient avoir le même résultat. Que faudrait-il savoir avant de proposer le dosage à Sam ?",
     "visuel": [
       "De la moyenne du groupe à la personne",
       [
@@ -522,7 +542,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Un mécanisme biologique plausible ouvre une piste de recherche. Pour utiliser un dosage chez une personne, il faudrait aussi connaître ses erreurs de classement et son utilité pour la décision."
+    "essentiel": "Le cortisol est une hormone impliquée dans la réponse de l’organisme au stress. Pour juger la promesse du prestataire, distingue deux questions. Les groupes diffèrent-ils en moyenne ? Et si je te donne une seule valeur, peux-tu retrouver à quel groupe appartient la personne ?",
+    "prediction": "Une valeur de cortisol peut-elle être courante à la fois chez des personnes épuisées et chez d’autres qui vont bien ?"
   },
   {
     "titre": "Que raconte mon score ?",
@@ -623,7 +644,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Bull-Out décrit les quatre dernières semaines. Pour les ressources, le sens des réponses est inversé : sur un item coté de 0 à 4, une ressource à 4 donne un manque à 0. Lis ensuite les dimensions, le contexte et les alertes."
+    "essentiel": "Bull-Out décrit les quatre dernières semaines. Pour les ressources, le sens des réponses est inversé : sur un item coté de 0 à 4, une ressource à 4 donne un manque à 0. Lis ensuite les dimensions, le contexte et les alertes.",
+    "prediction": "Avec le seul total de 24 sur 144, saurais-tu par quelle question commencer un entretien ?"
   },
   {
     "titre": "Que changer dès jeudi ?",
@@ -953,7 +975,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Une action sur les priorités devient concrète quand quelqu’un peut décider du report et en assumer les conséquences. Conviens d’une date pour regarder ce qui a changé."
+    "essentiel": "Une action sur les priorités devient concrète quand quelqu’un peut décider du report et en assumer les conséquences. Conviens d’une date pour regarder ce qui a changé.",
+    "prediction": "Si les deux dossiers restent urgents après la réunion, quelle décision manque encore ?"
   },
   {
     "titre": "À qui en parler, et comment reprendre ?",
@@ -1311,7 +1334,8 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Le médecin traitant peut évaluer la santé de Sam, le médecin du travail discuter des aménagements et son responsable arbitrer les dossiers. Sam peut expliquer ses besoins au travail et garder ses informations de santé confidentielles."
+    "essentiel": "Le médecin traitant peut évaluer la santé de Sam, le médecin du travail discuter des aménagements et son responsable arbitrer les dossiers. Sam peut expliquer ses besoins au travail et garder ses informations de santé confidentielles.",
+    "prediction": "À qui Sam peut-il demander un changement de planning ? Et avec qui peut-il discuter de son sommeil ?"
   }
 ];
 

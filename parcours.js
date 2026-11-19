@@ -1,3 +1,4 @@
+import { illustrations } from "./formation-illustrations.js";
 import { chapitres, examen } from "./formation-contenu.js";
 import { dateLocale, dessiner, exporterPNG, lireDiplome } from "./diplome.js";
 
@@ -58,31 +59,28 @@ function tableau({ titre, colonnes, lignes }) {
     <tbody>${lignes.map(([nom, ...valeurs]) => `<tr><th scope="row">${nom}</th>${valeurs.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 
-// Pictogrammes des trois modèles, repris du guide Bull-Out.
-const iconesModeles = [
-  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <rect x=\"14\" y=\"18\" width=\"32\" height=\"28\" rx=\"5\"></rect>\n                    <path d=\"M46 27h5v10h-5\"></path>\n                    <path d=\"M21 38h18\"></path>\n                    <path d=\"M21 31h10\"></path>\n                  </svg>",
-  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <path d=\"M32 12v40\"></path>\n                    <path d=\"M17 24h30\"></path>\n                    <path d=\"M17 24l-8 16h16z\"></path>\n                    <path d=\"M47 24l-8 16h16z\"></path>\n                    <path d=\"M22 52h20\"></path>\n                  </svg>",
-  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <circle cx=\"23\" cy=\"28\" r=\"9\"></circle>\n                    <circle cx=\"43\" cy=\"28\" r=\"9\"></circle>\n                    <path d=\"M32 13v38\"></path>\n                    <path d=\"M23 37c0 8 18 8 18 0\"></path>\n                    <path d=\"M18 51h28\"></path>\n                  </svg>"
-];
-
 function chapitre(i) {
   const c = chapitres[i];
+  const image = illustrations[i];
   return `<div class="course-layout">${sommaire(ancreChapitre(i))}<article class="course-paper">
     ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.question)}
     <p class="course-goals"><strong>Objectifs</strong> · ${c.objectifs.join(" ")}</p>
     <section class="course-scene"><span>Situation fictive</span><p>${c.scene}</p></section>
-    <figure class="course-example"><figcaption>${i >= 1 && i <= 3 ? `<span class="model-map-icon" aria-hidden="true">${iconesModeles[i-1]}</span>` : ""}${c.visuel[0]}</figcaption>
-      <dl>${c.visuel[1].map(([titre, texte]) => `<div><dt>${titre}</dt><dd>${texte}</dd></div>`).join("")}</dl></figure>
+    <p class="course-prediction"><strong>Avant de lire la suite</strong> · ${c.prediction}</p>
+    <figure class="course-diagram">
+      <h2>${image.titre}</h2>
+      <svg viewBox="0 0 364 ${image.hauteur}" role="img" aria-labelledby="schema-titre schema-description">
+        <title id="schema-titre">${image.titre}</title><desc id="schema-description">${image.description}</desc>${image.dessin}
+      </svg>
+      <figcaption>${image.legende}</figcaption>
+    </figure>
     <p class="course-key">${c.essentiel}</p>
-    ${i === 7 ? `<p>${c.cours[1][1]}</p>` : ""}
-    <details class="cours-fiche"><summary>${c.consigne}</summary>
-      <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl></details>
-    <details class="cours-fiche"><summary>${["Comparer fatigue, stress, dépression et autres situations","Comprendre le MBI et le cynisme défensif","Explorer les exigences, les ressources et la récupération","Comparer les trois modèles sur le cas de Lina","Examiner les arguments sur le cortisol et la dopamine","Comprendre les six dimensions et leurs seuils","Consulter les six leviers et préparer la conversation","Choisir un interlocuteur et préparer la reprise"][i]}</summary>
-    ${c.cours.map(([titre, texte]) => `<section><h2>${titre}</h2><p>${texte}</p></section>`).join("")}
+    ${c.cours.map(([titre, texte]) => `<section class="course-lesson"><h2>${titre}</h2><p>${texte}</p></section>`).join("")}
+    <section><h2>Appliquer au cas</h2><p>${c.consigne}</p>
+    <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl></section>
     ${c.tableaux.map(tableau).join("")}
     ${c.fiches ? `<section><h2>${i === 6 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 6 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
       ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}</section>` : ""}
-    </details>
     <p class="course-eyebrow exo-k">Vérifie tes acquis</p>
     ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
     <details><summary>Sources scientifiques et institutionnelles</summary><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></details></article></div>`;

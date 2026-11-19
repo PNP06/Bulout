@@ -749,3 +749,16 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 
 .course-example figcaption { display: flex; align-items: center; gap: .65rem; }
 .course-example .model-map-icon { flex: none; margin: 0; }
+
+.course-diagram { margin: 1.3rem 0; padding: clamp(.85rem, 3vw, 1.5rem); background: #f4f7f3; color: #203e36; border-radius: .65rem; }
+.course-diagram h2 { margin-top: 0; }
+.course-diagram svg { display: block; width: 100%; max-width: 34rem; margin: 1rem auto; }
+.course-diagram svg :is(path, rect, circle) { fill: none; stroke: #24634f; stroke-width: 2.5; }
+.course-diagram .solid { fill: #24634f; }
+.course-diagram .alt { stroke: #934a26; stroke-dasharray: 6 3; }
+.course-diagram .axis { stroke: #64776f; stroke-width: 1; }
+.course-diagram text { fill: #203e36; font: 15px system-ui, sans-serif; }
+.course-diagram text.small { font-size: 13px; }
+.course-diagram figcaption { line-height: 1.5; }
+.course-prediction { border-inline-start: 3px solid var(--sapin); padding-inline-start: .85rem; }
+.course-lesson p { max-width: 72ch; }
