@@ -762,3 +762,15 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 .course-diagram figcaption { line-height: 1.5; }
 .course-prediction { border-inline-start: 3px solid var(--sapin); padding-inline-start: .85rem; }
 .course-lesson p { max-width: 72ch; }
+
+.course-goals { margin: 1.25rem 0; }
+.course-goals h2 { font-size: 1rem; }
+.course-goals ul { margin: .25rem 0 0; padding-inline-start: 1.2rem; }
+.course-arrive { font-size: 1.15rem; max-width: 62ch; }
+.course-key { margin: 1.25rem 0 1.75rem; padding: .85rem 1rem; border-inline-start: 3px solid var(--sapin); background: #f4f7f3; }
+.course-practice { margin-top: 2rem; }
+.course-warmup { padding: clamp(.8rem, 3vw, 1.35rem); border: 1px solid var(--line-soft); border-radius: .65rem; }
+.course-warmup h3 { margin-top: 0; }
+.course-warmup .correction:empty { margin: 0; }
+.course-transfer { margin: 1.5rem 0; padding: 1rem; background: #f4f7f3; }
+.course-transfer h2 { margin-top: 0; }
