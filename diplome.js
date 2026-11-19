@@ -40,7 +40,7 @@ export function dessiner(canvas, date, prenom) {
   ligne("PRÉVENTION DE L’ÉPUISEMENT PROFESSIONNEL", 42, 160, "600 14px Inter", "#a84622");
   ligne(prenom.trim() || "Parcours Bull-Out validé", 40, 214, "800 36px Poppins", "#123a33");
   const dateFR = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(new Date(date + "T12:00:00"));
-  ligne("Cinq chapitres et test final validés le " + dateFR + ".", 42, 252, "400 19px Inter", "#123a33");
+  ligne("Formation et test final validés le " + dateFR + ".", 42, 252, "400 19px Inter", "#123a33");
   const acquis = ["Décrire les signaux et les replacer dans leur contexte.", "Examiner les exigences, les ressources et la reconnaissance.", "Lire un profil et préparer une action sur le travail."];
   acquis.forEach((s, i) => {
     ctx.fillStyle = "#e8794f";

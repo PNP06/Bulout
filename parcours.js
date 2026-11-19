@@ -8,7 +8,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-1";
+const format = "bull-out-progression-2";
 let acquis = new Set();
 let bonnes = 0;
 let dateDiplome = null;
@@ -41,7 +41,7 @@ function intro() {
     ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}</div>
     <div class="course-programme"><span>Ton parcours</span><strong>${acquis.size} <small>/ ${chapitres.length}</small></strong><p>chapitres validés</p><div class="course-meter">${chapitres.map((_, i) => `<i class="${acquis.has(i) ? 'on' : ''}"></i>`).join("")}</div></div></header>
     <div class="course-layout">${sommaire("#formation")}<section class="course-paper"><p class="course-eyebrow">Le programme</p><h2>Ce que tu sauras faire</h2>
-    <ol class="course-objectifs">${chapitres.map((c,i) => `<li><span>${String(i+1).padStart(2,"0")}</span><div><a href="${ancreChapitre(i)}">${c.titre}</a><p>${c.objectif}</p></div></li>`).join("")}</ol>
+    <ol class="course-objectifs">${chapitres.map((c,i) => `<li><span>${String(i+1).padStart(2,"0")}</span><div><a href="${ancreChapitre(i)}">${c.titre}</a><p>${c.objectifs[0]}</p></div></li>`).join("")}</ol>
     <p>Le test final propose huit nouvelles situations. Une fois les réponses comprises, télécharge ton diplôme pour ouvrir le questionnaire personnel. Tu peux interrompre le parcours en enregistrant ta progression dans un fichier.</p></section></div>`;
 }
 
@@ -53,58 +53,35 @@ function exercice(q, termine, suivant) {
     <div class="exo-suite" ${termine ? '' : 'hidden'}>${suivant}</div></section>`;
 }
 
+function tableau({ titre, colonnes, lignes }) {
+  return `<div class="cours-table"><table><caption>${titre}</caption><thead><tr>${colonnes.map(c => `<th scope="col">${c}</th>`).join("")}</tr></thead>
+    <tbody>${lignes.map(([nom, ...valeurs]) => `<tr><th scope="row">${nom}</th>${valeurs.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+
 function chapitre(i) {
   const c = chapitres[i];
   return `<div class="course-layout">${sommaire(ancreChapitre(i))}<article class="course-paper">
-    ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.objectif)}
+    ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.question)}
+    <section class="cours-objectifs"><h2>À la fin de ce chapitre, tu sauras…</h2><ul>${c.objectifs.map(t => `<li>${t}</li>`).join("")}</ul></section>
     ${c.cours.map(([titre, texte]) => `<section><h2>${titre}</h2><p>${texte}</p></section>`).join("")}
-    <div class="course-scene"><span>Situation de travail · cas fictif</span><p>${c.scene}</p></div>
-    <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl>
-    <section><h2>Approfondir avec Bull-Out</h2>
-    ${c.guide.map(([url, selector, titre]) => `<details class="cours-guide"><summary>${titre}</summary><div data-page-guide="${url}" data-extrait="${selector}"><a href="${url}" target="_blank" rel="noopener">Ouvrir le guide complet ↗</a></div></details>`).join("")}</section>
-    <section><h2>Sources du chapitre</h2><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></section>
-    <p class="course-eyebrow exo-k">Mise en pratique</p>
-    ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}</article></div>`;
+    ${c.tableaux.map(tableau).join("")}
+    ${c.fiches ? `<section><h2>${i === 6 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 6 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
+      ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}</section>` : ""}
+    <section class="course-scene"><span>À toi de raisonner · situation fictive</span><p>${c.scene}</p>
+    <p><b>${c.consigne}</b></p><details><summary>Comparer avec le raisonnement proposé</summary>
+    <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl></details></section>
+    <p class="course-eyebrow exo-k">Vérifie tes acquis</p>
+    ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
+    <section class="cours-bilan"><h2>À retenir</h2><p>${c.retenir}</p><p>${c.transition}</p></section>
+    <details><summary>Sources scientifiques et institutionnelles</summary><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></details></article></div>`;
 }
-
-// Les approfondissements utilisent les pages de référence du site, y compris après leur mise à jour.
-const pagesGuide = new Map();
-formation.addEventListener("toggle", async event => {
-  const details = event.target;
-  if (!details.matches("details.cours-guide[open]")) return;
-  const zone = details.querySelector("[data-page-guide]");
-  if (!zone || zone.dataset.charge) return;
-  const url = zone.dataset.pageGuide;
-  if (!pagesGuide.has(url)) {
-    pagesGuide.set(url, fetch(url).then(async response => {
-      if (!response.ok) throw new Error("Lecture du guide impossible");
-      return new DOMParser().parseFromString(await response.text(), "text/html");
-    }).catch(error => { pagesGuide.delete(url); throw error; }));
-  }
-  try {
-    const documentGuide = await pagesGuide.get(url);
-    const extrait = documentGuide.querySelector(zone.dataset.extrait)?.cloneNode(true);
-    if (!extrait || !zone.isConnected || zone.dataset.charge) return;
-    extrait.removeAttribute("id");
-    extrait.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
-    extrait.querySelectorAll("a[href]").forEach(a => {
-      a.href = new URL(a.getAttribute("href"), new URL(url, location.href));
-      a.target = "_blank";
-      a.rel = "noopener";
-    });
-    zone.prepend(extrait);
-    zone.dataset.charge = "oui";
-  } catch {
-    // Le lien vers le guide reste disponible si le chargement a échoué.
-  }
-}, true);
 
 function quiz() {
   let contenu;
   if (acquis.size < chapitres.length) {
-    contenu = entete("Fin de la formation", "Le test final", "Valide les cinq exercices pour accéder aux huit questions de synthèse.") + action(ancreChapitre(prochaineLecture()), "Aller au premier exercice restant");
+    contenu = entete("Fin de la formation", "Le test final", "Valide les huit exercices pour accéder aux huit questions de synthèse.") + action(ancreChapitre(prochaineLecture()), "Aller au premier exercice restant");
   } else if (bonnes === examen.length) {
-    contenu = entete("Test final terminé", "Les huit notions sont acquises", "Tu peux maintenant conserver ton diplôme Bull-Out.") + action("#diplome", "Voir mon diplôme →");
+    contenu = entete("Test final terminé", "Les huit situations sont résolues", "Tu peux maintenant conserver ton diplôme Bull-Out.") + action("#diplome", "Voir mon diplôme →");
   } else {
     contenu = entete("Fin de la formation", "Le test final", "Une situation à la fois. Après chaque réponse, lis l’explication. Tu peux réessayer.") +
       `<div class="quiz-avance"><span>Question ${bonnes + 1} sur ${examen.length}</span><progress value="${bonnes}" max="${examen.length}" aria-label="Questions validées"></progress></div>` +
@@ -115,7 +92,7 @@ function quiz() {
 
 function diplome() {
   const contenu = !dateDiplome
-    ? entete("Diplôme Bull-Out", "Ton diplôme de formation", "Il se débloque après les cinq chapitres et le test final.") + action(acquis.size < chapitres.length ? ancreChapitre(prochaineLecture()) : "#quiz-final", "Continuer la formation")
+    ? entete("Diplôme Bull-Out", "Ton diplôme de formation", "Il se débloque après les huit chapitres et le test final.") + action(acquis.size < chapitres.length ? ancreChapitre(prochaineLecture()) : "#quiz-final", "Continuer la formation")
     : entete("Étape 1 terminée", "Ton diplôme Bull-Out", "Conserve cette image. Elle ouvre le questionnaire aujourd’hui et lors d’une prochaine visite.") +
       `<label class="prenom">Prénom sur le diplôme (facultatif)<input id="prenom" maxlength="32" autocomplete="off"></label>
       <canvas id="apercu-diplome" width="1600" height="960" role="img" aria-label="Diplôme Bull-Out de prévention de l’épuisement professionnel"></canvas>
@@ -128,13 +105,13 @@ function porteHTML() {
   const lienFormation = dateDiplome ? "#diplome" : acquis.size ? (prochaineLecture() < 0 ? "#quiz-final" : ancreChapitre(prochaineLecture())) : "#formation";
   return `<div class="course-paper gate">${entete("Étape 2 · Le test personnel", "Ouvrir le test Bull-Out", "Ton diplôme de formation ouvre les huit parties du questionnaire. À la fin, tu obtiens ton rapport personnel.")}
     <div class="gate-choices"><section><h2>J’ai mon diplôme</h2><p>Choisis ton diplôme PNG ou ton fichier de progression Bull-Out. Il est lu dans cet onglet.</p>${choixFichier("Choisir mon fichier")}${statut}</section>
-    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je suis la formation"}</h2><p>Cinq chapitres, des exercices corrigés et un test final pour apprendre à lire le rapport.</p>${action(lienFormation, dateDiplome ? "Retrouver mon diplôme" : "Accéder à la formation")}</section></div>
+    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je suis la formation"}</h2><p>Huit chapitres, des exercices corrigés et un test final pour apprendre à lire le rapport.</p>${action(lienFormation, dateDiplome ? "Retrouver mon diplôme" : "Accéder à la formation")}</section></div>
     <a href="agir.html#aide">Accéder directement aux ressources d’aide →</a></div>`;
 }
 
 function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
-  const numero = /^#chapitre-([1-5])$/.exec(hash);
+  const numero = /^#chapitre-([1-8])$/.exec(hash);
   const enFormation = Boolean(numero) || ["#formation","#quiz-final","#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
@@ -200,6 +177,17 @@ function message(el, msg) {
 }
 
 function restaurer(p) {
+  // Les anciens diplômes ouvrent toujours le test. Pour un cours interrompu,
+  // seules les unités équivalentes sont reprises, le nouveau quiz repart au début.
+  if (p?.format === "bull-out-progression-1" && Array.isArray(p.chapitres)) {
+    const correspondance = [0, 2, 3, 5, 6];
+    const anciens = p.chapitres;
+    const termine = anciens.length === 5 && p.bonnes === 8 && Boolean(p.dateDiplome);
+    if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 5) ||
+        !Number.isInteger(p.bonnes) || p.bonnes < 0 || p.bonnes > 8 || (p.bonnes > 0 && anciens.length !== 5) ||
+        (!termine && (p.dateDiplome !== null || p.ouvert || p.bonnes === 8))) throw new Error("Ancienne progression incohérente.");
+    p = { ...p, format, chapitres: termine ? chapitres.map((_, i) => i) : anciens.map(i => correspondance[i]), bonnes: termine ? examen.length : 0 };
+  }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
     new Set(p.chapitres).size === p.chapitres.length && Number.isInteger(p.bonnes) && p.bonnes >= 0 && p.bonnes <= examen.length &&
