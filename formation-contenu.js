@@ -10,19 +10,19 @@ export const chapitres = [
     "cours": [
       [
         "Reconstituer la trajectoire avant de lui donner un nom",
-        "Lundi, Léa a retrouvé de l’énergie et, trois semaines plus tard, elle a repris le tennis. Sam annule une autre soirée et peine à suivre une réunion. La différence se voit dans ce que le repos leur rend et dans ce qu’ils arrivent encore à faire. Essaie avec ta propre semaine."
+        "Lundi, Léa a retrouvé de l’<strong>énergie</strong> et, trois semaines plus tard, elle a repris le tennis. Sam annule une autre soirée et peine à suivre une réunion. La différence se voit dans <strong>ce que le repos leur rend</strong> et dans <strong>ce qu’ils arrivent encore à faire</strong>. Essaie avec ta propre semaine."
       ],
       [
         "Pourquoi la CIM figure ici",
-        "La Classification internationale des maladies est un répertoire de l’Organisation mondiale de la santé. Un code commun permet de désigner la même catégorie dans des dossiers et des statistiques de santé. Le nom du répertoire est plus étroit que son contenu : il inclut aussi des facteurs qui influencent la santé ou motivent une consultation. Dans sa dixième révision, la CIM-10 française, Z73.0 désigne le surmenage, précisé comme un état d’épuisement."
+        "La <strong>Classification internationale des maladies</strong> est un répertoire de l’Organisation mondiale de la santé. Un <strong>code commun</strong> permet de désigner la même catégorie dans des dossiers et des statistiques de santé. Le nom du répertoire est plus étroit que son contenu : il inclut aussi des facteurs qui influencent la santé ou motivent une consultation. Dans sa dixième révision, la CIM-10 française, <strong>Z73.0</strong> désigne le surmenage, précisé comme un état d’épuisement."
       ],
       [
         "Ce que la révision suivante précise",
-        "La CIM-11 situe le burn-out dans le travail. Elle le décrit comme un phénomène professionnel associé à un stress chronique au travail insuffisamment maîtrisé, avec de l’épuisement, de la distance mentale ou du cynisme et une efficacité professionnelle réduite. La classification donne un langage commun. Dans le récit de Sam, les trois semaines illustrent une évolution. Une souffrance intense ou une situation dangereuse appelle de l’aide dès qu’elle apparaît."
+        "La <strong>CIM-11</strong> situe le burn-out dans le travail. Elle le décrit comme un phénomène professionnel associé à un <strong>stress chronique au travail</strong> insuffisamment maîtrisé, avec de l’épuisement, de la distance mentale ou du cynisme et une efficacité professionnelle réduite. La classification donne un langage commun. Dans le récit de Sam, les trois semaines illustrent une évolution. Une souffrance intense ou une situation dangereuse appelle de l’aide dès qu’elle apparaît."
       ],
       [
         "Des situations qui peuvent se superposer",
-        "Sam peut aussi perdre l’envie de voir ses proches, être humilié en réunion ou devoir écourter un contrôle qu’il juge nécessaire. Une perte de plaisir qui déborde le travail mérite une évaluation de santé, des humiliations appellent une réponse de protection et le contrôle appelle un arbitrage sur la qualité. Le tableau permet de passer de chaque indice à une question ou une action."
+        "Sam peut aussi perdre l’envie de voir ses proches, être humilié en réunion ou devoir écourter un contrôle qu’il juge nécessaire. Une perte de plaisir qui déborde le travail mérite <strong>une évaluation de santé</strong>, des humiliations appellent <strong>une réponse de protection</strong> et le contrôle appelle <strong>un arbitrage sur la qualité</strong>. Le tableau permet de passer de chaque indice à une question ou une action."
       ]
     ],
     "scene": "« Je suis vidé. Est-ce que je fais un burn-out ? » Vendredi, Léa et Sam viennent de livrer un dossier urgent. Tous deux disent la même chose. Pour les comprendre, il faut les retrouver après la livraison.",
@@ -106,22 +106,22 @@ export const chapitres = [
     "avant": [
       [
         "Vendredi, on manque d’informations",
-        "Une fatigue après un effort peut être tout à fait transitoire. Un stress aigu, lui, est une réaction à un événement précis. Sam aurait pu être très tendu avant la livraison et retrouver ses habitudes ensuite. Vendredi soir, ces trajectoires restent possibles."
+        "Une <strong>fatigue après un effort</strong> peut être tout à fait transitoire. Un <strong>stress aigu</strong>, lui, est une réaction à un événement précis. Sam aurait pu être très tendu avant la livraison et retrouver ses habitudes ensuite. Vendredi soir, ces trajectoires restent possibles."
       ]
     ],
     "reflexion": "Si tu compares ta dernière semaine difficile à une semaine ordinaire, qu’est-ce que tu as récupéré quand la pression est retombée ?",
-    "rapport": "Le rapport Bull-Out te demande de regarder une période entière. Une journée exceptionnelle n’a pas le même sens qu’une difficulté qui se répète.",
+    "rapport": "Le rapport Bull-Out te demande de regarder une <strong>période entière</strong>. Une journée exceptionnelle n’a pas le même sens qu’une difficulté qui se répète.",
     "repere": {
       "titre": "Fais le point sur une semaine réelle",
-      "intro": "Prends une semaine récente et compare-la à une semaine où tu allais comme d’habitude.",
+      "intro": "Prends <strong>une semaine récente</strong> et compare-la à une semaine où tu allais comme d’habitude.",
       "questions": [
         [
           "Qu’est-ce qui a changé ?",
-          "Cherche un fait daté, comme une réorganisation, des urgences plus fréquentes ou des soirées de rattrapage."
+          "Cherche <strong>un fait daté</strong>, comme une réorganisation, des urgences plus fréquentes ou des soirées de rattrapage."
         ],
         [
           "Qu’est-ce que le repos me rend ?",
-          "Repense à ton dernier jour sans travail. As-tu retrouvé de l’énergie ou de l’envie ? Qu’est-ce qui revient à la reprise ?"
+          "Repense à ton <strong>dernier jour sans travail</strong>. As-tu retrouvé de l’<strong>énergie</strong> ou de l’envie ? Qu’est-ce qui revient à la reprise ?"
         ],
         [
           "Qu’est-ce que je n’arrive plus à faire comme avant ?",
@@ -141,7 +141,7 @@ export const chapitres = [
     "cours": [
       [
         "Comment le modèle s’étend à d’autres métiers",
-        "Dans la version générale du MBI, le cynisme vise le travail lui-même, par exemple lorsqu’une personne cesse de s’y intéresser ou doute de son utilité. L’efficacité professionnelle désigne le jugement qu’elle porte sur sa capacité à faire son travail. Pour Lina, relire plusieurs fois un dossier invite à lui demander comment elle juge son efficacité. Une consigne ambiguë pourrait aussi expliquer ces relectures."
+        "Dans la version générale du MBI, le <strong>cynisme</strong> vise le travail lui-même, par exemple lorsqu’une personne cesse de s’y intéresser ou doute de son utilité. L’<strong>efficacité professionnelle</strong> désigne le jugement qu’elle porte sur sa capacité à faire son travail. Pour Lina, relire plusieurs fois un dossier invite à lui demander comment elle juge son efficacité. Une consigne ambiguë pourrait aussi expliquer ces relectures."
       ],
       [
         "Pourquoi garder trois dimensions ?",
@@ -149,10 +149,10 @@ export const chapitres = [
       ],
       [
         "Du modèle à la mesure",
-        "Le modèle organise ce qu’on décrit. Le MBI est un instrument conçu pour mesurer ces dimensions. Bull-Out utilise ses propres questions et son propre barème. Une difficulté décrite par l’un de ces instruments invite à demander depuis quand elle existe, puis à examiner ce qui pourrait l’entretenir."
+        "Le modèle organise ce qu’on décrit. Le MBI est un instrument conçu pour mesurer ces dimensions. Bull-Out utilise <strong>ses propres questions et son propre barème</strong>. Une difficulté décrite par l’un de ces instruments invite à demander <strong>depuis quand</strong> elle existe, puis à examiner ce qui pourrait l’entretenir."
       ]
     ],
-    "scene": "« Si je fais encore du bon travail, c’est que ça va. » Depuis que Lina forme les recrues, elle finit ses journées vidée et laisse sonner des appels qu’elle prenait volontiers. Elle relit aussi plusieurs fois les dossiers qu’elle doit clôturer.",
+    "scene": "« Si je fais encore du bon travail, c’est que ça va. » Depuis que Lina forme les recrues, elle <strong>finit ses journées vidée</strong> et <strong>laisse sonner des appels</strong> qu’elle prenait volontiers. Elle relit aussi plusieurs fois les dossiers qu’elle doit clôturer.",
     "exercice": [
       "Lina se dit vidée, laisse des appels sonner et affirme que ses dossiers sont toujours de bonne qualité. Que décrit-on ?",
       [
@@ -180,19 +180,45 @@ export const chapitres = [
     "tableaux": [],
     "retenir": "Une observation utile précise ce qui a changé, depuis quand et avec quel retentissement. Une dimension élevée ouvre une question.",
     "transition": "On suit maintenant Lina pendant un créneau de tutorat pour voir comment son travail est organisé.",
-    "essentiel": "Le modèle de Maslach aide à décrire l’expérience au travail selon trois dimensions qui peuvent évoluer différemment.",
+    "essentiel": "Le modèle de Maslach aide à décrire l’expérience au travail selon <strong>trois dimensions</strong> qui peuvent <strong>évoluer différemment</strong>.",
     "avant": [
       [
         "D’où vient le modèle de Maslach ?",
-        "Christina Maslach et Susan E. Jackson publient en 1981 un travail de mesure du burn-out chez des professionnels des services humains. Leur question est descriptive : quand des personnes s’usent dans un métier où elles aident ou accompagnent autrui, quelles expériences reviennent ensemble ? Elles construisent le Maslach Burnout Inventory (MBI), un questionnaire qui mesure ces expériences séparément."
+        "Christina Maslach et Susan E. Jackson publient en <strong>1981</strong> un travail de mesure du burn-out chez des professionnels des <strong>services humains</strong>. Leur question est descriptive : quand des personnes s’usent dans un métier où elles aident ou accompagnent autrui, quelles expériences reviennent ensemble ? Elles construisent le <strong>Maslach Burnout Inventory (MBI)</strong>, un questionnaire qui mesure ces expériences séparément."
       ],
       [
         "Les trois dimensions",
-        "L’épuisement émotionnel décrit le sentiment d’avoir épuisé l’énergie nécessaire pour faire face aux demandes relationnelles. La dépersonnalisation désigne ici une attitude devenue distante, froide ou impersonnelle envers les personnes accompagnées. L’accomplissement personnel décrit le sentiment d’être compétent et de faire un travail qui aboutit. Dans le profil de burn-out, ce sentiment peut diminuer."
+        "L’<strong>épuisement émotionnel</strong> décrit le sentiment d’avoir épuisé l’énergie nécessaire pour faire face aux demandes relationnelles. La <strong>dépersonnalisation</strong> désigne ici une attitude devenue distante, froide ou impersonnelle envers les personnes accompagnées. L’<strong>accomplissement personnel</strong> décrit le sentiment d’être compétent et de faire un travail qui aboutit. Dans le profil de burn-out, ce sentiment peut diminuer."
       ]
     ],
     "reflexion": "Quand tu dis « je n’en peux plus », parles-tu surtout de ton énergie, de ton rapport au travail ou du sentiment de moins bien faire ?",
-    "rapport": "Le rapport donne à lire séparément les dimensions. Bull-Out utilise ses propres items et son propre barème."
+    "rapport": "Le rapport donne à lire séparément les dimensions. Bull-Out utilise ses propres items et son propre barème.",
+    "modele": {
+      "titre": "Maslach · trois dimensions à observer",
+      "groupes": [
+        [
+          "Épuisement",
+          "L’énergie disponible pour faire face au travail.",
+          "« Je termine vidée. Je n’ai plus l’énergie d’échanger après ma journée. »"
+        ],
+        [
+          "Distance mentale / cynisme",
+          "Le lien au travail ou aux personnes dont on s’occupe.",
+          "« Avant, ces appels m’intéressaient. Maintenant, je les laisse sonner. »"
+        ],
+        [
+          "Efficacité ressentie",
+          "Le jugement qu’on porte sur sa capacité à bien faire son travail.",
+          "« Je relis chaque dossier, mais je pense toujours faire du bon travail. »"
+        ]
+      ],
+      "liens": [
+        [
+          "Ce que montre le cas",
+          "Lina se dit épuisée et commence à se détacher. Elle se sent encore efficace. Les trois dimensions peuvent évoluer séparément."
+        ]
+      ]
+    }
   },
   {
     "titre": "Modèle 2 · JD-R et les moyens de faire son travail",
@@ -204,15 +230,15 @@ export const chapitres = [
     "cours": [
       [
         "Deux processus",
-        "Le premier concerne l’usure. Si les demandes élevées mobilisent durablement les capacités de la personne, la fatigue peut s’accumuler. L’étude de 2001 associe surtout les demandes à l’épuisement. Le second concerne l’engagement. Les ressources donnent des moyens d’avancer et de s’investir. Leur manque était surtout associé au désengagement. Dans les développements du modèle, une ressource peut aussi atténuer le coût d’une demande, surtout si elle répond à cette demande précise."
+        "Le premier concerne <strong>l’usure</strong>. Si les demandes élevées mobilisent durablement les capacités de la personne, la fatigue peut s’accumuler. L’étude de <strong>2001</strong> associe surtout les <strong>demandes à l’épuisement</strong>. Le second concerne l’engagement. Les ressources donnent des moyens d’avancer et de s’investir. Leur manque était surtout associé au désengagement. Dans les développements du modèle, une ressource peut aussi atténuer le coût d’une demande, surtout si elle répond à cette demande précise."
       ],
       [
         "Vérifier à quel problème répond le relais",
-        "De 9 h à 11 h, une collègue couvre les appels urgents. Lina peut terminer une démonstration sans reprendre toutes ses explications. Il reste à décider quels dossiers seront reportés si le tutorat occupe la matinée. Pour tester le relais, regarde si Lina finit la séance sans rattraper ses tâches le soir et ce que cela coûte à sa collègue."
+        "De 9 h à 11 h, une collègue couvre les appels urgents. Lina peut terminer une démonstration sans reprendre toutes ses explications. Il reste à décider <strong>quels dossiers seront reportés</strong> si le tutorat occupe la matinée. Pour tester le <strong>relais</strong>, regarde si Lina finit la séance sans rattraper ses tâches le soir et ce que cela coûte à sa collègue."
       ],
       [
         "Ce que le cadre permet d’affirmer",
-        "Le JD-R propose des mécanismes et aide à formuler des hypothèses sur le poste. Il n’impose pas un ratio universel entre demandes et ressources. Une liste de moyens disponibles sur le papier renseigne peu si l’on ignore qui peut réellement les utiliser et à quel moment."
+        "Le JD-R propose des mécanismes et aide à formuler des hypothèses sur le poste. Il n’impose pas un <strong>ratio universel</strong> entre demandes et ressources. Une liste de moyens disponibles sur le papier renseigne peu si l’on ignore <strong>qui peut réellement les utiliser</strong> et à quel moment."
       ]
     ],
     "scene": "« Le tutorat dure deux heures sur mon agenda. Sur le terrain, je n’ai jamais deux heures de suite. » Lina forme les recrues entre les appels urgents et ses propres dossiers qui restent à clôturer.",
@@ -265,19 +291,49 @@ export const chapitres = [
     ],
     "retenir": "Une ressource est utile dans la mesure où elle est réellement mobilisable face à la demande.",
     "transition": "Même si Lina gagne deux heures de concentration, reste une question : comment son travail de tutorat compte-t-il dans son bilan ?",
-    "essentiel": "Le modèle exigences–ressources pose deux questions. Quel effort le travail demande-t-il et de quoi la personne dispose-t-elle pour le faire ?",
+    "essentiel": "Le modèle <strong>exigences–ressources</strong> pose deux questions. Quel effort le travail demande-t-il et de quoi la personne dispose-t-elle pour le faire ?",
     "avant": [
       [
         "D’où vient le modèle exigences–ressources ?",
-        "En 2001, Evangelia Demerouti, Arnold Bakker, Friedhelm Nachreiner et Wilmar Schaufeli publient le modèle Job Demands–Resources (JD-R). Ils étudient plusieurs métiers pour construire un cadre qui s’applique au-delà de la relation d’aide. Les demandes et les ressources changent selon le poste. Une infirmière peut surtout gérer une charge émotionnelle. Pendant le tutorat, Lina doit surtout gérer des interruptions et des délais incompatibles."
+        "En <strong>2001</strong>, Evangelia Demerouti, Arnold Bakker, Friedhelm Nachreiner et Wilmar Schaufeli publient le modèle <strong>Job Demands–Resources (JD-R)</strong>. Ils étudient plusieurs métiers pour construire un cadre qui s’applique au-delà de la relation d’aide. Les demandes et les ressources changent selon le poste. Une infirmière peut surtout gérer une charge émotionnelle. Pendant le tutorat, Lina doit surtout gérer des interruptions et des délais incompatibles."
       ],
       [
         "Demandes, ressources et récupération",
-        "Une demande est un aspect du travail qui mobilise un effort soutenu : charge, urgence, injonctions incompatibles, responsabilité ou travail émotionnel. Une ressource aide à atteindre un objectif, réduit le coût d’une demande ou favorise l’apprentissage : soutien, autonomie, temps protégé, moyens ou retour utile. La récupération est la possibilité de relâcher l’effort entre deux périodes de travail. Elle aide à comprendre pourquoi une même charge peut devenir plus difficile à soutenir au fil des semaines."
+        "<strong>Une demande</strong> est un aspect du travail qui mobilise un effort soutenu : charge, urgence, injonctions incompatibles, responsabilité ou travail émotionnel. <strong>Une ressource</strong> aide à atteindre un objectif, réduit le coût d’<strong>une demande</strong> ou favorise l’apprentissage : soutien, autonomie, temps protégé, moyens ou retour utile. La récupération est la possibilité de relâcher l’effort entre deux périodes de travail. Elle aide à comprendre pourquoi une même charge peut devenir plus difficile à soutenir au fil des semaines."
       ]
     ],
     "reflexion": "Quelle difficulté de ta journée serait différente si tu disposais de trente minutes protégées ? Qui doit rendre ce temps réellement disponible ?",
-    "rapport": "Dans le rapport, lis les exigences avec les ressources disponibles et les possibilités de récupération."
+    "rapport": "Dans le rapport, lis les exigences avec les ressources disponibles et les possibilités de récupération.",
+    "modele": {
+      "titre": "JD-R · exigences, ressources et récupération",
+      "groupes": [
+        [
+          "Exigences",
+          "Ce qui mobilise un effort. Volume, interruptions, pression des délais, consignes concurrentes.",
+          "Lina doit former les recrues tout en traitant ses dossiers et les appels urgents."
+        ],
+        [
+          "Ressources",
+          "Ce qui aide à atteindre l’objectif. Temps protégé, soutien, autonomie et priorités claires.",
+          "Le relais des appels lui redonne deux heures de suite. Un arbitrage précise aussi quels dossiers peuvent attendre."
+        ],
+        [
+          "Récupération",
+          "Le temps pendant lequel la personne peut relâcher l’effort.",
+          "Si Lina finit ses dossiers le soir, elle perd une partie du temps qui lui permettait de récupérer."
+        ]
+      ],
+      "liens": [
+        [
+          "Processus d’usure",
+          "Des demandes soutenues mobilisent l’énergie. Si l’effort se prolonge et que la récupération est insuffisante, la fatigue peut s’accumuler."
+        ],
+        [
+          "Processus d’engagement",
+          "Des ressources utilisables permettent d’avancer et de s’investir. Un relais répond aux interruptions, un arbitrage répond au conflit de priorités."
+        ]
+      ]
+    }
   },
   {
     "titre": "Modèle 3 · Siegrist et la reconnaissance",
@@ -289,15 +345,15 @@ export const chapitres = [
     "cours": [
       [
         "Pourquoi le déséquilibre peut durer",
-        "On peut continuer à donner beaucoup parce que les alternatives sont rares, parce qu’on espère une stabilisation ou une promotion, ou parce qu’on peine à décrocher. Le modèle appelle surengagement une manière de s’investir fortement, qui peut s’accompagner d’un besoin d’approbation ou d’une difficulté à se détacher du travail. Chez Lina, finir ses dossiers le soir peut cacher le coût réel du tutorat à l’organisation."
+        "On peut continuer à donner beaucoup parce que les alternatives sont rares, parce qu’on espère une stabilisation ou une promotion, ou parce qu’on peine à décrocher. Le modèle appelle <strong>surengagement</strong> une manière de s’investir fortement, qui peut s’accompagner d’un besoin d’approbation ou d’une difficulté à se détacher du travail. Chez Lina, finir ses dossiers le soir peut cacher le coût réel du tutorat à l’organisation."
       ],
       [
         "Choisir un levier qui répond au problème",
-        "Bloquer une demi-journée pour former les recrues réduit le conflit de charge. Faire compter ce travail dans l’évaluation agit sur la reconnaissance. Une prime peut augmenter le retour financier pendant que ces deux difficultés persistent. Demande à Lina quel retour elle attendait et vérifie comment il est décidé."
+        "Bloquer une demi-journée pour former les recrues réduit le <strong>conflit de charge</strong>. Faire compter ce travail dans l’évaluation agit sur la <strong>reconnaissance</strong>. Une prime peut augmenter le <strong>retour financier</strong> pendant que ces deux difficultés persistent. Demande à Lina quel retour elle attendait et vérifie comment il est décidé."
       ],
       [
         "Ce que la recherche permet de dire",
-        "L’article de 1996 présente notamment des résultats sur la santé cardiovasculaire dans des situations de forts efforts et de faibles récompenses. Il soutient une hypothèse sur la santé au travail. Pour comprendre le cas de Lina, il faut encore documenter la réalité de son effort, du retour reçu et du contexte."
+        "L’article de <strong>1996</strong> présente notamment des résultats sur la santé cardiovasculaire dans des situations de forts <strong>efforts et de faibles récompenses</strong>. Il soutient une hypothèse sur la santé au travail. Pour comprendre le cas de Lina, il faut encore documenter la réalité de son effort, du retour reçu et du contexte."
       ]
     ],
     "scene": "« Depuis que je forme les recrues, j’ai moins de dossiers clos. À mon entretien, on m’a reproché la baisse. » Lina assure le tutorat et ses propres dossiers. Son bilan annuel ne compte que les seconds.",
@@ -354,15 +410,41 @@ export const chapitres = [
     "avant": [
       [
         "D’où vient le modèle effort–récompense ?",
-        "Le sociologue médical Johannes Siegrist expose en 1996 le modèle Effort–Reward Imbalance (ERI). Il étudie les conséquences possibles sur la santé d’un échange professionnel durablement déséquilibré. Le principe est celui de la réciprocité : la relation de travail demande un investissement et apporte un retour. Fournir beaucoup avec un retour faible ou incertain peut constituer une source de stress."
+        "Le sociologue médical Johannes Siegrist expose en <strong>1996</strong> le modèle <strong>Effort–Reward Imbalance (ERI)</strong>. Il étudie les conséquences possibles sur la santé d’un échange professionnel durablement déséquilibré. Le principe est celui de la <strong>réciprocité</strong> : la relation de travail demande un investissement et apporte un retour. Fournir beaucoup avec un retour faible ou incertain peut constituer une source de stress."
       ],
       [
         "Ce que l’on donne et ce que l’on reçoit",
-        "L’effort comprend le temps, l’intensité, la disponibilité et la responsabilité. La récompense inclut la rémunération, l’estime et les perspectives professionnelles, dont la sécurité de l’emploi et les possibilités de progression. Une décision opaque ou un travail utile qui disparaît de l’évaluation peut signaler un problème de reconnaissance. Chez Lina, le tutorat prend du temps et sa contribution reste invisible au bilan annuel."
+        "L’effort comprend le temps, l’intensité, la disponibilité et la responsabilité. La récompense inclut la <strong>rémunération, l’estime et les perspectives professionnelles</strong>, dont la sécurité de l’emploi et les possibilités de progression. Une décision opaque ou un travail utile qui disparaît de l’évaluation peut signaler un problème de <strong>reconnaissance</strong>. Chez Lina, le tutorat prend du temps et sa contribution reste invisible au bilan annuel."
       ]
     ],
     "reflexion": "Quel travail important disparaîtrait si on jugeait ta semaine à partir d’un seul indicateur de volume ?",
-    "rapport": "Les réponses sur la reconnaissance conduisent à demander quels efforts ont été fournis et quel retour était attendu."
+    "rapport": "Les réponses sur la <strong>reconnaissance</strong> conduisent à demander quels efforts ont été fournis et quel retour était attendu.",
+    "modele": {
+      "titre": "Siegrist · l’effort fourni et le retour reçu",
+      "groupes": [
+        [
+          "Efforts",
+          "Ce que le travail mobilise. Temps, disponibilité, intensité et responsabilité.",
+          "Lina forme les recrues, répond à leurs questions et vérifie leurs premiers dossiers."
+        ],
+        [
+          "Récompenses",
+          "Ce que la relation de travail apporte. Rémunération, estime, sécurité et perspectives.",
+          "Au bilan annuel, seuls ses dossiers clos comptent. Le tutorat disparaît du critère qui sert à évaluer sa contribution."
+        ],
+        [
+          "Surengagement",
+          "Une tendance à rester très investi et à avoir du mal à décrocher.",
+          "Lina peut se remettre à ses dossiers le soir parce qu’elle craint de décevoir. Ce qu’elle compense devient difficile à voir."
+        ]
+      ],
+      "liens": [
+        [
+          "Où se trouve le déséquilibre ?",
+          "Le tutorat augmente l’effort alors que l’évaluation ne le reconnaît pas. Rendre du temps à Lina change ses conditions de travail. Faire compter le tutorat dans son bilan change le retour sur son effort."
+        ]
+      ]
+    }
   },
   {
     "titre": "Les trois modèles, un même dossier",
@@ -372,29 +454,29 @@ export const chapitres = [
       "Combiner les trois lectures pour proposer et vérifier des actions différentes."
     ],
     "scene": "Depuis que Lina forme les recrues, elle finit ses journées vidée et évite des appels qu’elle prenait volontiers. Les urgences morcellent ses créneaux de tutorat. À son entretien, on lui reproche d’avoir clôturé moins de dossiers. Personne ne compte le tutorat dans son évaluation.",
-    "essentiel": "Maslach décrit ce qui change pour Lina. Le JD-R examine les conditions dans lesquelles elle travaille. L’ERI examine la réciprocité entre son investissement et le retour qu’elle reçoit.",
+    "essentiel": "Maslach décrit <strong>ce qui change pour Lina</strong>. Le JD-R examine les <strong>conditions dans lesquelles elle travaille</strong>. L’ERI examine la <strong>réciprocité</strong> entre son investissement et le retour qu’elle reçoit.",
     "avant": [
       [
         "Trois questions pour un même dossier",
-        "Pars de la question que tu veux résoudre. Les trois modèles s’appliquent à Lina en parallèle. Chacun désigne une information à demander et une hypothèse différente à vérifier."
+        "Pars de la question que tu veux résoudre. Les trois modèles s’appliquent à Lina en parallèle. Chacun désigne une <strong>information à demander</strong> et une hypothèse différente à vérifier."
       ]
     ],
     "cours": [
       [
         "1. Décrire les signaux avec Maslach",
-        "Lina dit qu’elle n’a plus d’énergie le soir et évite des appels. Demande-lui quand ces deux changements ont commencé, et comment elle juge la qualité de son travail. Le nombre de dossiers clos ne répond pas à la question du sentiment d’efficacité."
+        "Lina dit qu’elle n’a <strong>plus d’énergie le soir</strong> et évite des appels. Demande-lui quand ces deux changements ont commencé, et <strong>comment elle juge la qualité</strong> de son travail. Le nombre de dossiers clos ne répond pas à la question du <strong>sentiment d’efficacité</strong>."
       ],
       [
         "2. Reconstituer une journée avec le JD-R",
-        "Repère les deux missions simultanées, les appels urgents et l’absence de créneau de tutorat. Tester un temps protégé avec un relais permet de vérifier si les interruptions diminuent et si Lina termine la formation sans rattraper ensuite ses dossiers le soir."
+        "Repère les deux missions simultanées, les appels urgents et l’absence de créneau de tutorat. Tester un <strong>temps protégé avec un relais</strong> permet de vérifier si les <strong>interruptions diminuent</strong> et si Lina termine la formation sans rattraper ensuite ses dossiers le soir."
       ],
       [
         "3. Regarder ce que l’organisation reconnaît avec l’ERI",
-        "Demande quels efforts le tutorat exige et comment l’évaluation en tient compte. Si on ajoute le tutorat au bilan annuel, vérifie que cette contribution pèse effectivement dans la décision et qu’on a revu les attentes sur le volume de dossiers."
+        "Demande quels efforts le tutorat exige et comment <strong>l’évaluation en tient compte</strong>. Si on ajoute le tutorat au bilan annuel, vérifie que cette contribution <strong>pèse effectivement dans la décision</strong> et qu’on a revu les attentes sur le volume de dossiers."
       ],
       [
         "Relire la situation après un changement",
-        "Suppose que les créneaux de tutorat soient protégés mais que le bilan reste inchangé. La journée devient plus praticable et le problème de reconnaissance reste entier. Dans quelques semaines, examine avec Lina ce qui a évolué dans son énergie, ce qu’elle peut faire pendant ses journées et la manière dont sa contribution est appréciée."
+        "Suppose que les créneaux de tutorat soient protégés mais que le bilan reste inchangé. La journée devient plus praticable et le <strong>problème de reconnaissance reste entier</strong>. Dans quelques semaines, examine avec Lina ce qui a évolué dans son énergie, ce qu’elle peut faire pendant ses journées et la manière dont sa contribution est appréciée."
       ]
     ],
     "tableaux": [
@@ -466,14 +548,14 @@ export const chapitres = [
     "cours": [
       [
         "Lis le point, puis regarde les deux lignes",
-        "Au repère vertical, une personne de chaque groupe a la même valeur. Si c’est celle de Sam, sa valeur seule ne permet pas de l’affecter à un groupe. Pour défendre un test, le prestataire devrait montrer, entre autres, quels profils il classe correctement, quels profils il manque et si ces résultats se retrouvent ailleurs. Les revues de biomarqueurs citées dans les sources ne dégagent pas de signature suffisamment constante pour cet usage."
+        "Au repère vertical, une personne de chaque groupe a <strong>la même valeur</strong>. Si c’est celle de Sam, sa valeur seule ne permet pas de l’affecter à un groupe. Pour défendre un test, le prestataire devrait montrer, entre autres, <strong>quels profils il classe correctement</strong>, <strong>quels profils il manque</strong> et si ces résultats se retrouvent ailleurs. Les revues de biomarqueurs citées dans les sources ne dégagent pas de signature suffisamment constante pour cet usage."
       ],
       [
         "Appliquer la même règle à la dopamine et aux compléments",
-        "Une hypothèse sur la dopamine demande encore de montrer à quel phénomène elle correspond et comment on l’a mesurée. La « fatigue surrénalienne » n’est pas un diagnostic reconnu. Les données qui lient stress et biologie ne permettent pas de déduire qu’un complément corrigera l’épuisement de Sam. Le tableau reprend ces affirmations et la preuve qu’il faudrait pour chacune."
+        "Une hypothèse sur la dopamine demande encore de montrer à quel phénomène elle correspond et <strong>comment on l’a mesurée</strong>. La « <strong>fatigue surrénalienne</strong> » n’est pas un diagnostic reconnu. Les données qui lient stress et biologie ne permettent pas de déduire qu’un complément <strong>corrigera l’épuisement</strong> de Sam. Le tableau reprend ces affirmations et la preuve qu’il faudrait pour chacune."
       ]
     ],
-    "scene": "« Il suffit d’un prélèvement pour savoir si tu es en burn-out. » Un prestataire propose à Sam un dosage du cortisol. Il invoque une étude qui trouve des moyennes différentes selon les groupes.",
+    "scene": "« Il suffit d’un prélèvement pour savoir si tu es en burn-out. » Un prestataire propose à Sam un <strong>dosage du cortisol</strong>. Il invoque une étude qui trouve des <strong>moyennes différentes</strong> selon les groupes.",
     "exercice": [
       "Deux groupes ont des moyennes distinctes mais beaucoup de valeurs communes. Que peux-tu dire d’une valeur dans la zone commune ?",
       [
@@ -536,7 +618,7 @@ export const chapitres = [
     "avant": [
       [
         "À quoi sert le cortisol ?",
-        "C’est une hormone impliquée dans la réponse au stress, dont le niveau varie au cours de la journée. L’heure du prélèvement, le sommeil et les conditions de mesure comptent déjà avant toute comparaison. Regarde maintenant ce qui se passe quand les résultats se chevauchent."
+        "C’est une <strong>hormone impliquée dans la réponse au stress</strong>, dont le niveau varie <strong>au cours de la journée</strong>. <strong>L’heure du prélèvement</strong>, le sommeil et les conditions de mesure comptent déjà avant toute comparaison. Regarde maintenant ce qui se passe quand les résultats se chevauchent."
       ]
     ],
     "reflexion": "Si on te vendait un test, quelle question poserais-tu sur les personnes mal classées ?",
@@ -552,18 +634,18 @@ export const chapitres = [
     "cours": [
       [
         "À quel endroit ouvrir la discussion ?",
-        "Avec le premier profil, demande comment se passent les fins de journée et les repos. Avec le second, demande quelles tâches ou consignes créent la charge. Puis regarde la période de quatre semaines. Si Sam a passé trois semaines en congé, son score parle aussi de ces semaines. Demande ce qui change au retour."
+        "Avec le premier profil, demande comment se passent les <strong>fins de journée et les repos</strong>. Avec le second, demande quelles tâches ou consignes créent la charge. Puis regarde la <strong>période de quatre semaines</strong>. Si Sam a passé trois semaines en congé, son score parle aussi de ces semaines. Demande <strong>ce qui change au retour</strong>."
       ],
       [
         "Pourquoi le score de ressources est inversé",
-        "Sur une question de ressources notée de 0 à 4, répondre 4 indique beaucoup de ressources. Dans le profil de manque de ressources, on calcule 4 − 4, soit 0. Une réponse de 1 donne 3 points de manque. On fait cette opération pour chaque item concerné avant de les additionner."
+        "Sur une question de ressources notée de 0 à 4, répondre 4 indique beaucoup de ressources. Dans le profil de <strong>manque de ressources</strong>, on calcule <strong>4 − 4, soit 0</strong>. Une réponse de 1 donne 3 points de manque. On fait cette opération pour <strong>chaque item</strong> concerné avant de les additionner."
       ],
       [
         "Distinguer un repère de lecture et une validation",
-        "Les seuils Bull-Out sont internes à l’outil. Pour défendre une interprétation clinique, il faudrait comparer les résultats à une évaluation indépendante et vérifier les performances sur d’autres personnes. Lis à part le contexte et les alertes : ces informations peuvent modifier la suite, même si le total est faible."
+        "Les <strong>seuils Bull-Out sont internes</strong> à l’outil. Pour défendre une interprétation clinique, il faudrait comparer les résultats à une <strong>évaluation indépendante</strong> et vérifier les performances sur d’autres personnes. Lis à part le <strong>contexte et les alertes</strong> : ces informations peuvent modifier la suite, même si le total est faible."
       ]
     ],
-    "scene": "« On a tous les deux le même score. On a donc le même problème ? » Deux rapports affichent 24/144. Avant de proposer la suite, ouvre le détail.",
+    "scene": "« On a tous les deux le même score. On a donc le même problème ? » Deux rapports affichent <strong>24/144</strong>. Avant de proposer la suite, ouvre le détail.",
     "exercice": [
       "Sur les six items de ressources, Nora répond 4, 4, 3, 3, 2 et 2. Quel score décrit le manque de ressources ?",
       [
@@ -617,11 +699,11 @@ export const chapitres = [
     ],
     "retenir": "Une comparaison dans le temps devient interprétable si tu précises ce qui a changé pendant les quatre semaines considérées.",
     "transition": "Le rapport désigne des dimensions à discuter. Il reste à transformer une observation en décision vérifiable.",
-    "essentiel": "Le total résume. La répartition, la période de réponse, le contexte et les alertes orientent les questions suivantes.",
+    "essentiel": "Le total résume. La répartition, <strong>la période de réponse</strong>, le <strong>contexte et les alertes</strong> orientent les questions suivantes.",
     "avant": [
       [
         "Deux façons d’arriver à 24",
-        "Imagine un profil avec 18 en épuisement et 6 en exigences, puis l’inverse. Dans cet exemple, les autres dimensions sont à zéro. Le total est identique dans les deux cas."
+        "Imagine un profil avec 18 en épuisement et 6 en exigences, puis l’inverse. Dans cet exemple, les autres dimensions sont à zéro. <strong>Le total est identique</strong> dans les deux cas."
       ]
     ],
     "reflexion": "Quelle dimension de ton rapport voudrais-tu relier à un événement daté ?",
@@ -637,14 +719,14 @@ export const chapitres = [
     "cours": [
       [
         "Passer de « j’ai trop de travail » à un choix",
-        "Sam peut dire « Pour vendredi, j’ai A et B. Si A passe en premier, B peut être rendu lundi. Qui valide ce report ? » La réponse change le planning et donne une personne qui assume le délai. En entretien, parle de ce qui se fait réellement et des moyens nécessaires."
+        "Sam peut dire « Pour vendredi, j’ai A et B. Si A passe en premier, B peut être rendu lundi. Qui valide ce report ? » La réponse change le planning et donne une personne qui assume le délai. En entretien, parle de <strong>ce qui se fait réellement</strong> et des moyens nécessaires."
       ],
       [
         "Regarder l’effet chez la personne et dans l’équipe",
-        "Le vendredi, vérifie quel délai a été annoncé et si la charge a simplement changé de bureau. Quand les situations se répètent dans une équipe, on peut enquêter sur les tâches, les pics de charge et les règles contradictoires. Les tableaux et fiches qui suivent donnent des alternatives selon le problème rencontré."
+        "Le vendredi, vérifie <strong>quel délai a été annoncé</strong> et <strong>si la charge a simplement changé de bureau</strong>. Quand les situations se répètent dans une équipe, on peut enquêter sur les tâches, les pics de charge et les <strong>règles contradictoires</strong>. Les tableaux et fiches qui suivent donnent des alternatives selon le problème rencontré."
       ]
     ],
-    "scene": "« On m’a conseillé de mieux gérer mon stress. Je fais quoi de mes deux dossiers pour vendredi ? » Sam arrive à la réunion avec le planning, les échéances et le contrôle à terminer.",
+    "scene": "« On m’a conseillé de mieux gérer mon stress. Je fais quoi de mes <strong>deux dossiers</strong> pour vendredi ? » Sam arrive à la réunion avec le planning, les échéances et le contrôle à terminer.",
     "exercice": [
       "Après la réunion, B a été confié à quelqu’un qui a déjà deux échéances. Qu’est-ce qui manque ?",
       [
@@ -923,11 +1005,11 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Une mesure de prévention devient vérifiable quand on sait ce qu’elle change dans le travail, qui décide et quand on regarde l’effet.",
+    "essentiel": "Une mesure de prévention devient vérifiable quand on sait ce qu’elle change dans le travail, <strong>qui décide</strong> et quand on regarde l’effet.",
     "avant": [
       [
         "Trois niveaux, trois questions",
-        "En prévention primaire, on modifie l’exposition, par exemple en supprimant une double validation inutile. En secondaire, on aide à reconnaître ou affronter la difficulté, par exemple avec une formation. En tertiaire, on agit sur les conséquences et la reprise. Sam peut avoir besoin d’un soutien et d’un arbitrage collectif à la même période."
+        "En <strong>prévention primaire</strong>, on modifie l’exposition, par exemple en supprimant une double validation inutile. En <strong>secondaire</strong>, on aide à reconnaître ou affronter la difficulté, par exemple avec une formation. En <strong>tertiaire</strong>, on agit sur les conséquences et la reprise. Sam peut avoir besoin d’un soutien et d’un arbitrage collectif à la même période."
       ]
     ],
     "reflexion": "Quelle décision voudrais-tu obtenir à ta prochaine réunion, et à quelle date sauras-tu si elle a eu un effet ?",
@@ -937,11 +1019,11 @@ export const chapitres = [
       "questions": [
         [
           "Pose le conflit",
-          "Deux dossiers pour vendredi, une seule marge de manœuvre. Montre les délais et le temps réellement disponible."
+          "<strong>Deux dossiers</strong> pour vendredi, une seule marge de manœuvre. Montre les délais et le <strong>temps réellement disponible</strong>."
         ],
         [
           "Demande un arbitrage",
-          "Choisis avec la personne responsable quel dossier reste prioritaire, lequel est reporté et qui annonce le changement."
+          "Choisis avec la personne responsable quel dossier reste prioritaire, lequel est reporté et <strong>qui annonce le changement</strong>."
         ],
         [
           "Vérifie vendredi",
@@ -960,14 +1042,14 @@ export const chapitres = [
     "cours": [
       [
         "Faire une répétition avant lundi",
-        "Écris les tâches qui reviennent, les dossiers laissés en relais, les urgences prévues et les signaux qui feront réexaminer le plan. Au premier point, compare la charge réelle au planning et regarde qui a pris le travail différé."
+        "Écris les tâches qui reviennent, les dossiers laissés en relais, les urgences prévues et <strong>les signaux qui feront réexaminer le plan</strong>. Au premier point, <strong>compare la charge réelle au planning</strong> et regarde qui a pris le travail différé."
       ],
       [
         "Quand une autre réponse s’impose",
-        "Si la dégradation se prolonge, revenir sur le travail réellement repris aide à identifier ce qui a changé et à discuter de la suite avec les professionnels concernés. En France, un danger immédiat ou une urgence médicale relève du 15 ou du 112. En cas d’idées suicidaires ou d’inquiétude pour une personne, le 3114 est accessible à toute heure."
+        "Si la dégradation se prolonge, revenir sur le travail réellement repris aide à identifier ce qui a changé et à discuter de la suite avec les professionnels concernés. En France, un <strong>danger immédiat ou une urgence médicale</strong> relève du <strong>15 ou du 112</strong>. En cas d’idées suicidaires ou d’inquiétude pour une personne, le <strong>3114</strong> est accessible à toute heure."
       ]
     ],
-    "scene": "« On m’a dit de reprendre en douceur. Les mêmes urgences sont déjà dans mon agenda. » Sam voudrait parler de sa santé, assurer sa reprise et savoir ce qu’il peut demander à son responsable.",
+    "scene": "« On m’a dit de reprendre en douceur. Les mêmes urgences sont déjà dans mon agenda. » Sam voudrait parler de sa santé, assurer sa reprise et savoir ce qu’il peut demander à <strong>son responsable</strong>.",
     "exercice": [
       "Le responsable demande le rapport complet pour organiser le retour de Sam. Quelle information lui permet d’agir sur le planning ?",
       [
@@ -1282,29 +1364,29 @@ export const chapitres = [
         ]
       ]
     ],
-    "essentiel": "Pour trouver le bon interlocuteur, pars de la décision à prendre. Une reprise se prépare avec des tâches, des moyens et un point de suivi.",
+    "essentiel": "Pour trouver le bon interlocuteur, pars de la <strong>décision à prendre</strong>. Une reprise se prépare avec des tâches, des moyens et un point de suivi.",
     "avant": [
       [
         "Scinder la discussion",
-        "Pour une évaluation de santé, Sam peut parler de son sommeil et de ses difficultés avec son médecin traitant. Le médecin du travail peut échanger avec lui sur les aménagements. Son responsable peut décider des priorités et du relais. Sam choisit les éléments personnels qu’il souhaite partager."
+        "Pour une évaluation de santé, Sam peut parler de son sommeil et de ses difficultés avec son <strong>médecin traitant</strong>. Le <strong>médecin du travail</strong> peut échanger avec lui sur les aménagements. <strong>Son responsable</strong> peut décider des priorités et du relais. Sam choisit les éléments personnels qu’il souhaite partager."
       ]
     ],
-    "reflexion": "Quelle est la première décision à prendre dans ta situation, et qui a le pouvoir de la prendre ?",
+    "reflexion": "Quelle est la première <strong>décision à prendre</strong> dans ta situation, et qui a le pouvoir de la prendre ?",
     "rapport": "Tu peux utiliser le rapport pour préparer des échanges différents, selon que tu demandes des soins, une protection, un aménagement ou un arbitrage.",
     "repere": {
       "titre": "Choisis ton premier interlocuteur",
       "questions": [
         [
           "Faire le point sur ta santé",
-          "Médecin traitant. Tu peux lui décrire le sommeil, la récupération, la gêne et leur évolution."
+          "<strong>Médecin traitant</strong>. Tu peux lui décrire le sommeil, la récupération, la <strong>gêne et leur évolution</strong>."
         ],
         [
           "Discuter du poste ou de la reprise",
-          "Médecin du travail. Apporte des exemples de tâches, de contraintes et d’aménagements à discuter."
+          "<strong>Médecin du travail</strong>. Apporte des exemples de tâches, de contraintes et d’aménagements à discuter."
         ],
         [
           "Arbitrer les urgences et les moyens",
-          "Responsable. Demande quelles tâches reprendre, lesquelles reporter et qui prend le relais."
+          "Responsable. Demande quelles <strong>tâches reprendre</strong>, lesquelles reporter et qui prend le relais."
         ]
       ]
     }

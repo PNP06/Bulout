@@ -75,6 +75,20 @@ function repereHTML(repere, orientation) {
   </section>`;
 }
 
+function schemaModele({titre, groupes, liens}) {
+  return `<figure class="course-model">
+    <h2>${titre}</h2>
+    <dl class="course-model-concepts">
+      ${groupes.map(([notion, definition, exemple]) => `<div>
+        <dt>${notion}</dt>
+        <dd><p>${definition}</p><p class="course-model-example"><strong>Chez Lina</strong> ${exemple}</p></dd>
+      </div>`).join("")}
+    </dl>
+    <figcaption class="course-model-reading">${liens.map(([titre, texte]) =>
+      `<p><strong>${titre}</strong><br>${texte}</p>`).join("")}</figcaption>
+  </figure>`;
+}
+
 function chapitre(i) {
   const c = chapitres[i];
   const image = illustrations[i];
@@ -85,6 +99,7 @@ function chapitre(i) {
     <p class="course-arrive">${c.scene}</p>
     <p class="course-key">${c.essentiel}</p>
     ${c.repere && i !== 0 ? repereHTML(c.repere, false) : ""}
+    ${c.modele ? schemaModele(c.modele) : ""}
     ${sectionsCours(c.avant)}
     ${image ? `<figure class="course-diagram">
       <h2>${image.titre}</h2>

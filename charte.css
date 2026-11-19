@@ -778,3 +778,16 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 .course-practice { width: 100%; }
 .course-practice > h2 { margin-bottom: .65rem; }
 .course-directory { width: 100%; }
+
+.course-paper strong { font-weight: 700; }
+.course-model { width: 100%; margin: .25rem 0 1rem; padding: clamp(.85rem, 2.5vw, 1.4rem); border: 1px solid var(--line-soft); border-radius: .75rem; background: #f4f7f3; color: #203e36; }
+.course-model h2 { margin-bottom: .85rem; }
+.course-model-concepts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: .65rem; margin: 0; }
+.course-model-concepts > div { border-top: 4px solid #2a6858; border-radius: .5rem; background: #fff; padding: .85rem; }
+.course-model-concepts > div:nth-child(2) { border-top-color: #37698c; }
+.course-model-concepts > div:nth-child(3) { border-top-color: #995e34; }
+.course-model-concepts dt { font-size: 1.07rem; font-weight: 750; }
+.course-model-concepts dd { margin: .35rem 0 0; }
+.course-model-concepts .course-model-example { border-top: 1px solid var(--line-soft); margin-top: .65rem; padding-top: .55rem; }
+.course-model-example strong { display: block; font-size: .9rem; }
+.course-model-reading { display: grid; gap: .6rem; margin-top: .85rem; padding-inline-start: .75rem; border-inline-start: 3px solid #2a6858; }

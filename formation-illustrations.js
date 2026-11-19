@@ -16,22 +16,7 @@ export const illustrations = [
       <text x="119" y="150" class="">Lundi</text>
       <text x="220" y="150" class="">Trois semaines</text>`
   },
-  {
-    titre: "Trois indices dans la journée de Lina",
-    legende: "Se sentir vidé renseigne sur l’énergie. Éviter un appel renseigne sur la relation au travail. Pour savoir comment Lina juge son efficacité, demande-lui ce qu’elle pense du résultat.",
-    description: "Une batterie accompagne la fatigue, un téléphone le retrait relationnel et une note relue la question de l’efficacité ressentie.",
-    hauteur: 164,
-    dessin: `
-      <rect x="22" y="16" width="42" height="25" rx="3" />
-      <path d="M65 24h5v10h-5 M28 32h8" />
-      <text x="90" y="35" class="">« Je termine vidée. »</text>
-      <path d="M22 70q19 -16 41 0l-5 8 -11 -5 1 -5q-6 -2 -12 0l1 5 -10 5z" />
-      <text x="90" y="76" class="">« Je laisse sonner. »</text>
-      <rect x="28" y="108" width="28" height="37" rx="3" />
-      <path d="M33 118h17m-17 7h15m-15 7h10" />
-      <text x="90" y="124" class="">« Je relis trois fois. »</text>
-      <text x="90" y="147" class="small">Que pense-t-elle du résultat ?</text>`
-  },
+  null,
   {
     titre: "Une matinée, deux façons de travailler",
     legende: "Chaque rupture représente un appel fictif. Le relais libère une plage continue. Il reste à vérifier qui répond aux appels et quels dossiers peuvent être reportés pendant le tutorat.",
@@ -53,20 +38,7 @@ export const illustrations = [
       <text x="12" y="143" class="">9 h</text>
       <text x="306" y="143" class="">11 h</text>`
   },
-  {
-    titre: "Deux colonnes dans le bilan de Lina",
-    legende: "La ligne vide indique précisément où l’échange se déséquilibre. Accorder du temps de tutorat agirait sur la charge. Reconnaître ce tutorat dans l’évaluation agirait sur le retour reçu.",
-    description: "Les dossiers clos figurent dans les deux colonnes. Le tutorat figure uniquement dans celle du travail fourni.",
-    hauteur: 148,
-    dessin: `
-      <text x="12" y="25" class="">Travail fourni</text>
-      <text x="197" y="25" class="">Travail reconnu</text>
-      <path d="M12 39h336 M177 14v116" class="axis"/>
-      <text x="12" y="70" class="">Dossiers clos</text>
-      <text x="197" y="70" class="">Dossiers clos</text>
-      <text x="12" y="116" class="">Tutorat</text>
-      <path d="M197 116h132" class="alt"/>`
-  },
+  null,
   null,
   {
     titre: "Deux groupes peuvent partager la même valeur",
