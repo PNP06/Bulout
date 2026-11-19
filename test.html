@@ -12,23 +12,20 @@
   <body class="test-page">
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Bull-Out, accueil"><i aria-hidden="true">BO</i><span class="brand-text"><span>Bull-Out</span><small>Prévention burn-out sans bullshit</small></span></a>
-      <div class="language-switcher" aria-label="Choix de langue">
-        <button class="language-button" type="button" data-translate-lang="it">italian</button>
-        <button class="language-button" type="button" data-translate-lang="en">english</button>
-      </div>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-menu">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span>Menu</span>
       </button>
       <nav id="main-menu" class="main-nav site-nav" aria-label="Pages du site">
         <a class="nav-direct" href="index.html">Accueil</a>
-        <a class="nav-direct" href="comprendre.html">Comprendre</a>
-        <a class="nav-direct" href="test.html" aria-current="page">Le test</a>
+        <a class="nav-direct" href="test.html#formation">La formation</a>
+        <a class="nav-direct" href="test.html#questionnaire">Le test</a>
         <a class="nav-direct" href="agir.html">Agir</a>
         <a class="nav-direct" href="methode.html">Méthode<span class="lbl-long">&nbsp;et limites</span></a>
         <details class="nav-group">
           <summary>Plus</summary>
           <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
+            <a href="comprendre.html">Guide pour comprendre le burn-out</a>
             <a href="managers.html">Pour les managers</a>
             <a href="presentation.html">Présentation 15 min</a>
             <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
@@ -39,57 +36,14 @@
     </header>
 
     <main>
-      <section class="page-intro">
-        <p class="kicker">Le test</p>
-        <h1>Un questionnaire, trois modèles, un plan d'action</h1>
-        <p class="page-lead">Le questionnaire croise les dimensions de Maslach, JD-R et ERI pour te situer sur les 4 dernières semaines. À la fin, il te donne des conseils d'orientation (vers qui te tourner) et d'action adaptés à ton profil. Il ne pose pas de diagnostic.</p>
-        <div class="home-cta"><a class="button primary" href="#questionnaire">Commencer le questionnaire</a><a class="button secondary" href="comprendre.html">Lire Comprendre d'abord</a></div>
-      </section>
-
-      <section class="home-wrap test-how" aria-labelledby="test-how">
-        <h2 id="test-how">Comment ça se passe</h2>
-        <ol class="home-facts">
-          <li><h3>1. Tu réponds</h3><p>Chaque item se cote de 0 à 4 en pensant aux 4 dernières semaines. Une partie à la fois, avec la progression en haut.</p></li>
-          <li><h3>2. Tu lis le résultat</h3><p>Un profil de risque non diagnostique, les dimensions qui pèsent le plus et les facteurs de travail probables.</p></li>
-          <li><h3>3. Tu es orienté et tu agis</h3><p>Des conseils d'orientation (médecin du travail, médecin traitant, psy, représentants du personnel…), des actions concrètes et des phrases copiables pour en parler.</p></li>
-        </ol>
-        <div class="test-get">
-          <h3>Ce que tu obtiens</h3>
-          <ul>
-            <li>un profil de risque non diagnostique ;</li>
-            <li>les dimensions qui pèsent le plus ;</li>
-            <li>les facteurs de travail probables ;</li>
-            <li>des conseils d'orientation : vers qui te tourner, et quand ;</li>
-            <li>des conseils d'action concrets ;</li>
-            <li>des phrases copiables.</li>
-          </ul>
-        </div>
-        <div class="notice strong">
-          <strong>Repérage, pas diagnostic.</strong>
-          Ce site ne pose pas de diagnostic médical. Il aide à repérer des signaux, comprendre les facteurs de risque et identifier des actions utiles. En cas d'urgence, d'idées suicidaires ou de perte de contrôle : appeler le 15 / 112 ou le 3114 en France.
-        </div>
-      </section>
-
-      <section class="home-wrap" aria-labelledby="test-axes">
-        <h2 id="test-axes">Ce que le questionnaire regarde, dans cet ordre</h2>
-        <p>D'abord les signaux, puis ce que le travail demande et apporte, puis la récupération et le contexte.</p>
-        <ol class="home-axes">
-          <li><span class="home-num" aria-hidden="true">1</span><div><h3>A. Épuisement</h3><p>Fatigue durable, récupération insuffisante, saturation.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">2</span><div><h3>B. Distance mentale / cynisme</h3><p>Détachement, irritabilité, perte de sens.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">3</span><div><h3>C. Efficacité / sens altérés</h3><p>Impression de moins bien faire, perte de confiance.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">4</span><div><h3>D. Exigences professionnelles</h3><p>Charge, interruptions, pression, flou.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">5</span><div><h3>E. Ressources professionnelles</h3><p>Autonomie, soutien, clarté, reconnaissance (score inversé).</p></div></li>
-          <li><span class="home-num" aria-hidden="true">6</span><div><h3>F. Récupération et signaux de santé</h3><p>Sommeil, coupure, signaux du corps.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">7</span><div><h3>Contexte particulier (hors score)</h3><p>Ce qui change la lecture sans changer le score.</p></div></li>
-          <li><span class="home-num" aria-hidden="true">8</span><div><h3>Questions d'alerte</h3><p>Oui / non : une réponse oui déclenche un message de prudence médicale.</p></div></li>
-        </ol>
-      </section>
-
-      <section id="questionnaire" class="section-band">
+      <noscript><p>Active JavaScript pour suivre la formation et obtenir ton rapport. Le <a href="comprendre.html">guide de lecture</a> et les <a href="agir.html#aide">ressources d’aide</a> sont accessibles directement.</p></noscript>
+      <div id="espace-formation" hidden></div>
+      <div id="porte-test" class="course-wrap" hidden></div>
+      <section id="questionnaire" class="section-band" hidden>
         <div class="content">
           <div class="section-heading">
-            <p class="kicker">Questionnaire non diagnostique</p>
-            <h2>Questionnaire de positionnement burn-out</h2>
+            <p class="kicker">Étape 2 · Le test personnel</p>
+            <h1 tabindex="-1">Ton questionnaire Bull-Out</h1>
             <p>Cotez chaque item de 0 à 4 en pensant aux 4 dernières semaines, sauf événement exceptionnel majeur. Le questionnaire donne une photographie de votre situation actuelle : il ne pose pas de diagnostic et ne prédit pas l'avenir. Les résultats restent dans votre navigateur et ne sont envoyés nulle part.</p>
           </div>
 
@@ -158,6 +112,9 @@
             <span><strong>4</strong> presque toujours</span>
           </div>
 
+          <div class="parcours-tools"><button type="button" class="button secondary" data-save>Enregistrer ma progression</button><label class="resume-file">Reprendre un fichier<input type="file" data-import accept=".json,.png"></label></div>
+          <p class="save-note">Le fichier de progression peut contenir tes réponses personnelles. Les réponses aux questions d’alerte restent dans cet onglet.</p>
+          <p class="file-status" role="status"></p>
           <form id="burnout-form" class="questionnaire" novalidate>
             <div class="progress-wrap" aria-live="polite">
               <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
@@ -165,14 +122,24 @@
             </div>
             <div id="questionnaire-root"></div>
             <div class="form-actions">
-              <button class="button primary" type="submit">Afficher mon résultat</button>
+              <button class="button primary" type="submit">Obtenir mon rapport</button>
               <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
             </div>
             <p id="form-error" class="form-error" role="alert" hidden></p>
           </form>
 
-          <section id="results" class="results" aria-live="polite" hidden>
-            <section class="result-section result-summary">
+        </div>
+      </section>
+      <section id="results" class="results rapport" hidden aria-labelledby="rapport-titre">
+            <header class="rapport-cover">
+              <p class="course-eyebrow">Étape 3 · Rapport personnel</p>
+              <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out</h1>
+              <p id="rapport-date"></p>
+              <p>Ce profil réunit tes réponses sur les quatre dernières semaines. Les scores servent à préparer une discussion sur ta santé et ton travail. Ils ne mesurent pas une probabilité de burn-out.</p>
+              <div class="parcours-tools"><button class="button anis" type="button" id="imprimer">Imprimer / enregistrer en PDF</button><a href="#questionnaire">Revoir mes réponses</a></div>
+            </header>
+            <nav class="rapport-nav" aria-label="Sommaire du rapport"><a href="#rapport-synthese">Synthèse</a><a href="#rapport-dimensions">Dimensions</a><a href="#rapport-contexte">Contexte</a><a href="#rapport-actions">Actions</a><a href="#rapport-interlocuteurs">Interlocuteurs</a></nav>
+            <section class="result-section result-summary" id="rapport-synthese">
               <div class="result-header">
                 <div>
                   <p class="kicker">Synthèse</p>
@@ -195,7 +162,7 @@
               <div id="risk-zone-reading" class="risk-zone-grid"></div>
             </section>
 
-            <section class="result-section">
+            <section class="result-section" id="rapport-dimensions">
               <div class="result-section-title">
                 <h4>Scores par dimensions</h4>
                 <p>Un score élevé sur une dimension ne pose pas un diagnostic. Il indique une zone à investiguer.</p>
@@ -211,7 +178,7 @@
               <div id="model-readings" class="result-model-grid"></div>
             </section>
 
-            <section class="result-section">
+            <section class="result-section" id="rapport-contexte">
               <div class="result-section-title">
                 <h4>Éléments de contexte à prendre en compte</h4>
                 <p>Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat et les interlocuteurs à envisager.</p>
@@ -247,7 +214,7 @@
               <ol id="top-items-list" class="top-items-list"></ol>
             </section>
 
-            <section class="result-section">
+            <section class="result-section" id="rapport-actions">
               <div class="result-section-title">
                 <h4>Actions prioritaires</h4>
                 <p>Choisissez une ou deux actions réalistes, pas un plan héroïque en douze chantiers parallèles.</p>
@@ -272,7 +239,7 @@
               <div id="result-takeaways" class="takeaway-grid"></div>
             </section>
 
-            <section class="result-section">
+            <section class="result-section" id="rapport-interlocuteurs">
               <div class="result-section-title">
                 <h4>Interlocuteurs recommandés selon votre profil</h4>
                 <p>Interlocuteurs potentiellement utiles, à envisager selon votre situation. Les informations médicales restent avec les professionnels de santé.</p>
@@ -309,14 +276,8 @@
               <p class="copy-followup-note">Conservez ce résumé si vous souhaitez comparer votre situation dans quelques semaines.</p>
             </section>
             <button class="button secondary" type="button" id="copy-results">Copier mes résultats</button>
-          </section>
-        </div>
-      </section>
-      <section class="page-next">
-        <p class="kicker">Après le résultat</p>
-        <h2>Passer à l'action</h2>
-        <p>Le résultat n'est qu'un point de départ : qui peut aider, quels leviers actionner, comment en parler.</p>
-        <div class="home-cta"><a class="button primary" href="agir.html">Voir qui peut aider et quoi faire →</a></div>
+            <p class="rapport-source">Méthode et limites · <a href="methode.html">bullout.ddlab.fr/methode.html</a></p>
+            <div class="rapport-fin"><a href="agir.html" class="button primary">Explorer les leviers d’action</a></div>
       </section>
     </main>
 
@@ -330,6 +291,6 @@
     </footer>
 
     <script src="script.js"></script>
-    <div id="google_translate_element" class="translation-widget" aria-hidden="true"></div>
+    <script type="module" src="parcours.js"></script>
   </body>
 </html>

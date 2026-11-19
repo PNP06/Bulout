@@ -626,3 +626,97 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 .page-made { background: #fff8e6; border-color: #ddd4c2; color: #123a33; }
 .page-made span { color: #1d5c50; }
 .site-footer .footer-made { font-weight: 600; margin-top: -.2rem; }
+
+/* Parcours de lecture et de restitution, dans la charte DD Lab du questionnaire. */
+.parcours-steps { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.test-page [hidden] { display: none !important; }
+.course-wrap, .rapport { max-width: 1160px; margin: 0 auto; padding: clamp(16px,4vw,44px); }
+.course-wrap, .course-layout, .course-paper, .course-file, .gate-choices section { display: grid; gap: 20px; align-content: start; }
+.course-hero, .rapport-cover { display: grid; gap: 24px; padding: clamp(22px,4.5vw,54px); border-radius: 22px; background: var(--sapin); color: var(--creme); }
+.course-hero { grid-template-columns: minmax(0,2fr) minmax(180px,1fr); align-items: center; }
+.course-hero > div:first-child { display: grid; justify-items: start; gap: 14px; }
+.course-eyebrow, .course-scene > span, .quiz-avance span { margin: 0; font: 800 12px/1.4 var(--title); text-transform: uppercase; letter-spacing: .12em; color: var(--hot-ink); }
+.course-hero .course-eyebrow, .rapport-cover .course-eyebrow, .course-programme small { color: var(--anis); }
+.course-wrap h1, .rapport-cover h1, #questionnaire h1 { margin: 0; font: 800 clamp(32px,5.2vw,60px)/1.05 var(--title); letter-spacing: -.045em; color: inherit; }
+.course-wrap h1:focus, #rapport-titre:focus, #questionnaire h1:focus { outline: none; }
+.course-lead { margin: 0; font-size: clamp(17px,2vw,20px); line-height: 1.5; max-width: 65ch; }
+.course-hero .button { background: var(--anis); border-color: var(--anis); color: var(--sapin); }
+.course-programme { border-left: 1px solid #668178; padding-inline: clamp(14px,3vw,34px); }
+.course-programme strong { display: block; color: var(--creme); font: 800 62px/1.15 var(--title); }
+.course-programme small { font-size: .5em; }
+.course-programme p, .course-paper p, .gate-choices p, .rapport-cover p { margin: 0; }
+.course-meter { display: flex; gap: 5px; margin-top: 14px; }
+.course-meter i { height: 7px; width: 30px; background: #71867c; border-radius: 3px; }
+.course-meter i.on { background: var(--anis); }
+.course-layout { grid-template-columns: minmax(195px,.8fr) minmax(0,2.5fr); align-items: start; gap: clamp(16px,3vw,36px); }
+.course-paper { background: var(--card); border: 1px solid var(--line-soft); border-radius: 20px; padding: clamp(18px,3.5vw,40px); min-width: 0; justify-items: start; }
+.course-paper > *, .course-exo > * { max-width: 100%; }
+.course-paper h2 { margin: 0; font-size: clamp(21px,3vw,30px); }
+.course-rail { position: sticky; top: 80px; display: grid; gap: 16px; }
+.course-rail ol { list-style: none; padding: 0; margin: 8px 0 0; }
+.course-rail li a { display: flex; gap: 10px; align-items: center; padding: 7px 9px; color: var(--muted); border-radius: 12px; text-decoration: none; font: 600 14px/1.35 var(--font); }
+.course-rail li a[aria-current] { background: var(--sapin); color: var(--creme); }
+.course-index { display: grid; place-items: center; flex: none; width: 26px; height: 26px; background: #e7e4d4; color: var(--sapin); border-radius: 50%; font-family: var(--title); }
+[aria-current] > .course-index { background: var(--anis); }
+.course-file { gap: 8px; justify-items: start; }
+.course-file .button, .resume-file { font-size: 14px; }
+.resume-file { display: inline-flex; position: relative; align-items: center; padding: 9px 14px; min-height: 42px; border: 1px dashed var(--line-strong); color: var(--brand); border-radius: 12px; font-weight: 600; cursor: pointer; }
+.resume-file input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+.resume-file:focus-within { outline: 3px solid var(--orange); outline-offset: 3px; }
+.file-status, .save-note, .course-source { font-size: 14px; color: var(--muted); }
+.file-status:empty, .correction:empty { display: none; }
+.course-objectifs { padding: 0; margin: 0; list-style: none; width: 100%; }
+.course-objectifs li { display: flex; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
+.course-objectifs li > span { color: var(--hot-ink); font: 800 22px/1 var(--title); }
+.course-objectifs a, .course-notions dt { color: var(--sapin); font: 600 18px/1.4 var(--title); }
+.course-scene { padding: 18px 22px; border-left: 4px solid var(--orange); background: var(--creme); border-radius: 0 14px 14px 0; }
+.course-notions { display: grid; gap: 14px; margin: 0; }
+.course-notions dd { margin: 4px 0 0; }
+.course-exo, .course-options, .quiz-avance { display: grid; width: 100%; gap: 10px; }
+.course-options button { display: flex; text-align: left; align-items: center; gap: 12px; padding: 12px 15px; color: var(--fg); font: 600 16px/1.45 var(--font); border: 1px solid var(--line-strong); background: var(--card); border-radius: 12px; cursor: pointer; }
+.course-options button > span { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--creme); color: var(--sapin); font-family: var(--title); }
+.course-options button:hover, .course-options button:focus-visible { border-color: var(--sapin); }
+.course-options button.a-revoir { border-color: var(--orange-ink); }
+.course-options button.juste { background: var(--sapin); color: var(--creme); }
+.course-options .juste > span { background: var(--anis); }
+.correction { background: #e6efe9; padding: 12px 16px; border-radius: 10px; }
+.exo-k { border-top: 1px solid var(--line-soft); padding-top: 18px; width: 100%; }
+.quiz-avance progress { width: 100%; height: 10px; accent-color: var(--sapin); }
+.prenom { display: grid; gap: 5px; }
+.prenom input { border: 1px solid var(--line-strong); border-radius: 8px; padding: 9px; font: inherit; max-width: 100%; }
+#apercu-diplome { width: 100%; height: auto; border: 1px solid var(--line-soft); border-radius: 8px; }
+.gate-choices { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; }
+.gate-choices section { padding: 18px; border-radius: 14px; background: var(--creme); gap: 10px; justify-items: start; }
+.parcours-tools, .rapport-nav { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.rapport { background: none; border: 0; }
+.rapport-cover { gap: 13px; }
+.rapport-cover p { max-width: 68ch; }
+.rapport-cover a:not(.button) { color: var(--creme); }
+.rapport-nav { margin: 16px 0; }
+.rapport-nav a { padding: 6px 12px; border-radius: 999px; background: var(--card); font-weight: 600; }
+.rapport section[id], .course-wrap { scroll-margin-top: 90px; }
+.rapport-source, .rapport-fin { margin: 20px 0 0; }
+@media (max-width: 760px) {
+  .parcours-steps, .course-layout, .gate-choices, .course-hero { grid-template-columns: minmax(0,1fr); }
+  .course-rail { position: static; gap: 8px; }
+  .course-rail ol { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+  .course-rail li { flex: none; }
+  .course-rail li a { font-size: 13px; }
+  .course-file { display: flex; flex-wrap: wrap; align-items: center; }
+  .course-programme { border: 0; border-top: 1px solid #668178; padding: 12px 0 0; }
+  .course-programme strong { display: inline; margin: 0 8px; font-size: 24px; }
+  .course-programme p { display: inline; }
+  .course-wrap .button, .parcours-tools .button { white-space: normal; line-height: 1.3; }
+}
+@media print {
+  @page { margin: 14mm; }
+  body.lecture-rapport { background: white; font-size: 10pt; }
+  .lecture-rapport .site-header, .lecture-rapport .site-footer, .rapport .parcours-tools, .rapport-nav, .rapport button, .rapport-fin { display: none !important; }
+  .lecture-rapport main, .lecture-rapport .rapport { display: block; width: auto; max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; }
+  .rapport .rapport-cover, .rapport .result-section { display: block; background: white; color: #123a33; border-radius: 0; padding: 8pt 0; margin: 0; box-shadow: none; }
+  .rapport .rapport-cover *, .rapport .result-summary * { color: #123a33; }
+  .rapport h1 { font-size: 25pt; }
+  .rapport h3, .rapport h4, .rapport .result-section-title { break-after: avoid; }
+  .rapport article, .rapport .score-row { break-inside: avoid; }
+  .rapport .bar-fill, .rapport .risk-tag { print-color-adjust: exact; }
+}
