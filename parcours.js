@@ -1,5 +1,5 @@
-import { illustrations } from "./formation-illustrations.js";
-import { chapitres, examen } from "./formation-contenu.js";
+import { illustrations, pieceRapport } from "./formation-illustrations.js";
+import { chapitres, examen, introduction, temps } from "./formation-contenu.js";
 import { dateLocale, dessiner, exporterPNG, lireDiplome } from "./diplome.js";
 
 const $ = (s, root = document) => root.querySelector(s);
@@ -9,188 +9,225 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-4";
+const format = "bull-out-progression-5";
 let acquis = new Set();
 let bonnes = 0;
 let dateDiplome = null;
 let ouvert = false;
 let page = "";
 let prenom = "";
-const ancreChapitre = i => "#chapitre-" + (i + 1);
-const prochaineLecture = () => chapitres.findIndex((_, i) => !acquis.has(i));
-const choixFichier = (label) => `<label class="resume-file">${label}<input type="file" data-import accept=".json,.png,application/json,image/png"></label>`;
+// Réponses justes de l’exercice du chapitre affiché (une par situation). Rien n’est noté ni gardé.
+let justes = new Set();
+
+const ancre = i => "#chapitre-" + (i + 1);
+const prochaine = () => chapitres.findIndex((_, i) => !acquis.has(i));
+const lettre = i => String.fromCharCode(65 + i);
+const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
+const nomsPieces = chapitres.map(c => c.piece.nom);
+const choixFichier = label => `<label class="resume-file">${label}<input type="file" data-import accept=".json,.png,application/json,image/png"></label>`;
 const statut = '<p class="file-status" role="status"></p>';
-const action = (href, label) => `<a class="button primary" href="${href}">${label}</a>`;
-const garder = '<button class="button secondary" type="button" data-save>Enregistrer ma progression</button>';
-const suite = i => i + 1 < chapitres.length ? ancreChapitre(i + 1) : "#quiz-final";
+const garder = '<button class="btn-save" type="button" data-save><span aria-hidden="true">↓</span> Enregistrer ma progression</button>';
+const bouton = (href, label, cls = "primary") => `<a class="button ${cls}" href="${href}">${label}</a>`;
+const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-function entete(k, titre, lead) {
-  return `<p class="course-eyebrow">${k}</p><h1 tabindex="-1">${titre}</h1><p class="course-lead">${lead}</p>`;
+// ───────── Rail de gauche : sommaire de la formation
+function rail(actif) {
+  const item = (href, num, texte, fait) => `<li class="${href === actif ? "ici" : ""} ${fait ? "fait" : ""}"><a href="${href}" ${href === actif ? 'aria-current="step"' : ""}><span class="fo-num">${fait ? "✓" : num}</span><span>${texte}${fait ? '<span class="sr-only"> (validé)</span>' : ""}</span></a></li>`;
+  let html = `<li class="${actif === "#formation" ? "ici" : ""}"><a href="#formation" ${actif === "#formation" ? 'aria-current="step"' : ""}><span class="fo-num">·</span><span>Introduction</span></a></li>`;
+  temps.forEach((tp, k) => {
+    html += `<li class="fo-rail-temps" aria-hidden="true">${tp.split("·")[1].trim()}</li>`;
+    chapitres.forEach((c, i) => { if (c.temps === k) html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); });
+  });
+  html += item("#quiz-final", "?", "Test final", bonnes === examen.length) + item("#diplome", "◇", "Ton diplôme", Boolean(dateDiplome));
+  return `<aside class="fo-rail" aria-label="Sommaire de la formation"><p class="fo-rail-titre">La formation</p><ol>${html}</ol>
+    <div class="fo-rail-prog"><span>${acquis.size} / ${chapitres.length} chapitres</span><i style="--p:${acquis.size / chapitres.length}"></i></div>
+    <div class="fo-rail-file">${garder}${choixFichier("Reprendre un fichier")}${statut}</div></aside>`;
 }
 
-function sommaire(active) {
-  const lien = (id, texte, numero, valide) => `<li><a href="${id}" ${id === active ? 'aria-current="step"' : ''}><span class="course-index">${valide ? '✓' : numero}</span><span>${texte}${valide ? '<span class="sr-only"> (validé)</span>' : ''}</span></a></li>`;
-  return `<aside class="course-rail"><nav aria-label="Sommaire de la formation"><a class="rail-title" href="#formation">La formation</a>
-    <ol>${chapitres.map((c, i) => lien(ancreChapitre(i), c.titre, i + 1, acquis.has(i))).join("")}
-    ${lien("#quiz-final", "Test final", "?", bonnes === examen.length)}${lien("#diplome", "Mon diplôme", "◇", Boolean(dateDiplome))}</ol></nav>
-    <div class="course-file">${garder}${choixFichier("Reprendre un fichier")}${statut}</div></aside>`;
+// Rail de droite : « Dans cette page »
+function dansLaPage(titres) {
+  if (!titres.length) return "<aside class=\"fo-toc\"></aside>";
+  return `<aside class="fo-toc" aria-label="Dans cette page"><p>Dans cette page</p><ol>${titres.map(([id, t]) => `<li><a href="#${id}" data-ancre>${t}</a></li>`).join("")}</ol></aside>`;
 }
 
+function cadre(actif, contenu, titres = []) {
+  return `<div class="fo-layout">${rail(actif)}<article class="fo-page">${contenu}
+    <p class="fo-avert">Cette formation est une synthèse pédagogique. Elle ne remplace ni un avis médical, ni un avis juridique. Les exemples servent à apprendre à raisonner, pas à juger des personnes.</p></article>${dansLaPage(titres)}</div>`;
+}
+
+// ───────── Blocs de contenu
+function bloc(b, titres) {
+  switch (b.t) {
+    case "h": { const id = "s-" + slug(b.texte); titres.push([id, b.texte]); return `<h2 id="${id}" class="fo-h">${b.texte}</h2>`; }
+    case "p": return `<p>${b.html}</p>`;
+    case "fig": return `<figure class="fo-fig">${illustrations[b.ill]}<figcaption>${b.cap}</figcaption></figure>`;
+    case "exemple": return `<aside class="fo-exemple"><p class="fo-label">Exemple · ${b.titre}</p><p>${b.html}</p>${b.note ? `<p class="fo-exemple-note">${b.note}</p>` : ""}</aside>`;
+    case "cartes": return `<div class="fo-cartes" style="--n:${b.items.length}">${b.items.map(([k, v]) => `<div class="fo-carte"><h3>${k}</h3><p>${v}</p></div>`).join("")}</div>`;
+    case "mythes": { const id = "s-" + slug(b.titre); titres.push([id, b.titre]); return `<h2 id="${id}" class="fo-h">${b.titre}</h2><div class="fo-mythes">${b.items.map(([q, r]) => `<details class="fo-mythe"><summary>${q}</summary><p>${r}</p></details>`).join("")}</div>`; }
+    case "principe": return `<aside class="fo-principe"><p class="fo-label">Principe à garder</p><p>${b.html}</p></aside>`;
+    case "piege": return `<aside class="fo-piege"><p class="fo-label">${b.titre}</p><ol class="fo-chaine"><li class="fo-chaine-depart"><span>Ce qui est observé</span>${b.depart}</li>${b.etapes.map(([saut, phrase]) => `<li class="fo-saut"><b>Saut</b> ${saut}</li><li class="fo-chaine-pas">${phrase}</li>`).join("")}</ol><p>${b.fin}</p></aside>`;
+    case "table": return `<div class="fo-table"><table><caption>${b.titre}</caption><thead><tr>${b.cols.map(c => `<th scope="col">${c}</th>`).join("")}</tr></thead><tbody>${b.rows.map(([a, ...r]) => `<tr><th scope="row">${a}</th>${r.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    case "paires": return `<div class="fo-paires"><p class="fo-label">${b.titre}</p><div class="fo-paires-tete" aria-hidden="true"><span>${b.gauche}</span><span>${b.droite}</span></div><ul>${b.items.map(([a, z]) => `<li><span class="fo-paire-a"><span class="sr-only">${b.gauche} : </span>${a}</span><span class="fo-paire-z"><span class="sr-only">${b.droite} : </span>${z}</span></li>`).join("")}</ul></div>`;
+    case "gestes": return `<div class="fo-gestes">${b.items.map(([nom, def, toi, manager]) => `<div class="fo-geste"><h3>${nom}</h3><p>${def}</p><dl><div><dt>Tu peux dire</dt><dd>${toi}</dd></div><div><dt>Côté manager</dt><dd>${manager}</dd></div></dl></div>`).join("")}</div>`;
+    case "deux": return `<div class="fo-deux">${b.items.map(([k, l]) => `<div><h3>${k}</h3><ul>${l.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div>${b.note ? `<p class="fo-note">${b.note}</p>` : ""}`;
+    case "details": return `<details class="fo-details"><summary>${b.titre}</summary>${b.html}</details>`;
+    case "trames": return `<div class="fo-trames"><p class="fo-label">${b.titre}</p>${b.items.map(([k, v]) => `<div class="fo-trame"><h3>${k}</h3><p>${v}</p><button type="button" class="fo-copier" data-copier>Copier</button></div>`).join("")}</div>`;
+    case "portes": return `<div class="fo-portes">${b.items.map(([k, qui, quand]) => `<div><h3>${k}</h3><p class="fo-qui">${qui}</p><p>${quand}</p></div>`).join("")}</div>`;
+    case "urgence": return `<p class="fo-urgence">${b.html}</p>`;
+    default: return "";
+  }
+}
+
+// ───────── Introduction
 function intro() {
-  const prochain = prochaineLecture();
-  return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Vendredi soir, deux collègues se disent épuisés. Lundi, un seul a récupéré. Pars de leur histoire, puis découvre trois façons de regarder leur travail.")}
-    ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}
-    <a class="course-help-link" href="#chapitre-9">À qui en parler dès maintenant ?</a></div>
-    <div class="course-programme"><span>Ton parcours</span><strong>${acquis.size} <small>/ ${chapitres.length}</small></strong><p>chapitres validés</p><div class="course-meter">${chapitres.map((_, i) => `<i class="${acquis.has(i) ? 'on' : ''}"></i>`).join("")}</div></div></header>
-    <div class="course-layout">${sommaire("#formation")}<section class="course-paper"><p class="course-eyebrow">Le programme</p><h2>Ce que tu sauras faire</h2>
-    <ol class="course-objectifs">${chapitres.map((c,i) => `<li><span>${String(i+1).padStart(2,"0")}</span><div><a href="${ancreChapitre(i)}">${c.titre}</a><p>${c.objectifs[0]}</p></div></li>`).join("")}</ol>
-    <p>Le test final propose huit nouvelles situations. Une fois les réponses comprises, télécharge ton diplôme pour ouvrir le questionnaire personnel. Tu peux interrompre le parcours en enregistrant ta progression dans un fichier.</p></section></div>`;
+  const p = prochaine();
+  const reprendre = acquis.size ? bouton(p < 0 ? "#quiz-final" : ancre(p), "Reprendre la lecture →") : bouton(ancre(0), "Commencer la lecture →");
+  const contenu = `
+    <p class="fo-pill">Étape 1 sur 3 · La formation</p>
+    <h1 tabindex="-1">Comprendre l’usure au travail avant de la mesurer</h1>
+    <aside class="fo-objectif"><p class="fo-label">Objectif</p><p>${introduction.objectif}</p></aside>
+    <section class="fo-carton"><h2 id="s-pourquoi" class="fo-h">Pourquoi une formation avant le test ?</h2>${introduction.pourquoi.map(x => `<p>${x}</p>`).join("")}
+      <ul class="fo-contrat">${introduction.contrat.map(x => `<li>${x}</li>`).join("")}</ul>
+      <div class="fo-cta">${reprendre}${choixFichier("Reprendre un fichier")}</div>${statut}</section>
+    <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en huit idées</h2>
+    <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
+    <h2 id="s-programme" class="fo-h-label">Le programme</h2>
+    ${temps.map((tp, k) => `<div class="fo-temps"><p class="fo-label">${tp}</p><ol>${chapitres.map((c, i) => c.temps === k ? `<li><a href="${ancre(i)}"><span class="fo-num">${acquis.has(i) ? "✓" : String(i + 1).padStart(2, "0")}</span><span><b>${c.titre}</b><small>${c.savoir[0]} Environ ${c.duree} minutes.</small></span></a></li>` : "").join("")}</ol></div>`).join("")}
+    <div class="fo-pager"><span></span><a class="fo-pager-next" href="${ancre(0)}"><small>Commencer →</small><b>1 · ${chapitres[0].court}</b></a></div>`;
+  return cadre("#formation", contenu, [["s-pourquoi", "Pourquoi une formation ?"], ["s-essentiel", "L’essentiel en huit idées"], ["s-programme", "Le programme"]]);
 }
 
-function exercice(q, termine, suivant) {
-  const [question, options, bonne, correction] = q;
-  return `<section class="course-exo" aria-labelledby="exo-question"><h2 id="exo-question" tabindex="-1">${question}</h2>
-    <div class="course-options">${options.map((o, i) => `<button type="button" data-reponse="${i}" ${termine ? 'disabled' : ''} class="${termine && i === bonne ? 'juste' : ''}"><span aria-hidden="true">${String.fromCharCode(65+i)}</span>${o}</button>`).join("")}</div>
-    <p class="correction" role="status">${termine ? "Réponse comprise. " + (Array.isArray(correction) ? correction[bonne] : correction) : ""}</p>
-    <div class="exo-suite" ${termine ? '' : 'hidden'}>${suivant}</div></section>`;
-}
-
-function tableau({ titre, colonnes, lignes }) {
-  return `<div class="cours-table"><table><caption>${titre}</caption><thead><tr>${colonnes.map(c => `<th scope="col">${c}</th>`).join("")}</tr></thead>
-    <tbody>${lignes.map(([nom, ...valeurs]) => `<tr><th scope="row">${nom}</th>${valeurs.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-}
-
-function sectionsCours(sections) {
-  return sections.map(([titre, texte]) => `<section class="course-lesson"><h2>${titre}</h2><p>${texte}</p></section>`).join("");
-}
-
-function repereHTML(repere, orientation) {
-  return `<section class="course-transfer course-repere">
-    <h2>${repere.titre}</h2>
-    ${repere.intro ? `<p>${repere.intro}</p>` : ""}
-    <dl class="course-notions">${repere.questions.map(([question, conseil]) =>
-      `<div><dt>${question}</dt><dd>${conseil}</dd></div>`).join("")}</dl>
-    ${repere.exemple ? `<h3>Deux phrases pour ouvrir la discussion</h3><p>${repere.exemple}</p>` : ""}
-    ${orientation ? '<p><a href="#chapitre-9">À qui en parler dès maintenant ?</a></p>' : ""}
-  </section>`;
-}
-
-function schemaModele({titre, groupes, liens}) {
-  return `<figure class="course-model">
-    <h2>${titre}</h2>
-    <dl class="course-model-concepts">
-      ${groupes.map(([notion, definition, exemple]) => `<div>
-        <dt>${notion}</dt>
-        <dd><p>${definition}</p><p class="course-model-example"><strong>Chez Lina</strong> ${exemple}</p></dd>
-      </div>`).join("")}
-    </dl>
-    <figcaption class="course-model-reading">${liens.map(([titre, texte]) =>
-      `<p><strong>${titre}</strong><br>${texte}</p>`).join("")}</figcaption>
-  </figure>`;
+// ───────── Chapitre
+function exerciceHTML(i) {
+  const e = chapitres[i].exo;
+  const fait = acquis.has(i);
+  return `<section class="fo-exo" aria-labelledby="exo-titre"><h2 id="exo-titre" class="fo-h">À toi de jouer</h2>
+    <p class="fo-exo-t"><b>${e.titre}${/[?!]$/.test(e.titre) ? "" : "."}</b> ${e.intro}</p>
+    <ol class="fo-sits">${e.situations.map((s, k) => `<li class="fo-sit" data-sit="${k}"><p class="fo-sit-q"><span class="fo-label">Situation ${k + 1} sur ${e.situations.length}</span>${s.q}</p>
+      <div class="fo-choix" role="group" aria-label="Réponses de la situation ${k + 1}">${s.choix.map((c, j) => `<button type="button" data-sit="${k}" data-choix="${j}" aria-pressed="${fait && j === s.bonne}" class="${fait && j === s.bonne ? "juste" : ""}"><b>${lettre(j)}</b><span>${c}</span></button>`).join("")}</div>
+      <p class="fo-fb ${fait ? "ok" : ""}" aria-live="polite" ${fait ? "" : "hidden"}>${fait ? s.fb[s.bonne] : ""}</p></li>`).join("")}</ol>
+    <p class="fo-exo-note" role="status">${fait ? "Exercice réussi : le chapitre est validé." : "Choisis une réponse : l’explication s’affiche tout de suite. Le chapitre est validé quand les trois situations sont résolues. Rien n’est noté ni envoyé."}</p></section>`;
 }
 
 function chapitre(i) {
   const c = chapitres[i];
-  const image = illustrations[i];
-  return `<div class="course-layout">${sommaire(ancreChapitre(i))}<article class="course-paper">
-    ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.question)}
-    <section class="course-goals"><h2>Ce que tu sauras faire</h2>
-      <ul>${c.objectifs.map(objectif => `<li>${objectif}</li>`).join("")}</ul></section>
-    <p class="course-arrive">${c.scene}</p>
-    <p class="course-key">${c.essentiel}</p>
-    ${c.repere && i !== 0 ? repereHTML(c.repere, false) : ""}
-    ${c.modele ? schemaModele(c.modele) : ""}
-    ${sectionsCours(c.avant)}
-    ${image ? `<figure class="course-diagram">
-      <h2>${image.titre}</h2>
-      <svg viewBox="0 0 364 ${image.hauteur}" role="img" aria-labelledby="schema-titre schema-description">
-        <title id="schema-titre">${image.titre}</title><desc id="schema-description">${image.description}</desc>${image.dessin}
-      </svg>
-      <figcaption>${image.legende}</figcaption>
-    </figure>` : ""}
-    ${i === 0 ? sectionsCours(c.cours.slice(0, 1)) + repereHTML(c.repere, true) + sectionsCours(c.cours.slice(1)) : sectionsCours(c.cours)}
-    ${c.fiches ? "" : c.tableaux.map(tableau).join("")}
-    <aside class="course-transfer"><h2>Dans ton rapport Bull-Out</h2><p>${c.rapport}</p>
-      <h3>Et toi ?</h3><p>${c.reflexion}</p>
-      <p>${c.transition}</p></aside>
-    <section class="course-practice" aria-label="Exercice du chapitre">
-      <h2>À toi de jouer</h2>
-      ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
-    </section>
-    ${c.fiches ? `<details class="cours-fiche course-directory">
-      <summary>${i === 7 ? "Consulter les six leviers et les fiches d’action" : "Consulter tous les interlocuteurs et les fiches de reprise"}</summary>
-      ${c.tableaux.map(tableau).join("")}
-      ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}
-    </details>` : ""}
-    <details><summary>Sources scientifiques et institutionnelles</summary><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></details></article></div>`;
+  const titres = [];
+  const corps = c.blocs.map(b => bloc(b, titres)).join("");
+  titres.push(["exo-titre", "À toi de jouer"]);
+  const avant = i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
+  const apres = i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#quiz-final"><small>Pour finir →</small><b>Le test final</b></a>`;
+  const contenu = `
+    <p class="fo-temps-k">${temps[c.temps]}</p>
+    <header class="fo-chap-tete"><span class="fo-chap-n">${String(i + 1).padStart(2, "0")}</span><div><p class="fo-chap-meta">Chapitre ${i + 1} sur ${chapitres.length} · environ ${c.duree} minutes</p><h1 tabindex="-1">${c.titre}</h1></div></header>
+    <section class="fo-savoir"><p class="fo-label">Ce que tu sauras faire</p><ul>${c.savoir.map(s => `<li>${s}</li>`).join("")}</ul></section>
+    <aside class="fo-arrive"><p class="fo-label">Tu arrives peut-être avec</p><p>${c.arrive}</p></aside>
+    <aside class="fo-retenir"><p class="fo-label">À retenir</p><p>${c.retenir}</p></aside>
+    ${corps}
+    ${exerciceHTML(i)}
+    <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
+    <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
+    <aside class="fo-piece">${pieceRapport(i, nomsPieces)}<div><p class="fo-label">Ton rapport · pièce ${i + 1} sur ${chapitres.length} : ${c.piece.nom.toLowerCase()}</p><p>${c.piece.texte}</p><p class="fo-piece-ou">Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <p class="fo-pause">Tu peux t’arrêter ici : « Enregistrer ma progression » télécharge un petit fichier pour reprendre plus tard.</p>
+    <p class="fo-suite">${c.suite}</p>
+    <nav class="fo-pager" aria-label="Chapitres">${avant}${apres}</nav>`;
+  return cadre(ancre(i), contenu, titres);
 }
 
+// ───────── Test final et diplôme
 function quiz() {
   let contenu;
   if (acquis.size < chapitres.length) {
-    contenu = entete("Fin de la formation", "Le test final", "Valide les neuf exercices pour accéder aux huit questions de synthèse.") + action(ancreChapitre(prochaineLecture()), "Aller au premier exercice restant");
+    const manque = chapitres.map((c, i) => acquis.has(i) ? "" : `<li><a href="${ancre(i)}">${i + 1} · ${c.court}</a></li>`).join("");
+    contenu = `<p class="fo-pill">Pour finir</p><h1 tabindex="-1">Le test final</h1><p class="fo-lead">Il s’ouvre quand les huit exercices sont réussis. Il te reste :</p><ul class="fo-manque">${manque}</ul>${bouton(ancre(prochaine()), "Aller au prochain exercice →")}`;
   } else if (bonnes === examen.length) {
-    contenu = entete("Test final terminé", "Les huit situations sont résolues", "Tu peux maintenant conserver ton diplôme Bull-Out.") + action("#diplome", "Voir mon diplôme →");
+    contenu = `<p class="fo-pill">Test final réussi</p><h1 tabindex="-1">Les huit situations sont résolues</h1><p class="fo-lead">Tu sais assembler les pièces. Ton diplôme t’attend.</p>${bouton("#diplome", "Voir mon diplôme →")}`;
   } else {
-    contenu = entete("Fin de la formation", "Le test final", "Une situation à la fois. Après chaque réponse, lis l’explication. Tu peux réessayer.") +
-      `<div class="quiz-avance"><span>Question ${bonnes + 1} sur ${examen.length}</span><progress value="${bonnes}" max="${examen.length}" aria-label="Questions validées"></progress></div>` +
-      exercice(examen[bonnes], false, '<button type="button" class="button primary" data-suite>Continuer →</button>');
+    const [q, choix] = examen[bonnes];
+    contenu = `<p class="fo-pill">Pour finir · huit situations nouvelles</p><h1 tabindex="-1">Le test final</h1>
+      <p class="fo-lead">Une situation à la fois. Après chaque réponse, lis l’explication. Tu peux réessayer autant de fois que tu veux.</p>
+      <div class="fo-quiz-avance"><span>Situation ${bonnes + 1} sur ${examen.length}</span><progress value="${bonnes}" max="${examen.length}" aria-label="Situations résolues"></progress></div>
+      <section class="fo-exo fo-quiz" aria-labelledby="quiz-q"><p id="quiz-q" class="fo-sit-q" tabindex="-1">${q}</p>
+      <div class="fo-choix" role="group" aria-label="Réponses">${choix.map((c, j) => `<button type="button" data-final="${j}" aria-pressed="false"><b>${lettre(j)}</b><span>${c}</span></button>`).join("")}</div>
+      <p class="fo-fb" aria-live="polite" hidden></p><div class="fo-quiz-suite" hidden><button type="button" class="button primary" data-suite>Situation suivante →</button></div></section>`;
   }
-  return `<div class="course-layout">${sommaire("#quiz-final")}<article class="course-paper">${contenu}</article></div>`;
+  return cadre("#quiz-final", contenu);
 }
 
 function diplome() {
   const contenu = !dateDiplome
-    ? entete("Diplôme Bull-Out", "Ton diplôme de formation", "Il se débloque après les neuf chapitres et le test final.") + action(acquis.size < chapitres.length ? ancreChapitre(prochaineLecture()) : "#quiz-final", "Continuer la formation")
-    : entete("Étape 1 terminée", "Ton diplôme Bull-Out", "Conserve cette image. Elle ouvre le questionnaire aujourd’hui et lors d’une prochaine visite.") +
-      `<label class="prenom">Prénom sur le diplôme (facultatif)<input id="prenom" maxlength="32" autocomplete="off"></label>
+    ? `<p class="fo-pill">Ton diplôme</p><h1 tabindex="-1">Ton diplôme de formation</h1><p class="fo-lead">Il se débloque après les huit chapitres et le test final.</p>${bouton(acquis.size < chapitres.length ? ancre(prochaine()) : "#quiz-final", "Continuer la formation →")}`
+    : `<p class="fo-pill">Étape 1 terminée</p><h1 tabindex="-1">Ton diplôme Bull-Out</h1><p class="fo-lead">Garde cette image : elle ouvre le questionnaire aujourd’hui, et lors d’une prochaine visite.</p>
+      <label class="prenom">Prénom sur le diplôme (facultatif)<input id="prenom" maxlength="32" autocomplete="off"></label>
       <canvas id="apercu-diplome" width="1600" height="960" role="img" aria-label="Diplôme Bull-Out de prévention de l’épuisement professionnel"></canvas>
-      <div class="parcours-tools"><button type="button" class="button primary" data-diplome>Télécharger mon diplôme PNG</button>
-      <a id="ouvrir-test" class="button secondary" href="#questionnaire" ${ouvert ? '' : 'hidden'}>Commencer le test personnel →</a></div>${statut}`;
-  return `<div class="course-layout">${sommaire("#diplome")}<article class="course-paper">${contenu}</article></div>`;
+      <div class="fo-cta"><button type="button" class="button primary" data-diplome>Télécharger mon diplôme</button>
+      <a id="ouvrir-test" class="button anis" href="#questionnaire" ${ouvert ? "" : "hidden"}>Commencer le questionnaire →</a></div>${statut}`;
+  return cadre("#diplome", contenu);
 }
 
 function porteHTML() {
-  const lienFormation = dateDiplome ? "#diplome" : acquis.size ? (prochaineLecture() < 0 ? "#quiz-final" : ancreChapitre(prochaineLecture())) : "#formation";
-  return `<div class="course-paper gate">${entete("Étape 2 · Le test personnel", "Ouvrir le test Bull-Out", "Ton diplôme de formation ouvre les huit parties du questionnaire. À la fin, tu obtiens ton rapport personnel.")}
-    <div class="gate-choices"><section><h2>J’ai mon diplôme</h2><p>Choisis ton diplôme PNG ou ton fichier de progression Bull-Out. Il est lu dans cet onglet.</p>${choixFichier("Choisir mon fichier")}${statut}</section>
-    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je suis la formation"}</h2><p>Neuf chapitres, des exercices corrigés et un test final pour apprendre à lire le rapport.</p>${action(lienFormation, dateDiplome ? "Retrouver mon diplôme" : "Accéder à la formation")}</section></div>
-    <a href="agir.html#aide">Accéder directement aux ressources d’aide →</a></div>`;
+  const lien = dateDiplome ? "#diplome" : acquis.size ? (prochaine() < 0 ? "#quiz-final" : ancre(prochaine())) : "#formation";
+  return `<div class="fo-gate"><p class="fo-pill">Étape 2 sur 3 · Le questionnaire</p><h1 tabindex="-1">Ouvrir le questionnaire Bull-Out</h1>
+    <p class="fo-lead">Ton diplôme de formation ouvre les questions. À la fin, tu obtiens ton rapport personnel. Rien n’est envoyé : tout reste dans ce navigateur.</p>
+    <div class="fo-gate-choix"><section><h2>J’ai mon diplôme</h2><p>Choisis ton diplôme (image PNG) ou ton fichier de progression. Il est lu dans cet onglet, sans être envoyé.</p>${choixFichier("Choisir mon fichier")}${statut}</section>
+    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je commence par la formation"}</h2><p>Huit chapitres courts, des exercices corrigés et un test final, pour lire ton rapport comme un point de départ.</p>${bouton(lien, dateDiplome ? "Retrouver mon diplôme" : "Entrer dans la formation →")}</section></div>
+    <p><a href="agir.html#aide">Besoin d’aide maintenant ? Les ressources d’aide sont accessibles directement →</a></p></div>`;
 }
 
+// ───────── Affichage
 function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
   const numero = /^#chapitre-([1-9])$/.exec(hash);
-  const enFormation = Boolean(numero) || ["#formation","#quiz-final","#diplome"].includes(hash);
+  const valide = numero && Number(numero[1]) <= chapitres.length;
+  const enFormation = Boolean(valide) || ["#formation", "#quiz-final", "#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
+  if (numero && !valide) { location.replace("#chapitre-" + chapitres.length); return; }
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
   if (demandeRapport && vue !== rapport) history.replaceState(null, "", "#questionnaire");
   const ancien = page;
   page = enFormation ? hash : vue.id;
   vues.forEach(v => v.hidden = v !== vue);
   document.body.classList.toggle("lecture-rapport", vue === rapport);
+  document.body.classList.toggle("en-formation", enFormation);
   document.querySelectorAll(".site-nav .nav-direct").forEach(a => {
-    if (a.hash === (enFormation ? "#formation" : "#questionnaire")) a.setAttribute("aria-current","page");
-    else a.removeAttribute("aria-current");
+    const cible = enFormation ? "#formation" : "#questionnaire";
+    if (a.hash === cible && a.pathname.endsWith("test.html")) a.setAttribute("aria-current", "page"); else if (a.pathname.endsWith("test.html")) a.removeAttribute("aria-current");
   });
   if (enFormation) {
-    const html = numero ? chapitre(Number(numero[1])-1) : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
-    formation.innerHTML = '<div class="course-wrap">' + html + '</div>';
+    if (page !== ancien) justes = new Set();
+    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
+    formation.innerHTML = html;
     if ($("#prenom")) {
       $("#prenom").value = prenom;
       actualiserImage();
       document.fonts.ready.then(actualiserImage);
     }
+    suivreToc();
   } else if (vue === porte) porte.innerHTML = porteHTML();
   else if (vue === rapport) {
-    $("#rapport-date").textContent = "Établi le " + new Intl.DateTimeFormat("fr-FR", { dateStyle:"long" }).format(new Date()) + " · " + form.querySelectorAll("input:checked").length + " réponses";
+    $("#rapport-date").textContent = "Établi le " + new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(new Date());
   }
   document.title = (vue.querySelector("h1")?.textContent || "Le parcours") + " · Bull-Out";
   if (vue === rapport && hash.startsWith("#rapport-")) document.getElementById(hash.slice(1))?.scrollIntoView();
   else if (focus && ancien !== page) {
-    vue.querySelector("h1")?.focus({preventScroll:true});
-    window.scrollTo({top:0, behavior:"instant"});
+    vue.querySelector("h1")?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }
+}
+
+// Le sommaire de droite suit la lecture.
+let observateur;
+function suivreToc() {
+  observateur?.disconnect();
+  const liens = [...formation.querySelectorAll(".fo-toc a")];
+  if (!liens.length || !("IntersectionObserver" in window)) return;
+  const cibles = liens.map(a => document.getElementById(a.hash.slice(1))).filter(Boolean);
+  observateur = new IntersectionObserver(entrees => {
+    entrees.forEach(e => {
+      if (!e.isIntersecting) return;
+      liens.forEach(a => a.classList.toggle("ici", a.hash === "#" + e.target.id));
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  cibles.forEach(c => observateur.observe(c));
 }
 
 function actualiserImage() {
@@ -209,53 +246,38 @@ function telecharger(blob, nom) {
   setTimeout(() => URL.revokeObjectURL(url), 30000);
 }
 
-const controles = [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
+const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
-  const reponses = questionnaire.hidden ? {} : Object.fromEntries(
-    controles.filter(r => r.checked).map(r => [r.name, r.value])
-  );
-  const progression = { format, chapitres:[...acquis], bonnes, dateDiplome, ouvert, reponses };
-  telecharger(new Blob([JSON.stringify(progression)], {type:"application/json"}), "bull-out-progression.json");
+  const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
+  const progression = { format, chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
 
 function message(el, msg) {
-  const parent = el.closest(".course-file, .gate-choices section, .course-paper, #questionnaire");
+  const parent = el.closest(".fo-rail-file, .fo-gate-choix section, .fo-page, #questionnaire");
   const zone = parent?.querySelector(".file-status");
   if (zone) zone.textContent = msg;
 }
 
+const dateValide = d => typeof d === "string" && /^\d{4}-\d\d-\d\d$/.test(d) && Number.isFinite(Date.parse(d));
+
 function restaurer(p) {
-  // Les anciens diplômes ouvrent toujours le test. Pour un cours interrompu,
-  // on conserve les chapitres équivalents et les réponses à un quiz inchangé.
-  if (p?.format === "bull-out-progression-1" && Array.isArray(p.chapitres)) {
-    const correspondance = [1, 2, 3, 6, 7];
-    const anciens = p.chapitres;
-    const termine = anciens.length === 5 && p.bonnes === 8 && Boolean(p.dateDiplome);
-    if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 5) ||
-        !Number.isInteger(p.bonnes) || p.bonnes < 0 || p.bonnes > 8 || (p.bonnes > 0 && anciens.length !== 5) ||
-        (!termine && (p.dateDiplome !== null || p.ouvert || p.bonnes === 8))) throw new Error("Ancienne progression incohérente.");
-    p = { ...p, format, chapitres: termine ? chapitres.map((_, i) => i) : anciens.map(i => correspondance[i]), bonnes: termine ? examen.length : 0 };
-  }
-  if (p?.format === "bull-out-progression-2" && Array.isArray(p.chapitres)) {
-    p = { ...p, format: "bull-out-progression-3", chapitres: p.chapitres.map(i => i === 0 ? 1 : i === 1 ? 0 : i) };
-  }
-  if (p?.format === "bull-out-progression-3" && Array.isArray(p.chapitres)) {
-    const anciens = p.chapitres;
-    if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 8) ||
-        (p.bonnes > 0 && anciens.length !== 8)) throw new Error("Ancienne progression incohérente.");
-    const repris = anciens.map(i => i < 4 ? i : i + 1);
-    if (p.bonnes === examen.length) repris.push(4);
-    p = { ...p, format, chapitres: repris };
+  // Fichiers des versions précédentes (neuf chapitres ou moins) : un diplôme obtenu reste valable ;
+  // un parcours inachevé reprend au début, les chapitres ayant été entièrement réécrits.
+  if (/^bull-out-progression-[1-4]$/.test(p?.format || "")) {
+    const fini = dateValide(p.dateDiplome);
+    p = { format, chapitres: fini ? chapitres.map((_, i) => i) : [], bonnes: fini ? examen.length : 0, dateDiplome: fini ? p.dateDiplome : null, ouvert: fini && Boolean(p.ouvert), reponses: fini && p.reponses && typeof p.reponses === "object" ? p.reponses : {} };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
     new Set(p.chapitres).size === p.chapitres.length && Number.isInteger(p.bonnes) && p.bonnes >= 0 && p.bonnes <= examen.length &&
-    (p.bonnes < examen.length || p.chapitres.length === chapitres.length) && typeof p.ouvert === "boolean" &&
-    (p.bonnes === examen.length ? /^\d{4}-\d\d-\d\d$/.test(p.dateDiplome) && Number.isFinite(Date.parse(p.dateDiplome)) : p.dateDiplome === null && !p.ouvert) &&
+    (p.bonnes === 0 || p.chapitres.length === chapitres.length) && typeof p.ouvert === "boolean" &&
+    (p.bonnes === examen.length ? dateValide(p.dateDiplome) : p.dateDiplome === null && !p.ouvert) &&
     p.reponses && typeof p.reponses === "object" && !Array.isArray(p.reponses);
   if (!sansErreur) throw new Error("Ce fichier ne correspond pas à une progression Bull-Out valide.");
-  const selections = Object.entries(p.reponses).map(([nom, valeur]) => controles.find(r => r.name === nom && r.value === valeur));
+  const tous = controles();
+  const selections = Object.entries(p.reponses).map(([nom, valeur]) => tous.find(r => r.name === nom && r.value === String(valeur)));
   if (selections.some(r => !r) || (selections.length && !p.ouvert)) throw new Error("Les réponses de ce fichier sont illisibles.");
   form.reset();
   selections.forEach(r => r.checked = true);
@@ -265,7 +287,7 @@ function restaurer(p) {
   ouvert = p.ouvert;
   dateDiplome = p.dateDiplome;
   prenom = "";
-  return ouvert ? "#questionnaire" : dateDiplome ? "#diplome" : prochaineLecture() < 0 ? "#quiz-final" : ancreChapitre(prochaineLecture());
+  return ouvert ? "#questionnaire" : dateDiplome ? "#diplome" : prochaine() < 0 ? "#quiz-final" : acquis.size ? ancre(prochaine()) : "#formation";
 }
 
 async function importer(input) {
@@ -295,39 +317,64 @@ async function importer(input) {
   } finally { input.value = ""; }
 }
 
-function repondre(btn) {
-  const final = page === "#quiz-final";
-  const i = final ? bonnes : Number(page.split("-")[1])-1;
-  const q = final ? examen[i] : chapitres[i].exercice;
-  const bloc = btn.closest(".course-exo");
-  const choix = Number(btn.dataset.reponse);
-  const ok = choix === q[2];
-  const correction = Array.isArray(q[3]) ? q[3][choix] : q[3];
-  $(".correction",bloc).textContent = (ok ? "Exact. " : "À revoir. ") + correction + (ok ? "" : " Essaie à nouveau.");
-  bloc.querySelectorAll(".a-revoir").forEach(option => option.classList.remove("a-revoir"));
-  if (!ok) { btn.classList.add("a-revoir"); return; }
-  btn.classList.add("juste");
-  bloc.querySelectorAll("[data-reponse]").forEach(b => b.disabled = true);
-  if (final) {
-    bonnes++;
-    if (bonnes === examen.length) dateDiplome = dateLocale();
-    $("progress",formation).value = bonnes;
-    $("[data-suite]",bloc).textContent = bonnes === examen.length ? "Voir mon diplôme →" : "Question suivante →";
-  } else {
+// Exercice d’un chapitre : chaque situation affiche son explication tout de suite.
+function repondreSituation(btn) {
+  const i = Number(page.split("-")[1]) - 1;
+  const k = Number(btn.dataset.sit), j = Number(btn.dataset.choix);
+  const s = chapitres[i].exo.situations[k];
+  const li = btn.closest(".fo-sit");
+  const ok = j === s.bonne;
+  li.querySelectorAll("button").forEach(b => { b.classList.remove("juste", "a-revoir"); b.setAttribute("aria-pressed", "false"); });
+  btn.classList.add(ok ? "juste" : "a-revoir");
+  btn.setAttribute("aria-pressed", "true");
+  const fb = $(".fo-fb", li);
+  fb.hidden = false;
+  fb.className = "fo-fb " + (ok ? "ok" : "ko");
+  fb.textContent = (ok ? "Oui. " : "Pas tout à fait. ") + s.fb[j].replace(/^Oui\. /, "") + (ok ? "" : " Essaie une autre réponse.");
+  if (ok) justes.add(k);
+  if (justes.size === chapitres[i].exo.situations.length && !acquis.has(i)) {
     acquis.add(i);
-    $(".course-rail", formation).outerHTML = sommaire(page);
+    $(".fo-exo-note", formation).textContent = "Exercice réussi : le chapitre est validé.";
+    $(".fo-rail", formation).outerHTML = rail(page);
   }
-  $(".exo-suite",bloc).hidden = false;
-  $(".exo-suite",bloc).firstElementChild.focus({preventScroll:true});
+}
+
+function repondreFinal(btn) {
+  const [, , bonne, corrections] = examen[bonnes];
+  const j = Number(btn.dataset.final);
+  const bloc = btn.closest(".fo-quiz");
+  const ok = j === bonne;
+  bloc.querySelectorAll("[data-final]").forEach(b => { b.classList.remove("juste", "a-revoir"); b.setAttribute("aria-pressed", "false"); });
+  btn.classList.add(ok ? "juste" : "a-revoir");
+  btn.setAttribute("aria-pressed", "true");
+  const fb = $(".fo-fb", bloc);
+  fb.hidden = false;
+  fb.className = "fo-fb " + (ok ? "ok" : "ko");
+  fb.textContent = corrections[j] + (ok ? "" : " Essaie une autre réponse.");
+  if (!ok) return;
+  bloc.querySelectorAll("[data-final]").forEach(b => b.disabled = true);
+  bonnes++;
+  if (bonnes === examen.length) dateDiplome = dateLocale();
+  $("progress", formation).value = bonnes;
+  const suite = $(".fo-quiz-suite", bloc);
+  suite.hidden = false;
+  suite.firstElementChild.textContent = bonnes === examen.length ? "Voir mon diplôme →" : "Situation suivante →";
+  suite.firstElementChild.focus({ preventScroll: true });
 }
 
 document.addEventListener("click", async e => {
   const btn = e.target.closest("button");
   if (!btn) return;
-  if (btn.hasAttribute("data-reponse")) repondre(btn);
+  if (btn.hasAttribute("data-choix")) repondreSituation(btn);
+  if (btn.hasAttribute("data-final")) repondreFinal(btn);
   if (btn.hasAttribute("data-suite")) {
     if (bonnes === examen.length) location.hash = "diplome";
-    else { afficher(false); $("#exo-question").focus(); }
+    else { afficher(false); $("#quiz-q")?.focus(); }
+  }
+  if (btn.hasAttribute("data-copier")) {
+    const texte = btn.parentElement.querySelector("p").textContent;
+    try { await navigator.clipboard.writeText(texte); btn.textContent = "Copié ✓"; } catch { btn.textContent = "Sélectionne le texte pour le copier"; }
+    setTimeout(() => { btn.textContent = "Copier"; }, 2500);
   }
   if (btn.hasAttribute("data-save")) enregistrer(btn);
   if (btn.hasAttribute("data-diplome")) {
@@ -345,6 +392,13 @@ document.addEventListener("click", async e => {
     finally { btn.disabled = false; }
   }
   if (btn.id === "imprimer") window.print();
+});
+// Les liens « Dans cette page » défilent sans changer d’écran (le hash sert à la navigation).
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-ancre]");
+  if (!a) return;
+  e.preventDefault();
+  document.getElementById(a.hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 document.addEventListener("change", e => { if (e.target.matches("[data-import]")) importer(e.target); });
 document.addEventListener("input", e => {

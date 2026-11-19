@@ -6,6 +6,7 @@
     <title>Test burn-out et rapport personnel · Bull-Out</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="charte.css">
+    <link rel="stylesheet" href="formation.css">
     <meta name="description" content="Le questionnaire Bull-Out examine les quatre dernières semaines, décrit le profil par dimension et propose des pistes d’action. Outil non diagnostique.">
     <link rel="canonical" href="https://bullout.ddlab.fr/test.html">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -38,7 +39,6 @@
         <details class="nav-group">
           <summary>Plus</summary>
           <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
-            <a href="managers.html">Pour les managers</a>
             <a href="presentation.html">Présentation 15 min</a>
             <a href="comprendre.html">Archive · Guide d’origine</a>
             <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
@@ -57,9 +57,23 @@
           <div class="section-heading">
             <p class="kicker">Étape 2 · Le test personnel</p>
             <h1 tabindex="-1">Ton questionnaire Bull-Out</h1>
-            <p>Cotez chaque item de 0 à 4 en pensant aux 4 dernières semaines, sauf événement exceptionnel majeur. Le questionnaire donne une photographie de votre situation actuelle : il ne pose pas de diagnostic et ne prédit pas l'avenir. Les résultats restent dans votre navigateur et ne sont envoyés nulle part.</p>
+            <p>46 questions sur tes <b>quatre dernières semaines</b>, une à la fois. Environ 10 minutes. Une photographie, pas un diagnostic : tes réponses restent dans ce navigateur.</p>
           </div>
 
+          <p class="kbd-tip"><b>Pour aller vite.</b> Touche une réponse : la question suivante arrive d’elle-même, au même endroit. « Précédente » permet toujours de revenir.<span class="only-fine"> Sur ordinateur, les touches <kbd>0</kbd> à <kbd>4</kbd> répondent (<kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui), <kbd>←</kbd> revient en arrière, <kbd>→</kbd> passe à la suivante.</span></p>
+          <form id="burnout-form" class="questionnaire" novalidate>
+            <div class="progress-wrap" aria-live="polite">
+              <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
+              <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+            </div>
+            <div id="questionnaire-root"></div>
+            <div class="form-actions">
+              <button class="button primary" type="submit">Obtenir mon rapport</button>
+              <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
+            </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+          <div class="q-annexe">
           <details class="questionnaire-intent notice-reflection">
             <summary>Pourquoi ce questionnaire n'est pas un diagnostic</summary>
             <div class="questionnaire-intent-body">
@@ -117,29 +131,11 @@
             </div>
           </details>
 
-          <div class="scale-legend" aria-label="Échelle de réponse">
-            <span><strong>0</strong> jamais ou presque jamais</span>
-            <span><strong>1</strong> rarement</span>
-            <span><strong>2</strong> parfois</span>
-            <span><strong>3</strong> souvent</span>
-            <span><strong>4</strong> presque toujours</span>
-          </div>
 
           <div class="parcours-tools"><button type="button" class="button secondary" data-save>Enregistrer ma progression</button><label class="resume-file">Reprendre un fichier<input type="file" data-import accept=".json,.png"></label></div>
           <p class="save-note">Le fichier de progression peut contenir tes réponses personnelles. Les réponses aux questions d’alerte restent dans cet onglet.</p>
           <p class="file-status" role="status"></p>
-          <form id="burnout-form" class="questionnaire" novalidate>
-            <div class="progress-wrap" aria-live="polite">
-              <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
-              <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-            </div>
-            <div id="questionnaire-root"></div>
-            <div class="form-actions">
-              <button class="button primary" type="submit">Obtenir mon rapport</button>
-              <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
-            </div>
-            <p id="form-error" class="form-error" role="alert" hidden></p>
-          </form>
+          </div>
 
         </div>
       </section>
@@ -262,10 +258,10 @@
 
             <section class="result-section manager-result-note">
               <div class="result-section-title">
-                <h4>Vous voulez en parler à un manager ?</h4>
+                <h4>Vous voulez en parler à votre manager ?</h4>
                 <p>La discussion doit porter sur la charge, les priorités, les moyens et la récupération. Les scores individuels ne doivent pas être exigés par un employeur.</p>
               </div>
-              <a class="text-link" href="managers.html">Voir la page dédiée Managers</a>
+              <a class="text-link" href="test.html#chapitre-7">Revoir le chapitre « Agir sur le travail réel » et ses phrases prêtes à l’emploi</a>
             </section>
 
             <section class="result-section">
@@ -300,7 +296,7 @@
       <p>Ce site est un outil éducatif et de prévention. Il ne pose pas de diagnostic. Les résultats restent dans votre navigateur. En cas d'urgence médicale : 15 / 112. En cas d'idées suicidaires en France : 3114.</p>
       <p>Aucune donnée n'est envoyée. Pas de tracking, pas de serveur, pas de pseudo-science emballée sous vide.</p>
       <p>Ce site ne doit pas être utilisé par un employeur pour sélectionner, surveiller, classer ou évaluer individuellement des salariés. Un résultat individuel ne doit pas être exigé par un manager, une RH ou une organisation.</p>
-      <p class="footer-links"><a href="formation.html">Formation</a> · <a href="test.html">Le test</a> · <a href="agir.html">Agir</a> · <a href="methode.html">Méthode et limites</a> · <a href="managers.html">Managers</a> · <a href="presentation.html">Présentation 15 min</a></p>
+      <p class="footer-links"><a href="formation.html">Formation</a> · <a href="test.html">Le test</a> · <a href="agir.html">Agir</a> · <a href="methode.html">Méthode et limites</a> · <a href="presentation.html">Présentation 15 min</a></p>
     </footer>
 
     <script src="script.js"></script>

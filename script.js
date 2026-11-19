@@ -406,7 +406,8 @@
     const tint = PART_TINTS[index % PART_TINTS.length];
     return `<header class="screen-head"><span class="ti t-${tint}">${svgIcon(PART_ICONS[key] || PART_ICONS.context)}</span>`
       + `<div><p class="k">Partie ${index + 1} sur ${total}</p><h3 id="section-${key}">${title}</h3></div>`
-      + `<span class="n"><b data-part-count>0</b><small>/<span data-part-total>0</span></small></span></header>`;
+      + `<span class="n"><b data-part-count>0</b><small>/<span data-part-total>0</span></small></span></header>`
+      + `<p class="q-counter" aria-live="polite"></p>`;
   }
 
   function buildQuestionnaire() {
@@ -463,7 +464,7 @@
     const gauge = (value) => `<span class="gauge" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= value ? "on" : ""}"></i>`).join("")}</span>`;
     const choices = ratingLabels.map((label, value) => {
       const text = label.replace(/^\d+\s*-\s*/, "");
-      return `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><span class="opt-t">${text.charAt(0).toUpperCase()}${text.slice(1)}</span>${gauge(value)}</span></label>`;
+      return `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${value}</kbd><span class="opt-t">${text.charAt(0).toUpperCase()}${text.slice(1)}</span>${gauge(value)}</span></label>`;
     }).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-5" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     return item;
@@ -473,9 +474,9 @@
     const name = `${prefix}${index + 1}`;
     const item = questionShell(name, question);
     const choices = [
-      { label: "Non", value: "no" },
-      { label: "Oui", value: "yes" }
-    ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><span class="opt-t">${choice.label}</span></span></label>`).join("");
+      { label: "Non", value: "no", key: "N" },
+      { label: "Oui", value: "yes", key: "O" }
+    ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${choice.key}</kbd><span class="opt-t">${choice.label}</span></span></label>`).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-2" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     return item;
   }
@@ -506,7 +507,7 @@
   function initPaging() {
     parts = [...questionnaireRoot.querySelectorAll(".question-section")];
     if (!parts.length) return;
-    form.classList.add("is-paged");
+    form.classList.add("is-paged", "is-onebyone");
 
     // Mise en page à trois colonnes, comme l'écran de questions de Psytest
     const layout = document.createElement("div");
@@ -562,19 +563,17 @@
     actions.append(navStatusEl, buttons, allParts, resetWrap);
     partsFils = [leftFil, allParts.querySelector(".parts-fil")];
 
-    prevButton.addEventListener("click", () => {
-      if (currentPart === 0) { document.querySelector("#questionnaire")?.scrollIntoView({ behavior: "smooth" }); return; }
-      showPart(currentPart - 1, true);
-    });
-    nextButton.addEventListener("click", () => {
-      if (markMissing(parts[currentPart])) return;
-      showPart(currentPart + 1, true);
-    });
+    prevButton.addEventListener("click", stepBack);
+    nextButton.addEventListener("click", stepForward);
     layout.addEventListener("click", (event) => {
       const go = event.target.closest("[data-go]");
       if (go) { allParts.open = false; showPart(Number(go.dataset.go), true); }
+      const q = event.target.closest("[data-q]");
+      if (q) showQuestion(Number(q.dataset.q), true);
       const first = event.target.closest("#first-missing");
       if (first) markMissing(parts[currentPart]);
+      const suite = event.target.closest("[data-part-next]");
+      if (suite) stepForward();
     });
 
     form.addEventListener("change", (event) => {
@@ -585,6 +584,37 @@
       }
       if (!form.querySelector(".question-item.is-missing")) formError.hidden = true;
       refreshPaging();
+      // Comme dans Psytest : une réponse fait venir la question suivante, au même endroit.
+      if (item && item === partItems(parts[currentPart])[currentQ]) {
+        clearTimeout(advanceTimer);
+        advanceTimer = setTimeout(() => { if (partItems(parts[currentPart])[currentQ] === item) stepForward(); }, 320);
+      }
+    });
+
+    // Clavier : 0 à 4 répondent, N ou O pour non ou oui, flèches pour revenir ou avancer, Entrée pour continuer.
+    document.addEventListener("keydown", (event) => {
+      if (document.querySelector("#questionnaire")?.hidden || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target.closest?.("input[type='text'], input[type='file'], textarea, select, summary, a, [contenteditable]")) return;
+      if (!form.contains(document.activeElement) && document.activeElement !== document.body) return;
+      const item = partItems(parts[currentPart])[currentQ];
+      if (event.key === "ArrowLeft") { event.preventDefault(); stepBack(); return; }
+      if (event.key === "ArrowRight") { event.preventDefault(); stepForward(); return; }
+      if (event.key === "Enter" && !event.target.closest?.("button")) {
+        event.preventDefault();
+        if (!item || item.querySelector("input:checked")) stepForward();
+        return;
+      }
+      if (!item) return;
+      const key = event.key.toLowerCase();
+      const inputs = [...item.querySelectorAll("input[type='radio']")];
+      let target = null;
+      if (inputs.length === 5 && /^[0-4]$/.test(key)) target = inputs[Number(key)];
+      if (inputs.length === 2) target = key === "n" || key === "1" ? inputs[0] : key === "o" || key === "2" ? inputs[1] : null;
+      if (!target) return;
+      event.preventDefault();
+      target.checked = true;
+      target.focus({ preventScroll: true });
+      target.dispatchEvent(new Event("change", { bubbles: true }));
     });
 
     showPart(0, false);
@@ -626,6 +656,7 @@
   function markMissing(scope) {
     const missing = [...scope.querySelectorAll(".question-item")].filter((item) => !item.querySelector("input:checked"));
     missing.forEach((item) => item.classList.add("is-missing"));
+    if (missing.length && scope === parts[currentPart]) showQuestion(partItems(scope).indexOf(missing[0]), false);
     if (missing.length) {
       formError.textContent = missing.length === 1
         ? "Il reste une question sans réponse dans cette partie."
@@ -637,20 +668,83 @@
     return missing.length > 0;
   }
 
-  function showPart(index, scroll) {
+  let currentQ = 0;
+  let advanceTimer = 0;
+  const partItems = (part) => (part ? [...part.querySelectorAll(".question-item")] : []);
+  const answerLabel = (item) => {
+    const checked = item.querySelector("input:checked");
+    return checked ? checked.closest(".choice").querySelector(".opt-t").textContent : "";
+  };
+
+  // Une question à la fois. Après la dernière question d'une partie : le résumé de la partie.
+  function showQuestion(index, focus) {
+    const part = parts[currentPart];
+    const items = partItems(part);
+    clearTimeout(advanceTimer);
+    currentQ = Math.max(0, Math.min(items.length, index));
+    items.forEach((item, i) => { item.hidden = i !== currentQ; });
+    let review = part.querySelector(".part-review");
+    if (!review) {
+      review = document.createElement("div");
+      review.className = "part-review";
+      part.appendChild(review);
+    }
+    const inReview = currentQ === items.length;
+    review.hidden = !inReview;
+    part.classList.toggle("in-review", inReview);
+    const isLast = currentPart === parts.length - 1;
+    if (inReview) {
+      const missing = items.filter((item) => !item.querySelector("input:checked")).length;
+      review.innerHTML = `<p class="k">Fin de la partie</p><h4>${part.dataset.title}</h4>`
+        + `<p class="muted">${missing ? `${missing} question${missing > 1 ? "s" : ""} sans réponse. Touche une ligne pour y répondre.` : "Toutes les questions ont une réponse. Touche une ligne pour changer une réponse."}</p>`
+        + `<ol class="rv-list">${items.map((item, i) => `<li><button type="button" data-q="${i}" class="${item.querySelector("input:checked") ? "" : "miss"}"><span class="rv-q">${item.querySelector(".q-text").textContent.replace(/^Question \d+ : /, "")}</span><span class="rv-a">${answerLabel(item) || "<i>Sans réponse</i>"}</span></button></li>`).join("")}</ol>`
+        + (isLast ? "" : `<div class="rv-actions"><button type="button" class="button primary" data-part-next>Partie suivante ${svgIcon(ICON_RIGHT)}</button></div>`);
+    }
+    prevButton.innerHTML = `${svgIcon(ICON_LEFT)} Précédente`;
+    prevButton.disabled = currentPart === 0 && currentQ === 0;
+    const answered = !inReview && items[currentQ]?.querySelector("input:checked");
+    nextButton.hidden = inReview;
+    nextButton.className = `button ${answered ? "primary" : "secondary"} form-nav-next`;
+    nextButton.innerHTML = `${answered ? "Suivante" : "Passer"} ${svgIcon(ICON_RIGHT)}`;
+    submitButton.hidden = !(isLast && inReview);
+    questionsFil.querySelectorAll("li").forEach((li, i) => li.classList.toggle("here", i === currentQ));
+    const counter = part.querySelector(".q-counter");
+    if (counter) counter.textContent = inReview ? "Résumé" : `Question ${currentQ + 1} sur ${items.length}`;
+    formError.hidden = true;
+    refreshPaging();
+    if (focus) {
+      const titre = inReview ? review.querySelector("h4") : items[currentQ].querySelector(".q-text");
+      titre.setAttribute("tabindex", "-1");
+      (inReview ? titre : items[currentQ].querySelector("input:checked") || titre).focus({ preventScroll: true });
+      // La question reste au même endroit : on ne fait défiler que si elle sort de l'écran.
+      const box = part.getBoundingClientRect();
+      if (box.top < 60 || box.top > window.innerHeight * .45) document.querySelector(".q-layout")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function stepForward() {
+    const items = partItems(parts[currentPart]);
+    if (currentQ < items.length) { showQuestion(currentQ + 1, true); return; }
+    if (currentPart < parts.length - 1) { showPart(currentPart + 1, true); return; }
+    form.requestSubmit(submitButton);
+  }
+
+  function stepBack() {
+    if (currentQ > 0) { showQuestion(currentQ - 1, true); return; }
+    if (currentPart > 0) showPart(currentPart - 1, true, true);
+  }
+
+  function showPart(index, scroll, atEnd = false) {
     if (!parts.length) return;
     currentPart = Math.max(0, Math.min(parts.length - 1, index));
     parts.forEach((part, i) => {
       part.hidden = i !== currentPart;
     });
-    const isLast = currentPart === parts.length - 1;
-    prevButton.innerHTML = `${svgIcon(ICON_LEFT)} ${currentPart === 0 ? "Présentation" : "Précédente"}`;
-    nextButton.hidden = isLast;
-    submitButton.hidden = !isLast;
-    questionsFil.innerHTML = [...parts[currentPart].querySelectorAll(".question-item")]
-      .map((item) => `<li data-item="${item.id}"><a href="#${item.id}" aria-label="Question ${item.dataset.n}">${item.dataset.n}</a></li>`).join("");
-    formError.hidden = true;
-    refreshPaging();
+    const items = partItems(parts[currentPart]);
+    questionsFil.innerHTML = items
+      .map((item, i) => `<li data-item="${item.id}"><button type="button" data-q="${i}" aria-label="Question ${item.dataset.n}">${item.dataset.n}</button></li>`).join("");
+    const firstMissing = items.findIndex((item) => !item.querySelector("input:checked"));
+    showQuestion(atEnd ? items.length : firstMissing < 0 ? items.length : firstMissing, scroll);
     if (scroll) {
       document.querySelector(".q-layout")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }

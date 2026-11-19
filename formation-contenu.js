@@ -1,1477 +1,796 @@
-// Parcours autonome de prévention Bull-Out.
-export const chapitres = [
-  {
-    "titre": "Un coup de fatigue ou quelque chose qui dure ?",
-    "question": "Que regarder après une semaine difficile ?",
-    "objectifs": [
-      "Comparer deux trajectoires de fatigue.",
-      "Savoir quand proposer de l’aide et comprendre le mot « surmenage »."
-    ],
-    "cours": [
-      [
-        "Reconstituer la trajectoire avant de lui donner un nom",
-        "Lundi, Léa a retrouvé de l’<strong>énergie</strong> et, trois semaines plus tard, elle a repris le tennis. Sam annule une autre soirée et peine à suivre une réunion. La différence se voit dans <strong>ce que le repos leur rend</strong> et dans <strong>ce qu’ils arrivent encore à faire</strong>. Essaie avec ta propre semaine."
-      ],
-      [
-        "Pourquoi la CIM figure ici",
-        "La <strong>Classification internationale des maladies</strong> est un répertoire de l’Organisation mondiale de la santé. Un <strong>code commun</strong> permet de désigner la même catégorie dans des dossiers et des statistiques de santé. Le nom du répertoire est plus étroit que son contenu : il inclut aussi des facteurs qui influencent la santé ou motivent une consultation. Dans sa dixième révision, la CIM-10 française, <strong>Z73.0</strong> désigne le surmenage, précisé comme un état d’épuisement."
-      ],
-      [
-        "Ce que la révision suivante précise",
-        "La <strong>CIM-11</strong> situe le burn-out dans le travail. Elle le décrit comme un phénomène professionnel associé à un <strong>stress chronique au travail</strong> insuffisamment maîtrisé, avec de l’épuisement, de la distance mentale ou du cynisme et une efficacité professionnelle réduite. La classification donne un langage commun. Dans le récit de Sam, les trois semaines illustrent une évolution. Une souffrance intense ou une situation dangereuse appelle de l’aide dès qu’elle apparaît."
-      ],
-      [
-        "Des situations qui peuvent se superposer",
-        "Sam peut aussi perdre l’envie de voir ses proches, être humilié en réunion ou devoir écourter un contrôle qu’il juge nécessaire. Une perte de plaisir qui déborde le travail mérite <strong>une évaluation de santé</strong>, des humiliations appellent <strong>une réponse de protection</strong> et le contrôle appelle <strong>un arbitrage sur la qualité</strong>. Le tableau permet de passer de chaque indice à une question ou une action."
-      ]
-    ],
-    "scene": "« Je suis vidé. Est-ce que je fais un burn-out ? » Vendredi, Léa et Sam viennent de livrer un dossier urgent. Tous deux disent la même chose. Pour les comprendre, il faut les retrouver après la livraison.",
-    "exercice": [
-      "Malik va mieux en congé et ses difficultés reviennent à la reprise. Qu’est-ce que cela permet de conclure ?",
-      [
-        "Le travail est la cause établie : le retour des difficultés coïncide avec la reprise.",
-        "Le travail devient une piste à explorer : il faut préciser ce qui change à la reprise et ce qui a changé ailleurs.",
-        "Il faut d’abord comparer sa fatigue avec celle de ses collègues pour interpréter cette évolution."
-      ],
-      1,
-      [
-        "La chronologie rend l’hypothèse plausible. D’autres choses ont pu changer en congé, comme le sommeil ou les contraintes personnelles.",
-        "Cherche ce qui revient avec le travail : les interruptions, les horaires ou une situation précise. Compare aussi le sommeil et les autres changements possibles.",
-        "Les collègues peuvent aider à décrire le poste. Pour comprendre cette évolution, commence par comparer les deux périodes de Malik."
-      ]
-    ],
-    "references": [
-      [
-        "Organisation mondiale de la santé · à quoi sert la classification ?",
-        "https://www.who.int/fr/standards/classifications/classification-of-diseases"
-      ],
-      [
-        "ATIH · CIM-10 française, chapitre XXI, Z73.0",
-        "https://www.atih.sante.fr/sites/default/files/public/content/2121/chapXXI_Cim_2009_1.pdf"
-      ],
-      [
-        "OMS · définition de la CIM-11",
-        "https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon"
-      ],
-      [
-        "HAS · repérage et prise en charge clinique",
-        "https://www.has-sante.fr/jcms/c_2769318/fr/reperage-et-prise-en-charge-cliniques-du-syndrome-d-epuisement-professionnel-ou-burnout"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Six situations à différencier",
-        "colonnes": [
-          "Situation",
-          "Indice principal",
-          "Ce que ça change"
-        ],
-        "lignes": [
-          [
-            "Fatigue ponctuelle",
-            "Récupère après repos, congé court ou baisse temporaire de charge.",
-            "Surveiller, ajuster la charge, protéger la récupération."
-          ],
-          [
-            "Stress aigu",
-            "Réaction forte à un événement identifié : échéance, crise, conflit ponctuel.",
-            "Gérer l'événement, restaurer la récupération, vérifier que la tension ne se chronicise pas."
-          ],
-          [
-            "Burn-out",
-            "Exposition professionnelle chronique, épuisement durable, distance mentale ou cynisme, efficacité réduite.",
-            "Analyser le travail réel, réduire les expositions, renforcer les ressources, demander un avis santé si nécessaire."
-          ],
-          [
-            "Dépression",
-            "Humeur basse, anhédonie, culpabilité, ralentissement, symptômes qui dépassent souvent le seul travail.",
-            "Avis médical ou psychologique. Ne pas réduire à un problème d'organisation."
-          ],
-          [
-            "Harcèlement / violence / conflit grave",
-            "Humiliations, menaces, isolement, propos dégradants, peur, atteintes répétées.",
-            "Protection, traçabilité, acteurs compétents : médecin du travail, RH, CSE/CSSCT, représentants, médecin, urgence selon gravité."
-          ],
-          [
-            "Conflit éthique",
-            "Devoir produire un travail contraire à ses valeurs professionnelles ou à la sécurité/qualité.",
-            "Clarifier les responsabilités, documenter, chercher appui professionnel ou collectif."
-          ]
-        ]
-      }
-    ],
-    "retenir": "La CIM-10 française classe le « Surmenage » sous Z73.0, avec le libellé « État d’épuisement ». Ce code ne fixe aucun nombre de jours pour trancher. La CIM-11 précise le contexte de stress chronique au travail et décrit trois dimensions.",
-    "transition": "Au chapitre suivant, on revient à Sam pour distinguer trois types de changements dans son expérience du travail.",
-    "essentiel": "Une fatigue se lit dans le temps. Regarde ce qui change quand l’effort cesse, et ce que la fatigue empêche de faire.",
-    "avant": [
-      [
-        "Vendredi, on manque d’informations",
-        "Une <strong>fatigue après un effort</strong> peut être tout à fait transitoire. Un <strong>stress aigu</strong>, lui, est une réaction à un événement précis. Sam aurait pu être très tendu avant la livraison et retrouver ses habitudes ensuite. Vendredi soir, ces trajectoires restent possibles."
-      ]
-    ],
-    "reflexion": "Si tu compares ta dernière semaine difficile à une semaine ordinaire, qu’est-ce que tu as récupéré quand la pression est retombée ?",
-    "rapport": "Le rapport Bull-Out te demande de regarder une <strong>période entière</strong>. Une journée exceptionnelle n’a pas le même sens qu’une difficulté qui se répète.",
-    "repere": {
-      "titre": "Fais le point sur une semaine réelle",
-      "intro": "Prends <strong>une semaine récente</strong> et compare-la à une semaine où tu allais comme d’habitude.",
-      "questions": [
-        [
-          "Qu’est-ce qui a changé ?",
-          "Cherche <strong>un fait daté</strong>, comme une réorganisation, des urgences plus fréquentes ou des soirées de rattrapage."
-        ],
-        [
-          "Qu’est-ce que le repos me rend ?",
-          "Repense à ton <strong>dernier jour sans travail</strong>. As-tu retrouvé de l’<strong>énergie</strong> ou de l’envie ? Qu’est-ce qui revient à la reprise ?"
-        ],
-        [
-          "Qu’est-ce que je n’arrive plus à faire comme avant ?",
-          "Vois ce que ça change dans une tâche ordinaire, ta vie après le travail ou ta capacité à récupérer."
-        ]
-      ],
-      "exemple": "« Depuis la réorganisation, j’enchaîne les urgences et même après le week-end, je peine à suivre mes réunions. J’ai arrêté le sport et j’aimerais faire le point sur ce qui a changé. »"
-    }
-  },
-  {
-    "titre": "Modèle 1 · Maslach et les trois signes",
-    "question": "Comment décrire ce qui change chez Lina ?",
-    "objectifs": [
-      "Expliquer l’origine du modèle de Maslach et la fonction du MBI.",
-      "Distinguer les trois dimensions et donner un exemple de chacune."
-    ],
-    "cours": [
-      [
-        "Comment le modèle s’étend à d’autres métiers",
-        "Dans la version générale du MBI, le <strong>cynisme</strong> vise le travail lui-même, par exemple lorsqu’une personne cesse de s’y intéresser ou doute de son utilité. L’<strong>efficacité professionnelle</strong> désigne le jugement qu’elle porte sur sa capacité à faire son travail. Pour Lina, relire plusieurs fois un dossier invite à lui demander comment elle juge son efficacité. Une consigne ambiguë pourrait aussi expliquer ces relectures."
-      ],
-      [
-        "Pourquoi garder trois dimensions ?",
-        "Imagine une soignante qui finit chaque garde vidée, aime toujours travailler avec ses patients et juge ses soins de bonne qualité. Son épuisement peut être élevé alors que ses deux autres dimensions restent préservées. Inversement, prendre ses distances peut aider ponctuellement à tenir une interaction difficile. Quand le retrait s’étend à plusieurs relations qu’on appréciait, il devient un changement à explorer."
-      ],
-      [
-        "Du modèle à la mesure",
-        "Le modèle organise ce qu’on décrit. Le MBI est un instrument conçu pour mesurer ces dimensions. Bull-Out utilise <strong>ses propres questions et son propre barème</strong>. Une difficulté décrite par l’un de ces instruments invite à demander <strong>depuis quand</strong> elle existe, puis à examiner ce qui pourrait l’entretenir."
-      ]
-    ],
-    "scene": "« Si je fais encore du bon travail, c’est que ça va. » Depuis que Lina forme les recrues, elle <strong>finit ses journées vidée</strong> et <strong>laisse sonner des appels</strong> qu’elle prenait volontiers. Elle relit aussi plusieurs fois les dossiers qu’elle doit clôturer.",
-    "exercice": [
-      "Lina se dit vidée, laisse des appels sonner et affirme que ses dossiers sont toujours de bonne qualité. Que décrit-on ?",
-      [
-        "Surtout une baisse de qualité, puisque Lina relit ses dossiers.",
-        "De l’épuisement et un possible retrait. Son sentiment d’efficacité semble préservé.",
-        "Surtout un retrait, puisque Lina juge encore son travail de bonne qualité."
-      ],
-      1,
-      [
-        "Les relectures donnent une question à poser. Lina juge encore son travail de bonne qualité, et une mesure de qualité demanderait d’autres éléments.",
-        "Lina décrit un manque d’énergie et un changement dans sa manière d’aborder certains appels. Elle garde confiance dans la qualité de son travail.",
-        "La qualité perçue et l’énergie sont deux dimensions différentes. Lina dit bien qu’elle finit vidée."
-      ]
-    ],
-    "references": [
-      [
-        "Maslach & Jackson, 1981 · construction du MBI",
-        "https://doi.org/10.1002/job.4030020205"
-      ],
-      [
-        "OMS · définition de la CIM-11",
-        "https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon"
-      ]
-    ],
-    "tableaux": [],
-    "retenir": "Une observation utile précise ce qui a changé, depuis quand et avec quel retentissement. Une dimension élevée ouvre une question.",
-    "transition": "On suit maintenant Lina pendant un créneau de tutorat pour voir comment son travail est organisé.",
-    "essentiel": "Le modèle de Maslach aide à décrire l’expérience au travail selon <strong>trois dimensions</strong> qui peuvent <strong>évoluer différemment</strong>.",
-    "avant": [
-      [
-        "D’où vient le modèle de Maslach ?",
-        "Christina Maslach et Susan E. Jackson publient en <strong>1981</strong> un travail de mesure du burn-out chez des professionnels des <strong>services humains</strong>. Leur question est descriptive : quand des personnes s’usent dans un métier où elles aident ou accompagnent autrui, quelles expériences reviennent ensemble ? Elles construisent le <strong>Maslach Burnout Inventory (MBI)</strong>, un questionnaire qui mesure ces expériences séparément."
-      ],
-      [
-        "Les trois dimensions",
-        "L’<strong>épuisement émotionnel</strong> décrit le sentiment d’avoir épuisé l’énergie nécessaire pour faire face aux demandes relationnelles. La <strong>dépersonnalisation</strong> désigne ici une attitude devenue distante, froide ou impersonnelle envers les personnes accompagnées. L’<strong>accomplissement personnel</strong> décrit le sentiment d’être compétent et de faire un travail qui aboutit. Dans le profil de burn-out, ce sentiment peut diminuer."
-      ]
-    ],
-    "reflexion": "Quand tu dis « je n’en peux plus », parles-tu surtout de ton énergie, de ton rapport au travail ou du sentiment de moins bien faire ?",
-    "rapport": "Le rapport donne à lire séparément les dimensions. Bull-Out utilise ses propres items et son propre barème.",
-    "modele": {
-      "titre": "Maslach · trois dimensions à observer",
-      "groupes": [
-        [
-          "Épuisement",
-          "L’énergie disponible pour faire face au travail.",
-          "« Je termine vidée. Je n’ai plus l’énergie d’échanger après ma journée. »"
-        ],
-        [
-          "Distance mentale / cynisme",
-          "Le lien au travail ou aux personnes dont on s’occupe.",
-          "« Avant, ces appels m’intéressaient. Maintenant, je les laisse sonner. »"
-        ],
-        [
-          "Efficacité ressentie",
-          "Le jugement qu’on porte sur sa capacité à bien faire son travail.",
-          "« Je relis chaque dossier, mais je pense toujours faire du bon travail. »"
-        ]
-      ],
-      "liens": [
-        [
-          "Ce que montre le cas",
-          "Lina se dit épuisée et commence à se détacher. Elle se sent encore efficace. Les trois dimensions peuvent évoluer séparément."
-        ]
-      ]
-    }
-  },
-  {
-    "titre": "Modèle 2 · JD-R et les moyens de faire son travail",
-    "question": "Pourquoi deux journées avec autant de dossiers peuvent-elles coûter si différemment ?",
-    "objectifs": [
-      "Expliquer les deux mécanismes du modèle exigences–ressources.",
-      "Identifier une modification du poste et préciser comment en observer l’effet."
-    ],
-    "cours": [
-      [
-        "Deux processus",
-        "Le premier concerne <strong>l’usure</strong>. Si les demandes élevées mobilisent durablement les capacités de la personne, la fatigue peut s’accumuler. L’étude de <strong>2001</strong> associe surtout les <strong>demandes à l’épuisement</strong>. Le second concerne l’engagement. Les ressources donnent des moyens d’avancer et de s’investir. Leur manque était surtout associé au désengagement. Dans les développements du modèle, une ressource peut aussi atténuer le coût d’une demande, surtout si elle répond à cette demande précise."
-      ],
-      [
-        "Vérifier à quel problème répond le relais",
-        "De 9 h à 11 h, une collègue couvre les appels urgents. Lina peut terminer une démonstration sans reprendre toutes ses explications. Il reste à décider <strong>quels dossiers seront reportés</strong> si le tutorat occupe la matinée. Pour tester le <strong>relais</strong>, regarde si Lina finit la séance sans rattraper ses tâches le soir et ce que cela coûte à sa collègue."
-      ],
-      [
-        "Ce que le cadre permet d’affirmer",
-        "Le JD-R propose des mécanismes et aide à formuler des hypothèses sur le poste. Il n’impose pas un <strong>ratio universel</strong> entre demandes et ressources. Une liste de moyens disponibles sur le papier renseigne peu si l’on ignore <strong>qui peut réellement les utiliser</strong> et à quel moment."
-      ]
-    ],
-    "scene": "« Le tutorat dure deux heures sur mon agenda. Sur le terrain, je n’ai jamais deux heures de suite. » Lina forme les recrues entre les appels urgents et ses propres dossiers qui restent à clôturer.",
-    "exercice": [
-      "Une collègue filtre les appels de Lina. Deux responsables maintiennent chacun une échéance pour le même créneau. Quelle décision manque ?",
-      [
-        "Un arbitrage commun sur le dossier prioritaire et le délai de l’autre.",
-        "Un relais qui filtre aussi les courriels de Lina.",
-        "Un créneau de récupération après les deux échéances."
-      ],
-      0,
-      [
-        "Un arbitrage change concrètement la consigne. Il faut ensuite vérifier que le report est vrai dans le planning.",
-        "Filtrer d’autres interruptions peut aider Lina à se concentrer. Les deux consignes restent incompatibles.",
-        "La récupération compte. Il reste à décider quelle échéance Lina peut réellement tenir."
-      ]
-    ],
-    "references": [
-      [
-        "Demerouti et al., 2001 · étude fondatrice du JD-R",
-        "https://pubmed.ncbi.nlm.nih.gov/11419809/"
-      ],
-      [
-        "Bakker, Demerouti et Sanz-Vergel, 2023 · évolution de la théorie JD-R",
-        "https://doi.org/10.1146/annurev-orgpsych-120920-053933"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Grille de lecture du poste",
-        "colonnes": [
-          "Dimension",
-          "Indices concrets"
-        ],
-        "lignes": [
-          [
-            "Demandes qui consomment",
-            "Surcharge · Pression temporelle · Interruptions · Injonctions contradictoires · Charge émotionnelle · Complexité · Responsabilités sans moyens"
-          ],
-          [
-            "Ressources qui protègent",
-            "Autonomie · Soutien du manager · Soutien des collègues · Clarté des objectifs · Moyens suffisants · Feedback utile · Temps de concentration · Récupération"
-          ],
-          [
-            "Ce que ce modèle permet de comprendre",
-            "La charge seule ne suffit pas à expliquer le risque. · Une charge élevée peut être mieux tolérée si les ressources sont fortes. · Une charge modérée peut devenir toxique si l'autonomie, le soutien et la clarté sont faibles. · La prévention doit réduire les demandes évitables et augmenter les ressources réelles."
-          ]
-        ]
-      }
-    ],
-    "retenir": "Une ressource est utile dans la mesure où elle est réellement mobilisable face à la demande.",
-    "transition": "Même si Lina gagne deux heures de concentration, reste une question : comment son travail de tutorat compte-t-il dans son bilan ?",
-    "essentiel": "Le modèle <strong>exigences–ressources</strong> pose deux questions. Quel effort le travail demande-t-il et de quoi la personne dispose-t-elle pour le faire ?",
-    "avant": [
-      [
-        "D’où vient le modèle exigences–ressources ?",
-        "En <strong>2001</strong>, Evangelia Demerouti, Arnold Bakker, Friedhelm Nachreiner et Wilmar Schaufeli publient le modèle <strong>Job Demands–Resources (JD-R)</strong>. Ils étudient plusieurs métiers pour construire un cadre qui s’applique au-delà de la relation d’aide. Les demandes et les ressources changent selon le poste. Une infirmière peut surtout gérer une charge émotionnelle. Pendant le tutorat, Lina doit surtout gérer des interruptions et des délais incompatibles."
-      ],
-      [
-        "Demandes, ressources et récupération",
-        "<strong>Une demande</strong> est un aspect du travail qui mobilise un effort soutenu : charge, urgence, injonctions incompatibles, responsabilité ou travail émotionnel. <strong>Une ressource</strong> aide à atteindre un objectif, réduit le coût d’<strong>une demande</strong> ou favorise l’apprentissage : soutien, autonomie, temps protégé, moyens ou retour utile. La récupération est la possibilité de relâcher l’effort entre deux périodes de travail. Elle aide à comprendre pourquoi une même charge peut devenir plus difficile à soutenir au fil des semaines."
-      ]
-    ],
-    "reflexion": "Quelle difficulté de ta journée serait différente si tu disposais de trente minutes protégées ? Qui doit rendre ce temps réellement disponible ?",
-    "rapport": "Dans le rapport, lis les exigences avec les ressources disponibles et les possibilités de récupération.",
-    "modele": {
-      "titre": "JD-R · exigences, ressources et récupération",
-      "groupes": [
-        [
-          "Exigences",
-          "Ce qui mobilise un effort. Volume, interruptions, pression des délais, consignes concurrentes.",
-          "Lina doit former les recrues tout en traitant ses dossiers et les appels urgents."
-        ],
-        [
-          "Ressources",
-          "Ce qui aide à atteindre l’objectif. Temps protégé, soutien, autonomie et priorités claires.",
-          "Le relais des appels lui redonne deux heures de suite. Un arbitrage précise aussi quels dossiers peuvent attendre."
-        ],
-        [
-          "Récupération",
-          "Le temps pendant lequel la personne peut relâcher l’effort.",
-          "Si Lina finit ses dossiers le soir, elle perd une partie du temps qui lui permettait de récupérer."
-        ]
-      ],
-      "liens": [
-        [
-          "Processus d’usure",
-          "Des demandes soutenues mobilisent l’énergie. Si l’effort se prolonge et que la récupération est insuffisante, la fatigue peut s’accumuler."
-        ],
-        [
-          "Processus d’engagement",
-          "Des ressources utilisables permettent d’avancer et de s’investir. Un relais répond aux interruptions, un arbitrage répond au conflit de priorités."
-        ]
-      ]
-    }
-  },
-  {
-    "titre": "Modèle 3 · Siegrist et la reconnaissance",
-    "question": "Pourquoi retirer deux dossiers à Lina ne réglerait-il pas forcément son problème ?",
-    "objectifs": [
-      "Expliquer le principe de réciprocité et les composantes du modèle de Siegrist.",
-      "Distinguer charge de travail, récompense et surengagement dans un cas concret."
-    ],
-    "cours": [
-      [
-        "Pourquoi le déséquilibre peut durer",
-        "On peut continuer à donner beaucoup parce que les alternatives sont rares, parce qu’on espère une stabilisation ou une promotion, ou parce qu’on peine à décrocher. Le modèle appelle <strong>surengagement</strong> une manière de s’investir fortement, qui peut s’accompagner d’un besoin d’approbation ou d’une difficulté à se détacher du travail. Chez Lina, finir ses dossiers le soir peut cacher le coût réel du tutorat à l’organisation."
-      ],
-      [
-        "Choisir un levier qui répond au problème",
-        "Bloquer une demi-journée pour former les recrues réduit le <strong>conflit de charge</strong>. Faire compter ce travail dans l’évaluation agit sur la <strong>reconnaissance</strong>. Une prime peut augmenter le <strong>retour financier</strong> pendant que ces deux difficultés persistent. Demande à Lina quel retour elle attendait et vérifie comment il est décidé."
-      ],
-      [
-        "Ce que la recherche permet de dire",
-        "L’article de <strong>1996</strong> présente notamment des résultats sur la santé cardiovasculaire dans des situations de forts <strong>efforts et de faibles récompenses</strong>. Il soutient une hypothèse sur la santé au travail. Pour comprendre le cas de Lina, il faut encore documenter la réalité de son effort, du retour reçu et du contexte."
-      ]
-    ],
-    "scene": "« Depuis que je forme les recrues, j’ai moins de dossiers clos. À mon entretien, on m’a reproché la baisse. » Lina assure le tutorat et ses propres dossiers. Son bilan annuel ne compte que les seconds.",
-    "exercice": [
-      "Le responsable propose de récompenser les équipes selon le seul nombre de tickets fermés. Les dossiers complexes mobilisent deux fois plus de temps. Quelle décision vise la reconnaissance ?",
-      [
-        "Ajouter un outil pour répondre plus vite.",
-        "Prévoir une règle qui tienne compte de la complexité dans l’évaluation.",
-        "Suggérer aux collègues de prendre davantage de pauses."
-      ],
-      1,
-      [
-        "Un meilleur outil peut réduire l’effort. Ici, la règle de reconnaissance resterait identique.",
-        "L’évaluation rend visible une contribution que le seul volume masquait.",
-        "Les pauses peuvent aider à récupérer. Le critère de récompense est une autre question."
-      ]
-    ],
-    "references": [
-      [
-        "Siegrist, 1996 · formulation du modèle et données présentées",
-        "https://pubmed.ncbi.nlm.nih.gov/9547031/"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Grille de lecture du poste",
-        "colonnes": [
-          "Dimension",
-          "Indices concrets"
-        ],
-        "lignes": [
-          [
-            "Efforts élevés",
-            "Volume · Responsabilité · Disponibilité · Pression · Complexité · Compensation des dysfonctionnements"
-          ],
-          [
-            "Récompenses faibles",
-            "Reconnaissance insuffisante · Décisions opaques · Sentiment d'injustice · Faible progression · Insécurité · Manque de respect"
-          ],
-          [
-            "Surengagement",
-            "Difficulté à dire non · Besoin de prouver sa valeur · Travail hors temps prévu · Impossibilité de déconnecter · Peur d'être jugé si on ralentit"
-          ],
-          [
-            "Ce que ce modèle permet de comprendre",
-            "Le manque de reconnaissance n'est pas un détail émotionnel. · L'injustice perçue peut devenir un facteur d'usure. · Le surengagement entretient le système : plus la personne compense, plus l'organisation s'habitue à l'anormal. · La prévention doit aussi traiter la réciprocité : effort fourni / retour reçu."
-          ]
-        ]
-      }
-    ],
-    "retenir": "Décrire les signes, analyser le poste et examiner la réciprocité répondent à trois questions différentes.",
-    "transition": "Le chapitre suivant rassemble les trois modèles. À partir du dossier de Lina, tu vas passer des signaux aux décisions.",
-    "essentiel": "Le modèle effort–récompense de Siegrist examine ce que le travail demande en échange de ce que la personne reçoit.",
-    "avant": [
-      [
-        "D’où vient le modèle effort–récompense ?",
-        "Le sociologue médical Johannes Siegrist expose en <strong>1996</strong> le modèle <strong>Effort–Reward Imbalance (ERI)</strong>. Il étudie les conséquences possibles sur la santé d’un échange professionnel durablement déséquilibré. Le principe est celui de la <strong>réciprocité</strong> : la relation de travail demande un investissement et apporte un retour. Fournir beaucoup avec un retour faible ou incertain peut constituer une source de stress."
-      ],
-      [
-        "Ce que l’on donne et ce que l’on reçoit",
-        "L’effort comprend le temps, l’intensité, la disponibilité et la responsabilité. La récompense inclut la <strong>rémunération, l’estime et les perspectives professionnelles</strong>, dont la sécurité de l’emploi et les possibilités de progression. Une décision opaque ou un travail utile qui disparaît de l’évaluation peut signaler un problème de <strong>reconnaissance</strong>. Chez Lina, le tutorat prend du temps et sa contribution reste invisible au bilan annuel."
-      ]
-    ],
-    "reflexion": "Quel travail important disparaîtrait si on jugeait ta semaine à partir d’un seul indicateur de volume ?",
-    "rapport": "Les réponses sur la <strong>reconnaissance</strong> conduisent à demander quels efforts ont été fournis et quel retour était attendu.",
-    "modele": {
-      "titre": "Siegrist · l’effort fourni et le retour reçu",
-      "groupes": [
-        [
-          "Efforts",
-          "Ce que le travail mobilise. Temps, disponibilité, intensité et responsabilité.",
-          "Lina forme les recrues, répond à leurs questions et vérifie leurs premiers dossiers."
-        ],
-        [
-          "Récompenses",
-          "Ce que la relation de travail apporte. Rémunération, estime, sécurité et perspectives.",
-          "Au bilan annuel, seuls ses dossiers clos comptent. Le tutorat disparaît du critère qui sert à évaluer sa contribution."
-        ],
-        [
-          "Surengagement",
-          "Une tendance à rester très investi et à avoir du mal à décrocher.",
-          "Lina peut se remettre à ses dossiers le soir parce qu’elle craint de décevoir. Ce qu’elle compense devient difficile à voir."
-        ]
-      ],
-      "liens": [
-        [
-          "Où se trouve le déséquilibre ?",
-          "Le tutorat augmente l’effort alors que l’évaluation ne le reconnaît pas. Rendre du temps à Lina change ses conditions de travail. Faire compter le tutorat dans son bilan change le retour sur son effort."
-        ]
-      ]
-    }
-  },
-  {
-    "titre": "Les trois modèles, un même dossier",
-    "question": "Comment passer des signaux à une décision sur le travail ?",
-    "objectifs": [
-      "Choisir le modèle en fonction de la question posée.",
-      "Combiner les trois lectures pour proposer et vérifier des actions différentes."
-    ],
-    "scene": "Depuis que Lina forme les recrues, elle finit ses journées vidée et évite des appels qu’elle prenait volontiers. Les urgences morcellent ses créneaux de tutorat. À son entretien, on lui reproche d’avoir clôturé moins de dossiers. Personne ne compte le tutorat dans son évaluation.",
-    "essentiel": "Maslach décrit <strong>ce qui change pour Lina</strong>. Le JD-R examine les <strong>conditions dans lesquelles elle travaille</strong>. L’ERI examine la <strong>réciprocité</strong> entre son investissement et le retour qu’elle reçoit.",
-    "avant": [
-      [
-        "Trois questions pour un même dossier",
-        "Pars de la question que tu veux résoudre. Les trois modèles s’appliquent à Lina en parallèle. Chacun désigne une <strong>information à demander</strong> et une hypothèse différente à vérifier."
-      ]
-    ],
-    "cours": [
-      [
-        "1. Décrire les signaux avec Maslach",
-        "Lina dit qu’elle n’a <strong>plus d’énergie le soir</strong> et évite des appels. Demande-lui quand ces deux changements ont commencé, et <strong>comment elle juge la qualité</strong> de son travail. Le nombre de dossiers clos ne répond pas à la question du <strong>sentiment d’efficacité</strong>."
-      ],
-      [
-        "2. Reconstituer une journée avec le JD-R",
-        "Repère les deux missions simultanées, les appels urgents et l’absence de créneau de tutorat. Tester un <strong>temps protégé avec un relais</strong> permet de vérifier si les <strong>interruptions diminuent</strong> et si Lina termine la formation sans rattraper ensuite ses dossiers le soir."
-      ],
-      [
-        "3. Regarder ce que l’organisation reconnaît avec l’ERI",
-        "Demande quels efforts le tutorat exige et comment <strong>l’évaluation en tient compte</strong>. Si on ajoute le tutorat au bilan annuel, vérifie que cette contribution <strong>pèse effectivement dans la décision</strong> et qu’on a revu les attentes sur le volume de dossiers."
-      ],
-      [
-        "Relire la situation après un changement",
-        "Suppose que les créneaux de tutorat soient protégés mais que le bilan reste inchangé. La journée devient plus praticable et le <strong>problème de reconnaissance reste entier</strong>. Dans quelques semaines, examine avec Lina ce qui a évolué dans son énergie, ce qu’elle peut faire pendant ses journées et la manière dont sa contribution est appréciée."
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Relire le cas de Lina avec les trois modèles",
-        "colonnes": [
-          "Question",
-          "Modèle utile",
-          "Ce que je dois regarder"
-        ],
-        "lignes": [
-          [
-            "Quels sont mes symptômes ?",
-            "Maslach / MBI",
-            "Épuisement, distance mentale, efficacité réduite"
-          ],
-          [
-            "Qu'est-ce qui m'use concrètement ?",
-            "JD-R",
-            "Demandes, ressources, récupération"
-          ],
-          [
-            "Pourquoi ai-je l'impression de donner trop pour trop peu ?",
-            "ERI",
-            "Effort, reconnaissance, équité, surengagement"
-          ]
-        ]
-      }
-    ],
-    "references": [
-      [
-        "Maslach & Jackson, 1981 · construction du MBI",
-        "https://doi.org/10.1002/job.4030020205"
-      ],
-      [
-        "Demerouti et al., 2001 · étude fondatrice du JD-R",
-        "https://pubmed.ncbi.nlm.nih.gov/11419809/"
-      ],
-      [
-        "Siegrist, 1996 · formulation du modèle et données présentées",
-        "https://pubmed.ncbi.nlm.nih.gov/9547031/"
-      ]
-    ],
-    "exercice": [
-      "Le bilan annuel reconnaît désormais le tutorat de Lina. Quelles observations permettraient de voir ce qui a changé et ce qui coince encore ?",
-      [
-        "Comparer le nombre de dossiers clos avant et après, puis vérifier la règle de reconnaissance.",
-        "Demander comment Lina récupère, relever les interruptions et vérifier comment le tutorat compte dans son bilan.",
-        "Demander si Lina se sent mieux et vérifier si le tutorat compte dans son bilan."
-      ],
-      1,
-      [
-        "Le volume de dossiers et la règle donnent deux indices. Il manque le vécu de Lina et une observation directe des conditions de tutorat.",
-        "Ces observations couvrent les trois angles : l’expérience de Lina, les conditions du travail et le retour donné à sa contribution.",
-        "Tu couvres le vécu et le retour sur les efforts. Pour savoir si l’organisation reste difficile, regarde aussi les interruptions et les moyens disponibles."
-      ]
-    ],
-    "rapport": "Rapproche les dimensions du rapport des événements de travail qui pourraient les éclairer. Plusieurs dimensions peuvent renvoyer à une même situation, et une même situation peut demander plusieurs décisions.",
-    "reflexion": "Sur un exemple de ta semaine, qu’observes-tu chez toi, qu’est-ce qui dans le travail pourrait y contribuer et qu’as-tu reçu en échange de ton effort ?",
-    "transition": "Après les modèles, examinons ce qu’une mesure biologique peut apporter et ce qu’il faudrait démontrer pour interpréter un dosage individuel."
-  },
-  {
-    "titre": "Le cortisol peut-il trancher ?",
-    "question": "Un dosage peut-il décider si Sam est en burn-out ?",
-    "objectifs": [
-      "Distinguer mécanisme biologique, association entre groupes et test individuel.",
-      "Repérer les limites des affirmations sur le cortisol, la dopamine et la « fatigue surrénalienne »."
-    ],
-    "cours": [
-      [
-        "Lis le point, puis regarde les deux lignes",
-        "Au repère vertical, une personne de chaque groupe a <strong>la même valeur</strong>. Si c’est celle de Sam, sa valeur seule ne permet pas de l’affecter à un groupe. Pour défendre un test, le prestataire devrait montrer, entre autres, <strong>quels profils il classe correctement</strong>, <strong>quels profils il manque</strong> et si ces résultats se retrouvent ailleurs. Les revues de biomarqueurs citées dans les sources ne dégagent pas de signature suffisamment constante pour cet usage."
-      ],
-      [
-        "Appliquer la même règle à la dopamine et aux compléments",
-        "Une hypothèse sur la dopamine demande encore de montrer à quel phénomène elle correspond et <strong>comment on l’a mesurée</strong>. La « <strong>fatigue surrénalienne</strong> » n’est pas un diagnostic reconnu. Les données qui lient stress et biologie ne permettent pas de déduire qu’un complément <strong>corrigera l’épuisement</strong> de Sam. Le tableau reprend ces affirmations et la preuve qu’il faudrait pour chacune."
-      ]
-    ],
-    "scene": "« Il suffit d’un prélèvement pour savoir si tu es en burn-out. » Un prestataire propose à Sam un <strong>dosage du cortisol</strong>. Il invoque une étude qui trouve des <strong>moyennes différentes</strong> selon les groupes.",
-    "exercice": [
-      "Deux groupes ont des moyennes distinctes mais beaucoup de valeurs communes. Que peux-tu dire d’une valeur dans la zone commune ?",
-      [
-        "Elle peut appartenir aux deux groupes.",
-        "Elle appartient au groupe dont elle est la plus proche en moyenne.",
-        "Elle établit une cause hormonale."
-      ],
-      0,
-      [
-        "La même valeur s’observe des deux côtés. Il faut d’autres éléments pour interpréter un résultat individuel.",
-        "La moyenne renseigne sur l’ensemble. Elle ne renseigne pas à elle seule sur les erreurs de classement.",
-        "Un résultat de dosage n’établit pas à lui seul l’origine des difficultés."
-      ]
-    ],
-    "references": [
-      [
-        "Danhof-Pont et al., 2011 · revue systématique des biomarqueurs",
-        "https://pubmed.ncbi.nlm.nih.gov/21624574/"
-      ],
-      [
-        "Revue systématique de 2026 · marqueurs biologiques et sévérité",
-        "https://pubmed.ncbi.nlm.nih.gov/42452902/"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Quatre affirmations à examiner",
-        "colonnes": [
-          "Affirmation",
-          "Problème",
-          "Formulation correcte"
-        ],
-        "lignes": [
-          [
-            "“C'est ton cortisol”",
-            "Le cortisol varie selon heure, sommeil, médicaments, protocole",
-            "C'est un marqueur de stress possible, pas un diagnostic"
-          ],
-          [
-            "“Tes surrénales sont épuisées”",
-            "La fatigue surrénalienne n'est pas un diagnostic reconnu",
-            "Chercher les causes réelles : sommeil, charge, santé, dépression, etc."
-          ],
-          [
-            "“Tu manques de dopamine”",
-            "Réduction simpliste d'un système complexe",
-            "La motivation implique des circuits complexes, pas un seul neurotransmetteur"
-          ],
-          [
-            "“Un test salivaire va confirmer ton burn-out”",
-            "Pas de seuil clinique validé",
-            "L'évaluation repose sur entretien, symptômes, contexte de travail"
-          ]
-        ]
-      }
-    ],
-    "retenir": "Documenter un mécanisme, identifier une cause et choisir une intervention sont trois opérations distinctes.",
-    "transition": "Applique maintenant la même exigence de preuve au score de Bull-Out lui-même.",
-    "essentiel": "Pour passer d’une étude de groupe à un test individuel, il faut savoir de combien le résultat change ce qu’on peut conclure pour une personne.",
-    "avant": [
-      [
-        "À quoi sert le cortisol ?",
-        "C’est une <strong>hormone impliquée dans la réponse au stress</strong>, dont le niveau varie <strong>au cours de la journée</strong>. <strong>L’heure du prélèvement</strong>, le sommeil et les conditions de mesure comptent déjà avant toute comparaison. Regarde maintenant ce qui se passe quand les résultats se chevauchent."
-      ]
-    ],
-    "reflexion": "Si on te vendait un test, quelle question poserais-tu sur les personnes mal classées ?",
-    "rapport": "Pour Bull-Out aussi, on sépare ce qui a été mesuré, ce que l’on en déduit et ce qui demanderait une autre évaluation."
-  },
-  {
-    "titre": "Que raconte mon score ?",
-    "question": "Que peuvent cacher deux totaux identiques ?",
-    "objectifs": [
-      "Calculer un score inversé et comparer deux profils par dimension.",
-      "Distinguer période de référence, contexte hors score, alerte et seuil interne."
-    ],
-    "cours": [
-      [
-        "À quel endroit ouvrir la discussion ?",
-        "Avec le premier profil, demande comment se passent les <strong>fins de journée et les repos</strong>. Avec le second, demande quelles tâches ou consignes créent la charge. Puis regarde la <strong>période de quatre semaines</strong>. Si Sam a passé trois semaines en congé, son score parle aussi de ces semaines. Demande <strong>ce qui change au retour</strong>."
-      ],
-      [
-        "Pourquoi le score de ressources est inversé",
-        "Sur une question de ressources notée de 0 à 4, répondre 4 indique beaucoup de ressources. Dans le profil de <strong>manque de ressources</strong>, on calcule <strong>4 − 4, soit 0</strong>. Une réponse de 1 donne 3 points de manque. On fait cette opération pour <strong>chaque item</strong> concerné avant de les additionner."
-      ],
-      [
-        "Distinguer un repère de lecture et une validation",
-        "Les <strong>seuils Bull-Out sont internes</strong> à l’outil. Pour défendre une interprétation clinique, il faudrait comparer les résultats à une <strong>évaluation indépendante</strong> et vérifier les performances sur d’autres personnes. Lis à part le <strong>contexte et les alertes</strong> : ces informations peuvent modifier la suite, même si le total est faible."
-      ]
-    ],
-    "scene": "« On a tous les deux le même score. On a donc le même problème ? » Deux rapports affichent <strong>24/144</strong>. Avant de proposer la suite, ouvre le détail.",
-    "exercice": [
-      "Sur les six items de ressources, Nora répond 4, 4, 3, 3, 2 et 2. Quel score décrit le manque de ressources ?",
-      [
-        "18/24, parce que j’additionne ses réponses.",
-        "6/24, parce que chaque réponse doit d’abord être inversée.",
-        "12/24, parce que les réponses s’échelonnent entre 2 et 4."
-      ],
-      1,
-      [
-        "18 est le total brut de ressources. Le score du rapport exprime ici le manque. Inverse chaque valeur en faisant 4 moins la réponse.",
-        "Les réponses deviennent 0, 0, 1, 1, 2 et 2. Leur somme donne 6/24. Regarde ensuite ce que ce résultat veut dire dans le contexte des quatre dernières semaines.",
-        "Le score dépend de chacune des six réponses. À l’échelle de chaque item, 4 devient 0, 3 devient 1 et 2 devient 2."
-      ]
-    ],
-    "references": [
-      [
-        "INRS · épuisement professionnel et prévention",
-        "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"
-      ],
-      [
-        "INRS · prévention des risques psychosociaux",
-        "https://www.inrs.fr/risques/psychosociaux/prevention.html"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Du questionnaire à la discussion",
-        "colonnes": [
-          "Bloc",
-          "Ce que tu examines"
-        ],
-        "lignes": [
-          [
-            "A à C · manifestations",
-            "Épuisement, distance mentale, efficacité et sens."
-          ],
-          [
-            "D et E · travail",
-            "Exigences puis manque de ressources. E inverse les réponses de 0 à 4."
-          ],
-          [
-            "F · récupération",
-            "Sommeil, coupure, santé et retentissement."
-          ],
-          [
-            "Contexte et alertes",
-            "Le contexte éclaire les facteurs individuels et collectifs. Une réponse d’alerte demande attention même avec un total faible."
-          ]
-        ]
-      }
-    ],
-    "retenir": "Une comparaison dans le temps devient interprétable si tu précises ce qui a changé pendant les quatre semaines considérées.",
-    "transition": "Le rapport désigne des dimensions à discuter. Il reste à transformer une observation en décision vérifiable.",
-    "essentiel": "Le total résume. La répartition, <strong>la période de réponse</strong>, le <strong>contexte et les alertes</strong> orientent les questions suivantes.",
-    "avant": [
-      [
-        "Deux façons d’arriver à 24",
-        "Imagine un profil avec 18 en épuisement et 6 en exigences, puis l’inverse. Dans cet exemple, les autres dimensions sont à zéro. <strong>Le total est identique</strong> dans les deux cas."
-      ]
-    ],
-    "reflexion": "Quelle dimension de ton rapport voudrais-tu relier à un événement daté ?",
-    "rapport": "Pour préparer un échange, apporte un exemple de travail concret qui explique une dimension du rapport."
-  },
-  {
-    "titre": "Que changer dès jeudi ?",
-    "question": "Que doit-on pouvoir observer vendredi si notre décision fonctionne ?",
-    "objectifs": [
-      "Choisir un levier sur la charge, les priorités, l’autonomie, les ressources, l’équité ou la récupération.",
-      "Formuler une demande d’arbitrage et suivre l’effet sur la personne et le collectif."
-    ],
-    "cours": [
-      [
-        "Passer de « j’ai trop de travail » à un choix",
-        "Sam peut dire « Pour vendredi, j’ai A et B. Si A passe en premier, B peut être rendu lundi. Qui valide ce report ? » La réponse change le planning et donne une personne qui assume le délai. En entretien, parle de <strong>ce qui se fait réellement</strong> et des moyens nécessaires."
-      ],
-      [
-        "Regarder l’effet chez la personne et dans l’équipe",
-        "Le vendredi, vérifie <strong>quel délai a été annoncé</strong> et <strong>si la charge a simplement changé de bureau</strong>. Quand les situations se répètent dans une équipe, on peut enquêter sur les tâches, les pics de charge et les <strong>règles contradictoires</strong>. Les tableaux et fiches qui suivent donnent des alternatives selon le problème rencontré."
-      ]
-    ],
-    "scene": "« On m’a conseillé de mieux gérer mon stress. Je fais quoi de mes <strong>deux dossiers</strong> pour vendredi ? » Sam arrive à la réunion avec le planning, les échéances et le contrôle à terminer.",
-    "exercice": [
-      "Après la réunion, B a été confié à quelqu’un qui a déjà deux échéances. Qu’est-ce qui manque ?",
-      [
-        "Un deuxième transfert, sans nouvel arbitrage.",
-        "Une vérification de la charge et des priorités du collègue qui reprend B.",
-        "Un score Bull-Out commun à toute l’équipe."
-      ],
-      1,
-      [
-        "Le prochain transfert pourrait déplacer encore la difficulté.",
-        "Évaluer les effets chez le collègue permet de voir si la charge a été réduite ou déplacée.",
-        "La liste des tâches, des délais et des ressources aide à arbitrer cette situation concrète."
-      ]
-    ],
-    "references": [
-      [
-        "INRS · épuisement professionnel et prévention",
-        "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"
-      ],
-      [
-        "INRS · prévention des risques psychosociaux",
-        "https://www.inrs.fr/risques/psychosociaux/prevention.html"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Six leviers et un premier geste",
-        "colonnes": [
-          "Levier",
-          "Action réalisable"
-        ],
-        "lignes": [
-          [
-            "Réduire la charge",
-            "Faire une liste à trois colonnes : “À faire maintenant / À reporter / À arrêter ou simplifier”."
-          ],
-          [
-            "Clarifier les priorités",
-            "Écrire les trois priorités perçues, puis demander une priorité unique pour la semaine et une trace de ce qui passe après."
-          ],
-          [
-            "Restaurer l'autonomie",
-            "Identifier une décision de méthode à reprendre : ordre des tâches, canal de communication, niveau de détail, plage de concentration."
-          ],
-          [
-            "Augmenter les ressources",
-            "Choisir une ressource concrète à demander : temps, binôme, information, arbitrage, accès, formation courte, relais."
-          ],
-          [
-            "Reconnaissance et équité",
-            "Noter le travail invisible de la semaine : interruptions absorbées, urgences traitées, coordination, corrections, compensations."
-          ],
-          [
-            "Récupération",
-            "Bloquer deux plages non négociables : une plage sans interruption au travail et une vraie coupure hors travail."
-          ]
-        ]
-      },
-      {
-        "titre": "Préparer la conversation",
-        "colonnes": [
-          "Besoin",
-          "Formulation possible"
-        ],
-        "lignes": [
-          [
-            "Demander un arbitrage",
-            "J'ai besoin d'un arbitrage clair : parmi ces trois sujets, lequel est prioritaire cette semaine ? Je peux avancer correctement si on clarifie ce qui doit être fait maintenant, reporté ou abandonné."
-          ],
-          [
-            "Poser une limite",
-            "Je peux tenir ce délai uniquement si le périmètre est réduit ou si une autre tâche est dépriorisée. Sinon, le niveau de qualité attendu ne sera pas soutenable."
-          ],
-          [
-            "Préparer un entretien de charge",
-            "Je souhaite faire un point sur ma charge réelle, car plusieurs signaux montrent que le fonctionnement actuel devient difficilement soutenable."
-          ],
-          [
-            "Signaler un flou",
-            "Le sujet me semble insuffisamment cadré. Pour avancer efficacement, j'ai besoin de clarifier l'objectif, le livrable attendu, le délai et le niveau de détail nécessaire."
-          ]
-        ]
-      },
-      {
-        "titre": "Quand une mesure laisse le problème entier",
-        "colonnes": [
-          "Fausse bonne solution",
-          "Problème",
-          "Alternative plus robuste"
-        ],
-        "lignes": [
-          [
-            "Formation gestion du stress seule",
-            "Elle peut aider certaines personnes, mais elle laisse intactes les contraintes organisationnelles.",
-            "Réduire les demandes évitables et augmenter les ressources réelles."
-          ],
-          [
-            "Yoga, méditation ou respiration imposés",
-            "Utile pour certains, cosmétique si l'exposition reste la même.",
-            "Récupération + arbitrage de charge + marges de manœuvre."
-          ],
-          [
-            "“Ma porte est toujours ouverte”",
-            "Ne remplace pas un arbitrage.",
-            "Point de charge, décision écrite, retrait ou report de tâches."
-          ],
-          [
-            "“Il faut mieux prioriser”",
-            "Inutile si tout est présenté comme prioritaire.",
-            "Décision explicite : ce qui est prioritaire, ce qui ne l'est pas, ce qui est abandonné."
-          ],
-          [
-            "“Soyez résilient”",
-            "Peut masquer une organisation non soutenable.",
-            "Rendre le travail soutenable : charge, autonomie, soutien, reconnaissance, récupération."
-          ],
-          [
-            "Baromètre sans action",
-            "Mesurer sans agir augmente parfois le cynisme.",
-            "Mesure courte + décisions visibles + retour aux salariés."
-          ]
-        ]
-      }
-    ],
-    "retenir": "Une action précise ce qui change dans le travail, qui décide, quand on vérifie et quelle charge risque d’être déplacée.",
-    "transition": "Une décision sur la charge et un accompagnement de santé peuvent être nécessaires en parallèle. Qui peut faire quoi ?",
-    "fiches": [
-      [
-        "Réduire la charge",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand la quantité de travail, les interruptions ou les priorités contradictoires ressortent fortement."
-          ],
-          [
-            "Action en 15 minutes",
-            "Faire une liste à trois colonnes : “À faire maintenant / À reporter / À arrêter ou simplifier”."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "J'ai actuellement A, B et C en parallèle. Je peux avancer correctement sur deux sujets, pas sur trois au même niveau de qualité. Lequel est prioritaire cette semaine, et lequel peut être reporté ?"
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "Dans ce cas, il faut choisir le niveau de dégradation acceptable : délai, qualité, périmètre ou charge. Je ne peux pas garantir les quatre simultanément."
-          ],
-          [
-            "Variante plus ferme",
-            "Sans arbitrage écrit, je traiterai A en priorité et je reporterai B/C. Je préfère rendre visible la limite plutôt que produire une fausse promesse."
-          ]
-        ]
-      ],
-      [
-        "Clarifier les priorités",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand les demandes changent, se contredisent ou arrivent sans hiérarchie claire."
-          ],
-          [
-            "Action en 15 minutes",
-            "Écrire les trois priorités perçues, puis demander une priorité unique pour la semaine et une trace de ce qui passe après."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "Pour éviter de disperser l'effort, j'ai besoin de savoir quel résultat compte vraiment cette semaine. Parmi A, B et C, lequel passe en premier ?"
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "Si tout reste prioritaire, je vais devoir arbitrer moi-même, avec un risque sur le délai ou la qualité. Je préfère que l'arbitrage soit explicite."
-          ],
-          [
-            "Variante plus ferme",
-            "Je ne peux pas traiter des priorités contradictoires comme si elles étaient compatibles. Merci de confirmer l'ordre de priorité avant que je m'engage."
-          ]
-        ]
-      ],
-      [
-        "Restaurer l'autonomie",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand vous avez la responsabilité du résultat sans marge réelle sur la manière de l'obtenir."
-          ],
-          [
-            "Action en 15 minutes",
-            "Identifier une décision de méthode à reprendre : ordre des tâches, canal de communication, niveau de détail, plage de concentration."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "Je peux atteindre le résultat attendu si j'ai de la marge sur la méthode. Je propose de travailler ainsi : A d'abord, B ensuite, et pas d'interruption sur ce créneau."
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "Sans marge sur la méthode, la contrainte augmente sans améliorer le résultat. Quel point peut être laissé à mon arbitrage ?"
-          ],
-          [
-            "Variante plus ferme",
-            "Je prends la responsabilité du livrable si j'ai aussi la marge minimale pour l'organiser. Sinon, il faut revoir l'objectif ou le délai."
-          ]
-        ]
-      ],
-      [
-        "Augmenter les ressources",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand le manque de soutien, de clarté, de moyens ou d'information utile devient le facteur limitant."
-          ],
-          [
-            "Action en 15 minutes",
-            "Choisir une ressource concrète à demander : temps, binôme, information, arbitrage, accès, formation courte, relais."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "Pour tenir ce niveau d'exigence, il manque une ressource précise : soit du temps, soit un relais, soit un arbitrage clair. La ressource la plus utile maintenant est : X."
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "Un encouragement ne remplace pas une ressource. De quoi dispose-t-on concrètement cette semaine ?"
-          ],
-          [
-            "Variante plus ferme",
-            "Sans ressource supplémentaire, je peux faire une version réduite. Je ne peux pas garantir le même périmètre avec les mêmes moyens."
-          ]
-        ]
-      ],
-      [
-        "Reconnaissance et équité",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand vous donnez beaucoup sans retour suffisant, ou quand les décisions de charge et de reconnaissance semblent opaques."
-          ],
-          [
-            "Action en 15 minutes",
-            "Noter le travail invisible de la semaine : interruptions absorbées, urgences traitées, coordination, corrections, compensations."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "Je souhaite rendre visible la charge réelle, y compris le travail invisible. Quels critères utilise-t-on pour répartir les sujets, reconnaître l'effort et arbitrer les priorités ?"
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "Si les critères restent implicites, le sentiment d'injustice augmente. J'ai besoin d'un critère explicite, même imparfait."
-          ],
-          [
-            "Variante plus ferme",
-            "Je ne peux pas continuer à absorber une charge invisible sans reconnaissance, arbitrage ou réduction de périmètre."
-          ]
-        ]
-      ],
-      [
-        "Récupération",
-        [
-          [
-            "Quand l'utiliser ?",
-            "Quand fatigue, rumination, sommeil dégradé ou stratégies de compensation ressortent dans vos résultats."
-          ],
-          [
-            "Action en 15 minutes",
-            "Bloquer deux plages non négociables : une plage sans interruption au travail et une vraie coupure hors travail."
-          ],
-          [
-            "Phrase à envoyer / dire",
-            "Je dois protéger un temps de récupération et réduire les sollicitations hors cadre. Je serai disponible sur ces créneaux, pas en réponse permanente."
-          ],
-          [
-            "Si la réponse est floue ou évitante",
-            "La récupération ne se décrète pas après coup. Si les sollicitations continuent, l'exposition continue aussi."
-          ],
-          [
-            "Variante plus ferme",
-            "Je coupe les notifications hors horaires et je traiterai les demandes non urgentes au prochain créneau de travail."
-          ]
-        ]
-      ]
-    ],
-    "essentiel": "Une mesure de prévention devient vérifiable quand on sait ce qu’elle change dans le travail, <strong>qui décide</strong> et quand on regarde l’effet.",
-    "avant": [
-      [
-        "Trois niveaux, trois questions",
-        "En <strong>prévention primaire</strong>, on modifie l’exposition, par exemple en supprimant une double validation inutile. En <strong>secondaire</strong>, on aide à reconnaître ou affronter la difficulté, par exemple avec une formation. En <strong>tertiaire</strong>, on agit sur les conséquences et la reprise. Sam peut avoir besoin d’un soutien et d’un arbitrage collectif à la même période."
-      ]
-    ],
-    "reflexion": "Quelle décision voudrais-tu obtenir à ta prochaine réunion, et à quelle date sauras-tu si elle a eu un effet ?",
-    "rapport": "Les pistes d’action du rapport deviennent des demandes précises quand tu les rattaches à une contrainte constatée.",
-    "repere": {
-      "titre": "Prépare la décision de jeudi",
-      "questions": [
-        [
-          "Pose le conflit",
-          "<strong>Deux dossiers</strong> pour vendredi, une seule marge de manœuvre. Montre les délais et le <strong>temps réellement disponible</strong>."
-        ],
-        [
-          "Demande un arbitrage",
-          "Choisis avec la personne responsable quel dossier reste prioritaire, lequel est reporté et <strong>qui annonce le changement</strong>."
-        ],
-        [
-          "Vérifie vendredi",
-          "Regarde ce qui a été terminé et si le report charge quelqu’un d’autre."
-        ]
-      ]
-    }
-  },
-  {
-    "titre": "À qui en parler, et comment reprendre ?",
-    "question": "Que partage-t-on avec le médecin, le manager et le collectif ?",
-    "objectifs": [
-      "Choisir un interlocuteur selon le besoin de soins, de protection, d’aménagement ou d’arbitrage.",
-      "Préparer le retour et fixer des points de suivi sans exposer les résultats individuels."
-    ],
-    "cours": [
-      [
-        "Faire une répétition avant lundi",
-        "Écris les tâches qui reviennent, les dossiers laissés en relais, les urgences prévues et <strong>les signaux qui feront réexaminer le plan</strong>. Au premier point, <strong>compare la charge réelle au planning</strong> et regarde qui a pris le travail différé."
-      ],
-      [
-        "Quand une autre réponse s’impose",
-        "Si la dégradation se prolonge, revenir sur le travail réellement repris aide à identifier ce qui a changé et à discuter de la suite avec les professionnels concernés. En France, un <strong>danger immédiat ou une urgence médicale</strong> relève du <strong>15 ou du 112</strong>. En cas d’idées suicidaires ou d’inquiétude pour une personne, le <strong>3114</strong> est accessible à toute heure."
-      ]
-    ],
-    "scene": "« On m’a dit de reprendre en douceur. Les mêmes urgences sont déjà dans mon agenda. » Sam voudrait parler de sa santé, assurer sa reprise et savoir ce qu’il peut demander à <strong>son responsable</strong>.",
-    "exercice": [
-      "Le responsable demande le rapport complet pour organiser le retour de Sam. Quelle information lui permet d’agir sur le planning ?",
-      [
-        "Les détails de santé et toutes les réponses du questionnaire.",
-        "Les tâches à reprendre, celles à reporter et la personne chargée de chaque relais.",
-        "Le total du questionnaire seul."
-      ],
-      1,
-      [
-        "Les informations de santé peuvent être discutées en consultation. Le planning se travaille à partir des tâches et des besoins d’aménagement.",
-        "Ces éléments permettent de prendre des décisions concrètes et de les vérifier au premier point.",
-        "Un total ne dit pas quels dossiers rouvrir ni qui couvrira les urgences."
-      ]
-    ],
-    "references": [
-      [
-        "INRS · épuisement professionnel et prévention",
-        "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"
-      ],
-      [
-        "INRS · prévention des risques psychosociaux",
-        "https://www.inrs.fr/risques/psychosociaux/prevention.html"
-      ],
-      [
-        "3114 · prévention du suicide en France",
-        "https://3114.fr/"
-      ],
-      [
-        "INRS · Guide d’aide à la prévention de l’épuisement professionnel",
-        "https://www.inrs.fr/dam/jcr%3A53295d2e-6d26-45f2-ab6c-54a580e49c2f/rapport-burnout.pdf"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Choisir la bonne porte",
-        "colonnes": [
-          "Interlocuteur",
-          "Quand le solliciter"
-        ],
-        "lignes": [
-          [
-            "Médecin du travail",
-            "Acteur central de la prévention en santé au travail. Il évalue le lien entre état de santé et conditions de travail, conseille sur les adaptations possibles et peut proposer des aménagements de poste."
-          ],
-          [
-            "Médecin généraliste",
-            "Premier interlocuteur médical pour évaluer l'état de santé global, rechercher les diagnostics différentiels et décider d'une prise en charge."
-          ],
-          [
-            "Infirmier·ère en santé au travail",
-            "Professionnel de santé du service de prévention et de santé au travail. Il peut participer au suivi, au repérage, aux visites d'information et de prévention, et orienter vers le médecin du travail si nécessaire."
-          ],
-          [
-            "Psychologue",
-            "Professionnel de l'accompagnement psychologique. Il peut aider à comprendre les mécanismes d'épuisement, les ruminations, la culpabilité, les limites personnelles et les stratégies de récupération."
-          ],
-          [
-            "Psychiatre",
-            "Médecin spécialiste de la santé mentale. À contacter en cas de symptômes sévères, persistants ou associés à une dépression, anxiété intense, idées suicidaires, attaques de panique ou perte importante de fonctionnement."
-          ],
-          [
-            "Manager direct",
-            "Interlocuteur pour arbitrer la charge, clarifier les priorités, réduire les contradictions et ajuster le travail réel."
-          ],
-          [
-            "Ressources humaines",
-            "Interlocuteur pour les dispositifs internes, les procédures, les aménagements organisationnels, les conflits, les signalements et l'accès aux ressources de l'entreprise."
-          ],
-          [
-            "CSE / CSSCT / représentants du personnel",
-            "Acteurs de représentation du personnel. Ils peuvent contribuer aux sujets de santé, sécurité et conditions de travail, faire remonter des situations collectives et accompagner des salariés."
-          ],
-          [
-            "Assistant·e social·e du travail",
-            "Interlocuteur utile quand la situation de travail a des conséquences sociales, financières, familiales ou administratives."
-          ],
-          [
-            "Urgence médicale / 3114",
-            "À contacter immédiatement en cas de risque suicidaire, danger immédiat, perte de contrôle, malaise, douleur thoracique, essoufflement inhabituel ou situation aiguë."
-          ]
-        ]
-      },
-      {
-        "titre": "Organiser le retour",
-        "colonnes": [
-          "Étape",
-          "Points à convenir"
-        ],
-        "lignes": [
-          [
-            "Avant la reprise",
-            "Contacter le médecin du travail si possible. Identifier les facteurs qui ont contribué à l'arrêt ou à l'alerte. Clarifier ce qui doit changer."
-          ],
-          [
-            "Au retour",
-            "Charge réduite temporaire. Priorités écrites. Interlocuteur identifié. Réduction des urgences et interruptions."
-          ],
-          [
-            "Suivi",
-            "Point à 2 semaines. Point à 1 mois. Ajustements si les signaux remontent. Ne pas attendre l'effondrement pour corriger."
-          ]
-        ]
-      }
-    ],
-    "retenir": "On peut demander des soins, protéger la confidentialité et modifier le travail en même temps.",
-    "transition": "Au test final, tu reprendras le raisonnement complet sur de nouvelles situations.",
-    "fiches": [
-      [
-        "Médecin du travail",
-        [
-          [
-            "Quand le contacter",
-            "Symptômes qui durent · Score élevé ou alerte au questionnaire · Surcharge durable · Conflit entre santé et exigences du poste · Retour après arrêt · Besoin d'aménagement"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Évaluer la compatibilité entre santé et poste · Proposer des aménagements · Conseiller sur la reprise ou le maintien au travail · Orienter vers d'autres professionnels · Alerter sur les risques collectifs sans transmettre de diagnostic personnel"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne remplace pas le médecin traitant · Il ne prescrit pas toujours comme un médecin de soin · Il ne doit pas transmettre vos informations médicales à l'employeur"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je souhaite un échange confidentiel sur l'impact de ma charge et de mes conditions de travail sur ma santé, et sur les aménagements possibles.”"
-          ]
-        ]
-      ],
-      [
-        "Médecin généraliste",
-        [
-          [
-            "Quand le contacter",
-            "Fatigue intense persistante · Insomnie · Anxiété ou humeur dépressive · Symptômes physiques · Perte de fonctionnement · Besoin d'arrêt de travail · Doute sur un problème médical associé"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Évaluer l'état clinique · Rechercher d'autres causes : anémie, thyroïde, trouble du sommeil, dépression, anxiété, pathologie somatique · Prescrire si nécessaire · Proposer un arrêt de travail · Orienter vers psychologue, psychiatre, spécialiste ou médecin du travail"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne connaît pas toujours le travail réel · Il ne peut pas, seul, corriger l'organisation du travail"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je viens parce que mon état se dégrade depuis plusieurs semaines : fatigue, sommeil, fonctionnement et travail. J'aimerais vérifier les causes médicales possibles et discuter de la conduite à tenir.”"
-          ]
-        ]
-      ],
-      [
-        "Infirmier·ère en santé au travail",
-        [
-          [
-            "Quand le contacter",
-            "Besoin d'un premier échange santé-travail · Signaux précoces · Difficulté à formuler la situation · Besoin d'orientation vers le médecin du travail · Suivi après un premier signal"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Écouter et objectiver les signaux · Aider à préparer une demande au médecin du travail · Orienter vers le bon professionnel · Participer au suivi de santé au travail"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne remplace pas une consultation médicale complète · Il ne décide pas seul des aménagements médicaux complexes"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“J'aimerais faire un premier point santé-travail, car je constate plusieurs signaux de surcharge et je ne sais pas encore vers qui me tourner.”"
-          ]
-        ]
-      ],
-      [
-        "Psychologue",
-        [
-          [
-            "Quand le contacter",
-            "Rumination · Anxiété · Culpabilité à poser des limites · Perte de confiance · Difficultés de récupération · Besoin de soutien hors cadre hiérarchique"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Aider à mettre des mots sur la situation · Travailler les stratégies de coping · Aider à poser des limites · Accompagner la récupération psychologique · Repérer si une orientation médicale est nécessaire"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne remplace pas un médecin en cas de symptômes sévères · Il ne peut pas corriger seul les causes organisationnelles"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je souhaite être accompagné pour comprendre ce qui m'épuise, réduire la rumination et préparer des limites réalistes au travail.”"
-          ]
-        ]
-      ],
-      [
-        "Psychiatre",
-        [
-          [
-            "Quand le contacter",
-            "Idées suicidaires · Dépression sévère · Anxiété majeure · Attaques de panique · Incapacité à fonctionner · Échec d'une première prise en charge · Besoin d'un avis spécialisé ou d'un traitement"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Poser un diagnostic psychiatrique si nécessaire · Prescrire un traitement · Coordonner une prise en charge · Proposer ou organiser une hospitalisation si risque majeur · Orienter vers psychothérapie ou autres soins"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne remplace pas l'analyse des causes professionnelles · Il ne doit pas être mobilisé uniquement pour “tenir” dans un système intenable"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Mes symptômes deviennent sévères et impactent mon fonctionnement. J'ai besoin d'un avis spécialisé sur l'anxiété, l'humeur, le sommeil et le risque.”"
-          ]
-        ]
-      ],
-      [
-        "Manager direct",
-        [
-          [
-            "Quand le contacter",
-            "Surcharge · Priorités contradictoires · Flou sur le livrable · Objectifs irréalistes · Besoin de délai, renfort ou arbitrage"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Prioriser · Retirer ou reporter des tâches · Clarifier le niveau de qualité attendu · Protéger du flux de demandes · Organiser du soutien ou du binômage"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne doit pas recevoir de détails médicaux · Il ne remplace pas un professionnel de santé · Il peut faire partie du problème si le management produit la surcharge"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“J'ai besoin d'un arbitrage sur ma charge. Voici les sujets en cours, les délais et ce qui me semble non soutenable. Qu'est-ce qu'on retire, reporte ou simplifie ?”"
-          ]
-        ]
-      ],
-      [
-        "Ressources humaines",
-        [
-          [
-            "Quand les contacter",
-            "Conflit durable · Besoin de procédure · Demande d'aménagement organisationnel · Situation de harcèlement ou violence · Besoin de médiation · Absence de réponse managériale"
-          ],
-          [
-            "Ce qu'ils peuvent faire",
-            "Expliquer les dispositifs internes · Organiser une médiation · Mobiliser des ressources · Traiter des alertes · Coordonner certains aménagements avec les acteurs compétents"
-          ],
-          [
-            "Ce qu'ils ne font pas",
-            "Ils ne sont pas un espace médical · Ils ne garantissent pas toujours la confidentialité au même niveau qu'un professionnel de santé · Ils représentent aussi l'organisation"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je souhaite connaître les dispositifs internes disponibles pour traiter une situation de surcharge durable / conflit / risque psychosocial, sans transmettre de détails médicaux.”"
-          ]
-        ]
-      ],
-      [
-        "CSE / CSSCT / représentants du personnel",
-        [
-          [
-            "Quand les contacter",
-            "Problème collectif · Surcharge partagée · Organisation dysfonctionnelle · Absence de réponse managériale · Risque psychosocial récurrent · Besoin de conseil sur ses droits"
-          ],
-          [
-            "Ce qu'ils peuvent faire",
-            "Écouter et conseiller · Faire remonter un problème collectif · Demander des actions de prévention · Contribuer aux sujets santé, sécurité et conditions de travail · Accompagner dans certaines démarches"
-          ],
-          [
-            "Ce qu'ils ne font pas",
-            "Ils ne posent pas de diagnostic · Ils ne remplacent pas les professionnels de santé · Ils doivent être utilisés avec prudence selon le contexte relationnel et la confidentialité souhaitée"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je souhaite savoir si d'autres personnes rencontrent les mêmes difficultés de charge ou d'organisation, et quelles démarches collectives sont possibles.”"
-          ]
-        ]
-      ],
-      [
-        "Assistant·e social·e du travail",
-        [
-          [
-            "Quand le contacter",
-            "Arrêt prolongé · Difficulté financière · Démarches administratives · Handicap ou maintien dans l'emploi · Articulation santé / famille / travail · Besoin d'aide pour droits et dispositifs"
-          ],
-          [
-            "Ce qu'il peut faire",
-            "Aider à comprendre les droits · Accompagner les démarches · Orienter vers des dispositifs d'aide · Soutenir le maintien ou le retour au travail"
-          ],
-          [
-            "Ce qu'il ne fait pas",
-            "Il ne remplace pas le médecin · Il ne règle pas seul l'organisation du travail"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Ma situation professionnelle commence à avoir des conséquences sur mon équilibre personnel ou administratif. J'ai besoin d'aide pour comprendre les options et démarches possibles.”"
-          ]
-        ]
-      ],
-      [
-        "Urgence médicale / 3114",
-        [
-          [
-            "Quand contacter",
-            "Idées suicidaires · Risque de passage à l'acte · Danger immédiat · Malaise ou douleur thoracique · Crise sévère · Impossibilité de rester seul en sécurité"
-          ],
-          [
-            "Ce qu'ils peuvent faire",
-            "Évaluer l'urgence · Déclencher une prise en charge · Orienter vers les soins adaptés · Protéger en situation de danger"
-          ],
-          [
-            "Pour ouvrir la discussion",
-            "“Je ne me sens pas en sécurité / j'ai peur de passer à l'acte / j'ai besoin d'aide immédiatement.”"
-          ]
-        ]
-      ]
-    ],
-    "essentiel": "Pour trouver le bon interlocuteur, pars de la <strong>décision à prendre</strong>. Une reprise se prépare avec des tâches, des moyens et un point de suivi.",
-    "avant": [
-      [
-        "Scinder la discussion",
-        "Pour une évaluation de santé, Sam peut parler de son sommeil et de ses difficultés avec son <strong>médecin traitant</strong>. Le <strong>médecin du travail</strong> peut échanger avec lui sur les aménagements. <strong>Son responsable</strong> peut décider des priorités et du relais. Sam choisit les éléments personnels qu’il souhaite partager."
-      ]
-    ],
-    "reflexion": "Quelle est la première <strong>décision à prendre</strong> dans ta situation, et qui a le pouvoir de la prendre ?",
-    "rapport": "Tu peux utiliser le rapport pour préparer des échanges différents, selon que tu demandes des soins, une protection, un aménagement ou un arbitrage.",
-    "repere": {
-      "titre": "Choisis ton premier interlocuteur",
-      "questions": [
-        [
-          "Faire le point sur ta santé",
-          "<strong>Médecin traitant</strong>. Tu peux lui décrire le sommeil, la récupération, la <strong>gêne et leur évolution</strong>."
-        ],
-        [
-          "Discuter du poste ou de la reprise",
-          "<strong>Médecin du travail</strong>. Apporte des exemples de tâches, de contraintes et d’aménagements à discuter."
-        ],
-        [
-          "Arbitrer les urgences et les moyens",
-          "Responsable. Demande quelles <strong>tâches reprendre</strong>, lesquelles reporter et qui prend le relais."
-        ]
-      ]
-    }
-  }
+// Formation Bull-Out : huit chapitres d’une page, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
+// des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
+// Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7 et 8 : il concerne tout le monde.
+
+export const temps = [
+  "Premier temps · Nommer sans se tromper",
+  "Deuxième temps · Chercher ce qui use",
+  "Troisième temps · Agir sur le travail",
 ];
 
+export const introduction = {
+  objectif: "À la fin de la formation, tu sauras lire ton rapport Bull-Out comme un point de départ pour agir sur ton travail, et non comme un verdict sur toi.",
+  pourquoi: [
+    "Tu viens peut-être avec une question simple : « est-ce que je fais un burn-out ? ». Ou avec la question inverse : « tout le monde est fatigué, est-ce que j’exagère ? ». Les deux sont légitimes, et les deux vont trop vite.",
+    "Le mot burn-out est partout : en réunion, sur les réseaux, à la machine à café. Chacun y met ce qu’il veut. Pour certains, c’est une grosse fatigue. Pour d’autres, une faiblesse. Pour d’autres encore, un mot à la mode. Aucune de ces trois idées n’aide à décider quoi faire lundi.",
+    "La recherche raisonne autrement. Elle ne demande pas seulement « comment va la personne ? », mais aussi « qu’est-ce qui, dans le travail, l’use ? » et « qu’est-ce qu’on peut y changer ? ». C’est ce changement de regard que la formation installe, avant le questionnaire.",
+    "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
+  ],
+  contrat: [
+    "<b>Huit chapitres d’une page</b>, de 4 à 7 minutes chacun (environ 45 minutes en tout), puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
+    "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
+  ],
+  essentiel: [
+    "Le meilleur indice n’est pas l’intensité de la fatigue, mais sa durée et ce que le repos te rend.",
+    "Le burn-out a trois signes : l’épuisement, la distance mentale et la baisse d’efficacité. La fatigue n’est que le premier.",
+    "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire.",
+    "Donner beaucoup pour peu de retour use aussi, et le surengagement rend le problème invisible.",
+    "Un facteur personnel peut rendre plus vulnérable. Il ne dispense jamais de regarder le travail.",
+    "Aucun dosage ne diagnostique un burn-out, et un score se lit dimension par dimension.",
+    "Face à une surcharge, il faut une décision : retirer, reporter ou simplifier. Sinon, on escalade.",
+    "Chaque interlocuteur ouvre une porte différente : soin, aménagement, arbitrage ou protection.",
+  ],
+};
+
+export const chapitres = [
+  // ───────────────────────────── 1
+  {
+    temps: 0,
+    court: "Fatigue ou usure ?",
+    titre: "Fatigue, stress ou burn-out : ce que le repos te rend",
+    duree: 5,
+    savoir: [
+      "Distinguer une fatigue qui passe d’une usure qui s’installe, avec un critère simple : ce que le repos te rend.",
+      "Dire ce que l’Organisation mondiale de la santé appelle burn-out, et ce qu’elle n’appelle pas ainsi.",
+    ],
+    arrive: "« Je suis crevé, c’est sûrement un burn-out. » Ou l’inverse : « Tout le monde est fatigué, c’est normal. » Les deux phrases vont trop vite. Ce chapitre donne un critère pour ne se tromper dans aucun sens.",
+    retenir: "Le burn-out n’est pas une grosse fatigue. L’OMS le décrit comme un <b>phénomène lié au travail</b> : un stress chronique au travail qui n’a pas été bien géré, avec trois signes (épuisement, distance mentale, efficacité réduite). Le meilleur indice n’est pas l’intensité de la fatigue, c’est <b>sa durée</b> et <b>ce que le repos te rend</b>.",
+    blocs: [
+      { t: "h", texte: "Le critère du week-end" },
+      { t: "p", html: "Vendredi soir, Sam et sa collègue Léa viennent de livrer un gros dossier en urgence. Tous les deux disent la même phrase : « je suis vidé ». À ce moment-là, rien ne permet de les distinguer. Pour les comprendre, il faut les retrouver <b>après</b>." },
+      { t: "fig", ill: "weekend", cap: "Même vendredi, deux suites différentes. Ce qui distingue une fatigue d’une usure, c’est ce que le repos rend." },
+      { t: "p", html: "Lundi, Léa a retrouvé de l’énergie. Trois semaines plus tard, elle a repris le tennis. Sam, lui, a dormi tout le week-end sans récupérer. Il annule ses soirées, relit trois fois le même mail. La différence ne tient pas à la dureté du vendredi : elle tient à <b>ce que le repos leur rend</b>, et à <b>ce qu’ils arrivent encore à faire</b>." },
+      { t: "exemple", titre: "Le test des vacances", html: "Sam part dix jours en congé. Il revient reposé. Trois jours après la reprise, il est aussi vidé qu’avant. Ce retour rapide ne prouve pas que le travail est la seule cause. Mais il en fait <b>une piste sérieuse</b> : ce qui revient avec le travail mérite d’être regardé de près.", note: "Une fatigue qui revient avec la reprise est une information, pas un échec des vacances." },
+      { t: "h", texte: "Ce que dit l’OMS" },
+      { t: "p", html: "Depuis 2022, la Classification internationale des maladies de l’OMS (CIM-11) décrit le burn-out comme un <b>phénomène professionnel</b>, et non comme une maladie. Il résulte d’un stress chronique au travail qui n’a pas été géré avec succès. Il se reconnaît à trois signes :" },
+      { t: "cartes", items: [
+        ["Épuisement", "Une fatigue qui dure, que le repos ne compense plus."],
+        ["Distance mentale", "Se détacher de son travail, devenir cynique ou négatif à son sujet."],
+        ["Efficacité réduite", "L’impression de moins bien faire, plus d’erreurs, moins de confiance."],
+      ] },
+      { t: "p", html: "Un point compte beaucoup : la CIM-11 réserve ce mot au <b>contexte du travail</b>. Une fatigue liée à un deuil, à un bébé qui ne dort pas ou à une maladie n’est pas un burn-out, même si elle épuise autant." },
+      { t: "mythes", titre: "Trois idées reçues", items: [
+        ["« Le burn-out n’existe pas officiellement »", "Il est décrit par l’OMS dans la CIM-11. Il n’y est pas classé comme une maladie, mais comme un phénomène lié au travail, ce qui ne le rend pas moins réel : c’est justement ce qui oriente la prévention vers le travail."],
+        ["« C’est une dépression au travail »", "Les deux peuvent coexister, mais ce n’est pas la même chose. Une dépression déborde en général le travail : plus d’envie de rien, même le week-end, même avec ses proches, une culpabilité forte. Elle appelle un avis médical, quel que soit le contexte."],
+        ["« Ça arrive aux faibles »", "Le burn-out touche souvent des personnes très engagées dans leur travail. Ce n’est pas une question de solidité : on ne demande pas à un pont « solide » de porter indéfiniment deux fois sa charge."],
+      ] },
+      { t: "h", texte: "Ne pas tout appeler burn-out" },
+      { t: "p", html: "Tout malaise au travail n’est pas un burn-out. Ce n’est pas une question de vocabulaire : <b>le mot change la réponse</b>. Voici six situations qui se ressemblent au début, et qui n’appellent pas la même aide." },
+      { t: "table", titre: "Six situations à distinguer", cols: ["Situation", "Ce qui la signale", "Ce qui aide"], rows: [
+        ["Fatigue passagère", "Elle passe avec un week-end, un congé court, une semaine plus calme.", "Protéger la récupération, surveiller."],
+        ["Stress aigu", "Une réaction forte à un événement précis : une échéance, une crise, un conflit.", "Traiter l’événement, vérifier que la tension ne s’installe pas."],
+        ["Burn-out", "Une usure liée au travail qui dure : épuisement, distance, efficacité en baisse.", "Analyser le travail réel, réduire ce qui use, demander un avis de santé."],
+        ["Dépression", "Humeur basse, perte d’envie, culpabilité, souvent au-delà du travail.", "Un avis médical ou psychologique, sans attendre."],
+        ["Harcèlement ou violence", "Humiliations, menaces, isolement, propos dégradants répétés.", "Protection, traces écrites, interlocuteurs compétents (chapitre 8)."],
+        ["Conflit éthique", "Devoir faire un travail contraire à ses valeurs, à la qualité ou à la sécurité.", "Clarifier les responsabilités, documenter, chercher un appui collectif."],
+      ] },
+      { t: "principe", html: "Se tromper de mot, c’est se tromper de porte. Une dépression appelle un soin, un harcèlement une protection, une surcharge un arbitrage. Plusieurs situations peuvent aussi coexister : on traite alors chacune." },
+      { t: "piege", titre: "Le piège · « tout le monde est fatigué »", depart: "Dans l’équipe de Sam, tout le monde se dit fatigué depuis des semaines.", etapes: [
+        ["ce qui est fréquent devient normal", "Donc c’est normal."],
+        ["ce qui est normal devient sans risque", "Donc ce n’est pas un problème."],
+        ["sans risque devient sans action", "Donc il n’y a rien à faire."],
+      ], fin: "Une fatigue partagée par toute une équipe n’est pas la preuve que tout va bien. C’est souvent <b>un signal sur l’organisation du travail</b>." },
+    ],
+    exo: {
+      titre: "Le bon mot",
+      intro: "Sam, Léa et Karim travaillent dans le même service. Chacun dit « je n’en peux plus ». Quel mot, et quelle réponse, pour chacun ?",
+      situations: [
+        { q: "Sam revient de dix jours de congé, reposé. Trois jours après la reprise, il est aussi vidé qu’avant. Que retenir ?", choix: [
+          "C’est forcément un burn-out : le travail est la cause.",
+          "Le travail devient une piste sérieuse : ce qui revient avec la reprise mérite d’être regardé.",
+          "Ses congés étaient trop courts : il lui faut simplement plus de repos.",
+        ], bonne: 1, fb: [
+          "Pas si vite. La chronologie rend le travail plausible, mais d’autres choses ont pu changer entre-temps : le sommeil, la vie personnelle. On en fait une piste, pas une conclusion.",
+          "Oui. Une fatigue qui revient avec le travail est un indice fort. La suite consiste à chercher ce qui, au travail, revient avec elle : les interruptions, les horaires, un dossier précis.",
+          "Le repos a fonctionné : Sam était reposé. C’est le retour au travail qui le vide à nouveau. Plus de congés ne changeraient pas ce qui l’attend à la reprise.",
+        ] },
+        { q: "Léa dort mal depuis l’annonce d’une réorganisation, la semaine dernière. Elle se sent tendue en permanence.", choix: [
+          "Un stress aigu lié à un événement précis : à prendre au sérieux, et à surveiller dans la durée.",
+          "Un burn-out qui commence : il faut l’arrêter tout de suite.",
+          "Rien de particulier : tout le monde est stressé par une réorganisation.",
+        ], bonne: 0, fb: [
+          "Oui. L’événement est identifié et récent. La question est de savoir si la tension s’apaise ou s’installe. Une réorganisation mal expliquée peut aussi devenir une exigence durable.",
+          "Une semaine, c’est trop court pour parler d’usure installée. Ce qui compte : comment ça évolue dans les semaines qui viennent, et ce que la réorganisation change à son travail.",
+          "Que ce soit fréquent ne veut pas dire que c’est sans effet. Le stress de Léa est réel, et il mérite qu’on suive ce qu’il devient.",
+        ] },
+        { q: "Karim n’a plus envie de rien, même le week-end, même avec ses amis. Il se sent coupable de tout.", choix: [
+          "C’est un burn-out, puisque c’est au travail que ça a commencé.",
+          "Il lui faut des vacances pour se changer les idées.",
+          "Une perte d’envie qui déborde le travail appelle un avis médical : cela peut être une dépression.",
+        ], bonne: 2, fb: [
+          "Le point de départ ne suffit pas. Quand la perte d’envie et la culpabilité envahissent toute la vie, il faut un avis médical, quelle que soit l’origine.",
+          "Des vacances ne soignent pas une dépression possible, et le retard peut coûter cher. Ce que décrit Karim appelle d’abord un avis médical.",
+          "Oui. Les signes de Karim dépassent le travail. Un médecin ou un psychologue peut faire le point. Cela n’empêche pas, en parallèle, de regarder son travail.",
+        ] },
+      ],
+    },
+    sources: [
+      ["OMS · le burn-out, un phénomène professionnel (CIM-11)", "https://www.who.int/news/item/28-05-2019-burn-out-an-occupational-phenomenon-international-classification-of-diseases"],
+      ["HAS · repérage et prise en charge clinique du syndrome d’épuisement professionnel", "https://www.has-sante.fr/jcms/c_2769318/fr/reperage-et-prise-en-charge-cliniques-du-syndrome-d-epuisement-professionnel-ou-burnout"],
+      ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
+    ],
+    nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
+    piece: { nom: "La batterie", texte: "Ton rapport commence par l’énergie : ce que tu dépenses, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
+  },
+
+  // ───────────────────────────── 2
+  {
+    temps: 0,
+    court: "Les trois signes",
+    titre: "Les trois signes : s’épuiser, se détacher, douter de soi",
+    duree: 5,
+    savoir: [
+      "Reconnaître les trois signes décrits par Christina Maslach, et pourquoi la fatigue n’est que le premier.",
+      "Comprendre pourquoi le cynisme peut être une protection, et la baisse d’efficacité une conséquence plutôt qu’une incompétence.",
+    ],
+    arrive: "« Je ne suis pas fatigué, juste dégoûté : ce n’est donc pas de l’usure. » Ou : « Je deviens cynique, c’est mon caractère. » Ce chapitre montre que ces deux phrases décrivent souvent des signes à part entière.",
+    retenir: "La psychologue Christina Maslach a décrit le burn-out comme <b>trois signes qui s’enchaînent souvent</b> : on s’épuise, on se protège en prenant de la distance, puis on a l’impression de moins bien faire. Repérer les deux derniers évite de passer à côté d’une usure qui ne se présente pas comme de la fatigue.",
+    blocs: [
+      { t: "h", texte: "Trois jauges, pas une" },
+      { t: "fig", ill: "jauges", cap: "Trois jauges distinctes. Elles montent souvent ensemble, mais pas toujours au même rythme." },
+      { t: "p", html: "Quatre semaines après le vendredi du chapitre 1, voici ce que Sam dit de lui, dans ses mots :" },
+      { t: "cartes", items: [
+        ["« Je suis vidé »", "<b>L’épuisement</b>. Le corps et la tête n’ont plus de réserve. Le matin, la journée paraît déjà longue."],
+        ["« À quoi bon ? »", "<b>La distance mentale</b>. Sam se détache des clients, des projets, des collègues. Il répond plus sèchement, ironise, en fait le minimum."],
+        ["« Je n’y arrive plus »", "<b>L’efficacité réduite</b>. Il oublie une livraison, se trompe sur un bon de commande, doute de ce qu’il sait faire."],
+      ] },
+      { t: "h", texte: "Le cynisme, une protection qui se retourne" },
+      { t: "exemple", titre: "Le Sam d’avant, le Sam d’aujourd’hui", html: "Il y a un an, quand un client changeait d’avis, Sam reprenait le planning avec soin et l’appelait pour expliquer. Aujourd’hui, il soupire : « de toute façon, ils changeront encore d’avis ». Il n’a pas changé de caractère. Il a cessé d’investir ce qui lui coûte trop.", note: "La distance protège l’énergie à court terme. À long terme, elle coupe du sens du travail et des collègues qui pourraient aider." },
+      { t: "p", html: "Le cynisme est souvent pris pour un trait de personnalité, ou pour de la mauvaise volonté. Dans le modèle de Maslach, c’est d’abord une <b>stratégie de protection</b> : quand on ne peut plus tout donner, on donne moins. C’est compréhensible. Mais c’est aussi un signe qu’il faut regarder, même si la fatigue n’est pas au premier plan." },
+      { t: "h", texte: "Moins efficace ne veut pas dire incompétent" },
+      { t: "p", html: "Quand l’efficacité baisse, la réponse réflexe est souvent individuelle : « il faut te former », « tu dois mieux t’organiser ». Or l’usure abîme d’abord l’attention, la mémoire et le sommeil. Les erreurs de Sam ne disent pas qu’il a oublié son métier : elles disent qu’<b>il travaille avec des réserves vides</b>." },
+      { t: "mythes", titre: "Trois idées reçues", items: [
+        ["« Le MBI diagnostique le burn-out »", "Le Maslach Burnout Inventory est un questionnaire de recherche. Il compare des groupes. Il n’a pas de seuil validé pour dire qu’une personne « est » en burn-out. Bull-Out s’inspire de ses trois dimensions sans le copier, et sans prétendre diagnostiquer."],
+        ["« Burn-out égale fatigue extrême »", "On peut être très fatigué sans burn-out (après une naissance, par exemple), et en burn-out avec une distance mentale au premier plan. C’est la combinaison des signes, et leur lien avec le travail, qui compte."],
+        ["« Si j’aime mon travail, je suis protégé »", "C’est souvent l’inverse. Les personnes les plus engagées donnent plus, compensent plus, et s’épuisent parfois plus vite. L’engagement n’est pas un défaut : c’est une raison de plus de surveiller la charge."],
+      ] },
+      { t: "principe", html: "Un signe n’est pas une étiquette. Trois jauges hautes déclenchent une analyse du travail, pas un verdict sur la personne." },
+      { t: "piege", titre: "Le piège · de l’erreur au défaut", depart: "Sam fait plus d’erreurs qu’avant.", etapes: [
+        ["un effet devient un trait", "Donc Sam est moins compétent."],
+        ["un trait appelle une solution individuelle", "Donc il doit suivre une formation."],
+        ["la cause est oubliée", "Et sa charge reste exactement la même."],
+      ], fin: "Chaque saut éloigne un peu plus du travail réel. Le bon réflexe : <b>se demander ce que l’erreur dit des conditions dans lesquelles elle a été faite</b>." },
+    ],
+    exo: {
+      titre: "Quel signe chez Sam ?",
+      intro: "Trois phrases de Sam, entendues la même semaine. Laquelle des lectures est la plus juste ?",
+      situations: [
+        { q: "« De toute façon, ça ne sert à rien de bien faire, ils changeront d’avis. »", choix: [
+          "De la distance mentale : Sam se protège en se détachant.",
+          "De la lucidité : il a simplement compris comment fonctionne l’entreprise.",
+          "De la paresse : il cherche une excuse pour en faire moins.",
+        ], bonne: 0, fb: [
+          "Oui. Ce détachement est l’un des trois signes. Il peut contenir une part de lucidité sur l’organisation, et c’est justement pour ça qu’il faut regarder ce qui le provoque.",
+          "Il y a peut-être du vrai dans ce qu’il dit sur l’organisation. Mais le « ça ne sert à rien » est un signe en lui-même : Sam a cessé d’investir son travail.",
+          "La paresse ne change pas soudainement après des années d’engagement. Un détachement nouveau chez quelqu’un d’investi est un signe d’usure, pas un défaut moral.",
+        ] },
+        { q: "Sam relit trois fois le même mail sans le comprendre, puis oublie une livraison.", choix: [
+          "Un manque de compétence, à corriger par une formation.",
+          "Une efficacité réduite, qui peut être une conséquence de l’usure.",
+          "Un simple manque de concentration, sans importance.",
+        ], bonne: 1, fb: [
+          "Sam fait ce métier depuis des années. Des erreurs nouvelles disent plus souvent quelque chose des conditions de travail que des compétences.",
+          "Oui. Attention, mémoire et sommeil sont les premiers touchés par l’usure. Ce signe se regarde avec les deux autres.",
+          "Ce n’est pas sans importance : une erreur de livraison a des conséquences, et elle s’ajoute aux signaux d’usure de Sam.",
+        ] },
+        { q: "Sam dit : « Je ne suis pas fatigué, je suis juste dégoûté. »", choix: [
+          "Alors ce n’est pas de l’usure : il faut de la fatigue pour parler de burn-out.",
+          "Il faut attendre que la fatigue arrive avant de s’inquiéter.",
+          "La distance mentale compte même sans fatigue : c’est un signe à part entière.",
+        ], bonne: 2, fb: [
+          "Les trois signes peuvent évoluer séparément. Un détachement fort, même sans fatigue, mérite qu’on s’y arrête.",
+          "Attendre, c’est laisser l’usure s’installer. Le dégoût de Sam est déjà une information utile.",
+          "Oui. Chez certaines personnes, la distance arrive en premier. Il faut la regarder pour elle-même.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Maslach & Leiter (2016) · Understanding the burnout experience, World Psychiatry", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4911781/"],
+      ["Schaufeli, Leiter & Maslach (2009) · Burnout: 35 years of research and practice", "https://www.wilmarschaufeli.nl/publications/Schaufeli/311.pdf"],
+      ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
+    ],
+    nechange: "Repérer un signe ne t’oblige à rien. Mais un cynisme qui s’installe ou des erreurs inhabituelles sont des informations, pas des défauts à cacher.",
+    piece: { nom: "Les trois jauges", texte: "Ton rapport regarde séparément l’épuisement, la distance et l’efficacité, pour ne pas réduire l’usure à la fatigue.", rapport: "les dimensions « Épuisement », « Distance mentale » et « Efficacité et sens », et la lecture Maslach." },
+    suite: "Ces trois signes décrivent ce que tu vis. Ils ne disent pas ce qui, dans le travail, les produit. C’est le rôle du chapitre suivant.",
+  },
+
+  // ───────────────────────────── 3
+  {
+    temps: 1,
+    court: "La balance",
+    titre: "La balance : ce que le travail demande, ce qui aide à le faire",
+    duree: 6,
+    savoir: [
+      "Classer ce qui se passe au travail en exigences et en ressources.",
+      "Expliquer pourquoi la même charge peut être tenable pour l’un et usante pour l’autre.",
+    ],
+    arrive: "« C’est la charge : il y a trop de travail. » Parfois, oui. Mais la quantité n’explique pas tout. Deux postes aussi chargés peuvent user très différemment, selon ce qui aide à tenir.",
+    retenir: "Le modèle exigences–ressources (JD-R) regarde le travail comme <b>une balance à deux plateaux</b>. D’un côté, ce qu’il demande. De l’autre, ce qui aide à le faire. L’usure s’installe quand les exigences pèsent durablement plus lourd, et que la récupération ne compense plus.",
+    blocs: [
+      { t: "h", texte: "Deux plateaux" },
+      { t: "fig", ill: "balance", cap: "Les exigences d’un côté, les ressources de l’autre, la récupération au milieu. La balance penche quand on ajoute d’un côté, ou quand on retire de l’autre." },
+      { t: "p", html: "Les <b>exigences</b>, c’est tout ce qui demande un effort durable : la quantité de travail, les délais, les interruptions, le flou sur ce qu’on attend, la charge émotionnelle, les ordres contradictoires. Les <b>ressources</b>, c’est tout ce qui aide à faire face : l’autonomie, le soutien d’un collègue ou d’un manager, des priorités claires, des moyens suffisants, du temps pour se concentrer." },
+      { t: "exemple", titre: "La semaine de Sam, plateau par plateau", html: "Lundi : 42 mails, 3 urgences « pour hier ». Mercredi : une réunion à 18 h 30, et le dossier de Marc, le collègue parti, qui atterrit sur son bureau. Côté exigences, ça s’empile. Mais regarde l’autre plateau : la pause déjeuner saute, Marc n’est plus là pour l’aider, les soirées passent à rattraper. <b>La semaine de Sam n’a pas seulement ajouté du poids d’un côté. Elle en a retiré de l’autre.</b>", note: "Perdre une ressource pèse souvent autant qu’ajouter une tâche, et se voit beaucoup moins." },
+      { t: "h", texte: "La même charge, deux équipes" },
+      { t: "p", html: "Imagine deux équipes qui traitent exactement le même volume. Dans la première, la manager fixe trois priorités chaque lundi, protège une matinée sans réunion et décide ce qui peut attendre. Dans la seconde, les priorités changent chaque jour et tout est urgent. Même quantité, deux balances différentes. C’est pour ça que <b>le bon indicateur n’est pas la quantité de travail</b>, mais l’équilibre entre exigences, ressources et récupération." },
+      { t: "cartes", items: [
+        ["Exigences évitables", "Ressaisies, outils qui plantent, réunions sans décision, urgences qui n’en sont pas. Les retirer ne coûte presque rien."],
+        ["Exigences du métier", "Un pic saisonnier, un client difficile. On ne les supprime pas, mais on peut les limiter dans le temps et les compenser."],
+        ["Ressources réelles", "Un relais, du temps protégé, une décision claire. Elles changent la journée, pas seulement l’ambiance."],
+      ] },
+      { t: "h", texte: "La récupération, le troisième élément" },
+      { t: "p", html: "La balance a un pivot : la récupération. Le soir, le week-end, la pause déjeuner. Quand les mails arrivent à 22 h ou que le travail déborde sur le dimanche, la récupération s’use aussi. La fatigue ne se « recharge » plus, et la balance penche un peu plus chaque semaine." },
+      { t: "mythes", titre: "Trois idées reçues", items: [
+        ["« Il suffit de mieux s’organiser »", "L’organisation personnelle aide à la marge. Mais aucune méthode de productivité ne fait tenir trois urgences dans une seule journée, ni ne remplace un collègue parti. Cette phrase transforme un problème de balance en problème de personne."],
+        ["« Une charge élevée, c’est toujours toxique »", "Non. Avec des ressources solides, une charge élevée peut même être stimulante : c’est l’autre moitié du modèle JD-R, qui décrit l’engagement. Le danger, c’est la charge élevée sans ressources, et qui dure."],
+        ["« Une salle de sieste compense »", "Une ressource cosmétique (une appli, un baby-foot, un atelier) ne pèse rien si les exigences restent les mêmes. Elle peut même agacer, quand elle remplace une vraie décision."],
+      ] },
+      { t: "principe", html: "Prévenir, c’est d’abord retirer ce qui est évitable et rendre ce qui manque, avant de demander aux gens d’être plus résistants." },
+      { t: "piege", titre: "Le piège · le temporaire qui dure", depart: "L’équipe de Sam perd un collègue, qui n’est pas remplacé.", etapes: [
+        ["le manque devient une consigne", "« On fait avec, c’est temporaire. »"],
+        ["le temporaire devient la règle", "Six mois plus tard, c’est le fonctionnement normal."],
+        ["l’usure devient individuelle", "« Sam ne tient plus le rythme. »"],
+      ], fin: "Une exception qui dure devient une organisation. La question utile : <b>combien de temps, et quels critères pour en sortir ?</b>" },
+    ],
+    exo: {
+      titre: "Exigence ou ressource ?",
+      intro: "Trois éléments du quotidien de Sam. Sur quel plateau de la balance les poser ?",
+      situations: [
+        { q: "Nadia, la manager de Sam, fixe chaque lundi les trois priorités de la semaine et dit ce qui peut attendre.", choix: [
+          "Une exigence de plus : encore une réunion.",
+          "Une ressource : des priorités claires allègent la charge.",
+          "Ni l’un ni l’autre : c’est son travail de manager.",
+        ], bonne: 1, fb: [
+          "Une réunion courte qui produit des décisions fait gagner du temps toute la semaine. C’est l’inverse d’une exigence.",
+          "Oui. La clarté est l’une des ressources les plus efficaces : elle évite à chacun de trancher seul entre des urgences contradictoires.",
+          "C’est son travail, et c’est précisément une ressource pour l’équipe. Quand ce travail-là n’est pas fait, la balance penche.",
+        ] },
+        { q: "Le logiciel de commandes plante deux fois par jour, et il faut tout ressaisir.", choix: [
+          "Une exigence évitable : la retirer ne coûte presque rien.",
+          "Une contrainte du métier, à accepter.",
+          "Un détail, sans effet sur l’usure.",
+        ], bonne: 0, fb: [
+          "Oui. Ce sont les exigences les plus faciles à retirer, et les plus usantes, parce qu’elles n’apportent rien.",
+          "Rien dans le métier de Sam n’exige de ressaisir des commandes. C’est un dysfonctionnement, et il se corrige.",
+          "Deux ressaisies par jour, c’est une heure par semaine, et une irritation quotidienne. Les petites exigences évitables s’additionnent.",
+        ] },
+        { q: "L’entreprise offre une application de méditation, mais les urgences continuent.", choix: [
+          "Une solution qui rééquilibre la balance.",
+          "Une exigence de plus.",
+          "Un petit plus, qui laisse le plateau des exigences intact.",
+        ], bonne: 2, fb: [
+          "La méditation peut aider certaines personnes. Mais elle ne retire aucune urgence : la balance penche toujours du même côté.",
+          "Elle n’alourdit pas la charge. Le problème est ailleurs : elle ne change rien au plateau qui pèse.",
+          "Oui. Une ressource individuelle ne compense pas des exigences intactes. Elle est utile en plus, jamais à la place.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Demerouti, Bakker et al. (2001) · The job demands-resources model of burnout", "https://doi.org/10.1037/0021-9010.86.3.499"],
+      ["Bakker & Demerouti (2017) · Job demands-resources theory: taking stock and looking forward", "https://doi.org/10.1037/ocp0000056"],
+      ["INRS · les facteurs de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
+    ],
+    nechange: "Dire que le travail pèse n’accuse personne. C’est décrire une situation qu’on peut modifier, et c’est plutôt une bonne nouvelle.",
+    piece: { nom: "La balance", texte: "Ton rapport pose tes réponses sur les deux plateaux, pour voir lequel pèse le plus.", rapport: "les dimensions « Exigences » et « Ressources », et la lecture JD-R." },
+    suite: "Il reste une question que la balance ne pose pas : qu’est-ce que tu reçois en retour de tout cet effort ?",
+  },
+
+  // ───────────────────────────── 4
+  {
+    temps: 1,
+    court: "Trop pour trop peu",
+    titre: "Donner trop pour trop peu : l’effort et le retour",
+    duree: 5,
+    savoir: [
+      "Repérer un déséquilibre entre l’effort fourni et ce qu’on reçoit en retour : salaire, estime, perspectives, sécurité.",
+      "Reconnaître le surengagement, et comprendre pourquoi il rend le problème invisible.",
+    ],
+    arrive: "« La reconnaissance, c’est du bonus. L’important, c’est la paie. » Ou : « Je ne me plains pas, j’aime bien rendre service. » Ce chapitre montre ce que ces phrases laissent de côté.",
+    retenir: "Le sociologue Johannes Siegrist a montré que l’usure vient aussi d’une <b>réciprocité rompue</b> : beaucoup d’efforts, peu de retour. Et le retour n’est pas que l’argent : c’est aussi l’estime, les perspectives, la sécurité de l’emploi. Quand on compense sans compter, l’organisation s’habitue à l’anormal.",
+    blocs: [
+      { t: "h", texte: "Une bascule entre effort et retour" },
+      { t: "fig", ill: "bascule", cap: "D’un côté ce que tu donnes, de l’autre ce que tu reçois. Le surengagement appuie encore sur le côté de l’effort." },
+      { t: "p", html: "Le modèle effort–récompense (ERI) pose une question simple : <b>est-ce que l’échange est juste ?</b> On accepte souvent de donner beaucoup, pendant un temps, si on sait que ça sera vu, reconnu, ou que ça ouvre quelque chose. L’usure arrive quand l’effort reste haut et que le retour ne vient pas." },
+      { t: "cartes", items: [
+        ["Le salaire", "La paie, les primes, les heures payées ou récupérées."],
+        ["L’estime", "Que le travail soit vu, nommé, respecté, y compris en réunion."],
+        ["Les perspectives", "Une évolution possible, des compétences qui comptent."],
+        ["La sécurité", "Savoir que son poste, ses horaires, son équipe ne vont pas changer sans prévenir."],
+      ] },
+      { t: "exemple", titre: "L’entretien annuel de Sam", html: "Depuis trois mois, Sam porte le dossier de Marc en plus du sien. Il reste le soir, appelle les fournisseurs pendant ses congés. À l’entretien annuel : « objectifs atteints, rien à signaler ». Augmentation identique à toute l’équipe. Le poste de responsable qu’on lui avait laissé espérer est confié à quelqu’un de l’extérieur.", note: "Aucune de ces décisions n’est forcément injuste prise seule. Ensemble, elles disent à Sam que son effort n’a pas compté." },
+      { t: "h", texte: "Le surengagement, ou le héros qui compense" },
+      { t: "p", html: "Siegrist décrit un deuxième élément : le <b>surengagement</b>. Ce n’est pas un défaut, c’est une façon de travailler : du mal à dire non, le besoin de prouver sa valeur, répondre aux mails le soir « pour être tranquille demain », la peur d’être jugé si on ralentit." },
+      { t: "p", html: "Le surengagement protège l’équipe à court terme : grâce à Sam, les livraisons partent. Mais il <b>rend le dysfonctionnement invisible</b>. Personne ne voit plus qu’il manque une personne, puisque le travail est fait. Le jour où Sam ralentit, on ne voit plus le manque : on voit Sam qui « lâche »." },
+      { t: "mythes", titre: "Deux idées reçues", items: [
+        ["« La reconnaissance, c’est dire merci »", "Un merci compte. Mais un merci chaque semaine sans aucun changement de charge, d’horaires ou de perspectives finit par sonner creux. La reconnaissance qui rééquilibre se voit dans les décisions."],
+        ["« Ceux qui en font plus sont les plus solides »", "Ce sont souvent les plus exposés. Ils absorbent ce que l’organisation ne règle pas, jusqu’au jour où ils ne peuvent plus."],
+      ] },
+      { t: "principe", html: "Quand quelqu’un compense en silence, le problème disparaît des radars. Rendre l’effort visible fait partie de la prévention." },
+      { t: "piege", titre: "Le piège · l’effort qui devient normal", depart: "Sam fait des heures en plus pour boucler le dossier de Marc.", etapes: [
+        ["l’exception devient attendue", "Le dossier de Marc fait désormais partie de son poste."],
+        ["l’effort devient invisible", "Plus personne ne voit le travail en plus."],
+        ["le retrait devient une faute", "Quand Sam ralentit, on lui reproche de lâcher."],
+      ], fin: "Ce qui était un effort exceptionnel est devenu la norme, sans que personne ne l’ait décidé. <b>Dire à voix haute ce qu’on compense</b> est la première façon d’en sortir." },
+    ],
+    exo: {
+      titre: "Ce qui manque à Sam",
+      intro: "Trois moments de la vie de Sam au travail. Qu’est-ce qui se passe du côté de la bascule ?",
+      situations: [
+        { q: "Sam est correctement payé, mais son travail en plus n’est jamais mentionné en réunion d’équipe.", choix: [
+          "Il n’y a pas de problème : le salaire est correct.",
+          "Il manque un retour d’estime : l’effort n’est pas vu.",
+          "Sam devrait demander une augmentation.",
+        ], bonne: 1, fb: [
+          "Le salaire n’est qu’une partie du retour. Un effort invisible pèse, même bien payé.",
+          "Oui. L’estime est une partie du retour à part entière. Qu’elle manque ne relève pas de la susceptibilité.",
+          "Peut-être, mais ce n’est pas ce qui manque ici. Le problème, c’est que personne ne nomme le travail qu’il fait.",
+        ] },
+        { q: "Sam répond à ses mails à 23 h « pour être tranquille demain ».", choix: [
+          "Un signe de surengagement, qui empêche la récupération.",
+          "Une bonne organisation personnelle.",
+          "La preuve qu’il aime son travail, donc qu’il n’y a pas de risque.",
+        ], bonne: 0, fb: [
+          "Oui. C’est l’un des signes décrits par Siegrist : la difficulté à couper. Et cela entame la récupération du chapitre 3.",
+          "Ce qui ressemble à de l’organisation est souvent une façon de compenser une charge trop grande pour la journée.",
+          "Aimer son travail ne protège pas. Les personnes très engagées sont souvent les plus exposées.",
+        ] },
+        { q: "Nadia remercie chaleureusement Sam chaque vendredi. Mais rien ne change dans sa charge.", choix: [
+          "C’est suffisant : la reconnaissance est là.",
+          "C’est inutile : mieux vaut ne rien dire.",
+          "Un merci sans changement ne rééquilibre pas : il faut aussi agir sur l’effort ou les perspectives.",
+        ], bonne: 2, fb: [
+          "Le merci est sincère, mais la bascule ne bouge pas. À la longue, il risque même de nourrir le cynisme du chapitre 2.",
+          "Le merci a de la valeur. Il ne suffit pas seul, c’est tout.",
+          "Oui. La reconnaissance qui compte se voit dans les décisions : retirer une tâche, payer les heures, ouvrir une perspective.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Siegrist (1996) · Adverse health effects of high-effort/low-reward conditions", "https://doi.org/10.1037/1076-8998.1.1.27"],
+      ["Siegrist & Li (2016) · Associations of extrinsic and intrinsic components of work stress with health", "https://doi.org/10.3390/ijerph13040432"],
+      ["INRS · manque de reconnaissance et risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
+    ],
+    nechange: "Aimer son travail ne protège pas de l’usure. Ce n’est pas un défaut d’en faire beaucoup : c’est une information sur ce que le poste demande vraiment.",
+    piece: { nom: "Le retour", texte: "Ton rapport regarde aussi ce que tu reçois en échange de ton effort, et ton rapport au travail en dehors des heures.", rapport: "la lecture ERI (effort, reconnaissance, surengagement)." },
+    suite: "Et si, en plus, Sam traverse quelque chose de lourd dans sa vie personnelle ? Est-ce que ça change tout ? C’est le piège du chapitre suivant.",
+  },
+
+  // ───────────────────────────── 5
+  {
+    temps: 1,
+    court: "Le piège du « c’est perso »",
+    titre: "Le piège du « c’est perso »",
+    duree: 6,
+    savoir: [
+      "Faire la différence entre un facteur qui rend plus vulnérable et une cause qui dispenserait d’agir.",
+      "Remplacer les phrases réflexes (« il est fragile », « personne d’autre ne se plaint ») par des questions sur le travail.",
+    ],
+    arrive: "« C’est surtout perso : il se sépare. » Ou, pour soi : « C’est moi qui suis trop sensible. » Ces phrases soulagent tout le monde. Elles ferment aussi la discussion sur le travail.",
+    retenir: "Un facteur personnel peut exister, et compter. Il <b>change la vulnérabilité</b>, il ne dit rien de la charge, des moyens ou des arbitrages. La question utile n’est pas « est-ce que c’est perso ? », mais « <b>qu’est-ce qui, dans le travail, était connu, prévisible ou modifiable ?</b> »",
+    blocs: [
+      { t: "h", texte: "Deux choses vraies en même temps" },
+      { t: "fig", ill: "verre", cap: "La vie personnelle remplit une partie du verre. Au travail, on n’a la main que sur le robinet du travail, et c’est souvent le plus facile à fermer." },
+      { t: "exemple", titre: "Le printemps de Sam", html: "En mars, Sam se sépare. Nadia le sait, sans les détails. Au même moment, Sam porte un dossier critique : délais courts, réunions tardives, priorités qui changent chaque semaine. Il dit plusieurs fois qu’il dort mal et ne récupère plus. Nadia répond : « je comprends, mais le projet ne peut pas attendre ». Rien n’est retiré, aucun relais n’est organisé. En juin, Sam est arrêté.", note: "La séparation explique une vulnérabilité. Elle n’efface pas une charge connue, maintenue malgré des signaux clairs." },
+      { t: "cartes", items: [
+        ["Ce qui est personnel", "La séparation, la fatigue émotionnelle, le contexte familial."],
+        ["Ce qui relève du travail", "La charge critique, les réunions tardives, les priorités changeantes, l’absence de relais, des signaux connus."],
+        ["Ce qui était possible", "Réduire la charge un temps, clarifier les priorités, organiser un relais, éviter les réunions tardives, proposer le médecin du travail, revoir la situation à deux semaines."],
+      ] },
+      { t: "p", html: "Rien dans la dernière colonne ne demandait à Nadia de connaître la vie privée de Sam. <b>Personnel ne veut pas dire hors travail</b>, et ne veut pas dire hors prévention." },
+      { t: "h", texte: "Mauvaise lecture, bonne question" },
+      { t: "p", html: "Ces phrases sont souvent dites de bonne foi, par un manager, un collègue, ou par soi-même. Chacune ferme une porte. Chacune peut être remplacée par une question qui la rouvre." },
+      { t: "paires", titre: "Les phrases réflexes, et les questions qui les remplacent", gauche: "Réflexe", droite: "Question plus juste", items: [
+        ["« Il avait des problèmes personnels. »", "Quels facteurs de travail ont pu contribuer, ou aggraver la situation ?"],
+        ["« Elle est fragile. »", "Le poste était-il tenable pour une personne normalement attentive, avec les moyens disponibles ?"],
+        ["« Il ne sait pas s’organiser. »", "Les priorités étaient-elles claires ? A-t-on retiré des tâches, ou seulement ajouté ?"],
+        ["« Personne d’autre ne s’est plaint. »", "Y avait-il des signaux faibles : heures tardives, erreurs, irritabilité, départs, arrêts ?"],
+        ["« Il n’y avait pas de harcèlement. »", "Un risque existe aussi sans harcèlement : surcharge, flou, ordres contradictoires, absence d’arbitrage."],
+        ["« On lui avait proposé de l’aide. »", "Qu’est-ce qui a été concrètement retiré, reporté, simplifié ou renforcé ?"],
+        ["« C’était une période exceptionnelle. »", "Combien de temps a-t-elle duré ? Quels critères étaient prévus pour en sortir ?"],
+      ] },
+      { t: "h", texte: "Quand c’est toi qui le penses" },
+      { t: "p", html: "Le piège ne vient pas que des autres. « Je suis trop perfectionniste », « je n’ai pas les épaules », « les autres y arrivent bien » : on se l’applique souvent à soi-même. Essaie la même méthode. Le niveau de qualité attendu a-t-il été dit clairement ? Les autres ont-ils la même charge, les mêmes interruptions, le même dossier en plus ? Ton exigence envers toi-même est peut-être réelle. <b>Elle n’explique pas à elle seule une balance qui penche.</b>" },
+      { t: "principe", html: "Une vulnérabilité n’efface jamais l’obligation de traiter une exposition connue. Et ta vie personnelle t’appartient : tu n’as pas à la raconter pour qu’on regarde ta charge." },
+      { t: "piege", titre: "Le piège · la cause qui arrange", depart: "Sam se sépare, et il dort mal.", etapes: [
+        ["une cause possible devient la seule", "Donc sa fatigue vient de sa séparation."],
+        ["la seule cause devient une excuse", "Donc le travail n’y est pour rien."],
+        ["aucune cause au travail, aucune action", "Donc on maintient la charge."],
+      ], fin: "La cause qui arrange tout le monde est rarement la seule. <b>Avant de conclure « c’est perso », vérifier ce qui, dans le travail, était connu et modifiable.</b>" },
+    ],
+    exo: {
+      titre: "Perso, ou travail ?",
+      intro: "Nadia, la manager de Sam, cherche à comprendre ce qui se passe. Et Sam aussi. Quelle est la lecture la plus juste ?",
+      situations: [
+        { q: "Nadia pense : « Personne d’autre ne s’est plaint, donc le problème vient de Sam. »", choix: [
+          "C’est logique : si les autres tiennent, la charge est tenable.",
+          "Il faut demander à Sam des détails sur sa santé pour trancher.",
+          "L’absence de plainte n’est pas une preuve : il faut regarder les signaux faibles dans l’équipe.",
+        ], bonne: 2, fb: [
+          "Les autres ont peut-être une charge différente, ou se taisent aussi. L’absence de plainte ne dit pas que tout va bien.",
+          "Nadia n’a pas à connaître la santé de Sam. Elle peut, en revanche, regarder le travail : heures, erreurs, départs, arrêts.",
+          "Oui. Heures tardives, erreurs, tensions, arrêts : ces signaux disent plus que le silence. Et beaucoup de gens épuisés ne se plaignent pas.",
+        ] },
+        { q: "Sam se dit : « Je suis trop perfectionniste, c’est mon problème. »", choix: [
+          "Peut-être, mais d’abord : le niveau de qualité attendu a-t-il été dit clairement ?",
+          "C’est vrai : il doit apprendre à lâcher prise.",
+          "Le perfectionnisme mène toujours au burn-out.",
+        ], bonne: 0, fb: [
+          "Oui. Sans niveau de qualité défini, chacun vise le maximum par défaut. Clarifier ce qui est « suffisant » est une ressource.",
+          "Lâcher prise sur quoi ? Si personne n’a dit ce qui peut être fait plus simplement, c’est le travail qu’il faut clarifier, pas seulement Sam.",
+          "Non. C’est un facteur parmi d’autres, qui joue surtout quand la charge et le flou sont là.",
+        ] },
+        { q: "Que peut faire Nadia, sans entrer dans la vie privée de Sam ?", choix: [
+          "Lui demander ce qui se passe chez lui, pour mieux comprendre.",
+          "Réduire un temps sa charge, clarifier les priorités, organiser un relais et proposer le médecin du travail.",
+          "Attendre que sa situation personnelle s’arrange.",
+        ], bonne: 1, fb: [
+          "Ce n’est pas son rôle, et ça n’aiderait pas à décider. Tout ce qui est utile se joue sur le travail.",
+          "Oui. Aucune de ces actions ne demande de détail personnel. Elles agissent sur ce que Nadia peut vraiment changer.",
+          "Attendre, c’est laisser la charge s’ajouter à une période difficile. C’est précisément le scénario qui a mal fini.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Code du travail, article L4121-1 · obligation de sécurité de l’employeur (santé physique et mentale)", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
+      ["INRS · prévention des risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/ce-qu-il-faut-retenir.html"],
+      ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
+    ],
+    nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
+    piece: { nom: "Le contexte", texte: "Ton rapport note ce qui se passe autour (situation personnelle lourde, collègues touchés, peur de parler) : cela change la lecture, sans changer le score.", rapport: "les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
+    suite: "Et si un test sanguin pouvait trancher ? Le chapitre suivant regarde ce que valent les mesures, cortisol compris.",
+  },
+
+  // ───────────────────────────── 6
+  {
+    temps: 1,
+    court: "Ce que valent les mesures",
+    titre: "Cortisol, questionnaires, scores : ce que valent les mesures",
+    duree: 5,
+    savoir: [
+      "Expliquer pourquoi aucun dosage (cortisol, dopamine…) ne diagnostique un burn-out.",
+      "Lire un score comme un point de départ : deux personnes peuvent avoir le même total pour des raisons opposées.",
+    ],
+    arrive: "« Un test salivaire de cortisol va enfin prouver mon burn-out. » Ou : « J’ai 72 sur 144, donc je suis à 50 %. » Ces deux idées promettent une certitude que les mesures ne donnent pas.",
+    retenir: "Le stress chronique a bien des effets dans le corps. Mais <b>aucun marqueur ne permet de diagnostiquer un burn-out chez une personne</b>, et la « fatigue surrénalienne » n’est pas un diagnostic reconnu. De même, un score de questionnaire n’est pas une mesure de maladie : il montre <b>où regarder</b>.",
+    blocs: [
+      { t: "h", texte: "Pourquoi le cortisol ne tranche pas" },
+      { t: "p", html: "Le cortisol est une hormone du stress. Son niveau varie énormément <b>au cours d’une même journée</b> (il culmine au réveil), selon le sommeil, les médicaments, le moment du prélèvement et la méthode du laboratoire. Les études sur le burn-out ont trouvé des cortisols plus hauts, plus bas, ou identiques : aucune valeur ne sépare les personnes épuisées des autres." },
+      { t: "fig", ill: "nuages", cap: "Chaque point est une personne fictive. Même si les moyennes diffèrent un peu, les deux groupes se recouvrent largement : une valeur seule ne dit pas dans quel groupe tu es." },
+      { t: "exemple", titre: "Le kit à 89 euros", html: "Un ami de Sam lui conseille un test salivaire en ligne, « pour mesurer ses surrénales ». Le résultat arrive avec une recommandation : une cure de compléments pour « rééquilibrer » ses hormones, 45 euros par mois. Rien dans ce parcours ne regarde ses délais, ses réunions tardives ou le dossier de Marc.", note: "Un test qui ne change aucune décision sur le travail n’aide pas à prévenir." },
+      { t: "mythes", titre: "Quatre phrases à reformuler", items: [
+        ["« C’est ton cortisol »", "Le cortisol est un marqueur de stress possible, pas un diagnostic. Il varie selon l’heure, le sommeil, les médicaments et la méthode de mesure."],
+        ["« Tes surrénales sont épuisées »", "La « fatigue surrénalienne » n’est pas un diagnostic reconnu par les sociétés savantes d’endocrinologie. Mieux vaut chercher les causes réelles : sommeil, charge, santé, dépression."],
+        ["« Tu manques de dopamine »", "La motivation met en jeu de nombreux circuits. Réduire l’usure à une molécule ne dit rien de ce qu’il faut changer, ni au travail, ni ailleurs."],
+        ["« Un test salivaire va confirmer ton burn-out »", "Aucun seuil biologique n’est validé pour cela. L’évaluation repose sur un entretien, les signes et le contexte de travail."],
+      ] },
+      { t: "h", texte: "Deux profils, un même score" },
+      { t: "p", html: "Le questionnaire Bull-Out donne un total sur 144. C’est tentant de ne regarder que lui. Mais regarde Sam et Léa : <b>même total, deux situations opposées</b>." },
+      { t: "fig", ill: "profils", cap: "Sam et Léa ont tous les deux 72 sur 144. Chez Sam, ce sont l’épuisement et les exigences qui pèsent. Chez Léa, la distance mentale et le manque de ressources." },
+      { t: "p", html: "Pour Sam, la première action porte sur la charge et la récupération. Pour Léa, sur le sens, le soutien et la clarté. Un même chiffre aurait conduit à la même réponse, et elle aurait été fausse pour l’un des deux. C’est pour ça que le rapport se lit <b>dimension par dimension</b>." },
+      { t: "h", texte: "Ce que le score ne dit pas" },
+      { t: "cartes", items: [
+        ["Une probabilité", "72 sur 144 ne veut pas dire « 50 % de risque ». Le score place des réponses sur une échelle, rien de plus."],
+        ["L’avenir", "Il décrit les quatre dernières semaines. Après des vacances ou un pic exceptionnel, il faut le refaire plus tard."],
+        ["Que tout va bien", "Un score bas peut cacher une situation compensée, minimisée, ou une autre cause. Ton jugement compte."],
+      ] },
+      { t: "principe", html: "Une mesure n’a de valeur que si elle aide à décider. Un dosage de cortisol ne change pas ce qu’il faut faire au travail. Une lecture par dimension, si." },
+      { t: "piege", titre: "Le piège · du laboratoire à « mes surrénales »", depart: "Une étude trouve, en moyenne, un cortisol différent chez des personnes épuisées.", etapes: [
+        ["une moyenne devient une cause", "Donc le burn-out est un problème de cortisol."],
+        ["ce qui vaut pour un groupe devient vrai pour moi", "Donc mon test dira si j’en fais un."],
+        ["la biologie devient la solution", "Donc des compléments vont me réparer."],
+      ], fin: "Chaque saut ajoute une affirmation que l’étape précédente ne démontre pas. Et le dernier saut éloigne complètement du travail." },
+    ],
+    exo: {
+      titre: "Que dit la mesure ?",
+      intro: "Sam et Léa cherchent un chiffre qui tranche. Que peut-on vraiment en conclure ?",
+      situations: [
+        { q: "Le test salivaire de Sam revient « normal ».", choix: [
+          "Il n’est donc pas en burn-out.",
+          "Ce résultat ne dit rien de sa situation : on revient aux signes et au travail.",
+          "Il faut refaire le test dans un vrai laboratoire.",
+        ], bonne: 1, fb: [
+          "Un cortisol normal n’exclut rien. Beaucoup de personnes épuisées ont des valeurs normales.",
+          "Oui. Ni normal ni anormal, ce chiffre ne change ce qu’il faut faire. Ce qui compte : ses trois jauges, sa balance, son retour.",
+          "Même au laboratoire, aucun seuil ne permet de diagnostiquer un burn-out. Le problème n’est pas la qualité du test, c’est la question qu’on lui pose.",
+        ] },
+        { q: "Sam et Léa ont tous les deux 72 sur 144.", choix: [
+          "Ils ont le même problème, et les mêmes actions à prévoir.",
+          "Ils ont chacun 50 % de risque de burn-out.",
+          "Il faut regarder les dimensions : le même total peut cacher deux profils opposés.",
+        ], bonne: 2, fb: [
+          "Le total cache la répartition. Chez Sam, la charge ; chez Léa, le sens et le soutien. Les actions ne sont pas les mêmes.",
+          "Le score n’est pas une probabilité. Il place des réponses sur une échelle.",
+          "Oui. C’est la lecture par dimension qui oriente l’action.",
+        ] },
+        { q: "Sam refait le questionnaire au retour de deux semaines de vacances. Son score est bas.", choix: [
+          "Le score couvre quatre semaines, vacances comprises : il faudra le refaire quelques semaines après la reprise.",
+          "Tout va bien : le problème est réglé.",
+          "Le questionnaire est faux.",
+        ], bonne: 0, fb: [
+          "Oui. Le chapitre 1 l’a montré : ce qui compte, c’est ce qui revient avec le travail.",
+          "Les vacances ont reposé Sam. Elles n’ont rien changé à ce qui l’attend à la reprise.",
+          "Il n’est pas faux : il décrit fidèlement des semaines de repos. C’est le moment choisi qui ne convient pas.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Danhof-Pont et al. (2011) · Biomarkers in burnout: a systematic review", "https://doi.org/10.1016/j.jpsychores.2010.10.012"],
+      ["Cadegiani & Kater (2016) · Adrenal fatigue does not exist: a systematic review", "https://doi.org/10.1186/s12902-016-0128-4"],
+      ["Endocrine Society · la « fatigue surrénalienne » n’est pas un diagnostic", "https://www.endocrine.org/patient-engagement/endocrine-library/adrenal-fatigue"],
+    ],
+    nechange: "Qu’aucun test sanguin ne voie ton usure ne veut pas dire qu’elle n’existe pas. Elle se lit dans ce que tu vis et dans ton travail : c’est là que Bull-Out regarde.",
+    piece: { nom: "Les dimensions", texte: "Ton rapport détaille six dimensions, à lire une par une plutôt que de t’arrêter au total.", rapport: "les scores par dimension et la façon de les lire." },
+    suite: "Comprendre ne suffit pas. Le dernier temps de la formation passe à l’action : que peut-on changer, et qui peut le faire ?",
+  },
+
+  // ───────────────────────────── 7
+  {
+    temps: 2,
+    court: "Agir sur le travail",
+    titre: "Agir sur le travail réel : retirer, reporter, simplifier",
+    duree: 7,
+    savoir: [
+      "Transformer « fais au mieux » en une décision : retirer, reporter ou simplifier.",
+      "Repérer les signaux faibles, individuels et collectifs, et savoir ce qu’il faut tracer : le travail, jamais la santé.",
+    ],
+    arrive: "« Ma porte est ouverte. » « On verra après le pic. » « On va faire une formation gestion du stress. » Ces phrases sont souvent sincères. Mais elles ne changent rien au travail.",
+    retenir: "Que tu sois salarié, collègue ou manager, le levier le plus efficace est le même : <b>agir sur le travail réel</b>. Face à une surcharge, il faut au moins une décision claire parmi trois : <b>retirer, reporter, simplifier</b>. Et quand on n’a pas les moyens de décider, on remonte le problème au lieu de laisser l’équipe compenser.",
+    blocs: [
+      { t: "h", texte: "La règle des trois décisions" },
+      { t: "fig", ill: "pile", cap: "Une pile qui déborde a trois sorties. « Fais au mieux » n’en est pas une : c’est laisser la personne trier seule." },
+      { t: "p", html: "Quand tout ne peut pas être fait, quelqu’un va forcément trier. La seule question est : <b>qui, et est-ce que ça se voit ?</b> Si personne ne décide, c’est la personne surchargée qui trie, seule, le soir, et c’est elle qui portera la faute de ce qui n’est pas fait." },
+      { t: "exemple", titre: "Le point charge de 15 minutes", html: "Nadia et Sam prennent un quart d’heure, avec cinq questions : ce qui est demandé, ce qui bloque, ce qui dépasse, ce qu’on retire ou reporte, ce qu’on suit dans deux semaines. Décisions : Léa reprend le dossier de Marc deux jours par semaine ; les relances clients sont reportées à la fin du mois ; le reporting hebdomadaire passe de trois pages à cinq lignes. Point de suivi le 15.", note: "Quinze minutes, trois décisions, une date. C’est ça, la différence entre écouter et agir." },
+      { t: "h", texte: "Quatre gestes, pour chacun" },
+      { t: "p", html: "Ces gestes ont longtemps été présentés comme « des outils pour managers ». Ils concernent tout le monde : le manager les décide, le salarié peut les demander, le collègue peut les soutenir." },
+      { t: "gestes", items: [
+        ["Clarifier", "Dire ce qui est prioritaire, ce qui peut attendre, et le niveau de qualité attendu.", "« Parmi ces trois dossiers, lequel passe en premier ? »", "Fixer chaque semaine les priorités, et ce qui peut attendre."],
+        ["Arbitrer", "Quand tout ne tient pas, décider ce qui sort, plutôt que laisser chacun trier seul.", "« Je ne peux pas tout tenir d’ici vendredi. Qu’est-ce qui peut glisser ? »", "Retirer, reporter ou simplifier au moins une tâche, explicitement."],
+        ["Protéger", "Limiter les urgences artificielles, les interruptions et les sollicitations hors horaires.", "« Je coupe mes notifications de 9 h à 11 h pour finir le planning. »", "Protéger des plages sans réunion, ne pas écrire le soir sans nécessité."],
+        ["Remonter", "Quand les moyens manquent, porter le problème au bon niveau au lieu de compenser.", "« Je signale par écrit que ce délai n’est pas tenable avec l’équipe actuelle. »", "Tracer l’impossibilité et demander des moyens ou un délai à sa hiérarchie."],
+      ] },
+      { t: "h", texte: "Les phrases qui aggravent" },
+      { t: "table", titre: "Ce qui donne l’impression d’agir, et ce qui agit vraiment", cols: ["Phrase", "Pourquoi elle aggrave", "Ce qui aide vraiment"], rows: [
+        ["« Tout est prioritaire. »", "C’est impossible, et ça pousse chacun à compenser seul.", "Classer : maintenant, plus tard, en plus simple, pas du tout."],
+        ["« Ma porte est toujours ouverte. »", "Les personnes épuisées viennent rarement demander.", "Des points de charge courts, avec des décisions."],
+        ["« Il faut mieux s’organiser. »", "Ça transforme un problème de charge en problème de personne.", "Repérer ce qui consomme le temps, et le retirer."],
+        ["« On verra après le pic. »", "Le pic devient souvent le mode normal.", "Limiter la durée du pic, et dire comment on en sort."],
+        ["« Je ne veux pas savoir, c’est perso. »", "Ça laisse les signaux s’installer.", "Parler charge, récupération, priorités, sans demander de détail médical."],
+        ["« On va faire une formation gestion du stress. »", "Cosmétique si les contraintes restent les mêmes.", "D’abord retirer l’évitable et rendre les moyens. Former ensuite."],
+      ] },
+      { t: "h", texte: "Les signaux faibles" },
+      { t: "p", html: "Un signal n’est pas une preuve. Mais plusieurs signaux répétés sont une information, pour soi comme pour une équipe." },
+      { t: "deux", items: [
+        ["Chez une personne", ["Une fatigue qui dure", "Des erreurs inhabituelles", "De l’irritabilité, un retrait soudain", "Une perte de confiance", "Un sommeil évoqué comme dégradé", "« Je n’y arrive plus »"]],
+        ["Dans une équipe", ["Plusieurs personnes surchargées", "Des réunions qui ne décident rien", "Des urgences permanentes", "Des mails le soir et le week-end", "Des départs ou des arrêts répétés", "Des « héros » qui compensent"]],
+      ], note: "Un signal collectif n’est pas une somme de fragilités individuelles. C’est souvent une information sur l’organisation du travail." },
+      { t: "h", texte: "Tracer ce qui protège" },
+      { t: "p", html: "En France, l’employeur a une <b>obligation de sécurité</b> qui couvre la santé physique et mentale (article L4121-1 du Code du travail). Le manager n’est pas responsable de tout, mais on peut attendre de lui qu’il alerte, arbitre, remonte les impossibilités et ne laisse pas une surcharge connue s’installer. Ce qui protège tout le monde, salarié comme manager, c’est <b>la preuve d’action</b> : ce qui a été retiré, reporté, simplifié, demandé." },
+      { t: "cartes", items: [
+        ["À tracer", "Les points de charge, les décisions de retrait ou de report, les priorités écrites, les demandes de moyens, la proposition du médecin du travail, la date de suivi."],
+        ["À ne jamais tracer", "Les détails de santé, les diagnostics, la vie privée. On trace les contraintes du travail et les décisions, pas la personne."],
+      ] },
+      { t: "exemple", titre: "Pas de harcèlement, mais un vrai risque", html: "Une équipe absorbe depuis des mois plus de demandes qu’elle ne peut en traiter. Les délais sont « non négociables », les priorités changent chaque semaine. Deux personnes ont dit qu’elles ne récupèrent plus. La manager répond : « je sais que c’est dur, mais on doit passer le cap ». Rien n’est arbitré, rien n’est remonté. Trois mois plus tard, un arrêt long. Personne n’a été insulté ni humilié.", note: "Un risque peut naître de l’inaction face à une surcharge connue, sans aucun comportement agressif." },
+      { t: "details", titre: "Civil, pénal, disciplinaire : de quoi parle-t-on ?", html: "<p><b>Civil et prud’homal</b> : la réparation d’un préjudice, par exemple quand une surcharge durable a été signalée et qu’aucune mesure sérieuse n’a suivi. <b>Pénal</b> : possible dans des situations graves, selon les faits (mise en danger, risque grave connu ignoré malgré des alertes). <b>Disciplinaire</b> : quand des pratiques contredisent les règles internes de prévention. Dans tous les cas, le bon réflexe n’est pas de paniquer, mais de tracer, arbitrer, alerter et demander de l’aide.</p><p class=\"fo-small\">Ces repères ne remplacent pas un avis juridique. Ils aident à savoir quand demander appui.</p>" },
+      { t: "trames", titre: "Des phrases prêtes à l’emploi", items: [
+        ["Demander un arbitrage (salarié)", "Je ne peux pas tenir ces trois dossiers d’ici vendredi avec la qualité attendue. Lequel passe en premier, et lequel peut attendre ou être simplifié ?"],
+        ["Ouvrir un point charge (manager)", "Je voudrais faire un point sur la charge réelle. L’objectif n’est pas de juger ton organisation, mais de voir ce qui dépasse et ce qu’on peut arbitrer."],
+        ["Répondre à un signal de fatigue", "Je note que la situation pèse sur ta récupération. Je ne vais pas te demander de détails médicaux. Regardons ce qui, dans le travail, peut être réduit ou clarifié."],
+        ["Remonter un manque de moyens", "Le niveau de contrainte dépasse ce que je peux régler à mon niveau. Je remonte le sujet et je demande un appui sur la charge, les moyens ou les délais."],
+      ] },
+      { t: "principe", html: "La bienveillance sans décision ne protège personne. Ce qui protège l’équipe, et le manager, c’est ce qui a été concrètement retiré, reporté, simplifié ou demandé." },
+      { t: "piege", titre: "Le piège · écouter sans décider", depart: "L’équipe de Sam est en surcharge depuis trois mois.", etapes: [
+        ["l’écoute remplace la décision", "Nadia : « je sais que c’est dur, on doit passer le cap »."],
+        ["le cap devient permanent", "Aucune tâche n’est retirée, rien n’est remonté."],
+        ["le risque devient individuel", "Trois mois plus tard, un arrêt long : « il était fragile »."],
+      ], fin: "À chaque étape, une décision était possible. <b>La seule réponse qui ne protège personne, c’est de ne rien décider.</b>" },
+    ],
+    exo: {
+      titre: "La semaine impossible",
+      intro: "Trois dossiers urgents pour vendredi, une équipe en sous-effectif. Que faire, côté Sam et côté Nadia ?",
+      situations: [
+        { q: "Sam sait qu’il ne pourra pas tenir les trois dossiers d’ici vendredi. Que dire à Nadia ?", choix: [
+          "« Je vais faire au mieux. »",
+          "« Je ne peux pas tenir les trois d’ici vendredi. Lequel passe en premier, et lequel peut attendre ou être simplifié ? »",
+          "Rien : il ne veut pas passer pour quelqu’un qui ne suit pas.",
+        ], bonne: 1, fb: [
+          "« Au mieux » laisse Sam trier seul, le soir, et porter seul ce qui ne sera pas fait.",
+          "Oui. Sam ne se plaint pas : il demande un arbitrage précis, qui oblige à une décision.",
+          "Se taire, c’est le surengagement du chapitre 4. Le problème devient invisible, et finit par retomber sur Sam.",
+        ] },
+        { q: "Nadia n’a ni budget pour un renfort, ni le pouvoir de décaler le client.", choix: [
+          "Elle demande à l’équipe de tenir encore un peu.",
+          "Elle propose une formation gestion du stress.",
+          "Elle note l’impossibilité et la remonte à sa hiérarchie, avec une demande précise : des moyens ou un délai.",
+        ], bonne: 2, fb: [
+          "« Encore un peu » est la phrase du piège : le temporaire qui dure.",
+          "Une formation ne change ni le délai ni l’effectif. Elle peut venir plus tard, pas à la place.",
+          "Oui. Quand on n’a pas la main, sa part est de remonter, par écrit, avec une demande précise. C’est aussi ce qui protège Nadia.",
+        ] },
+        { q: "Après le point charge, que doit noter Nadia ?", choix: [
+          "Les décisions sur le travail : ce qui est retiré, reporté, simplifié, et la date du prochain point.",
+          "Les problèmes de sommeil dont Sam a parlé.",
+          "Rien, pour que ça reste informel.",
+        ], bonne: 0, fb: [
+          "Oui. On trace le travail et les décisions. C’est ce qui permettra de vérifier, dans deux semaines, si quelque chose a changé.",
+          "Jamais. Les détails de santé ne se notent pas. Seules les contraintes et les décisions de travail le sont.",
+          "Sans trace, impossible de vérifier que la décision a été tenue, ni de montrer qu’elle a été prise.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Code du travail, article L4121-1 · obligation de sécurité", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
+      ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
+      ["INRS · responsabilité pénale de l’employeur en santé et sécurité", "https://www.inrs.fr/demarche/responsabilites/ce-qu-il-faut-retenir.html"],
+      ["Service-public.fr · obligations de l’employeur en santé et sécurité", "https://entreprendre.service-public.fr/vosdroits/F33437"],
+    ],
+    nechange: "Agir sur le travail ne veut pas dire que tout dépend de toi. Si tu n’as pas la main, ta part est de dire clairement ce qui ne tient pas, et à qui.",
+    piece: { nom: "Le plan", texte: "Ton rapport propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "les actions à arrêter, clarifier, demander et surveiller." },
+    suite: "Dernière question : à qui en parler, selon ce qui se passe ? C’est le chapitre suivant.",
+  },
+
+  // ───────────────────────────── 8
+  {
+    temps: 2,
+    court: "À qui en parler",
+    titre: "À qui en parler, et comment",
+    duree: 6,
+    savoir: [
+      "Choisir la bonne porte selon le besoin : soin, aménagement, arbitrage ou protection.",
+      "Préparer une reprise après un arrêt, sans revenir dans exactement le même travail.",
+    ],
+    arrive: "« Je ne veux pas voir le médecin du travail, il va me déclarer inapte. » Ou : « Les RH, c’est l’employeur, ça ne sert à rien. » Ces idées font souvent attendre trop longtemps.",
+    retenir: "Chaque interlocuteur ouvre une porte différente. Le <b>médecin généraliste</b> soigne et peut arrêter. Le <b>médecin du travail</b>, tenu au secret médical, peut proposer des aménagements. Le <b>manager et les RH</b> arbitrent la charge. Le <b>CSE</b> porte un problème collectif. En cas de danger, le <b>15</b> ou le <b>112</b>, et le <b>3114</b> pour les idées suicidaires.",
+    blocs: [
+      { t: "h", texte: "Quatre portes" },
+      { t: "fig", ill: "portes", cap: "Quatre besoins, quatre portes. Aucune n’est la mauvaise : chacune peut t’orienter vers les autres." },
+      { t: "portes", items: [
+        ["Être soigné", "Médecin généraliste, psychologue, psychiatre.", "Quand le sommeil, l’humeur ou la santé se dégradent, quel que soit le lien avec le travail."],
+        ["Adapter le poste", "Médecin du travail, infirmier ou infirmière en santé au travail.", "Pour des aménagements (horaires, tâches, télétravail) sans exposer ta santé à ton employeur."],
+        ["Arbitrer la charge", "Manager, hiérarchie, ressources humaines.", "Pour retirer, reporter, simplifier, ou obtenir des moyens."],
+        ["Protéger, ensemble", "CSE, représentants du personnel, inspection du travail, assistant social du travail.", "Quand plusieurs personnes sont touchées, ou en cas de harcèlement ou de violence."],
+      ] },
+      { t: "urgence", html: "<b>En cas de danger immédiat</b> : appelle le <a href=\"tel:15\">15</a> ou le <a href=\"tel:112\">112</a>. <b>Idées suicidaires</b>, pour toi ou un proche : le <a href=\"tel:3114\">3114</a>, 24 h/24, gratuit et confidentiel." },
+      { t: "h", texte: "Le médecin du travail, ce qu’il fait vraiment" },
+      { t: "p", html: "C’est la porte la plus méconnue, et souvent la plus utile. Tu peux <b>demander à le voir à tout moment</b>, sans passer par ton employeur pour expliquer pourquoi. Il est tenu au <b>secret médical</b> : il ne transmet pas ton diagnostic. Il connaît les postes de l’entreprise et peut proposer des aménagements : horaires, répartition des tâches, temps partiel thérapeutique, télétravail." },
+      { t: "mythes", titre: "Deux idées reçues", items: [
+        ["« Il va me déclarer inapte »", "L’inaptitude est rare, encadrée, et ne se décide qu’après une étude du poste et un échange avec toi. Le médecin du travail cherche d’abord à adapter le poste pour que tu puisses rester."],
+        ["« Les RH, c’est l’employeur, ça ne sert à rien »", "Les RH représentent l’employeur, qui a justement l’obligation de prévenir les risques. Une demande écrite et précise (« ma charge ne tient pas, voici pourquoi ») les oblige à y répondre."],
+      ] },
+      { t: "h", texte: "Quand faire monter le sujet" },
+      { t: "table", titre: "Qui solliciter, selon la situation", cols: ["Situation", "Premier niveau", "Si ça ne suffit pas"], rows: [
+        ["Surcharge ponctuelle", "Le manager : arbitrer, suivre.", "Point de suivi à deux semaines."],
+        ["Surcharge durable, sans marge", "Manager et hiérarchie.", "RH, service de prévention, direction."],
+        ["La santé est touchée", "Médecin du travail, médecin généraliste.", "Psychologue, psychiatre."],
+        ["Plusieurs personnes touchées", "Une analyse collective.", "CSE ou CSSCT, prévention, médecine du travail."],
+        ["Harcèlement ou violence", "Protection et confidentialité.", "RH, procédure interne, représentants, inspection du travail."],
+        ["Le manager n’a pas les moyens", "Tracer l’impossibilité.", "Hiérarchie, RH, prévention."],
+        ["Danger immédiat", "15 ou 112.", "3114 en cas de risque suicidaire."],
+      ] },
+      { t: "h", texte: "Préparer la reprise" },
+      { t: "exemple", titre: "Le retour de Sam", html: "Pendant son arrêt, Sam demande une <b>visite de pré-reprise</b> avec le médecin du travail. Ensemble, ils listent ce qui l’a usé : le dossier de Marc, les réunions à 18 h 30, les mails du soir. À la <b>visite de reprise</b>, le médecin propose un temps partiel thérapeutique les deux premiers mois. Nadia, de son côté, a fait entrer un renfort sur le dossier de Marc.", note: "Revenir au même poste, avec la même charge, c’est remettre la même batterie dans le même circuit." },
+      { t: "cartes", items: [
+        ["Pendant l’arrêt", "La visite de pré-reprise (possible dès 30 jours d’arrêt) prépare le retour avec le médecin du travail, sans que l’employeur soit présent."],
+        ["Au retour", "La visite de reprise est obligatoire après certains arrêts (60 jours pour une maladie non professionnelle). Elle vérifie que le poste est compatible avec ta santé."],
+        ["Les premières semaines", "Ce qui reprend, ce qui ne reprend pas encore, ce qui a changé dans le poste, et une date pour faire le point."],
+      ] },
+      { t: "trames", titre: "Pour ouvrir la conversation", items: [
+        ["Avec le médecin du travail", "Je viens parce que ma charge de travail a des effets sur ma santé depuis plusieurs semaines. Je voudrais savoir quels aménagements sont possibles."],
+        ["Avec ton médecin traitant", "Depuis six semaines, je dors mal, je n’arrive plus à récupérer le week-end et je fais des erreurs inhabituelles au travail. Ça ne passe pas avec le repos."],
+        ["Avec ton manager", "J’aimerais qu’on fasse un point sur ma charge. Je n’ai pas besoin d’entrer dans les détails personnels : je voudrais qu’on regarde ce qui peut être réduit ou reporté."],
+      ] },
+      { t: "principe", html: "Demander de l’aide tôt n’est pas un aveu de faiblesse. C’est le moment où il y a le plus de portes ouvertes, et le plus de choses encore faciles à changer." },
+      { t: "piege", titre: "Le piège · la porte qu’on croit fermée", depart: "Sam va mal depuis deux mois.", etapes: [
+        ["une peur devient une règle", "« Le médecin du travail va me déclarer inapte. »"],
+        ["une porte fermée devient toutes", "« Donc je n’en parle à personne. »"],
+        ["le silence devient la solution", "« J’attends que ça passe. »"],
+      ], fin: "Aucune de ces étapes n’est vérifiée. Et attendre est la seule option qui ne peut rien changer." },
+    ],
+    exo: {
+      titre: "La bonne porte",
+      intro: "Trois situations dans l’entourage de Sam. Vers qui se tourner en premier ?",
+      situations: [
+        { q: "Sam voudrait des horaires aménagés, sans expliquer sa santé à Nadia.", choix: [
+          "Le médecin du travail : il peut proposer des aménagements sans révéler le diagnostic.",
+          "Les RH, en leur racontant toute sa situation.",
+          "Personne : il n’a pas le droit de demander un aménagement.",
+        ], bonne: 0, fb: [
+          "Oui. Le médecin du travail est tenu au secret. Il transmet seulement ce qui concerne le poste.",
+          "Sam n’a pas à raconter sa santé aux RH. Le médecin du travail est la porte faite pour ça.",
+          "Il en a le droit, et le médecin du travail est là pour l’étudier avec lui.",
+        ] },
+        { q: "Plusieurs collègues de Sam vivent la même surcharge depuis des mois.", choix: [
+          "Chacun voit son médecin, séparément.",
+          "Le CSE ou les représentants du personnel, pour porter le problème comme un problème collectif.",
+          "Rien : si tout le monde est touché, c’est le métier qui veut ça.",
+        ], bonne: 1, fb: [
+          "C’est utile pour la santé de chacun. Mais un problème collectif a besoin d’une réponse collective, sinon il reste découpé en « cas ».",
+          "Oui. Un signal collectif est une information sur l’organisation : c’est le rôle du CSE de la porter.",
+          "C’est le piège du chapitre 1 : ce qui est fréquent n’est pas pour autant sans risque.",
+        ] },
+        { q: "Léa confie à Sam qu’elle n’en peut plus et qu’elle pense parfois à « disparaître ».", choix: [
+          "Lui conseiller de prendre des vacances.",
+          "En parler d’abord à Nadia, pour qu’elle allège sa charge.",
+          "Prendre ses mots au sérieux, rester avec elle, et appeler ensemble le 3114 (ou le 15 en cas de danger immédiat).",
+        ], bonne: 2, fb: [
+          "Ces mots peuvent signaler un risque suicidaire. Ils demandent une aide spécialisée, maintenant.",
+          "Alléger sa charge viendra ensuite. D’abord, Léa a besoin d’une aide spécialisée, et de ne pas rester seule.",
+          "Oui. On peut appeler le 3114 pour quelqu’un d’autre, ou avec lui. Parler du suicide ne donne pas l’idée de passer à l’acte : ça ouvre une porte.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Service-public.fr · visite médicale à la demande du salarié", "https://www.service-public.fr/particuliers/vosdroits/F34052"],
+      ["Service-public.fr · visites de pré-reprise et de reprise", "https://www.service-public.fr/particuliers/vosdroits/F34048"],
+      ["3114 · numéro national de prévention du suicide", "https://3114.fr/"],
+      ["INRS · les acteurs de la prévention en entreprise", "https://www.inrs.fr/demarche/acteurs-prevention/ce-qu-il-faut-retenir.html"],
+    ],
+    nechange: "Tu n’as pas à trouver la porte parfaite. N’importe quelle porte ouverte vaut mieux que le silence : chacun peut t’orienter vers le bon interlocuteur.",
+    piece: { nom: "Les portes", texte: "Ton rapport propose des interlocuteurs selon tes réponses, avec ce que chacun peut faire pour toi.", rapport: "la liste des interlocuteurs, et les numéros d’urgence en cas de signal d’alerte." },
+    suite: "Tu as toutes les pièces. Le test final vérifie que tu sais les assembler. Ton diplôme ouvre ensuite le questionnaire.",
+  },
+];
+
+// Test final : huit situations nouvelles. Format : [question, choix, index de la bonne réponse, explication par choix].
 export const examen = [
   [
-    "À la fin de ses gardes, Inès se dit épuisée mais décrit encore des échanges chaleureux et le sentiment de travailler correctement. Quelle conclusion correspond à ses observations ?",
-    [
-      "Les trois dimensions sont nécessairement élevées.",
-      "L’épuisement est documenté. Les deux autres dimensions doivent être explorées séparément.",
-      "Le maintien de bonnes relations exclut une difficulté professionnelle."
-    ],
+    "Après trois semaines de vacances, Inès a récupéré. Quatre jours après la reprise, elle est de nouveau épuisée. Que retenir ?",
+    ["Ses vacances étaient trop courtes.", "Le travail devient une piste sérieuse : il faut regarder ce qui revient avec la reprise.", "C’est forcément un burn-out."],
     1,
-    "Une dimension peut évoluer indépendamment des autres. Il reste à préciser la durée, la récupération et le retentissement."
+    ["Le repos a fonctionné : c’est la reprise qui l’épuise à nouveau.", "Exact. Une fatigue qui revient avec le travail oriente vers le travail, sans encore conclure.", "C’est une piste forte, pas une conclusion : d’autres facteurs peuvent jouer."],
   ],
   [
-    "Paul récupère après une livraison difficile. Sa collègue Éva rapporte depuis deux mois une perte de plaisir au travail comme chez elle. Quel raisonnement tenir ?",
-    [
-      "Explorer pour chacun la trajectoire et proposer à Éva une évaluation de santé, tout en examinant ses conditions de travail.",
-      "Attribuer les deux situations à la dernière livraison.",
-      "Écarter tout facteur professionnel chez Éva puisque ses difficultés dépassent le travail."
-    ],
+    "Marc ne se sent pas fatigué. Mais il trouve son travail absurde et n’en fait plus que le minimum depuis deux mois.",
+    ["Sans fatigue, ce n’est pas de l’usure.", "C’est un trait de caractère.", "La distance mentale est un signe à part entière, à regarder pour lui-même."],
+    2,
+    ["Les trois signes peuvent évoluer séparément. Un détachement durable compte.", "Un changement récent chez quelqu’un d’investi est un signe, pas un trait.", "Exact. Le détachement peut être le premier signe à apparaître."],
+  ],
+  [
+    "Dans une équipe, les priorités changent chaque semaine et rien n’est arbitré. Personne n’est insulté ni humilié.",
+    ["Il peut y avoir un vrai risque, sans harcèlement : flou et absence d’arbitrage suffisent.", "Sans harcèlement, il n’y a pas de risque.", "C’est le rythme normal d’une entreprise."],
     0,
-    "La récupération et l’extension hors travail changent les hypothèses à examiner. Plusieurs causes peuvent coexister ; une prise en charge de santé et une analyse du poste peuvent avancer ensemble."
+    ["Exact. Un risque peut naître de l’organisation et de l’inaction, sans comportement agressif.", "Le harcèlement n’est qu’une forme de risque parmi d’autres.", "Un flou permanent est une exigence évitable, pas une fatalité."],
   ],
   [
-    "Deux équipes traitent le même volume. L’une peut interrompre les entrées et prioriser les dossiers complexes. Quelle observation testerait le mieux le mécanisme JD-R proposé ?",
-    [
-      "Comparer seulement les nombres de dossiers.",
-      "Comparer leurs primes annuelles sans examiner le déroulement des journées.",
-      "Observer si la latitude annoncée est réellement utilisable lors des pics et comment évoluent interruptions et récupération."
-    ],
-    2,
-    "Le mécanisme supposé porte sur une ressource utilisable face à une exigence. Il faut observer les situations où cette ressource devrait faire une différence."
-  ],
-  [
-    "Une responsable obtient une prime pour son intérim et continue à finir après 21 h. Que conclure avec ERI et JD-R ?",
-    [
-      "La prime suffit à rendre les horaires soutenables.",
-      "Le retour de l’effort a changé. Il faut encore examiner les exigences, les moyens et la récupération.",
-      "Les horaires démontrent que la prime n’a aucune valeur pour elle."
-    ],
+    "Depuis six mois, Paul compense les absences de son équipe, le soir et le week-end. À son entretien : « rien à signaler ».",
+    ["Paul est solide, il n’y a pas d’inquiétude à avoir.", "Un déséquilibre entre effort et retour, entretenu par le surengagement.", "Il devrait simplement demander une prime."],
     1,
-    "Une intervention peut modifier la réciprocité sans réduire la demande. Demander à la personne ce qu’elle retire de la prime et documenter son temps réel permettent de distinguer les deux mécanismes."
+    ["Ceux qui compensent le plus sont souvent les plus exposés.", "Exact. Son effort est devenu invisible, et rien ne revient en échange.", "Une prime changerait le retour, pas l’effort ni la récupération. Il faut regarder les deux côtés."],
   ],
   [
-    "Un vendeur invoque une différence moyenne de dopamine entre deux groupes pour proposer un complément à une salariée. Quelles étapes manquent ?",
-    [
-      "Une répétition du dosage de dopamine chez cette seule salariée.",
-      "La capacité à identifier la situation individuelle et la preuve que le complément améliore le résultat recherché.",
-      "Une différence moyenne retrouvée chez un second groupe exposé."
-    ],
-    1,
-    "Une association de groupe ne valide ni un test individuel ni une intervention. Ce sont deux questions de recherche distinctes."
-  ],
-  [
-    "Deux personnes obtiennent 48/144. La première revient de congé ; la seconde signale une alerte. Que faut-il regarder avant de proposer la suite ?",
-    [
-      "La seule égalité du total pour choisir un plan commun.",
-      "Le classement des deux personnes par rapport à la moyenne de leur équipe.",
-      "Les dimensions, les conditions des quatre semaines et l’alerte indépendamment du score."
-    ],
+    "Une manager dit : « Elle traverse un divorce, donc ce n’est pas le travail. »",
+    ["C’est probablement vrai : il faut attendre que ça passe.", "Il faut lui demander des détails pour en être sûr.", "Un facteur personnel n’efface pas une charge connue : il faut vérifier ce qui, au travail, était modifiable."],
     2,
-    "Le total masque les configurations. Un congé modifie la période observée. Une alerte mérite une réponse adaptée même si le total paraît modéré."
+    ["Attendre, c’est laisser une charge s’ajouter à une période difficile.", "Sa vie privée ne la regarde pas, et n’aiderait pas à décider.", "Exact. La vulnérabilité ne dispense pas d’agir sur l’exposition professionnelle."],
   ],
   [
-    "Le transfert des appels améliore la concentration de Nadia. Son binôme commence à manquer les échéances. Comment évaluer l’essai ?",
-    [
-      "Examiner les interruptions et le travail en retard des deux personnes, puis réajuster le relais.",
-      "Conclure au succès dès que Nadia se sent mieux.",
-      "Annuler toute expérimentation puisque le transfert a un coût."
-    ],
+    "Un site propose un test salivaire de cortisol pour « confirmer votre burn-out ».",
+    ["Aucun dosage ne diagnostique un burn-out : le résultat ne changerait rien à ce qu’il faut faire.", "C’est utile si le test est fait en laboratoire.", "Un cortisol bas prouve l’épuisement des surrénales."],
     0,
-    "Le gain individuel est réel, mais l’objectif portait sur la soutenabilité du travail. L’évaluation inclut la charge déplacée et permet de revoir la répartition ou le volume."
+    ["Exact. Aucun seuil n’est validé, et la question reste le travail.", "Même en laboratoire, aucune valeur ne permet de trancher pour une personne.", "La « fatigue surrénalienne » n’est pas un diagnostic reconnu."],
   ],
   [
-    "Au retour d’un arrêt, le sommeil s’est amélioré et les urgences du poste sont identiques. Que suivre au prochain point ?",
-    [
-      "Le score seul, pour certifier la guérison.",
-      "Les délais prévus sur le papier uniquement.",
-      "La charge réellement reprise, la récupération, les interruptions et la charge du relais."
-    ],
+    "Face à une surcharge, un manager dit à son équipe : « Faites au mieux. »",
+    ["C’est une bonne réponse : il fait confiance à l’équipe.", "Ce n’est pas un arbitrage : il faut retirer, reporter ou simplifier, ou remonter le problème.", "Il devrait plutôt proposer une formation au stress."],
+    1,
+    ["La confiance ne remplace pas la décision : chacun trie seul, et porte seul ce qui n’est pas fait.", "Exact. La règle des trois décisions, ou l’escalade si on n’a pas les moyens.", "Une formation ne change pas la pile de travail."],
+  ],
+  [
+    "Une collègue dit qu’elle pense à mettre fin à ses jours.",
+    ["Changer de sujet pour ne pas l’encourager.", "Lui conseiller de voir un médecin la semaine prochaine.", "La prendre au sérieux, rester avec elle, appeler le 3114, ou le 15 en cas de danger immédiat."],
     2,
-    "Comparer le travail réel au plan convenu aide à ajuster les moyens. Le sommeil ou le score seul ne suffit pas à établir que le poste est soutenable."
-  ]
+    ["En parler n’encourage pas le passage à l’acte. Le silence isole.", "La semaine prochaine, c’est trop tard s’il y a un danger. L’aide spécialisée existe 24 h/24.", "Exact. On peut appeler le 3114 pour quelqu’un d’autre, ou avec lui."],
+  ],
 ];
