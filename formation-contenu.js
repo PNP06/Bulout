@@ -1,11 +1,127 @@
 // Parcours autonome de prévention Bull-Out.
 export const chapitres = [
   {
-    "titre": "Observer un changement",
-    "question": "Sam dit « je suis vidé ». Que sait-on déjà et que manque-t-il ?",
+    "titre": "Un coup de fatigue ou quelque chose qui dure ?",
+    "question": "Que regarder après une semaine difficile ?",
     "objectifs": [
-      "Décrire un changement daté en distinguant le ressenti des conditions de travail.",
-      "Reconnaître les trois dimensions de Maslach et expliquer la fonction du MBI."
+      "Comparer deux trajectoires de fatigue.",
+      "Repérer quand demander de l’aide et situer le terme « surmenage » dans la CIM-10."
+    ],
+    "cours": [
+      [
+        "Reconstituer la trajectoire",
+        "Pars de la dernière période où la personne se sentait dans son état habituel. Place les événements du travail, les premiers changements, les repos et les reprises sur la même ligne du temps. Compare ensuite le travail et le hors-travail. Une amélioration en congé renseigne sur le contexte sans établir à elle seule la cause."
+      ],
+      [
+        "Plusieurs pistes peuvent coexister",
+        "Un conflit éthique peut exposer durablement à l’usure. Des humiliations appellent une réponse de protection, quelle que soit la valeur du score. Une perte de plaisir étendue à la vie personnelle invite aussi à examiner la santé avec un professionnel. La grille ci-dessous sert à choisir la prochaine question, sans départager mécaniquement des diagnostics."
+      ],
+      [
+        "Quand plusieurs difficultés se superposent",
+        "Après une réorganisation, Sam doit écourter un contrôle qu’il juge nécessaire. Depuis trois semaines, il dort mal. Il signale aussi des humiliations répétées en réunion. La chronologie éclaire les hypothèses. La protection face aux humiliations et l’examen de la consigne contestée restent nécessaires même si le sommeil s’améliore."
+      ]
+    ],
+    "scene": "« Je suis vidé. » Tous deux viennent de livrer un dossier urgent. Si tu les croises vendredi soir, tu entends la même phrase. Retrouve-les lundi, puis trois semaines plus tard.",
+    "reperes": [
+      [
+        "Au travail",
+        "Qu’est-ce qui a changé dans les horaires, les priorités ou les relations ?"
+      ],
+      [
+        "Ailleurs",
+        "Comment vont le sommeil, les activités habituelles et la santé de Sam, y compris les jours sans travail ?"
+      ]
+    ],
+    "exercice": [
+      "Lundi, tu ne connais de Sam que sa fatigue de vendredi. Quelle question t’apprendrait le plus ?",
+      [
+        "À combien notes-tu ta fatigue de vendredi, sur dix ?",
+        "Quand la charge retombe, que retrouves-tu de ton énergie et de tes activités habituelles ?",
+        "Combien de jours faut-il attendre avant de prendre cette fatigue au sérieux ?"
+      ],
+      1,
+      "La deuxième question fait apparaître une trajectoire. Un chiffre isolé décrit un moment. La persistance, la gêne et les conditions de récupération guident la suite. Une souffrance intense justifie de demander de l’aide d’emblée."
+    ],
+    "references": [
+      [
+        "ATIH · CIM-10 française, chapitre XXI, Z73.0",
+        "https://www.atih.sante.fr/sites/default/files/public/content/2121/chapXXI_Cim_2009_1.pdf"
+      ],
+      [
+        "OMS · définition de la CIM-11",
+        "https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon"
+      ],
+      [
+        "HAS · repérage et prise en charge clinique",
+        "https://www.has-sante.fr/jcms/c_2769318/fr/reperage-et-prise-en-charge-cliniques-du-syndrome-d-epuisement-professionnel-ou-burnout"
+      ]
+    ],
+    "tableaux": [
+      {
+        "titre": "Six situations à différencier",
+        "colonnes": [
+          "Situation",
+          "Indice principal",
+          "Ce que ça change"
+        ],
+        "lignes": [
+          [
+            "Fatigue ponctuelle",
+            "Récupère après repos, congé court ou baisse temporaire de charge.",
+            "Surveiller, ajuster la charge, protéger la récupération."
+          ],
+          [
+            "Stress aigu",
+            "Réaction forte à un événement identifié : échéance, crise, conflit ponctuel.",
+            "Gérer l'événement, restaurer la récupération, vérifier que la tension ne se chronicise pas."
+          ],
+          [
+            "Burn-out",
+            "Exposition professionnelle chronique, épuisement durable, distance mentale ou cynisme, efficacité réduite.",
+            "Analyser le travail réel, réduire les expositions, renforcer les ressources, demander un avis santé si nécessaire."
+          ],
+          [
+            "Dépression",
+            "Humeur basse, anhédonie, culpabilité, ralentissement, symptômes qui dépassent souvent le seul travail.",
+            "Avis médical ou psychologique. Ne pas réduire à un problème d'organisation."
+          ],
+          [
+            "Harcèlement / violence / conflit grave",
+            "Humiliations, menaces, isolement, propos dégradants, peur, atteintes répétées.",
+            "Protection, traçabilité, acteurs compétents : médecin du travail, RH, CSE/CSSCT, représentants, médecin, urgence selon gravité."
+          ],
+          [
+            "Conflit éthique",
+            "Devoir produire un travail contraire à ses valeurs professionnelles ou à la sécurité/qualité.",
+            "Clarifier les responsabilités, documenter, chercher appui professionnel ou collectif."
+          ]
+        ]
+      }
+    ],
+    "retenir": "La CIM-10 française classe le « Surmenage » sous Z73.0, avec le libellé « État d’épuisement ». Ce code ne fixe aucun nombre de jours pour trancher. La CIM-11 précise le contexte de stress chronique au travail et décrit trois dimensions.",
+    "transition": "Une fois le problème décrit, regarde ce qui, dans une journée ordinaire, consomme les ressources de Sam.",
+    "consigne": "Qu’aimerais-tu encore savoir avant d’attribuer la fatigue de Sam au travail ?",
+    "visuel": [
+      "Deux trajectoires après la même échéance",
+      [
+        [
+          "Lundi",
+          "Léa retrouve son énergie. Sam se réveille encore épuisé."
+        ],
+        [
+          "Trois semaines plus tard",
+          "Léa a repris le tennis. Sam annule de nouveau sa soirée et peine à suivre une réunion."
+        ]
+      ]
+    ],
+    "essentiel": "Ce qui attire l’attention chez Sam, c’est que la fatigue continue après l’échéance et gagne sa vie quotidienne. On peut lui proposer d’en parler dès maintenant. La CIM-10 française classe le « Surmenage » sous Z73.0, avec le libellé « État d’épuisement ». Ce code ne fixe aucun nombre de jours pour trancher. La CIM-11 précise le contexte de stress chronique au travail et décrit trois dimensions."
+  },
+  {
+    "titre": "Modèle 1 · Maslach et les trois signes",
+    "question": "Comment décrire ce qui change chez Sam ?",
+    "objectifs": [
+      "Distinguer épuisement, distance mentale et efficacité ressentie.",
+      "Expliquer ce que mesure le MBI."
     ],
     "cours": [
       [
@@ -63,104 +179,28 @@ export const chapitres = [
     "tableaux": [],
     "retenir": "Une observation utile précise ce qui a changé, depuis quand et avec quel retentissement. Une dimension élevée ouvre une question.",
     "transition": "Sam évite des appels. Avant d’en attribuer la cause à son poste, il faut comparer plusieurs explications.",
-    "consigne": "Classe les trois observations de Sam dans les dimensions de Maslach. Laquelle relève directement du cynisme ou de la distance mentale ?"
-  },
-  {
-    "titre": "Distinguer les situations",
-    "question": "Une même fatigue appelle-t-elle toujours la même réponse ?",
-    "objectifs": [
-      "Comparer fatigue ponctuelle, stress aigu et usure durable à partir de leur chronologie.",
-      "Identifier les indices qui justifient une évaluation de santé, une mesure de protection ou un arbitrage éthique."
-    ],
-    "cours": [
+    "consigne": "Classe les trois observations de Sam dans les dimensions de Maslach. Laquelle relève directement du cynisme ou de la distance mentale ?",
+    "visuel": [
+      "Trois questions à poser à Sam",
       [
-        "Reconstituer la trajectoire",
-        "Pars de la dernière période où la personne se sentait dans son état habituel. Place les événements du travail, les premiers changements, les repos et les reprises sur la même ligne du temps. Compare ensuite le travail et le hors-travail. Une amélioration en congé renseigne sur le contexte sans établir à elle seule la cause."
-      ],
-      [
-        "Plusieurs pistes peuvent coexister",
-        "Un conflit éthique peut exposer durablement à l’usure. Des humiliations appellent une réponse de protection, quelle que soit la valeur du score. Une perte de plaisir étendue à la vie personnelle invite aussi à examiner la santé avec un professionnel. La grille ci-dessous sert à choisir la prochaine question, sans départager mécaniquement des diagnostics."
-      ]
-    ],
-    "scene": "Après une réorganisation, Sam doit écourter un contrôle qu’il juge nécessaire. Depuis trois semaines, il dort mal. Il signale aussi des humiliations répétées en réunion.",
-    "reperes": [
-      [
-        "Ce qui est observable",
-        "La consigne, les paroles rapportées, leur fréquence et les effets sur le sommeil peuvent être documentés séparément."
-      ],
-      [
-        "Ce qui reste à explorer",
-        "La sécurité du contrôle, la protection de Sam et son état de santé demandent des réponses complémentaires."
-      ]
-    ],
-    "exercice": [
-      "Quelle première démarche tient compte des trois problèmes ?",
-      [
-        "Attendre de voir si le repos fait disparaître les humiliations.",
-        "Documenter les faits, chercher un appui pour la protection et proposer un avis de santé pour les troubles persistants.",
-        "Faire trancher le conflit éthique par le seul score d’épuisement."
-      ],
-      1,
-      "La chronologie éclaire les hypothèses. La protection face aux humiliations et l’examen de la consigne contestée restent nécessaires même si le sommeil s’améliore."
-    ],
-    "references": [
-      [
-        "OMS · définition de la CIM-11",
-        "https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon"
-      ],
-      [
-        "HAS · repérage et prise en charge clinique",
-        "https://www.has-sante.fr/jcms/c_2769318/fr/reperage-et-prise-en-charge-cliniques-du-syndrome-d-epuisement-professionnel-ou-burnout"
-      ]
-    ],
-    "tableaux": [
-      {
-        "titre": "Six situations à différencier",
-        "colonnes": [
-          "Situation",
-          "Indice principal",
-          "Ce que ça change"
+        [
+          "Énergie",
+          "« Que te reste-t-il après ta journée ? »"
         ],
-        "lignes": [
-          [
-            "Fatigue ponctuelle",
-            "Récupère après repos, congé court ou baisse temporaire de charge.",
-            "Surveiller, ajuster la charge, protéger la récupération."
-          ],
-          [
-            "Stress aigu",
-            "Réaction forte à un événement identifié : échéance, crise, conflit ponctuel.",
-            "Gérer l'événement, restaurer la récupération, vérifier que la tension ne se chronicise pas."
-          ],
-          [
-            "Burn-out",
-            "Exposition professionnelle chronique, épuisement durable, distance mentale ou cynisme, efficacité réduite.",
-            "Analyser le travail réel, réduire les expositions, renforcer les ressources, demander un avis santé si nécessaire."
-          ],
-          [
-            "Dépression",
-            "Humeur basse, anhédonie, culpabilité, ralentissement, symptômes qui dépassent souvent le seul travail.",
-            "Avis médical ou psychologique. Ne pas réduire à un problème d'organisation."
-          ],
-          [
-            "Harcèlement / violence / conflit grave",
-            "Humiliations, menaces, isolement, propos dégradants, peur, atteintes répétées.",
-            "Protection, traçabilité, acteurs compétents : médecin du travail, RH, CSE/CSSCT, représentants, médecin, urgence selon gravité."
-          ],
-          [
-            "Conflit éthique",
-            "Devoir produire un travail contraire à ses valeurs professionnelles ou à la sécurité/qualité.",
-            "Clarifier les responsabilités, documenter, chercher appui professionnel ou collectif."
-          ]
+        [
+          "Distance",
+          "« Comment vis-tu les appels de tes collègues ? »"
+        ],
+        [
+          "Efficacité ressentie",
+          "« As-tu encore le sentiment de faire du bon travail ? »"
         ]
-      }
+      ]
     ],
-    "retenir": "Un symptôme peut avoir plusieurs déterminants. Choisis les faits à vérifier et les interlocuteurs en fonction de la situation.",
-    "transition": "Une fois le problème décrit, regarde ce qui, dans une journée ordinaire, consomme les ressources de Sam.",
-    "consigne": "Sépare les faits observables, les hypothèses et les besoins de protection. Quels éléments transmettrais-tu, et à qui ?"
+    "essentiel": "Maslach distingue l’épuisement, la distance que l’on prend avec le travail et le sentiment d’efficacité. Le MBI les mesure séparément. Sam peut finir vidé et rester fier de son travail."
   },
   {
-    "titre": "Analyser les exigences et les ressources",
+    "titre": "Modèle 2 · JD-R et les moyens de faire son travail",
     "question": "Pourquoi deux journées avec autant de dossiers peuvent-elles coûter si différemment ?",
     "objectifs": [
       "Classer une observation en exigence, ressource disponible ou possibilité de récupération.",
@@ -240,10 +280,24 @@ export const chapitres = [
     ],
     "retenir": "Une ressource est utile dans la mesure où elle est réellement mobilisable face à la demande.",
     "transition": "Une charge soutenable peut encore sembler injuste. Il faut alors examiner ce qui est rendu en échange de l’effort.",
-    "consigne": "Repère une exigence, une ressource et une contradiction qui subsisterait même si la collègue prenait tous les appels."
+    "consigne": "Repère une exigence, une ressource et une contradiction qui subsisterait même si la collègue prenait tous les appels.",
+    "visuel": [
+      "Que se passe-t-il entre 9 h et 11 h ?",
+      [
+        [
+          "Sans relais",
+          "Chaque appel interrompt le dossier. Sam doit retrouver le fil avant de continuer."
+        ],
+        [
+          "Avec un relais disponible",
+          "Sa collègue prend les appels. Sam dispose de deux heures pour terminer le contrôle."
+        ]
+      ]
+    ],
+    "essentiel": "Le modèle exigences–ressources (JD-R) examine ce que le poste demande et ce qui aide à y répondre. Ici, le nombre de dossiers reste le même. La possibilité de travailler sans interruption change."
   },
   {
-    "titre": "Comprendre l’effort et la reconnaissance",
+    "titre": "Modèle 3 · Siegrist et la reconnaissance",
     "question": "Pourquoi retirer deux dossiers à Lina ne réglerait-il pas forcément son problème ?",
     "objectifs": [
       "Distinguer effort fourni, récompense attendue et surengagement.",
@@ -356,10 +410,24 @@ export const chapitres = [
     ],
     "retenir": "Décrire les signes, analyser le poste et examiner la réciprocité répondent à trois questions différentes.",
     "transition": "Une explication du travail peut être plausible. Que vaut alors la promesse de la confirmer avec un test biologique ?",
-    "consigne": "Propose deux décisions pour Lina. Laquelle changerait sa charge ? Laquelle changerait la réciprocité de l’échange ?"
+    "consigne": "Propose deux décisions pour Lina. Laquelle changerait sa charge ? Laquelle changerait la réciprocité de l’échange ?",
+    "visuel": [
+      "Ce qui disparaît du bilan de Lina",
+      [
+        [
+          "Travail fourni",
+          "Former deux recrues et vérifier leurs premiers dossiers."
+        ],
+        [
+          "Travail comptabilisé",
+          "Seuls ses propres dossiers clôturés figurent à l’entretien annuel."
+        ]
+      ]
+    ],
+    "essentiel": "Dans le modèle effort–récompense de Siegrist (ERI), on examine ce que la personne investit et reçoit en retour : estime, rémunération, sécurité ou perspectives. La formation des recrues coûte à Lina du temps et reste invisible au moment où son travail est évalué."
   },
   {
-    "titre": "Évaluer une affirmation biologique",
+    "titre": "Le cortisol peut-il trancher ?",
     "question": "Un dosage peut-il décider si Sam est en burn-out ?",
     "objectifs": [
       "Distinguer mécanisme biologique, association entre groupes et test individuel.",
@@ -440,10 +508,24 @@ export const chapitres = [
     ],
     "retenir": "Documenter un mécanisme, identifier une cause et choisir une intervention sont trois opérations distinctes.",
     "transition": "Applique maintenant la même exigence de preuve au score de Bull-Out lui-même.",
-    "consigne": "Quelles preuves faudrait-il pour passer d’une moyenne de groupe à une conclusion sur Sam ? Et de là à une décision de prévention ?"
+    "consigne": "Quelles preuves faudrait-il pour passer d’une moyenne de groupe à une conclusion sur Sam ? Et de là à une décision de prévention ?",
+    "visuel": [
+      "De la moyenne du groupe à la personne",
+      [
+        [
+          "Étude",
+          "Deux groupes peuvent avoir des moyennes différentes tout en partageant de nombreuses valeurs."
+        ],
+        [
+          "Consultation",
+          "Si une même valeur se rencontre dans les deux groupes, que permet-elle de conclure pour Sam ?"
+        ]
+      ]
+    ],
+    "essentiel": "Un mécanisme biologique plausible ouvre une piste de recherche. Pour utiliser un dosage chez une personne, il faudrait aussi connaître ses erreurs de classement et son utilité pour la décision."
   },
   {
-    "titre": "Interpréter son questionnaire",
+    "titre": "Que raconte mon score ?",
     "question": "Que peuvent cacher deux totaux identiques ?",
     "objectifs": [
       "Calculer un score inversé et comparer deux profils par dimension.",
@@ -527,10 +609,24 @@ export const chapitres = [
     ],
     "retenir": "Une comparaison dans le temps devient interprétable si tu précises ce qui a changé pendant les quatre semaines considérées.",
     "transition": "Le rapport désigne des dimensions à discuter. Il reste à transformer une observation en décision vérifiable.",
-    "consigne": "Comment expliquerais-tu la baisse du total en tenant compte de la période ? Quel fait vérifier à la reprise ?"
+    "consigne": "Comment expliquerais-tu la baisse du total en tenant compte de la période ? Quel fait vérifier à la reprise ?",
+    "visuel": [
+      "Un total, deux histoires",
+      [
+        [
+          "Avant les congés",
+          "Sam dort mal et reçoit deux consignes incompatibles."
+        ],
+        [
+          "Au retour",
+          "Son sommeil s’améliore. Qui décide désormais quel dossier passe en premier ?"
+        ]
+      ]
+    ],
+    "essentiel": "Bull-Out décrit les quatre dernières semaines. Pour les ressources, le sens des réponses est inversé : sur un item coté de 0 à 4, une ressource à 4 donne un manque à 0. Lis ensuite les dimensions, le contexte et les alertes."
   },
   {
-    "titre": "Décider sur le travail réel",
+    "titre": "Que changer dès jeudi ?",
     "question": "Que doit-on pouvoir observer vendredi si notre décision fonctionne ?",
     "objectifs": [
       "Choisir un levier sur la charge, les priorités, l’autonomie, les ressources, l’équité ou la récupération.",
@@ -843,10 +939,24 @@ export const chapitres = [
           ]
         ]
       ]
-    ]
+    ],
+    "visuel": [
+      "Une demande que l’on peut vérifier",
+      [
+        [
+          "Jeudi",
+          "« Les dossiers A et B sont attendus vendredi. Lequel dois-je reporter ? »"
+        ],
+        [
+          "Vendredi",
+          "Vérifier le délai annoncé au client et le travail éventuellement transféré au collègue."
+        ]
+      ]
+    ],
+    "essentiel": "Une action sur les priorités devient concrète quand quelqu’un peut décider du report et en assumer les conséquences. Conviens d’une date pour regarder ce qui a changé."
   },
   {
-    "titre": "Orienter, protéger et préparer la reprise",
+    "titre": "À qui en parler, et comment reprendre ?",
     "question": "Que partage-t-on avec le médecin, le manager et le collectif ?",
     "objectifs": [
       "Choisir un interlocuteur selon le besoin de soins, de protection, d’aménagement ou d’arbitrage.",
@@ -1187,7 +1297,21 @@ export const chapitres = [
           ]
         ]
       ]
-    ]
+    ],
+    "visuel": [
+      "Transformer « en douceur » en engagement vérifiable",
+      [
+        [
+          "Avant lundi",
+          "Nommer les dossiers repris, ceux qui attendront et la personne chargée des urgences."
+        ],
+        [
+          "Au premier point",
+          "Comparer le planning au travail réellement effectué, y compris par le collègue qui assure le relais."
+        ]
+      ]
+    ],
+    "essentiel": "Le médecin traitant peut évaluer la santé de Sam, le médecin du travail discuter des aménagements et son responsable arbitrer les dossiers. Sam peut expliquer ses besoins au travail et garder ses informations de santé confidentielles."
   }
 ];
 

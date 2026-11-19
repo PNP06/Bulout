@@ -8,7 +8,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-2";
+const format = "bull-out-progression-3";
 let acquis = new Set();
 let bonnes = 0;
 let dateDiplome = null;
@@ -37,7 +37,7 @@ function sommaire(active) {
 
 function intro() {
   const prochain = prochaineLecture();
-  return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Trois modèles pour trois questions : quels signes observe-t-on, comment le poste sollicite-t-il la personne et que reçoit-elle en retour de ses efforts ? Apprends ensuite à lire les scores et à choisir une action de prévention.")}
+  return `<header class="course-hero"><div>${entete("Étape 1 · La formation", "Comprendre l’usure au travail", "Vendredi soir, deux collègues se disent épuisés. Lundi, un seul a récupéré. Pars de leur histoire, puis découvre trois façons de regarder leur travail.")}
     ${action(prochain < 0 ? "#quiz-final" : ancreChapitre(prochain), acquis.size ? "Reprendre ma formation" : "Commencer le premier chapitre")}</div>
     <div class="course-programme"><span>Ton parcours</span><strong>${acquis.size} <small>/ ${chapitres.length}</small></strong><p>chapitres validés</p><div class="course-meter">${chapitres.map((_, i) => `<i class="${acquis.has(i) ? 'on' : ''}"></i>`).join("")}</div></div></header>
     <div class="course-layout">${sommaire("#formation")}<section class="course-paper"><p class="course-eyebrow">Le programme</p><h2>Ce que tu sauras faire</h2>
@@ -58,21 +58,33 @@ function tableau({ titre, colonnes, lignes }) {
     <tbody>${lignes.map(([nom, ...valeurs]) => `<tr><th scope="row">${nom}</th>${valeurs.map(v => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 
+// Pictogrammes des trois modèles, repris du guide Bull-Out.
+const iconesModeles = [
+  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <rect x=\"14\" y=\"18\" width=\"32\" height=\"28\" rx=\"5\"></rect>\n                    <path d=\"M46 27h5v10h-5\"></path>\n                    <path d=\"M21 38h18\"></path>\n                    <path d=\"M21 31h10\"></path>\n                  </svg>",
+  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <path d=\"M32 12v40\"></path>\n                    <path d=\"M17 24h30\"></path>\n                    <path d=\"M17 24l-8 16h16z\"></path>\n                    <path d=\"M47 24l-8 16h16z\"></path>\n                    <path d=\"M22 52h20\"></path>\n                  </svg>",
+  "<svg viewBox=\"0 0 64 64\" role=\"img\">\n                    <circle cx=\"23\" cy=\"28\" r=\"9\"></circle>\n                    <circle cx=\"43\" cy=\"28\" r=\"9\"></circle>\n                    <path d=\"M32 13v38\"></path>\n                    <path d=\"M23 37c0 8 18 8 18 0\"></path>\n                    <path d=\"M18 51h28\"></path>\n                  </svg>"
+];
+
 function chapitre(i) {
   const c = chapitres[i];
   return `<div class="course-layout">${sommaire(ancreChapitre(i))}<article class="course-paper">
     ${entete("Chapitre " + (i+1) + " sur " + chapitres.length, c.titre, c.question)}
-    <section class="cours-objectifs"><h2>À la fin de ce chapitre, tu sauras…</h2><ul>${c.objectifs.map(t => `<li>${t}</li>`).join("")}</ul></section>
+    <p class="course-goals"><strong>Objectifs</strong> · ${c.objectifs.join(" ")}</p>
+    <section class="course-scene"><span>Situation fictive</span><p>${c.scene}</p></section>
+    <figure class="course-example"><figcaption>${i >= 1 && i <= 3 ? `<span class="model-map-icon" aria-hidden="true">${iconesModeles[i-1]}</span>` : ""}${c.visuel[0]}</figcaption>
+      <dl>${c.visuel[1].map(([titre, texte]) => `<div><dt>${titre}</dt><dd>${texte}</dd></div>`).join("")}</dl></figure>
+    <p class="course-key">${c.essentiel}</p>
+    ${i === 7 ? `<p>${c.cours[1][1]}</p>` : ""}
+    <details class="cours-fiche"><summary>${c.consigne}</summary>
+      <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl></details>
+    <details class="cours-fiche"><summary>${["Comparer fatigue, stress, dépression et autres situations","Comprendre le MBI et le cynisme défensif","Explorer les exigences, les ressources et la récupération","Comparer les trois modèles sur le cas de Lina","Examiner les arguments sur le cortisol et la dopamine","Comprendre les six dimensions et leurs seuils","Consulter les six leviers et préparer la conversation","Choisir un interlocuteur et préparer la reprise"][i]}</summary>
     ${c.cours.map(([titre, texte]) => `<section><h2>${titre}</h2><p>${texte}</p></section>`).join("")}
     ${c.tableaux.map(tableau).join("")}
     ${c.fiches ? `<section><h2>${i === 6 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 6 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
       ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}</section>` : ""}
-    <section class="course-scene"><span>À toi de raisonner · situation fictive</span><p>${c.scene}</p>
-    <p><b>${c.consigne}</b></p><details><summary>Comparer avec le raisonnement proposé</summary>
-    <dl class="course-notions">${c.reperes.map(([r,t]) => `<div><dt>${r}</dt><dd>${t}</dd></div>`).join("")}</dl></details></section>
+    </details>
     <p class="course-eyebrow exo-k">Vérifie tes acquis</p>
     ${exercice(c.exercice, acquis.has(i), action(suite(i), i+1 < chapitres.length ? "Chapitre suivant →" : "Aller au test final →"))}
-    <section class="cours-bilan"><h2>À retenir</h2><p>${c.retenir}</p><p>${c.transition}</p></section>
     <details><summary>Sources scientifiques et institutionnelles</summary><ul>${c.references.map(([titre,url]) => `<li><a href="${url}" target="_blank" rel="noopener">${titre} ↗</a></li>`).join("")}</ul></details></article></div>`;
 }
 
@@ -180,13 +192,16 @@ function restaurer(p) {
   // Les anciens diplômes ouvrent toujours le test. Pour un cours interrompu,
   // seules les unités équivalentes sont reprises, le nouveau quiz repart au début.
   if (p?.format === "bull-out-progression-1" && Array.isArray(p.chapitres)) {
-    const correspondance = [0, 2, 3, 5, 6];
+    const correspondance = [1, 2, 3, 5, 6];
     const anciens = p.chapitres;
     const termine = anciens.length === 5 && p.bonnes === 8 && Boolean(p.dateDiplome);
     if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 5) ||
         !Number.isInteger(p.bonnes) || p.bonnes < 0 || p.bonnes > 8 || (p.bonnes > 0 && anciens.length !== 5) ||
         (!termine && (p.dateDiplome !== null || p.ouvert || p.bonnes === 8))) throw new Error("Ancienne progression incohérente.");
     p = { ...p, format, chapitres: termine ? chapitres.map((_, i) => i) : anciens.map(i => correspondance[i]), bonnes: termine ? examen.length : 0 };
+  }
+  if (p?.format === "bull-out-progression-2" && Array.isArray(p.chapitres)) {
+    p = { ...p, format, chapitres: p.chapitres.map(i => i === 0 ? 1 : i === 1 ? 0 : i) };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&

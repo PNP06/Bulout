@@ -737,3 +737,15 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
   .cours-table table { font-size: .85rem; overflow-wrap: anywhere; }
   .course-rail ol { max-width: calc(100vw - 34px); }
 }
+
+.course-goals { font-size: .94rem; }
+.course-example { margin: 1.4rem 0; }
+.course-example figcaption { font-weight: 700; margin-bottom: .6rem; }
+.course-example dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: .7rem; margin: 0; }
+.course-example dl > div { border-top: 3px solid var(--sapin); background: rgba(42,101,80,.06); padding: .9rem; }
+.course-example dt { font-weight: 700; }
+.course-example dd { margin: .45rem 0 0; }
+.course-key { font-size: 1.05rem; line-height: 1.55; }
+
+.course-example figcaption { display: flex; align-items: center; gap: .65rem; }
+.course-example .model-map-icon { flex: none; margin: 0; }
