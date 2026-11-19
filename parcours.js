@@ -9,7 +9,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-3";
+const format = "bull-out-progression-4";
 let acquis = new Set();
 let bonnes = 0;
 let dateDiplome = null;
@@ -82,16 +82,16 @@ function chapitre(i) {
     <p class="course-arrive">${c.scene}</p>
     <p class="course-key">${c.essentiel}</p>
     ${sectionsCours(c.avant)}
-    <figure class="course-diagram">
+    ${image ? `<figure class="course-diagram">
       <h2>${image.titre}</h2>
       <svg viewBox="0 0 364 ${image.hauteur}" role="img" aria-labelledby="schema-titre schema-description">
         <title id="schema-titre">${image.titre}</title><desc id="schema-description">${image.description}</desc>${image.dessin}
       </svg>
       <figcaption>${image.legende}</figcaption>
-    </figure>
+    </figure>` : ""}
     ${sectionsCours(c.cours)}
     ${c.tableaux.map(tableau).join("")}
-    ${c.fiches ? `<section><h2>${i === 6 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 6 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
+    ${c.fiches ? `<section><h2>${i === 7 ? "Choisir une action et préparer sa formulation" : "Préparer le premier échange"}</h2><p>${i === 7 ? "Choisis le levier qui répond à la contrainte observée." : "Choisis l’interlocuteur dont le rôle correspond à ta demande."}</p>
       ${c.fiches.map(([titre, etapes]) => `<details class="cours-fiche"><summary>${titre}</summary><dl class="course-notions">${etapes.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl></details>`).join("")}</section>` : ""}
     <section class="course-practice" aria-labelledby="course-practice-heading">
       <h2 id="course-practice-heading">À toi de jouer</h2>
@@ -107,7 +107,7 @@ function chapitre(i) {
 function quiz() {
   let contenu;
   if (acquis.size < chapitres.length) {
-    contenu = entete("Fin de la formation", "Le test final", "Valide les huit exercices pour accéder aux huit questions de synthèse.") + action(ancreChapitre(prochaineLecture()), "Aller au premier exercice restant");
+    contenu = entete("Fin de la formation", "Le test final", "Valide les neuf exercices pour accéder aux huit questions de synthèse.") + action(ancreChapitre(prochaineLecture()), "Aller au premier exercice restant");
   } else if (bonnes === examen.length) {
     contenu = entete("Test final terminé", "Les huit situations sont résolues", "Tu peux maintenant conserver ton diplôme Bull-Out.") + action("#diplome", "Voir mon diplôme →");
   } else {
@@ -120,7 +120,7 @@ function quiz() {
 
 function diplome() {
   const contenu = !dateDiplome
-    ? entete("Diplôme Bull-Out", "Ton diplôme de formation", "Il se débloque après les huit chapitres et le test final.") + action(acquis.size < chapitres.length ? ancreChapitre(prochaineLecture()) : "#quiz-final", "Continuer la formation")
+    ? entete("Diplôme Bull-Out", "Ton diplôme de formation", "Il se débloque après les neuf chapitres et le test final.") + action(acquis.size < chapitres.length ? ancreChapitre(prochaineLecture()) : "#quiz-final", "Continuer la formation")
     : entete("Étape 1 terminée", "Ton diplôme Bull-Out", "Conserve cette image. Elle ouvre le questionnaire aujourd’hui et lors d’une prochaine visite.") +
       `<label class="prenom">Prénom sur le diplôme (facultatif)<input id="prenom" maxlength="32" autocomplete="off"></label>
       <canvas id="apercu-diplome" width="1600" height="960" role="img" aria-label="Diplôme Bull-Out de prévention de l’épuisement professionnel"></canvas>
@@ -133,13 +133,13 @@ function porteHTML() {
   const lienFormation = dateDiplome ? "#diplome" : acquis.size ? (prochaineLecture() < 0 ? "#quiz-final" : ancreChapitre(prochaineLecture())) : "#formation";
   return `<div class="course-paper gate">${entete("Étape 2 · Le test personnel", "Ouvrir le test Bull-Out", "Ton diplôme de formation ouvre les huit parties du questionnaire. À la fin, tu obtiens ton rapport personnel.")}
     <div class="gate-choices"><section><h2>J’ai mon diplôme</h2><p>Choisis ton diplôme PNG ou ton fichier de progression Bull-Out. Il est lu dans cet onglet.</p>${choixFichier("Choisir mon fichier")}${statut}</section>
-    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je suis la formation"}</h2><p>Huit chapitres, des exercices corrigés et un test final pour apprendre à lire le rapport.</p>${action(lienFormation, dateDiplome ? "Retrouver mon diplôme" : "Accéder à la formation")}</section></div>
+    <section><h2>${dateDiplome ? "Ma formation est terminée" : "Je suis la formation"}</h2><p>Neuf chapitres, des exercices corrigés et un test final pour apprendre à lire le rapport.</p>${action(lienFormation, dateDiplome ? "Retrouver mon diplôme" : "Accéder à la formation")}</section></div>
     <a href="agir.html#aide">Accéder directement aux ressources d’aide →</a></div>`;
 }
 
 function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
-  const numero = /^#chapitre-([1-8])$/.exec(hash);
+  const numero = /^#chapitre-([1-9])$/.exec(hash);
   const enFormation = Boolean(numero) || ["#formation","#quiz-final","#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
@@ -206,9 +206,9 @@ function message(el, msg) {
 
 function restaurer(p) {
   // Les anciens diplômes ouvrent toujours le test. Pour un cours interrompu,
-  // seules les unités équivalentes sont reprises, le nouveau quiz repart au début.
+  // on conserve les chapitres équivalents et les réponses à un quiz inchangé.
   if (p?.format === "bull-out-progression-1" && Array.isArray(p.chapitres)) {
-    const correspondance = [1, 2, 3, 5, 6];
+    const correspondance = [1, 2, 3, 6, 7];
     const anciens = p.chapitres;
     const termine = anciens.length === 5 && p.bonnes === 8 && Boolean(p.dateDiplome);
     if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 5) ||
@@ -217,12 +217,20 @@ function restaurer(p) {
     p = { ...p, format, chapitres: termine ? chapitres.map((_, i) => i) : anciens.map(i => correspondance[i]), bonnes: termine ? examen.length : 0 };
   }
   if (p?.format === "bull-out-progression-2" && Array.isArray(p.chapitres)) {
-    p = { ...p, format, chapitres: p.chapitres.map(i => i === 0 ? 1 : i === 1 ? 0 : i) };
+    p = { ...p, format: "bull-out-progression-3", chapitres: p.chapitres.map(i => i === 0 ? 1 : i === 1 ? 0 : i) };
+  }
+  if (p?.format === "bull-out-progression-3" && Array.isArray(p.chapitres)) {
+    const anciens = p.chapitres;
+    if (new Set(anciens).size !== anciens.length || !anciens.every(i => Number.isInteger(i) && i >= 0 && i < 8) ||
+        (p.bonnes > 0 && anciens.length !== 8)) throw new Error("Ancienne progression incohérente.");
+    const repris = anciens.map(i => i < 4 ? i : i + 1);
+    if (p.bonnes === examen.length) repris.push(4);
+    p = { ...p, format, chapitres: repris };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
     new Set(p.chapitres).size === p.chapitres.length && Number.isInteger(p.bonnes) && p.bonnes >= 0 && p.bonnes <= examen.length &&
-    (p.bonnes === 0 || p.chapitres.length === chapitres.length) && typeof p.ouvert === "boolean" &&
+    (p.bonnes < examen.length || p.chapitres.length === chapitres.length) && typeof p.ouvert === "boolean" &&
     (p.bonnes === examen.length ? /^\d{4}-\d\d-\d\d$/.test(p.dateDiplome) && Number.isFinite(Date.parse(p.dateDiplome)) : p.dateDiplome === null && !p.ouvert) &&
     p.reponses && typeof p.reponses === "object" && !Array.isArray(p.reponses);
   if (!sansErreur) throw new Error("Ce fichier ne correspond pas à une progression Bull-Out valide.");

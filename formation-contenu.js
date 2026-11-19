@@ -126,21 +126,21 @@ export const chapitres = [
     "titre": "Modèle 1 · Maslach et les trois signes",
     "question": "Comment décrire ce qui change chez Sam ?",
     "objectifs": [
-      "Distinguer épuisement, distance mentale et efficacité ressentie.",
-      "Expliquer ce que mesure le questionnaire de Maslach."
+      "Expliquer l’origine du modèle de Maslach et la fonction du MBI.",
+      "Distinguer les trois dimensions et donner un exemple de chacune."
     ],
     "cours": [
       [
-        "Ce que le questionnaire de Maslach mesure",
-        "Le Maslach Burnout Inventory (MBI) est un inventaire conçu pour mesurer séparément les dimensions décrites par le modèle. Les travaux initiaux concernaient notamment la relation d’aide. La « dépersonnalisation » y désigne un rapport impersonnel aux personnes que l’on accompagne. Dans une version pour des métiers plus divers, on parle de cynisme envers le travail et d’efficacité professionnelle."
+        "Comment le modèle s’étend à d’autres métiers",
+        "Dans la version générale du MBI, le cynisme vise le travail lui-même, par exemple lorsqu’une personne cesse de s’y intéresser ou doute de son utilité. L’efficacité professionnelle désigne le jugement qu’elle porte sur sa capacité à faire son travail. Pour Sam, relire trois fois une note invite à poser une question sur l’efficacité vécue. Cela peut aussi tenir à une consigne ambiguë."
       ],
       [
-        "Faire varier un seul élément",
-        "Imagine que Sam reprenne tous ses appels volontiers mais finisse toujours aussi vidé. Son épuisement peut rester élevé alors que le retrait diminue. À l’inverse, prendre de la distance après un échange difficile peut protéger sur le moment. Le changement à explorer est celui qui se répète ou s’étend aux relations auxquelles il tenait."
+        "Pourquoi garder trois dimensions ?",
+        "Imagine une soignante qui finit chaque garde vidée, aime toujours travailler avec ses patients et juge ses soins de bonne qualité. Son épuisement peut être élevé alors que ses deux autres dimensions restent préservées. Inversement, prendre ses distances peut aider ponctuellement à tenir une interaction difficile. Quand le retrait s’étend à plusieurs relations qu’on appréciait, il devient un changement à explorer."
       ],
       [
-        "Ce que le modèle laisse ouvert",
-        "Pour décrire les difficultés, distingue l’énergie, le lien au travail et le sentiment d’efficacité. Pour proposer une explication, demande ensuite ce qui se passe dans le poste. Le chapitre suivant commence avec la liste des tâches de Sam. Qu’est-ce qui a changé dans le travail de Sam ? C’est le point de départ du chapitre suivant."
+        "Du modèle à la mesure",
+        "Le modèle organise ce qu’on décrit. Le MBI est un instrument conçu pour mesurer ces dimensions. Bull-Out utilise ses propres questions et son propre barème. Une difficulté décrite par l’un de ces instruments invite à demander depuis quand elle existe, puis à examiner ce qui pourrait l’entretenir."
       ]
     ],
     "scene": "« Si je fais encore du bon travail, c’est que ça va. » Sam termine vidé, évite certains appels et relit trois fois une note. Ces trois observations nous apprennent des choses différentes.",
@@ -170,8 +170,12 @@ export const chapitres = [
     "essentiel": "Le modèle de Maslach aide à décrire l’expérience au travail selon trois dimensions qui peuvent évoluer différemment.",
     "avant": [
       [
-        "Une journée, trois questions",
-        "Après sa journée, Sam a-t-il encore de l’énergie ? Comment vit-il les appels qu’il prenait volontiers ? A-t-il lui-même le sentiment de faire du bon travail ? Pour la dernière question, le temps de relecture est un indice. Il faut encore lui demander comment il juge son travail."
+        "D’où vient le modèle de Maslach ?",
+        "Christina Maslach et Susan E. Jackson publient en 1981 un travail de mesure du burn-out chez des professionnels des services humains. Leur question est descriptive : quand des personnes s’usent dans un métier où elles aident ou accompagnent autrui, quelles expériences reviennent ensemble ? Elles construisent le Maslach Burnout Inventory (MBI), un questionnaire qui mesure ces expériences séparément."
+      ],
+      [
+        "Les trois dimensions",
+        "L’épuisement émotionnel décrit le sentiment d’avoir épuisé l’énergie nécessaire pour faire face aux demandes relationnelles. La dépersonnalisation désigne ici une attitude devenue distante, froide ou impersonnelle envers les personnes accompagnées. L’accomplissement personnel décrit le sentiment d’être compétent et de faire un travail qui aboutit. Dans le profil de burn-out, ce sentiment peut diminuer."
       ]
     ],
     "entrainement": [
@@ -195,17 +199,21 @@ export const chapitres = [
     "titre": "Modèle 2 · JD-R et les moyens de faire son travail",
     "question": "Pourquoi deux journées avec autant de dossiers peuvent-elles coûter si différemment ?",
     "objectifs": [
-      "Classer une observation en exigence, ressource disponible ou possibilité de récupération.",
-      "Choisir une ressource qui agit sur la contrainte identifiée et préciser comment vérifier son effet."
+      "Expliquer les deux mécanismes du modèle exigences–ressources.",
+      "Identifier une modification du poste et préciser comment en observer l’effet."
     ],
     "cours": [
       [
-        "Changer une chose et regarder l’effet",
-        "De 9 h à 11 h, le relais réduit les reprises de tâche. Il ne décide pas quel dossier passe en premier. Si le problème est l’interruption, teste le relais et regarde si Sam arrive au bout du contrôle. Si le problème est le conflit de priorités, demande un arbitrage commun aux deux responsables."
+        "Deux processus",
+        "Le premier concerne l’usure. Si les demandes élevées mobilisent durablement les capacités de la personne, la fatigue peut s’accumuler. L’étude de 2001 associe surtout les demandes à l’épuisement. Le second concerne l’engagement. Les ressources donnent des moyens d’avancer et de s’investir. Leur manque était surtout associé au désengagement. Dans les développements du modèle, une ressource peut aussi atténuer le coût d’une demande, surtout si elle répond à cette demande précise."
       ],
       [
-        "Deux mécanismes à garder en tête",
-        "Le modèle distingue ce que l’effort coûte et ce qui soutient l’engagement. Dans les premiers travaux, les demandes étaient surtout associées à l’épuisement, le manque de ressources au désengagement. Une équipe peut cumuler les deux. Après la journée, la possibilité de récupérer compte aussi. Un vendredi libre perdu à rattraper les dossiers ne joue pas le même rôle qu’un temps de repos effectif."
+        "Vérifier à quel problème répond le relais",
+        "De 9 h à 11 h, le relais réduit les reprises de tâche. Il reste à décider quel dossier passe en premier. Pour tester le premier levier, regarde si Sam peut terminer son contrôle avec moins d’interruptions et ce que cela coûte à la personne qui prend les appels. Pour le conflit de priorités, il faut que les responsables conviennent d’un arbitrage."
+      ],
+      [
+        "Ce que le cadre permet d’affirmer",
+        "Le JD-R propose des mécanismes et aide à formuler des hypothèses sur le poste. Il n’impose pas un ratio universel entre demandes et ressources. Une liste de moyens disponibles sur le papier renseigne peu si l’on ignore qui peut réellement les utiliser et à quel moment."
       ]
     ],
     "scene": "« Pourquoi suis-je plus épuisé alors que je ne travaille pas plus vite ni moins bien qu’avant ? » Un poste reste vacant. Sam reprend des dossiers supplémentaires. Deux responsables demandent chacun que le leur passe en premier.",
@@ -257,8 +265,12 @@ export const chapitres = [
     "essentiel": "Le modèle exigences–ressources pose deux questions. Quel effort le travail demande-t-il et de quoi la personne dispose-t-elle pour le faire ?",
     "avant": [
       [
-        "Commencer par le travail tel qu’il se fait",
-        "Dans Job Demands–Resources (JD-R), une exigence demande un effort soutenu. La quantité de dossiers compte, autant que les interruptions, la pression des délais ou les échanges difficiles. Une ressource aide à atteindre un objectif ou réduit le coût d’un effort. Une collègue peut filtrer les appels. Encore faut-il qu’elle ait le temps et l’autorisation de le faire."
+        "D’où vient le modèle exigences–ressources ?",
+        "En 2001, Evangelia Demerouti, Arnold Bakker, Friedhelm Nachreiner et Wilmar Schaufeli publient le modèle Job Demands–Resources (JD-R). Ils étudient plusieurs métiers pour construire un cadre qui s’applique au-delà de la relation d’aide. Les demandes et les ressources changent selon le poste. Une infirmière peut surtout gérer une charge émotionnelle. Sam peut surtout gérer des interruptions et des délais incompatibles."
+      ],
+      [
+        "Demandes, ressources et récupération",
+        "Une demande est un aspect du travail qui mobilise un effort soutenu : charge, urgence, injonctions incompatibles, responsabilité ou travail émotionnel. Une ressource aide à atteindre un objectif, réduit le coût d’une demande ou favorise l’apprentissage : soutien, autonomie, temps protégé, moyens ou retour utile. La récupération est la possibilité de relâcher l’effort entre deux périodes de travail. Elle aide à comprendre pourquoi une même charge peut devenir plus difficile à soutenir au fil des semaines."
       ]
     ],
     "entrainement": [
@@ -282,29 +294,21 @@ export const chapitres = [
     "titre": "Modèle 3 · Siegrist et la reconnaissance",
     "question": "Pourquoi retirer deux dossiers à Lina ne réglerait-il pas forcément son problème ?",
     "objectifs": [
-      "Distinguer effort fourni, récompense attendue et surengagement.",
-      "Relire un même cas avec Maslach, JD-R et ERI pour choisir entre trois hypothèses."
+      "Expliquer le principe de réciprocité et les composantes du modèle de Siegrist.",
+      "Distinguer charge de travail, récompense et surengagement dans un cas concret."
     ],
     "cours": [
       [
-        "Deux décisions qui agissent sur deux problèmes",
-        "Protéger une demi-journée pour le tutorat lui donne des moyens de bien le faire. Compter le tutorat dans l’évaluation donne une reconnaissance à cette activité. On peut avoir besoin des deux. Une prime peut améliorer le retour financier pendant que la charge et la reconnaissance du travail réel restent à discuter."
+        "Pourquoi le déséquilibre peut durer",
+        "On peut continuer à donner beaucoup parce que les alternatives sont rares, parce qu’on espère une stabilisation ou une promotion, ou parce qu’on peine à décrocher. Le modèle appelle surengagement une manière de s’investir fortement, qui peut s’accompagner d’un besoin d’approbation ou d’une difficulté à se détacher du travail. Chez Lina, finir ses dossiers le soir peut cacher le coût réel du tutorat à l’organisation."
       ],
       [
-        "Quand la personne compense",
-        "Le surengagement désigne notamment la difficulté à se désengager d’un travail qui continue d’envahir le temps personnel. Lina pourrait finir ses dossiers le soir pour que l’organisation ne voie jamais le coût du tutorat. Demande ce qui rend le refus difficile et ce qui arriverait aux dossiers si elle cessait de compenser."
+        "Choisir un levier qui répond au problème",
+        "Bloquer une demi-journée pour former les recrues réduit le conflit de charge. Faire compter ce travail dans l’évaluation agit sur la reconnaissance. Une prime peut augmenter le retour financier pendant que ces deux difficultés persistent. Demande à Lina quel retour elle attendait et vérifie comment il est décidé."
       ],
       [
-        "Ce que montrent les premiers travaux",
-        "L’article de Siegrist (1996) examine notamment des événements cardiovasculaires chez des hommes ouvriers suivis dans le temps. Ce résultat éclaire une hypothèse de santé au travail. Il ne donne ni un seuil de burn-out ni la probabilité qu’une personne ayant peu de reconnaissance soit malade. Population étudiée, exposition et événement observé comptent tous les trois."
-      ],
-      [
-        "Reconnaissance et équité",
-        "Un merci sincère peut compter pour Lina. Il laisse ouverte la question de l’équité : comment les missions et leur coût sont-ils distribués entre collègues, et selon quelles règles décide-t-on des promotions ou des moyens ? Pour l’examiner, comparer les critères annoncés à deux décisions réelles et demander comment elles ont été expliquées."
-      ],
-      [
-        "Relire le même dossier avec les trois modèles",
-        "Avec Maslach, demande à Lina comment son énergie, son rapport au travail et son sentiment d’efficacité évoluent. Avec JD-R, regarde si elle a le temps et les moyens de tenir les deux missions. Avec ERI, lis ce qui est reconnu et ce qui reste invisible. Le tableau résume les questions que tu peux réellement poser."
+        "Ce que la recherche permet de dire",
+        "L’article de 1996 présente notamment des résultats sur la santé cardiovasculaire dans des situations de forts efforts et de faibles récompenses. Il soutient une hypothèse sur la santé au travail. Pour comprendre le cas de Lina, il faut encore documenter la réalité de son effort, du retour reçu et du contexte."
       ]
     ],
     "scene": "« Depuis que je forme les recrues, j’ai moins de dossiers clos. À mon entretien, on m’a reproché la baisse. » Lina assure le tutorat et ses propres dossiers. Son bilan annuel ne compte que les seconds.",
@@ -349,7 +353,72 @@ export const chapitres = [
             "Le manque de reconnaissance n'est pas un détail émotionnel. · L'injustice perçue peut devenir un facteur d'usure. · Le surengagement entretient le système : plus la personne compense, plus l'organisation s'habitue à l'anormal. · La prévention doit aussi traiter la réciprocité : effort fourni / retour reçu."
           ]
         ]
-      },
+      }
+    ],
+    "retenir": "Décrire les signes, analyser le poste et examiner la réciprocité répondent à trois questions différentes.",
+    "transition": "Le chapitre suivant rassemble les trois modèles. À partir du dossier de Lina, tu vas passer des signaux aux décisions.",
+    "essentiel": "Le modèle effort–récompense de Siegrist examine ce que le travail demande en échange de ce que la personne reçoit.",
+    "avant": [
+      [
+        "D’où vient le modèle effort–récompense ?",
+        "Le sociologue médical Johannes Siegrist expose en 1996 le modèle Effort–Reward Imbalance (ERI). Il étudie les conséquences possibles sur la santé d’un échange professionnel durablement déséquilibré. Le principe est celui de la réciprocité : la relation de travail demande un investissement et apporte un retour. Fournir beaucoup avec un retour faible ou incertain peut constituer une source de stress."
+      ],
+      [
+        "Ce que l’on donne et ce que l’on reçoit",
+        "L’effort comprend le temps, l’intensité, la disponibilité et la responsabilité. La récompense inclut la rémunération, l’estime et les perspectives professionnelles, dont la sécurité de l’emploi et les possibilités de progression. Une décision opaque ou un travail utile qui disparaît de l’évaluation peut signaler un problème de reconnaissance. Chez Lina, le tutorat prend du temps et sa contribution reste invisible au bilan annuel."
+      ]
+    ],
+    "entrainement": [
+      "Le responsable propose de récompenser les équipes selon le seul nombre de tickets fermés. Les dossiers complexes mobilisent deux fois plus de temps. Quelle décision vise la reconnaissance ?",
+      [
+        "Ajouter un outil pour répondre plus vite.",
+        "Prévoir une règle qui tienne compte de la complexité dans l’évaluation.",
+        "Suggérer aux collègues de prendre davantage de pauses."
+      ],
+      1,
+      [
+        "Un meilleur outil peut réduire l’effort. Ici, la règle de reconnaissance resterait identique.",
+        "L’évaluation rend visible une contribution que le seul volume masquait.",
+        "Les pauses peuvent aider à récupérer. Le critère de récompense est une autre question."
+      ]
+    ],
+    "reflexion": "Quel travail important disparaîtrait si on jugeait ta semaine à partir d’un seul indicateur de volume ?",
+    "rapport": "Les réponses sur la reconnaissance conduisent à demander quels efforts ont été fournis et quel retour était attendu."
+  },
+  {
+    "titre": "Les trois modèles, un même dossier",
+    "question": "Comment passer des signaux à une décision sur le travail ?",
+    "objectifs": [
+      "Choisir le modèle en fonction de la question posée.",
+      "Combiner les trois lectures pour proposer et vérifier des actions différentes."
+    ],
+    "scene": "Depuis que Lina forme les recrues, elle finit ses journées vidée et évite des appels qu’elle prenait volontiers. Les urgences morcellent ses créneaux de tutorat. À son entretien, on lui reproche d’avoir clôturé moins de dossiers. Personne ne compte le tutorat dans son évaluation.",
+    "essentiel": "Maslach décrit ce qui change pour Lina. Le JD-R examine les conditions dans lesquelles elle travaille. L’ERI examine la réciprocité entre son investissement et le retour qu’elle reçoit.",
+    "avant": [
+      [
+        "Les trois questions de la page d’origine",
+        "Pars de la question que tu veux résoudre. Les trois modèles s’appliquent à Lina en parallèle. Chacun désigne une information à demander et une hypothèse différente à vérifier."
+      ]
+    ],
+    "cours": [
+      [
+        "1. Décrire les signaux avec Maslach",
+        "Lina dit qu’elle n’a plus d’énergie le soir et évite des appels. Demande-lui quand ces deux changements ont commencé, et comment elle juge la qualité de son travail. Le nombre de dossiers clos ne répond pas à la question du sentiment d’efficacité."
+      ],
+      [
+        "2. Reconstituer une journée avec le JD-R",
+        "Repère les deux missions simultanées, les appels urgents et l’absence de créneau de tutorat. Tester un temps protégé avec un relais permet de vérifier si les interruptions diminuent et si Lina termine la formation sans rattraper ensuite ses dossiers le soir."
+      ],
+      [
+        "3. Regarder ce que l’organisation reconnaît avec l’ERI",
+        "Demande quels efforts le tutorat exige et comment l’évaluation en tient compte. Si on ajoute le tutorat au bilan annuel, vérifie que cette contribution pèse effectivement dans la décision et qu’on a revu les attentes sur le volume de dossiers."
+      ],
+      [
+        "Relire la situation après un changement",
+        "Suppose que les créneaux de tutorat soient protégés mais que le bilan reste inchangé. La journée devient plus praticable et le problème de reconnaissance reste entier. Dans quelques semaines, examine avec Lina ce qui a évolué dans son énergie, ce qu’elle peut faire pendant ses journées et la manière dont sa contribution est appréciée."
+      ]
+    ],
+    "tableaux": [
       {
         "titre": "Relire le cas de Lina avec les trois modèles",
         "colonnes": [
@@ -376,31 +445,47 @@ export const chapitres = [
         ]
       }
     ],
-    "retenir": "Décrire les signes, analyser le poste et examiner la réciprocité répondent à trois questions différentes.",
-    "transition": "Une explication du travail peut être plausible. Que vaut alors la promesse de la confirmer avec un test biologique ?",
-    "essentiel": "Le modèle effort–récompense de Siegrist examine ce que le travail demande en échange de ce que la personne reçoit.",
-    "avant": [
+    "references": [
       [
-        "De quoi parle-t-on quand on dit « récompense » ?",
-        "Effort–Reward Imbalance (ERI) signifie déséquilibre entre efforts et récompenses. L’effort engage du temps, de l’intensité ou des responsabilités. Le retour prend plusieurs formes : rémunération, estime, sécurité et perspectives de carrière. Pour Lina, le tutorat est du travail. Le bilan l’efface et peut même lui donner l’air d’avoir traité moins de dossiers que prévu."
+        "Maslach & Jackson, 1981 · construction du MBI",
+        "https://doi.org/10.1002/job.4030020205"
+      ],
+      [
+        "Demerouti et al., 2001 · étude fondatrice du JD-R",
+        "https://pubmed.ncbi.nlm.nih.gov/11419809/"
+      ],
+      [
+        "Siegrist, 1996 · formulation du modèle et données présentées",
+        "https://pubmed.ncbi.nlm.nih.gov/9547031/"
       ]
     ],
     "entrainement": [
-      "Le responsable propose de récompenser les équipes selon le seul nombre de tickets fermés. Les dossiers complexes mobilisent deux fois plus de temps. Quelle décision vise la reconnaissance ?",
+      "Le tutorat compte désormais dans l’entretien, mais les appels interrompent toujours Lina. Quel mécanisme reste directement à examiner ?",
       [
-        "Ajouter un outil pour répondre plus vite.",
-        "Prévoir une règle qui tienne compte de la complexité dans l’évaluation.",
-        "Suggérer aux collègues de prendre davantage de pauses."
+        "La reconnaissance de cette contribution.",
+        "Les exigences et ressources pendant le tutorat.",
+        "Le sentiment d’efficacité seul."
       ],
       1,
       [
-        "Un meilleur outil peut réduire l’effort. Ici, la règle de reconnaissance resterait identique.",
-        "L’évaluation rend visible une contribution que le seul volume masquait.",
-        "Les pauses peuvent aider à récupérer. Le critère de récompense est une autre question."
+        "Le cas indique que la contribution est désormais prise en compte. Vérifie aussi ce qui continue de fragmenter le travail.",
+        "Les interruptions et le relais sont des conditions de réalisation. Le JD-R aide à choisir et vérifier une modification du poste.",
+        "Le sentiment d’efficacité mérite d’être demandé à Lina. Il ne désigne pas à lui seul la condition de travail qui continue de la gêner."
       ]
     ],
-    "reflexion": "Quel travail important disparaîtrait si on jugeait ta semaine à partir d’un seul indicateur de volume ?",
-    "rapport": "Les réponses sur la reconnaissance conduisent à demander quels efforts ont été fournis et quel retour était attendu."
+    "exercice": [
+      "Quelle combinaison permet d’évaluer les suites de l’intervention ?",
+      [
+        "Suivre uniquement le nombre de dossiers clôturés.",
+        "Demander à Lina comment elle récupère, relever les interruptions et vérifier la prise en compte effective du tutorat.",
+        "Mesurer seulement l’évolution de sa prime."
+      ],
+      1,
+      "Ces trois observations documentent respectivement l’expérience de Lina, les conditions de travail et le retour donné à sa contribution."
+    ],
+    "rapport": "Rapproche les dimensions du rapport des événements de travail qui pourraient les éclairer. Plusieurs dimensions peuvent renvoyer à une même situation, et une même situation peut demander plusieurs décisions.",
+    "reflexion": "Sur un exemple de ta semaine, qu’observes-tu chez toi, qu’est-ce qui dans le travail pourrait y contribuer et qu’as-tu reçu en échange de ton effort ?",
+    "transition": "Après les modèles, examinons ce qu’une mesure biologique peut apporter et ce qu’il faudrait démontrer pour interpréter un dosage individuel."
   },
   {
     "titre": "Le cortisol peut-il trancher ?",

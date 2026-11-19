@@ -67,6 +67,7 @@ export const illustrations = [
       <text x="12" y="116" class="">Tutorat</text>
       <path d="M197 116h132" class="alt"/>`
   },
+  null,
   {
     titre: "Deux groupes peuvent partager la même valeur",
     legende: "Chaque point représente une personne fictive. La ligne verticale coupe les deux groupes au même résultat. Connaître ce résultat seul laisse donc plusieurs explications possibles.",
