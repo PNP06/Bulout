@@ -150,7 +150,9 @@ function telecharger(blob, nom) {
 
 const controles = [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
-  const reponses = Object.fromEntries(controles.filter(r => r.checked).map(r => [r.name,r.value]));
+  const reponses = questionnaire.hidden ? {} : Object.fromEntries(
+    controles.filter(r => r.checked).map(r => [r.name, r.value])
+  );
   const progression = { format, chapitres:[...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], {type:"application/json"}), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
@@ -189,7 +191,9 @@ async function importer(input) {
   try {
     if (fichier.size > 6 * 1024 * 1024) throw new Error("Ce fichier est trop volumineux. Choisis le PNG ou le fichier de progression Bull-Out d’origine.");
     let destination;
-    if (/\.json$/i.test(fichier.name) || fichier.type === "application/json") {
+    // Les gestionnaires de téléchargement peuvent retirer l’extension du fichier.
+    const prefixe = await fichier.slice(0, 64).text();
+    if (/\.json$/i.test(fichier.name) || fichier.type === "application/json" || prefixe.trimStart().startsWith("{")) {
       if (fichier.size > 32000) throw new Error("Ce fichier de progression est trop volumineux.");
       if ((acquis.size || form.querySelector("input:checked")) && !window.confirm("Remplacer la progression de cet onglet par celle du fichier ?")) return;
       destination = restaurer(JSON.parse(await fichier.text()));
