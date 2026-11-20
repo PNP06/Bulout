@@ -11,10 +11,20 @@ const vm = require("node:vm");
 const ROOT = path.resolve(__dirname, "..");
 const read = (name) => fs.readFileSync(path.join(ROOT, name), "utf8");
 
-function debugApi() {
+function debugApi(responses = null) {
+  // Tester aussi le calcul en situation complète, sans navigateur ni dépendance externe.
+  const form = responses && {
+    querySelector(selector) {
+      const match = /input\[name="([^"]+)"\]:checked/.exec(selector);
+      const name = match?.[1];
+      if (!name || !Object.prototype.hasOwnProperty.call(responses, name)) return null;
+      return { value: String(responses[name]) };
+    }
+  };
   const window = { addEventListener() {}, innerHeight: 800 };
   const document = {
-    querySelector() { return null; }, querySelectorAll() { return []; },
+    querySelector(selector) { return selector === "#burnout-form" ? form : null; },
+    querySelectorAll() { return []; },
     addEventListener() {}, body: { className: "", classList: { contains() { return false; } } },
     title: "Bull-Out test"
   };
@@ -464,4 +474,68 @@ test("la qualité empêchée justifie un interlocuteur organisationnel sauf si p
   const afraid = api.getRecommendedStakeholders(scores, alerts, prof,
     [{ id: "fearToSpeak", yes: true }], temporal);
   assert.equal(afraid.some((x) => x.key === "manager"), false);
+});
+
+
+function completeAnswers(options = {}) {
+  const source = debugApi();
+  const inputs = {};
+  for (const section of source.sections) {
+    for (let i = 0; i < section.questions.length; i++) {
+      inputs[section.id + (i + 1)] = section.reversed ? 4 : 0;
+    }
+  }
+  for (let i = 0; i < source.strengthPart.questions.length; i++) inputs["G" + (i + 1)] = 2;
+  for (let i = 0; i < source.exchangePart.questions.length; i++) inputs["R" + (i + 1)] = 2;
+  for (let i = 0; i < source.temporalPart.questions.length; i++) inputs["T" + (i + 1)] = 1;
+  for (let i = 0; i < source.contextQuestions.length; i++) inputs["context" + (i + 1)] = "no";
+  for (let i = 0; i < source.alertQuestions.length; i++) inputs["alert" + (i + 1)] = "no";
+  for (let i = 0; i < source.bullshitPart.questions.length; i++) {
+    inputs["BS" + (i + 1)] = options.skipBS ? "skip" : 0;
+  }
+  return { ...inputs, ...(options.overrides || {}) };
+}
+
+test("le moteur exécute les 71 réponses avec la pause satirique passée", () => {
+  const data = completeAnswers({ skipBS: true });
+  const engine = debugApi(data);
+  const result = engine.calculateResults();
+  assert.ok(result);
+  assert.equal(result.totalScore, 0);
+  assert.equal(result.temporalAnswers.length, 4);
+  assert.equal(result.questionnaireVersion, "2026-11-v2");
+  assert.equal(result.bullshit.skipped, true);
+  assert.equal(result.bullshit.percent, null);
+  assert.equal(result.hasAlert, false);
+  assert.match(composer({ ...fixture(0), result: { ...fixture(0).result, ...result,
+    modelReadings: result.modelReadings,
+    plans: { plan72h: [], twoWeeks: [] } } }), /Pause humour passée/);
+});
+
+test("le moteur calcule un indice satirique uniquement après huit réponses réelles", () => {
+  const data = completeAnswers();
+  const normal = debugApi(data).calculateResults();
+  assert.ok(normal);
+  assert.equal(normal.bullshit.skipped, false);
+  assert.ok(Number.isFinite(normal.bullshit.percent));
+  assert.ok(normal.bullshit.percent >= 0 && normal.bullshit.percent <= 100);
+  const partiallySkipped = { ...data, BS3: "skip" };
+  assert.equal(debugApi(partiallySkipped).calculateResults(), null);
+});
+
+test("une alerte et une qualité empêchée isolée agissent indépendamment du score A–F", () => {
+  const data = completeAnswers({ skipBS: true, overrides: { alert2: "yes", T4: 4 } });
+  const result = debugApi(data).calculateResults();
+  assert.ok(result);
+  assert.equal(result.totalScore, 0);
+  assert.equal(result.hasAlert, true);
+  assert.notEqual(result.profile.key, "protected");
+  assert.ok(result.actions.some((a) => a.id === "quality-prevented"));
+  assert.equal(result.stakeholderRecommendations.some((a) => a.key === "emergency"), false);
+});
+
+test("une réponse manquante dans T empêche la fabrication d'un rapport complet", () => {
+  const answers = completeAnswers({ skipBS: true });
+  delete answers.T2;
+  assert.equal(debugApi(answers).calculateResults(), null);
 });
