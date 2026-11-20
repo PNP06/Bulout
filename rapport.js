@@ -606,6 +606,27 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <ul>${bs.highlights.map(a => `<li><span class="rp-id">${esc(a.id)}</span>
         <span><b>${esc(a.question)}</b><small>« ${esc(a.answer)} »</small></span></li>`).join("")}</ul></div>`
     : `<p class="rp-bs-exemples">Peu d'options particulièrement absurdes sont cochées. Cela n'invalide pas les autres questions.</p>`;
+  const reaction = r.humorReaction;
+  const reactionPanel = !reaction
+    ? ""
+    : reaction.skipped
+      ? `<section class="rp-bs-reaction" aria-label="Réaction à l'humour">
+          <p class="k">Ta réaction à la pause humour</p>
+          <h4>Tu as préféré ne pas répondre</h4>
+          <p>Cette partie n'entre pas dans les scores. Aucun ressenti ne t'est attribué.</p>
+        </section>`
+      : `<section class="rp-bs-reaction" aria-labelledby="rp-bs-reaction-title">
+          <p class="k">Une autre lecture, indépendante de l'indice de bullshit</p>
+          <h4 id="rp-bs-reaction-title">Et toi, comment as-tu vécu ces blagues ?</h4>
+          <p>Rire, se reconnaître, être peiné et prendre du recul peuvent coexister. Tu as répondu à chaque question séparément.</p>
+          <div class="rp-bs-reaction-grid">${reaction.answers.map((a) =>
+            `<div><b>${esc(a.question)}</b><span>${esc(a.answer || "Non renseigné")}</span></div>`).join("")}</div>
+          ${reaction.interpretation ? `<div class="rp-bs-reaction-lecture">
+            <h5>${esc(reaction.interpretation.title)}</h5>
+            <p>${esc(reaction.interpretation.text)}</p></div>` : ""}
+          <p class="rp-bs-pc-explain"><b>Ce que cela montre :</b> la façon dont tu déclares avoir reçu ce questionnaire, à cet instant.
+            <b>Ce que cela ne démontre pas :</b> que l'humour te protège durablement, que tu relativises habituellement ou qu'une blague explique ton état de santé.</p>
+        </section>`;
   const pageAbsurde = bs.skipped ? {
     titre:"La pause bullshit, à ton rythme",
     q:"Tu as choisi de ne pas répondre aux questions satiriques.",
@@ -632,6 +653,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       ${satire}
     </div>
     ${exemplesBS}
+    ${reactionPanel}
     <section class="rp-bs-matrice" aria-label="Matrice : absurdité perçue, distance et sens">
       <p class="k">La matrice du bullshit</p>
       <h4>Le paradoxe intéressant : absurdité ne veut pas forcément dire désengagement</h4>
@@ -660,7 +682,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     comprendre:pourComprendre("Du bullshit aux conditions de travail : ce qu'on peut vraiment conclure",
       `<p>David Graeber (2018) a popularisé la notion de « bullshit jobs », qui critique les activités considérées comme inutiles par ceux qui les exercent. Soffia, Wood et Burchell (2022) trouvent une association entre le sentiment d'inutilité du travail et le mal-être, mais contestent les grandes conclusions causales et quantitatives de Graeber.</p>
       <p>Dans les six familles de risques psychosociaux décrites par l'INRS, le sens et la qualité empêchée rejoignent les conflits de valeurs. Une activité absurde ou un indicateur inutile peut être une situation organisationnelle à discuter ; un score satirique ne prouve pas que le poste est objectivement inutile.</p>
-      <p>L'étude de Martin et collègues (2003) distingue plusieurs <b>usages de l'humour</b> associés différemment au bien-être. Bull-Out ne demande pas quel humour tu utilises ni ce qu'il t'apporte. On peut donc rire franchement de la réunionite sans affirmer que ce rire protège médicalement du burn-out.</p>
+      <p>L'étude de Martin et collègues (2003) distingue plusieurs <b>usages de l'humour</b> associés différemment au bien-être. Bull-Out te demande maintenant comment tu as reçu ces questions sur le moment : amusement, malaise, identification et recul ressenti. Ce retour ponctuel ne mesure ni ton usage habituel de l'humour, ni son éventuel effet protecteur sur ta santé.</p>
       <p>Références : <a href="https://doi.org/10.1177/09500170211015067" target="_blank" rel="noopener">Soffia et al., 2022</a> ; <a href="https://doi.org/10.1016/S0092-6566(02)00534-2" target="_blank" rel="noopener">Martin et al., 2003</a> ; <a href="https://www.inrs.fr/risques/psychosociaux/facteurs-risques" target="_blank" rel="noopener">INRS</a>.`,chapLien(2)),
     garder:"Ce qui fait rire mérite parfois une vraie question : quelle décision, quelle utilité, quels moyens et quel arbitrage ?"
   };
@@ -865,6 +887,10 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <ol class="rp-items">${temps.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span>
       <span class="rp-a"><span>${esc(a.answer || "Sans réponse")}</span></span></li>`).join("")}</ol>` : ""}
     <h4 class="rp-h">Le bullshitomètre · hors score</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>
+    ${r.humorReaction ? `<h4 class="rp-h">Réaction immédiate à l'humour · hors score</h4>
+      <ol class="rp-items">${r.humorReaction.skipped ? '<li>Partie facultative non renseignée.</li>' :
+      r.humorReaction.answers.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span>
+      <span class="rp-a">${esc(a.answer || "Non renseigné")}</span></li>`).join("")}</ol>` : ""}
     <h4 class="rp-h">Contexte</h4><ol class="rp-items">${r.contextAnswers.map((a, i) => `<li><span class="rp-id">X${i + 1}</span><span class="rp-q">${esc(a.text)}</span><span class="rp-a"><span>${a.yes ? "Oui" : "Non"}</span></span></li>`).join("")}</ol>
     <p class="rp-legende">Les réponses aux trois questions d'alerte ne sont pas reprises ici : seul le message de sécurité apparaît, en tête de rapport, si l'une a reçu oui.</p>`;
 
