@@ -1125,14 +1125,46 @@
       }
     };
 
+// Chaque action cible une réponse de travail effectivement déclarée.
+    // Ce catalogue n'établit ni diagnostic ni causalité.
+    const catalogue = {
+      D1: ["Arbitrer la quantité de travail", "Préparer la liste des tâches, leurs délais et le temps réellement disponible ; demander ce qui sera retiré, reporté ou simplifié."],
+      D2: ["Réduire les interruptions", "Relever deux situations où les urgences ont interrompu le travail ; demander une règle d'arbitrage et un créneau protégé."],
+      D3: ["Clarifier les priorités contradictoires", "Présenter deux consignes incompatibles et demander qui décide de la priorité, du délai et du niveau de qualité attendu."],
+      D4: ["Aligner responsabilité et moyens", "Identifier une responsabilité sans moyens ou pouvoir de décision suffisant, puis demander les moyens ou un changement de périmètre."],
+      D5: ["Organiser un soutien face aux exigences émotionnelles", "Décrire une situation relationnelle exigeante et vérifier les temps de relais, de débriefing et les appuis disponibles."],
+      D6: ["Corriger un dysfonctionnement récurrent", "Noter le temps passé à compenser une défaillance d'organisation et identifier qui peut traiter sa cause."],
+      E1: ["Restaurer des marges de manœuvre", "Repérer une décision sur la méthode, le rythme ou la réalisation qui pourrait être prise plus près du travail réel."],
+      E2: ["Obtenir un arbitrage effectif", "Demander une décision explicite quand la charge dépasse ce qui peut être fait : qu'est-ce qui attend et qui en assume l'arbitrage ?"],
+      E3: ["Organiser l'entraide concrète", "Identifier un dossier qui nécessiterait un relais, un binôme ou un appui technique ; vérifier sa disponibilité réelle."],
+      E4: ["Clarifier les attentes", "Faire préciser par écrit le résultat attendu, le délai et le niveau de détail nécessaire pour une tâche récente."],
+      E5: ["Rendre visible le travail réel", "Documenter les contributions et contraintes invisibles, puis demander un retour sur leur qualité et leur utilité."],
+      E6: ["Expliciter les critères des décisions", "Demander sur quels critères sont réparties les tâches et les responsabilités, avec des exemples factuels."]
+    };
+    const principauxTravail = (partie) => (result.answers || [])
+      .filter((a) => a.sectionId === partie && a.riskScore >= 3 && catalogue[a.id])
+      .sort((a, b) => b.riskScore - a.riskScore);
+    const premierD = principauxTravail("D")[0];
+    const premierE = principauxTravail("E")[0];
+    const actionPour = (partie, premier, titre, texte) => {
+      const cible = premier && catalogue[premier.id];
+      const mention = premier ? ` Ce point correspond à ta réponse ${premier.id}, à vérifier dans la situation réelle.` : "";
+      return {
+        id: cible ? `${partie}-${premier.id}` : partie,
+        title: cible ? cible[0] : titre, text: (cible ? cible[1] : texte) + mention
+      };
+    };
+
     if (result.hasAlert || scores.F >= 19 || contextYes.has("safetySensitiveJob")) {
       addAction("safety", "alert", "Préciser les signaux de santé et de sécurité", "Si une question d'alerte a reçu oui, suis l'orientation correspondante. En cas de symptôme aigu ou de danger immédiat : 15 / 112 ; idées suicidaires : 3114. Si ton poste comporte un enjeu de sécurité et que ta vigilance est altérée, demande un ajustement rapide des tâches.");
     }
-    if (scores.D >= 13) {
-      addAction("exposure", "load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
+    if (scores.D >= 13 || premierD) {
+      const a = actionPour("D", premierD, "Examiner la charge de travail", "Comparer la charge réelle aux priorités, aux délais et aux moyens disponibles.");
+      addAction("exposure", a.id, a.title, a.text);
     }
-    if (scores.E >= 13) {
-      addAction("resources", "resources", "Renforcer les ressources", "Identifier le manque principal : autonomie, soutien, clarté, reconnaissance ou équité.");
+    if (scores.E >= 13 || premierE) {
+      const a = actionPour("E", premierE, "Examiner les ressources", "Vérifier l'autonomie, l'arbitrage, le soutien, la clarté et la reconnaissance disponibles.");
+      addAction("resources", a.id, a.title, a.text);
     }
     if (scores.A >= 13 || scores.F >= 13) {
       addAction("recovery", "recovery", "Protéger la récupération", "Réduire temporairement l'exposition et restaurer des temps sans sollicitation.");
@@ -1146,12 +1178,17 @@
     if (contextYes.has("ethicalConflict")) {
       addAction("meaning", "ethics", "Clarifier le conflit éthique", "Documenter les faits, clarifier les responsabilités et chercher un appui professionnel ou collectif.");
     }
+    if (contextYes.has("harassment") || contextYes.has("fearToSpeak")) {
+      addAction("safety", "confidential", "Chercher un appui confidentiel", "Si parler à la hiérarchie paraît risqué, commencer par un interlocuteur de confiance : service de prévention et de santé au travail, représentants du personnel ou professionnel de santé, selon la situation.");
+    }
     if (contextYes.has("collectiveSignal")) {
       addAction("followup", "collective", "Lire aussi le signal comme collectif", "Comparer les contraintes partagées et envisager une remontée collective plutôt qu'une adaptation individuelle isolée.");
     }
-    addAction("followup", "followup", "Suivre la trajectoire", "Refaire le questionnaire dans 2 à 4 semaines et conserver le résumé pour comparer.");
+    // Le cas de réponses peu marquées mérite une vraie action, pas un suivi vide.
     if (!Object.values(buckets).flat().length) {
-      addAction("followup", "maintain", "Maintenir les protections", "Conserver les marges de manœuvre, les temps de récupération et les arbitrages qui maintiennent le travail soutenable.");
+      addAction("followup", "maintain", "Décrire ce qui rend le travail soutenable", "Identifier une marge de manœuvre et un appui concret à préserver, sans présumer que tout va bien.");
+    } else {
+      addAction("followup", "followup", "Observer l'évolution", "Noter les situations concrètes qui changent et réexaminer les dimensions séparément dans deux à quatre semaines.");
     }
 
     const priority = ["safety", "exposure", "resources", "recovery", "meaning", "followup"].flatMap((bucket) => buckets[bucket]).slice(0, 5);
@@ -1238,7 +1275,7 @@
       addRecommendation("generalPractitioner", "Retentissement santé possible en contexte de violence ou harcèlement.");
       addRecommendation("hr", "Procédure ou signalement possible, avec prudence sur la confidentialité.");
       addRecommendation("cse", "Appui possible des représentants du personnel si la situation doit être tracée ou portée collectivement.");
-      if (hasAlert) addRecommendation("emergency", "Danger immédiat ou alerte : aide urgente à envisager.");
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) addRecommendation("emergency", "Idées suicidaires ou symptôme aigu : une aide urgente peut être indiquée selon la situation.");
     }
     if (contextYes.has("ethicalConflict")) {
       addRecommendation("occupationalDoctor", "Conflit éthique : impact santé-travail et prévention à discuter.");
@@ -1268,7 +1305,7 @@
       addRecommendation("occupationalDoctor", "Poste à enjeu de sécurité : compatibilité santé/poste et réduction du risque.");
       addRecommendation("manager", "Réduction immédiate du risque ou ajustement temporaire des tâches.");
       addRecommendation("generalPractitioner", "Fatigue ou symptômes santé à évaluer si la sécurité peut être engagée.");
-      if (hasAlert || scores.F >= 19) addRecommendation("emergency", "Symptôme aigu ou danger immédiat : aide urgente.");
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) addRecommendation("emergency", "Symptôme aigu ou danger immédiat : aide urgente selon les signes concernés.");
     }
     if (contextYes.has("fearToSpeak")) {
       addRecommendation("occupationalDoctor", "Peur de parler : échange confidentiel santé-travail possible.");
@@ -1277,7 +1314,8 @@
       addRecommendation("cse", "Appui possible selon le contexte relationnel et la confidentialité souhaitée.");
     }
 
-    const selected = recommendations.slice(0, 5).map((recommendation) => ({
+    // Ne pas pousser automatiquement vers la hiérarchie en cas de violence ou peur de parler.
+    const selected = recommendations.filter((recommendation) => !(["manager"].includes(recommendation.key) && (contextYes.has("harassment") || contextYes.has("fearToSpeak")))).slice(0, 5).map((recommendation) => ({
       ...recommendation,
       stakeholder: stakeholders[recommendation.key]
     }));
@@ -1342,7 +1380,7 @@
     const topItems = getTopItems(answers);
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
-    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers });
+    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers, answers });
     const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers);
     const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
 
