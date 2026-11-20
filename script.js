@@ -1294,7 +1294,7 @@
     return priority;
   }
 
-  function getRecommendedStakeholders(scores, alertFlags, profile, contextAnswers = []) {
+  function getRecommendedStakeholders(scores, alertFlags, profile, contextAnswers = [], temporalAnswers = []) {
     const recommendations = [];
     const addRecommendation = (key, why) => {
       if (!recommendations.some((recommendation) => recommendation.key === key)) {
@@ -1329,6 +1329,10 @@
       addRecommendation("psychologist", "Soutien utile pour récupération, limites et culpabilité.");
     }
 
+    if (temporalAnswers.some((a) => a.id === "T4" && a.value >= 3)) {
+      addRecommendation("manager", "Qualité empêchée déclarée fréquemment : clarifier les moyens, délais et critères de qualité, si le climat permet la discussion.");
+      addRecommendation("cse", "Qualité empêchée : un appui collectif peut aider si cette situation concerne plusieurs personnes.");
+    }
     if (scores.D >= 13) {
       addRecommendation("manager", "Exigences élevées : besoin d'arbitrage sur charge, délais et priorités.");
       addRecommendation("occupationalDoctor", "Exigences élevées : lien santé-travail et prévention à analyser.");
@@ -1482,7 +1486,7 @@
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
     const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers, temporalAnswers, answers });
-    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers);
+    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers, temporalAnswers);
     const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions, temporalAnswers });
 
     const result = {
