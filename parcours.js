@@ -88,7 +88,7 @@ function bloc(b, titres) {
 // ───────── Introduction
 function intro() {
   const p = prochaine();
-  const reprendre = acquis.size ? bouton(p < 0 ? "#quiz-final" : ancre(p), "Reprendre la lecture →") : bouton(ancre(0), "Commencer la lecture →");
+  const reprendre = acquis.size ? bouton(p < 0 ? "#quiz-final" : p === 4 && acquis.has(3) ? "#modeles-resume" : ancre(p), "Reprendre la lecture →") : bouton(ancre(0), "Commencer la lecture →");
   const contenu = `
     <p class="fo-pill">Étape 1 sur 3 · La formation</p>
     <h1 tabindex="-1">Comprendre l’usure au travail avant de la mesurer</h1>
@@ -98,7 +98,7 @@ function intro() {
       <div class="fo-cta">${reprendre}${choixFichier("Reprendre un fichier")}</div>${statut}</section>
     <h2 id="s-modeles" class="fo-h">Trois façons de regarder le burn-out</h2>
     <p>Commençons par le mot. L’OMS, dans sa classification internationale (<b>CIM-11</b>, en vigueur depuis 2022), décrit le burn-out comme un <b>syndrome dû à un stress chronique au travail qui n’a pas été géré avec succès</b>. Ce n’est pas une maladie : c’est un phénomène lié au travail, avec trois signes, l’épuisement, la distance mentale et la baisse d’efficacité.</p>
-    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres cherchent les causes dans le travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les compareras ensemble juste après le chapitre 4, puis dans la synthèse finale.</p>
+    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres examinent les conditions de travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les compareras ensemble juste après le chapitre 4, puis dans la synthèse finale.</p>
     <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. Garde cette image en tête : c’est la carte de toute la formation.</figcaption></figure>
     <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en ${nb(introduction.essentiel.length)} idées</h2>
     <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
