@@ -94,7 +94,7 @@ Le cas échéant, **T4 qualité empêchée** est mis à proximité de la matrice
 
 ## Compatibilité des sauvegardes
 
-`bull-out-progression-9`, `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"`, `versionReactionHumour: "2026-11-hr-v1"`. La version V8 reste reconnue à l'import.
+`bull-out-progression-10`, `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"`, `versionReactionHumour: "2026-11-hr-v2"`. HR3 a changé de formulation ; la migration efface une ancienne réponse à HR3 (sauf abstention explicite) tout en conservant les autres réponses. La version V8 reste reconnue à l'import.
 
 - Anciennes réponses **BS1–BS8** conservées sans changement d'identifiant.
 - **BS9–BS12** doivent être renseignées pour un portrait complet.
