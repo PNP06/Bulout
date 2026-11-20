@@ -21,6 +21,7 @@ La branche conserve **les six groupes A–F de six items et leurs identifiants**
 - [Deuxième implémentation : rapport court, présentation, graphique progressif, fiche travail et carnet](03-ameliorations-rapport-2026-11-20.md)
 - [Audit scientifique et éditorial initial question par question](02-audit-questionnaire-prochaine-version.md)
 - [**Version codée du questionnaire et du moteur : 15 reformulations, 4 repères T, BS facultatif, migration des sauvegardes**](04-questionnaire-moteur-v2-2026-11-20.md)
+- [**Bullshitomètre V2 : 12 questions d’origine, matrice croisée, humour et limites**](05-bullshitometre-12-questions-matrice.md)
 - [Suite de tests automatisés](../../tests/mesures-rapport.test.cjs) et [workflow GitHub Actions](../../.github/workflows/verification.yml)
 
 **PR en brouillon :** [#7 — Refonte des mesures et du rapport](https://github.com/PNP06/Bulout/pull/7). Elle ne modifie pas le site publié tant qu'elle n'est pas fusionnée.
