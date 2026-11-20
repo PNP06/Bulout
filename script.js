@@ -1021,7 +1021,8 @@
     const allLow = Object.values(sectionScores).every((score) => score <= 6);
 
     let profileKey = "mixed";
-    if (hasAlert || totalScore >= 109 || Object.values(sectionScores).some((score) => score >= 22)) {
+    // Une charge de travail très haute (D, E) seule n'est pas une urgence médicale : seuls les signes d'usure comptent ici.
+    if (hasAlert || totalScore >= 109 || [A, B, C, F].some((score) => score >= 22)) {
       profileKey = "alert";
     } else if (A >= 13 && F >= 13) {
       profileKey = "exhaustion";
@@ -1034,7 +1035,6 @@
     }
 
     const profile = { key: profileKey, ...profileRecommendations[profileKey] };
-    console.debug("Choix du profil", { profileKey, sectionScores, totalScore, hasAlert });
     return profile;
   }
 
