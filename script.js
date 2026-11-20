@@ -101,7 +101,7 @@
       sources: "modèle Exigences-Ressources (JD-R), Job Content Questionnaire de Karasek (latitude décisionnelle, soutien social), COPSOQ (clarté des rôles, justice), ERI de Siegrist (récompense)",
       chapitres: [3, 4],
       reversed: true,
-      help: "Cette section est inversée au calcul : plus la ressource est présente, moins elle ajoute au score de risque.",
+      help: "Les réponses sont inversées dans la somme descriptive : plus une ressource est présente, plus son score de manque est faible. Cela ne mesure pas un risque clinique.",
       questions: [
         "Je dispose d'une marge de manœuvre réelle pour organiser mon travail.",
         "Mon manager m'aide à arbitrer lorsque la charge dépasse la capacité réelle.",
@@ -595,7 +595,7 @@
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
     const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
-    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<label class="sr-only">Passer cette question<input type="radio" name="${name}" value="skip"></label>` : ""}`);
+    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<input type="radio" name="${name}" value="skip" hidden aria-hidden="true" tabindex="-1">` : ""}`);
     return item;
   }
 
