@@ -154,3 +154,29 @@ test("le rapport conserve des annexes et des options d'impression", () => {
   assert.match(html, /annexe-3/);
   assert.match(html, /name="rp-pdf"/);
 });
+
+test("une difficulté de fonctionnement seule ne suggère pas automatiquement les urgences", () => {
+  const scores = { A: 6, B: 6, C: 6, D: 6, E: 6, F: 6 };
+  const profil = api.determineProfile(scores, 36, true);
+  const recommandations = api.getRecommendedStakeholders(
+    scores, [{ yes: false }, { yes: true }, { yes: false }], profil, []
+  );
+  assert.equal(recommandations.some((r) => r.key === "emergency"), false);
+  const pourIdeesSuicidaires = api.getRecommendedStakeholders(
+    scores, [{ yes: true }, { yes: false }, { yes: false }], profil, []
+  );
+  assert.equal(pourIdeesSuicidaires.some((r) => r.key === "emergency"), true);
+});
+
+test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
+  const src = read("parcours.js");
+  assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
+  assert.match(src, /const progression = \{ format, chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+});
+
+test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
+  const html = read("index.html");
+  assert.match(html, /Ressenti de Sam/);
+  assert.match(html, /En forme/);
+  assert.doesNotMatch(html, /id="bo-pct"[^>]*>80 %/);
+});
