@@ -277,3 +277,39 @@
 .rp-feu i.on { opacity: 1; box-shadow: 0 0 0 2px var(--creme); }
 .rp-vue .o { color: var(--orange-ink); } .rp-vue .v { color: var(--sapin-mid); }
 @media print { .rp-vue { break-inside: avoid; } }
+
+/* Questionnaire : parties R et bullshitomètre */
+.q-head .q-sub { grid-column: 2; margin: -6px 0 0; font-size: .92rem; font-style: italic; color: var(--muted, #4a5f5a); }
+.choices-4 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.choices-4 .opt { display: flex; flex-direction: row; align-items: center; gap: 10px; min-height: 48px; padding: 10px 14px; }
+
+/* Rapport : bullshitomètre et liens internes */
+.rp-vue .p { color: #6a4c93; }
+.rp-lien { display: inline; padding: 0; border: 0; background: none; color: var(--sapin-mid); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.rp-bs-score { display: grid; gap: 6px; align-content: start; }
+.rp-bs-pc { margin: 0; font: 800 64px/1 var(--title); color: var(--orange-ink); }
+.rp-bs-pc small { font-size: 28px; }
+.rp-bs-metres { display: grid; gap: 8px; margin-top: 8px; }
+.rp-bs-metres div { display: grid; grid-template-columns: 10.5em minmax(0, 1fr) 3.2em; gap: 10px; align-items: center; font-size: 14px; }
+.rp-bs-metres b { text-align: right; font-variant-numeric: tabular-nums; }
+.rp-bs-satire { display: grid; gap: 8px; align-content: start; padding: 16px 18px; border-radius: 16px; background: #fbe3d8; }
+.rp-bs-satire h4 { margin: 0; font: 800 18px/1.25 var(--title); }
+.rp-bs-satire p { margin: 0; }
+.rp-bs-grille { display: grid; grid-template-columns: 2.2em minmax(0, 1fr) minmax(0, 1fr); gap: 8px; margin: 8px 0 14px; }
+.rp-bs-grille .h { font: 600 12px/1.3 var(--title); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); align-self: end; padding: 0 4px; }
+.rp-bs-grille .v { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font: 600 12px/1.2 var(--title); color: var(--muted); }
+.rp-bs-case { display: grid; gap: 6px; align-content: start; padding: 14px; border-radius: 14px; border: 2px solid transparent; font-size: 14.5px; opacity: .6; }
+.rp-bs-case b { font: 800 15.5px/1.25 var(--title); }
+.rp-bs-case em { font-style: normal; font: 800 12px/1 var(--title); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink); }
+.rp-bs-case.g { background: #e3eee9; } .rp-bs-case.o { background: #fbe3d8; } .rp-bs-case.p { background: #ece6f4; }
+.rp-bs-case.ici { opacity: 1; border-color: var(--sapin-deep, #123a33); }
+@media (max-width: 700px) { .rp-bs-grille { grid-template-columns: 1.8em minmax(0, 1fr) minmax(0, 1fr); } .rp-bs-case { padding: 10px; font-size: 13.5px; } .rp-bs-metres div { grid-template-columns: 8.5em minmax(0, 1fr) 3em; } }
+@media print { .rp-bs-grille, .rp-bs-case { break-inside: avoid; } }
+@media (min-width: 701px) { .rp-syn-cartes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .q-head .q-sub { font-size: 13.5px; line-height: 1.35; margin: -4px 0 0; }
+  .is-onebyone .choices-4 .choice .opt, .choices-4 .choice .opt { min-height: 0 !important; padding: 6px 12px !important; font-size: 14.5px !important; line-height: 1.3; }
+  .question-item:has(.choices-4) .q-text { font-size: 19px; line-height: 1.2; }
+  .is-onebyone .choices-4 { gap: 6px; }
+  .question-section[data-part="BS"] .period { display: none; }
+}

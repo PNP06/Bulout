@@ -55,7 +55,7 @@
         "J'évite certaines interactions professionnelles parce qu'elles me coûtent trop.",
         "Je ressens moins d'empathie ou de patience envers des personnes avec qui je travaille.",
         "Je fais le minimum relationnel nécessaire pour tenir la journée.",
-        "L'idée de démissionner ou de changer de poste me sert d'échappatoire psychologique."
+        "Je fais mon travail de façon plus mécanique, sans vraiment m'y impliquer."
       ]
     },
     {
@@ -147,6 +147,37 @@
     ]
   };
 
+  // Partie R : l'échange (modèle de Siegrist). Hors du score sur 144, pour garder les seuils : elle complète la pièce « Le retour ».
+  // R1-R3 : les trois formes de récompense (salaire, perspectives, sécurité), en sens positif. R4-R6 : le surengagement.
+  const exchangePart = {
+    id: "R",
+    title: "R. Ce que tu donnes, ce qui revient",
+    explore: "l'échange entre ce que tu investis et ce que tu reçois en retour, et ta façon de t'engager dans le travail.",
+    sources: "Effort-Reward Imbalance Questionnaire de Siegrist (récompense : salaire, perspectives, sécurité de l'emploi ; surengagement)",
+    chapitres: [4],
+    reward: ["R1", "R2", "R3"],
+    overcommitment: ["R4", "R5", "R6"],
+    questions: [
+      "Mon salaire est en rapport avec mon investissement et mes responsabilités.",
+      "Mes perspectives d'évolution sont à la hauteur des efforts que je fournis.",
+      "Ma situation d'emploi me paraît stable : je ne crains pas de perdre mon poste ou de subir un changement imposé.",
+      "J'ai du mal à refuser une demande, même quand je suis déjà débordé·e.",
+      "Je me sens obligé·e d'en faire plus que ce qu'on attend de moi pour prouver ma valeur.",
+      "Dès le réveil, je pense déjà aux problèmes du travail."
+    ]
+  };
+
+  // Partie BS : le bullshitomètre (données dans bullshitometre-data.js). Satirique, hors score.
+  const BS = window.BULLOUT_BS || { questions: [], dims: [], profils: [] };
+  const bullshitPart = {
+    id: "BS",
+    title: "Le bullshitomètre",
+    explore: "la part d'absurde dans ton travail : réunions, tableaux de bord, livrables que personne ne lit. Pour rire, et pour voir si l'absurde t'amuse ou t'use.",
+    sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
+    chapitres: [2, 4],
+    questions: BS.questions
+  };
+
   const alertQuestions = [
     "J'ai eu des idées noires ou suicidaires.",
     "Je me sens incapable de continuer à fonctionner normalement.",
@@ -160,7 +191,8 @@
     { id: "previousMedicalAlert", label: "Arrêt ou alerte médicale antérieure", text: "J'ai déjà eu un arrêt, une alerte médicale ou une consultation liée à cette situation de travail." },
     { id: "collectiveSignal", label: "Plusieurs collègues touchés", text: "Plusieurs collègues semblent vivre le même type d'usure ou de surcharge." },
     { id: "safetySensitiveJob", label: "Poste à enjeu de sécurité", text: "Mon poste comporte des enjeux de sécurité : conduite, machines, soins, décisions critiques, erreurs à conséquences graves." },
-    { id: "fearToSpeak", label: "Peur de parler", text: "J'ai peur de parler de la situation à mon manager ou à mon organisation." }
+    { id: "fearToSpeak", label: "Peur de parler", text: "J'ai peur de parler de la situation à mon manager ou à mon organisation." },
+    { id: "wantToLeave", label: "Envie de partir", text: "Je pense sérieusement à quitter mon poste ou mon métier." }
   ];
 
   const itemInsights = {
@@ -175,7 +207,7 @@
     B3: { interpretation: "Évitement d'interactions coûteuses.", action: "Réduire les interactions non utiles ou cadrer les échanges difficiles." },
     B4: { interpretation: "Patience ou empathie entamée.", action: "Traiter la charge émotionnelle et éviter d'ajouter du relationnel décoratif." },
     B5: { interpretation: "Retrait relationnel pour tenir.", action: "Alléger la charge sociale et clarifier les interactions indispensables." },
-    B6: { interpretation: "Échappatoire psychologique.", action: "Prendre le signal au sérieux et discuter des options de réduction d'exposition." },
+    B6: { interpretation: "Désengagement : le travail se fait en pilote automatique.", action: "Repérer depuis quand, et ce qui a coupé l'envie : charge, absurde, manque de retour. Ne pas le traiter comme un défaut de motivation." },
     C1: { interpretation: "Confiance professionnelle fragilisée.", action: "Clarifier les attentes et demander un feedback utile sur le travail réel." },
     C2: { interpretation: "Qualité ou fiabilité en baisse malgré les efforts.", action: "Réduire le multitâche et traiter les causes d'erreur." },
     C3: { interpretation: "Perte de sens.", action: "Relier les tâches aux décisions utiles ou supprimer les livrables décoratifs." },
@@ -214,7 +246,7 @@
     B3: "évitement d'interactions coûteuses",
     B4: "empathie ou patience entamée",
     B5: "retrait relationnel",
-    B6: "envie d'échappatoire",
+    B6: "travail en pilote automatique",
     C1: "doute sur la qualité du travail",
     C2: "qualité ou fiabilité en baisse",
     C3: "perte de sens",
@@ -408,6 +440,8 @@
     D: "M21 8v13H3V8M1 3h22v5H1zM10 12h4",
     E: "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z",
     F: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
+    R: "M7 10h14l-4-4M17 14H3l4 4",
+    BS: "M19 5 5 19M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
     G: "M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.5l7.1-.6z",
     context: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",
     alerts: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"
@@ -430,7 +464,7 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 3;
+    const total = sections.length + 4 + (BS.questions.length ? 1 : 0);
     questionNumber = 0;
 
     const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
@@ -453,25 +487,39 @@
       fragment.appendChild(part);
     };
 
-    sections.forEach((section, index) => {
-      addPart(section.id, section.title, "Sur les 4 dernières semaines, sauf événement exceptionnel majeur.", section.help,
-        section.questions.map((question, qIndex) => createRatingQuestion(section, question, qIndex)), index,
+    // Ordre : la personne (A-C), le travail (D, E, R), l'absurde (BS), la récupération (F), les appuis (G), puis contexte et alertes.
+    const PERIOD = "Sur les 4 dernières semaines, sauf événement exceptionnel majeur.";
+    let index = 0;
+    const scored = (id) => {
+      const section = sections.find((s) => s.id === id);
+      addPart(section.id, section.title, PERIOD, section.help,
+        section.questions.map((question, qIndex) => createRatingQuestion(section, question, qIndex)), index++,
         about(section.explore, section.sources, section.chapitres));
-    });
+    };
+    ["A", "B", "C", "D", "E"].forEach(scored);
+    addPart("R", exchangePart.title, PERIOD,
+      "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie ne change pas le score global.",
+      exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
+      about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
+    if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
+      "Ton satirique assumé. Rien ici ne compte dans les scores : le rapport s'en sert pour lire ta distance et ton rapport au sens.",
+      bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
+      about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
+    scored("F");
     addPart("G", strengthPart.title, "Sur les 4 dernières semaines. Ne compte pas dans les scores de risque.",
       "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
-      strengthPart.questions.map((question, qIndex) => createRatingQuestion(strengthPart, question, qIndex)), sections.length,
+      strengthPart.questions.map((question, qIndex) => createRatingQuestion(strengthPart, question, qIndex)), index++,
       about(strengthPart.explore, strengthPart.sources, strengthPart.chapitres));
     addPart("context", "Contexte particulier", "Ne compte pas dans le score.",
       "Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.",
-      contextQuestions.map((question, index) => createYesNoQuestion(question.text, index, "context")), sections.length + 1,
+      contextQuestions.map((question, i) => createYesNoQuestion(question.text, i, "context")), index++,
       about("ce qui se passe autour du travail et dans l'équipe : cela change la lecture du résultat et les personnes à qui en parler.", "repérage clinique du syndrome d'épuisement professionnel (HAS, 2017) et prévention des risques psychosociaux (INRS)", [5]));
     addPart("alerts", "Questions d'alerte", "Réponds oui ou non.",
       "Une réponse oui déclenche un message de prudence médicale.",
-      alertQuestions.map((question, index) => createYesNoQuestion(question, index, "alert")), sections.length + 2);
+      alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + strengthPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + strengthPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -495,6 +543,16 @@
       return `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${value}</kbd><span class="opt-t">${text.charAt(0).toUpperCase()}${text.slice(1)}</span>${gauge(value)}</span></label>`;
     }).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-5" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    return item;
+  }
+
+  // Question à choix (bullshitomètre) : quatre réponses rédigées, touches 1 à 4.
+  function createChoiceQuestion(section, question, index) {
+    const name = `${section.id}${index + 1}`;
+    const item = questionShell(name, question.text);
+    if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
+    const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
+    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     return item;
   }
 
@@ -645,6 +703,7 @@
       const inputs = [...item.querySelectorAll("input[type='radio']")];
       let target = null;
       if (inputs.length === 5 && /^[0-4]$/.test(key)) target = inputs[Number(key)];
+      if (inputs.length === 4 && /^[1-4]$/.test(key)) target = inputs[Number(key) - 1];
       if (inputs.length === 2) target = key === "n" || key === "1" ? inputs[0] : key === "o" || key === "2" ? inputs[1] : null;
       if (!target) return;
       event.preventDefault();
@@ -808,7 +867,7 @@
       dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions, environ 12 minutes</p>`
         + `<h2 id="start-title">Quatre conseils pour bien répondre</h2>`
         + `<ol class="start-tips">${START_TIPS.map(([h, p]) => `<li><b>${h}</b> <span>${p}</span></li>`).join("")}</ol>`
-        + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre, <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
+        + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre (<kbd>1</kbd> à <kbd>4</kbd> dans le bullshitomètre), <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
         + `<div class="start-note"><p><b>Rien n'est enregistré automatiquement.</b> Si tu fermes ou recharges la page, tes réponses sont perdues. Pour t'arrêter, « Enregistrer ma progression », sous les questions, télécharge un fichier.</p></div>`
         + `<div class="start-actions"><button class="button primary" type="button" data-start-ok>J'ai compris, je commence</button>`
         + `<button class="button secondary" type="button" data-start-resume>Reprendre grâce à mon fichier</button></div></div>`;
@@ -1256,6 +1315,18 @@
       return null;
     }
 
+    const exchangeAnswers = exchangePart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="R${index + 1}"]:checked`);
+      return { id: `R${index + 1}`, question, value: selected ? Number(selected.value) : null };
+    });
+    if (exchangeAnswers.some((answer) => answer.value === null)) {
+      return null;
+    }
+    const bullshit = computeBullshit();
+    if (bullshit === null) {
+      return null;
+    }
+
     const sectionScores = Object.fromEntries(Object.entries(sectionResults).map(([id, result]) => [id, result.score]));
     const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
     const hasAlert = alertAnswers.some((answer) => answer.yes);
@@ -1275,6 +1346,8 @@
       alertAnswers,
       contextAnswers,
       strengthAnswers,
+      exchangeAnswers,
+      bullshit,
       totalScore,
       totalLevel,
       hasAlert,
@@ -1291,12 +1364,36 @@
     return result;
   }
 
+  // Bullshitomètre : même calcul que le test satirique (pourcentage du maximum possible, par dimension et au total).
+  function computeBullshit() {
+    if (!bullshitPart.questions.length) return { answers: [], percent: 0, dims: {}, profil: null };
+    const keys = BS.dims.map(([key]) => key);
+    const score = Object.fromEntries(keys.map((k) => [k, 0]));
+    const max = Object.fromEntries(keys.map((k) => [k, 0]));
+    const answers = [];
+    for (const [index, question] of bullshitPart.questions.entries()) {
+      const selected = form.querySelector(`input[name="BS${index + 1}"]:checked`);
+      if (!selected) return null;
+      const option = question.options[Number(selected.value)];
+      keys.forEach((k) => {
+        max[k] += Math.max(...question.options.map((o) => o.w[k] || 0));
+        score[k] += option.w[k] || 0;
+      });
+      answers.push({ id: `BS${index + 1}`, question: question.text, value: Number(selected.value), answer: option.text });
+    }
+    const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
+    const percent = Math.round(sum(score) / sum(max) * 100);
+    const dims = Object.fromEntries(keys.map((k) => [k, Math.round(score[k] / max[k] * 100)]));
+    const profil = BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
+    return { answers, percent, dims, profil };
+  }
+
   function renderResults(result) {
     result.plans = buildActionPlans(result);
     latestResultText = buildResultText(result);
     // Le rapport (8 pièces, synthèse, annexes) est composé par rapport.js, à partir de ces données.
     document.dispatchEvent(new CustomEvent("bullout:rapport", {
-      detail: { result, sections, strengthPart, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
+      detail: { result, sections, strengthPart, exchangePart, bullshitPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
     }));
     resultsPanel.dataset.ready = "true";
     location.hash = "rapport";
@@ -1385,6 +1482,11 @@
       "",
       "Points d'appui (G, de 0 à 4, hors score) :",
       ...result.strengthAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
+      "",
+      "Ce que tu donnes, ce qui revient (R, de 0 à 4, hors score) :",
+      ...result.exchangeAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
+      "",
+      `Bullshitomètre (hors score) : indice d'absurdité ${result.bullshit.percent} %${result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
       "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
