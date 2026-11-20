@@ -390,8 +390,12 @@
 /* ---------- Impression : tout le rapport, une pièce par page ---------- */
 @media print {
   @page { margin: 14mm 14mm 16mm; @bottom-left { content: "Bull-Out · Prévention burn-out sans bullshit · bullout.ddlab.fr"; font: 8pt Inter, sans-serif; color: #4a5f5a; } @bottom-right { content: counter(page); font: 8pt Inter, sans-serif; color: #4a5f5a; } }
-  .rapport .rp-page { display: grid !important; break-before: page; border: 0; padding: 0; background: white; }
-  .rapport .rp-page[hidden] { display: grid !important; }
+  /* En bloc, pas en grille : une grille ne se coupe pas bien entre deux pages (pages presque vides). */
+  .rapport .rp-page { display: block !important; break-before: page; border: 0; padding: 0; background: white; }
+  .rapport .rp-page[hidden] { display: block !important; }
+  .rapport .rp-page > * + *, .rp-corps > * + * { margin-top: 10pt; }
+  .rp-corps, .rp-syn-schema { display: block !important; }
+  .rp-grille4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .rp-nav, .rp-pager, .rp-outils, .rp-prive { display: none !important; }
   .rapport .rapport-cover { background: white; color: #123a33; padding: 0 0 8pt; }
   .rapport .rp-slogan { color: #b4512b; }
@@ -401,7 +405,7 @@
   .rp-bref { background: white; color: #123a33; border: 1.5px solid #123a33; }
   .rp-bref .k { color: #b4512b; }
   .rapport * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .pdf-court .rp-page:not([data-page="synthese"]):not([data-page="appuis"]):not([data-page="plan"]):not([data-page="portes"]) { display: none !important; }
+  .pdf-court .rp-page:not([data-page="synthese"]):not([data-page="plan"]):not([data-page="portes"]) { display: none !important; }
   .pdf-court .rp-pc { display: none; }
   .pdf-sans-reponses #annexe-2 { display: none; }
   .start-dialog, .q-safety { display: none !important; }
@@ -559,4 +563,27 @@
 @media print {
   .pdf-court .rp-page[data-page="synthese"] { break-before: auto; }
   .pdf-court .rp-sommaire { display: none !important; }
+}
+
+/* V3 : la synthèse commence par le feu et les trois cadrans ; les trois modèles sont lus sous le schéma. */
+.rp-tete { display: grid; gap: 14px; }
+.rp-modeles-lus { display: grid; gap: 12px; }
+.rp-modeles-lus h3 { margin: 4px 0 0; }
+.rp-modeles-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rp-modeles-grille article { display: grid; gap: 6px; align-content: start; padding: 16px 18px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line-soft); }
+.rp-modeles-grille .k { margin: 0; font: 800 11.5px/1.3 var(--title); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink); }
+.rp-modeles-grille h4 { margin: 0; font: 800 16.5px/1.3 var(--title); }
+.rp-modeles-grille p { margin: 0; font-size: 14px; line-height: 1.5; }
+.rp-modele-ou { color: var(--muted); font-size: 13px !important; }
+.rp-modeles-note { margin: 0; color: var(--muted); font-size: 14px; max-width: 80ch; }
+.rp-syn-priorites .button.secondary { background: transparent; color: var(--creme); border-color: rgba(246, 239, 226, .7); }
+.rp-temps dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0 0 10px; }
+.rp-temps dl > div { padding: 12px 14px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line-soft); }
+.rp-temps dt { font: 800 11.5px/1.3 var(--title); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.rp-temps dd { margin: 4px 0 0; font-weight: 700; }
+@media (max-width: 760px) { .rp-modeles-grille, .rp-temps dl { grid-template-columns: minmax(0, 1fr); } }
+@media print {
+  .rp-tete, .rp-modeles-lus, .rp-temps, .rp-syn-priorites { break-inside: avoid; }
+  .rp-modeles-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rp-temps dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

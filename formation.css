@@ -334,3 +334,5 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
   .fo-piece-fig .fo-schema { min-width: 540px; }
   .fo-piece-fig figcaption::after { content: " Fais glisser le schéma pour le voir en entier."; }
 }
+.fo-h3 { font: 800 20px/1.25 var(--title); margin: 26px 0 8px; color: var(--sapin); }
+.fo-piece-vide { margin: 10px 0 0; padding: 14px; border-radius: 18px; background: #f5fbdc; border: 2px dashed var(--anis); }

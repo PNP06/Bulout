@@ -2,8 +2,8 @@ name: Rapport de démonstration Bull-Out (profil fictif)
 
 on:
   push:
-    branches:
-      - formation-modeles-methode-test-pdf-2026-11-20
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
       - name: Publier les PDF, la capture et les données de contrôle
         uses: actions/upload-artifact@v4
         with:
-          name: Bull-Out-V2-rapports-fictifs
+          name: Bull-Out-rapports-fictifs
           path: tests/artefacts-exemple/*
           retention-days: 30
           if-no-files-found: error

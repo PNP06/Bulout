@@ -808,7 +808,7 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 .course-model-example strong { display: block; font-size: .9rem; }
 .course-model-reading { display: grid; gap: .6rem; margin-top: .85rem; padding-inline-start: .75rem; border-inline-start: 3px solid #2a6858; }
 /* Accueil : les trois modèles, puis le schéma du rapport qui les réunit (V3). */
-.home-modeles, .home-schema, .home-schema-art { min-width: 0; max-width: 100%; }
+.home-schema, .home-schema-art { min-width: 0; max-width: 100%; }
 .home-modeles-lead { max-width: 760px; font-size: 18px; margin: 0 0 18px; }
 .home-modeles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .home-modele { display: grid; gap: 8px; align-content: start; padding: 22px; border-radius: var(--radius); border: 1px solid var(--line-soft); background: var(--card); }
