@@ -650,7 +650,7 @@ test("les quatre questions d'expérience de l'humour restent distinctes et facul
   assert.equal(part.questions.length, 4);
   assert.match(part.questions[0].text, /amusé·e|sourire/);
   assert.match(part.questions[1].text, /peine|mal à l.aise/);
-  assert.match(part.questions[2].text, /reconnu·e/);
+  assert.match(part.questions[2].text, /minimisaient les difficultés/);
   assert.match(part.questions[3].text, /prendre un peu de recul/);
   assert.ok(part.questions.every(q => q.options.length === 6 && q.options[5].text.includes("préfère")));
 });
@@ -661,7 +661,8 @@ test("une personne peut rire et être peinée à la fois, sans étiquette cliniq
   assert.ok(r);
   assert.equal(r.humorReaction.skipped,false);
   assert.equal(r.humorReaction.interpretation.mixedEmotions,true);
-  assert.equal(r.humorReaction.interpretation.identified,true);
+  assert.equal(r.humorReaction.interpretation.minimizationPerceived,true);
+  assert.match(r.humorReaction.interpretation.text,/minimisaient tes difficultés/);
   assert.match(r.humorReaction.interpretation.title,/fait rire.*touche/);
   assert.match(r.humorReaction.interpretation.warning,/aucun score clinique/);
   assert.equal(r.humorReaction.answers.length,4);
@@ -709,7 +710,7 @@ test("le rapport restitue l'expérience de l'humour sans toucher à la matrice o
   const page = pageDuRapport(html,"absurde");
   assert.match(page,/Et toi, comment as-tu vécu ces blagues/);
   assert.match(page,/Ça fait rire\. Et ça touche/);
-  assert.match(page,/Rire, se reconnaître, être peiné et prendre du recul peuvent coexister/);
+  assert.match(page,/Rire, ressentir de la peine, avoir l'impression que des difficultés sont minimisées/);
   assert.match(page,/Matrice : absurdité perçue, distance et sens/);
   assert.match(page,/aucun score clinique|ne démontre pas/);
   const fiche = pageDuRapport(html,"travail");
@@ -726,9 +727,47 @@ test("le rapport ne fabrique pas de réaction quand la partie a été passée", 
 
 test("l'import v8 est repris en v9 et conserve la décision de passer les modules BS/HR", () => {
   const src=read("parcours.js");
-  assert.match(src,/const format = "bull-out-progression-9"/);
+  assert.match(src,/const format = "bull-out-progression-10"/);
   assert.match(src,/p\?\.format === "bull-out-progression-8"/);
-  assert.match(src,/versionReactionHumour: "2026-11-hr-v1"/);
+  assert.match(src,/versionReactionHumour: "2026-11-hr-v2"/);
   assert.match(src,/reponses\[`HR\$\{i\}`\] = "5"/);
   assert.match(src,/i = 1; i <= 4/);
+});
+
+
+test("une minimisation ressentie sans peine reste un jugement sur l'humour, pas une blessure supposée", () => {
+  const r = debugApi(completeAnswers({overrides:{HR1:0, HR2:0, HR3:4, HR4:0}})).calculateResults();
+  assert.ok(r);
+  assert.match(r.humorReaction.interpretation.title,/semblé banaliser/);
+  assert.equal(r.humorReaction.interpretation.minimizationPerceived,true);
+  assert.equal(r.humorReaction.interpretation.mixedEmotions,false);
+  assert.doesNotMatch(r.humorReaction.interpretation.text,/t'ont peiné·e|mis·e mal à l'aise/);
+});
+
+test("on peut être amusé par la satire et trouver qu'elle minimise le problème", () => {
+  const r = debugApi(completeAnswers({overrides:{HR1:4, HR2:0, HR3:4, HR4:0}})).calculateResults();
+  assert.ok(r);
+  assert.match(r.humorReaction.interpretation.title,/Drôle, mais peut-être trop léger/);
+  assert.equal(r.humorReaction.interpretation.minimizationPerceived,true);
+  assert.match(r.humorReaction.interpretation.text,/deux appréciations peuvent coexister/);
+});
+
+test("la prise de recul n'efface pas une banalisation perçue", () => {
+  const r = debugApi(completeAnswers({overrides:{HR1:0, HR2:0, HR3:4, HR4:4}})).calculateResults();
+  assert.ok(r);
+  assert.equal(r.humorReaction.interpretation.perceivedDistance,true);
+  assert.equal(r.humorReaction.interpretation.minimizationPerceived,true);
+  assert.match(r.humorReaction.interpretation.text,/prise de recul sur le moment/);
+  assert.match(r.humorReaction.interpretation.warning,/aucun score clinique/);
+});
+
+test("la nouvelle HR3 reste exclue des scores BS, A-F et de la matrice", () => {
+  const low = debugApi(completeAnswers({overrides:{HR3:0}})).calculateResults();
+  const high = debugApi(completeAnswers({overrides:{HR3:4}})).calculateResults();
+  assert.equal(low.totalScore,high.totalScore);
+  assert.equal(low.bullshit.percent,high.bullshit.percent);
+  assert.equal(low.bullshit.matrix.key,high.bullshit.matrix.key);
+  assert.equal(low.humorReaction.interpretation.minimizationPerceived,false);
+  assert.equal(high.humorReaction.interpretation.minimizationPerceived,true);
+  assert.equal(high.humorReactionVersion,"2026-11-hr-v2");
 });
