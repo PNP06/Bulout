@@ -171,23 +171,28 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, aScore, fScore, 
   // Téléphone : les mêmes paquets, empilés ; deux gros fils relient les causes, l'énergie et les effets.
   const W = 400, x = 12, w = W - 24, gap = 12;
   let y = 34;
-  const parts = [T(x, 22, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })];
+  const parts = [`<g class="rp-layer rp-layer-work">`, T(x, 22, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })];
   causes.forEach((p, i) => { const k = paquet(x, y, w, p, i === causes.length - 1); parts.push(k.svg); y += k.h + gap; });
   const nCause = Math.max(0, ...causes.flatMap((p) => p.rows.filter((r) => r.c !== C.mid).map((r) => r.n)));
   const bTop = y + 76, bH = 140, cx = W / 2;
   parts.push(fil(cx, y - 4, cx, bTop - 58, nCause, C.orange, true));
-  parts.push(batt(cx, bTop, bH, 132));
+  parts.push("</g>");
+  parts.push('<g class="rp-layer rp-layer-person">', batt(cx, bTop, bH, 132), "</g>");
   const R = rechargeBox(cx, bTop + bH + 30, 250);
+  parts.push('<g class="rp-layer rp-layer-support">');
   parts.push(fil(cx, bTop + bH + 30, cx, bTop + bH + 4, nRecharge, C.mid, true));
+  parts.push(R.svg);
+  parts.push("</g>");
   y = bTop + bH + 30 + R.h + 46;
   const nEffet = Math.max(0, ...signes.map((s) => s.n), ...corps.rows.map((r) => r.n));
+  parts.push('<g class="rp-layer rp-layer-manifest">');
   parts.push(fil(cx + 150, bTop + bH / 2, cx + 150, y - 4, nEffet, C.orange, true));
   parts.push(`<path d="M${cx + 66} ${bTop + bH / 2} H${cx + 150}" stroke="${C.orange}" stroke-width="${FIL[nEffet]}" stroke-linecap="round" opacity="${nEffet ? 0.88 : 0.3}"/>`);
-  parts.push(R.svg);
   parts.push(T(x, y - 10, "MANIFESTATIONS DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink }));
   const M = barres(x, y, w); parts.push(M.svg); y += M.h + gap;
   const Co = paquet(x, y, w, corps); parts.push(Co.svg); y += Co.h + gap;
-  parts.push(alerteBox(x, y, w)); y += 44 + 8;
+  parts.push("</g>");
+  parts.push(`<g class="rp-layer-safety">${alerteBox(x, y, w)}</g>`); y += 44 + 8;
   return `<svg class="rp-ensemble etroit" viewBox="0 0 ${W} ${y}" role="img" aria-label="Vue descriptive des réponses : conditions de travail, deux scores A et F, manifestations. Les liens ne prouvent aucune causalité.">${parts.join("")}</svg>`;
 }
 
