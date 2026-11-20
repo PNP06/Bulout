@@ -208,6 +208,7 @@ export const chapitres = [
       ],
     },
     sources: [
+      ["Maslach, Schaufeli & Leiter (2001) · Job burnout, Annual Review of Psychology", "https://doi.org/10.1146/annurev.psych.52.1.397"],
       ["Maslach & Leiter (2016) · Understanding the burnout experience, World Psychiatry", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4911781/"],
       ["Schaufeli, Leiter & Maslach (2009) · Burnout: 35 years of research and practice", "https://www.wilmarschaufeli.nl/publications/Schaufeli/311.pdf"],
       ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
@@ -303,6 +304,8 @@ export const chapitres = [
     sources: [
       ["Demerouti, Bakker et al. (2001) · The job demands-resources model of burnout", "https://doi.org/10.1037/0021-9010.86.3.499"],
       ["Bakker & Demerouti (2017) · Job demands-resources theory: taking stock and looking forward", "https://doi.org/10.1037/ocp0000056"],
+      ["Hobfoll (1989) · Conservation of resources", "https://pubmed.ncbi.nlm.nih.gov/2648906/"],
+      ["Sonnentag & Fritz (2007) · The recovery experience questionnaire", "https://pubmed.ncbi.nlm.nih.gov/17638488/"],
       ["INRS · les facteurs de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Dire que le travail pèse n’accuse personne. C’est décrire une situation qu’on peut modifier, et c’est plutôt une bonne nouvelle.",
@@ -477,6 +480,7 @@ export const chapitres = [
     sources: [
       ["Code du travail, article L4121-1 · obligation de sécurité de l’employeur (santé physique et mentale)", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
       ["INRS · prévention des risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/ce-qu-il-faut-retenir.html"],
+      ["INRS / Gollac · les six familles des facteurs de RPS", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques"],
       ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
     ],
     nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
