@@ -15,6 +15,7 @@ Le rapport Bull-Out suivait surtout l'ordre des neuf pièces de la formation, av
 | Objet | Avant | Dans la branche |
 |---|---|---|
 | Première lecture | Synthèse longue : grand schéma, nombreuses cartes et sommaire détaillé | Trois cartes **Ce que tu vis / Ce que tu décris au travail / Ce sur quoi tu peux t'appuyer**, ancrées sur les questions individuelles les plus saillantes, limites d'interprétation explicites |
+| Qualité des réponses | Contrôle de forme essentiellement dans l'annexe | Encadré descriptif en synthèse, avant les résultats, signalant les contrastes peu lisibles sans conclure à une réponse invalide ou insincère |
 | Accès aux actions | Neuf pièces puis plan (navigation possible) | Après la synthèse : plan, interlocuteurs, fiche travail ; les détails sous **« Approfondir »** |
 | Schéma d'ensemble | Trois zones + fils à lecture directe, avec pourcentage fictif d'énergie | Trois zones et fils **conservés**, deux scores A/F distincts ; lecture progressive en quatre étapes et légende sans causalité |
 | Version mobile du schéma | SVG vertical | SVG vertical maintenu, avec les mêmes couches de lecture |
@@ -66,7 +67,7 @@ Toute modification d'item nécessitera une migration du format de sauvegarde et 
 
 ## 6. Vérifications automatisées et critères de réussite
 
-Workflow `.github/workflows/verification.yml` : exécution de `node --check script.js` et de la suite Node `node --test tests/mesures-rapport.test.cjs`. Les scénarios portent sur :
+Workflow `.github/workflows/verification.yml` : exécution de `node --check script.js` et de la suite Node `node --test tests/mesures-rapport.test.cjs`. La suite comporte **29 tests automatisés** à la date de cette mise à jour. Les scénarios portent sur :
 - 67 questions / compatibilité des identifiants ;
 - seuils non cliniques et alertes distinctes du total ;
 - rendu HTML pour réponses 0–4 et pour chaque alerte ;
