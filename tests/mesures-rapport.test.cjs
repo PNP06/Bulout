@@ -188,7 +188,7 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v1", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -422,7 +422,7 @@ test("la chronologie alimente la lecture du rapport sans déduire de causalité"
 
 test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ceux à refaire", () => {
   const src = read("parcours.js");
-  assert.match(src, /const format = "bull-out-progression-9"/);
+  assert.match(src, /const format = "bull-out-progression-10"/);
   assert.match(src, /versionQuestions: "2026-11-v2"/);
   assert.match(src, /reponsesReformulees/);
   assert.match(src, /Object.entries\(anciennes\).filter/);
