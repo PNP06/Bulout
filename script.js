@@ -1811,6 +1811,16 @@
       "Ce que tu donnes, ce qui revient (R, de 0 à 4, hors score) :",
       ...result.exchangeAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
       "",
+      "Ressenti immédiat après les questions satiriques (HR, hors scores) :",
+      ...(result.humorReaction?.skipped
+        ? ["- Cette partie a été passée."]
+        : (result.humorReaction?.answers || []).map((answer) => `- ${answer.question} : ${answer.answer || "Non renseigné"}`)),
+      ...(result.humorReaction?.interpretation
+        ? ["- Lecture descriptive : " + result.humorReaction.interpretation.title,
+          result.humorReaction.interpretation.text,
+          "Ce ressenti n'établit pas un effet durable de l'humour."]
+        : []),
+      "",
       "Repères supplémentaires (T, hors scores et sans valeur diagnostique) :",
       ...(result.temporalAnswers || []).map((answer) => `- ${answer.question} : ${answer.answer}`),
       "Ces repères décrivent la situation, ils ne prouvent pas son origine.",
