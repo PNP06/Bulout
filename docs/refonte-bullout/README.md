@@ -11,6 +11,16 @@
    - [Premier cadrage scientifique et UX](archives/cadrage-scientifique-ux-2026-11-20-v1.md)
    - [Premier comparateur HTML : traversée et pont](archives/comparateur-metaphores-2026-11-20-v1.html)
 
+## Implémentation en cours (branche de refonte, novembre 2026)
+
+Le code comporte désormais une première série de corrections de mesure, de sécurité et de restitution, **sans changement du contenu des 67 questions ni du schéma en trois zones**.
+
+- [Journal technique, décisions conservées et recette de vérification](01-implementation-mesures-rapport-2026-11-20.md)
+- [Scénarios de tests automatisés](../../tests/mesures-rapport.test.cjs)
+- [Vérifications GitHub Actions](../../.github/workflows/verification.yml)
+
+**Attention :** cette branche n'a pas encore été fusionnée dans `main`. Ce README distingue donc la décision de conserver provisoirement le visuel et les modifications de texte/code réalisées depuis.
+
 ## Recadrage le plus récent
 
 Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement être plus pertinent que les métaphores nouvelles. Son agencement de gauche à droite permet de distinguer les conditions de travail, la situation de la personne et les manifestations, sans réduire le problème à un simple « niveau d'énergie ».
