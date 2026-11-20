@@ -1,6 +1,6 @@
 # Bull-Out — audit scientifique et éditorial du questionnaire (suite de la refonte)
 
-**20 novembre 2026 · proposition de travail, non validée · aucun changement des 67 items appliqué dans la branche de refonte.**
+**20 novembre 2026 · photographie de l’audit initial avant les changements de code.** Plusieurs propositions ont ensuite été implémentées sur la branche de revue ; consulter [l’implémentation V2](04-questionnaire-moteur-v2-2026-11-20.md) pour distinguer la version actuelle de cette analyse historique.
 
 ## 1. La question centrale : qu'essayons-nous de comprendre ?
 
