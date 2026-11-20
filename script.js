@@ -188,13 +188,13 @@
   const humorReactionPart = {
     id: "HR",
     title: "Et cette pause humour, comment tu l'as vécue ?",
-    explore: "ton expérience immédiate du questionnaire satirique : amusement, peine, identification et recul perçu. Ces réactions peuvent coexister.",
+    explore: "ton expérience immédiate du questionnaire satirique : amusement, peine, impression de banalisation et recul perçu. Ces réactions peuvent coexister.",
     sources: "questions originales Bull-Out sur le ressenti immédiat ; aucune validation psychométrique et aucun effet protecteur inféré",
     chapitres: [2],
     questions: [
       { text: "Ces questions m'ont amusé·e ou fait sourire.", options: humorReactionOptions },
       { text: "Certaines questions m'ont fait de la peine ou mis·e mal à l'aise.", options: humorReactionOptions },
-      { text: "Je me suis reconnu·e dans certaines situations décrites.", options: humorReactionOptions },
+      { text: "J’ai eu l’impression que ces blagues minimisaient les difficultés que je rencontre.", options: humorReactionOptions },
       { text: "Sur le moment, ces questions m'ont aidé·e à prendre un peu de recul sur mon travail.", options: humorReactionOptions }
     ]
   };
@@ -1133,34 +1133,43 @@
   function interpretHumorReaction(feedback) {
     if (!feedback || feedback.skipped) return null;
     const level = (index) => feedback.answers[index]?.value;
-    const high = (index) => level(index) !== null && level(index) >= 3;
+    const high = (index) => Number.isInteger(level(index)) && level(index) >= 3;
+    const amused = high(0), hurt = high(1), minimized = high(2), distance = high(3);
     let title, text;
-    if (high(0) && high(1)) {
+    if (amused && hurt) {
       title = "Ça fait rire. Et ça touche.";
       text = "Tu indiques à la fois de l'amusement et de la peine ou du malaise. Ce n'est pas contradictoire : une formule peut être drôle précisément parce qu'elle évoque une situation pénible.";
-    } else if (high(1)) {
+    } else if (hurt && minimized) {
+      title = "Un malaise et une banalisation ressentie";
+      text = "Tu déclares que certaines blagues t'ont peiné·e ou mis·e mal à l'aise, et qu'elles t'ont semblé minimiser tes difficultés. Ce sont deux réponses distinctes : l'une concerne ton émotion, l'autre ta lecture du propos.";
+    } else if (hurt) {
       title = "Une blague qui touche un point sensible";
       text = "Certaines questions t'ont fait de la peine ou mis·e mal à l'aise. Ce ressenti mérite d'être entendu sans supposer que tu manques d'humour.";
-    } else if (high(0) && high(3)) {
+    } else if (minimized) {
+      title = "La satire t'a semblé banaliser les difficultés";
+      text = "Tu as eu l'impression que ces blagues minimisaient tes difficultés. Ce ressenti sur la formulation mérite d'être distingué de l'amusement et de la prise de recul. Il ne dit pas à lui seul ce qui t'a affecté·e.";
+    } else if (amused && distance) {
       title = "Du rire et un peu de recul";
       text = "Tu déclares t'être amusé·e et avoir pris du recul sur le moment. C'est une expérience rapportée, pas la preuve d'une protection durable contre le stress.";
-    } else if (high(3)) {
+    } else if (distance) {
       title = "Du recul, même sans grand éclat de rire";
       text = "Tu déclares avoir pris du recul, même si l'amusement n'a pas particulièrement ressorti. Réfléchir à une situation et en rire sont deux expériences différentes.";
-    } else if (high(0)) {
+    } else if (amused) {
       title = "La satire t'a amusé·e";
       text = "Tu déclares avoir souri ou ri. Cela ne permet pas de savoir comment tu vis habituellement ton travail ni si l'humour t'aide à récupérer.";
-    } else if (high(2)) {
-      title = "Tu t'es reconnu·e dans ces scènes";
-      text = "Tu te reconnais dans certaines situations. Cette résonance mérite d'être distinguée de l'amusement, du malaise et de l'efficacité éventuelle de l'humour.";
     } else {
       title = "Une réaction plus nuancée";
       text = "Les réponses n'indiquent pas de ressenti particulièrement fort parmi les quatre proposés. Rien n'oblige à rire, à souffrir ou à relativiser devant une satire.";
     }
+    // HR3 peut être élevé en même temps que l'amusement, le malaise ou le recul.
+    // L'expliciter évite qu'une lecture dominante efface une réaction différente.
+    if (minimized && !text.includes("minimis") && !text.includes("banalis")) {
+      text += " Tu as également eu l'impression que ces blagues minimisaient tes difficultés ; cela n'annule pas les autres réactions déclarées.";
+    }
     return { title, text,
-      identified: high(2),
-      perceivedDistance: high(3),
-      mixedEmotions: high(0) && high(1),
+      minimizationPerceived: minimized,
+      perceivedDistance: distance,
+      mixedEmotions: amused && hurt,
       warning: "Ressenti immédiat, déclaré après les questions ; aucun score clinique ni effet causal ou durable mesuré." };
   }
 
@@ -1612,7 +1621,7 @@
       temporalInsight,
       questionnaireVersion: "2026-11-v2",
       bullshitometreVersion: "2026-11-bs-v2",
-      humorReactionVersion: "2026-11-hr-v1",
+      humorReactionVersion: "2026-11-hr-v2",
       humorReaction,
       bullshit,
       totalScore,
