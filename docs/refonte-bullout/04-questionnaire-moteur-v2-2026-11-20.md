@@ -47,7 +47,7 @@ Les références justifient l'intérêt des dimensions. **Elles ne valident ni l
 
 Ces questions sont **des informations descriptives, pas une échelle**. Elles ne sont ni additionnées entre elles, ni introduites dans A–F, ni transformées en probabilité de burn-out. T4 peut déclencher une suggestion de documenter un exemple de qualité empêchée et de demander un arbitrage. T1–T3 enrichissent la synthèse et les annexes, sans déduction causale à partir de la seule variation pendant les congés.
 
-**Total du parcours : 71 emplacements de questions**, soit les 67 précédents plus quatre nouveaux. Les huit questions BS peuvent maintenant être **passées en bloc** ; en ce cas elles ne produisent ni pourcentage ni profil. Le chemin reste fonctionnel et le formulaire garde sa progression.
+**Total du parcours : 75 emplacements de questions** : les 67 historiques, quatre repères T et quatre questions satiriques BS9–BS12 restaurées depuis l’original à 12 questions. Les douze questions BS peuvent être **passées en bloc** ; en ce cas elles ne produisent ni pourcentage ni profil. Le chemin reste fonctionnel et le formulaire garde sa progression.
 
 ## Moteur et restitution
 
@@ -58,11 +58,11 @@ Ces questions sont **des informations descriptives, pas une échelle**. Elles ne
 - Les plans à 72 heures et à deux semaines sont reliés aux réponses saillantes et suivent des **faits, décisions datées et changements observés**, pas l'évolution d'un score total.
 - Une réponse de harcèlement ou de peur de parler n'oriente pas automatiquement la personne vers son manager.
 - Le document « Fiche travail » ne reprend que les expositions professionnelles D/E et la qualité empêchée T4. Il ne reprend pas les réponses de santé, le contexte personnel, les alertes ou les consommations.
-- Le bullshitomètre est satirique et facultatif. S'il a été passé, le rapport indique explicitement **non renseigné**. Si des signaux de santé importants ressortent, les surnoms satiriques sont masqués.
+- Le bullshitomètre est satirique et facultatif. S'il a été passé, le rapport indique explicitement **non renseigné**. Les surnoms satiriques restent disponibles, même si des difficultés de santé ressortent : ils sont clairement identifiés comme humour, repliables par la personne et ne remplacent jamais l’orientation médicale.
 
 ## Compatibilité des anciennes sauvegardes
 
-Format `bull-out-progression-7`, champ explicite `versionQuestions: "2026-11-v2"`.
+Format `bull-out-progression-8`, champs explicites `versionQuestions: "2026-11-v2"` et `versionBullshitometre: "2026-11-bs-v2"`. Les anciens fichiers v7 sont repris sans réaffecter BS1–BS8 ; si la pause satirique avait été passée, les quatre nouvelles questions conservent ce choix.
 
 Les fichiers des versions précédentes peuvent être repris. Pour les quinze questions reformulées, **la réponse ancienne est écartée** au lieu d'être présentée comme réponse à une nouvelle question. Les autres réponses sont conservées. Les nouveaux repères T doivent être remplis. La sauvegarde continue d'exclure les trois réponses d'alerte.
 
@@ -70,7 +70,7 @@ Il est interdit de traiter un changement brut entre score v1 et score v2 comme u
 
 ## Vérification
 
-La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **43 cas déclarés (plus les cas paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
+La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **48 cas déclarés (plus les cas paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
 
 1. Parcours complet sur téléphone et ordinateur, clavier sur les options T de six réponses et bouton de saut BS.
 2. Sauvegarde à mi-parcours en v7, reprise d'une vraie sauvegarde v6, confirmation que seuls les quinze items changés sont redemandés.
