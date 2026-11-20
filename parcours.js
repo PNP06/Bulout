@@ -9,7 +9,8 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-6";
+const format = "bull-out-progression-7";
+const reponsesReformulees = new Set(["A2","B1","B2","C2","C6","D2","D5","E6","F2","F4","F5","F6","G6","R3","R6"]);
 let acquis = new Set();
 let bonnes = 0;
 let dateDiplome = null;
@@ -282,7 +283,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionQuestions: "2026-11-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -296,6 +297,8 @@ function message(el, msg) {
 const dateValide = d => typeof d === "string" && /^\d{4}-\d\d-\d\d$/.test(d) && Number.isFinite(Date.parse(d));
 
 function restaurer(p) {
+  const formatOriginal = p?.format;
+  let reponsesARelire = 0;
   // Fichiers des premières versions : un diplôme obtenu reste valable ;
   // un parcours inachevé reprend au début, les chapitres ayant été entièrement réécrits.
   if (/^bull-out-progression-[1-4]$/.test(p?.format || "")) {
@@ -307,6 +310,13 @@ function restaurer(p) {
     const fini = dateValide(p.dateDiplome);
     const liste = fini ? chapitres.map((_, i) => i) : p.chapitres.map(i => (Number.isInteger(i) && i >= 7 ? i + 1 : i));
     p = { ...p, format, chapitres: liste, bonnes: fini ? examen.length : liste.length === chapitres.length ? p.bonnes : 0 };
+  }
+  // Une réponse à une formulation antérieure n'est pas automatiquement transposable.
+  if (p?.format === "bull-out-progression-6" || (/^bull-out-progression-[1-5]$/.test(formatOriginal || "") && p?.format === format)) {
+    const anciennes = p.reponses && typeof p.reponses === "object" && !Array.isArray(p.reponses) ? p.reponses : {};
+    const gardees = Object.entries(anciennes).filter(([id]) => !reponsesReformulees.has(id));
+    reponsesARelire = Object.keys(anciennes).length - gardees.length;
+    p = { ...p, format, versionQuestions: "2026-11-v2", reponses: Object.fromEntries(gardees) };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
@@ -326,6 +336,7 @@ function restaurer(p) {
   ouvert = p.ouvert;
   dateDiplome = p.dateDiplome;
   prenom = "";
+  window.BullOutRestauration = { ancienFormat: formatOriginal, reponsesARelire };
   return ouvert ? "#questionnaire" : dateDiplome ? "#diplome" : prochaine() < 0 ? "#quiz-final" : acquis.size ? ancre(prochaine()) : "#formation";
 }
 
@@ -351,6 +362,11 @@ async function importer(input) {
       destination = "#questionnaire";
     }
     if (location.hash === destination) afficher(); else location.hash = destination;
+    const migration = window.BullOutRestauration;
+    message(input, migration?.reponsesARelire
+      ? `Progression reprise : ${migration.reponsesARelire} question(s) reformulée(s) sont à renseigner de nouveau. Les autres réponses ont été conservées.`
+      : "Progression restaurée. Vérifie les réponses manquantes avant d'obtenir ton rapport.");
+    window.BullOutRestauration = null;
   } catch (e) {
     message(input, e instanceof SyntaxError ? "Fichier illisible. Choisis un fichier de progression Bull-Out." : e.message);
   } finally { input.value = ""; }
