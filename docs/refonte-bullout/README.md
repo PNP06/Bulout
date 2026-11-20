@@ -13,13 +13,14 @@
 
 ## Implémentation en cours (branche de refonte, novembre 2026)
 
-La branche conserve **les 67 questions et leurs identifiants**, et la structure du schéma en trois zones, tout en corrigeant les mesures et en reconstruisant le rapport autour du lecteur. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
+La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours compte désormais 71 questions, dont la pause humoristique facultative. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
 
 - [Journal de la discussion et des arbitrages encore ouverts](00-journal-et-decisions.md)
 - [Inventaire des 67 questions et des transformations mathématiques](inventaire-questions-mesures-calculs.md)
 - [Première implémentation : scores, sécurité et interprétations](01-implementation-mesures-rapport-2026-11-20.md)
 - [Deuxième implémentation : rapport court, présentation, graphique progressif, fiche travail et carnet](03-ameliorations-rapport-2026-11-20.md)
-- [Audit scientifique et éditorial question par question pour la prochaine version](02-audit-questionnaire-prochaine-version.md)
+- [Audit scientifique et éditorial initial question par question](02-audit-questionnaire-prochaine-version.md)
+- [**Version codée du questionnaire et du moteur : 15 reformulations, 4 repères T, BS facultatif, migration des sauvegardes**](04-questionnaire-moteur-v2-2026-11-20.md)
 - [Suite de tests automatisés](../../tests/mesures-rapport.test.cjs) et [workflow GitHub Actions](../../.github/workflows/verification.yml)
 
 **PR en brouillon :** [#7 — Refonte des mesures et du rapport](https://github.com/PNP06/Bulout/pull/7). Elle ne modifie pas le site publié tant qu'elle n'est pas fusionnée.
@@ -34,7 +35,7 @@ Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement ê
 
 ## Ce qui doit rester vrai
 
-- Les premières modifications de `script.js`, `rapport.js`, `rapport.css`, `index.html` et des pages publiques ont été demandées dans les cycles suivants, mais uniquement sur une branche de revue. La **formulation et le nombre des questions restent inchangés**.
+- Les modifications récentes portent aussi sur les questions : quinze ont été reformulées et quatre repères non notés ont été ajoutés, avec une migration des fichiers de progression. Les décisions et tests figurent dans le document 04. Aucun déploiement de cette branche n’a été réalisé.
 - Ne pas confondre manifestation, exposition, ressource, contexte, signal de sécurité et action.
 - Distinguer les **réponses observées**, les **scores artisanaux**, les **représentations visuelles** et les **hypothèses explicatives**.
 - Ne pas présenter comme une mesure physiologique le « pourcentage de batterie », comme des preuves indépendantes les lectures JD-R/ERI qui réutilisent les mêmes questions, ou comme validation clinique des seuils internes.
