@@ -1,0 +1,261 @@
+/* Rapport Bull-Out (rapport.js) et compléments du questionnaire : fenêtre de départ, sources par partie,
+   message de sécurité immédiat, questionnaire compact sur téléphone. Charte DD Lab : sapin, crème, anis, orange. */
+
+/* ---------- Questionnaire ---------- */
+.part-about { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; background: #e6efe9; font-size: 14.5px; display: grid; gap: 4px; }
+.part-about p { margin: 0; }
+.part-about .part-src { color: var(--muted); font-size: 13.5px; }
+.q-safety { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: #fbe9e4; border: 2px solid var(--red, #b3261e); display: grid; gap: 6px; }
+.q-safety p { margin: 0; }
+.q-safety a { color: var(--red, #b3261e); font-weight: 600; }
+.q-safety-next { color: var(--muted); font-size: 14px; }
+
+.start-dialog { border: 0; border-radius: 22px; background: var(--card); color: var(--fg); padding: 26px; max-width: min(580px, calc(100vw - 24px)); width: 100%; box-shadow: 0 30px 80px rgb(0 0 0 / .3); }
+.start-dialog::backdrop { background: rgb(13 39 35 / .6); }
+.start-dialog .stack { display: grid; gap: 14px; }
+.start-dialog h2 { font-size: clamp(22px, 5vw, 27px); margin: 0; }
+.start-dialog .eyebrow { margin: 0; font: 800 12px/1.3 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--orange-ink); }
+.start-tips { margin: 0; padding: 0; list-style: none; counter-reset: tip; display: grid; gap: 10px; }
+.start-tips li { counter-increment: tip; display: grid; grid-template-columns: 30px 1fr; gap: 2px 10px; }
+.start-tips li::before { content: counter(tip); grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--anis); color: var(--sapin); font: 800 13px/1 var(--title); }
+.start-tips span { color: var(--muted); }
+.start-kbd { margin: 0; font-size: 14px; color: var(--muted); }
+.start-kbd kbd { font: 600 12px/1 var(--font); padding: 3px 6px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 6px; background: var(--card); }
+.start-note { padding: 12px 14px; border-radius: 12px; background: #fdf1d8; border-left: 4px solid var(--orange); }
+.start-note p { margin: 0; font-size: 14.5px; }
+.start-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.start-dialog h2:focus { outline: none; }
+@media (max-width: 600px) {
+  .start-dialog { padding: 18px; max-height: calc(100dvh - 24px); }
+  .start-dialog .stack { gap: 10px; }
+  .start-tips li, .start-note p { font-size: 15px; line-height: 1.45; }
+  .start-actions .button { width: 100%; }
+}
+
+/* Sur téléphone : l'en-tête du questionnaire disparaît (le titre reste pour les lecteurs d'écran, les conseils sont
+   dans la fenêtre de départ) et tout se resserre, pour que la question et ses cinq réponses tiennent sur un écran. */
+@media (max-width: 720px) {
+  #questionnaire.section-band { padding-top: 8px; padding-bottom: 24px; }
+  #questionnaire.section-band::before { display: none; }
+  #questionnaire .section-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  #questionnaire .kbd-tip { display: none; }
+  .is-onebyone .q-layout { gap: 12px; }
+  .questionnaire .screen-head { padding: 8px 0 8px; margin-bottom: 8px; gap: 10px; }
+  .questionnaire .screen-head .ti { width: 36px; height: 36px; border-radius: 10px; }
+  .questionnaire .screen-head .ti svg { width: 19px; height: 19px; }
+  .questionnaire .screen-head h3 { font-size: 19px; }
+  .questionnaire .screen-head .n { font-size: 20px; }
+  .q-counter { margin: 0 0 6px; font-size: 13px; }
+  .is-onebyone .period { padding: 7px 10px; font-size: 13.5px; margin-bottom: 8px; }
+  .part-about { font-size: 13.5px; padding: 8px 11px; margin-bottom: 8px; }
+  .part-about .part-src { display: none; }
+  /* Le « ce que cette partie explore » n'apparaît qu'à la première question de la partie. */
+  .question-section:not(:has(.qlist > li:first-child:not([hidden]))) .part-about,
+  .question-section:not(:has(.qlist > li:first-child:not([hidden]))) .part-help { display: none; }
+  .is-onebyone .q-text { font-size: 18.5px; line-height: 1.3; }
+  #questionnaire { margin-top: 0; }
+  .is-onebyone .q-counter { display: none; }
+  .questionnaire.is-onebyone .question-item { padding: 14px; margin-bottom: 8px; }
+  .questionnaire.is-onebyone .choices { gap: 6px; margin-top: 8px; }
+  /* Les explications de la partie passent sous la question : la question reste en haut de l'écran. */
+  .is-onebyone .question-section { display: flex; flex-direction: column; }
+  .is-onebyone .question-section > .part-about, .is-onebyone .question-section > .part-help { order: 2; margin: 4px 0 0; }
+  .is-onebyone .question-section > .part-review { order: 3; }
+  .is-onebyone .choice .opt { min-height: 42px; padding: 5px 12px !important; }
+  .questionnaire.is-onebyone .choices { gap: 5px; }
+}
+
+/* ---------- Barres et jauges (correctif : un <span> en ligne ne prenait pas de largeur) ---------- */
+.bar-fill { display: block; }
+.rp-jauge { display: inline-flex; gap: 3px; vertical-align: middle; }
+.rp-jauge i { display: block; width: 9px; height: 14px; border-radius: 3px; background: var(--piste); }
+.rp-jauge i.on { background: var(--sapin-mid); }
+.rp-items li.haut .rp-jauge i.on { background: var(--orange); }
+
+/* ---------- Rapport ---------- */
+.rapport .rp-slogan { font: 800 15px/1.2 var(--title); color: var(--anis); letter-spacing: .02em; text-transform: uppercase; }
+.rp-outils { align-items: flex-start; }
+.rp-pdf { flex: 1 1 100%; border: 1px solid rgb(246 239 226 / .3); border-radius: 14px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; }
+.rp-pdf legend { font: 800 12px/1 var(--title); text-transform: uppercase; letter-spacing: .08em; color: var(--anis); padding: 0 6px; }
+.rp-pdf label { display: inline-flex; gap: 6px; align-items: baseline; font-size: 14.5px; }
+.rp-prive { font-size: 14px; opacity: .85; }
+.rapport-cover .button.secondary { background: transparent; color: var(--creme); border-color: rgb(246 239 226 / .5); }
+
+.rp-nav { position: sticky; top: calc(var(--head-h) + 4px); z-index: 5; margin: 16px 0; padding: 8px; border-radius: 16px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); gap: 6px; }
+.rp-nav button { border: 1px solid var(--line-soft); padding: 6px 12px; border-radius: 999px; background: var(--card); font: 600 14px/1.2 var(--font); color: var(--fg); cursor: pointer; }
+.rp-nav button[aria-current] { background: var(--sapin); color: var(--creme); border-color: var(--sapin); }
+
+.rp-page { display: grid; gap: 20px; padding: clamp(18px, 3.5vw, 40px); border-radius: 22px; background: var(--card); border: 1px solid var(--line-soft); }
+.rp-page h2:focus { outline: none; }
+.rp-page h2 { margin: 0; }
+.rp-h { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.k { margin: 0; font: 800 12px/1.3 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--orange-ink); }
+
+/* Niveaux nommés */
+.rp-niv { display: inline-block; padding: 2px 9px; border-radius: 999px; font: 600 12.5px/1.5 var(--font); letter-spacing: 0; text-transform: none; }
+.rp-niv.n0 { background: #e2efe6; color: #1d5c50; }
+.rp-niv.n1 { background: #fdf1d8; color: #8a4a0c; }
+.rp-niv.n2 { background: #fbe3d8; color: #a2431f; }
+.rp-niv.n3 { background: #f6d6d3; color: #8f1e17; }
+
+/* Synthèse */
+.rp-syn-head p { max-width: 70ch; margin: 8px 0 0; }
+.rp-syn-head .course-eyebrow { color: var(--orange-ink); margin: 0 0 6px; }
+.rp-syn-cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.rp-syn-carte { text-align: left; display: grid; gap: 6px; align-content: start; padding: 16px; border-radius: 16px; border: 1px solid var(--line-soft); background: var(--bg); color: var(--fg); font: inherit; cursor: pointer; transition: border-color .2s var(--ease), transform .2s var(--ease); }
+.rp-syn-carte:hover { border-color: var(--sapin-mid); transform: translateY(-2px); }
+.rp-syn-carte .t { font: 800 17px/1.25 var(--title); }
+.rp-syn-carte .d { color: var(--muted); font-size: 14.5px; }
+.rp-syn-ctx { margin: 0; padding: 10px 14px; border-radius: 12px; background: #fdf1d8; }
+.rp-syn-bloc { padding: 18px; border-radius: 16px; background: #e6efe9; }
+.rp-syn-bloc h3 { margin: 0 0 10px; }
+.rp-syn-bloc ol, .rp-syn-bloc ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+.rp-q3 { list-style: none; padding: 0 !important; }
+.rp-q3 li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--card); }
+.rp-sommaire ol { list-style: none; padding: 0 !important; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.rp-sommaire button { width: 100%; text-align: left; display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid transparent; background: var(--card); color: var(--fg); font: inherit; cursor: pointer; }
+.rp-sommaire button:hover { border-color: var(--sapin-mid); }
+.rp-sommaire .n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sapin); color: var(--anis); font: 800 13px/1 var(--title); }
+.rp-sommaire small { display: block; color: var(--muted); font-size: 13.5px; line-height: 1.45; margin-top: 2px; }
+
+/* Sécurité */
+.rp-securite { padding: 16px 18px; border-radius: 16px; background: #fbe9e4; border: 2px solid var(--red, #b3261e); display: grid; gap: 6px; }
+.rp-securite p { margin: 0; }
+.rp-securite a, .rp-urgences a { color: var(--red, #b3261e); font-weight: 600; }
+.rp-securite-mini { margin: 0; padding: 8px 12px; border-radius: 10px; background: #fbe9e4; font-size: 14px; }
+
+/* En-tête d'étape */
+.rp-etape-head { display: grid; gap: 8px; }
+.rp-stepper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rp-n { margin: 0; font: 800 12px/1.3 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--orange-ink); }
+.rp-stepper ol { display: flex; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.rp-stepper li { width: 18px; height: 6px; border-radius: 3px; background: var(--piste); }
+.rp-stepper li.fait { background: var(--sapin-mid); }
+.rp-stepper li.ici { background: var(--orange); width: 30px; }
+.rp-question { margin: 0; font: 600 clamp(17px, 2.2vw, 20px)/1.35 var(--title); color: var(--sapin-mid); }
+.rp-intro { margin: 0; max-width: 72ch; color: var(--muted); }
+
+.rp-bref, .rp-garder { padding: 14px 16px; border-radius: 14px; display: grid; gap: 4px; }
+.rp-bref { background: var(--sapin); color: var(--creme); }
+.rp-bref .k { color: var(--anis); }
+.rp-bref p { margin: 0; }
+.rp-garder { background: #e6efe9; border-left: 4px solid var(--sapin-mid); }
+.rp-garder p { margin: 0; }
+.rp-corps { display: grid; gap: 14px; }
+.rp-corps p { margin: 0; }
+.rp-duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
+.rp-duo > div { display: grid; gap: 10px; }
+.rp-art { width: 100%; max-width: 360px; height: auto; display: block; margin: 0 auto; }
+.rp-legende { font-size: 13.5px; color: var(--muted); }
+.rp-cle { padding: 10px 14px; border-radius: 12px; background: #fdf1d8; border-left: 4px solid var(--orange); }
+
+.rp-carte { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line-soft); background: var(--bg); display: grid; gap: 6px; align-content: start; }
+.rp-carte h4 { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rp-carte p { margin: 0; }
+.rp-carte ul { margin: 0; padding-left: 1.1em; }
+.rp-carte.fort { border-color: #b9d6c4; background: #f1f8f3; }
+.rp-carte.levier { border-color: #f1cdb9; background: #fff7f2; }
+.rp-carte.urgence { border: 2px solid var(--red, #b3261e); }
+
+/* Réponses question par question */
+.rp-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line-soft); }
+.rp-items li { display: grid; grid-template-columns: 34px 1fr minmax(150px, auto); gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px; }
+.rp-items li.haut { background: linear-gradient(90deg, #fbe3d8 0 4px, transparent 4px); }
+.rp-items li.fort { background: linear-gradient(90deg, #cfe5d6 0 4px, transparent 4px); }
+.rp-items .rp-a { display: inline-flex; gap: 8px; align-items: center; justify-self: end; text-align: right; color: var(--muted); font-size: 13.5px; }
+.rp-items small { display: block; font-size: 12px; }
+.rp-id { display: inline-block; min-width: 26px; padding: 1px 5px; border-radius: 6px; background: var(--bg-sunk, #f1ebdf); font: 600 12px/1.5 var(--font); color: var(--sapin-mid); text-align: center; }
+.rp-q { color: var(--fg); }
+
+/* Tableau des dimensions */
+.rp-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.rp-table th, .rp-table td { padding: 9px 8px; border-bottom: 1px solid var(--line-soft); text-align: left; vertical-align: middle; }
+.rp-table thead th { background: var(--sapin); color: var(--creme); font: 800 13px/1.2 var(--title); }
+.rp-table tbody th { font-weight: 600; }
+.rp-table tbody th small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+.rp-barre { position: relative; display: block; height: 12px; border-radius: 6px; background: var(--piste); overflow: hidden; min-width: 120px; }
+.rp-barre i { position: absolute; inset: 0 auto 0 0; display: block; border-radius: 6px; }
+.rp-barre b { position: absolute; top: 0; bottom: 0; width: 2px; background: rgb(255 255 255 / .8); }
+.rp-sources td, .rp-sources th { vertical-align: top; }
+
+.rp-top { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rp-top li { padding: 12px 14px; border-radius: 12px; background: var(--bg); border-left: 4px solid var(--orange); display: grid; gap: 4px; }
+.rp-top li p { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rp-top .rp-q { color: var(--muted); font-size: 14.5px; }
+
+.rp-ctx { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rp-ctx li { padding: 10px 14px; border-radius: 12px; background: var(--bg); display: grid; gap: 2px; }
+.rp-ctx span { color: var(--muted); font-size: 14.5px; }
+.rp-signal > div { opacity: .55; }
+.rp-signal > div.actif { opacity: 1; }
+.rp-signal > div.actif .rp-carte { border: 2px solid var(--sapin-mid); }
+
+.rp-actions { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.rp-actions li span { display: block; color: var(--muted); }
+.rp-grille4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.rp-grille-appuis { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.rp-trajet { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.rp-trajet p { padding: 10px 12px; border-radius: 12px; background: var(--bg); font-size: 14.5px; }
+.rp-portes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.rp-pourquoi { font-weight: 600; }
+.rp-phrase { font-style: italic; color: var(--sapin-mid); }
+.rp-urgences { padding: 10px 14px; border-radius: 12px; background: #fbe9e4; }
+
+.rp-tient { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rp-tient li { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rp-tient .k { flex: 0 0 100%; color: var(--sapin-mid); }
+.rp-chip { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e2efe6; color: #1d5c50; font-size: 13.5px; }
+
+/* Pour comprendre */
+.rp-pc { border-radius: 14px; border: 1px solid var(--line-soft); background: var(--bg); }
+.rp-pc summary { cursor: pointer; padding: 12px 16px; font: 800 15.5px/1.3 var(--title); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.rp-pc summary .k { color: var(--sapin-mid); }
+.rp-pc > div { padding: 0 16px 14px; display: grid; gap: 8px; }
+.rp-pc p { margin: 0; }
+.rp-chap { font-size: 14px; color: var(--muted); }
+
+/* Annexes */
+.rp-annexe { display: grid; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line-soft); }
+.rp-annexe h3 { margin: 0; }
+.rp-box { padding: 14px 16px; border-radius: 14px; display: grid; gap: 6px; }
+.rp-box.ok { background: #e2efe6; }
+.rp-box.attention { background: #fdf1d8; }
+.rp-box p, .rp-box ul { margin: 0; }
+.rp-construit { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.rp-refs { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; }
+
+.rp-pager { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 8px; border-top: 1px solid var(--line-soft); }
+.rp-fin { margin: 24px 0 0; text-align: center; color: var(--muted); font-size: 14px; }
+.rp-fin p { margin: 4px 0; }
+
+@media (max-width: 600px) {
+  .rp-items li { grid-template-columns: 30px 1fr; }
+  .rp-items .rp-a { grid-column: 2; justify-self: start; text-align: left; }
+  .rp-table .rp-col-barre { display: none; }
+  .rp-nav { position: static; }
+}
+
+/* ---------- Impression : tout le rapport, une pièce par page ---------- */
+@media print {
+  @page { margin: 14mm 14mm 16mm; @bottom-left { content: "Bull-Out · Prévention burn-out sans bullshit · bullout.ddlab.fr"; font: 8pt Inter, sans-serif; color: #4a5f5a; } @bottom-right { content: counter(page); font: 8pt Inter, sans-serif; color: #4a5f5a; } }
+  .rapport .rp-page { display: grid !important; break-before: page; border: 0; padding: 0; background: white; }
+  .rapport .rp-page[hidden] { display: grid !important; }
+  .rp-nav, .rp-pager, .rp-outils, .rp-prive { display: none !important; }
+  .rapport .rapport-cover { background: white; color: #123a33; padding: 0 0 8pt; }
+  .rapport .rp-slogan { color: #b4512b; }
+  .rp-syn-carte { break-inside: avoid; }
+  .rp-carte, .rp-items li, .rp-top li, .rp-pc, .rp-bref, .rp-garder, .rp-box, tr { break-inside: avoid; }
+  .rp-h { break-after: avoid; }
+  .rp-bref { background: white; color: #123a33; border: 1.5px solid #123a33; }
+  .rp-bref .k { color: #b4512b; }
+  .rapport * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .pdf-court .rp-page:not([data-page="synthese"]):not([data-page="appuis"]):not([data-page="plan"]):not([data-page="portes"]) { display: none !important; }
+  .pdf-court .rp-pc { display: none; }
+  .pdf-sans-reponses #annexe-2 { display: none; }
+  .start-dialog, .q-safety { display: none !important; }
+}
+@media print {
+  .rapport .rp-syn-carte, .rapport .rp-sommaire button { display: grid !important; }
+}
+.rp-table tbody th { background: transparent; color: var(--fg); font-family: var(--font); }
+.rp-top .rp-jauge i.on { background: var(--orange); }

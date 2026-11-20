@@ -29,12 +29,15 @@
       title: "A. Épuisement",
       shortTitle: "A Épuisement",
       type: "symptoms",
+      explore: "l'énergie que le travail te prend, et ce qu'il en reste le soir.",
+      sources: "Maslach Burnout Inventory (épuisement émotionnel), Burnout Assessment Tool (épuisement, altérations cognitives et émotionnelles), Copenhagen Burnout Inventory",
+      chapitres: [1, 2],
       questions: [
         "Après une journée de travail, je n'ai plus assez d'énergie pour mes activités personnelles habituelles.",
-        "Même après repos court, j'ai l'impression de ne pas récupérer réellement.",
-        "Je commence certaines journées déjà saturé à l'idée de ce qui m'attend.",
+        "Même après un repos court (une soirée, un week-end), j'ai l'impression de ne pas récupérer réellement.",
+        "Certaines journées, je me sens saturé·e avant même de commencer, à l'idée de ce qui m'attend.",
         "Les tâches ordinaires me demandent un effort disproportionné.",
-        "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales (sollicitation en lien avec ma fiche de poste, que je faisais sans problème, etc.).",
+        "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales (celles de mon poste, que je gérais sans difficulté avant).",
         "J'ai du mal à maintenir mon attention ou ma mémoire de travail au niveau habituel."
       ]
     },
@@ -43,6 +46,9 @@
       title: "B. Distance mentale / cynisme",
       shortTitle: "B Distance mentale",
       type: "symptoms",
+      explore: "le retrait que tu prends vis-à-vis du travail et des personnes, souvent pour te protéger.",
+      sources: "Maslach Burnout Inventory (cynisme), Burnout Assessment Tool (distance mentale), Oldenburg Burnout Inventory (désengagement)",
+      chapitres: [2],
       questions: [
         "Je me surprends à me détacher mentalement du travail pour me protéger.",
         "Je deviens plus cynique sur l'utilité de ce que je fais.",
@@ -57,11 +63,14 @@
       title: "C. Efficacité / sens altérés",
       shortTitle: "C Efficacité/sens",
       type: "symptoms",
+      explore: "ta confiance dans ton travail, sa qualité et le sens que tu y trouves.",
+      sources: "Maslach Burnout Inventory (efficacité professionnelle), Burnout Assessment Tool (altérations cognitives)",
+      chapitres: [2],
       questions: [
         "Je doute plus souvent de ma capacité à produire un travail de qualité.",
         "Je constate une baisse de qualité ou de fiabilité malgré mes efforts.",
         "J'ai du mal à voir le sens concret de mon travail.",
-        "Je me sens moins compétent dans des tâches que je maîtrisais auparavant.",
+        "Je me sens moins compétent·e dans des tâches que je maîtrisais auparavant.",
         "Je termine des journées avec le sentiment de n'avoir rien accompli d'utile.",
         "Je ne me reconnais plus dans ma façon de travailler."
       ]
@@ -71,6 +80,9 @@
       title: "D. Exigences professionnelles",
       shortTitle: "D Exigences",
       type: "work",
+      explore: "ce que le travail te demande : quantité, urgences, contradictions, responsabilité, charge émotionnelle.",
+      sources: "modèle Exigences-Ressources (JD-R), Job Content Questionnaire de Karasek (demande psychologique), COPSOQ (exigences quantitatives et émotionnelles, conflit de rôle), ERI de Siegrist (effort)",
+      chapitres: [3, 4],
       questions: [
         "La quantité de travail dépasse régulièrement ce qui peut être fait correctement dans le temps disponible.",
         "Les urgences ou interruptions empêchent de travailler de manière soutenable.",
@@ -85,6 +97,9 @@
       title: "E. Ressources professionnelles - score inversé",
       shortTitle: "E Manque de ressources",
       type: "work",
+      explore: "ce qui t'aide à faire face : marge de manœuvre, soutien, clarté, reconnaissance, équité.",
+      sources: "modèle Exigences-Ressources (JD-R), Job Content Questionnaire de Karasek (latitude décisionnelle, soutien social), COPSOQ (clarté des rôles, justice), ERI de Siegrist (récompense)",
+      chapitres: [3, 4],
       reversed: true,
       help: "Cette section est inversée au calcul : plus la ressource est présente, moins elle ajoute au score de risque.",
       questions: [
@@ -101,6 +116,9 @@
       title: "F. Récupération et signaux de santé",
       shortTitle: "F Récupération/santé",
       type: "recovery",
+      explore: "ce que le repos te rend, et les signaux que ton corps et ton sommeil envoient.",
+      sources: "Recovery Experience Questionnaire de Sonnentag et Fritz (détachement), ERI de Siegrist (surinvestissement), Burnout Assessment Tool (plaintes psychosomatiques)",
+      chapitres: [1, 4],
       questions: [
         "Je rumine le travail le soir, le week-end ou pendant les congés.",
         "Mon sommeil est moins réparateur ou perturbé par le travail.",
@@ -111,6 +129,23 @@
       ]
     }
   ];
+
+  // Partie G : ce qui t'aide à tenir. Ne compte pas dans les scores de risque : elle nourrit la page « Tes appuis » du rapport.
+  const strengthPart = {
+    id: "G",
+    title: "G. Ce qui t'aide à tenir",
+    explore: "tes points d'appui : ce qui te recharge, ce qui te soutient, ce que tu sais déjà faire pour te protéger.",
+    sources: "Recovery Experience Questionnaire de Sonnentag et Fritz (détachement, relaxation, maîtrise), ressources personnelles du modèle JD-R (Xanthopoulou et al.), soutien social (Karasek), stratégies d'ajustement (Lazarus et Folkman)",
+    chapitres: [3, 7],
+    questions: [
+      "Je vis au travail des moments où je me sens utile et à la hauteur.",
+      "J'arrive à décrocher vraiment du travail au moins une soirée ou une journée par semaine.",
+      "En dehors du travail, j'ai des personnes à qui je peux parler de ce que je vis.",
+      "Je garde des activités qui me ressourcent (sport, nature, création, amis…) et je les pratique.",
+      "Quand une difficulté se présente au travail, j'arrive à en parler ou à demander de l'aide.",
+      "Je sais dire non, ou négocier un délai, quand la charge devient trop lourde."
+    ]
+  };
 
   const alertQuestions = [
     "J'ai eu des idées noires ou suicidaires.",
@@ -356,28 +391,10 @@
   let progressTotal = document.querySelector("#progress-total");
   let progressBar = document.querySelector("#progress-bar");
   const resultsPanel = document.querySelector("#results");
-  const profileTitle = document.querySelector("#profile-title");
-  const profileSummary = document.querySelector("#profile-summary");
-  const globalLevel = document.querySelector("#global-level");
-  const globalScore = document.querySelector("#global-score");
-  const alertMessage = document.querySelector("#alert-message");
-  const scoreBars = document.querySelector("#score-bars");
-  const modelReadings = document.querySelector("#model-readings");
-  const contextFactors = document.querySelector("#context-factors");
-  const collectiveSummary = document.querySelector("#collective-summary");
-  const topItemsList = document.querySelector("#top-items-list");
-  const priorityActions = document.querySelector("#priority-actions");
-  const recommendedStakeholders = document.querySelector("#recommended-stakeholders");
-  const resultTakeaways = document.querySelector("#result-takeaways");
-  const recommendationText = document.querySelector("#recommendation-text");
   const resetButton = document.querySelector("#reset-form");
-  const copyResultsButton = document.querySelector("#copy-results");
   const navToggle = document.querySelector(".nav-toggle");
   const mainMenu = document.querySelector("#main-menu");
   const navGroups = document.querySelectorAll(".nav-group");
-  const riskZoneReading = document.querySelector("#risk-zone-reading");
-  const plan72h = document.querySelector("#plan-72h");
-  const plan2Weeks = document.querySelector("#plan-2weeks");
 
   let latestResultText = "";
 
@@ -391,6 +408,7 @@
     D: "M21 8v13H3V8M1 3h22v5H1zM10 12h4",
     E: "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z",
     F: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
+    G: "M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.5l7.1-.6z",
     context: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",
     alerts: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"
   };
@@ -412,10 +430,13 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 2;
+    const total = sections.length + 3;
     questionNumber = 0;
 
-    const addPart = (key, title, period, help, items, index) => {
+    const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
+    const about = (explore, sources, chapitres) => `<div class="part-about"><p><b>Ce que cette partie explore :</b> ${explore}</p>`
+      + `<p class="part-src"><b>Inspirée de :</b> ${sources}. Questions reformulées, non validées en l'état. Vu au ${chapLinks(chapitres)} de la formation.</p></div>`;
+    const addPart = (key, title, period, help, items, index, aboutHTML = "") => {
       const part = document.createElement("section");
       part.className = "question-section";
       part.dataset.part = key;
@@ -423,6 +444,7 @@
       part.setAttribute("aria-labelledby", `section-${key}`);
       part.innerHTML = partHead(key, part.dataset.title, index, total)
         + (period ? `<p class="period">${svgIcon(ICON_CLOCK)}<span>${period}</span></p>` : "")
+        + aboutHTML
         + (help ? `<p class="part-help">${help}</p>` : "");
       const list = document.createElement("ol");
       list.className = "qlist";
@@ -433,17 +455,23 @@
 
     sections.forEach((section, index) => {
       addPart(section.id, section.title, "Sur les 4 dernières semaines, sauf événement exceptionnel majeur.", section.help,
-        section.questions.map((question, qIndex) => createRatingQuestion(section, question, qIndex)), index);
+        section.questions.map((question, qIndex) => createRatingQuestion(section, question, qIndex)), index,
+        about(section.explore, section.sources, section.chapitres));
     });
+    addPart("G", strengthPart.title, "Sur les 4 dernières semaines. Ne compte pas dans les scores de risque.",
+      "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
+      strengthPart.questions.map((question, qIndex) => createRatingQuestion(strengthPart, question, qIndex)), sections.length,
+      about(strengthPart.explore, strengthPart.sources, strengthPart.chapitres));
     addPart("context", "Contexte particulier", "Ne compte pas dans le score.",
       "Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.",
-      contextQuestions.map((question, index) => createYesNoQuestion(question.text, index, "context")), sections.length);
+      contextQuestions.map((question, index) => createYesNoQuestion(question.text, index, "context")), sections.length + 1,
+      about("ce qui se passe autour du travail et dans l'équipe : cela change la lecture du résultat et les personnes à qui en parler.", "repérage clinique du syndrome d'épuisement professionnel (HAS, 2017) et prévention des risques psychosociaux (INRS)", [5]));
     addPart("alerts", "Questions d'alerte", "Réponds oui ou non.",
       "Une réponse oui déclenche un message de prudence médicale.",
-      alertQuestions.map((question, index) => createYesNoQuestion(question, index, "alert")), sections.length + 1);
+      alertQuestions.map((question, index) => createYesNoQuestion(question, index, "alert")), sections.length + 2);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + strengthPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -478,6 +506,12 @@
       { label: "Oui", value: "yes", key: "O" }
     ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${choice.key}</kbd><span class="opt-t">${choice.label}</span></span></label>`).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-2" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    if (prefix === "alert") {
+      // Comme dans Psytest : le message de sécurité s'affiche tout de suite, sous la réponse.
+      item.insertAdjacentHTML("beforeend", `<div class="q-safety" role="alert" hidden><p><b>Merci de l'avoir dit.</b> Ce n'est pas un diagnostic, mais cela mérite de ne pas rester seul·e avec.</p>`
+        + `<p>Si tu as des idées suicidaires : appelle le <a href="tel:3114"><b>3114</b></a> (gratuit, 24 h/24). En cas de danger immédiat : <a href="tel:15"><b>15</b></a> ou <a href="tel:112"><b>112</b></a>. Sinon, parles-en vite à ton médecin traitant ou au médecin du travail.</p>`
+        + `<p class="q-safety-next">Tu peux continuer le questionnaire quand tu veux.</p></div>`);
+    }
     return item;
   }
 
@@ -585,7 +619,9 @@
       if (!form.querySelector(".question-item.is-missing")) formError.hidden = true;
       refreshPaging();
       // Comme dans Psytest : une réponse fait venir la question suivante, au même endroit.
-      if (item && item === partItems(parts[currentPart])[currentQ]) {
+      const safety = item?.querySelector(".q-safety");
+      if (safety) safety.hidden = event.target.value !== "yes";
+      if (item && item === partItems(parts[currentPart])[currentQ] && !(safety && event.target.value === "yes")) {
         clearTimeout(advanceTimer);
         advanceTimer = setTimeout(() => { if (partItems(parts[currentPart])[currentQ] === item) stepForward(); }, 320);
       }
@@ -750,6 +786,53 @@
     }
   }
 
+  // Fenêtre de départ, comme dans Psytest : quatre conseils pour bien répondre, montrés une fois par visite,
+  // à l'ouverture du questionnaire quand aucune réponse n'est encore donnée.
+  const START_TIPS = [
+    ["Pense aux quatre dernières semaines.", "Pas à ta pire journée, ni à ta meilleure : à ce qui revient le plus souvent."],
+    ["Réponds à la première impression.", "Celle qui te vient en premier est souvent la plus juste. Il n'y a pas de bonne réponse."],
+    ["L'échelle compte des fois.", "<b>Rarement</b> : quelques fois dans le mois. <b>Parfois</b> : environ une fois par semaine. <b>Souvent</b> : plusieurs fois par semaine. <b>Presque toujours</b> : presque tous les jours."],
+    ["Décris ce que tu vis,", "pas ce que tu devrais vivre ni ce qu'un burn-out « devrait » donner."]
+  ];
+  let startSeen = false;
+  function initStartDialog() {
+    const section = document.querySelector("#questionnaire");
+    if (!section || typeof HTMLDialogElement === "undefined") return;
+    const open = () => {
+      if (startSeen || section.hidden || form.querySelector("input:checked")) return;
+      startSeen = true;
+      const total = progressTotal?.textContent || "52";
+      const dialog = document.createElement("dialog");
+      dialog.className = "start-dialog";
+      dialog.setAttribute("aria-labelledby", "start-title");
+      dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions, environ 12 minutes</p>`
+        + `<h2 id="start-title">Quatre conseils pour bien répondre</h2>`
+        + `<ol class="start-tips">${START_TIPS.map(([h, p]) => `<li><b>${h}</b> <span>${p}</span></li>`).join("")}</ol>`
+        + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre, <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
+        + `<div class="start-note"><p><b>Rien n'est enregistré automatiquement.</b> Si tu fermes ou recharges la page, tes réponses sont perdues. Pour t'arrêter, « Enregistrer ma progression », sous les questions, télécharge un fichier.</p></div>`
+        + `<div class="start-actions"><button class="button primary" type="button" data-start-ok>J'ai compris, je commence</button>`
+        + `<button class="button secondary" type="button" data-start-resume>Reprendre grâce à mon fichier</button></div></div>`;
+      document.body.append(dialog);
+      dialog.addEventListener("close", () => {
+        dialog.remove();
+        document.querySelector(".q-layout")?.scrollIntoView({ block: "start" });
+        parts[currentPart] && partItems(parts[currentPart])[currentQ]?.querySelector(".q-text")?.focus({ preventScroll: true });
+      });
+      dialog.querySelector("[data-start-ok]").addEventListener("click", () => dialog.close());
+      dialog.querySelector("[data-start-resume]").addEventListener("click", () => {
+        dialog.close();
+        section.querySelector("[data-import]")?.click();
+      });
+      dialog.showModal();
+      const title = dialog.querySelector("h2");
+      title.setAttribute("tabindex", "-1");
+      title.focus();
+      dialog.scrollTop = 0;
+    };
+    new MutationObserver(open).observe(section, { attributes: true, attributeFilter: ["hidden"] });
+    open();
+  }
+
   function getAnsweredCount() {
     const names = new Set([...form.querySelectorAll("input[type='radio']")].map((input) => input.name));
     let answered = 0;
@@ -903,23 +986,24 @@
   }
 
   function buildOverallSummary(result) {
-    const dominantNames = result.dominantDimensions.map((section) => section.shortTitle.replace(/^[A-F] /, "")).join(" et ");
+    const names = result.dominantDimensions.map((section) => section.shortTitle.replace(/^[A-F] /, "").toLowerCase());
+    const dominantNames = names.length > 1 ? `${names.slice(0, -1).join(", ")} et ${names[names.length - 1]}` : names[0];
     if (result.hasAlert) {
-      return "Votre profil contient au moins un signal d'alerte. Ce résultat ne constitue pas un diagnostic, mais il justifie un avis médical rapide.";
+      return "Tes réponses contiennent au moins un signal d'alerte. Ce résultat ne constitue pas un diagnostic, mais il justifie un avis médical rapide.";
     }
     if (result.profile.key === "protected") {
-      return "Votre profil montre des protections encore présentes. L'enjeu est de les maintenir avant qu'elles ne deviennent optionnelles dans l'organisation réelle.";
+      return "Tes réponses montrent des protections encore présentes. L'enjeu est de les maintenir avant qu'elles ne deviennent optionnelles dans l'organisation réelle.";
     }
     if (result.profile.key === "tension") {
-      return "Votre profil montre surtout une tension liée aux exigences professionnelles. Les symptômes cœur ne sont pas tous au niveau maximal, mais la dynamique est défavorable si rien ne change.";
+      return "Tes réponses montrent surtout une tension liée aux exigences professionnelles. Les symptômes cœur ne sont pas tous au niveau maximal, mais la dynamique est défavorable si rien ne change.";
     }
     if (result.profile.key === "exhaustion") {
-      return "Votre profil montre surtout un épuisement associé à une récupération dégradée. Votre profil est compatible avec un niveau de risque élevé et justifie une action.";
+      return "Tes réponses montrent surtout un épuisement associé à une récupération dégradée. Elles justifient d'agir sans attendre.";
     }
     if (result.profile.key === "disengagement") {
-      return "Votre profil montre surtout un retrait mental, du cynisme défensif ou une perte de sens. Ce signal mérite d'être relié aux causes de travail, pas traité comme un défaut d'attitude.";
+      return "Tes réponses montrent surtout un retrait mental, du cynisme défensif ou une perte de sens. Ce signal mérite d'être relié aux causes de travail, pas traité comme un défaut d'attitude.";
     }
-    return `Votre profil fait ressortir principalement ${dominantNames}. Votre profil est compatible avec un niveau de risque à investiguer et justifie une action ciblée.`;
+    return `Tes réponses font ressortir surtout ${dominantNames}. Elles justifient une action ciblée sur ces points.`;
   }
 
   function buildModelReadings(result) {
@@ -940,7 +1024,7 @@
     if (scores.D >= 13) jdrLines.push("Les demandes professionnelles sont fortes.");
     if (scores.E >= 13) jdrLines.push("Les ressources protectrices semblent insuffisantes.");
     if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Demandes élevées + ressources faibles : la balance est défavorable.");
-    if (jdRCauses.length) jdrLines.push(`Causes probables : ${unique(jdRCauses).join(", ")}.`);
+    if (jdRCauses.length) jdrLines.push(`Ce qui pèse le plus dans tes réponses : ${unique(jdRCauses).map((t) => t.replace(/\.$/, "").toLowerCase()).join(", ")}.`);
 
     const eriSignals = [];
     if (getItem(result.answers, "D4")?.riskScore >= 3 || getItem(result.answers, "D6")?.riskScore >= 3) eriSignals.push("effort élevé");
@@ -1080,7 +1164,7 @@
     }
 
     if (recommendations.length === 0 && contextYes.size === 0) {
-      addRecommendation("occupationalNurse", "Premier échange possible si vous hésitez sur le bon interlocuteur.");
+      addRecommendation("occupationalNurse", "Premier échange possible si tu hésites sur le bon interlocuteur.");
       addRecommendation("manager", "Maintenir la clarté de charge et d'arbitrage.");
     }
 
@@ -1164,6 +1248,13 @@
     if (contextAnswers.some((answer) => !answer.answered)) {
       return null;
     }
+    const strengthAnswers = strengthPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="G${index + 1}"]:checked`);
+      return { id: `G${index + 1}`, question, value: selected ? Number(selected.value) : null };
+    });
+    if (strengthAnswers.some((answer) => answer.value === null)) {
+      return null;
+    }
 
     const sectionScores = Object.fromEntries(Object.entries(sectionResults).map(([id, result]) => [id, result.score]));
     const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
@@ -1183,6 +1274,7 @@
       sectionScores,
       alertAnswers,
       contextAnswers,
+      strengthAnswers,
       totalScore,
       totalLevel,
       hasAlert,
@@ -1200,146 +1292,18 @@
   }
 
   function renderResults(result) {
-    profileTitle.textContent = result.profile.title;
-    profileSummary.textContent = result.summary;
-    globalLevel.innerHTML = `Niveau global : <span class="risk-tag ${result.totalLevel.riskClass}">${result.totalLevel.label}</span>`;
-    globalScore.textContent = String(result.totalScore);
-    alertMessage.hidden = !result.hasAlert;
-    recommendationText.textContent = result.profile.recommendation;
-
-    renderScoreBars(result);
-    renderModelReadings(result.modelReadings);
-    renderContextFactors(result.contextAnswers);
-    renderCollectiveReading(result.contextAnswers);
-    renderTopItems(result.topItems);
-    renderPriorityActions(result.actions);
-    renderRiskZoneReading(result);
-    renderActionPlans(result);
-    renderResultTakeaways(result);
-    renderRecommendedStakeholders(result.stakeholderRecommendations);
-
+    result.plans = buildActionPlans(result);
     latestResultText = buildResultText(result);
+    // Le rapport (8 pièces, synthèse, annexes) est composé par rapport.js, à partir de ces données.
+    document.dispatchEvent(new CustomEvent("bullout:rapport", {
+      detail: { result, sections, strengthPart, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
+    }));
     resultsPanel.dataset.ready = "true";
     location.hash = "rapport";
   }
 
-  function renderScoreBars(result) {
-    scoreBars.innerHTML = "";
-    sections.forEach((section) => {
-      const sectionResult = result.sectionResults[section.id];
-      const row = document.createElement("div");
-      row.className = "score-row";
-      row.innerHTML = `
-        <div class="score-row-header">
-          <span>${sectionResult.shortTitle}</span>
-          <span><span class="risk-tag ${sectionResult.level.riskClass}">${sectionResult.level.label}</span> ${sectionResult.score}/24 - ${sectionResult.percent}%</span>
-        </div>
-        <div class="bar-track" aria-hidden="true"><span class="bar-fill ${sectionResult.level.className}" style="width: ${sectionResult.percent}%"></span></div>
-        <p>${sectionResult.comment}</p>
-      `;
-      scoreBars.appendChild(row);
-    });
-  }
-
-  function renderModelReadings(readings) {
-    modelReadings.innerHTML = "";
-    readings.forEach((reading) => {
-      const card = document.createElement("article");
-      card.className = "model-reading-card";
-      card.innerHTML = `
-        <h5>${reading.title}</h5>
-        <span class="risk-tag risk-watch">${reading.tag}</span>
-        <ul>${reading.lines.map((line) => `<li>${line}</li>`).join("")}</ul>
-      `;
-      modelReadings.appendChild(card);
-    });
-  }
-
-  function renderContextFactors(contextAnswers) {
-    const positive = contextAnswers.filter((answer) => answer.yes);
-    if (!positive.length) {
-      contextFactors.innerHTML = "<p>Aucun élément de contexte particulier signalé dans cette section. Cela n'exclut pas qu'un contexte non listé soit important.</p>";
-      console.debug("Rendu contexte", { positive });
-      return;
-    }
-    contextFactors.innerHTML = `
-      <p>Ces éléments ne posent pas de diagnostic, mais ils peuvent changer les interlocuteurs à mobiliser et le niveau de prudence.</p>
-      <ul>${positive.map((answer) => `<li><strong>${answer.label}</strong> — ${answer.text}</li>`).join("")}</ul>
-    `;
-    console.debug("Rendu contexte", { positive });
-  }
-
-  function renderCollectiveReading(contextAnswers) {
-    const collective = contextAnswers.some((answer) => answer.id === "collectiveSignal" && answer.yes);
-    collectiveSummary.textContent = collective
-      ? "Le résultat ne doit pas être lu uniquement comme une difficulté individuelle. Si plusieurs personnes décrivent surcharge, flou, manque de ressources ou récupération dégradée, c'est possiblement un signal d'organisation du travail."
-      : "Le résultat décrit votre situation déclarée. Si vous découvrez que d'autres personnes vivent les mêmes difficultés, la lecture peut devenir collective.";
-    console.debug("Lecture individuel / collectif", { collective });
-  }
-
-  function renderTopItems(items) {
-    topItemsList.innerHTML = "";
-    if (!items.length) {
-      topItemsList.innerHTML = "<li>Aucun item à 3 ou 4. Les signaux forts ne dominent pas dans les réponses actuelles.</li>";
-      return;
-    }
-    items.forEach((item) => {
-      const element = document.createElement("li");
-      element.innerHTML = `
-        <strong>${item.humanLabel} : ${item.riskScore}/4</strong>
-        <p class="item-section">${item.sectionTitle}</p>
-        <p>${item.question}</p>
-        <p><strong>Interprétation :</strong> ${item.interpretation}</p>
-        <p><strong>Action associée :</strong> ${item.action}</p>
-      `;
-      topItemsList.appendChild(element);
-    });
-  }
-
-  function renderPriorityActions(actions) {
-    priorityActions.innerHTML = "";
-    actions.forEach((action) => {
-      const card = document.createElement("article");
-      card.className = "priority-action";
-      card.innerHTML = `<strong>${action.title}</strong><p>${action.text}</p>`;
-      priorityActions.appendChild(card);
-    });
-  }
-
-  function renderRiskZoneReading(result) {
-    if (!riskZoneReading) return;
-    const activeZone = result.hasAlert || result.totalLevel.label === "alerte" ? "red" : result.totalLevel.label === "élevé" ? "orange" : "green";
-    const zones = [
-      {
-        key: "green",
-        title: "Zone verte — tension surveillée",
-        text: "Faire le point, protéger la récupération et refaire le test dans 2 à 4 semaines.",
-        items: ["faire le point", "protéger la récupération", "surveiller la trajectoire"]
-      },
-      {
-        key: "orange",
-        title: "Zone orange — risque installé",
-        text: "Le niveau d'action recommandé augmente : agir sur la charge, la récupération et un interlocuteur utile.",
-        items: ["choisir une action sur la charge", "choisir une action sur la récupération", "parler à un interlocuteur utile"]
-      },
-      {
-        key: "red",
-        title: "Zone rouge — signaux préoccupants",
-        text: "Réduire l'exposition, demander un avis médical ou santé au travail, et ne pas rester seul avec la situation.",
-        items: ["réduire l'exposition", "demander un avis médical ou santé au travail", "15 / 112 / 3114 si urgence ou idées suicidaires"]
-      }
-    ];
-    riskZoneReading.innerHTML = zones.map((zone) => `
-      <article class="risk-zone-card zone-${zone.key} ${zone.key === activeZone ? "is-active" : ""}">
-        <h5>${zone.title}</h5>
-        <p>${zone.text}</p>
-        <ul>${zone.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-  }
-
-  function renderActionPlans(result) {
-    if (!plan72h || !plan2Weeks) return;
+  // Plans à 72 heures et à 2 semaines : données seulement, le rendu est dans rapport.js.
+  function buildActionPlans(result) {
     const topLabels = result.topItems.slice(0, 3).map((item) => item.humanLabel);
     const dominant = result.dominantDimensions[0]?.shortTitle || "la dimension dominante";
     const recoveryHigh = result.sectionScores.F >= 13;
@@ -1351,7 +1315,7 @@
         items: [
           "accepter une nouvelle tâche sans arbitrage",
           demandHigh ? "répondre en temps réel à toutes les sollicitations" : "ajouter des engagements sans marge",
-          "compenser seul un dysfonctionnement collectif"
+          "compenser seul·e un dysfonctionnement collectif"
         ]
       },
       {
@@ -1376,13 +1340,7 @@
         items: ["sommeil", "irritabilité", "erreurs", "rumination", "stratégies de compensation"]
       }
     ];
-    plan72h.innerHTML = plan.map((block) => `
-      <article class="action-plan-card">
-        <h5>${block.title}</h5>
-        <ul>${block.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-    plan2Weeks.innerHTML = [
+    const twoWeeks = [
       {
         title: "Comparer",
         items: ["refaire le questionnaire", "vérifier si le score baisse, stagne ou monte"]
@@ -1391,57 +1349,8 @@
         title: "Décider",
         items: ["vérifier si une action concrète a été obtenue", "décider si le niveau d'aide doit augmenter"]
       }
-    ].map((block) => `
-      <article class="action-plan-card">
-        <h5>${block.title}</h5>
-        <ul>${block.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      </article>
-    `).join("");
-  }
-
-  function renderResultTakeaways(result) {
-    if (!resultTakeaways) return;
-    const dominant = result.dominantDimensions[0];
-    const topItem = result.topItems[0];
-    const firstAction = result.actions[0];
-    const cards = [
-      {
-        title: "Signal principal",
-        text: dominant ? `${dominant.shortTitle} ressort à ${dominant.score}/24 (${dominant.level.label}).` : "Aucune dimension ne domine fortement."
-      },
-      {
-        title: "Point concret",
-        text: topItem ? `${topItem.humanLabel} : ${topItem.interpretation}` : "Aucun item à 3 ou 4 dans les réponses actuelles."
-      },
-      {
-        title: "Prochaine étape",
-        text: firstAction ? `${firstAction.title} : ${firstAction.text}` : "Maintenir les protections existantes."
-      }
     ];
-    resultTakeaways.innerHTML = cards.map((card) => `
-      <article class="takeaway-card">
-        <strong>${card.title}</strong>
-        <p>${card.text}</p>
-      </article>
-    `).join("");
-    console.debug("Synthèse rapide générée", cards);
-  }
-
-  function renderRecommendedStakeholders(recommendations) {
-    recommendedStakeholders.innerHTML = "";
-    recommendations.forEach((recommendation) => {
-      const card = document.createElement("article");
-      card.className = `recommended-stakeholder ${recommendation.key === "emergency" ? "stakeholder-emergency" : ""}`;
-      card.innerHTML = `
-        <h5>${recommendation.stakeholder.name}</h5>
-        <p><strong>Pourquoi cet acteur est proposé : score + contexte.</strong> ${recommendation.why}</p>
-        <p><strong>Rôle court :</strong> ${recommendation.stakeholder.shortRole}</p>
-        <p><strong>Phrase utile :</strong> “${recommendation.stakeholder.script}”</p>
-        <a href="${recommendation.stakeholder.anchor}">Voir la carte détaillée</a>
-      `;
-      recommendedStakeholders.appendChild(card);
-    });
-    console.debug("Rendu des interlocuteurs recommandés", recommendations.map((recommendation) => recommendation.key));
+    return { plan72h: plan, twoWeeks };
   }
 
   function buildResultText(result) {
@@ -1474,6 +1383,9 @@
       "Scores A-F :",
       ...sectionLines,
       "",
+      "Points d'appui (G, de 0 à 4, hors score) :",
+      ...result.strengthAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
+      "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
       "",
@@ -1501,7 +1413,7 @@
       ...stakeholderLines,
       "",
       `Alerte oui/non : ${yesAlerts > 0 ? "oui" : "non"} (${yesAlerts}/3)`,
-      "Rappel : un score faible ne suffit pas toujours à exclure un problème si votre sommeil, votre humeur, votre sécurité ou votre fonctionnement se dégrade.",
+      "Rappel : un score faible ne suffit pas toujours à exclure un problème si ton sommeil, ton humeur, ta sécurité ou ton fonctionnement se dégradent.",
       "Limite :",
       "Ce résultat ne constitue pas un diagnostic médical et ne doit pas être utilisé pour évaluer professionnellement une personne."
     ].join("\n");
@@ -1870,6 +1782,7 @@
 
     resetButton?.addEventListener("click", () => {
       form.reset();
+      form.querySelectorAll(".q-safety").forEach((box) => { box.hidden = true; });
       resultsPanel.hidden = true;
       formError.hidden = true;
       latestResultText = "";
@@ -1879,15 +1792,15 @@
       console.debug("Questionnaire réinitialisé");
     });
 
-    copyResultsButton?.addEventListener("click", () => {
-      if (latestResultText) {
-        copyText(latestResultText, copyResultsButton);
-      }
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("#copy-results");
+      if (button && latestResultText) copyText(latestResultText, button);
     });
 
     buildQuestionnaire();
     initPaging();
     updateProgress();
+    initStartDialog();
   } else {
     console.debug("Aucun questionnaire détecté sur cette page : initialisation limitée aux boutons copier", {
       page: document.body.className || document.title
