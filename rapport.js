@@ -647,14 +647,28 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       </details>
       <figcaption class="rp-legende"><b>Comment lire ce schéma :</b> à gauche, les contraintes et ressources déclarées (D/E, complétées par une lecture partielle de Siegrist et des éléments de contexte). Au centre, deux scores descriptifs distincts : épuisement (A) et récupération/santé (F). À droite, les manifestations déclarées (A, B, C et retentissements). <b>Les fils rapprochent des thèmes ; ils ne prouvent pas que le travail cause un symptôme, ni qu'une ressource le compense.</b> Leur épaisseur correspond à une convention interne, pas à une force de causalité. Les couleurs aident à se repérer, pas à diagnostiquer.</figcaption></figure>`;
 
-  const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">Synthèse</p><h2 tabindex="-1">Ce qui ressort de tes réponses</h2>
-      <p>${esc(r.summary)}</p></header>${securite}${ensemble}
-    <div class="rp-syn-cartes">${synCartes.map(([k, t, d, cible]) => `<button type="button" class="rp-syn-carte" data-aller="${cible}"><span class="k">${k}</span><span class="t">${esc(cap(t))}</span><span class="d">${d}</span></button>`).join("")}</div>
-    ${ctxOui.length ? `<p class="rp-syn-ctx"><b>Contexte signalé :</b> ${esc(liste(ctxOui.map((a) => a.label.toLowerCase())))}. Cela ne change pas les scores, mais la lecture (pièce 5).</p>` : ""}
-    <div class="rp-duo"><div class="rp-syn-bloc"><h3>Par quoi commencer</h3><ol>${r.actions.slice(0, 3).map((a) => `<li><b>${esc(a.title)}.</b> ${esc(a.text)}</li>`).join("")}</ol></div>
-    <div class="rp-syn-bloc"><h3>Trois questions à emporter</h3><ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${k}</span>${esc(q)}</li>`).join("")}</ul></div></div>
-    <div class="rp-syn-bloc rp-sommaire"><h3>Ton rapport, page par page</h3><p>D'abord tes appuis et le bullshitomètre, puis les neuf pièces de la formation, dans le même ordre.</p>
-      <ol><li><button type="button" data-aller="appuis"><span class="n">★</span><span><b>Tes appuis</b><small>${esc(lectureAppuis)}</small></span></button></li><li><button type="button" data-aller="absurde"><span class="n">%</span><span><b>Le bullshitomètre</b><small>${pageAbsurde.bref.replace(/<[^>]+>/g, "")}</small></span></button></li>${etapes.map((e, i) => `<li><button type="button" data-aller="${e.id}"><span class="n">${i + 1}</span><span><b>${esc(pieces[i])}</b><small>${e.bref.replace(/<[^>]+>/g, "")}</small></span></button></li>`).join("")}</ol></div>`;
+  const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">L'essentiel · trois minutes</p>
+      <h2 tabindex="-1">Ce que tes réponses permettent de comprendre</h2>
+      <p>${esc(r.summary)}</p>
+      <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
+    ${securite}
+    <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
+    <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
+      <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
+        <p>${r.actions.length ? `<b>${esc(r.actions[0].title)}.</b> ${esc(r.actions[0].text)}` : "Partir d'un fait de travail récent et d'une difficulté concrète à éclaircir."}</p></div>
+      <div class="rp-priorites-liens"><button type="button" class="button primary" data-aller="plan">Voir mon plan →</button>
+        <button type="button" class="button secondary" data-aller="portes">À qui en parler ?</button></div>
+    </section>
+    <section class="rp-syn-schema" aria-labelledby="rp-schema-titre">
+      <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Une carte de tes réponses, pas une carte des causes</h3>
+        <p>À gauche, les conditions déclarées. Au centre, deux repères de vécu. À droite, les manifestations. Le dessin conserve l'architecture de la formation : les fils mettent des éléments en regard, sans prouver leur origine.</p></div>
+      ${ensemble}
+      <p class="rp-schema-alternative"><b>Lecture en texte :</b> ${esc(lectureBalance)} ${esc(lectureBatterie)} ${esc(lectureUsure)}</p>
+    </section>
+    <details class="rp-syn-questions"><summary>Trois questions pour continuer la réflexion</summary>
+      <ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${esc(k)}</span>${esc(q)}</li>`).join("")}</ul></details>
+    <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les neuf pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
+      <button type="button" class="button secondary" data-aller="travail">Préparer une discussion sur le travail réel</button></div>`;
 
   // ───────── Annexes
   const definitions = `<h3>1. Comment ce rapport est construit</h3>
