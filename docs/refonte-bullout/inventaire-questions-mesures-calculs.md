@@ -1,6 +1,6 @@
 # Bull-Out — inventaire de ce qui est réellement demandé, calculé et représenté
 
-**État du dépôt : 20 novembre 2026 — branche `main`.**  
+**État du dépôt : 20 novembre 2026 — branche `main`, avant la PR d'audit du soir.** Les lignes barrées ou annotées ont été corrigées depuis : voir [l'audit](audit-2026-11-20.md).  
 **Statut : photographie du code, non validation scientifique, aucune décision de réécriture.**  
 Fichiers de référence : [script.js](../../script.js), [rapport.js](../../rapport.js), [bullshitometre-data.js](../../bullshitometre-data.js), [formation-contenu.js](../../formation-contenu.js).
 
@@ -156,8 +156,8 @@ Les trois questions d'alerte mélangent des situations de gravité et d'urgence 
 | Niveaux A–F | 0–6 faible ; 7–12 vigilance ; 13–18 élevé ; 19–24 alerte | **Seuils arbitraires par quarts de l'échelle**, non cliniques |
 | Total | A+B+C+D+E+F → 0–144 | Mélange manifestations, expositions et ressources : aucune signification psychométrique validée |
 | Niveau global | Alerte si drapeau ou total ≥109 ; élevé ≥73 ; vigilance ≥37 | Seuils internes non validés |
-| Profil | Alerte si drapeau, total ≥109 ou dimension ≥22 ; puis règles basées sur A/F/B/C/D/E | Catégories heuristiques, sensibles aux seuils et à l'ordre des règles |
-| « Énergie restante » | `100 - ((A + F)/48 × 100)` | **Pourcentage fictif** : ne mesure pas une réserve d'énergie |
+| Profil | Alerte si drapeau, total ≥109 ou signe d'usure (A, B, C, F) ≥22 *(D et E exclus depuis le 20/11 au soir)* ; puis règles basées sur A/F/B/C/D/E | Catégories heuristiques, sensibles aux seuils et à l'ordre des règles |
+| « Énergie restante » | ~~`100 - ((A + F)/48 × 100)`~~ remplacé le 20/11 au soir par le niveau de `(A + F) / 2`, en quatre crans, sans pourcentage | L'ancien pourcentage était fictif ; le niveau en crans reste une convention |
 | JD-R « équilibre » | D vs `24-E`, lecture par différence | Comparaison descriptive ; pas une compensation quantitative prouvée |
 | ERI « effort » | Moyenne `D1, D4, D6` ×6 | Recomposition maison, pas l'échelle ERI validée |
 | ERI « récompense » | Moyenne `E5, E6, R1, R2, R3` ×6 | Réutilise E et les réponses R |

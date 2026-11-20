@@ -533,3 +533,30 @@
   .is-onebyone .choices-4 { gap: 6px; }
   .question-section[data-part="BS"] .period { display: none; }
 }
+
+/* ---------- Comment lire ce rapport (couverture) ---------- */
+.rp-lire { margin: 14px 0 16px; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(216, 242, 92, .35); max-width: 72ch; }
+.rp-lire .k { margin: 0 0 6px; font: 800 12px/1.2 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--anis, #d8f25c); }
+.rp-lire ol { margin: 0 0 8px; padding-left: 1.2em; display: grid; gap: 4px; }
+.rp-lire p:last-child { margin: 0; opacity: .9; }
+
+/* ---------- Tableau de bord : trois cadrans en tête de synthèse ---------- */
+.rp-bord { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rp-cadran { padding: 12px 14px 14px; border-radius: 14px; background: var(--card, #fffdf8); border: 1px solid var(--line-soft); text-align: center; }
+.rp-cadran svg { display: block; width: 120px; max-width: 100%; margin: 0 auto 4px; }
+.rp-cadran p { margin: 0; }
+.rp-cadran .k { font: 800 11.5px/1.2 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--orange-ink, #b4512b); }
+.rp-cadran .t { margin-top: 2px; font: 800 18px/1.25 var(--title); color: var(--sapin, #123a33); }
+.rp-cadran .d { margin-top: 4px; font-size: 13.5px; line-height: 1.4; color: #4a5f5a; }
+@media (max-width: 640px) { .rp-bord { grid-template-columns: 1fr; } .rp-cadran { display: grid; grid-template-columns: 96px 1fr; column-gap: 12px; text-align: left; align-items: center; } .rp-cadran svg { grid-row: span 3; width: 96px; margin: 0; } }
+@media print {
+  .rp-bord { break-inside: avoid; }
+  .rapport .rp-lien { display: inline !important; color: #123a33; text-decoration: none; font-weight: 700; }
+  .rapport .rp-lire { background: white; border-color: #123a33; }
+  .rapport .rp-lire .k { color: #b4512b; }
+}
+/* PDF court : la synthèse suit la couverture, sans le sommaire (inutile sur papier). */
+@media print {
+  .pdf-court .rp-page[data-page="synthese"] { break-before: auto; }
+  .pdf-court .rp-sommaire { display: none !important; }
+}

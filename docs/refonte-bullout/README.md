@@ -1,60 +1,41 @@
-# Bull-Out — chantier de refonte (documentaire)
+# Bull-Out : notes de refonte
 
-**Dernière mise à jour : 20 novembre 2026.**  
-**État : implémentation en cours sur une branche de revue, sans fusion ni déploiement. Le schéma existant reste la base ; les choix de questionnaire demeurent provisoires.**
+**Mise à jour : 20 novembre 2026, au soir, après la fusion de la version 2.**
 
-## Point d'entrée pour reprendre le travail
+Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une prochaine séance (humaine ou avec une IA) reparte de là où on s'est arrêté, sans tout redécouvrir.
 
-1. **Lire d'abord [le journal des échanges et décisions ouvertes](00-journal-et-decisions.md).** Il distingue les critiques de Claude, les hypothèses proposées par ChatGPT, les objections formulées ensuite et le recadrage le plus récent.
-2. **Lire ensuite [l'inventaire des 67 questions, des calculs et des 15 éléments du schéma](inventaire-questions-mesures-calculs.md).** C'est la photographie du code actuel et des usages réels.
-3. Pour les propositions précédentes, consulter les **archives**, sans les interpréter comme des décisions :
-   - [Premier cadrage scientifique et UX](archives/cadrage-scientifique-ux-2026-11-20-v1.md)
-   - [Premier comparateur HTML : traversée et pont](archives/comparateur-metaphores-2026-11-20-v1.html)
+## Par où commencer
 
-## Implémentation en cours (branche de refonte, novembre 2026)
+1. **[L'audit du 20 novembre](audit-2026-11-20.md)** : ce qui n'allait pas, ce qui a été corrigé, ce qui reste à faire. C'est le document le plus à jour.
+2. **[Le journal des décisions](00-journal-et-decisions.md)** : qui a proposé quoi, ce qui a été décidé, ce qui reste ouvert.
+3. **[L'inventaire des 67 questions et des calculs](inventaire-questions-mesures-calculs.md)** : pour chaque question, ce qu'elle mesure, comment elle est comptée et où elle apparaît dans le rapport.
+4. La **version 2 du questionnaire et du rapport** (travail avec ChatGPT, PR #7), fusionnée le 20 novembre au soir :
+   - [premières corrections](01-implementation-mesures-rapport-2026-11-20.md) ;
+   - [audit question par question](02-audit-questionnaire-prochaine-version.md) ;
+   - [deuxième passe du rapport](03-ameliorations-rapport-2026-11-20.md) ;
+   - [questionnaire et moteur V2, migration des sauvegardes](04-questionnaire-moteur-v2-2026-11-20.md) ;
+   - [bullshitomètre à 12 questions et matrice](05-bullshitometre-12-questions-matrice.md) ;
+   - [réaction à l'humour, 4 questions](06-retour-sur-la-satire-ressenti-immediat.md).
+5. Les **[archives](archives/)** gardent des propositions de l'après-midi (cadrage, comparateur de métaphores). Ce ne sont pas des décisions.
 
-La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours propose désormais **79 questions**, dont 12 satiriques et 4 de ressenti immédiat de l'humour, toutes facultatives. HR3 a été révisée : elle interroge désormais l’impression de minimisation plutôt que la reconnaissance des scènes déjà explorées par BS. Les huit BS d’origine intégrées restent à leur place ; les quatre absentes sont ajoutées sous BS9–BS12. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
-
-- [Journal de la discussion et des arbitrages encore ouverts](00-journal-et-decisions.md)
-- [Inventaire des 67 questions et des transformations mathématiques](inventaire-questions-mesures-calculs.md)
-- [Première implémentation : scores, sécurité et interprétations](01-implementation-mesures-rapport-2026-11-20.md)
-- [Deuxième implémentation : rapport court, présentation, graphique progressif, fiche travail et carnet](03-ameliorations-rapport-2026-11-20.md)
-- [Audit scientifique et éditorial initial question par question](02-audit-questionnaire-prochaine-version.md)
-- [**Version codée du questionnaire et du moteur : 15 reformulations, 4 repères T, BS facultatif, migration des sauvegardes**](04-questionnaire-moteur-v2-2026-11-20.md)
-- [**Bullshitomètre V2 : 12 questions d’origine, matrice croisée, humour et limites**](05-bullshitometre-12-questions-matrice.md)
-- [**Après le Bullshitomètre : quatre questions sur l'amusement, la peine, la banalisation perçue et le recul**](06-retour-sur-la-satire-ressenti-immediat.md)
-- [Suite de tests automatisés](../../tests/mesures-rapport.test.cjs) et [workflow GitHub Actions](../../.github/workflows/verification.yml)
-
-**PR en brouillon :** [#7 — Refonte des mesures et du rapport](https://github.com/PNP06/Bulout/pull/7). Elle ne modifie pas le site publié tant qu'elle n'est pas fusionnée.
-
-**Attention :** cette branche n'a pas encore été fusionnée dans `main`. Ce README distingue donc la décision de conserver provisoirement le visuel et les modifications de texte/code réalisées depuis.
-
-## Recadrage le plus récent
-
-Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement être plus pertinent que les métaphores nouvelles. Son agencement de gauche à droite permet de distinguer les conditions de travail, la situation de la personne et les manifestations, sans réduire le problème à un simple « niveau d'énergie ».
-
-**Il n'est ni adopté définitivement ni rejeté.** Avant de remplacer le dessin, il faut définir et auditer ce que Bull-Out mesure réellement, ce qu'il calcule et ce qu'il infère. Les pistes « réservoir », « tableau de bord », « arbre », « bateau », « pont » et « traversée » restent historiques et non décidées.
+Les tests se lancent avec `node --test tests/mesures-rapport.test.cjs` (et tournent sur GitHub à chaque push).
 
 ## Ce qui doit rester vrai
 
-- Les modifications récentes portent aussi sur les questions : quinze ont été reformulées et quatre repères non notés ont été ajoutés, avec une migration des fichiers de progression. Les décisions et tests figurent dans le document 04. Aucun déploiement de cette branche n’a été réalisé.
-- Ne pas confondre manifestation, exposition, ressource, contexte, signal de sécurité et action.
-- Distinguer les **réponses observées**, les **scores artisanaux**, les **représentations visuelles** et les **hypothèses explicatives**.
-- Ne pas présenter comme une mesure physiologique le « pourcentage de batterie », comme des preuves indépendantes les lectures JD-R/ERI qui réutilisent les mêmes questions, ou comme validation clinique des seuils internes.
-- Préserver le fond et l'identité éditoriale de Bull-Out ; ne pas imposer mécaniquement la métaphore de Papillon.
-- Prioriser l'audit des questions et des décisions que les réponses permettent, puis seulement le design.
+- **Séparer quatre choses** : ce que la personne répond, ce que Bull-Out calcule, ce que le dessin montre, ce que le rapport en déduit. Le rapport et la page [Méthode et limites](../../methode.html#mesure) le disent en clair.
+- **Pas de fausse précision** : pas de pourcentage d'énergie, pas de chiffre « sur 24 » pour un indicateur fait de deux à six questions. On donne un niveau, en mots.
+- **Deux modèles qui partagent des questions ne sont pas deux preuves.** La lecture effort-récompense (Siegrist) reprend cinq questions de la balance exigences-ressources (D1, D4, D6, E5, E6).
+- **Le questionnaire n'est pas validé.** Il s'inspire d'outils reconnus ; fidélité, structure et seuils restent à tester.
+- **Le ton reste franc**, et le slogan « prévention burn-out sans bullshit » apparaît partout.
+- **Le dépôt est public** : aucune conversation privée ni réponse individuelle dans ces documents.
 
-## Références dans le code
+## Où regarder dans le code
 
-| Besoin | Source |
+| Besoin | Fichier |
 |---|---|
-| Questions et calculs A–F, G, R, contexte, alertes, profils | [script.js](../../script.js) |
-| Douze questions satiriques et pondérations | [bullshitometre-data.js](../../bullshitometre-data.js) |
-| Rapport, batterie, graphiques et règles d'interprétation | [rapport.js](../../rapport.js) |
-| Formation, modèles et cas fictifs | [formation-contenu.js](../../formation-contenu.js) |
-| PDF court / long | [rapport.css](../../rapport.css) |
-| Animation d'accueil | [index.html](../../index.html) |
-
-Les documents distinguent les décisions confirmées, les travaux effectivement codés et les hypothèses encore à valider. La validation de la mise en page réelle et du parcours complet reste nécessaire avant fusion.
-
-Le dépôt est public : aucun détail privé de conversation ni réponse individuelle à un questionnaire ne doit être ajouté aux documents versionnés.
+| Questions, scores A à F, profils, alertes | [script.js](../../script.js) |
+| Questions et poids du bullshitomètre | [bullshitometre-data.js](../../bullshitometre-data.js) |
+| Rapport : synthèse, tableau de bord, dessin, pièces, annexes | [rapport.js](../../rapport.js), [rapport.css](../../rapport.css) |
+| Formation : chapitres, cas, quiz | [formation-contenu.js](../../formation-contenu.js), [parcours.js](../../parcours.js) |
+| Ce qu'on mesure et nos limites, pour le public | [methode.html](../../methode.html) |
+| Mise en ligne (bullout.ddlab.fr) | [worker.js](../../worker.js) : sert la branche `main` |

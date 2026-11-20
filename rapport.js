@@ -751,9 +751,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
   // ───────── Le verdict et la vue d'ensemble
-  const usureMax = Math.max(...["A", "B", "C", "F"].map((id) => niv(sr[id]).n));
+  // Le feu ne s'emballe pas sur un seul signe : les seuils sont des quarts de l'échelle, sans étalonnage.
+  // Orange : au moins deux signes d'usure élevés en même temps, ou un très élevé. Jaune : un seul signe élevé.
+  const usure = ["A", "B", "C", "F"].map((id) => sr[id]);
+  const usureMax = Math.max(...usure.map((d) => niv(d).n));
+  const hautes = usure.filter((d) => d.score >= 13);
+  const tresHaute = usure.find((d) => d.score >= 19);
+  const COURTS = { A: "l'épuisement", B: "la distance au travail", C: "l'efficacité ou le sens", F: "la récupération" };
+  const nomsUsure = (ds) => liste(ds.map((d) => COURTS[d.id]));
   const verdict = r.hasAlert ? { n: 3, t: "Un signal de sécurité est déclaré", d: "L’orientation dépend de la réponse concernée : consulte le message de sécurité distinct, sans interpréter le score total." }
-    : usureMax >= 2 ? { n: 2, t: "Plusieurs manifestations ressortent", d: "Des difficultés sont déclarées fréquemment ; leur origine et leur retentissement demandent à être précisés." }
+    : hautes.length >= 2 || tresHaute ? { n: 2, t: "Plusieurs manifestations ressortent", d: `${tresHaute && hautes.length < 2 ? `Un signe d'usure est très élevé (${nomsUsure([tresHaute])})` : `Plusieurs signes d'usure sont élevés en même temps (${nomsUsure(hautes)})`}. Ce n'est pas un diagnostic, mais une raison d'agir dans les prochains jours et d'en parler à un médecin.` }
+      : hautes.length === 1 ? { n: 1, t: "Un signe ressort nettement", d: `${cap(nomsUsure(hautes))} ressort ; les autres tiennent encore. C'est le bon moment pour agir, avant que l'usure s'installe.` }
       : usureMax === 1 || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Des éléments méritent attention", d: "Des manifestations ou contraintes ressortent sur certaines questions, sans qu’un niveau clinique soit déterminé." }
         : { n: 0, t: "Peu de difficultés déclarées", d: "Ce questionnaire ne fait pas ressortir de difficultés fréquentes dans les domaines explorés. Il ne remplace pas une appréciation médicale ou professionnelle." };
   const nDim = (d) => niv(d).n;
@@ -762,11 +770,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const causes = [
     { titre: "La balance", modele: "Exigences-ressources (JD-R) · chapitre 3", rows: [
       { label: "Exigences du travail", val: val(sr.D.score), n: nDim(sr.D), c: C.orange },
-      { label: "Ressources présentes", val: `${ressources}/24`, n: nv24(ressources), c: C.mid }] },
+      { label: "Ressources présentes", val: ["rares", "limitées", "présentes", "solides"][nv24(ressources)], n: nv24(ressources), c: C.mid }] },
     { titre: "Le retour", modele: "Effort-récompense (Siegrist) · chapitre 4", rows: [
-      { label: "Effort", val: val(effort), n: nv24(effort), c: C.orange },
-      { label: "Récompense", val: `${retour}/24`, n: nv24(retour), c: C.mid },
-      { label: "Surengagement", val: val(surengagement), n: nv24(surengagement), c: VIOLET }] },
+      { label: "Effort", val: MOTS[nv24(effort)], n: nv24(effort), c: C.orange },
+      { label: "Récompense", val: ["faible", "limitée", "correcte", "bonne"][nv24(retour)], n: nv24(retour), c: C.mid },
+      { label: "Surengagement", val: MOTS[nv24(surengagement)], n: nv24(surengagement), c: VIOLET }] },
     { titre: "Éléments de contexte", modele: "Déclarations · chapitre 5 · hors score", rows: ctxAggr.length
       ? ctxAggr.slice(0, 4).map((a) => ({ label: a.label.length > 30 ? `${a.label.slice(0, 29)}…` : a.label, val: "signalé", n: a.id === "harassment" || a.id === "ethicalConflict" ? 2 : 1, c: C.orange }))
       : [{ label: "Rien de signalé", val: "", n: 0, c: C.piste }] }
@@ -787,6 +795,26 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const corpsRows = Object.keys(CORPS).filter((id) => item(id).riskScore >= 2).map((id) => ({ label: CORPS[id], val: ratingLabels[item(id).rawScore].replace(/^\d+\s*-\s*/, ""), n: nItem(id), c: C.orange }));
   const corps = { titre: "Autres signaux déclarés", modele: "Récupération, retentissement · chapitre 1", rows: corpsRows.length ? corpsRows : [{ label: "Pas de signal net", val: "", n: 0, c: C.piste }] };
   const vue = { causes, recharge, signes, corps, alerte: r.hasAlert, aScore: sr.A.score, fScore: sr.F.score };
+  // ───────── Tableau de bord : trois cadrans lus en trois secondes, avant le détail (choix de David, 20/11).
+  const nE = nv24(Math.round((sr.A.score + sr.F.score) / 2));
+  const tireListe = [["les exigences", nDim(sr.D)], ["le manque de ressources", nDim(sr.E)], ["l'effort sans retour", Math.min(nv24(effort), Math.max(0, 3 - nv24(retour)))]];
+  const tire = Math.max(...tireListe.map(([, n]) => n));
+  const lacheListe = [...signes.map((x) => [x.label.replace(/ \(.*\)$/, "").toLowerCase(), x.n]), ...corps.rows.filter((x) => x.n).map((x) => [x.label.toLowerCase(), x.n])];
+  const lache = Math.max(0, ...lacheListe.map(([, n]) => n));
+  const enTete = (xs, n) => liste(xs.filter(([, k]) => k === n && n > 0).map(([l]) => l).slice(0, 2));
+  const cadran = (titre, n, mot, detail, bon) => {
+    const coul = bon ? [...COUL].reverse() : COUL;
+    const pos = bon ? 3 - n : n;
+    const arc = (k) => { const a0 = Math.PI * (1 - k / 4), a1 = Math.PI * (1 - (k + 1) / 4) + 0.04; const pt = (a) => `${(60 + 46 * Math.cos(a)).toFixed(1)} ${(58 - 46 * Math.sin(a)).toFixed(1)}`; return `<path d="M${pt(a0)} A46 46 0 0 1 ${pt(a1)}" fill="none" stroke="${coul[k]}" stroke-width="12" opacity="${k === pos ? 1 : 0.28}"/>`; };
+    const ang = Math.PI * (1 - (pos + 0.5) / 4);
+    return `<div class="rp-cadran"><svg viewBox="0 0 120 66" aria-hidden="true">${[0, 1, 2, 3].map(arc).join("")}<line x1="60" y1="58" x2="${(60 + 34 * Math.cos(ang)).toFixed(1)}" y2="${(58 - 34 * Math.sin(ang)).toFixed(1)}" stroke="${C.sapin}" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="58" r="6" fill="${C.sapin}"/></svg>
+      <p class="k">${titre}</p><p class="t">${esc(cap(mot))}</p><p class="d">${esc(detail)}</p></div>`;
+  };
+  const bord = `<div class="rp-bord" role="group" aria-label="Tableau de bord : ce qui tire, ce qui reste, ce qui lâche">
+    ${cadran("Ce qui tire", tire, MOTS[tire], tire ? `Surtout ${enTete(tireListe, tire)}.` : "Le travail déclaré ne tire pas fort.", false)}
+    ${cadran("Ce qui reste", nE, `récupération ${["préservée", "entamée", "basse", "très basse"][nE]}`, "Niveau en mots, d'après épuisement (A) et récupération (F). Pas un pourcentage.", true)}
+    ${cadran("Ce qui lâche", lache, MOTS[lache], lache ? `Surtout ${enTete(lacheListe, lache)}.` : "Pas de signe net d'usure.", false)}
+  </div>`;
   const etapesVue = [
     ["personne", "1 · Manifestations", "Commence par ce qui ressort de ton vécu : les scores A et F, la distance mentale, l'efficacité, le sens et les autres signaux."],
     ["travail", "2 · Conditions", "Observe séparément les exigences, les ressources, l'effort et les récompenses déclarés. Les fils ne prouvent aucune causalité."],
@@ -794,6 +822,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["tout", "4 · Vue complète", "La vue complète rapproche ces informations sans les mélanger en une mesure unique de risque."]
   ];
   const ensemble = `<figure class="rp-vue" data-lecture="tout"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
+      ${bord}
       <div class="rp-vue-commandes" role="group" aria-label="Construire la lecture du schéma">
         ${etapesVue.map(([id, libelle]) => `<button type="button" data-vue-etape="${id}" aria-pressed="${id === "tout"}">${libelle}</button>`).join("")}
       </div>
@@ -961,7 +990,11 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out</h1>
       <p class="rp-slogan">Prévention burn-out sans bullshit</p>
       <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines.</p>
-      <p>Ce rapport s'inspire de questionnaires utilisés en recherche et en santé au travail, reformulés pour être clairs. Le questionnaire Bull-Out et son analyse n'ont pas été validés scientifiquement : ils servent à comprendre ce qui ressort et à préparer une discussion, pas à poser un diagnostic.</p>
+      <div class="rp-lire"><p class="k">Comment lire ce rapport</p><ol>
+        <li><b>Ce que tu as répondu.</b> Tes déclarations sur quatre semaines : elles font foi, personne ne les a observées à ta place.</li>
+        <li><b>Ce que Bull-Out calcule.</b> Des sommes et des niveaux (bas, à surveiller, élevé, très élevé) fixés par nous sur des quarts de l'échelle : des repères, pas des normes.</li>
+        <li><b>Ce que le rapport en déduit.</b> Des pistes et des hypothèses, à vérifier en parlant avec quelqu'un.</li></ol>
+        <p>Les questions s'inspirent d'outils de recherche reconnus, mais le questionnaire Bull-Out n'a pas été validé scientifiquement. Il aide à comprendre et à préparer une discussion ; il ne pose pas de diagnostic.</p></div>
       <div class="parcours-tools rp-outils">
         <fieldset class="rp-pdf"><legend>Ce que contient le PDF</legend>
           <label><input type="radio" name="rp-pdf" value="court" checked> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
