@@ -3,7 +3,7 @@
 > Ressources francophones pour comprendre et prévenir l’épuisement professionnel. Le questionnaire informe la réflexion et les échanges, sans établir un diagnostic. Les réponses et les résultats individuels sont calculés dans le navigateur.
 
 ## Comprendre
-- [Formation à la prévention du burn-out](https://bullout.ddlab.fr/formation.html) : plan public, huit chapitres (dont les repères pour managers et salariés : arbitrer, tracer, escalader), exercices et lien vers la formation interactive.
+- [Formation à la prévention du burn-out](https://bullout.ddlab.fr/formation.html) : plan public, neuf chapitres (dont les repères pour managers et salariés : arbitrer, tracer, escalader, droit du travail) et une synthèse des trois modèles, exercices et lien vers la formation interactive.
 - [Guide d’origine archivé](https://bullout.ddlab.fr/comprendre.html) : définition, situations à différencier, Maslach, JD-R, effort–récompense, biomarqueurs.
 - [Méthode, sources et limites](https://bullout.ddlab.fr/methode.html) : barème, dimensions, limites du questionnaire et références.
 

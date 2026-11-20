@@ -166,9 +166,41 @@ export const illustrations = {
         <g transform="translate(64,56)"><circle r="24" fill="${C.creme}"/><path d="${icone}" fill="none" stroke="${C.sapin}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
         ${t(64, 220, nom, { a: "middle", cls: "b" })}${t(64, 240, qui, { a: "middle", cls: "s", c: C.muted })}</g>`;
     }).join("") + `<g transform="translate(34,308)"><rect width="572" height="44" rx="22" fill="${C.sapin}"/>${t(286, 28, "Danger immédiat : 15 ou 112   ·   Idées suicidaires : 3114, 24 h/24", { a: "middle", c: C.anis, cls: "b" })}</g>`),
+  modeles: svg("Les trois modèles en une image",
+    "À gauche, dans le travail, les causes : la balance exigences ressources (JD-R) et la bascule effort retour (Siegrist). Des flèches mènent à la batterie de Sam, presque vide. Une flèche mène à droite, dans la personne, les effets : les trois jauges de Maslach, épuisement, distance mentale et efficacité réduite. En bas : on agit à gauche, on mesure à droite.",
+    720, 436, `
+    <defs><marker id="fo-fleche" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${C.sapin}"/></marker></defs>
+    ${t(135, 34, "DANS LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "les causes", { a: "middle", cls: "s" })}
+    ${t(585, 34, "DANS LA PERSONNE", { a: "middle", cls: "k", c: C.mid })}${t(585, 52, "les effets", { a: "middle", cls: "s" })}
+    <g transform="translate(20,68)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
+      <g transform="translate(115,44)"><path d="M0 -2l-14 30h28z" fill="${C.sapin}"/><path d="M-46 8L46 -10" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="10" width="34" height="14" rx="5" fill="${C.orange}"/><rect x="-60" y="-4" width="26" height="12" rx="5" fill="${C.orange}"/><rect x="30" y="-24" width="30" height="11" rx="5" fill="none" stroke="${C.mid}" stroke-width="2" stroke-dasharray="4 3"/></g>
+      ${t(115, 98, "La balance · JD-R", { a: "middle", cls: "b" })}${t(115, 117, "ce qui pèse, ce qui aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
+    <g transform="translate(20,232)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
+      <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${C.anis}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
+      ${t(115, 98, "Le retour · Siegrist", { a: "middle", cls: "b" })}${t(115, 117, "ce que je donne, ce que je reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
+    <path d="M254 142C292 142 300 190 326 196" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
+    <path d="M254 306C292 306 300 254 326 246" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
+    <g transform="translate(332,150)"><rect x="18" y="0" width="20" height="10" rx="3" fill="${C.sapin}"/><rect x="0" y="9" width="56" height="128" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-width="4"/><rect x="8" y="${17 + 112 * .78}" width="40" height="${112 * .22}" rx="6" fill="${C.orange}"/></g>
+    ${t(360, 312, "Sam", { a: "middle", cls: "t" })}${t(360, 330, "son énergie", { a: "middle", cls: "s", c: C.muted })}
+    <path d="M396 222H462" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
+    <g transform="translate(470,68)"><rect width="230" height="310" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
+      ${[["Épuisement", .8, C.orange, 45], ["Distance", .65, C.violet, 115], ["Efficacité", .55, C.mid, 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
+      ${t(115, 246, "Les trois signes · Maslach", { a: "middle", cls: "b" })}${t(115, 265, "ce que l’usure fait à la personne", { a: "middle", cls: "s" })}${t(115, 283, "Maslach et Jackson, 1981", { a: "middle", cls: "s", c: C.muted })}</g>
+    <g transform="translate(20,392)"><rect width="680" height="34" rx="17" fill="${C.sapin}"/>${t(340, 22.5, "On agit à gauche, sur le travail. On mesure à droite, sur la personne.", { a: "middle", cls: "b", c: C.anis })}</g>`),
+
+  niveaux: svg("Les trois niveaux de prévention",
+    "Trois bandes empilées, de la plus prioritaire à la moins prioritaire. Un : prévention primaire, supprimer le risque à la source, par exemple retirer, reporter, simplifier, remplacer Marc. Deux : prévention secondaire, aider à faire face, par exemple former, faire des points de charge. Trois : prévention tertiaire, réparer, par exemple soigner, aménager la reprise. La loi demande de commencer par le premier niveau.",
+    640, 330, [
+      ["1", "PRIMAIRE · supprimer le risque à la source", "Retirer, reporter, simplifier. Remplacer Marc. Arrêter les réunions à 18 h 30.", C.sapin, C.creme, C.anis],
+      ["2", "SECONDAIRE · aider à faire face", "Points de charge, formation à prioriser, soutien de l’équipe.", C.mid, C.creme, C.anis],
+      ["3", "TERTIAIRE · réparer", "Soin, arrêt, reprise aménagée, écoute psychologique.", C.orange, C.sapin, C.sapin],
+    ].map(([n, titre, ex, fond, encre, accent], i) => `<g transform="translate(24,${24 + i * 92})"><rect width="592" height="78" rx="20" fill="${fond}"/>
+      ${t(40, 52, n, { a: "middle", c: accent, size: 38, cls: "t" })}
+      ${t(80, 32, titre, { c: accent, cls: "k" })}${t(80, 56, ex, { c: encre, cls: "b" })}</g>`).join("") +
+    `<g transform="translate(24,300)">${t(296, 14, "Article L4121-2 du Code du travail : on commence par le niveau 1. Les autres complètent.", { a: "middle", cls: "s", c: C.muted })}</g>`),
 };
 
-// La pièce du rapport que chaque chapitre met en place : la liste des huit pièces,
+// La pièce du rapport que chaque chapitre met en place : la liste des pièces,
 // celles déjà vues cochées, celle du chapitre surlignée en anis, les suivantes en attente.
 export function pieceRapport(n, noms) {
   const lignes = noms.map((nom, i) => {

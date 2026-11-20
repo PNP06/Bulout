@@ -1,7 +1,7 @@
-// Formation Bull-Out : huit chapitres d’une page, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Formation Bull-Out : neuf chapitres d’une page, un fil rouge (Sam, 38 ans), un exercice par chapitre.
 // Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
 // des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
-// Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7 et 8 : il concerne tout le monde.
+// Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7, 8 et 9 : il concerne tout le monde.
 
 export const temps = [
   "Premier temps · Nommer sans se tromper",
@@ -18,7 +18,7 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Huit chapitres d’une page</b>, de 4 à 7 minutes chacun (environ 45 minutes en tout), puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Neuf chapitres d’une page</b>, de 4 à 8 minutes chacun (environ 55 minutes en tout), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],
@@ -30,6 +30,7 @@ export const introduction = {
     "Un facteur personnel peut rendre plus vulnérable. Il ne dispense jamais de regarder le travail.",
     "Aucun dosage ne diagnostique un burn-out, et un score se lit dimension par dimension.",
     "Face à une surcharge, il faut une décision : retirer, reporter ou simplifier. Sinon, on escalade.",
+    "La loi demande de prévenir, pas seulement de réparer. Ce qui protège, salarié comme manager, c’est d’avoir agi et de pouvoir le montrer.",
     "Chaque interlocuteur ouvre une porte différente : soin, aménagement, arbitrage ou protection.",
   ],
 };
@@ -73,7 +74,7 @@ export const chapitres = [
         ["Stress aigu", "Une réaction forte à un événement précis : une échéance, une crise, un conflit.", "Traiter l’événement, vérifier que la tension ne s’installe pas."],
         ["Burn-out", "Une usure liée au travail qui dure : épuisement, distance, efficacité en baisse.", "Analyser le travail réel, réduire ce qui use, demander un avis de santé."],
         ["Dépression", "Humeur basse, perte d’envie, culpabilité, souvent au-delà du travail.", "Un avis médical ou psychologique, sans attendre."],
-        ["Harcèlement ou violence", "Humiliations, menaces, isolement, propos dégradants répétés.", "Protection, traces écrites, interlocuteurs compétents (chapitre 8)."],
+        ["Harcèlement ou violence", "Humiliations, menaces, isolement, propos dégradants répétés.", "Protection, traces écrites, interlocuteurs compétents (chapitres 8 et 9)."],
         ["Conflit éthique", "Devoir faire un travail contraire à ses valeurs, à la qualité ou à la sécurité.", "Clarifier les responsabilités, documenter, chercher un appui collectif."],
       ] },
       { t: "principe", html: "Se tromper de mot, c’est se tromper de porte. Une dépression appelle un soin, un harcèlement une protection, une surcharge un arbitrage. Plusieurs situations peuvent aussi coexister : on traite alors chacune." },
@@ -544,7 +545,7 @@ export const chapitres = [
     duree: 7,
     savoir: [
       "Transformer « fais au mieux » en une décision : retirer, reporter ou simplifier.",
-      "Repérer les signaux faibles, individuels et collectifs, et savoir ce qu’il faut tracer : le travail, jamais la santé.",
+      "Repérer les signaux faibles, individuels et collectifs, et noter les décisions : le travail, jamais la santé.",
     ],
     arrive: "« Ma porte est ouverte. » « On verra après le pic. » « On va faire une formation gestion du stress. » Ces phrases sont souvent sincères. Mais elles ne changent rien au travail.",
     retenir: "Que tu sois salarié, collègue ou manager, le levier le plus efficace est le même : <b>agir sur le travail réel</b>. Face à une surcharge, il faut au moins une décision claire parmi trois : <b>retirer, reporter, simplifier</b>. Et quand on n’a pas les moyens de décider, on remonte le problème au lieu de laisser l’équipe compenser.",
@@ -576,14 +577,12 @@ export const chapitres = [
         ["Chez une personne", ["Une fatigue qui dure", "Des erreurs inhabituelles", "De l’irritabilité, un retrait soudain", "Une perte de confiance", "Un sommeil évoqué comme dégradé", "« Je n’y arrive plus »"]],
         ["Dans une équipe", ["Plusieurs personnes surchargées", "Des réunions qui ne décident rien", "Des urgences permanentes", "Des mails le soir et le week-end", "Des départs ou des arrêts répétés", "Des « héros » qui compensent"]],
       ], note: "Un signal collectif n’est pas une somme de fragilités individuelles. C’est souvent une information sur l’organisation du travail." },
-      { t: "h", texte: "Tracer ce qui protège" },
-      { t: "p", html: "En France, l’employeur a une <b>obligation de sécurité</b> qui couvre la santé physique et mentale (article L4121-1 du Code du travail). Le manager n’est pas responsable de tout, mais on peut attendre de lui qu’il alerte, arbitre, remonte les impossibilités et ne laisse pas une surcharge connue s’installer. Ce qui protège tout le monde, salarié comme manager, c’est <b>la preuve d’action</b> : ce qui a été retiré, reporté, simplifié, demandé." },
+      { t: "h", texte: "Tracer les décisions" },
+      { t: "p", html: "Une décision qui n’est écrite nulle part n’existe pas longtemps. Après un point charge, on note ce qui a été retiré, reporté ou simplifié, et la date du prochain point. Le chapitre suivant montre pourquoi cette trace protège aussi, devant la loi." },
       { t: "cartes", items: [
-        ["À tracer", "Les points de charge, les décisions de retrait ou de report, les priorités écrites, les demandes de moyens, la proposition du médecin du travail, la date de suivi."],
-        ["À ne jamais tracer", "Les détails de santé, les diagnostics, la vie privée. On trace les contraintes du travail et les décisions, pas la personne."],
+        ["À noter", "Les points de charge, les décisions de retrait ou de report, les priorités écrites, les demandes de moyens, la date de suivi."],
+        ["À ne jamais noter", "Les détails de santé, les diagnostics, la vie privée. On note les contraintes du travail et les décisions, pas la personne."],
       ] },
-      { t: "exemple", titre: "Pas de harcèlement, mais un vrai risque", html: "Une équipe absorbe depuis des mois plus de demandes qu’elle ne peut en traiter. Les délais sont « non négociables », les priorités changent chaque semaine. Deux personnes ont dit qu’elles ne récupèrent plus. La manager répond : « je sais que c’est dur, mais on doit passer le cap ». Rien n’est arbitré, rien n’est remonté. Trois mois plus tard, un arrêt long. Personne n’a été insulté ni humilié.", note: "Un risque peut naître de l’inaction face à une surcharge connue, sans aucun comportement agressif." },
-      { t: "details", titre: "Civil, pénal, disciplinaire : de quoi parle-t-on ?", html: "<p><b>Civil et prud’homal</b> : la réparation d’un préjudice, par exemple quand une surcharge durable a été signalée et qu’aucune mesure sérieuse n’a suivi. <b>Pénal</b> : possible dans des situations graves, selon les faits (mise en danger, risque grave connu ignoré malgré des alertes). <b>Disciplinaire</b> : quand des pratiques contredisent les règles internes de prévention. Dans tous les cas, le bon réflexe n’est pas de paniquer, mais de tracer, arbitrer, alerter et demander de l’aide.</p><p class=\"fo-small\">Ces repères ne remplacent pas un avis juridique. Ils aident à savoir quand demander appui.</p>" },
       { t: "trames", titre: "Des phrases prêtes à l’emploi", items: [
         ["Demander un arbitrage (salarié)", "Je ne peux pas tenir ces trois dossiers d’ici vendredi avec la qualité attendue. Lequel passe en premier, et lequel peut attendre ou être simplifié ?"],
         ["Ouvrir un point charge (manager)", "Je voudrais faire un point sur la charge réelle. L’objectif n’est pas de juger ton organisation, mais de voir ce qui dépasse et ce qu’on peut arbitrer."],
@@ -631,17 +630,119 @@ export const chapitres = [
       ],
     },
     sources: [
-      ["Code du travail, article L4121-1 · obligation de sécurité", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
+      ["INRS · risques psychosociaux, ce qu’il faut retenir", "https://www.inrs.fr/risques/psychosociaux/ce-qu-il-faut-retenir.html"],
       ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
-      ["INRS · responsabilité pénale de l’employeur en santé et sécurité", "https://www.inrs.fr/demarche/responsabilites/ce-qu-il-faut-retenir.html"],
-      ["Service-public.fr · obligations de l’employeur en santé et sécurité", "https://entreprendre.service-public.fr/vosdroits/F33437"],
     ],
     nechange: "Agir sur le travail ne veut pas dire que tout dépend de toi. Si tu n’as pas la main, ta part est de dire clairement ce qui ne tient pas, et à qui.",
     piece: { nom: "Le plan", texte: "Ton rapport propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "les actions à arrêter, clarifier, demander et surveiller." },
-    suite: "Dernière question : à qui en parler, selon ce qui se passe ? C’est le chapitre suivant.",
+    suite: "Agir sur le travail, c’est aussi ce que la loi attend. Que dit-elle exactement, et comment se protéger ? C’est le chapitre suivant.",
   },
 
   // ───────────────────────────── 8
+  {
+    temps: 2,
+    court: "Ce que dit la loi",
+    titre: "Ce que dit la loi, et comment se protéger",
+    duree: 8,
+    savoir: [
+      "Dire ce que la loi exige vraiment de l’employeur, et ce qu’elle attend de chaque salarié, manager compris.",
+      "Savoir ce que risquent l’employeur et le manager, et comment chacun se protège : par l’action, et par la trace de l’action.",
+    ],
+    arrive: "« Tant qu’il n’y a pas de harcèlement, on ne risque rien. » Ou, côté salarié : « De toute façon, c’est parole contre parole. » Les deux idées sont fausses, et elles font perdre des mois.",
+    retenir: "L’employeur doit <b>prévenir</b> les risques pour la santé physique et mentale, pas seulement réparer les dégâts (article L4121-1 du Code du travail). Il s’en sort s’il <b>prouve</b> avoir pris les mesures de prévention nécessaires. Une surcharge connue et laissée sans réponse suffit à engager sa responsabilité, <b>même sans harcèlement</b>. Pour le salarié comme pour le manager, ce qui protège, c’est d’avoir agi, et de pouvoir le montrer : <b>des faits, des dates, des demandes écrites</b>.",
+    blocs: [
+      { t: "h", texte: "Ce que la loi demande vraiment" },
+      { t: "p", html: "Le Code du travail impose à l’employeur une <b>obligation de sécurité</b> : prendre les mesures nécessaires pour protéger la santé physique <b>et mentale</b> des salariés (article L4121-1). Ces mesures comprennent la prévention, l’information, la formation, et surtout une <b>organisation et des moyens adaptés</b>. L’article suivant (L4121-2) fixe l’ordre : éviter les risques, les évaluer, les <b>combattre à la source</b>, adapter le travail à l’homme, et planifier la prévention en y intégrant l’organisation du travail." },
+      { t: "fig", ill: "niveaux", cap: "Trois niveaux de prévention. Une formation au stress ou une cellule d’écoute sont utiles, mais elles viennent après : la loi demande d’abord d’agir sur ce qui use." },
+      { t: "cartes", items: [
+        ["Évaluer, par écrit", "Chaque entreprise doit tenir un <b>document unique d’évaluation des risques</b> (DUERP), qui inclut les risques psychosociaux, et le mettre à jour. Tu peux demander à le consulter."],
+        ["Prouver la prévention", "Depuis un arrêt de 2015 (Cour de cassation, « Air France »), l’employeur échappe à sa responsabilité s’il <b>prouve</b> avoir pris toutes les mesures prévues par la loi. C’est une obligation de moyens renforcée : la preuve d’action est au cœur du sujet."],
+        ["Chacun a sa part", "L’article L4122-1 demande aussi à <b>chaque salarié</b> de prendre soin de sa santé et de celle des autres, selon sa formation et ses moyens. Un manager est un salarié : sa part, c’est d’alerter, d’arbitrer ce qu’il peut, et de remonter le reste."],
+      ] },
+      { t: "h", texte: "Ce que risque l’employeur" },
+      { t: "table", titre: "Les principales suites possibles, du plus courant au plus grave", cols: ["Situation", "Fondement", "Ce qui peut suivre"], rows: [
+        ["Une surcharge signalée, sans mesure sérieuse", "Obligation de sécurité (L4121-1 et L4121-2)", "Dommages et intérêts devant les prud’hommes, si un préjudice est établi."],
+        ["Le salarié ne peut plus rester", "Manquement grave de l’employeur", "Résiliation judiciaire ou prise d’acte : la rupture produit les effets d’un licenciement sans cause réelle et sérieuse."],
+        ["Le burn-out est reconnu en maladie professionnelle", "Faute inexcusable (article L452-1 du Code de la sécurité sociale)", "Si l’employeur avait ou aurait dû avoir conscience du danger et n’a rien fait : indemnisation majorée."],
+        ["Harcèlement moral", "Articles L1152-1 et suivants, article 222-33-2 du Code pénal", "Licenciement de la victime annulé, dommages et intérêts, et poursuites pénales contre les auteurs."],
+      ] },
+      { t: "details", titre: "Le burn-out peut-il être reconnu en maladie professionnelle ?", html: "<p>Oui, mais c’est exigeant. Le burn-out ne figure dans aucun tableau de maladies professionnelles. La demande passe donc par un <b>comité régional</b> (CRRMP), qui doit établir un lien <b>direct et essentiel</b> avec le travail habituel, et une incapacité permanente estimée à au moins 25 % (article L461-1 du Code de la sécurité sociale). La demande se fait auprès de la CPAM, avec un certificat de ton médecin. Les dossiers bien documentés (charge, alertes écrites, réponses) ont plus de chances d’aboutir.</p>" },
+      { t: "h", texte: "Ce que risque le manager" },
+      { t: "p", html: "Le manager n’est pas l’employeur. Il ne répond pas de tout, et il ne peut pas décider ce qu’il n’a pas les moyens de décider. Mais il n’est pas à l’abri pour autant :" },
+      { t: "cartes", items: [
+        ["Disciplinaire", "L’employeur doit faire cesser un harcèlement. Un manager qui humilie, menace ou isole peut être sanctionné, jusqu’au licenciement pour faute grave."],
+        ["Civil", "Un salarié auteur de harcèlement engage sa <b>responsabilité personnelle</b> envers la victime, même s’il agissait dans le cadre de ses fonctions."],
+        ["Pénal", "Le harcèlement moral est un délit : jusqu’à <b>deux ans</b> de prison et <b>30 000 €</b> d’amende (article 222-33-2 du Code pénal). Dans l’affaire France Télécom, confirmée par la Cour de cassation en 2025, des dirigeants ont été condamnés pour une politique d’entreprise qui dégradait les conditions de travail : un « harcèlement institutionnel », sans viser une personne en particulier."],
+        ["Délégation de pouvoirs", "Un manager qui a reçu par écrit la compétence, l’autorité et les moyens en santé et sécurité peut répondre pénalement à la place du chef d’entreprise. Sans les moyens, la délégation se discute : d’où l’importance d’écrire quand ils manquent."],
+      ] },
+      { t: "exemple", titre: "Deux Nadia, la même surcharge", html: "<b>Première Nadia</b> : elle répète « on doit passer le cap », ne note rien, ne remonte rien. Quand Sam est arrêté, rien ne montre qu’elle a vu, ni qu’elle a agi. <b>Deuxième Nadia</b> : elle fait un point charge, note les décisions, et écrit à son directeur : « avec l’effectif actuel, le délai du client X n’est pas tenable ; je demande un renfort ou un report ». Le directeur ne répond pas. Quand Sam est arrêté, la trace montre qu’elle a fait sa part : <b>le problème remonte à celui qui avait les moyens</b>.", note: "La deuxième Nadia n’a pas évité l’arrêt. Mais elle a agi, et elle peut le montrer. C’est exactement ce que la loi attend." },
+      { t: "h", texte: "Se protéger, côté salarié" },
+      { t: "trames", sansCopie: true, titre: "Cinq gestes, dans l’ordre", items: [
+        ["1 · Demander par écrit", "Un mail court et factuel à ton manager : ce qui est demandé, ce qui ne tient pas, ce que tu proposes. Exemple : « Avec le dossier de Marc en plus du mien, je ne peux pas tenir le délai du 15. Je propose de reporter les relances clients. Qu’en penses-tu ? »"],
+        ["2 · Tenir un journal factuel", "Chaque semaine : tes horaires réels, les urgences, les demandes du soir ou du week-end, les décisions prises. Des faits et des dates, pas des jugements. Garde aussi tes demandes et les réponses reçues."],
+        ["3 · Voir le médecin du travail", "Tu peux demander une visite à tout moment, sans dire pourquoi à ton employeur. Il est tenu au secret médical et peut proposer des aménagements. Vois aussi ton médecin traitant si ta santé se dégrade."],
+        ["4 · S’appuyer sur le collectif", "Le CSE dispose d’un droit d’alerte quand la santé physique ou mentale des salariés est atteinte. L’inspection du travail peut aussi être saisie, et un syndicat ou un avocat peut te conseiller avant toute démarche."],
+        ["5 · Ne pas attendre pour se renseigner", "Les actions en justice ont des délais : en général deux ans pour ce qui touche à l’exécution du contrat, cinq ans pour le harcèlement. Se renseigner tôt ne t’engage à rien."],
+      ] },
+      { t: "details", titre: "Et le droit de retrait ? Et enregistrer en cachette ?", html: "<p><b>Le droit de retrait</b> (article L4131-1) est réservé à un danger <b>grave et imminent</b>. Il est rarement adapté à une surcharge qui dure depuis des mois, et un retrait jugé injustifié peut entraîner une retenue de salaire. À manier avec un conseil.</p><p><b>Enregistrer une réunion à l’insu des autres</b> abîme la confiance, et n’est admis comme preuve qu’à des conditions strictes : que ce soit indispensable, et proportionné. Les demandes écrites, le journal et les témoignages sont presque toujours plus utiles.</p>" },
+      { t: "h", texte: "Se protéger, côté manager" },
+      { t: "deux", items: [
+        ["Ce qui te protège", ["Des points charge avec des décisions notées", "Des priorités écrites, partagées avec l’équipe", "L’impossibilité remontée par écrit, avec une demande précise", "Une formation aux risques psychosociaux, que tu peux demander", "Le DUERP connu, et tes alertes qui l’alimentent", "Ta propre charge surveillée : tu as droit aux mêmes portes"]],
+        ["Ce qui t’expose", ["Une surcharge connue, laissée sans décision", "Des objectifs intenables relayés sans le signaler", "Des propos humiliants, des menaces, des pressions répétées", "Demander des détails médicaux", "Mettre à l’écart quelqu’un qui a alerté", "Ne rien noter, « pour que ça reste informel »"]],
+      ], note: "Ne jamais noter la santé : seulement le travail, les contraintes et les décisions." },
+      { t: "principe", html: "La loi ne demande à personne d’être parfait. Elle demande de <b>prévenir</b>, de <b>réagir aux alertes</b>, et de <b>pouvoir le montrer</b>. Une trace écrite, datée et factuelle protège à la fois celui qui alerte et celui qui décide." },
+      { t: "piege", titre: "Le piège · « pas de harcèlement, donc pas de risque »", depart: "Personne n’a été insulté ni humilié dans l’équipe de Sam.", etapes: [
+        ["l’absence d’agressivité devient une absence de risque", "« Il n’y a pas de harcèlement ici. »"],
+        ["l’absence de risque devient une absence d’obligation", "« Donc on n’a rien à faire de particulier. »"],
+        ["la surcharge connue devient un choix", "Six mois sans mesure, malgré des alertes écrites."],
+      ], fin: "L’obligation de sécurité porte sur <b>tous</b> les risques pour la santé mentale, pas seulement le harcèlement. Une surcharge connue et ignorée suffit." },
+    ],
+    exo: {
+      titre: "Qui risque quoi ?",
+      intro: "Trois situations, inspirées de cas réels. Pour chacune, choisis la lecture la plus juste.",
+      situations: [
+        { q: "Nadia a écrit à son directeur que le délai n’était pas tenable, et demandé un renfort. Pas de réponse. Deux mois plus tard, Sam est arrêté pour épuisement.", choix: [
+          "Nadia est seule responsable : c’est sa manager.",
+          "L’employeur, alerté par écrit et resté sans réponse, peut avoir manqué à son obligation de sécurité. La trace de Nadia montre qu’elle a fait sa part.",
+          "Personne : il n’y a eu ni insulte ni harcèlement.",
+        ], bonne: 1, fb: [
+          "Nadia n’avait ni budget ni pouvoir sur le délai. Elle a fait ce qui était à sa portée : alerter, par écrit, avec une demande précise.",
+          "Oui. L’alerte écrite déplace la question vers celui qui avait les moyens d’agir, et qui ne l’a pas fait.",
+          "C’est le piège du chapitre : l’obligation de sécurité couvre aussi une surcharge connue et ignorée.",
+        ] },
+        { q: "Sam veut se protéger avant d’en parler plus haut. Que lui conseiller ?", choix: [
+          "Enregistrer les réunions en cachette, pour avoir des preuves.",
+          "Exercer son droit de retrait et rester chez lui.",
+          "Écrire ses demandes, tenir un journal factuel de sa charge, et voir le médecin du travail.",
+        ], bonne: 2, fb: [
+          "Risqué : cela abîme la confiance, et n’est admis comme preuve qu’à des conditions strictes. L’écrit et le journal font mieux.",
+          "Le droit de retrait vise un danger grave et imminent. Pour une surcharge durable, il expose Sam à une retenue de salaire.",
+          "Oui. Des faits datés, des demandes écrites et un avis médical : c’est ce qui pèse, et ce qui ouvre des solutions.",
+        ] },
+        { q: "Un chef d’équipe crie régulièrement sur une collègue devant tout le monde. Le directeur répond : « il a de bons résultats ».", choix: [
+          "L’employeur doit faire cesser ces agissements : enquête, mesures de protection, sanction si les faits sont établis.",
+          "Rien à faire tant que la collègue ne porte pas plainte.",
+          "Le chef d’équipe ne risque rien personnellement : il agit pour l’entreprise.",
+        ], bonne: 0, fb: [
+          "Oui. Des humiliations répétées peuvent constituer un harcèlement moral, que l’employeur doit prévenir et faire cesser. Les résultats ne changent rien.",
+          "L’employeur n’attend pas une plainte : dès qu’il sait, il doit agir. Attendre engage sa responsabilité.",
+          "Faux : l’auteur d’un harcèlement répond personnellement, sur le plan disciplinaire, civil et pénal.",
+        ] },
+      ],
+    },
+    sources: [
+      ["Code du travail, article L4121-1 · obligation de sécurité", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
+      ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
+      ["INRS · responsabilités de l’employeur en santé et sécurité", "https://www.inrs.fr/demarche/responsabilites/ce-qu-il-faut-retenir.html"],
+      ["Service-public.fr · harcèlement moral au travail", "https://www.service-public.fr/particuliers/vosdroits/F2347"],
+      ["Service-public.fr · obligations de l’employeur en santé et sécurité", "https://entreprendre.service-public.fr/vosdroits/F33437"],
+    ],
+    nechange: "Ces repères ne remplacent pas un avis juridique. Ils servent à savoir quand demander conseil, et à ne pas attendre d’être à bout pour le faire.",
+    piece: { nom: "Les traces", texte: "Ton rapport t’aide à garder une trace utile : des faits, des dates, et des demandes précises, jamais ta santé.", rapport: "les actions « demander » et les phrases prêtes à l’emploi." },
+    suite: "Il reste une question : à qui en parler, selon ce qui se passe ? C’est le dernier chapitre.",
+  },
+
+  // ───────────────────────────── 9
   {
     temps: 2,
     court: "À qui en parler",
@@ -739,11 +840,11 @@ export const chapitres = [
     ],
     nechange: "Tu n’as pas à trouver la porte parfaite. N’importe quelle porte ouverte vaut mieux que le silence : chacun peut t’orienter vers le bon interlocuteur.",
     piece: { nom: "Les portes", texte: "Ton rapport propose des interlocuteurs selon tes réponses, avec ce que chacun peut faire pour toi.", rapport: "la liste des interlocuteurs, et les numéros d’urgence en cas de signal d’alerte." },
-    suite: "Tu as toutes les pièces. Le test final vérifie que tu sais les assembler. Ton diplôme ouvre ensuite le questionnaire.",
+    suite: "Tu as toutes les pièces. Avant le test final, la synthèse les rassemble : les trois modèles en une image, et les idées clefs à emporter.",
   },
 ];
 
-// Test final : huit situations nouvelles. Format : [question, choix, index de la bonne réponse, explication par choix].
+// Test final : neuf situations nouvelles. Format : [question, choix, index de la bonne réponse, explication par choix].
 export const examen = [
   [
     "Après trois semaines de vacances, Inès a récupéré. Quatre jours après la reprise, elle est de nouveau épuisée. Que retenir ?",
@@ -788,9 +889,56 @@ export const examen = [
     ["La confiance ne remplace pas la décision : chacun trie seul, et porte seul ce qui n’est pas fait.", "Exact. La règle des trois décisions, ou l’escalade si on n’a pas les moyens.", "Une formation ne change pas la pile de travail."],
   ],
   [
+    "Dans une équipe, personne n’a été insulté ni humilié. Mais une surcharge, signalée par écrit, dure depuis six mois sans aucune mesure.",
+    ["Sans harcèlement, l’employeur n’a rien à craindre.", "L’employeur peut avoir manqué à son obligation de sécurité : il devait prévenir un risque connu.", "C’est aux salariés de mieux s’organiser."],
+    1,
+    ["L’obligation de sécurité couvre tous les risques pour la santé mentale, pas seulement le harcèlement.", "Exact. Il devait agir à la source, et pouvoir prouver qu’il l’a fait.", "Une surcharge signalée et durable est un problème d’organisation, que l’employeur doit traiter."],
+  ],
+  [
     "Une collègue dit qu’elle pense à mettre fin à ses jours.",
     ["Changer de sujet pour ne pas l’encourager.", "Lui conseiller de voir un médecin la semaine prochaine.", "La prendre au sérieux, rester avec elle, appeler le 3114, ou le 15 en cas de danger immédiat."],
     2,
     ["En parler n’encourage pas le passage à l’acte. Le silence isole.", "La semaine prochaine, c’est trop tard s’il y a un danger. L’aide spécialisée existe 24 h/24.", "Exact. On peut appeler le 3114 pour quelqu’un d’autre, ou avec lui."],
   ],
 ];
+
+// ───────────────────────────── Synthèse : les trois modèles, les idées clefs, et « pour aller plus loin ».
+export const synthese = {
+  chapo: "Neuf chapitres, trois modèles, une seule logique. Avant le test final, voici ce qu’il faut emporter. Relis cette page autant de fois qu’il le faut : c’est elle qui doit rester.",
+  modeles: [
+    { nom: "Maslach", question: "Qu’est-ce que l’usure fait à la personne ?", image: "Les trois jauges", idee: "Le burn-out, ce sont trois signes : l’épuisement, la distance mentale, la baisse d’efficacité. La fatigue n’est que le premier.", agir: "Regarder les trois jauges, pas seulement la fatigue. Le cynisme et le doute de soi sont des signaux, pas des défauts.", chap: 1 },
+    { nom: "JD-R", question: "D’où vient l’usure ?", image: "La balance", idee: "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire. Perdre une ressource pèse autant qu’ajouter une tâche.", agir: "Alléger un plateau ou charger l’autre : retirer une exigence, ou rendre une ressource (un collègue, du temps, de l’autonomie).", chap: 2 },
+    { nom: "Siegrist", question: "Pourquoi ça ne se voit pas ?", image: "La bascule", idee: "Donner beaucoup pour peu de retour use aussi. Et le surengagement cache le problème, jusqu’au moment où il éclate.", agir: "Rendre l’effort visible, et le reconnaître autrement que par un merci : estime, perspectives, sécurité.", chap: 3 },
+  ],
+  clefs: [
+    ["Le repos est le test.", "Une fatigue que le week-end ne répare plus est une information, pas une faiblesse.", 0],
+    ["Trois signes, pas un.", "Épuisement, distance, efficacité réduite. Le cynisme protège l’énergie, puis coupe du sens.", 1],
+    ["Une ressource perdue pèse autant qu’une tâche ajoutée.", "Regarde les deux plateaux de la balance, surtout celui qu’on oublie.", 2],
+    ["L’effort invisible use deux fois.", "Une fois par la charge, une fois par l’absence de retour.", 3],
+    ["« Perso » n’efface jamais « travail ».", "Un facteur personnel rend plus vulnérable. Il ne dispense pas de regarder la charge.", 4],
+    ["Aucun dosage, aucun score total ne diagnostique.", "On lit dimension par dimension, et on parle avec un professionnel.", 5],
+    ["Retirer, reporter, simplifier.", "« Fais au mieux » n’est pas une décision. Sans moyens, on remonte au lieu de compenser.", 6],
+    ["Prévenir, réagir, et pouvoir le montrer.", "C’est ce que la loi attend. Une trace datée et factuelle protège celui qui alerte comme celui qui décide.", 7],
+    ["Quatre portes, aucune mauvaise.", "Soin, aménagement, arbitrage, protection. Et en cas de danger : 15, 112, 3114.", 8],
+  ],
+  plusLoin: `
+    <p>Bull-Out s’appuie sur trois modèles parmi les plus étudiés en psychologie et en santé au travail. Aucun n’est parfait. Voici comment ils ont été construits, ce qu’ils montrent, et ce qu’ils ne montrent pas.</p>
+    <h3>Maslach : décrire le burn-out</h3>
+    <p>Au milieu des années 1970, la psychologue <b>Christina Maslach</b> (université de Berkeley) interroge et observe des professionnels de l’aide : infirmières, travailleurs sociaux, avocats commis d’office. Elle remarque des récits très proches : épuisement émotionnel, mise à distance des personnes aidées, sentiment de ne plus être efficace. Avec <b>Susan Jackson</b>, elle construit un questionnaire de 22 questions, le <b>Maslach Burnout Inventory</b> (1981). Des analyses statistiques (analyses factorielles) sur plus d’un millier de réponses confirment que les réponses se regroupent bien en trois dimensions. Une version pour tous les métiers suit en 1996.</p>
+    <p><b>Ce qu’on en sait aujourd’hui</b> : l’épuisement est la dimension centrale et la plus solide. L’efficacité réduite est la plus indépendante des deux autres, et certains chercheurs la voient comme une conséquence plutôt qu’un signe. Maslach elle-même rappelle que son questionnaire <b>n’a pas de seuil diagnostique</b> : il mesure des intensités, pas une maladie. Le lien avec la dépression reste débattu, ce qui explique pourquoi Bull-Out insiste sur l’avis d’un professionnel. D’autres outils existent, comme l’Oldenburg Burnout Inventory (2003), le Copenhagen Burnout Inventory (2005) ou le Burnout Assessment Tool (2020).</p>
+    <h3>JD-R : expliquer d’où vient l’usure</h3>
+    <p>Le modèle <b>exigences-ressources</b> (Job Demands-Resources) est proposé en 2001 par <b>Evangelia Demerouti, Arnold Bakker</b> et leurs collègues, à partir d’une étude sur des salariés allemands de plusieurs secteurs. Il prolonge un modèle plus ancien, celui de <b>Robert Karasek</b> (1979), qui croisait la demande psychologique et la latitude de décision, puis le soutien social (Johnson, 1988). L’idée nouvelle : <b>toute exigence</b> et <b>toute ressource</b> peuvent entrer dans la balance, pas seulement la charge et l’autonomie.</p>
+    <p>Le modèle décrit <b>deux processus</b>. Les exigences durables épuisent (processus de santé). Les ressources nourrissent l’engagement, et amortissent l’effet des exigences (processus de motivation). Des études longitudinales, qui suivent les mêmes personnes dans le temps, confirment ces deux voies. <b>Sa limite</b> : il est si souple que presque tout peut être une exigence ou une ressource. Il aide à chercher, il ne dit pas à l’avance ce qui compte dans ton poste.</p>
+    <h3>Siegrist : le déséquilibre effort-récompense</h3>
+    <p>Le sociologue de la santé <b>Johannes Siegrist</b> (université de Düsseldorf) part, dans les années 1980, d’études sur les maladies cardiovasculaires chez des ouvriers allemands. Son hypothèse : ce n’est pas seulement l’effort qui rend malade, c’est l’effort <b>sans réciprocité</b>. Il formalise le modèle effort-récompense (1996), avec trois formes de récompense : le salaire, l’estime, et les perspectives avec la sécurité de l’emploi. Le rapport entre effort et récompense se calcule ; au-dessus de 1, il y a déséquilibre. Il ajoute un trait personnel, le <b>surengagement</b>, qui aggrave l’effet du déséquilibre.</p>
+    <p><b>Ce qu’on en sait</b> : de grandes cohortes, comme Whitehall II (des milliers de fonctionnaires britanniques suivis pendant des années), et des méta-analyses associent ce déséquilibre à un risque plus élevé de maladies cardiovasculaires et de dépression. Ces associations sont robustes, mais modérées : elles parlent de risques à l’échelle d’un groupe, pas du destin d’une personne.</p>
+    <h3>Et en France ?</h3>
+    <p>En 2011, le collège d’expertise présidé par <b>Michel Gollac</b> a proposé six familles de facteurs de risques psychosociaux : l’intensité et le temps de travail, les exigences émotionnelles, le manque d’autonomie, la mauvaise qualité des rapports sociaux, les conflits de valeurs et l’insécurité de la situation de travail. On y retrouve les trois modèles. En 2019, l’OMS a précisé dans sa classification (CIM-11) que le burn-out est un <b>phénomène lié au travail</b>, et non une maladie médicale.</p>
+    <h3>Les limites communes</h3>
+    <ul>
+      <li>La plupart des études reposent sur des <b>questionnaires remplis par les personnes</b> elles-mêmes, ce qui mélange parfois l’état et la perception.</li>
+      <li>Beaucoup sont <b>transversales</b> (une photo à un instant) : elles montrent des liens, pas toujours des causes. Les études longitudinales, plus rares, vont pourtant dans le même sens.</li>
+      <li>Les effets mesurés sont <b>des moyennes</b> : deux personnes avec le même score peuvent vivre des situations très différentes.</li>
+    </ul>
+    <p>C’est pour ça que le questionnaire Bull-Out <b>s’inspire</b> de ces modèles sans prétendre poser un diagnostic. Le détail des questions, du barème et des sources est dans <a href="methode.html">Méthode et limites</a>.</p>`,
+};

@@ -195,7 +195,36 @@
 .fo-piece-art { width: 100%; height: auto; }
 .fo-piece-art text { font: 600 11.5px var(--font); }
 .fo-piece-art text.n { font: 800 11.5px var(--title); }
-.fo-pause { font-size: 14.5px; color: var(--muted); }
+.fo-pause { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--card); border: 1px dashed var(--line-strong); border-radius: 14px; padding: 14px 18px; font-size: 14.5px; color: var(--muted); }
+.fo-pause p { margin: 0; flex: 1 1 260px; }
+.fo-pause .file-status { flex-basis: 100%; margin: 0; }
+.fo-pause .file-status:empty { display: none; }
+
+/* ── Synthèse ── */
+.fo-modeles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.fo-modele { background: var(--card); border: 1px solid var(--line-soft); border-top: 5px solid var(--sapin); border-radius: 16px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.fo-modele:nth-child(2) { border-top-color: var(--orange); }
+.fo-modele:nth-child(3) { border-top-color: var(--violet, #5b3fcf); }
+.fo-modele h3 { margin: 0; font-size: 18px; }
+.fo-modele p { margin: 0; font-size: 15px; }
+.fo-modele-nom { font: 700 12px/1.2 var(--title); letter-spacing: .1em; text-transform: uppercase; color: var(--orange-ink, #b4512b); }
+.fo-modele-agir { color: var(--sapin-mid, #1d5c50); }
+.fo-modele a { font-size: 14px; font-weight: 600; }
+.fo-trois { background: var(--sapin); color: var(--creme, #f6efe2); border-radius: 20px; padding: 22px 26px; }
+.fo-trois .fo-label { color: var(--anis); }
+.fo-trois ol { margin: 8px 0 0; padding-left: 1.4em; display: grid; gap: 8px; }
+.fo-trois li { font: 800 clamp(18px, 2.4vw, 22px)/1.3 var(--title); letter-spacing: -.01em; }
+.fo-trois li::marker { color: var(--anis); }
+.fo-clefs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: none; }
+.fo-clefs li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: start; background: var(--card); border: 1px solid var(--line-soft); border-radius: 16px; padding: 16px 18px; }
+.fo-clefs li:nth-child(odd) { background: var(--creme-soft, #fbf7ef); }
+.fo-clef-n { font: 800 34px/1 var(--title); color: var(--sapin); background: var(--anis); border-radius: 12px; display: grid; place-items: center; height: 56px; }
+.fo-clef-p { margin: 0 0 4px; font: 800 clamp(19px, 2.6vw, 24px)/1.25 var(--title); letter-spacing: -.015em; color: var(--sapin); }
+.fo-clefs p { margin: 0 0 6px; }
+.fo-clefs a { font-size: 14px; font-weight: 600; }
+.fo-plusloin { border-left: 5px solid var(--sapin); }
+.fo-plusloin h3 { margin: 18px 0 6px; font-size: 18px; }
+.fo-plusloin ul { margin: 0 0 12px; }
 .fo-suite { background: var(--creme); border-radius: 14px; padding: 16px 20px; font-size: 17.5px; }
 .fo-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
 .fo-pager a { display: grid; gap: 4px; padding: 14px 18px; border: 1.5px solid var(--line-strong); border-radius: 14px; text-decoration: none; color: var(--fg); background: var(--card); }
@@ -226,7 +255,9 @@
 @media (max-width: 860px) {
   .fo-layout { grid-template-columns: minmax(0, 1fr); padding-top: 16px; }
   .fo-rail { position: static; max-height: none; order: 2; border-top: 1px solid var(--line-soft); padding-top: 20px; }
-  .fo-essentiel, .fo-gestes, .fo-deux, .fo-portes, .fo-gate-choix { grid-template-columns: minmax(0, 1fr); }
+  .fo-essentiel, .fo-gestes, .fo-deux, .fo-portes, .fo-gate-choix, .fo-modeles { grid-template-columns: minmax(0, 1fr); }
+  .fo-clefs li { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 14px; }
+  .fo-clef-n { font-size: 22px; height: 40px; border-radius: 10px; }
   .fo-piece { grid-template-columns: 1fr; }
   .fo-piece-art { max-width: 200px; }
   .fo-chap-n { font-size: 46px; }
@@ -276,3 +307,5 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
 #questionnaire .kbd-tip { margin: 0 0 18px; }
 .is-onebyone .q-text:focus { outline: none; }
 .q-layout { scroll-margin-top: calc(var(--head-h) + 8px); }
+.fo-cartes[style*="--n:4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 860px) { .fo-cartes[style*="--n:4"] { grid-template-columns: minmax(0, 1fr); } }
