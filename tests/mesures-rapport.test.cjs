@@ -342,3 +342,22 @@ test("tous les contenus de santé restent hors de la fiche travail", () => {
     assert.doesNotMatch(fiche, new RegExp(terme, "i"), "Fuite potentielle : " + terme);
   }
 });
+
+
+test("les réponses uniformes sont signalées dans la synthèse sans invalider le rapport", () => {
+  const html = composer(fixture(2));
+  const syn = pageDuRapport(html, "synthese");
+  assert.match(syn, /Ces réponses se lisent-elles facilement/);
+  assert.match(syn, /Certains contrastes sont peu informatifs/);
+  assert.match(syn, /ne mesure ni la sincérité ni la validité clinique/);
+  assert.match(syn, /Ce que tu vis/);
+});
+
+test("les différences entre dimensions restent descriptives, même lorsque les réponses varient", () => {
+  const f = fixture(2);
+  f.result.sectionResults.A.rawValues = [0, 1, 2, 3, 4, 2];
+  f.result.sectionResults.B.rawValues = [4, 3, 2, 1, 0, 2];
+  // Le rapport reçoit un ensemble de réponses variées sans les convertir en validité clinique.
+  const html = composer(f);
+  assert.match(html, /Ce contrôle ne mesure ni la sincérité ni la validité clinique|Cela ne valide pas pour autant le questionnaire/);
+});
