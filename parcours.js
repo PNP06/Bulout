@@ -95,12 +95,16 @@ function intro() {
     <section class="fo-carton"><h2 id="s-pourquoi" class="fo-h">Pourquoi une formation avant le test ?</h2>${introduction.pourquoi.map(x => `<p>${x}</p>`).join("")}
       <ul class="fo-contrat">${introduction.contrat.map(x => `<li>${x}</li>`).join("")}</ul>
       <div class="fo-cta">${reprendre}${choixFichier("Reprendre un fichier")}</div>${statut}</section>
+    <h2 id="s-modeles" class="fo-h">Trois façons de regarder le burn-out</h2>
+    <p>Commençons par le mot. L’OMS, dans sa classification internationale (<b>CIM-11</b>, en vigueur depuis 2022), décrit le burn-out comme un <b>syndrome dû à un stress chronique au travail qui n’a pas été géré avec succès</b>. Ce n’est pas une maladie : c’est un phénomène lié au travail, avec trois signes, l’épuisement, la distance mentale et la baisse d’efficacité.</p>
+    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres cherchent les causes dans le travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les retrouveras à la fin, dans la synthèse.</p>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. Garde cette image en tête : c’est la carte de toute la formation.</figcaption></figure>
     <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en ${nb(introduction.essentiel.length)} idées</h2>
     <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
     <h2 id="s-programme" class="fo-h-label">Le programme</h2>
     ${temps.map((tp, k) => `<div class="fo-temps"><p class="fo-label">${tp}</p><ol>${chapitres.map((c, i) => c.temps === k ? `<li><a href="${ancre(i)}"><span class="fo-num">${acquis.has(i) ? "✓" : String(i + 1).padStart(2, "0")}</span><span><b>${c.titre}</b><small>${c.savoir[0]} Environ ${c.duree} minutes.</small></span></a></li>` : "").join("")}</ol></div>`).join("")}
     <div class="fo-pager"><span></span><a class="fo-pager-next" href="${ancre(0)}"><small>Commencer →</small><b>1 · ${chapitres[0].court}</b></a></div>`;
-  return cadre("#formation", contenu, [["s-pourquoi", "Pourquoi une formation ?"], ["s-essentiel", `L’essentiel en ${nb(introduction.essentiel.length)} idées`], ["s-programme", "Le programme"]]);
+  return cadre("#formation", contenu, [["s-pourquoi", "Pourquoi une formation ?"], ["s-modeles", "Trois façons de regarder"], ["s-essentiel", `L’essentiel en ${nb(introduction.essentiel.length)} idées`], ["s-programme", "Le programme"]]);
 }
 
 // ───────── Chapitre
@@ -119,7 +123,7 @@ function chapitre(i) {
   const c = chapitres[i];
   const titres = [];
   const corps = c.blocs.map(b => bloc(b, titres)).join("");
-  titres.push(["exo-titre", "À toi de jouer"]);
+  titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
   const avant = i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
   const apres = i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
   const contenu = `
@@ -130,6 +134,7 @@ function chapitre(i) {
     <aside class="fo-retenir"><p class="fo-label">À retenir</p><p>${c.retenir}</p></aside>
     ${corps}
     ${exerciceHTML(i)}
+    <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
     <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
     <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
     <aside class="fo-piece">${pieceRapport(i, nomsPieces)}<div><p class="fo-label">Ton rapport · pièce ${i + 1} sur ${chapitres.length} : ${c.piece.nom.toLowerCase()}</p><p>${c.piece.texte}</p><p class="fo-piece-ou">Dans ton rapport : ${c.piece.rapport}</p></div></aside>
@@ -432,7 +437,9 @@ document.addEventListener("click", e => {
   const a = e.target.closest("a[data-ancre]");
   if (!a) return;
   e.preventDefault();
-  document.getElementById(a.hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const cible = document.getElementById(a.hash.slice(1));
+  if (cible?.tagName === "DETAILS") cible.open = true;
+  cible?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 document.addEventListener("change", e => { if (e.target.matches("[data-import]")) importer(e.target); });
 document.addEventListener("input", e => {

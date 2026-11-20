@@ -660,11 +660,12 @@ export const chapitres = [
         ["Chacun a sa part", "L’article L4122-1 demande aussi à <b>chaque salarié</b> de prendre soin de sa santé et de celle des autres, selon sa formation et ses moyens. Un manager est un salarié : sa part, c’est d’alerter, d’arbitrer ce qu’il peut, et de remonter le reste."],
       ] },
       { t: "h", texte: "Ce que risque l’employeur" },
-      { t: "table", titre: "Les principales suites possibles, du plus courant au plus grave", cols: ["Situation", "Fondement", "Ce qui peut suivre"], rows: [
-        ["Une surcharge signalée, sans mesure sérieuse", "Obligation de sécurité (L4121-1 et L4121-2)", "Dommages et intérêts devant les prud’hommes, si un préjudice est établi."],
-        ["Le salarié ne peut plus rester", "Manquement grave de l’employeur", "Résiliation judiciaire ou prise d’acte : la rupture produit les effets d’un licenciement sans cause réelle et sérieuse."],
-        ["Le burn-out est reconnu en maladie professionnelle", "Faute inexcusable (article L452-1 du Code de la sécurité sociale)", "Si l’employeur avait ou aurait dû avoir conscience du danger et n’a rien fait : indemnisation majorée."],
-        ["Harcèlement moral", "Articles L1152-1 et suivants, article 222-33-2 du Code pénal", "Licenciement de la victime annulé, dommages et intérêts, et poursuites pénales contre les auteurs."],
+      { t: "p", html: "Concrètement, quatre situations peuvent se présenter. Plus l’employeur avait été prévenu, plus ce qu’il risque est lourd s’il n’a rien fait." },
+      { t: "table", titre: "Quatre situations, de la plus fréquente à la plus grave", cols: ["Ce qui s’est passé", "Comment le droit l’appelle", "Ce que l’employeur peut devoir faire"], rows: [
+        ["Sam a écrit qu’il était débordé. Rien n’a changé, et sa santé s’est dégradée.", "Un <b>manquement à l’obligation de sécurité</b> : l’employeur savait, et n’a pas protégé sa santé.", "Verser des dommages et intérêts, fixés par le conseil de prud’hommes."],
+        ["Sam ne peut plus continuer. Il demande au juge de rompre son contrat à cause de ce manquement.", "Une <b>résiliation judiciaire</b> (ou une <b>prise d’acte</b>, si Sam part de lui-même et saisit ensuite le juge).", "Si le juge donne raison à Sam : payer comme pour un licenciement injustifié (indemnités et dommages et intérêts)."],
+        ["Le burn-out de Sam est reconnu comme maladie professionnelle. Son employeur avait été alerté.", "Une <b>faute inexcusable</b> : l’employeur connaissait le danger, ou aurait dû le connaître, et n’a pas pris les mesures pour l’éviter.", "Payer, en plus de la Sécurité sociale, une rente majorée et la réparation des souffrances subies."],
+        ["Un chef humilie Sam devant l’équipe, de façon répétée.", "Du <b>harcèlement moral</b>.", "Faire cesser les faits et réparer. Si Sam est licencié pour s’en être plaint, le licenciement est annulé. L’auteur peut être poursuivi au pénal."],
       ] },
       { t: "details", titre: "Le burn-out peut-il être reconnu en maladie professionnelle ?", html: "<p>Oui, mais c’est exigeant. Le burn-out ne figure dans aucun tableau de maladies professionnelles. La demande passe donc par un <b>comité régional</b> (CRRMP), qui doit établir un lien <b>direct et essentiel</b> avec le travail habituel, et une incapacité permanente estimée à au moins 25 % (article L461-1 du Code de la sécurité sociale). La demande se fait auprès de la CPAM, avec un certificat de ton médecin. Les dossiers bien documentés (charge, alertes écrites, réponses) ont plus de chances d’aboutir.</p>" },
       { t: "h", texte: "Ce que risque le manager" },
@@ -942,3 +943,92 @@ export const synthese = {
     </ul>
     <p>C’est pour ça que le questionnaire Bull-Out <b>s’inspire</b> de ces modèles sans prétendre poser un diagnostic. Le détail des questions, du barème et des sources est dans <a href="methode.html">Méthode et limites</a>.</p>`,
 };
+
+// ───────────────────────────── Pour aller plus loin : un volet replié à la fin de chaque chapitre.
+// Ce qui a été étudié, comment, et ce que la recherche ne sait pas encore. Facultatif, mais vérifiable.
+export const plusLoin = [
+  // 1
+  { titre: "d’où vient le mot, et ce que dit l’OMS", html: `
+    <h3>Un mot né sur le terrain</h3>
+    <p>Le mot apparaît dans la littérature scientifique en <b>1974</b>, sous la plume du psychiatre new-yorkais <b>Herbert Freudenberger</b>. Il décrit l’épuisement des bénévoles d’une clinique gratuite, et le sien. Au même moment, la psychologue <b>Christina Maslach</b> observe les mêmes récits chez des soignants et des travailleurs sociaux (chapitre 2). Le burn-out naît donc d’observations cliniques, avant d’être mesuré.</p>
+    <h3>Ce que dit l’OMS</h3>
+    <p>Dans sa classification internationale (<b>CIM-11</b>, adoptée en 2019, en vigueur depuis 2022), l’OMS décrit le burn-out comme un <b>syndrome résultant d’un stress chronique au travail qui n’a pas été géré avec succès</b>. Elle retient trois dimensions : l’épuisement, la distance mentale ou le cynisme vis-à-vis du travail, et une efficacité professionnelle réduite. Deux précisions comptent : il <b>ne s’applique qu’au contexte du travail</b>, et il est classé parmi les « facteurs influant sur l’état de santé », <b>pas parmi les maladies</b>. En France, la Haute Autorité de santé a publié en 2017 une fiche de repérage et de prise en charge à destination des médecins.</p>
+    <h3>Pourquoi le repos est un bon test</h3>
+    <p>La recherche sur la <b>récupération</b> (Sabine Sonnentag et ses collègues, depuis les années 2000) montre que le repos répare quand il permet quatre choses : se <b>détacher</b> mentalement du travail, se <b>détendre</b>, vivre des expériences qui donnent un sentiment de <b>maîtrise</b>, et garder le <b>contrôle</b> de son temps libre. Quand le travail envahit les soirées et les week-ends, ces quatre leviers s’éteignent. C’est pour ça qu’une fatigue qui ne passe plus avec le repos est un signal.</p>
+    <h3>Ce qui reste débattu</h3>
+    <p>Le recouvrement entre burn-out et <b>dépression</b> fait débat : certains chercheurs (dont Renzo Bianchi) estiment que les deux se confondent largement, d’autres défendent une distinction. En pratique, ce débat ne change pas le réflexe : si l’humeur, le sommeil ou l’envie de vivre se dégradent, on consulte.</p>` },
+  // 2
+  { titre: "comment le modèle de Maslach a été construit", html: `
+    <p>Au milieu des années 1970, <b>Christina Maslach</b> (université de Berkeley) interroge des professionnels de l’aide : infirmières, travailleurs sociaux, avocats commis d’office. Les récits se ressemblent : épuisement émotionnel, mise à distance des personnes aidées, sentiment de ne plus être efficace. Avec <b>Susan Jackson</b>, elle construit un questionnaire de 22 questions, le <b>Maslach Burnout Inventory</b> (1981). Des analyses statistiques (analyses factorielles) sur plus d’un millier de réponses montrent que les réponses se regroupent bien en <b>trois dimensions</b>. Une version pour tous les métiers suit en 1996 : épuisement, cynisme, efficacité professionnelle.</p>
+    <h3>Ce qu’on en sait aujourd’hui</h3>
+    <ul>
+      <li>L’<b>épuisement</b> est la dimension centrale et la plus solide.</li>
+      <li>Le <b>cynisme</b> est souvent décrit comme une réponse à l’épuisement : on investit moins pour se protéger. Michael Leiter et Christina Maslach ont proposé cet enchaînement ; les études le confirment en partie seulement.</li>
+      <li>L’<b>efficacité réduite</b> est la plus indépendante des deux autres. Certains chercheurs y voient une conséquence plutôt qu’un signe.</li>
+      <li>Le questionnaire <b>n’a pas de seuil diagnostique</b> : il mesure des intensités, pas une maladie. Ses auteurs déconseillent de classer les personnes en « burn-out » ou « pas burn-out » à partir d’un score.</li>
+    </ul>
+    <p>D’autres questionnaires existent : l’Oldenburg Burnout Inventory (2003), le Copenhagen Burnout Inventory (2005) ou le Burnout Assessment Tool (2020), qui ajoute des troubles de la concentration et de l’émotion.</p>` },
+  // 3
+  { titre: "comment le modèle exigences-ressources a été construit", html: `
+    <h3>Un héritier de Karasek</h3>
+    <p>En 1979, le sociologue <b>Robert Karasek</b> propose un premier modèle : le travail devient pesant quand une <b>forte demande</b> psychologique se combine à une <b>faible latitude</b> de décision. Le soutien social (collègues, hiérarchie) est ajouté en 1988 par Jeffrey Johnson. Ce modèle a été très étudié, notamment pour les maladies cardiovasculaires.</p>
+    <h3>La balance, en 2001</h3>
+    <p>Le modèle <b>exigences-ressources</b> (Job Demands-Resources) est proposé en 2001 par <b>Evangelia Demerouti, Arnold Bakker</b> et leurs collègues, à partir d’une étude sur des salariés allemands de plusieurs secteurs. L’idée nouvelle : <b>toute exigence</b> et <b>toute ressource</b> peuvent entrer dans la balance, pas seulement la charge et l’autonomie. Le modèle décrit <b>deux processus</b> : les exigences durables épuisent ; les ressources nourrissent l’engagement et amortissent l’effet des exigences. Des études qui suivent les mêmes personnes pendant plusieurs années confirment ces deux voies.</p>
+    <h3>Pourquoi perdre une ressource pèse lourd</h3>
+    <p>La théorie de la <b>conservation des ressources</b> (Stevan Hobfoll, 1989) va dans le même sens : nous cherchons à protéger ce qui nous aide, et une <b>perte</b> de ressource pèse davantage qu’un gain équivalent. C’est ce qui arrive à Sam quand Marc part sans être remplacé.</p>
+    <h3>Sa limite</h3>
+    <p>Le modèle est si souple que presque tout peut être une exigence ou une ressource. Il aide à chercher dans un poste précis ; il ne dit pas à l’avance ce qui compte dans le tien.</p>` },
+  // 4
+  { titre: "comment le modèle effort-récompense a été construit", html: `
+    <p>Le sociologue de la santé <b>Johannes Siegrist</b> (université de Düsseldorf) part, dans les années 1980, d’études sur les maladies cardiovasculaires chez des ouvriers allemands. Son hypothèse : ce n’est pas seulement l’effort qui rend malade, c’est l’effort <b>sans réciprocité</b>. Il formalise le modèle effort-récompense en 1996, avec trois formes de récompense : le salaire, l’estime, et les perspectives avec la sécurité de l’emploi.</p>
+    <p>Le questionnaire associé permet de calculer un <b>rapport entre effort et récompense</b> : au-dessus de 1, il y a déséquilibre. Siegrist ajoute un trait personnel, le <b>surengagement</b> (du mal à dire non, à décrocher), qui aggrave l’effet du déséquilibre.</p>
+    <h3>Ce qu’on en sait</h3>
+    <p>De grandes cohortes, comme <b>Whitehall II</b> (des milliers de fonctionnaires britanniques suivis pendant des années), et des méta-analyses associent ce déséquilibre à un risque plus élevé de <b>maladies cardiovasculaires</b> et de <b>dépression</b>. Ces liens sont solides, mais d’ampleur modérée : ils décrivent des risques à l’échelle d’un groupe, pas le destin d’une personne.</p>
+    <h3>En France</h3>
+    <p>En 2011, le collège d’expertise présidé par <b>Michel Gollac</b> a retenu six familles de facteurs de risques psychosociaux : l’intensité et le temps de travail, les exigences émotionnelles, le manque d’autonomie, les rapports sociaux dégradés, les conflits de valeurs et l’insécurité de la situation de travail. Le manque de reconnaissance y figure en bonne place.</p>` },
+  // 5
+  { titre: "facteurs personnels et facteurs de travail", html: `
+    <h3>Le modèle stress-vulnérabilité</h3>
+    <p>En santé mentale, on décrit depuis la fin des années 1970 un modèle <b>stress-vulnérabilité</b> : chacun a un seuil, qui dépend de son histoire, de sa santé et de ce qu’il vit ; les contraintes s’ajoutent jusqu’à le dépasser. Une séparation, un deuil ou une maladie baissent le seuil. Ils n’expliquent pas à eux seuls ce qui le fait dépasser.</p>
+    <h3>Ce que montrent les études</h3>
+    <p>Des méta-analyses trouvent des liens entre certains traits de personnalité (comme une forte sensibilité émotionnelle) et le burn-out. Mais les facteurs liés au travail pèsent au moins autant. Christina Maslach et Michael Leiter en décrivent six : la charge, le contrôle, la reconnaissance, la qualité du collectif, l’équité et l’accord avec les valeurs du travail. Ce sont des leviers sur lesquels on peut agir, contrairement à la personnalité.</p>
+    <h3>Ce que ça change en pratique</h3>
+    <p>La prévention commence par ce qui est modifiable et touche tout le monde : l’organisation du travail. C’est aussi ce que demande la loi (chapitre 8). Soutenir une personne fragilisée reste utile, mais en plus, pas à la place.</p>` },
+  // 6
+  { titre: "biomarqueurs, questionnaires et seuils", html: `
+    <h3>Le cortisol</h3>
+    <p>Le cortisol varie selon l’heure, le sommeil, l’alimentation, les médicaments et la façon dont l’échantillon est prélevé. Les revues de la littérature sur les marqueurs biologiques du burn-out (par exemple Danhof-Pont et ses collègues, 2011) concluent qu’<b>aucun marqueur</b> ne permet de le diagnostiquer : les résultats des études vont dans des sens différents, et les différences trouvées sont des moyennes de groupe.</p>
+    <h3>Les questionnaires</h3>
+    <p>Un questionnaire bien construit est <b>fiable</b> (il donne des résultats stables) et <b>valide</b> (il mesure bien ce qu’il prétend mesurer). Même dans ce cas, un score individuel comporte une <b>marge d’erreur</b> : deux points d’écart ne veulent souvent rien dire. Les seuils (« à partir de tant, c’est un burn-out ») sont des conventions, pas des frontières naturelles.</p>
+    <h3>Ce que ça change pour ton rapport</h3>
+    <p>Le rapport Bull-Out se lit dimension par dimension, et comme un point de départ pour en parler. Le détail des questions, du barème et des limites est dans <a href="methode.html">Méthode et limites</a>.</p>` },
+  // 7
+  { titre: "ce que la recherche dit des actions qui marchent", html: `
+    <h3>Individuel ou organisationnel ?</h3>
+    <p>Les interventions contre l’épuisement se rangent en deux familles : celles qui aident la personne (gestion du stress, méditation, entraînement à la résilience) et celles qui changent le travail (charge, horaires, organisation des équipes, soutien des managers). Des méta-analyses chez les médecins, publiées en 2016 (West et ses collègues, <i>The Lancet</i>) et en 2017 (Panagioti et ses collègues, <i>JAMA Internal Medicine</i>), trouvent que les deux réduisent le burn-out, avec des effets <b>modestes</b>, et des effets un peu plus nets pour les actions sur l’organisation.</p>
+    <h3>Combiner, et durer</h3>
+    <p>Les synthèses en santé au travail (par exemple Anthony LaMontagne et ses collègues, 2007) concluent que les approches les plus efficaces <b>combinent</b> les trois niveaux de prévention, en commençant par l’organisation. Les actions ponctuelles, comme une formation isolée, ont rarement un effet durable.</p>
+    <h3>Les limites</h3>
+    <p>Les études sont souvent courtes, faites dans quelques secteurs (surtout la santé), et de qualité inégale. Elles convergent pourtant sur un point : agir sur le travail ne nuit jamais, et une action individuelle seule laisse la cause en place.</p>` },
+  // 8
+  { titre: "les textes et les grandes décisions", html: `
+    <h3>Une obligation qui s’est durcie, puis précisée</h3>
+    <ul>
+      <li><b>2002</b> : dans les arrêts sur l’amiante, la Cour de cassation parle d’une obligation de sécurité « de résultat », et définit la <b>faute inexcusable</b> : l’employeur avait ou aurait dû avoir conscience du danger, et n’a pas pris les mesures pour en préserver le salarié.</li>
+      <li><b>2008 et 2010</b> : deux accords nationaux interprofessionnels, sur le stress au travail puis sur le harcèlement et la violence, engagent les entreprises à prévenir ces risques.</li>
+      <li><b>2015</b> : l’arrêt « Air France » précise que l’employeur peut s’exonérer s’il prouve avoir pris toutes les mesures de prévention prévues par la loi. La même année, la loi « Rebsamen » inscrit dans le Code de la sécurité sociale que les <b>pathologies psychiques</b> peuvent être reconnues comme maladies professionnelles.</li>
+      <li><b>2019 à 2025</b> : dans l’affaire <b>France Télécom</b>, le tribunal correctionnel (2019), la cour d’appel (2022) puis la Cour de cassation (2025) retiennent un <b>harcèlement moral institutionnel</b> : une politique d’entreprise peut constituer un harcèlement, même sans viser une personne en particulier.</li>
+    </ul>
+    <h3>Les articles à connaître</h3>
+    <p>Code du travail : L4121-1 et L4121-2 (obligation et principes de prévention), L4121-3 et R4121-1 (évaluation des risques, document unique), L4122-1 (obligations de chaque salarié), L4131-1 (droit d’alerte et de retrait), L1152-1 à L1152-6 (harcèlement moral). Code pénal : 222-33-2 (harcèlement moral). Code de la sécurité sociale : L452-1 (faute inexcusable), L461-1 (maladies professionnelles).</p>
+    <p class="fo-small">Ces repères sont une synthèse. Le droit évolue, et chaque situation dépend de ses faits : pour une démarche, prends conseil auprès d’un avocat, d’un syndicat ou de l’inspection du travail.</p>` },
+  // 9
+  { titre: "le suivi de santé au travail et le retour après un arrêt", html: `
+    <h3>Ce que la loi de 2021 a changé</h3>
+    <p>La loi du 2 août 2021 pour renforcer la prévention en santé au travail a créé, entre autres, le <b>rendez-vous de liaison</b> : pendant un arrêt de plus de 30 jours, l’employeur peut proposer un échange (que le salarié est libre d’accepter) pour préparer le retour, avec le service de prévention et de santé au travail. Elle a aussi fixé la <b>visite de pré-reprise</b> à partir de 30 jours d’arrêt, et la <b>visite de reprise</b> après 60 jours d’arrêt pour une maladie non professionnelle.</p>
+    <h3>Ce qui aide à revenir</h3>
+    <p>Les revues de la littérature sur le retour au travail après un trouble psychique (dont une revue Cochrane mise à jour en 2020) trouvent des bénéfices aux interventions qui <b>associent</b> le soin et des changements dans le travail, comme une reprise progressive ou des tâches adaptées. Les preuves restent de qualité limitée, mais elles vont dans le même sens que l’expérience des médecins du travail : revenir dans exactement le même travail expose à rechuter.</p>
+    <h3>Le 3114</h3>
+    <p>Le numéro national de prévention du suicide, ouvert en 2021, est joignable 24 h/24, gratuitement. Il répond aux personnes en détresse, à leurs proches, et aux professionnels qui s’inquiètent pour quelqu’un.</p>` },
+];
+chapitres.forEach((c, i) => { c.plusLoin = plusLoin[i]; });
