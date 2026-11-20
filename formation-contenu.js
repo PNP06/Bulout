@@ -123,7 +123,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "La batterie", texte: "Ton rapport commence par l’énergie : ce que tu dépenses, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    piece: { nom: "La batterie", texte: "Ton rapport regarde d’abord deux repères : l’épuisement, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
