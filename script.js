@@ -1509,13 +1509,18 @@
 
   // Bullshitomètre : même calcul que le test satirique (pourcentage du maximum possible, par dimension et au total).
   function computeBullshit() {
-    if (!bullshitPart.questions.length) return { answers: [], percent: 0, dims: {}, profil: null };
+    if (!bullshitPart.questions.length) return { skipped: true, answers: [], percent: null, dims: {}, profil: null };
+    const selections = bullshitPart.questions.map((_, index) => form.querySelector(`input[name="BS${index + 1}"]:checked`));
+    if (selections.every((input) => input?.value === "skip")) {
+      return { skipped: true, answers: [], percent: null, dims: {}, profil: null };
+    }
+    if (selections.some((input) => !input || input.value === "skip")) return null;
     const keys = BS.dims.map(([key]) => key);
     const score = Object.fromEntries(keys.map((k) => [k, 0]));
     const max = Object.fromEntries(keys.map((k) => [k, 0]));
     const answers = [];
     for (const [index, question] of bullshitPart.questions.entries()) {
-      const selected = form.querySelector(`input[name="BS${index + 1}"]:checked`);
+      const selected = selections[index];
       if (!selected) return null;
       const option = question.options[Number(selected.value)];
       keys.forEach((k) => {
@@ -1528,7 +1533,7 @@
     const percent = Math.round(sum(score) / sum(max) * 100);
     const dims = Object.fromEntries(keys.map((k) => [k, Math.round(score[k] / max[k] * 100)]));
     const profil = BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
-    return { answers, percent, dims, profil };
+    return { skipped: false, answers, percent, dims, profil };
   }
 
   function renderResults(result) {
@@ -1628,7 +1633,7 @@
       ...(result.temporalAnswers || []).map((answer) => `- ${answer.question} : ${answer.answer}`),
       "Ces repères décrivent la situation, ils ne prouvent pas son origine.",
       "",
-      `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${!result.hasAlert && !(result.sectionScores.A >= 13 && result.sectionScores.F >= 13) && result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
+      result.bullshit.skipped ? "Bullshitomètre : partie facultative passée, aucun indice calculé." : `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${!result.hasAlert && !(result.sectionScores.A >= 13 && result.sectionScores.F >= 13) && result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
       "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
