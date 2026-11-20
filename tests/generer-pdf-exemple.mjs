@@ -105,6 +105,46 @@ try {
     if(buffer.byteLength<10000 || buffer.subarray(0,5).toString()!=="%PDF-")
       throw new Error("PDF manquant ou invalide: "+file);
   }
+  // Recette visuelle minimale des deux zones nouvellement développées.
+  // Le navigateur charge ici le parcours normal : seul l'essai du questionnaire
+  // désactive localement le verrou du diplôme, jamais le site servi au public.
+  const captures = [
+    {name:"synthese-ordinateur",url:"test.html#synthese",width:1280,selector:"#s-croisement"},
+    {name:"synthese-mobile",url:"test.html#synthese",width:390,selector:"#s-complements"},
+    {name:"methode-ordinateur",url:"methode.html",width:1280,selector:"#verification-inconnues"},
+    {name:"methode-mobile",url:"methode.html",width:390,selector:"#construction-hypotheses"}
+  ];
+  const visualChecks = [];
+  for (const c of captures) {
+    const tab=await browser.newPage({viewport:{width:c.width,height:840},deviceScaleFactor:1});
+    const errors=[];
+    tab.on("pageerror",err=>errors.push(err.message));
+    try {
+      await tab.goto(`http://127.0.0.1:${port}/${c.url}`,{waitUntil:"load"});
+      await tab.waitForSelector(c.selector,{state:"visible",timeout:12000});
+      const status=await tab.evaluate((selector)=>{
+        const element=document.querySelector(selector);
+        const rect=element.getBoundingClientRect();
+        return {
+          viewport:window.innerWidth,documentWidth:document.documentElement.scrollWidth,
+          elementWidth:Math.round(rect.width),
+          modelCards:document.querySelectorAll(".fo-complement").length,
+          methodHypotheses:document.querySelectorAll("#construction-hypotheses tbody tr").length
+        };
+      },c.selector);
+      if(errors.length)throw new Error(c.name+": "+errors.join("; "));
+      if(status.documentWidth > status.viewport+2)throw new Error(c.name+": débordement horizontal "+
+        status.documentWidth+" > "+status.viewport);
+      if(c.name.startsWith("synthese") && status.modelCards!==3)
+        throw new Error(c.name+": 3 cadres complémentaires attendus, "+status.modelCards+" trouvés");
+      if(c.name.startsWith("methode") && status.methodHypotheses!==6)
+        throw new Error(c.name+": 6 hypothèses attendues, "+status.methodHypotheses+" trouvées");
+      await tab.screenshot({path:join(OUT,c.name+".png"),fullPage:true});
+      visualChecks.push({name:c.name,...status,errors:0});
+    } finally { await tab.close(); }
+  }
+  await writeFile(join(OUT,"verification-affichage.json"),JSON.stringify(visualChecks,null,2),"utf8");
+  console.log("FORMATION_METHODE_VISUAL_CHECKS="+JSON.stringify(visualChecks));
   await writeFile(join(OUT,"resultat-moteur.json"),JSON.stringify(synth,null,2),"utf8");
   console.log("BULLOUT_RESULT_JSON="+JSON.stringify(synth));
   console.log("PDF_VALIDES=3;REPONSES_FICTIVES="+synth.items+";ERREURS_JS="+pageErrors.length);
