@@ -179,6 +179,26 @@
   };
 
 
+  // Retour immédiat sur l'expérience satirique : quatre ressentis indépendants.
+  // Ce n'est ni une échelle clinique ni une mesure du style habituel d'humour.
+  const humorReactionOptions = [
+    "Pas du tout", "Un peu", "Moyennement", "Beaucoup", "Tout à fait",
+    "Je préfère ne pas répondre"
+  ].map((text) => ({ text }));
+  const humorReactionPart = {
+    id: "HR",
+    title: "Et cette pause humour, comment tu l'as vécue ?",
+    explore: "ton expérience immédiate du questionnaire satirique : amusement, peine, identification et recul perçu. Ces réactions peuvent coexister.",
+    sources: "questions originales Bull-Out sur le ressenti immédiat ; aucune validation psychométrique et aucun effet protecteur inféré",
+    chapitres: [2],
+    questions: [
+      { text: "Ces questions m'ont amusé·e ou fait sourire.", options: humorReactionOptions },
+      { text: "Certaines questions m'ont fait de la peine ou mis·e mal à l'aise.", options: humorReactionOptions },
+      { text: "Je me suis reconnu·e dans certaines situations décrites.", options: humorReactionOptions },
+      { text: "Sur le moment, ces questions m'ont aidé·e à prendre un peu de recul sur mon travail.", options: humorReactionOptions }
+    ]
+  };
+
   // Repères contextuels non notés : aucune unité, aucune agrégation avec A–F.
   // En particulier, un mieux hors travail n'est PAS une preuve de causalité.
   const temporalPart = {
@@ -500,7 +520,7 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 5 + (BS.questions.length ? 1 : 0);
+    const total = sections.length + 5 + (BS.questions.length ? 2 : 0);
     questionNumber = 0;
 
     const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
@@ -517,7 +537,10 @@
         + aboutHTML
         + (help ? `<p class="part-help">${help}</p>` : "");
       if (key === "BS") {
-        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-bs>Passer cette pause humoristique</button><small>Facultatif : aucune conséquence sur les autres résultats.</small></p>');
+        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-bs>Passer cette pause humoristique</button><small>Facultatif : cela passe aussi les questions sur ton ressenti immédiat.</small></p>');
+      }
+      if (key === "HR") {
+        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-hr>Passer ces questions de ressenti</button><small>Aucune réponse n’est obligatoire sur la façon dont tu as vécu l’humour.</small></p>');
       }
       const list = document.createElement("ol");
       list.className = "qlist";
@@ -544,6 +567,11 @@
       "Cette partie est facultative et satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
       bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
       about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
+    if (bullshitPart.questions.length) addPart("HR", humorReactionPart.title,
+      "Juste après la pause humour · ce que tu as ressenti à cet instant.",
+      "Tu peux avoir ri et avoir eu de la peine : ces réactions ne sont pas exclusives. Elles n’entrent dans aucun score et tu peux passer chaque question.",
+      humorReactionPart.questions.map((question, qIndex) => createChoiceQuestion(humorReactionPart, question, qIndex)),
+      index++, about(humorReactionPart.explore, humorReactionPart.sources, humorReactionPart.chapitres));
     scored("F");
     addPart("G", strengthPart.title, "Sur les 4 dernières semaines. Ne compte pas dans les scores de risque.",
       "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
@@ -562,7 +590,7 @@
       alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -710,6 +738,29 @@
         if (part) {
           part.querySelectorAll('input[type="radio"][value="skip"]').forEach((input) => { input.checked = true; });
           part.querySelectorAll(".question-item").forEach((item) => item.classList.add("is-answered"));
+          const feedback = layout.querySelector('.question-section[data-part="HR"]');
+          if (feedback) {
+            feedback.querySelectorAll('.question-item').forEach((item) => {
+              const skip = item.querySelector('input[type="radio"][value="5"]');
+              if (skip) skip.checked = true;
+              item.classList.add("is-answered");
+            });
+          }
+          form.dispatchEvent(new Event("change", { bubbles: true }));
+          refreshPaging();
+          showPart(currentPart + (feedback ? 2 : 1), true);
+        }
+        return;
+      }
+      const skipHR = event.target.closest("[data-skip-hr]");
+      if (skipHR) {
+        const feedback = skipHR.closest('.question-section[data-part="HR"]');
+        if (feedback) {
+          feedback.querySelectorAll('.question-item').forEach((item) => {
+            const skip = item.querySelector('input[type="radio"][value="5"]');
+            if (skip) skip.checked = true;
+            item.classList.add("is-answered");
+          });
           form.dispatchEvent(new Event("change", { bubbles: true }));
           refreshPaging();
           showPart(currentPart + 1, true);
@@ -1058,6 +1109,57 @@
       horsTravail: find("T3")?.answer || null,
       qualiteEmpechee: find("T4")?.value ?? null
     };
+  }
+
+  // Réaction à la satire : quatre questions indépendantes sur l'instant présent.
+  // La cinquième valeur numérique du choix (index 5) signifie « ne pas répondre ».
+  function getHumorReactionAnswers() {
+    const answers = humorReactionPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="HR${index + 1}"]:checked`);
+      const choice = selected ? Number(selected.value) : null;
+      return {
+        id: `HR${index + 1}`, question: question.text,
+        answered: choice !== null,
+        value: choice !== null && choice >= 0 && choice <= 4 ? choice : null,
+        answer: choice !== null ? question.options[choice]?.text || null : null
+      };
+    });
+    if (answers.some((answer) => !answer.answered)) return null;
+    return { skipped: answers.every((answer) => answer.value === null), answers };
+  }
+
+  function interpretHumorReaction(feedback) {
+    if (!feedback || feedback.skipped) return null;
+    const level = (index) => feedback.answers[index]?.value;
+    const high = (index) => level(index) !== null && level(index) >= 3;
+    let title, text;
+    if (high(0) && high(1)) {
+      title = "Ça fait rire. Et ça touche.";
+      text = "Tu indiques à la fois de l'amusement et de la peine ou du malaise. Ce n'est pas contradictoire : une formule peut être drôle précisément parce qu'elle évoque une situation pénible.";
+    } else if (high(1)) {
+      title = "Une blague qui touche un point sensible";
+      text = "Certaines questions t'ont fait de la peine ou mis·e mal à l'aise. Ce ressenti mérite d'être entendu sans supposer que tu manques d'humour.";
+    } else if (high(0) && high(3)) {
+      title = "Du rire et un peu de recul";
+      text = "Tu déclares t'être amusé·e et avoir pris du recul sur le moment. C'est une expérience rapportée, pas la preuve d'une protection durable contre le stress.";
+    } else if (high(3)) {
+      title = "Du recul, même sans grand éclat de rire";
+      text = "Tu déclares avoir pris du recul, même si l'amusement n'a pas particulièrement ressorti. Réfléchir à une situation et en rire sont deux expériences différentes.";
+    } else if (high(0)) {
+      title = "La satire t'a amusé·e";
+      text = "Tu déclares avoir souri ou ri. Cela ne permet pas de savoir comment tu vis habituellement ton travail ni si l'humour t'aide à récupérer.";
+    } else if (high(2)) {
+      title = "Tu t'es reconnu·e dans ces scènes";
+      text = "Tu te reconnais dans certaines situations. Cette résonance mérite d'être distinguée de l'amusement, du malaise et de l'efficacité éventuelle de l'humour.";
+    } else {
+      title = "Une réaction plus nuancée";
+      text = "Les réponses n'indiquent pas de ressenti particulièrement fort parmi les quatre proposés. Rien n'oblige à rire, à souffrir ou à relativiser devant une satire.";
+    }
+    return { title, text,
+      identified: high(2),
+      perceivedDistance: high(3),
+      mixedEmotions: high(0) && high(1),
+      warning: "Ressenti immédiat, déclaré après les questions ; aucun score clinique ni effet causal ou durable mesuré." };
   }
 
   function getTemporalAnswers() {
@@ -1472,7 +1574,14 @@
     if (temporalAnswers.some((answer) => answer.value === null)) return null;
     const temporalInsight = getTemporalInsight(temporalAnswers);
     const bullshit = computeBullshit();
+    const humorReaction = getHumorReactionAnswers();
+    if (humorReaction === null) return null;
     if (bullshit) bullshit.matrix = analyseBullshitMatrix(bullshit, sectionResults, temporalAnswers);
+    if (bullshit?.skipped) {
+      humorReaction.skipped = true;
+      humorReaction.answers = [];
+    }
+    humorReaction.interpretation = interpretHumorReaction(humorReaction);
     if (bullshit === null) {
       return null;
     }
@@ -1501,6 +1610,8 @@
       temporalInsight,
       questionnaireVersion: "2026-11-v2",
       bullshitometreVersion: "2026-11-bs-v2",
+      humorReactionVersion: "2026-11-hr-v1",
+      humorReaction,
       bullshit,
       totalScore,
       totalLevel,
@@ -1612,7 +1723,7 @@
     latestResultText = buildResultText(result);
     // Le rapport (8 pièces, synthèse, annexes) est composé par rapport.js, à partir de ces données.
     document.dispatchEvent(new CustomEvent("bullout:rapport", {
-      detail: { result, sections, strengthPart, exchangePart, temporalPart, bullshitPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
+      detail: { result, sections, strengthPart, exchangePart, temporalPart, bullshitPart, humorReactionPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
     }));
     resultsPanel.dataset.ready = "true";
     location.hash = "rapport";
@@ -2132,6 +2243,9 @@
     temporalPart,
     getTemporalInsight,
     bullshitPart,
+    humorReactionPart,
+    getHumorReactionAnswers,
+    interpretHumorReaction,
     analyseBullshitMatrix,
     computeBullshit,
     getTemporalAnswers,
