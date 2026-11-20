@@ -1115,6 +1115,7 @@
   // Réaction à la satire : quatre questions indépendantes sur l'instant présent.
   // La cinquième valeur numérique du choix (index 5) signifie « ne pas répondre ».
   function getHumorReactionAnswers() {
+    if (!bullshitPart.questions.length) return { skipped: true, answers: [] };
     const answers = humorReactionPart.questions.map((question, index) => {
       const selected = form.querySelector(`input[name="HR${index + 1}"]:checked`);
       const choice = selected ? Number(selected.value) : null;
