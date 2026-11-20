@@ -309,6 +309,19 @@ function migrerBullshitometreV7(reponses) {
   return resultat;
 }
 
+// HR3 a changé de question. Une valeur V9 ne peut pas devenir une réponse V10.
+// Une ancienne abstention explicite (valeur 5) peut être conservée.
+function migrerReactionHumourV9(reponses) {
+  const ancien = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
+  const nouveau = { ...ancien };
+  let reponsesARelire = 0;
+  if (Object.prototype.hasOwnProperty.call(nouveau, "HR3") && nouveau.HR3 !== "5") {
+    delete nouveau.HR3;
+    reponsesARelire = 1;
+  }
+  return { reponses: nouveau, reponsesARelire };
+}
+
 function restaurer(p) {
   const formatOriginal = p?.format;
   let reponsesARelire = 0;
@@ -347,12 +360,9 @@ function restaurer(p) {
   // V9 → V10 : HR3 a changé de construit (identification → banalisation ressentie).
   // Ne pas transférer une réponse à l'ancienne formulation ; conserver un refus (5).
   if (formatOriginal === "bull-out-progression-9") {
-    const reponses = { ...p.reponses };
-    if (Object.prototype.hasOwnProperty.call(reponses, "HR3") && reponses.HR3 !== "5") {
-      delete reponses.HR3;
-      reponsesARelire += 1;
-    }
-    p = { ...p, reponses };
+    const migrationHR = migrerReactionHumourV9(p.reponses);
+    reponsesARelire += migrationHR.reponsesARelire;
+    p = { ...p, reponses: migrationHR.reponses };
   }
   if (["bull-out-progression-7", "bull-out-progression-8"].includes(formatOriginal)) {
     const reponses = { ...p.reponses };
