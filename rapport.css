@@ -236,6 +236,12 @@
 }
 
 /* ---------- Synthèse utile : lecture guidée comme Papillon, identité Bull-Out ---------- */
+.rp-qualite { display: grid; gap: 6px; padding: 14px 17px; border-radius: 13px;
+  border-left: 4px solid var(--orange); background: var(--bg); }
+.rp-qualite h3 { font: 800 15.5px/1.4 var(--title); margin: 0; }
+.rp-qualite p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.rp-qualite b { color: var(--fg); }
+@media print { .rp-qualite { padding: 8pt 11pt; break-inside: avoid; } }
 .rp-syn-principe { border-left: 4px solid var(--orange); padding-left: 15px; color: var(--muted); max-width: 78ch; }
 .rp-lecture-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
 .rp-lecture-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px; min-width: 0;
