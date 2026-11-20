@@ -34,7 +34,7 @@
       chapitres: [1, 2],
       questions: [
         "Après une journée de travail, je n'ai plus assez d'énergie pour mes activités personnelles habituelles.",
-        "Même après un repos court (une soirée, un week-end), j'ai l'impression de ne pas récupérer réellement.",
+        "Après mes périodes habituelles de repos, je me sens encore épuisé·e.",
         "Certaines journées, je me sens saturé·e avant même de commencer, à l'idée de ce qui m'attend.",
         "Les tâches ordinaires me demandent un effort disproportionné.",
         "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales (celles de mon poste, que je gérais sans difficulté avant).",
@@ -50,8 +50,8 @@
       sources: "Maslach Burnout Inventory (cynisme), Burnout Assessment Tool (distance mentale), Oldenburg Burnout Inventory (désengagement)",
       chapitres: [2],
       questions: [
-        "Je me surprends à me détacher mentalement du travail pour me protéger.",
-        "Je deviens plus cynique sur l'utilité de ce que je fais.",
+        "Des tâches professionnelles qui comptaient pour moi me laissent désormais indifférent·e.",
+        "Je me surprends à parler de mon travail avec amertume ou cynisme.",
         "J'évite certaines interactions professionnelles parce qu'elles me coûtent trop.",
         "Je ressens moins d'empathie ou de patience envers des personnes avec qui je travaille.",
         "Je fais le minimum relationnel nécessaire pour tenir la journée.",
@@ -68,11 +68,11 @@
       chapitres: [2],
       questions: [
         "Je doute plus souvent de ma capacité à produire un travail de qualité.",
-        "Je constate une baisse de qualité ou de fiabilité malgré mes efforts.",
+        "J'ai plus de difficultés qu'avant à atteindre le niveau de qualité attendu, malgré mes efforts.",
         "J'ai du mal à voir le sens concret de mon travail.",
         "Je me sens moins compétent·e dans des tâches que je maîtrisais auparavant.",
         "Je termine des journées avec le sentiment de n'avoir rien accompli d'utile.",
-        "Je ne me reconnais plus dans ma façon de travailler."
+        "Je dois fournir davantage d'efforts qu'avant pour obtenir un résultat dont je suis satisfait·e."
       ]
     },
     {
@@ -85,10 +85,10 @@
       chapitres: [3, 4],
       questions: [
         "La quantité de travail dépasse régulièrement ce qui peut être fait correctement dans le temps disponible.",
-        "Les urgences ou interruptions empêchent de travailler de manière soutenable.",
+        "Les interruptions fréquentes m'empêchent de terminer mes tâches prioritaires.",
         "Je reçois des priorités contradictoires ou insuffisamment arbitrées.",
         "Je porte une responsabilité forte sans moyens ou autorité suffisants.",
-        "Les exigences émotionnelles ou relationnelles de mon poste sont élevées.",
+        "Mon travail m'oblige à gérer régulièrement des émotions difficiles dans mes échanges professionnels.",
         "Je dois compenser des dysfonctionnements d'organisation pour que le travail sorte quand même."
       ]
     },
@@ -108,7 +108,7 @@
         "Mes collègues constituent un soutien concret en cas de difficulté.",
         "Les objectifs et responsabilités sont suffisamment clairs.",
         "Mes efforts sont reconnus de manière crédible et proportionnée.",
-        "Les décisions qui me concernent me paraissent globalement équitables."
+        "La répartition des tâches et des responsabilités me paraît équitable."
       ]
     },
     {
@@ -121,11 +121,11 @@
       chapitres: [1, 4],
       questions: [
         "Je rumine le travail le soir, le week-end ou pendant les congés.",
-        "Mon sommeil est moins réparateur ou perturbé par le travail.",
+        "Mon sommeil est perturbé ou ne me paraît pas réparateur.",
         "J'ai réduit mes loisirs, activités physiques ou relations sociales à cause du travail.",
-        "J'ai des symptômes physiques inhabituels ou aggravés en période de travail.",
-        "J'utilise davantage des stratégies de compensation pour tenir ou dormir : alcool, substances, écrans, alimentation, médicaments hors cadre prescrit.",
-        "J'ai eu des oublis, erreurs, quasi-accidents ou comportements impulsifs inhabituels liés à la fatigue."
+        "Je ressens des symptômes physiques inhabituels ou plus marqués qu'auparavant.",
+        "Pour tenir ou dormir, je consomme plus souvent de l'alcool, d'autres substances ou des médicaments en dehors de leur prescription.",
+        "J'ai fait davantage d'erreurs, d'oublis ou de quasi-accidents inhabituels dans mon travail."
       ]
     }
   ];
@@ -143,7 +143,7 @@
       "En dehors du travail, j'ai des personnes à qui je peux parler de ce que je vis.",
       "Je garde des activités qui me ressourcent (sport, nature, création, amis…) et je les pratique.",
       "Quand une difficulté se présente au travail, j'arrive à en parler ou à demander de l'aide.",
-      "Je sais dire non, ou négocier un délai, quand la charge devient trop lourde."
+      "Quand j'indique qu'un délai ou une charge est irréaliste, un arbitrage ou un ajustement est possible."
     ]
   };
 
@@ -160,10 +160,10 @@
     questions: [
       "Mon salaire est en rapport avec mon investissement et mes responsabilités.",
       "Mes perspectives d'évolution sont à la hauteur des efforts que je fournis.",
-      "Ma situation d'emploi me paraît stable : je ne crains pas de perdre mon poste ou de subir un changement imposé.",
+      "Je me sens en sécurité concernant la continuité de mon emploi.",
       "J'ai du mal à refuser une demande, même quand je suis déjà débordé·e.",
       "Je me sens obligé·e d'en faire plus que ce qu'on attend de moi pour prouver ma valeur.",
-      "Dès le réveil, je pense déjà aux problèmes du travail."
+      "Dès le réveil, des préoccupations professionnelles me viennent à l'esprit et me pèsent."
     ]
   };
 
@@ -176,6 +176,41 @@
     sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
     chapitres: [2, 4],
     questions: BS.questions
+  };
+
+
+  // Repères contextuels non notés : aucune unité, aucune agrégation avec A–F.
+  // En particulier, un mieux hors travail n'est PAS une preuve de causalité.
+  const temporalPart = {
+    id: "T",
+    title: "T. Depuis quand, et dans quelles conditions ?",
+    explore: "la durée, l'évolution et les changements observés hors travail, sans diagnostic ni attribution causale automatique.",
+    sources: "repérage clinique du burn-out (HAS), analyse des situations de travail (INRS) et questions originales Bull-Out non validées",
+    chapitres: [1, 5, 6],
+    questions: [
+      { text: "Depuis quand ressens-tu les difficultés qui t'ont amené·e ici ?", options: [
+        { text: "Je ne rencontre pas de difficulté particulière" },
+        { text: "Depuis moins d'un mois" },
+        { text: "Depuis un à trois mois" },
+        { text: "Depuis trois mois à un an" },
+        { text: "Depuis plus d'un an" },
+        { text: "Je ne sais pas exactement" }
+      ] },
+      { text: "Ces dernières semaines, comment ces difficultés évoluent-elles ?", options: [
+        { text: "Elles diminuent" }, { text: "Elles restent à peu près stables" },
+        { text: "Elles augmentent" }, { text: "Elles fluctuent beaucoup" },
+        { text: "Je ne sais pas" }, { text: "Je ne rencontre pas de difficulté particulière" }
+      ] },
+      { text: "Quand tu t'éloignes suffisamment du travail (repos, congé), que constates-tu ?", options: [
+        { text: "Je n'ai pas pu le constater" }, { text: "Mes difficultés diminuent nettement" },
+        { text: "Elles diminuent un peu" }, { text: "Elles changent peu" },
+        { text: "Elles augmentent" }, { text: "Je ne rencontre pas de difficulté particulière" }
+      ] },
+      { text: "Ces quatre dernières semaines, j'ai dû renoncer à la qualité de travail que je juge nécessaire, faute de temps, de moyens ou à cause de consignes.", options: [
+        { text: "Jamais ou presque" }, { text: "Rarement" }, { text: "Parfois" },
+        { text: "Souvent" }, { text: "Presque toujours" }
+      ] }
+    ]
   };
 
   const alertQuestions = [
@@ -443,6 +478,7 @@
     R: "M7 10h14l-4-4M17 14H3l4 4",
     BS: "M19 5 5 19M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
     G: "M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.5l7.1-.6z",
+    T: "M12 2v4M12 18v4M4 12h4M16 12h4M12 8v4l3 2",
     context: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",
     alerts: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"
   };
@@ -464,7 +500,7 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 4 + (BS.questions.length ? 1 : 0);
+    const total = sections.length + 5 + (BS.questions.length ? 1 : 0);
     questionNumber = 0;
 
     const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
@@ -510,6 +546,10 @@
       "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
       strengthPart.questions.map((question, qIndex) => createRatingQuestion(strengthPart, question, qIndex)), index++,
       about(strengthPart.explore, strengthPart.sources, strengthPart.chapitres));
+    addPart("T", temporalPart.title, "Repères supplémentaires · hors score A–F.",
+      "Ces questions décrivent une chronologie et une difficulté de qualité empêchée. Elles ne sont pas utilisées pour calculer un risque de burn-out.",
+      temporalPart.questions.map((question, qIndex) => createChoiceQuestion(temporalPart, question, qIndex)), index++,
+      about(temporalPart.explore, temporalPart.sources, temporalPart.chapitres));
     addPart("context", "Contexte particulier", "Ne compte pas dans le score.",
       "Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.",
       contextQuestions.map((question, i) => createYesNoQuestion(question.text, i, "context")), index++,
@@ -519,7 +559,7 @@
       alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + strengthPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -990,6 +1030,19 @@
     return answers;
   }
 
+  function getTemporalAnswers() {
+    return temporalPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="T${index + 1}"]:checked`);
+      const value = selected ? Number(selected.value) : null;
+      return {
+        id: `T${index + 1}`,
+        question: question.text,
+        value,
+        answer: value === null ? null : question.options[value]?.text || null
+      };
+    });
+  }
+
   function buildAnswerItems(sectionResults) {
     return sections.flatMap((section) => {
       const result = sectionResults[section.id];
@@ -1366,6 +1419,8 @@
     if (exchangeAnswers.some((answer) => answer.value === null)) {
       return null;
     }
+    const temporalAnswers = getTemporalAnswers();
+    if (temporalAnswers.some((answer) => answer.value === null)) return null;
     const bullshit = computeBullshit();
     if (bullshit === null) {
       return null;
@@ -1391,6 +1446,7 @@
       contextAnswers,
       strengthAnswers,
       exchangeAnswers,
+      temporalAnswers,
       bullshit,
       totalScore,
       totalLevel,
@@ -1437,7 +1493,7 @@
     latestResultText = buildResultText(result);
     // Le rapport (8 pièces, synthèse, annexes) est composé par rapport.js, à partir de ces données.
     document.dispatchEvent(new CustomEvent("bullout:rapport", {
-      detail: { result, sections, strengthPart, exchangePart, bullshitPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
+      detail: { result, sections, strengthPart, exchangePart, temporalPart, bullshitPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
     }));
     resultsPanel.dataset.ready = "true";
     location.hash = "rapport";
@@ -1956,7 +2012,9 @@
     getRecommendedStakeholders,
     strengthPart,
     exchangePart,
+    temporalPart,
     bullshitPart,
+    getTemporalAnswers,
     calculateResults
   };
 
