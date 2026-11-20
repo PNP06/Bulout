@@ -1472,6 +1472,7 @@
     if (temporalAnswers.some((answer) => answer.value === null)) return null;
     const temporalInsight = getTemporalInsight(temporalAnswers);
     const bullshit = computeBullshit();
+    if (bullshit) bullshit.matrix = analyseBullshitMatrix(bullshit, sectionResults, temporalAnswers);
     if (bullshit === null) {
       return null;
     }
@@ -1499,6 +1500,7 @@
       temporalAnswers,
       temporalInsight,
       questionnaireVersion: "2026-11-v2",
+      bullshitometreVersion: "2026-11-bs-v2",
       bullshit,
       totalScore,
       totalLevel,
@@ -1516,33 +1518,93 @@
     return result;
   }
 
-  // Bullshitomètre : même calcul que le test satirique (pourcentage du maximum possible, par dimension et au total).
+
+  // Matrice d'interprétation DESCRIPTIVE : deux axes ne démontrent ni causalité
+  // ni rôle protecteur de l'humour. Le style d'humour n'est pas interrogé ici.
+  function analyseBullshitMatrix(bs, sectionResults, temporalAnswers = []) {
+    if (!bs || bs.skipped || bs.percent === null) return null;
+    const distance = sectionResults.B?.score ?? 0;
+    const sens = (sectionResults.C?.values?.[2] ?? 0) + (sectionResults.C?.values?.[4] ?? 0);
+    const absurdeHaut = bs.percent >= 50; // seuil narratif, non étalonné
+    const retraitHaut = distance >= 13 || sens >= 5; // seuils de présentation, non diagnostiques
+    const key = (absurdeHaut ? "h" : "b") + (retraitHaut ? "h" : "b");
+    const cases = {
+      hh: {
+        title: "Le cirque commence à peser",
+        joke: "Même le clown demande maintenant un ordre du jour.",
+        interpretation: "Les réponses satiriques font ressortir de l’absurdité et les questions sérieuses davantage de distance ou de difficultés de sens. Ces résultats coexistent, sans prouver que l’un cause l’autre.",
+        question: "Quelles situations concrètes te font perdre de l’intérêt ou de l’utilité dans ton travail ?"
+      },
+      hb: {
+        title: "L’absurde, mais pas le désengagement",
+        joke: "Le PowerPoint est peut-être absurde. Ton rapport au travail ne l’est pas forcément.",
+        interpretation: "Tu déclares des absurdités dans l’organisation, mais peu de distance ou de perte de sens dans ces questions. Il est possible de juger une tâche absurde et de continuer à trouver de l’utilité à son travail.",
+        question: "Quels aspects de ton travail restent utiles malgré les rituels qui semblent superflus ?"
+      },
+      bh: {
+        title: "Le malaise sans le grand cirque",
+        joke: "Pas besoin de douze comités pour qu’un travail perde son sens.",
+        interpretation: "La distance ou les difficultés de sens ressortent alors que les situations satiriques sont moins fréquentes. Cela invite à examiner d’autres aspects : charge, autonomie, reconnaissance ou état de santé.",
+        question: "Qu’est-ce qui te pèse indépendamment des absurdités décrites dans ce jeu ?"
+      },
+      bb: {
+        title: "De vrais arbitrages, ça existe",
+        joke: "Apparemment, certaines réunions débouchent sur autre chose qu’une autre réunion.",
+        interpretation: "Peu d’absurdités sont sélectionnées et les difficultés de distance et de sens ressortent peu. Cela n’exclut ni d’autres contraintes ni un malaise non décrit ici.",
+        question: "Quelles pratiques permettent aujourd’hui de garder un lien entre travail accompli et résultat utile ?"
+      }
+    };
+    const quality = (temporalAnswers || []).find((a) => a.id === "T4")?.value;
+    return {
+      key, ...cases[key],
+      absurdeHaut, retraitHaut, distance, sens,
+      qualityPrevented: Number.isInteger(quality) && quality >= 3,
+      seuils: "Moitié du barème satirique (50 %), distance B à partir de 13/24 ou difficultés de sens C3+C5 à partir de 5/8 : conventions pédagogiques, pas normes psychométriques."
+    };
+  }
+
+  // Indice satirique principal = dimension « absurdité globale », sans mélanger les
+  // trois familles (réunionite, indicateurs, livrables invisibles) dans un total trompeur.
+
   function computeBullshit() {
-    if (!bullshitPart.questions.length) return { skipped: true, answers: [], percent: null, dims: {}, profil: null };
+    const empty = { skipped: true, version: BS.version || null, count: 0,
+      answers: [], percent: null, dims: {}, profil: null, dominantTheme: null, highlights: [] };
+    if (!bullshitPart.questions.length) return empty;
     const selections = bullshitPart.questions.map((_, index) => form.querySelector(`input[name="BS${index + 1}"]:checked`));
-    if (selections.every((input) => input?.value === "skip")) {
-      return { skipped: true, answers: [], percent: null, dims: {}, profil: null };
-    }
+    if (selections.every((input) => input?.value === "skip")) return empty;
     if (selections.some((input) => !input || input.value === "skip")) return null;
+
     const keys = BS.dims.map(([key]) => key);
-    const score = Object.fromEntries(keys.map((k) => [k, 0]));
-    const max = Object.fromEntries(keys.map((k) => [k, 0]));
+    const score = Object.fromEntries(keys.map((key) => [key, 0]));
+    const max = Object.fromEntries(keys.map((key) => [key, 0]));
     const answers = [];
     for (const [index, question] of bullshitPart.questions.entries()) {
-      const selected = selections[index];
-      if (!selected) return null;
-      const option = question.options[Number(selected.value)];
-      keys.forEach((k) => {
-        max[k] += Math.max(...question.options.map((o) => o.w[k] || 0));
-        score[k] += option.w[k] || 0;
+      const choice = Number(selections[index].value);
+      const option = question.options[choice];
+      if (!Number.isInteger(choice) || !option) return null;
+      for (const key of keys) {
+        score[key] += option.w[key] || 0;
+        max[key] += Math.max(...question.options.map((o) => o.w[key] || 0));
+      }
+      answers.push({
+        id: `BS${index + 1}`, question: question.text, value: choice, answer: option.text,
+        poidsAbsurde: option.w.absurd || 0
       });
-      answers.push({ id: `BS${index + 1}`, question: question.text, value: Number(selected.value), answer: option.text });
     }
-    const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
-    const percent = Math.round(sum(score) / sum(max) * 100);
-    const dims = Object.fromEntries(keys.map((k) => [k, Math.round(score[k] / max[k] * 100)]));
+    const dims = Object.fromEntries(keys.map((key) =>
+      [key, max[key] ? Math.round(100 * score[key] / max[key]) : 0]));
+    // L'indice général et la barre « absurdité globale » décrivent enfin la même quantité.
+    const percent = dims.absurd;
     const profil = BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
-    return { skipped: false, answers, percent, dims, profil };
+    const classements = keys.filter((key) => key !== "absurd")
+      .sort((a, b) => dims[b] - dims[a]);
+    const dominantTheme = classements.length && dims[classements[0]] > 0 ? classements[0] : null;
+    const highlights = answers.filter((a) => a.poidsAbsurde >= 3)
+      .sort((a, b) => b.poidsAbsurde - a.poidsAbsurde).slice(0, 2);
+    return {
+      skipped: false, version: BS.version || null, count: answers.length,
+      answers, percent, dims, profil, dominantTheme, highlights
+    };
   }
 
   function renderResults(result) {
@@ -2070,6 +2132,8 @@
     temporalPart,
     getTemporalInsight,
     bullshitPart,
+    analyseBullshitMatrix,
+    computeBullshit,
     getTemporalAnswers,
     calculateResults
   };
