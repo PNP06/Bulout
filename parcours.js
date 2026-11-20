@@ -9,7 +9,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-8";
+const format = "bull-out-progression-9";
 const reponsesReformulees = new Set(["A2","B1","B2","C2","C6","D2","D5","E6","F2","F4","F5","F6","G6","R3","R6"]);
 let acquis = new Set();
 let bonnes = 0;
@@ -283,7 +283,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v1", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -337,6 +337,18 @@ function restaurer(p) {
   if (p?.format === "bull-out-progression-7") {
     p = { ...p, format, versionBullshitometre: "2026-11-bs-v2",
       reponses: migrerBullshitometreV7(p.reponses) };
+  }
+  // V8 : la satire à douze questions existait, mais pas les quatre réponses HR.
+  // Si toute la satire avait été sautée, prolonger ce choix à HR1–HR4.
+  // Sinon, conserver les réponses et inviter à remplir ou passer la nouvelle partie.
+  if (p?.format === "bull-out-progression-8" || p?.format === "bull-out-progression-9") {
+    p = { ...p, format, versionReactionHumour: "2026-11-hr-v1" };
+  }
+  if (["bull-out-progression-7", "bull-out-progression-8"].includes(formatOriginal)) {
+    const reponses = { ...p.reponses };
+    const sautBS = Array.from({ length: 12 }, (_, i) => reponses[`BS${i + 1}`] === "skip").every(Boolean);
+    if (sautBS) for (let i = 1; i <= 4; i++) reponses[`HR${i}`] = "5";
+    p = { ...p, reponses, versionReactionHumour: "2026-11-hr-v1" };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
