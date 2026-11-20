@@ -562,7 +562,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       : tresHaute ? { n: 2, t: "Ça pèse nettement : n'attends pas que ça passe", d: `Un signe d'usure est très élevé (${nomsUsure([tresHaute])}). Ce n'est pas un diagnostic, mais c'est une raison d'agir dans les prochains jours et d'en parler à un médecin.` }
         : hautes.length === 1 ? { n: 1, t: "Ça tient, mais ça s'use : agis maintenant", d: `Un signe ressort nettement : ${nomsUsure(hautes)}. Les autres tiennent encore. C'est le bon moment pour agir, avant que l'usure s'installe.` }
           : usure.some((d) => d.score >= 7) || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Ça tient, à surveiller", d: "Des signes ou des contraintes montent, sans signe d'usure élevé. Agir tôt coûte moins cher." }
-            : { n: 0, t: "Ça va", d: "Tes réponses ne montrent pas d'usure nette. Garde ce qui te protège." };
+            : { n: 0, t: "Rien de net dans tes réponses", d: "Pas de signe d'usure marqué ni de contrainte forte. Un score bas n'exclut pas un problème : si ton sommeil, ton humeur ou ta sécurité se dégradent, parles-en à un médecin. Garde ce qui te protège." };
   const nDim = (d) => niv(d).n;
   const val = (v) => `${MOTS[nv24(v)]} · ${v}/24`;
   const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "wantToLeave", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
