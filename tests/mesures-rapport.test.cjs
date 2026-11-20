@@ -102,16 +102,16 @@ function fixture(value, alertes = [false, false, false]) {
   };
 }
 
-test("le questionnaire compte 71 questions, dont quatre repères non notés", () => {
+test("le questionnaire compte 75 questions, dont douze satiriques et quatre repères non notés", () => {
   assert.equal(api.sections.length, 6);
   assert.ok(api.sections.every((s) => s.questions.length === 6));
   assert.equal(api.strengthPart.questions.length, 6);
   assert.equal(api.exchangePart.questions.length, 6);
-  assert.equal(api.bullshitPart.questions.length, 8);
+  assert.equal(api.bullshitPart.questions.length, 12);
   assert.equal(api.contextQuestions.length, 8);
   assert.equal(api.alertQuestions.length, 3);
   assert.equal(api.temporalPart.questions.length, 4);
-  assert.equal(6 * 6 + 6 + 6 + 8 + 8 + 3 + 4, 71);
+  assert.equal(6 * 6 + 6 + 6 + 12 + 8 + 3 + 4, 75);
 });
 
 test("un total maximal ne déclenche pas d'alerte à lui seul", () => {
@@ -159,7 +159,7 @@ test("la grille satirique n'attribue pas une protection non mesurée à l'humour
   f.result.sectionResults.B.score = 0;
   f.result.bullshit.percent = 75;
   const html = composer(f);
-  assert.match(html, /ce questionnaire ne demande pas si l’humour t’aide réellement/);
+  assert.match(html, /ne mesure ni la fonction de l’humour|ne demande pas quel humour tu utilises/);
   assert.doesNotMatch(html, /Ton humour est un appui/);
 });
 
@@ -315,11 +315,13 @@ test("l'impression réaffiche toutes les couches même si une étape a été sé
   assert.match(css, /prefers-reduced-motion: reduce/);
 });
 
-test("le rapport supprime les surnoms satiriques quand épuisement et récupération ressortent fortement", () => {
+test("la satire reste choisie par la personne même avec un épuisement marqué", () => {
   const html = composer(fixture(4));
   const page = pageDuRapport(html, "absurde");
-  assert.match(page, /La satire reste facultative à lire/);
-  assert.doesNotMatch(page, /Profil fictif|À sortir en réunion|Mode de survie/);
+  assert.match(page, /Verdict du ministère des livrables/);
+  assert.match(page, /Profil fictif/);
+  assert.match(page, /Tu peux replier cette section/);
+  assert.match(html, /Un signal de sécurité/);
 });
 
 test("la satire reste disponible à faible intensité, clairement séparée du commentaire scientifique", () => {
@@ -419,7 +421,7 @@ test("la chronologie alimente la lecture du rapport sans déduire de causalité"
 
 test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ceux à refaire", () => {
   const src = read("parcours.js");
-  assert.match(src, /const format = "bull-out-progression-7"/);
+  assert.match(src, /const format = "bull-out-progression-8"/);
   assert.match(src, /versionQuestions: "2026-11-v2"/);
   assert.match(src, /reponsesReformulees/);
   assert.match(src, /Object.entries\(anciennes\).filter/);
@@ -432,13 +434,13 @@ test("la pause satirique peut être entièrement passée sans créer de faux sco
   f.result.bullshit = { skipped: true, answers: [], percent: null, dims: {}, profil: null };
   const html = composer(f);
   const bsPage = pageDuRapport(html, "absurde");
-  assert.match(bsPage, /Non renseigné · aucun indice satirique calculé/);
+  assert.match(bsPage, /aucun indice calculé/);
   assert.doesNotMatch(bsPage, /null\s*%|0\s*% du barème/);
   assert.doesNotMatch(bsPage, /Profil fictif|À sortir en réunion/);
   assert.match(html, /Ce que tu vis/);
 });
 
-test("les huit questions satiriques admettent une réponse de saut cohérente", () => {
+test("les douze questions satiriques admettent une réponse de saut cohérente", () => {
   const code = read("script.js");
   assert.match(code, /data-skip-bs/);
   assert.match(code, /value="skip"/);
@@ -496,7 +498,7 @@ function completeAnswers(options = {}) {
   return { ...inputs, ...(options.overrides || {}) };
 }
 
-test("le moteur exécute les 71 réponses avec la pause satirique passée", () => {
+test("le moteur exécute les 75 réponses avec la pause satirique passée", () => {
   const data = completeAnswers({ skipBS: true });
   const engine = debugApi(data);
   const result = engine.calculateResults();
@@ -509,10 +511,10 @@ test("le moteur exécute les 71 réponses avec la pause satirique passée", () =
   assert.equal(result.hasAlert, false);
   assert.match(composer({ ...fixture(0), result: { ...fixture(0).result, ...result,
     modelReadings: result.modelReadings,
-    plans: { plan72h: [], twoWeeks: [] } } }), /Pause humour passée/);
+    plans: { plan72h: [], twoWeeks: [] } } }), /La pause bullshit, à ton rythme/);
 });
 
-test("le moteur calcule un indice satirique uniquement après huit réponses réelles", () => {
+test("le moteur calcule un indice satirique uniquement après douze réponses réelles", () => {
   const data = completeAnswers();
   const normal = debugApi(data).calculateResults();
   assert.ok(normal);
@@ -538,4 +540,76 @@ test("une réponse manquante dans T empêche la fabrication d'un rapport complet
   const answers = completeAnswers({ skipBS: true });
   delete answers.T2;
   assert.equal(debugApi(answers).calculateResults(), null);
+});
+
+
+test("les quatre questions originales ajoutées occupent BS9 à BS12, sans décaler les huit précédentes", () => {
+  const source = debugApi();
+  const q = source.bullshitPart.questions;
+  assert.equal(q.length, 12);
+  assert.match(q[0].text, /Quand on te demande ce que tu as produit/);
+  assert.match(q[7].text, /À la fin d’une semaine/);
+  assert.match(q[8].text, /directeur demande une slide/);
+  assert.match(q[9].text, /demande la plus typique/);
+  assert.match(q[10].text, /agenda contient/);
+  assert.match(q[11].text, /rapport aux KPI/);
+});
+
+test("l’indice général et l’absurdité globale ont exactement la même valeur", () => {
+  for (const response of [0, 1, 2, 3]) {
+    const input = completeAnswers({ overrides: Object.fromEntries(
+      Array.from({ length: 12 }, (_, index) => ["BS" + (index + 1), response])) });
+    const result = debugApi(input).calculateResults();
+    assert.ok(result);
+    assert.equal(result.bullshit.count, 12);
+    assert.equal(result.bullshit.percent, result.bullshit.dims.absurd);
+    assert.equal(result.bullshit.version, "2026-11-bs-v2");
+  }
+});
+
+test("les quatre cadrans distinguent l’absurdité du retrait et du sens", () => {
+  const api = debugApi();
+  const responses = completeAnswers();
+  const full = api.sections;
+  const make = (b,c3,c5) => ({
+    B: {score:b}, C:{values:[0,0,c3,0,c5,0]}
+  });
+  const high = {skipped:false,percent:90};
+  const low = {skipped:false,percent:5};
+  for (const [bs,sections,key] of [
+    [high, make(0,0,0), "hb"], [high,make(18,0,0),"hh"],
+    [low,make(18,0,0),"bh"],[low,make(0,0,0),"bb"],
+    [high,make(0,3,2),"hh"]
+  ]) {
+    const matrix = api.analyseBullshitMatrix(bs,sections);
+    assert.equal(matrix.key,key);
+    assert.ok(matrix.interpretation);
+    assert.ok(matrix.question);
+    assert.ok(matrix.joke);
+  }
+  assert.equal(api.analyseBullshitMatrix({skipped:true,percent:null},make(20,4,4)),null);
+});
+
+test("la matrice du rapport explique ses axes, affiche l’humour et une question concrète", () => {
+  const input = completeAnswers({overrides: Object.fromEntries(Array.from({length:12},(_,i)=>["BS"+(i+1),3]))});
+  const engine = debugApi(input).calculateResults();
+  assert.ok(engine.bullshit.matrix);
+  const report = composer({...fixture(2),result:{...fixture(2).result,...engine,
+    plans:fixture(2).result.plans}});
+  const page = pageDuRapport(report,"absurde");
+  assert.match(page,/Le paradoxe intéressant/);
+  assert.match(page,/Absurdité haute/);
+  assert.match(page,/Distance \/ sens/);
+  assert.match(page,/Question anti-bullshit|Une question utile/);
+  assert.match(page,/Verdict du ministère/);
+  assert.match(page,/Retrouver mes 12 réponses/);
+});
+
+test("l’ancienne sauvegarde v7 ne renumérote pas BS1–BS8 et respecte le saut volontaire", () => {
+  const code = read("parcours.js");
+  assert.match(code,/p\?\.format === "bull-out-progression-7"/);
+  assert.match(code,/Array\.from\(\{ length: 8 \}/);
+  assert.match(code,/BS\$\{i\}/);
+  assert.match(code,/i = 9; i <= 12/);
+  assert.match(code,/versionBullshitometre: "2026-11-bs-v2"/);
 });
