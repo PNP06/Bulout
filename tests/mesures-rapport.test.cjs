@@ -180,3 +180,96 @@ test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
   assert.match(html, /En forme/);
   assert.doesNotMatch(html, /id="bo-pct"[^>]*>80 %/);
 });
+
+
+function pageDuRapport(html, id) {
+  const start = html.indexOf('data-page="' + id + '"');
+  assert.ok(start >= 0, "Page absente : " + id);
+  const next = html.indexOf('<section class="rp-page', start + 1);
+  return html.slice(start, next >= 0 ? next : undefined);
+}
+
+test("le rapport commence par la synthèse, le plan et les interlocuteurs", () => {
+  const html = composer(fixture(2));
+  const positions = ["synthese", "plan", "portes", "travail"].map((id) => html.indexOf('data-page="' + id + '"'));
+  assert.ok(positions.every((n) => n >= 0));
+  assert.ok(positions.every((n, i) => i === 0 || n > positions[i - 1]), "Parcours principal mal ordonné");
+  assert.match(html, /Approfondir · modèles, appuis, annexes/);
+  assert.match(html, /Ce que tu vis/);
+  assert.match(html, /Ce que tu décris au travail/);
+  assert.match(html, /Ce sur quoi tu peux t'appuyer/);
+});
+
+test("la fiche travail ne divulgue pas les réponses sensibles du rapport personnel", () => {
+  const html = composer(fixture(4, [true, false, true]));
+  const fiche = pageDuRapport(html, "travail");
+  assert.match(fiche, /conditions de travail/i);
+  assert.match(fiche, /Contraintes à vérifier/);
+  assert.match(fiche, /Ressources à examiner/);
+  assert.doesNotMatch(fiche, /Idées noires ou suicidaires/);
+  assert.doesNotMatch(fiche, /douleur thoracique|3114|suicidaires :/);
+  assert.doesNotMatch(fiche, /mon énergie et mon sommeil|compensations pour tenir/i);
+  const css = read("rapport.css");
+  assert.match(css, /\.rapport\.pdf-travail \.rp-page:not\(\[data-page="travail"\]\)\s*\{ display: none !important; \}/);
+  assert.match(css, /\.rapport\.pdf-travail \.rapport-cover/);
+});
+
+test("l'export Essentiel est proposé par défaut, avec option distincte pour le travail", () => {
+  const html = composer(fixture(1));
+  assert.match(html, /name="rp-pdf" value="court" checked/);
+  assert.match(html, /name="rp-pdf" value="travail"/);
+  assert.match(html, /name="rp-pdf" value="complet"/);
+});
+
+test("les sous-groupes efficacité et sens restent sur leurs dénominateurs réels", () => {
+  const html = composer(fixture(4));
+  assert.match(html, /16\/16/);
+  assert.match(html, /8\/8/);
+  assert.doesNotMatch(html, /perte de sens\s*24\/24/);
+});
+
+test("la grille INRS couvre six familles sans score RPS inventé", () => {
+  const html = composer(fixture(2));
+  const bloc = pageDuRapport(html, "balance");
+  for (const categorie of [
+    "Intensité et temps de travail", "Exigences émotionnelles",
+    "Autonomie et marges de manœuvre", "Rapports sociaux au travail",
+    "Conflits de valeurs", "Insécurité professionnelle"
+  ]) assert.ok(bloc.includes(categorie), categorie);
+  assert.match(bloc, /sans fabriquer de six nouveaux scores/);
+});
+
+test("un signal D3 isolé déclenche une action d'arbitrage même si le total D reste bas", () => {
+  const scores = { A: 0, B: 0, C: 0, D: 4, E: 0, F: 0 };
+  const actions = api.generatePriorityActions({ sectionScores: scores, hasAlert: false,
+    contextAnswers: [], answers: [{ id: "D3", sectionId: "D", riskScore: 4 }] });
+  assert.ok(actions.some((a) => a.id === "D-D3" && /priorités contradictoires/.test(a.title)));
+});
+
+test("les scores bas donnent un conseil utile, pas seulement de refaire le questionnaire", () => {
+  const scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  const actions = api.generatePriorityActions({ sectionScores: scores, hasAlert: false,
+    contextAnswers: [], answers: [] });
+  assert.ok(actions.some((a) => a.id === "maintain"));
+});
+
+test("la peur de parler ne conduit pas automatiquement vers son manager", () => {
+  const scores = { A: 18, B: 12, C: 6, D: 18, E: 18, F: 12 };
+  const profile = api.determineProfile(scores, 84, false);
+  const c = [{ id: "fearToSpeak", yes: true }];
+  const recos = api.getRecommendedStakeholders(scores,
+    [{ yes: false }, { yes: false }, { yes: false }], profile, c);
+  assert.equal(recos.some((r) => r.key === "manager"), false);
+  const actions = api.generatePriorityActions({ sectionScores: scores, hasAlert: false,
+    contextAnswers: c, answers: [] });
+  assert.ok(actions.some((a) => a.id === "confidential"));
+});
+
+test("l'incapacité de fonctionner avec un conflit relationnel ne crée pas une urgence vitale automatique", () => {
+  const scores = { A: 18, B: 18, C: 18, D: 18, E: 18, F: 18 };
+  const profile = api.determineProfile(scores, 108, true);
+  const c = [{ id: "harassment", yes: true }];
+  const recos = api.getRecommendedStakeholders(scores,
+    [{ yes: false }, { yes: true }, { yes: false }], profile, c);
+  assert.equal(recos.some((r) => r.key === "emergency"), false);
+});
