@@ -591,7 +591,7 @@
     const name = `${section.id}${index + 1}`;
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
-    const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
+    const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     return item;
   }
@@ -747,6 +747,7 @@
       let target = null;
       if (inputs.length === 5 && /^[0-4]$/.test(key)) target = inputs[Number(key)];
       if (inputs.length === 4 && /^[1-4]$/.test(key)) target = inputs[Number(key) - 1];
+      if (inputs.length === 6 && /^[1-6]$/.test(key)) target = inputs[Number(key) - 1];
       if (inputs.length === 2) target = key === "n" || key === "1" ? inputs[0] : key === "o" || key === "2" ? inputs[1] : null;
       if (!target) return;
       event.preventDefault();
