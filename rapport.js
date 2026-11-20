@@ -830,10 +830,10 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
           <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
         </fieldset>
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
-        <button class="button secondary" type="button" id="copy-results">Copier le résumé</button>
+        <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
         <a href="#questionnaire">Revoir mes réponses</a>
       </div>
-      <p class="rp-prive">Rien ne quitte ton navigateur. Pour le PDF : dans la fenêtre d'impression, choisis « Enregistrer au format PDF ».</p>
+      <p class="rp-prive">Rien ne quitte ton navigateur automatiquement. <b>Le résumé copié et les PDF essentiel/complet contiennent des informations personnelles.</b> Pour parler au travail sans communiquer tes réponses de santé, choisis « Fiche travail ». Dans la fenêtre d'impression, sélectionne « Enregistrer au format PDF ».</p>
     </header>
 <nav class="rapport-nav rp-nav" aria-label="Sommaire du rapport">
       <div class="rp-nav-essentiel"><span class="rp-nav-label">À lire d'abord</span>
