@@ -596,6 +596,22 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
   .choices-2 { grid-template-columns: repeat(2, minmax(0, 180px)); }
 }
 
+/* HR1-HR4 : réponse graduée et refus explicite sur sa propre ligne.
+   Les cinq premiers choix correspondent à un ressenti déclaré, pas à un score. */
+.choices-humor { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.choices-humor .choice .opt { height: 100%; flex-direction: column; align-items: flex-start;
+  justify-content: center; gap: 8px; padding: 11px 10px; font-size: 14px; }
+.choices-humor .choice:last-child { grid-column: 1 / -1; }
+.choices-humor .choice:last-child .opt { flex-direction: row; min-height: 42px;
+  background: var(--bg); align-items: center; }
+@media (max-width: 620px) {
+  .choices-humor { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .choices-humor .choice:nth-child(5),
+  .choices-humor .choice:last-child { grid-column: 1 / -1; }
+  .choices-humor .choice .opt { flex-direction: row; justify-content: flex-start; min-height: 50px; }
+}
+@media print { .choices-humor .choice { break-inside: avoid; } }
+
 /* Navigation entre les parties */
 .q-nav { display: grid !important; gap: 14px; padding-top: 24px !important; justify-content: stretch !important; }
 .nav-status { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; color: var(--muted); font-size: 15px; }
