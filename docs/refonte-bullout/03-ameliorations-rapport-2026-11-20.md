@@ -25,7 +25,7 @@ Le rapport Bull-Out suivait surtout l'ordre des neuf pièces de la formation, av
 | Actions | Actions souvent liées au total de section | Si une question D/E est fortement déclarée, une action adaptée à l'item est proposée même si le total de la section est bas |
 | Interlocuteurs | Possibilité de pousser automatiquement vers le manager | Si la personne signale peur de parler ou harcèlement, pas de recommandation automatique du manager ; appui confidentiel suggéré |
 | Urgences | Mélange possible de niveaux de sécurité | Les trois alertes et leurs orientations sont dissociées des scores ; F élevé seul ne signifie pas danger vital |
-| Bullshitomètre | Surnom satirique et conseils humoristiques même en cas d'épuisement marqué | **Profil satirique masqué** si alerte ou A/F fréquemment élevés ; satire conservée à faible intensité, sans prétendre mesurer l'effet protecteur de l'humour |
+| Bullshitomètre | Surnom satirique et conseils humoristiques même en cas d'épuisement marqué | **Profil satirique accessible et repliable** quel que soit le niveau d'épuisement, avec une matrice séparant absurdité perçue, distance et sens. Le signal médical reste traité à part, sans inférer un effet protecteur de l'humour |
 | Versions PDF | Court/long déjà existants | Par défaut **Essentiel** (synthèse, plan, portes), **Complet** (toutes les pièces/annexes), **Fiche travail** (seule la page D/E, sans réponses de santé) |
 | Fiche travail | Demandes factuelles disponibles dans certaines pièces | Page autonome préparant une discussion : contraintes D, ressources E, arbitrage demandé, exemples à dater ; pas de réponses de santé |
 | Suivi | Refaire le questionnaire dans deux/quatre semaines | **Carnet imprimable à deux et quatre semaines**, avec faits, dates, décisions, manifestations et point à réexaminer ; pas de suivi par total agrégé |
@@ -68,7 +68,7 @@ Toute modification d'item nécessitera une migration du format de sauvegarde et 
 ## 6. Vérifications automatisées et critères de réussite
 
 Workflow `.github/workflows/verification.yml` : exécution de `node --check script.js` et de la suite Node `node --test tests/mesures-rapport.test.cjs`. La suite comporte **29 tests automatisés** à la date de cette mise à jour. Les scénarios portent sur :
-- 67 questions / compatibilité des identifiants ;
+- 75 questions proposées ; conservation de BS1–BS8 et ajout de BS9–BS12 ; migration v7 → v8 ;
 - seuils non cliniques et alertes distinctes du total ;
 - rendu HTML pour réponses 0–4 et pour chaque alerte ;
 - absence de fausse batterie chiffrée et vrai dénominateur du sens ;
