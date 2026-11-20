@@ -160,7 +160,7 @@ test("la grille satirique n'attribue pas une protection non mesurée à l'humour
   f.result.sectionResults.B.score = 0;
   f.result.bullshit.percent = 75;
   const html = composer(f);
-  assert.match(html, /ne mesure ni la fonction de l’humour|ne demande pas quel humour tu utilises/);
+  assert.match(html, /ne mesure ni ton usage habituel de l\u0027humour/);
   assert.doesNotMatch(html, /Ton humour est un appui/);
 });
 
