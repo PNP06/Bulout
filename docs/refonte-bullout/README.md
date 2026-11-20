@@ -6,10 +6,10 @@ Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une pr
 
 ## Par où commencer
 
-1. **[L'audit du 20 novembre](audit-2026-11-20.md)** : ce qui n'allait pas, ce qui a été corrigé, ce qui reste à faire. C'est le document le plus à jour.
+1. **[L'audit du 20 novembre](audit-2026-11-20.md)** : ce qui n'allait pas, ce qui a été corrigé, ce qui reste à faire dans la V2.
 2. **[Le journal des décisions](00-journal-et-decisions.md)** : qui a proposé quoi, ce qui a été décidé, ce qui reste ouvert.
-3. **[L'inventaire des 67 questions et des calculs](inventaire-questions-mesures-calculs.md)** : pour chaque question, ce qu'elle mesure, comment elle est comptée et où elle apparaît dans le rapport.
-4. La **version 2 du questionnaire et du rapport** (travail avec ChatGPT, PR #7), fusionnée le 20 novembre au soir :
+3. **[L'inventaire historique des 67 questions et des calculs](inventaire-questions-mesures-calculs.md)** : document de base avant les 12 nouvelles questions ; pour la V2 à 79 questions, voir le questionnaire et le moteur.
+4. La **version 2 du questionnaire et du rapport** (travail initial sur PR #7, consolidé avec l'audit de Claude dans la PR #9), fusionnée sur `main` le 20 novembre :
    - [premières corrections](01-implementation-mesures-rapport-2026-11-20.md) ;
    - [audit question par question](02-audit-questionnaire-prochaine-version.md) ;
    - [deuxième passe du rapport](03-ameliorations-rapport-2026-11-20.md) ;
@@ -17,6 +17,8 @@ Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une pr
    - [bullshitomètre à 12 questions et matrice](05-bullshitometre-12-questions-matrice.md) ;
    - [réaction à l'humour, 4 questions](06-retour-sur-la-satire-ressenti-immediat.md).
 5. Les **[archives](archives/)** gardent des propositions de l'après-midi (cadrage, comparateur de métaphores). Ce ne sont pas des décisions.
+
+6. **[Modèles approfondis, méthode inspirée de Papillon et tests PDF fictifs](07-modeles-methode-et-pdf-fictif.md)** : travail de la PR #10 **en brouillon, non fusionnée**. L'origine, la mécanique, les exemples, les limites et la synthèse comparative sont détaillés.
 
 Les tests se lancent avec `node --test tests/mesures-rapport.test.cjs` (et tournent sur GitHub à chaque push).
 
