@@ -187,7 +187,7 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -321,7 +321,7 @@ test("la satire reste choisie par la personne même avec un épuisement marqué"
   assert.match(page, /Verdict du ministère des livrables/);
   assert.match(page, /Profil fictif/);
   assert.match(page, /Tu peux replier cette section/);
-  assert.match(html, /Un signal de sécurité/);
+  assert.match(page, /ni un diagnostic, ni un conseil médical/);
 });
 
 test("la satire reste disponible à faible intensité, clairement séparée du commentaire scientifique", () => {
