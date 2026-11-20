@@ -72,6 +72,10 @@ function fixture(value, alertes = [false, false, false]) {
       contextAnswers: api.contextQuestions.map((context) => ({ ...context, yes: false, answered: true })),
       strengthAnswers: api.strengthPart.questions.map((question, i) => ({ id: "G" + (i + 1), question, value })),
       exchangeAnswers: api.exchangePart.questions.map((question, i) => ({ id: "R" + (i + 1), question, value })),
+      temporalAnswers: api.temporalPart.questions.map((question, i) => {
+        const n = i === 0 ? 2 : i === 1 ? 1 : i === 2 ? 0 : value;
+        return { id: "T" + (i + 1), question: question.text, value: n, answer: question.options[n].text };
+      }),
       bullshit: { percent: 0, dims: { meeting: 0, dashboard: 0, ghost: 0, absurd: 0 }, answers: [],
         profil: { titre: "Profil fictif", texte: "Pour test", survie: "Test", phrase: "Exemple" } },
       modelReadings: [0, 1, 2].map(() => ({ lines: ["Lecture fictive"] })),
@@ -82,12 +86,13 @@ function fixture(value, alertes = [false, false, false]) {
         twoWeeks: [{ title: "À deux semaines", items: ["Réexaminer"] }] }
     },
     sections: api.sections, strengthPart: api.strengthPart, exchangePart: api.exchangePart,
+    temporalPart: api.temporalPart,
     bullshitPart: api.bullshitPart, bsDims: [["meeting", "Réunionite"]],
     ratingLabels
   };
 }
 
-test("le questionnaire garde 67 questions dont six dimensions de six items", () => {
+test("le questionnaire compte 71 questions, dont quatre repères non notés", () => {
   assert.equal(api.sections.length, 6);
   assert.ok(api.sections.every((s) => s.questions.length === 6));
   assert.equal(api.strengthPart.questions.length, 6);
@@ -95,7 +100,8 @@ test("le questionnaire garde 67 questions dont six dimensions de six items", () 
   assert.equal(api.bullshitPart.questions.length, 8);
   assert.equal(api.contextQuestions.length, 8);
   assert.equal(api.alertQuestions.length, 3);
-  assert.equal(6 * 6 + 6 + 6 + 8 + 8 + 3, 67);
+  assert.equal(api.temporalPart.questions.length, 4);
+  assert.equal(6 * 6 + 6 + 6 + 8 + 8 + 3 + 4, 71);
 });
 
 test("un total maximal ne déclenche pas d'alerte à lui seul", () => {
@@ -360,4 +366,52 @@ test("les différences entre dimensions restent descriptives, même lorsque les 
   // Le rapport reçoit un ensemble de réponses variées sans les convertir en validité clinique.
   const html = composer(f);
   assert.match(html, /Ce contrôle ne mesure ni la sincérité ni la validité clinique|Cela ne valide pas pour autant le questionnaire/);
+});
+
+
+test("les questions révisées ne présupposent plus une protection ou une causalité", () => {
+  const section = (id) => api.sections.find((s) => s.id === id);
+  assert.match(section("B").questions[0], /indifférent/);
+  assert.doesNotMatch(section("B").questions[0], /pour me protéger/);
+  assert.match(section("F").questions[1], /Mon sommeil est perturbé/);
+  assert.doesNotMatch(section("F").questions[1], /par le travail/);
+  assert.match(api.strengthPart.questions[5], /arbitrage/);
+});
+
+test("T4 décrit la qualité empêchée sans entrer dans le total des six scores", () => {
+  const f = fixture(4);
+  assert.equal(f.result.temporalAnswers[3].value, 4);
+  assert.equal(f.result.totalScore, 120); // E est inversé et reste à 0.
+  const html = composer(f);
+  assert.match(html, /Qualité empêchée/);
+  assert.match(html, /T4/);
+  assert.match(html, /hors score/);
+});
+
+test("une qualité empêchée fréquente déclenche une action de travail spécifique", () => {
+  const scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  const actions = api.generatePriorityActions({ sectionScores: scores, hasAlert: false,
+    answers: [], contextAnswers: [], temporalAnswers: [{ id: "T4", value: 4 }] });
+  assert.ok(actions.some((a) => a.id === "quality-prevented"));
+});
+
+test("la chronologie alimente la lecture du rapport sans déduire de causalité", () => {
+  const f = fixture(2);
+  f.result.temporalAnswers[1] = { id: "T2", question: "Évolution", value: 2,
+    answer: api.temporalPart.questions[1].options[2].text };
+  f.result.temporalAnswers[2] = { id: "T3", question: "Hors travail", value: 1,
+    answer: api.temporalPart.questions[2].options[1].text };
+  const html = composer(f);
+  assert.match(html, /Elles augmentent/);
+  assert.match(html, /Mes difficultés diminuent nettement/);
+  assert.match(html, /ne suffisent pas à diagnostiquer/);
+});
+
+test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ceux à refaire", () => {
+  const src = read("parcours.js");
+  assert.match(src, /const format = "bull-out-progression-7"/);
+  assert.match(src, /versionQuestions: "2026-11-v2"/);
+  assert.match(src, /reponsesReformulees/);
+  assert.match(src, /Object.entries\(anciennes\).filter/);
+  assert.match(src, /sont à renseigner de nouveau/);
 });
