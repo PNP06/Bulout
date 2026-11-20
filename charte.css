@@ -432,7 +432,7 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .bo-bat-cap, .bo-bat-body { fill: none; stroke: var(--creme); stroke-width: 4; }
 .bo-bat-cap { fill: var(--creme); stroke: none; }
 .bo-bat-fill { fill: var(--anis); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--lvl, .8)); transition: transform 1.4s var(--ease), fill 1.2s; }
-.bo-bat-pct { fill: var(--sapin-deep); font: 800 34px/1 var(--title) !important; font-family: var(--title) !important; transition: fill .8s; }
+.bo-bat-pct { fill: var(--sapin-deep); font: 800 14px/1 var(--title) !important; font-family: var(--title) !important; transition: fill .8s; }
 .bo-bat-lbl { fill: rgba(246, 239, 226, .75); font-size: 13px; font-weight: 600; }
 .bo-scene[data-act="1"] .bo-bat-fill { fill: #e8c25c; }
 .bo-scene[data-act="2"] .bo-bat-fill, .bo-scene[data-act="3"] .bo-bat-fill { fill: var(--orange); }
@@ -495,7 +495,7 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .home-for-goal { margin: 0; padding: 18px 20px; border-radius: var(--radius); background: var(--sapin); color: var(--creme); font-size: 17px; line-height: 1.5; }
 .home-for-goal b { color: var(--anis); }
 @media (max-width: 860px) { .home-for { grid-template-columns: minmax(0, 1fr); } }
-.bo-bat-pct { fill: var(--creme) !important; stroke: var(--sapin-deep); stroke-width: 6px; paint-order: stroke; stroke-linejoin: round; }
+.bo-bat-pct { fill: var(--creme) !important; stroke: var(--sapin-deep); stroke-width: 2.5px; paint-order: stroke; stroke-linejoin: round; }
 .bo-bubble text { font-size: 15px !important; }
 .home-wrap .home-for-goal { color: var(--creme); }
 
