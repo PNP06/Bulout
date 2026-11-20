@@ -351,7 +351,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const lectureAppuis = `${forts.length ? `${forts.length} point${forts.length > 1 ? "s" : ""} fort${forts.length > 1 ? "s" : ""} personnel${forts.length > 1 ? "s" : ""} (${liste(forts.map((a) => APPUIS[a.id][0].toLowerCase()))})` : "Pas de point fort personnel net pour l'instant"}, ${ressPresentes.length ? `${ressPresentes.length} ressource${ressPresentes.length > 1 ? "s" : ""} présente${ressPresentes.length > 1 ? "s" : ""} au travail` : "peu de ressources présentes au travail"}, et ${tient.length} réponse${tient.length > 1 ? "s" : ""} qui montre${tient.length > 1 ? "nt" : ""} ce qui tient encore.`;
   const pageAppuis = {
     titre: "Tes appuis", q: "Sur quoi peux-tu t'appuyer pour agir ?",
-    intro: "Un rapport qui ne montre que les difficultés oublie la moitié de la balance. Ce qui tient encore, et ce que tu sais déjà faire, sont les points de départ les plus solides pour agir.",
+    intro: "Les ressources déclarées comptent, mais ne garantissent pas que la charge est soutenable. L'objectif est d'identifier les appuis réellement disponibles pour préparer une action.",
     bref: lectureAppuis,
     corps: `<div class="rp-duo"><div>${appuisArt(g)}<p class="rp-legende">Tes réponses à la partie G. Elles ne comptent dans aucun score de risque.</p></div>
       <div>${forts.length ? `<p>Tes points forts les plus nets : <b>${esc(liste(forts.map((a) => APPUIS[a.id][1].toLowerCase())))}</b>.</p>` : "<p>Aucun point d'appui ne ressort nettement aujourd'hui. C'est fréquent quand l'usure s'installe : ce qu'on fait pour soi passe en premier à la trappe. Les leviers ci-dessous sont des premiers pas.</p>"}
@@ -437,7 +437,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       bref: `${lectureBatterie} Épuisement : ${niv(sr.A).mot} (${sr.A.score}/24). Récupération et santé : ${niv(sr.F).mot} (${sr.F.score}/24).`,
       corps: `<div class="rp-duo"><div>${batterie(sr.A.score, sr.F.score)}<p class="rp-legende">Les barres décrivent la fréquence des réponses des parties A et F, chacune sur 24. Ce ne sont ni une quantité d’énergie, ni une mesure clinique validée.</p></div>
         <div>${carte(`Épuisement ${tag(sr.A)}`, `<p>${esc(sr.A.comment)}</p>`)}${carte(`Récupération et santé ${tag(sr.F)}`, `<p>${esc(sr.F.comment)}</p>`)}
-        ${haut("A2") ? `<p class="rp-cle"><b>Question clé :</b> tu réponds que même un repos court ne te fait plus récupérer (A2). C'est « le test des vacances » du chapitre 1 : ce qui ne remonte pas avec le repos ne relève plus de la simple fatigue.</p>` : ""}</div></div>
+        ${haut("A2") ? `<p class="rp-cle"><b>Question clé :</b> tu réponds que même un repos court ne te fait plus récupérer (A2). Cette réponse appelle à examiner sa durée, la récupération, les contraintes du travail et d'autres causes possibles. Elle ne suffit pas à identifier un burn-out.</p>` : ""}</div></div>
         <h4 class="rp-h">Tes réponses</h4>${reponses(sr.A, sec.A, ratingLabels, r)}${reponses(sr.F, sec.F, ratingLabels, r)}
         ${haut("F5") || haut("F6") ? `<p class="rp-cle"><b>À ne pas laisser de côté :</b> ${[haut("F5") ? "des stratégies pour tenir ou dormir (F5)" : "", haut("F6") ? "des erreurs ou quasi-accidents liés à la fatigue (F6)" : ""].filter(Boolean).join(" et ")}. Ce sont des signaux de sécurité : parles-en à un médecin.</p>` : ""}`,
       comprendre: pourComprendre("Fatigue, stress ou usure", `<p>Le stress est une réaction d'adaptation à une exigence. La fatigue se répare avec le repos. Le burn-out est décrit par l'OMS (CIM-11, 2019) comme un <b>phénomène lié au travail</b>, résultant d'un stress chronique au travail qui n'a pas été géré avec succès. Ce n'est pas une maladie dans la classification, et aucun test sanguin ou hormonal ne le mesure chez une personne.</p><p>Les changements pendant un congé ou à la reprise peuvent éclairer le rôle du travail, sans démontrer à eux seuls une causalité. Une fatigue persistante peut également avoir d’autres origines.</p>`, chapLien(1)),
@@ -445,7 +445,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     },
     {
       id: "jauges", chap: 2, titre: "Les trois jauges", q: "L'usure touche-t-elle seulement ton énergie, ou aussi ta relation au travail et ta confiance ?",
-      intro: "Le modèle de Christina Maslach décrit le burn-out par trois signes qui peuvent monter séparément : s'épuiser (A), se détacher (B), douter de son efficacité ou du sens (C).",
+      intro: "Le modèle de Christina Maslach distingue épuisement, distance ou cynisme et efficacité professionnelle réduite. Bull-Out explore aussi le sens du travail, mais ce dernier ne constitue pas une quatrième dimension clinique de Maslach.",
       bref: `${lectureUsure} Épuisement ${niv(sr.A).mot}, distance ${niv(sr.B).mot}, efficacité et sens ${niv(sr.C).mot}.`,
       corps: `<div class="rp-duo"><div>${jauges(sr)}<p class="rp-legende">Les pointillés marquent les seuils de lecture (6, 12 et 18 sur 24).</p></div>
         <div>${r.modelReadings[0].lines.map((l) => `<p>${esc(l)}</p>`).join("")}
@@ -506,7 +506,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         <h4 class="rp-h">Les réponses les plus hautes</h4>
         ${r.topItems.length ? `<ol class="rp-top">${r.topItems.map((a) => `<li><p><b>${esc(cap(a.humanLabel))}</b> <span class="rp-id">${a.id}</span> ${jauge(a.riskScore)}</p><p class="rp-q">${esc(a.question)}</p><p><b>Piste :</b> ${esc(a.action)}</p></li>`).join("")}</ol>` : "<p>Aucune réponse à 3 ou 4 : pas de signal fort isolé.</p>"}`,
       comprendre: pourComprendre("Ce que vaut un score de questionnaire", `<p>Un questionnaire validé a été testé : ses questions mesurent-elles la même chose (fidélité) ? Mesure-t-il ce qu'il prétend (validité) ? À partir de quel score s'inquiéter (normes) ? Même ces outils ne posent pas de diagnostic : seuls un entretien et un examen le font.</p><p>Le questionnaire Bull-Out n'a pas encore été testé de cette façon. Ses scores servent à repérer ce qui ressort et à en parler, pas à te comparer aux autres. Un score bas n'exclut pas un problème si ton sommeil, ton humeur ou ta sécurité se dégradent.</p>`, chapLien(6)),
-      garder: "Tu sais ce qui ressort et ce que valent les chiffres. Reste à choisir quoi faire."
+      garder: "Les réponses donnent des indices, pas des normes individuelles. Il reste à choisir quoi vérifier et comment agir."
     },
     {
       id: "plan", chap: 7, titre: "Le plan", q: "Que faire dans les 72 heures, puis dans les deux semaines ?",
