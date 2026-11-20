@@ -71,9 +71,9 @@ const jauge = (v) => `<span class="rp-jauge" aria-hidden="true">${[1, 2, 3, 4].m
 
 // ───────── Dessins personnalisés (SVG faits main, aux couleurs de la formation)
 // ───────── Vue d'ensemble : les trois modèles de la formation en une seule image.
-// À gauche, d'où vient l'usure (la balance JD-R, le retour de Siegrist, ce qui aggrave) ; au centre, ton énergie
-// (la batterie), rechargée par en dessous ; à droite, ce que l'usure fait (les trois signes de Maslach, le corps).
-// L'épaisseur d'un fil suit le niveau : on lit le chemin d'un coup d'œil, de l'effet vers sa cause.
+// À gauche : conditions et ressources déclarées. Au centre : deux scores descriptifs A/F.
+// À droite : manifestations et autres réponses de santé. Les traits sont des liens de lecture,
+// pas des liens de causalité ; leur épaisseur dépend d'une convention graphique interne.
 const FIL = [1.5, 4, 8, 13];
 const VIOLET = "#6a4c93";
 const nv24 = (v) => (v >= 19 ? 3 : v >= 13 ? 2 : v >= 7 ? 1 : 0);
@@ -538,7 +538,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
 
   // ───────── Synthèse
   const synCartes = [
-    ["Tes réponses", L.fiable ? "Lisibles telles quelles" : "À lire avec prudence", `Sur les quatre dernières semaines.${L.paires.length ? ` ${L.paires.length} point${L.paires.length > 1 ? "s" : ""} à clarifier (annexe 1).` : ""}`, "annexes"],
+    ["Tes réponses", L.fiable ? "Réponses variées" : "Réponses peu différenciées", `Sur les quatre dernières semaines.${L.paires.length ? ` ${L.paires.length} point${L.paires.length > 1 ? "s" : ""} à clarifier (annexe 1).` : ""}`, "annexes"],
     ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de jauge haute", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Ressources davantage déclarées" : "Scores proches, sans compensation démontrée", lectureBalance, "balance"],
     ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `${esc(sr.A.comment)} ${esc(sr.F.comment)}`, "batterie"],
