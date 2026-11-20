@@ -70,7 +70,7 @@ Il est interdit de traiter un changement brut entre score v1 et score v2 comme u
 
 ## Vérification
 
-La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **48 cas déclarés (plus les cas paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
+La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **50 cas déclarés (55 cas exécutés, dont les scénarios paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
 
 1. Parcours complet sur téléphone et ordinateur, clavier sur les options T de six réponses et bouton de saut BS.
 2. Sauvegarde à mi-parcours en v7, reprise d'une vraie sauvegarde v6, confirmation que seuls les quinze items changés sont redemandés.
