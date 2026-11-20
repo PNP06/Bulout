@@ -13,7 +13,7 @@
 
 ## Implémentation en cours (branche de refonte, novembre 2026)
 
-La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours compte désormais 71 questions, dont la pause humoristique facultative. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
+La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours propose désormais 75 questions, dont 12 satiriques facultatives. Les huit BS d’origine intégrées restent à leur place ; les quatre absentes sont ajoutées sous BS9–BS12. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
 
 - [Journal de la discussion et des arbitrages encore ouverts](00-journal-et-decisions.md)
 - [Inventaire des 67 questions et des transformations mathématiques](inventaire-questions-mesures-calculs.md)
@@ -47,7 +47,7 @@ Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement ê
 | Besoin | Source |
 |---|---|
 | Questions et calculs A–F, G, R, contexte, alertes, profils | [script.js](../../script.js) |
-| Huit questions satiriques et pondérations | [bullshitometre-data.js](../../bullshitometre-data.js) |
+| Douze questions satiriques et pondérations | [bullshitometre-data.js](../../bullshitometre-data.js) |
 | Rapport, batterie, graphiques et règles d'interprétation | [rapport.js](../../rapport.js) |
 | Formation, modèles et cas fictifs | [formation-contenu.js](../../formation-contenu.js) |
 | PDF court / long | [rapport.css](../../rapport.css) |
