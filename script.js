@@ -537,12 +537,6 @@
         + (period ? `<p class="period">${svgIcon(ICON_CLOCK)}<span>${period}</span></p>` : "")
         + aboutHTML
         + (help ? `<p class="part-help">${help}</p>` : "");
-      if (key === "BS") {
-        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-bs>Passer cette pause humoristique</button><small>Facultatif : cela passe aussi les questions sur ton ressenti immédiat.</small></p>');
-      }
-      if (key === "HR") {
-        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-hr>Passer ces questions de ressenti</button><small>Aucune réponse n’est obligatoire sur la façon dont tu as vécu l’humour.</small></p>');
-      }
       const list = document.createElement("ol");
       list.className = "qlist";
       items.forEach((item) => list.appendChild(item));
@@ -565,12 +559,12 @@
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
       about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
     if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
-      "Cette partie est facultative et satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
+      "Cette partie est satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
       bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
       about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
     if (bullshitPart.questions.length) addPart("HR", humorReactionPart.title,
       "Juste après la pause humour · ce que tu as ressenti à cet instant.",
-      "Tu peux avoir ri et avoir eu de la peine : ces réactions ne sont pas exclusives. Elles n’entrent dans aucun score et tu peux passer chaque question.",
+      "Tu peux avoir ri et avoir eu de la peine : ces réactions ne sont pas exclusives. Elles n’entrent dans aucun score, et chaque question admet « Je préfère ne pas répondre ».",
       humorReactionPart.questions.map((question, qIndex) => createChoiceQuestion(humorReactionPart, question, qIndex)),
       index++, about(humorReactionPart.explore, humorReactionPart.sources, humorReactionPart.chapitres));
     scored("F");
@@ -734,41 +728,6 @@
     prevButton.addEventListener("click", stepBack);
     nextButton.addEventListener("click", stepForward);
     layout.addEventListener("click", (event) => {
-      const skipBS = event.target.closest("[data-skip-bs]");
-      if (skipBS) {
-        const part = skipBS.closest('.question-section[data-part="BS"]');
-        if (part) {
-          part.querySelectorAll('input[type="radio"][value="skip"]').forEach((input) => { input.checked = true; });
-          part.querySelectorAll(".question-item").forEach((item) => item.classList.add("is-answered"));
-          const feedback = layout.querySelector('.question-section[data-part="HR"]');
-          if (feedback) {
-            feedback.querySelectorAll('.question-item').forEach((item) => {
-              const skip = item.querySelector('input[type="radio"][value="5"]');
-              if (skip) skip.checked = true;
-              item.classList.add("is-answered");
-            });
-          }
-          form.dispatchEvent(new Event("change", { bubbles: true }));
-          refreshPaging();
-          showPart(currentPart + (feedback ? 2 : 1), true);
-        }
-        return;
-      }
-      const skipHR = event.target.closest("[data-skip-hr]");
-      if (skipHR) {
-        const feedback = skipHR.closest('.question-section[data-part="HR"]');
-        if (feedback) {
-          feedback.querySelectorAll('.question-item').forEach((item) => {
-            const skip = item.querySelector('input[type="radio"][value="5"]');
-            if (skip) skip.checked = true;
-            item.classList.add("is-answered");
-          });
-          form.dispatchEvent(new Event("change", { bubbles: true }));
-          refreshPaging();
-          showPart(currentPart + 1, true);
-        }
-        return;
-      }
       const go = event.target.closest("[data-go]");
       if (go) { allParts.open = false; showPart(Number(go.dataset.go), true); }
       const q = event.target.closest("[data-q]");
@@ -1843,7 +1802,7 @@
       ...(result.temporalAnswers || []).map((answer) => `- ${answer.question} : ${answer.answer}`),
       "Ces repères décrivent la situation, ils ne prouvent pas son origine.",
       "",
-      result.bullshit.skipped ? "Bullshitomètre : partie facultative passée, aucun indice calculé." : `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${!result.hasAlert && !(result.sectionScores.A >= 13 && result.sectionScores.F >= 13) && result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
+      result.bullshit.skipped ? "Bullshitomètre : partie passée (ancienne sauvegarde), aucun indice calculé." : `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${!result.hasAlert && !(result.sectionScores.A >= 13 && result.sectionScores.F >= 13) && result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
       "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),

@@ -629,8 +629,8 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
         </section>`;
   const pageAbsurde = bs.skipped ? {
     titre:"La pause bullshit, à ton rythme",
-    q:"Tu as choisi de ne pas répondre aux questions satiriques.",
-    intro:"Cette partie est facultative. Ton rapport sur les manifestations, le travail, les appuis et la chronologie n'en dépend pas.",
+    q:"Cette sauvegarde ne contient pas de réponses aux questions satiriques.",
+    intro:"Elle date d'une version où la pause humour pouvait être passée. Ton rapport sur les manifestations, le travail, les appuis et la chronologie n'en dépend pas.",
     bref:"Bullshitomètre passé · aucun indice calculé.",
     corps:`<p>Aucun pourcentage, profil satirique ou croisement avec la distance n'a été calculé.
       <b>Tu peux revenir plus tard pour répondre aux douze questions.</b></p>`,
@@ -747,7 +747,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de jauge haute", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Ressources davantage déclarées" : "Scores proches, sans compensation démontrée", lectureBalance, "balance"],
     ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `${esc(sr.A.comment)} ${esc(sr.F.comment)}`, "batterie"],
-    ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent} %`, bs.skipped ? "Partie satirique facultative non renseignée." : (bsMatrice?.interpretation || bsTexte), "absurde"],
+    ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent} %`, bs.skipped ? "Partie satirique non renseignée (ancienne sauvegarde)." : (bsMatrice?.interpretation || bsTexte), "absurde"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
   // ───────── Le verdict et la vue d'ensemble
@@ -917,7 +917,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <span class="rp-a"><span>${esc(a.answer || "Sans réponse")}</span></span></li>`).join("")}</ol>` : ""}
     <h4 class="rp-h">Le bullshitomètre · hors score</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>
     ${r.humorReaction ? `<h4 class="rp-h">Réaction immédiate à l'humour · hors score</h4>
-      <ol class="rp-items">${r.humorReaction.skipped ? '<li>Partie facultative non renseignée.</li>' :
+      <ol class="rp-items">${r.humorReaction.skipped ? '<li>Non renseigné.</li>' :
       r.humorReaction.answers.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span>
       <span class="rp-a">${esc(a.answer || "Non renseigné")}</span></li>`).join("")}</ol>` : ""}
     <h4 class="rp-h">Contexte</h4><ol class="rp-items">${r.contextAnswers.map((a, i) => `<li><span class="rp-id">X${i + 1}</span><span class="rp-q">${esc(a.text)}</span><span class="rp-a"><span>${a.yes ? "Oui" : "Non"}</span></span></li>`).join("")}</ol>

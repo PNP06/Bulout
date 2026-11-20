@@ -58,7 +58,7 @@ Deux chantiers avaient avancé en parallèle depuis le même point de départ : 
 | Sujet | Retenu |
 |---|---|
 | Questionnaire, moteur, sauvegardes, fiche travail, carnet, tests | Version 2 (ChatGPT). |
-| Bullshitomètre | 12 questions et matrice de la V2, facultatif, avec les 4 questions de réaction à l'humour. |
+| Bullshitomètre | 12 questions et matrice de la V2, avec les 4 questions de réaction à l'humour. Choix de David : la pause humour fait partie du parcours, on ne peut plus la sauter en bloc. Chaque question de réaction garde « je préfère ne pas répondre ». Les anciennes sauvegardes où elle était passée restent lisibles. Les notes 04 à 06 décrivent l'état antérieur (facultatif). |
 | Feu de la synthèse | Règle de l'audit : orange seulement si deux signes d'usure sont élevés ensemble (ou un très élevé) ; rouge seulement pour une réponse de sécurité (V2). |
 | Image d'ensemble | Schéma de la V2 (A et F séparés, construction en quatre étapes), avec le bandeau tableau de bord de l'audit au-dessus. |
 | Effort, récompense, surengagement, ressources | En mots (audit). Efficacité et sens à leur vraie échelle, /16 et /8 (V2). |

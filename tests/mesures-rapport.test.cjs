@@ -441,9 +441,9 @@ test("la pause satirique peut être entièrement passée sans créer de faux sco
   assert.match(html, /Ce que tu vis/);
 });
 
-test("les douze questions satiriques admettent une réponse de saut cohérente", () => {
+test("le bullshitomètre fait partie du parcours, les anciennes sauvegardes « passées » restent lisibles", () => {
   const code = read("script.js");
-  assert.match(code, /data-skip-bs/);
+  assert.doesNotMatch(code, /data-skip-bs|data-skip-hr/);
   assert.match(code, /value="skip"/);
   assert.match(code, /selections\.every\(\(input\) => input\?\.value === "skip"\)/);
   assert.match(code, /selections\.some\(\(input\) => !input \|\| input\.value === "skip"\)/);
@@ -644,7 +644,7 @@ test("la migration réelle respecte le saut volontaire des huit questions BS en 
 });
 
 
-test("les quatre questions d'expérience de l'humour restent distinctes et facultatives", () => {
+test("les quatre questions d'expérience de l'humour restent distinctes, avec « je préfère ne pas répondre »", () => {
   const part = api.humorReactionPart;
   assert.equal(part.id, "HR");
   assert.equal(part.questions.length, 4);
@@ -690,16 +690,13 @@ test("quatre réactions neutres ou non renseignées ne deviennent pas un diagnos
   assert.ok(Number.isFinite(skipped.bullshit.percent));
 });
 
-test("le saut du bullshitomètre neutralise aussi ses questions de ressenti", () => {
+test("une ancienne sauvegarde où la pause humour était passée neutralise aussi le ressenti", () => {
   const result = debugApi(completeAnswers({skipBS:true})).calculateResults();
   assert.ok(result);
   assert.equal(result.bullshit.skipped,true);
   assert.equal(result.humorReaction.skipped,true);
   assert.equal(result.humorReaction.answers.length,0);
   assert.equal(result.humorReaction.interpretation,null);
-  const code = read("script.js");
-  assert.match(code,/data-skip-hr/);
-  assert.match(code,/showPart\(currentPart \+ \(feedback \? 2 : 1\), true\)/);
 });
 
 test("le rapport restitue l'expérience de l'humour sans toucher à la matrice ou aux scores", () => {
