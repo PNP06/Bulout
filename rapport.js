@@ -4,7 +4,7 @@
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 
-const VERSION = "2026.11.2";
+const VERSION = "2026.11.3";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -277,12 +277,15 @@ const garder = (t, dernier) => `<div class="rp-garder"><p class="k">${dernier ? 
 const carte = (titre, html, cls = "") => `<article class="rp-carte ${cls}"><h4>${titre}</h4>${html}</article>`;
 const ul = (xs) => `<ul>${xs.map((x) => `<li>${x}</li>`).join("")}</ul>`;
 
-function composer({ result: r, sections, strengthPart, exchangePart, bullshitPart, bsDims, ratingLabels }) {
+function composer({ result: r, sections, strengthPart, exchangePart, temporalPart, bullshitPart, bsDims, ratingLabels }) {
   const sr = r.sectionResults;
   const sec = Object.fromEntries(sections.map((s) => [s.id, s]));
   const L = lisibilite(r, ratingLabels);
   const ressources = 24 - sr.E.score; // E est compté à l'envers : ressources présentes = 24 - score de manque
   const ctxOui = r.contextAnswers.filter((a) => a.yes);
+  const temps = r.temporalAnswers || [];
+  const repere = (id) => temps.find((a) => a.id === id);
+  const qualiteEmpechee = repere("T4")?.value ?? null;
   const item = (id) => r.answers.find((a) => a.id === id);
   const haut = (id) => item(id).riskScore >= 3;
   const date = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(new Date());
@@ -356,7 +359,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   };
   const questions = [
     ["Pour toi", top ? `Qu'est-ce qui, dans mon travail réel, explique « ${top.humanLabel} » ?` : "Qu'est-ce qui me protège aujourd'hui, et comment le garder ?"],
-    ["Pour ton médecin ou le médecin du travail", sr.F.score >= 13 || sr.A.score >= 13 ? "Mon énergie et mon sommeil se dégradent depuis plusieurs semaines : mon poste, tel qu'il est, reste-t-il compatible avec ma santé ?" : "Qu'est-ce qui pourrait être aménagé pour que mon travail reste soutenable ?"],
+    ["Pour ton médecin ou le médecin du travail", sr.F.score >= 13 || sr.A.score >= 13 ? "Mes réponses signalent des difficultés : quelles causes et quels aménagements faudrait-il examiner ?" : "Qu'est-ce qui pourrait être aménagé pour que mon travail reste soutenable ?"],
     ["Pour ton manager", sr.D.score >= 13 ? "Qu'est-ce qu'on retire, reporte ou simplifie cette semaine ?" : manqueRessource.riskScore >= 3 ? Q_RESSOURCE[manqueRessource.id] : "Quelle est la priorité de la semaine, et qu'est-ce qui peut attendre ?"]
   ];
 
@@ -425,17 +428,18 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     { nom: "Exigences émotionnelles", ids: ["D5"], limite: "Une seule question, très générale ; les situations relationnelles précises restent inconnues." },
     { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4"], limite: "Les ressources et l'autorité sont abordées, mais pas toutes les marges de décision." },
     { nom: "Rapports sociaux au travail", ids: ["E2", "E3", "E5", "E6"], limite: "Le soutien, l'arbitrage, la reconnaissance et l'équité sont partiellement interrogés." },
-    { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Seule une question oui/non aborde ce thème ; la qualité empêchée n'est pas détaillée." },
+    { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Le conflit éthique est interrogé par oui/non et la qualité empêchée par une fréquence T4 ; les situations précises restent à documenter." },
     { nom: "Insécurité professionnelle", ids: [], retour: "R3", limite: "Une seule question sur la stabilité perçue ; les changements imposés restent peu explorés." }
   ];
   const rpsCartes = rpsFamilles.map((famille) => {
     const signaux = famille.ids.map((id) => item(id)).filter((a) => a.riskScore >= 3);
     const ouiContexte = famille.contexte && (r.contextAnswers || []).some((a) => a.id === famille.contexte && a.yes);
+    const qualiteFrequente = famille.contexte === "ethicalConflict" && qualiteEmpechee >= 3;
     const retourBas = famille.retour && rep[famille.retour]?.value <= 1;
-    const signale = signaux.length > 0 || ouiContexte || retourBas;
+    const signale = signaux.length > 0 || ouiContexte || retourBas || qualiteFrequente;
     const detail = signaux.length
       ? signaux.map((a) => `<span class="rp-id">${esc(a.id)}</span> ${esc(a.question)}`).join(" ; ")
-      : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
+      : qualiteFrequente ? "La qualité empêchée est déclarée fréquemment (T4, hors score)." : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
         : retourBas ? "La stabilité ou la sécurité d'emploi est peu ressentie (R3)."
           : "Aucun signal fréquent dans les questions retenues pour ce thème.";
     return `<article class="rp-rps-famille ${signale ? "is-signal" : ""}">
@@ -642,6 +646,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       <h2 tabindex="-1">Préparer une discussion sur le travail réel</h2><p>Cette fiche reprend <b>uniquement des réponses relatives aux conditions de travail</b>. Ni les questions de santé, ni les alertes, ni les consommations, ni les événements personnels, ni les scores ne sont reproduits.</p></header>
     <section class="rp-travail-bloc"><h3>Contraintes à vérifier</h3>${prouverAuTravail(dFaits, "Aucune contrainte de cette liste n'a été déclarée « souvent » ou « presque toujours ». Cela n'exclut pas d'autres situations.")}</section>
     <section class="rp-travail-bloc"><h3>Ressources à examiner</h3>${prouverAuTravail(eFaits, "Aucun manque de ressource n'est particulièrement déclaré parmi les six éléments explorés.")}</section>
+    ${qualiteEmpechee !== null ? `<section class="rp-travail-bloc"><h3>Qualité du travail empêchée</h3><p>Réponse à l'item T4 : <b>${esc(repere("T4").answer)}</b>.</p><p>À préciser à partir d'un exemple : qualité souhaitée, moyens nécessaires et contraintes constatées. Il ne s'agit pas d'une mesure objective.</p></section>` : ""}
     <section class="rp-travail-demande"><h3>Proposition de question pour la discussion</h3><p><b>${esc(demandeOrganisation)}</b></p>
       <p>Pour éclairer la discussion, ajouter un exemple vérifiable : <b>tâche, date, conséquence et arbitrage demandé</b>. Le questionnaire recueille un ressenti, pas une enquête sur les faits.</p></section>
     <p class="rp-travail-prive">Document préparatoire volontaire. Il ne constitue ni un diagnostic ni une évaluation du salarié. Le partage du rapport personnel complet n'est pas requis pour discuter des conditions de travail.</p>`;
@@ -718,12 +723,23 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       : "<b>Les réponses sont suffisamment différenciées pour examiner les écarts entre thèmes.</b> Cela ne valide pas pour autant le questionnaire ni ses seuils."}</p>
     ${L.paires.length ? `<p><b>À clarifier :</b> ${L.paires.length} rapprochement${L.paires.length > 1 ? "s" : ""} de réponses méritent une discussion. Il ne s'agit pas d'erreurs à corriger.</p>` : ""}
   </section>`;
+  const lectureTemps = temps.length ? `<section class="rp-temps" aria-labelledby="rp-temps-title">
+    <h3 id="rp-temps-title">Depuis quand, et comment cela évolue-t-il ?</h3>
+    <dl>
+      ${[["T1", "Durée"], ["T2", "Évolution"], ["T3", "Hors travail"]]
+        .filter(([id]) => repere(id)?.answer)
+        .map(([id, label]) => `<div><dt>${label}</dt><dd>${esc(repere(id).answer)}</dd></div>`).join("")}
+    </dl>
+    ${qualiteEmpechee === null ? "" : `<p><b>Qualité empêchée :</b> ${esc(repere("T4").answer)} dans les quatre dernières semaines (T4). Ce repère de conditions de travail n'entre dans aucun score.</p>`}
+    <p class="rp-temps-limite">Ces réponses complètent les fréquences A–F. Un mieux en congé, une aggravation ou une difficulté durable ne suffisent pas à diagnostiquer un burn-out ni à en prouver la cause.</p>
+  </section>` : "";
   const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">L'essentiel · trois minutes</p>
       <h2 tabindex="-1">Ce que tes réponses permettent de comprendre</h2>
       <p>${esc(r.summary)}</p>
       <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
     ${securite}
     ${qualiteLecture}
+    ${lectureTemps}
     <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
     <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
@@ -763,12 +779,12 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <div class="rp-box ${L.fiable ? "ok" : "attention"}"><p class="k">État de tes réponses</p><p><b>${L.fiable ? "Réponses variées." : "Réponses répétitives ou extrêmes."}</b> ${L.fiable ? "La répartition des réponses est variée, sans constituer une preuve de fiabilité." : `${cap(L.prudence.join(" ; "))}. C'est possible, mais cela rend les écarts entre dimensions moins parlants.`} Ces contrôles décrivent uniquement la forme des réponses ; ils ne mesurent ni leur sincérité, ni leur qualité clinique.</p>
     ${L.paires.length ? `<p class="k">Points à clarifier</p><ul>${L.paires.map(([, , t, q]) => `<li>${esc(t)} <i>${esc(q)}</i></li>`).join("")}</ul><p>Ce ne sont pas des erreurs : deux réponses qui surprennent côte à côte sont souvent les plus utiles à discuter.</p>` : ""}</div>
     <ol class="rp-construit">
-      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 8 questions du bullshitomètre (satiriques, à choix), 6 questions sur ce qui t'aide (G). Enfin 8 questions de contexte et 3 questions d'alerte, en oui ou non.</li>
+      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 8 questions du bullshitomètre (satiriques, à choix), 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
       <li><b>Le score d'une dimension.</b> La somme de ses six réponses, de 0 à 24. Les questions E décrivent des ressources : elles sont comptées à l'envers (4 moins la réponse) pour que, partout, un score haut signale une difficulté.</li>
       <li><b>Les niveaux.</b> 0 à 6 bas, 7 à 12 à surveiller, 13 à 18 élevé, 19 à 24 très élevé : quatre quarts de l'échelle, choisis pour la lecture, sans étalonnage.</li>
       <li><b>La lecture d'ensemble.</b> Seule une réponse positive aux trois questions de sécurité déclenche un message spécifique d'orientation. Les autres profils sont des regroupements descriptifs internes, sensibles aux seuils de commodité (13/24 notamment), sans valeur diagnostique. Le total A–F n'est pas interprété cliniquement.</li>
       <li><b>Les actions et les interlocuteurs.</b> Proposés par des règles explicites à partir des dimensions à 13 ou plus, des réponses à 3 ou 4 et du contexte. La sécurité passe toujours en premier.</li>
-      <li><b>Le retour et l'image d'ensemble.</b> Effort (D1, D4, D6), récompense (E5, E6, R1 à R3) et surengagement (R4 à R6, F1) sont des moyennes ramenées sur 24. La partie C est présentée en deux sous-groupes sans extrapolation : efficacité (C1, C2, C4, C6 : 0–16) et sens (C3, C5 : 0–8). Le bullshitomètre reprend le calcul du test satirique (part du maximum possible) ; il est dit « haut » à partir de 50 %, et croisé avec B et le sens (13 sur 24 ou plus).</li>
+      <li><b>Le retour et l'image d'ensemble.</b> Effort (D1, D4, D6), récompense (E5, E6, R1 à R3) et surengagement (R4 à R6, F1) sont des moyennes ramenées sur 24. La partie C est présentée en deux sous-groupes sans extrapolation : efficacité (C1, C2, C4, C6 : 0–16) et sens (C3, C5 : 0–8). Le bullshitomètre reprend le calcul du test satirique (part du maximum possible) ; il est dit « haut » à partir de 50 %, et croisé avec B et le sens (5 sur 8 ou plus, repère interne non étalonné).</li>
       <li><b>Le contexte et tes appuis.</b> Ne modifient aucun score. Le contexte change les interlocuteurs proposés et la lecture ; les appuis (G, ressources E présentes, réponses à 0 ou 1) forment la page « Tes appuis ».</li>
     </ol>
     <p><b>Ce qui n'est pas validé.</b> Les questions s'inspirent d'outils reconnus (annexe 3), mais elles ont été reformulées et assemblées : le questionnaire Bull-Out n'a pas fait l'objet d'une étude de fidélité, de validité ni d'étalonnage. La validation des outils sources ne s'étend pas à ce composite. Il ne pose pas de diagnostic et ne doit pas servir à évaluer une personne au travail.</p>`;
@@ -777,6 +793,9 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     ${sections.map((s) => `<h4 class="rp-h">${esc(s.title.replace(/ - score inversé$/, ""))} · ${sr[s.id].score}/24 ${tag(sr[s.id])}</h4>${reponses(sr[s.id], s, ratingLabels, r)}`).join("")}
     <h4 class="rp-h">${esc(strengthPart.title)} · hors score</h4><ol class="rp-items">${g.map((a) => `<li class="${a.value >= 3 ? "fort" : ""}"><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(a.value)}<span>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}</span></span></li>`).join("")}</ol>
     <h4 class="rp-h">${esc(exchangePart.title)} · hors score</h4><ol class="rp-items">${(r.exchangeAnswers || []).map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(a.value)}<span>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}</span></span></li>`).join("")}</ol>
+    ${temps.length ? `<h4 class="rp-h">Chronologie et qualité empêchée · hors score</h4>
+      <ol class="rp-items">${temps.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span>
+      <span class="rp-a"><span>${esc(a.answer || "Sans réponse")}</span></span></li>`).join("")}</ol>` : ""}
     <h4 class="rp-h">Le bullshitomètre · hors score</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>
     <h4 class="rp-h">Contexte</h4><ol class="rp-items">${r.contextAnswers.map((a, i) => `<li><span class="rp-id">X${i + 1}</span><span class="rp-q">${esc(a.text)}</span><span class="rp-a"><span>${a.yes ? "Oui" : "Non"}</span></span></li>`).join("")}</ol>
     <p class="rp-legende">Les réponses aux trois questions d'alerte ne sont pas reprises ici : seul le message de sécurité apparaît, en tête de rapport, si l'une a reçu oui.</p>`;
@@ -786,6 +805,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <table class="rp-table rp-sources"><thead><tr><th scope="col">Partie</th><th scope="col">Ce qu'elle explore</th><th scope="col">Inspirée de</th></tr></thead><tbody>
     ${sections.map((s) => `<tr><th scope="row"><span class="rp-id">${s.id}</span> ${NOMS[s.id]}</th><td>${esc(cap(s.explore))}</td><td>${esc(cap(s.sources))}.</td></tr>`).join("")}
     <tr><th scope="row"><span class="rp-id">R</span> Ce qui revient</th><td>${esc(cap(exchangePart.explore))}</td><td>${esc(cap(exchangePart.sources))}.</td></tr>
+    <tr><th scope="row"><span class="rp-id">T</span> Durée et évolution</th><td>Repères de temporalité et qualité empêchée, hors scores.</td><td>Questions originales Bull-Out, inspirées du repérage clinique HAS et des six familles RPS INRS, non validées.</td></tr>
     <tr><th scope="row"><span class="rp-id">BS</span> Bullshitomètre</th><td>${esc(cap(bullshitPart.explore))}</td><td>${esc(cap(bullshitPart.sources))}.</td></tr>
     <tr><th scope="row"><span class="rp-id">G</span> Ce qui t'aide</th><td>${esc(cap(strengthPart.explore))}</td><td>${esc(cap(strengthPart.sources))}.</td></tr>
     <tr><th scope="row">Contexte</th><td>Ce qui se passe autour et dans l'équipe.</td><td>Repérage clinique de la HAS, prévention des risques psychosociaux de l'INRS.</td></tr></tbody></table>
