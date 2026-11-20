@@ -72,6 +72,12 @@
 .rp-jauge i.on { background: var(--sapin-mid); }
 .rp-items li.haut .rp-jauge i.on { background: var(--orange); }
 
+/* La pause humoristique ne doit pas être un passage obligé. */
+.bs-optional { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  margin: 8px 0 16px; padding: 12px 16px; border: 1px solid var(--line-soft);
+  border-radius: 12px; background: var(--bg); }
+.bs-optional small { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
 /* ---------- Rapport ---------- */
 .rapport .rp-slogan { font: 800 15px/1.2 var(--title); color: var(--anis); letter-spacing: .02em; text-transform: uppercase; }
 .rp-outils { align-items: flex-start; }
