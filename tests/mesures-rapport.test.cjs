@@ -415,3 +415,31 @@ test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ce
   assert.match(src, /Object.entries\(anciennes\).filter/);
   assert.match(src, /sont à renseigner de nouveau/);
 });
+
+
+test("la pause satirique peut être entièrement passée sans créer de faux score", () => {
+  const f = fixture(2);
+  f.result.bullshit = { skipped: true, answers: [], percent: null, dims: {}, profil: null };
+  const html = composer(f);
+  const bsPage = pageDuRapport(html, "absurde");
+  assert.match(bsPage, /Non renseigné · aucun indice satirique calculé/);
+  assert.doesNotMatch(bsPage, /null\s*%|0\s*% du barème/);
+  assert.doesNotMatch(bsPage, /Profil fictif|À sortir en réunion/);
+  assert.match(html, /Ce que tu vis/);
+});
+
+test("les huit questions satiriques admettent une réponse de saut cohérente", () => {
+  const code = read("script.js");
+  assert.match(code, /data-skip-bs/);
+  assert.match(code, /value="skip"/);
+  assert.match(code, /selections\.every\(\(input\) => input\?\.value === "skip"\)/);
+  assert.match(code, /selections\.some\(\(input\) => !input \|\| input\.value === "skip"\)/);
+});
+
+test("le moteur produit des plans fondés sur des faits, jamais sur un total de guérison", () => {
+  const engine = read("script.js");
+  assert.match(engine, /function buildActionPlans\(result\)/);
+  assert.match(engine, /Noter la date, la tâche, la contrainte et la conséquence observable/);
+  assert.match(engine, /sans faire du total A–F une mesure de guérison/);
+  assert.doesNotMatch(engine, /vérifier si le score baisse, stagne ou monte/);
+});
