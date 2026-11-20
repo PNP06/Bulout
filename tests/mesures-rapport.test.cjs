@@ -804,3 +804,69 @@ test("les six réponses au ressenti humoristique sont lisibles sur mobile et acc
   assert.match(css,/\.choices-humor \.choice:last-child \{ grid-column: 1 \/ -1/);
   assert.match(js,/questions proposées, environ 15 à 20 minutes/);
 });
+
+
+test("la formation conserve trois modèles principaux et explique leur origine et leurs limites", () => {
+  const code = read("formation-contenu.js").replace(/^export const /gm, "const ");
+  const {chapitres} = new Function(code + "\nreturn {chapitres};")();
+  assert.equal(chapitres.length, 9);
+  for(const i of [1,2,3]) {
+    const c=chapitres[i];
+    const prose=c.blocs.filter(b=>b.t==="p").map(b=>b.html).join(" ");
+    assert.match(prose,/Limite/i,`Chapitre ${i+1} : limite absente`);
+    assert.match(prose,/Comment (l'utiliser|l'appliquer)|Comment l'appliquer/i,`Chapitre ${i+1} : fonctionnement absent`);
+    assert.match(prose,/Maslach|Demerouti|Siegrist/i,`Chapitre ${i+1} : origine absente`);
+    assert.ok(c.duree>=8,`Chapitre ${i+1} devrait annoncer plus de lecture`);
+  }
+  const jdr=chapitres[2];
+  assert.ok(jdr.blocs.some(x=>x.t==="p" && /Hobfoll/.test(x.html)));
+  assert.ok(jdr.blocs.some(x=>x.t==="p" && /Sonnentag/.test(x.html)));
+});
+
+test("la synthèse compare les trois modèles sur les mêmes faits et ne crée pas trois nouveaux scores", () => {
+  const code=read("formation-contenu.js").replace(/^export const /gm,"const ");
+  const {synthese}=new Function(code+"\nreturn {synthese};")();
+  assert.deepEqual(Array.from(synthese.modeles.map(x=>x.nom)),["Maslach","JD-R","Siegrist"]);
+  assert.equal(synthese.casCommun.lectures.length,3);
+  for(const x of synthese.casCommun.lectures) {
+    assert.ok(x.observe.length>20 && x.neDitPas.length>15 && x.action.length>25);
+  }
+  const complements=synthese.complements;
+  assert.equal(complements.length,3);
+  for(const name of ["Hobfoll","Gollac","Sonnentag"]) {
+    const m=complements.find(x=>x.nom.includes(name));
+    assert.ok(m,`Cadre complémentaire absent : ${name}`);
+    assert.match(m.limite,/pas|aucun|non|ne /i);
+    assert.match(m.lien,/^https:\/\//);
+  }
+  const render=read("parcours.js"),css=read("formation.css");
+  for(const id of ["s-croisement","s-complements"])assert.ok(render.includes(id));
+  assert.match(render,/synthese\.casCommun\.lectures\.map/);
+  assert.match(render,/synthese\.complements\.map/);
+  assert.match(css,/fo-complement/);
+});
+
+test("la page Méthode détaille la construction, les hypothèses testables et les inconnues", () => {
+  const html=read("methode.html");
+  for(const id of ["mesure","modeles-et-perimetres","construction-hypotheses","verification-inconnues","donnees-decisions","sources-limites"]) {
+    assert.match(html,new RegExp('id="'+id+'"'));
+  }
+  for(let i=1;i<=6;i++)assert.match(html,new RegExp("H"+i+" ·"));
+  assert.match(html,/sensibilité, spécificité, fidélité/);
+  assert.match(html,/pas des versions officielles validées/);
+  assert.match(html,/Les 79 questions/);
+  assert.match(html,/traduction automatique fournie par Google/);
+  assert.match(html,/une simulation réussie valide un comportement du programme/i);
+});
+
+test("le test PDF couvre vraiment 79 réponses fictives et ne collecte aucune donnée réelle", () => {
+  const js=read("tests/generer-pdf-exemple.mjs");
+  const yml=read(".github/workflows/rapport-fictif.yml");
+  for(const x of ["#burnout-form","calculateResults()","submit","page.pdf(","rapport-essentiel-fictif.pdf","rapport-complet-fictif.pdf","fiche-travail-fictive.pdf"]) {
+    assert.ok(js.includes(x),`Élément absent du test navigateur : ${x}`);
+  }
+  assert.match(js,/synth\.items!==79/);
+  assert.match(js,/if\(synth\.alertes\)/);
+  assert.match(js,/pageErrors\.length/);
+  assert.match(yml,/actions\/upload-artifact@v4/);
+});
