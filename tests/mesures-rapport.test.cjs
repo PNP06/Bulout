@@ -771,3 +771,29 @@ test("la nouvelle HR3 reste exclue des scores BS, A-F et de la matrice", () => {
   assert.equal(high.humorReaction.interpretation.minimizationPerceived,true);
   assert.equal(high.humorReactionVersion,"2026-11-hr-v2");
 });
+
+
+test("une sauvegarde v9 ne réattribue jamais l'ancienne réponse HR3", () => {
+  const code = read("parcours.js");
+  const found = code.match(/function migrerReactionHumourV9\(reponses\) \{[\s\S]*?\n\}/);
+  assert.ok(found, "Migration du changement de question HR3 manquante");
+  const migrate = new Function(found[0] + "\nreturn migrerReactionHumourV9;")();
+  const v9 = { A1:"2", BS1:"3", HR1:"4", HR2:"1", HR3:"4", HR4:"2" };
+  const migrated = migrate(v9);
+  assert.equal(migrated.reponsesARelire,1);
+  assert.equal(migrated.reponses.HR3,undefined);
+  for (const k of ["A1","BS1","HR1","HR2","HR4"]) assert.equal(migrated.reponses[k],v9[k]);
+  assert.equal(v9.HR3,"4","La migration ne modifie pas le fichier source");
+});
+
+test("une abstention explicite HR3 est conservée lors de l'import v9", () => {
+  const code = read("parcours.js");
+  const found = code.match(/function migrerReactionHumourV9\(reponses\) \{[\s\S]*?\n\}/);
+  const migrate = new Function(found[0] + "\nreturn migrerReactionHumourV9;")();
+  assert.equal(migrate({HR3:"5"}).reponses.HR3,"5");
+  assert.equal(migrate({HR3:"5"}).reponsesARelire,0);
+  assert.equal(migrate({HR1:"3"}).reponsesARelire,0);
+  assert.equal(migrate({HR1:"3"}).reponses.HR3,undefined);
+  assert.match(code,/const format = "bull-out-progression-10"/);
+  assert.match(code,/versionReactionHumour: "2026-11-hr-v2"/);
+});
