@@ -4,7 +4,7 @@
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 
-const VERSION = "2026.11.1";
+const VERSION = "2026.11.2";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -102,7 +102,7 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, aScore, fScore, 
     const svg = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".18" stroke-width="1.5"/>
       ${T(x + 16, y + 24, "Manifestations et sens", { titre: true, taille: 14 })}${T(x + 16, y + 40, "Maslach et sens distinct · chapitre 2", { taille: 11, op: 0.72 })}
       ${signes.map((s, i) => `${T(x + 16, ys[i], s.label, { poids: 600 })}${T(x + w - 16, ys[i], s.val, { anchor: "end", taille: 11.5, c: s.n >= 2 ? C.ink : "#4a5f5a" })}
-        <rect x="${x + 16}" y="${ys[i] + 8}" width="${w - 32}" height="9" rx="4.5" fill="${C.piste}"/><rect x="${x + 16}" y="${ys[i] + 8}" width="${Math.max(6, Math.round((s.v / 24) * (w - 32)))}" height="9" rx="4.5" fill="${s.c || COUL[s.n]}"/>`).join("")}`;
+        <rect x="${x + 16}" y="${ys[i] + 8}" width="${w - 32}" height="9" rx="4.5" fill="${C.piste}"/><rect x="${x + 16}" y="${ys[i] + 8}" width="${Math.max(6, Math.round((s.v / (s.max || 24)) * (w - 32)))}" height="9" rx="4.5" fill="${s.c || COUL[s.n]}"/>`).join("")}`;
     return { svg, h, ys: ys.map((v) => v + 4) };
   };
   // Silhouette conservée : A et F sont deux scores déclaratifs et non un % d’énergie.
@@ -301,12 +301,14 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const lectureSur = surengagement >= 13 ? "Des difficultés à refuser ou à décrocher ressortent fréquemment ; leur effet éventuel sur les conditions de travail n’est pas démontré par ce score."
     : surengagement >= 7 ? "Quelques réponses suggèrent un surengagement ; l’interprétation doit tenir compte de la situation réelle." : "";
   // Efficacité (C1, C2, C4, C6) et sens (C3, C5) : la partie C mêle deux choses, le rapport les sépare.
-  const efficacite = moy24(["C1", "C2", "C4", "C6"].map((id) => item(id).riskScore));
-  const perteSens = moy24(["C3", "C5"].map((id) => item(id).riskScore));
+  // Conserver les dénominateurs des deux sous-groupes, sans extrapolation fictive.
+  const efficacite = ["C1", "C2", "C4", "C6"].reduce((n, id) => n + item(id).riskScore, 0); // 0–16
+  const perteSens = ["C3", "C5"].reduce((n, id) => n + item(id).riskScore, 0); // 0–8
+  const relatif24 = (n, max) => n / max * 24;
   // Le bullshitomètre, croisé avec la distance (B) et la perte de sens.
   const bs = r.bullshit || { percent: 0, dims: {}, answers: [] };
   const absurdeHaut = bs.percent >= 50;
-  const coupe = sr.B.score >= 13 || perteSens >= 13;
+  const coupe = sr.B.score >= 13 || perteSens >= 5;
   const CASES = {
     hh: ["Absurdité et retrait déclarés", "Les réponses satiriques signalent de l’absurdité perçue et les questions sérieuses davantage de distance ou de perte de sens. Leur lien causal n’est pas établi."],
     hb: ["Absurdité sans retrait marqué", "Les réponses satiriques décrivent de l’absurdité perçue, mais les questions sur la distance et le sens ressortent moins. Ce résultat ne mesure pas un humour protecteur."],
@@ -409,7 +411,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         ${haut("A2") ? `<p class="rp-cle"><b>Question clé :</b> tu réponds que même un repos court ne te fait plus récupérer (A2). C'est « le test des vacances » du chapitre 1 : ce qui ne remonte pas avec le repos ne relève plus de la simple fatigue.</p>` : ""}</div></div>
         <h4 class="rp-h">Tes réponses</h4>${reponses(sr.A, sec.A, ratingLabels, r)}${reponses(sr.F, sec.F, ratingLabels, r)}
         ${haut("F5") || haut("F6") ? `<p class="rp-cle"><b>À ne pas laisser de côté :</b> ${[haut("F5") ? "des stratégies pour tenir ou dormir (F5)" : "", haut("F6") ? "des erreurs ou quasi-accidents liés à la fatigue (F6)" : ""].filter(Boolean).join(" et ")}. Ce sont des signaux de sécurité : parles-en à un médecin.</p>` : ""}`,
-      comprendre: pourComprendre("Fatigue, stress ou usure", `<p>Le stress est une réaction d'adaptation à une exigence. La fatigue se répare avec le repos. Le burn-out est décrit par l'OMS (CIM-11, 2019) comme un <b>phénomène lié au travail</b>, résultant d'un stress chronique au travail qui n'a pas été géré avec succès. Ce n'est pas une maladie dans la classification, et aucun test sanguin ou hormonal ne le mesure chez une personne.</p><p>La question des vacances est donc la plus parlante : si l'énergie revient puis repart en quelques jours de reprise, c'est le travail qui la consomme, pas un manque de repos.</p>`, chapLien(1)),
+      comprendre: pourComprendre("Fatigue, stress ou usure", `<p>Le stress est une réaction d'adaptation à une exigence. La fatigue se répare avec le repos. Le burn-out est décrit par l'OMS (CIM-11, 2019) comme un <b>phénomène lié au travail</b>, résultant d'un stress chronique au travail qui n'a pas été géré avec succès. Ce n'est pas une maladie dans la classification, et aucun test sanguin ou hormonal ne le mesure chez une personne.</p><p>Les changements pendant un congé ou à la reprise peuvent éclairer le rôle du travail, sans démontrer à eux seuls une causalité. Une fatigue persistante peut également avoir d’autres origines.</p>`, chapLien(1)),
       garder: `${lectureBatterie} On regarde maintenant si l'usure touche aussi ta relation au travail et ta confiance.`
     },
     {
@@ -421,7 +423,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         ${sr.B.score >= 7 ? `<p class="rp-cle"><b>La distance n'est pas un défaut d'attitude.</b> La distance peut avoir plusieurs fonctions : protection, désengagement ou symptôme. Ces questions ne permettent pas de trancher seules.</p>` : ""}</div></div>
         <h4 class="rp-h">Distance mentale ${tag(sr.B)}</h4>${reponses(sr.B, sec.B, ratingLabels, r)}
         <h4 class="rp-h">Efficacité et sens ${tag(sr.C)}</h4>
-        <p>La partie C mêle deux choses : l'<b>efficacité</b> (C1, C2, C4, C6 : ${MOTS[nv24(efficacite)]}, ${efficacite}/24) et le <b>sens</b> (C3, C5 : perte de sens ${MOTSF[nv24(perteSens)]}, ${perteSens}/24). Le sens est ce que le bullshitomètre éclaire : <button type="button" class="rp-lien" data-aller="absurde">${esc(bsTitre.toLowerCase())}</button>.</p>
+        <p>La partie C mêle deux choses : l'<b>efficacité perçue</b> (C1, C2, C4, C6 : ${MOTS[nv24(relatif24(efficacite, 16))]}, ${efficacite}/16) et le <b>sens</b> (C3, C5 : difficultés de sens ${MOTSF[nv24(relatif24(perteSens, 8))]}, ${perteSens}/8). Le sens et l’utilité sont explorés à part du questionnaire satirique : <button type="button" class="rp-lien" data-aller="absurde">${esc(bsTitre.toLowerCase())}</button>.</p>
         ${reponses(sr.C, sec.C, ratingLabels, r)}`,
       comprendre: pourComprendre("D'où viennent les trois jauges", `<p>Maslach et Jackson ont construit en 1981 le Maslach Burnout Inventory autour de trois dimensions : épuisement émotionnel, dépersonnalisation (devenue « cynisme »), accomplissement personnel réduit. Schaufeli et ses collègues ont proposé en 2020 le Burnout Assessment Tool, qui garde l'épuisement et la distance mentale et ajoute les altérations cognitives (attention, mémoire : A6) et émotionnelles (irritabilité : A5).</p><p>Les questions de Bull-Out reprennent ces dimensions avec des formulations nouvelles. Elles n'ont pas les propriétés mesurées de ces outils : on lit des tendances, pas un score normé.</p>`, chapLien(2)),
       garder: "Les jauges disent ce que tu ressens. La suite cherche d'où cela vient : ce que le travail te demande, et ce qui t'aide à le faire."
@@ -525,7 +527,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         <div class="rp-bs-satire"><p class="k">Ton profil satirique</p><h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
         <p><b>Mode de survie :</b> ${esc(profilBS.survie)}</p><p class="rp-phrase">À sortir en réunion : « ${esc(profilBS.phrase)} »</p></div></div>
       <h4 class="rp-h">La lecture sérieuse</h4>
-      <p>L’indice satirique de réponses est <b>${absurdeHaut ? "dans sa moitié haute" : "dans sa moitié basse"}</b> (${bs.percent} % du barème interne). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et ta perte de sens ${MOTSF[nv24(perteSens)]} (${perteSens}/24).</p>
+      <p>L’indice satirique de réponses est <b>${absurdeHaut ? "dans sa moitié haute" : "dans sa moitié basse"}</b> (${bs.percent} % du barème interne). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et les difficultés de sens ${MOTSF[nv24(relatif24(perteSens, 8))]} (${perteSens}/8).</p>
       <div class="rp-bs-grille" role="table" aria-label="Grille de lecture : absurdité du poste croisée avec distance et sens">
         <span></span><span class="h">Distance et perte de sens basses</span><span class="h">Distance ou perte de sens hautes</span>
         <span class="v">Absurdité haute</span>${grilleCase("hb", CASES.hb[0], CASES.hb[1], "g")}${grilleCase("hh", CASES.hh[0], CASES.hh[1], "o")}
@@ -575,8 +577,8 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const signes = [
     { label: "Épuisement (A)", v: sr.A.score, val: val(sr.A.score), n: nDim(sr.A) },
     { label: "Distance, cynisme (B)", v: sr.B.score, val: val(sr.B.score), n: nDim(sr.B) },
-    { label: "Efficacité (C1, C2, C4, C6)", v: efficacite, val: val(efficacite), n: nv24(efficacite) },
-    { label: "Perte de sens (C3, C5)", v: perteSens, val: val(perteSens), n: nv24(perteSens), c: VIOLET }
+    { label: "Efficacité (4 items)", v: efficacite, max: 16, val: `${efficacite}/16`, n: nv24(relatif24(efficacite, 16)) },
+    { label: "Sens / utilité (2 items)", v: perteSens, max: 8, val: `${perteSens}/8`, n: nv24(relatif24(perteSens, 8)), c: VIOLET }
   ];
   const nItem = (id) => [0, 0, 1, 2, 3][item(id).riskScore];
   const CORPS = { F2: "Sommeil perturbé", F4: "Symptômes physiques", F5: "Compensations pour tenir", F6: "Erreurs liées à la fatigue" };
@@ -611,7 +613,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       <li><b>Les niveaux.</b> 0 à 6 bas, 7 à 12 à surveiller, 13 à 18 élevé, 19 à 24 très élevé : quatre quarts de l'échelle, choisis pour la lecture, sans étalonnage.</li>
       <li><b>La lecture d'ensemble.</b> Seule une réponse positive aux trois questions de sécurité déclenche un message spécifique d'orientation. Les autres profils sont des regroupements descriptifs internes, sensibles aux seuils de commodité (13/24 notamment), sans valeur diagnostique. Le total A–F n'est pas interprété cliniquement.</li>
       <li><b>Les actions et les interlocuteurs.</b> Proposés par des règles explicites à partir des dimensions à 13 ou plus, des réponses à 3 ou 4 et du contexte. La sécurité passe toujours en premier.</li>
-      <li><b>Le retour et l'image d'ensemble.</b> Effort (D1, D4, D6), récompense (E5, E6, R1 à R3) et surengagement (R4 à R6, F1) sont des moyennes ramenées sur 24. La partie C est montrée en deux : efficacité (C1, C2, C4, C6) et sens (C3, C5). Le bullshitomètre reprend le calcul du test satirique (part du maximum possible) ; il est dit « haut » à partir de 50 %, et croisé avec B et le sens (13 sur 24 ou plus).</li>
+      <li><b>Le retour et l'image d'ensemble.</b> Effort (D1, D4, D6), récompense (E5, E6, R1 à R3) et surengagement (R4 à R6, F1) sont des moyennes ramenées sur 24. La partie C est présentée en deux sous-groupes sans extrapolation : efficacité (C1, C2, C4, C6 : 0–16) et sens (C3, C5 : 0–8). Le bullshitomètre reprend le calcul du test satirique (part du maximum possible) ; il est dit « haut » à partir de 50 %, et croisé avec B et le sens (13 sur 24 ou plus).</li>
       <li><b>Le contexte et tes appuis.</b> Ne modifient aucun score. Le contexte change les interlocuteurs proposés et la lecture ; les appuis (G, ressources E présentes, réponses à 0 ou 1) forment la page « Tes appuis ».</li>
     </ol>
     <p><b>Ce qui n'est pas validé.</b> Les questions s'inspirent d'outils reconnus (annexe 3), mais elles ont été reformulées et assemblées : le questionnaire Bull-Out n'a pas fait l'objet d'une étude de fidélité, de validité ni d'étalonnage. La validation des outils sources ne s'étend pas à ce composite. Il ne pose pas de diagnostic et ne doit pas servir à évaluer une personne au travail.</p>`;
