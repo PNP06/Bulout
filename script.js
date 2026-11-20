@@ -498,7 +498,7 @@
     };
     ["A", "B", "C", "D", "E"].forEach(scored);
     addPart("R", exchangePart.title, PERIOD,
-      "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie ne change pas le score global.",
+      "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie n'entre pas dans les six scores A à F.",
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
       about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
     if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
@@ -1493,7 +1493,7 @@
       "Ce que tu donnes, ce qui revient (R, de 0 à 4, hors score) :",
       ...result.exchangeAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
       "",
-      `Bullshitomètre (hors score) : indice d'absurdité ${result.bullshit.percent} %${result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
+      `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
       "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
