@@ -166,7 +166,7 @@ function quiz() {
 }
 
 function synthesePage() {
-  const titres = [["s-modeles", "Les trois modèles"], ["s-clefs", "Les idées clefs"], ["s-plusloin", "Pour aller plus loin"]];
+  const titres = [["s-modeles", "Les trois modèles"], ["s-croisement", "Les trois modèles sur un même cas"], ["s-complements", "Trois éclairages complémentaires"], ["s-clefs", "Les idées clefs"], ["s-plusloin", "Pour aller plus loin"]];
   const dernier = chapitres.length - 1;
   const contenu = `
     <p class="fo-pill">Synthèse · avant le test final</p>
@@ -176,6 +176,25 @@ function synthesePage() {
     <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. C’est pour ça qu’on agit d’abord sur le travail : c’est là que sont les causes.</figcaption></figure>
     <div class="fo-modeles">${synthese.modeles.map(m => `<section class="fo-modele"><p class="fo-modele-nom">${m.nom} · ${m.image.toLowerCase()}</p><h3>${m.question}</h3><p>${m.idee}</p><p class="fo-modele-agir"><b>Pour agir :</b> ${m.agir}</p><a href="${ancre(m.chap)}">Revoir le chapitre ${m.chap + 1}</a></section>`).join("")}</div>
     ${troisPhrases}
+    <h2 id="s-croisement" class="fo-h">Un même problème, trois questions différentes</h2>
+    <p>Les théories se lisent mieux sur <b>les mêmes faits</b> que dans trois chapitres séparés.</p>
+    <article class="fo-exemple"><h3>Sam, trois mois après le départ de Marc</h3><p>${synthese.casCommun.situation}</p></article>
+    <div class="fo-table fo-modeles-comparaison"><table>
+      <caption>Ce que chaque modèle éclaire, et ce qu'il ne prouve pas</caption>
+      <thead><tr><th scope="col">Modèle</th><th scope="col">Ce qu'il permet de voir</th><th scope="col">Ce qu'il ne conclut pas</th><th scope="col">Question pour agir</th></tr></thead>
+      <tbody>${synthese.casCommun.lectures.map(x => `<tr><th scope="row">${x.modele}</th><td>${x.observe}</td><td>${x.neDitPas}</td><td><b>${x.action}</b></td></tr>`).join("")}</tbody>
+    </table></div>
+    <p class="fo-synthese-principe">${synthese.casCommun.conclusion}</p>
+    <h2 id="s-complements" class="fo-h">Trois autres éclairages, sans multiplier les scores</h2>
+    <p>Les trois modèles principaux ne répondent pas à tout. D'autres cadres permettent de comprendre <b>la spirale des pertes</b>, <b>les expositions professionnelles</b> et <b>la récupération hors travail</b>.</p>
+    <div class="fo-complements">${synthese.complements.map(x => `<article class="fo-complement">
+      <p class="fo-label">Cadre complémentaire · pas une nouvelle note Bull-Out</p>
+      <h3>${x.nom}</h3><p><b>À quoi il sert.</b> ${x.role}.</p>
+      <p><b>Son principe.</b> ${x.principe}</p>
+      <p><b>Chez Sam.</b> ${x.exemple}</p>
+      <p class="fo-complement-limite"><b>Sa limite.</b> ${x.limite}</p>
+      <a href="${x.lien}" target="_blank" rel="noopener">Lire la source scientifique ou institutionnelle</a>
+    </article>`).join("")}</div>
     <h2 id="s-clefs" class="fo-h">Les ${nb(synthese.clefs.length)} idées clefs</h2>
     <p>Une par chapitre. Si tu ne dois retenir qu’une phrase de chaque chapitre, c’est celle-là.</p>
     <ol class="fo-clefs">${synthese.clefs.map(([phrase, detail, i], k) => `<li><span class="fo-clef-n">${String(k + 1).padStart(2, "0")}</span><div><p class="fo-clef-p">${phrase}</p><p>${detail}</p><a href="${ancre(i)}">Chapitre ${i + 1} · ${chapitres[i].court}</a></div></li>`).join("")}</ol>
