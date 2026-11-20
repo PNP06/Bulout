@@ -20,6 +20,8 @@ function debugApi() {
   };
   const context = { window, document, console: { debug() {}, warn() {}, error() {} },
     navigator: {}, location: { hash: "", pathname: "/test", href: "https://example.invalid/test" } };
+  // Respecter l'ordre de chargement réel de test.html : données BS avant moteur.
+  vm.runInNewContext(read("bullshitometre-data.js"), context, { filename: "bullshitometre-data.js" });
   vm.runInNewContext(read("script.js"), context, { filename: "script.js" });
   assert.ok(window.BullOutDebug, "API de test absente");
   return window.BullOutDebug;
