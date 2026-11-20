@@ -1021,7 +1021,8 @@
     const allLow = Object.values(sectionScores).every((score) => score <= 6);
 
     let profileKey = "mixed";
-    if (hasAlert || totalScore >= 109 || Object.values(sectionScores).some((score) => score >= 22)) {
+    // Une charge de travail très haute (D, E) seule n'est pas une urgence médicale : seuls les signes d'usure comptent ici.
+    if (hasAlert || totalScore >= 109 || [A, B, C, F].some((score) => score >= 22)) {
       profileKey = "alert";
     } else if (A >= 13 && F >= 13) {
       profileKey = "exhaustion";
@@ -1034,7 +1035,6 @@
     }
 
     const profile = { key: profileKey, ...profileRecommendations[profileKey] };
-    console.debug("Choix du profil", { profileKey, sectionScores, totalScore, hasAlert });
     return profile;
   }
 
@@ -1122,8 +1122,12 @@
       }
     };
 
-    if (result.hasAlert || scores.F >= 19 || contextYes.has("safetySensitiveJob")) {
-      addAction("safety", "alert", "Sécurité / santé d'abord", "En cas de danger immédiat : 15 / 112. Idées suicidaires : 3114. Si un poste à enjeu de sécurité est concerné, réduire l'exposition aux tâches à risque.");
+    // Un poste à enjeu de sécurité n'est pas une urgence médicale : les deux messages restent séparés.
+    if (result.hasAlert || scores.F >= 19) {
+      addAction("safety", "alert", "Sécurité / santé d'abord", "En cas de danger immédiat : 15 / 112. Idées suicidaires : 3114. Sinon, prends rendez-vous cette semaine avec ton médecin ou le médecin du travail.");
+    }
+    if (contextYes.has("safetySensitiveJob") && (scores.A >= 13 || scores.F >= 13 || result.hasAlert)) {
+      addAction("safety", "safetyJob", "Sécuriser les tâches à risque", "Ton poste comporte des enjeux de sécurité et la fatigue est là : demande à réduire ou à partager les tâches à risque le temps de récupérer, et parles-en au médecin du travail.");
     }
     if (scores.D >= 13) {
       addAction("exposure", "load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
@@ -1684,12 +1688,14 @@
   function initHeroScene() {
     const scene = document.querySelector("#bo-scene");
     if (!scene) return;
+    // Le niveau sert au dessin ; le texte reste en mots : on ne mesure pas l'énergie au pour cent près.
     const LEVELS = [80, 45, 15, 35, 35];
+    const MOTS_SAM = ["En forme", "Entamé", "À plat", "Entamé", "Entamé"];
     const CAPS = [
-      "Lundi, Sam démarre à <strong>80 %</strong>. 42 mails, 3 urgences. Normal, c'est lundi.",
+      "Lundi, Sam démarre <strong>en forme</strong>. 42 mails, 3 urgences. Normal, c'est lundi.",
       "Mercredi, la <strong>pause déjeuner saute</strong> et le collègue qui aidait est parti. Son dossier, lui, est resté.",
       "Vendredi : <strong>« À quoi bon ? »</strong> Sam décroche, devient cynique, fait plus d'erreurs. Plus de soirées pour souffler.",
-      "Le week-end ne recharge plus. <strong>4 semaines plus tard</strong>, Sam repart chaque lundi à 35 %.",
+      "Le week-end ne recharge plus. <strong>4 semaines plus tard</strong>, Sam repart chaque lundi <strong>déjà entamé</strong>.",
       "Sam n'est pas faible. <strong>Le travail demande plus qu'il ne rend</strong>, depuis des semaines. C'est ça que Bull-Out t'aide à voir."
     ];
     const fill = scene.querySelector("#bo-fill");
@@ -1711,10 +1717,10 @@
       const step = (now) => {
         const k = Math.min((now - start) / 1300, 1);
         shown = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
-        pct.textContent = `${shown} %`;
+        pct.textContent = MOTS_SAM[act] || "";
         if (k < 1) counter = requestAnimationFrame(step);
       };
-      if (reduce) { shown = target; pct.textContent = `${target} %`; } else counter = requestAnimationFrame(step);
+      if (reduce) { shown = target; pct.textContent = MOTS_SAM[act] || ""; } else counter = requestAnimationFrame(step);
     };
 
     const show = (next) => {
