@@ -332,13 +332,14 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const absurdeHaut = bs.percent >= 50;
   const coupe = sr.B.score >= 13 || perteSens >= 5;
   const CASES = {
-    hh: ["Absurdité et retrait déclarés", "Les réponses satiriques signalent de l’absurdité perçue et les questions sérieuses davantage de distance ou de perte de sens. Leur lien causal n’est pas établi."],
-    hb: ["Absurdité sans retrait marqué", "Les réponses satiriques décrivent de l’absurdité perçue, mais les questions sur la distance et le sens ressortent moins. Ce résultat ne mesure pas un humour protecteur."],
-    bh: ["Retrait sans forte absurdité déclarée", "La distance ou la perte de sens ressortent malgré un indice satirique moins élevé. Les autres conditions de travail et le contexte méritent examen."],
-    bb: ["Peu de signaux sur ces thèmes", "La distance, la perte de sens et l’absurdité perçue ressortent relativement peu dans ces questions. D’autres difficultés restent possibles."]
+    hh: ["Le cirque commence à peser", "L’absurdité ressort dans le jeu et le retrait ou les difficultés de sens dans les questions sérieuses. Leur cooccurrence ne prouve pas un lien de cause."],
+    hb: ["L’absurde, mais pas le désengagement", "On peut juger une partie du travail absurde et continuer à trouver son activité utile : les deux informations ne s’annulent pas."],
+    bh: ["Le malaise sans le grand cirque", "La distance ou le sens sont difficiles malgré peu de situations satiriques cochées. Examiner d’autres conditions de travail et la santé."],
+    bb: ["De vrais arbitrages, ça existe", "Peu de signaux dans ces questions, sans exclure des difficultés qui n’y figurent pas."]
   };
   const caseBS = (absurdeHaut ? "h" : "b") + (coupe ? "h" : "b");
   const [bsTitre, bsTexte] = CASES[caseBS];
+  const bsMatrice = !bs.skipped && bs.matrix ? bs.matrix : null;
   const lectureBatterie = sr.A.score >= 13 && sr.F.score >= 13
     ? "Tu déclares à la fois des manifestations d’épuisement et plusieurs difficultés de récupération ou de santé."
     : sr.A.score >= 13 ? "Plusieurs manifestations d’épuisement ressortent, sans que les autres réponses suffisent à expliquer leur origine."
@@ -665,7 +666,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de jauge haute", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Ressources davantage déclarées" : "Scores proches, sans compensation démontrée", lectureBalance, "balance"],
     ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `${esc(sr.A.comment)} ${esc(sr.F.comment)}`, "batterie"],
-    ["L'absurde", `${bsTitre} (${bs.percent} %)`, caseBS === "hh" ? "Absurdité déclarée avec distance ou perte de sens." : caseBS === "hb" ? "Absurdité déclarée, sans retrait fortement déclaré." : caseBS === "bh" ? "Distance ou perte de sens, avec peu d’absurdité déclarée." : "Peu de signaux sur ces thèmes.", "absurde"],
+    ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent} %`, bs.skipped ? "Partie satirique facultative non renseignée." : (bsMatrice?.interpretation || bsTexte), "absurde"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
   // ───────── Le verdict et la vue d'ensemble
