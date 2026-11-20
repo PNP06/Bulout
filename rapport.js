@@ -735,12 +735,18 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       id: e.id, court: `${i + 1} · ${pieces[i]}`, etape: i,
       html: `<header class="rp-etape-head"><div class="rp-stepper"><span class="rp-n">Pièce ${i + 1} sur ${etapes.length}</span><ol aria-hidden="true">${etapes.map((_, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"></li>`).join("")}</ol></div>
         <h2 tabindex="-1">${esc(pieces[i])}</h2><p class="rp-question">${esc(e.q)}</p><p class="rp-intro">${e.intro}</p></header>
-        ${r.hasAlert ? `<p class="rp-securite-mini" role="note">Rappel : une de tes réponses demande de l'aide rapidement (3114, 15 ou 112). Voir la synthèse.</p>` : ""}
+        ${r.hasAlert ? `<p class="rp-securite-mini" role="note">Un signal de sécurité a été coché. Consulte le message individualisé de la synthèse ; le score ne détermine pas l’urgence.</p>` : ""}
         ${bref(e.bref)}<div class="rp-corps">${e.corps}</div>${e.comprendre}${garder(e.garder, i === etapes.length - 1)}`
     })),
+    { id: "travail", court: "Fiche travail", html: ficheTravail },
     { id: "annexes", court: "Annexes", html: `<header class="rp-etape-head"><p class="rp-n">Annexes</p><h2 tabindex="-1">Comment lire, ce que tu as répondu, d'où viennent les questions</h2></header>
       <section class="rp-annexe" id="annexe-1">${definitions}</section><section class="rp-annexe" id="annexe-2">${annexeReponses}</section><section class="rp-annexe" id="annexe-3">${annexeSources}</section>` }
   ];
+
+  // Lire dans l'ordre utile : synthèse, plan, interlocuteurs ; approfondir ensuite.
+  const ordrePages = ["synthese", "plan", "portes", "travail", "appuis", "absurde",
+    ...etapes.filter((e) => !["plan", "portes"].includes(e.id)).map((e) => e.id), "annexes"];
+  pages.sort((a, b) => ordrePages.indexOf(a.id) - ordrePages.indexOf(b.id));
 
   const nav = (i) => {
     const prev = pages[i - 1], next = pages[i + 1];
@@ -755,9 +761,10 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       <p>Ce rapport s'inspire de questionnaires utilisés en recherche et en santé au travail, reformulés pour être clairs. Le questionnaire Bull-Out et son analyse n'ont pas été validés scientifiquement : ils servent à comprendre ce qui ressort et à préparer une discussion, pas à poser un diagnostic.</p>
       <div class="parcours-tools rp-outils">
         <fieldset class="rp-pdf"><legend>Ce que contient le PDF</legend>
-          <label><input type="radio" name="rp-pdf" value="complet" checked> <b>Complet</b> : tout le rapport</label>
-          <label><input type="radio" name="rp-pdf" value="court"> <b>Court</b> : synthèse, plan et portes, à montrer en consultation</label>
-          <label><input type="checkbox" name="rp-reponses" checked> Inclure mes réponses, question par question</label>
+          <label><input type="radio" name="rp-pdf" value="court" checked> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
+          <label><input type="radio" name="rp-pdf" value="complet"> <b>Complet</b> : explications, modèles et annexes</label>
+          <label><input type="radio" name="rp-pdf" value="travail"> <b>Fiche travail</b> : contraintes et demandes, sans réponses médicales</label>
+          <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
         </fieldset>
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
         <button class="button secondary" type="button" id="copy-results">Copier le résumé</button>
@@ -765,7 +772,13 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       </div>
       <p class="rp-prive">Rien ne quitte ton navigateur. Pour le PDF : dans la fenêtre d'impression, choisis « Enregistrer au format PDF ».</p>
     </header>
-    <nav class="rapport-nav rp-nav" aria-label="Sommaire du rapport">${pages.map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</nav>
+<nav class="rapport-nav rp-nav" aria-label="Sommaire du rapport">
+      <div class="rp-nav-essentiel"><span class="rp-nav-label">À lire d'abord</span>
+        ${pages.filter((p) => ["synthese", "plan", "portes", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
+      <details class="rp-nav-detail"><summary>Approfondir · modèles, appuis, annexes</summary>
+        <div class="rp-nav-list">${pages.filter((p) => !["synthese", "plan", "portes", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
+      </details>
+    </nav>
     ${pages.map((p, i) => `<section class="rp-page${p.etape !== undefined ? " rp-etape" : ""}" id="rapport-${p.id}" data-page="${p.id}" aria-label="${esc(p.court)}">${p.html}${nav(i)}</section>`).join("")}
     <footer class="rp-fin"><p><b>Bull-Out</b> · Prévention burn-out sans bullshit · bullout.ddlab.fr</p><p>Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Version du questionnaire et du calcul : ${VERSION}.</p></footer>`;
 }
@@ -779,6 +792,8 @@ function montrer(id, focus = true) {
   if (!pages.some((p) => p.dataset.page === id)) id = "synthese";
   courante = id;
   pages.forEach((p) => { p.hidden = p.dataset.page !== id; });
+  const detail = racine.querySelector(".rp-nav-detail");
+  if (detail && !["synthese", "plan", "portes", "travail"].includes(id)) detail.open = true;
   racine.querySelectorAll(".rp-nav button").forEach((b) => {
     if (b.dataset.aller === id) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
   });
@@ -790,7 +805,9 @@ function montrer(id, focus = true) {
 }
 
 function optionsPDF() {
-  racine.classList.toggle("pdf-court", racine.querySelector('[name="rp-pdf"]:checked')?.value === "court");
+  const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "court";
+  racine.classList.toggle("pdf-court", mode === "court");
+  racine.classList.toggle("pdf-travail", mode === "travail");
   racine.classList.toggle("pdf-sans-reponses", !racine.querySelector('[name="rp-reponses"]')?.checked);
 }
 
