@@ -1688,13 +1688,15 @@
   function initHeroScene() {
     const scene = document.querySelector("#bo-scene");
     if (!scene) return;
+    // Niveaux graphiques illustratifs : aucun pourcentage physiologique n’est calculé.
     const LEVELS = [80, 45, 15, 35, 35];
+    const LABELS = ["En forme", "Fatigué", "Saturé", "Peu reposé", "Sous tension"];
     const CAPS = [
-      "Lundi, Sam démarre à <strong>80 %</strong>. 42 mails, 3 urgences. Normal, c'est lundi.",
+      "Lundi, Sam commence sa semaine <strong>avec de l'énergie</strong>. 42 mails, 3 urgences : la pression monte.",
       "Mercredi, la <strong>pause déjeuner saute</strong> et le collègue qui aidait est parti. Son dossier, lui, est resté.",
       "Vendredi : <strong>« À quoi bon ? »</strong> Sam décroche, devient cynique, fait plus d'erreurs. Plus de soirées pour souffler.",
-      "Le week-end ne recharge plus. <strong>4 semaines plus tard</strong>, Sam repart chaque lundi à 35 %.",
-      "Sam n'est pas faible. <strong>Le travail demande plus qu'il ne rend</strong>, depuis des semaines. C'est ça que Bull-Out t'aide à voir."
+      "Après le week-end, Sam récupère difficilement. <strong>Quatre semaines plus tard</strong>, il décrit toujours la même fatigue.",
+      "Sam décrit un travail exigeant et une récupération difficile. <strong>Cela mérite d'examiner les contraintes, les ressources et sa santé</strong>, sans déduire une cause certaine de ce dessin."
     ];
     const fill = scene.querySelector("#bo-fill");
     const pct = scene.querySelector("#bo-pct");
@@ -1703,30 +1705,16 @@
     const demands = [...scene.querySelectorAll(".bo-d")];
     const resources = [...scene.querySelectorAll(".bo-r")];
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    let shown = 80;
     let timer = null;
-    let counter = null;
     let act = -1;
 
-    const countTo = (target) => {
-      cancelAnimationFrame(counter);
-      const from = shown;
-      const start = performance.now();
-      const step = (now) => {
-        const k = Math.min((now - start) / 1300, 1);
-        shown = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
-        pct.textContent = `${shown} %`;
-        if (k < 1) counter = requestAnimationFrame(step);
-      };
-      if (reduce) { shown = target; pct.textContent = `${target} %`; } else counter = requestAnimationFrame(step);
-    };
-
+    // Le dessin fait évoluer un état qualitatif, non une « réserve d'énergie ».
     const show = (next) => {
       const previous = act;
       act = next;
       scene.dataset.act = String(act);
       fill.style.setProperty("--lvl", String(LEVELS[act] / 100));
-      countTo(LEVELS[act]);
+      pct.textContent = LABELS[act];
       demands.forEach((d) => {
         const visible = Number(d.dataset.in) <= Math.min(act, 2);
         const wasVisible = previous >= 0 && Number(d.dataset.in) <= Math.min(previous, 2);
