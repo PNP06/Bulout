@@ -1,6 +1,6 @@
 # Bull-Out — inventaire de ce qui est réellement demandé, calculé et représenté
 
-**État du dépôt : 20 novembre 2026 — branche `main`, avant la PR d'audit du soir.** Les lignes barrées ou annotées ont été corrigées depuis : voir [l'audit](audit-2026-11-20.md).  
+**État du dépôt : 20 novembre 2026 — branche `main`, avant la PR d'audit du soir.** Les lignes barrées ou annotées ont été corrigées depuis : voir [l'audit](historique/audit-2026-11-20.md).  
 **Statut : photographie du code, non validation scientifique, aucune décision de réécriture.**  
 Fichiers de référence : [script.js](../../script.js), [rapport.js](../../rapport.js), [bullshitometre-data.js](../../bullshitometre-data.js), [formation-contenu.js](../../formation-contenu.js).
 

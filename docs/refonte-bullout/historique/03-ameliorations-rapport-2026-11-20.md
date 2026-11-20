@@ -59,7 +59,7 @@ La fiche travail doit être vérifiée sur le **PDF réellement imprimé**, pas 
 
 ## 5. État de l'audit du questionnaire
 
-Voir [l'audit question par question](02-audit-questionnaire-prochaine-version.md) et [l'inventaire exact des 67 réponses](inventaire-questions-mesures-calculs.md).
+Voir [l'audit question par question](02-audit-questionnaire-prochaine-version.md) et [l'inventaire exact des 67 réponses](../inventaire-questions-mesures-calculs.md).
 
 **Pas de nouvelle question dans cette branche.** L'audit distingue ce qui peut être conservé, reformulé ou reclassé. Les lacunes scientifiques les plus informatives sont : temporalité et évolution ; qualité empêchée/conflits de valeurs ; attribution des symptômes ; nature de la récupération ; fonction réelle de l'humour. Il faudra aussi traiter le mélange des dimensions C et F et plusieurs formulations causalement orientées.
 
