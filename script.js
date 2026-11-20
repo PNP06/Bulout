@@ -1102,9 +1102,10 @@
     return topItems;
   }
 
-  function determineProfile(sectionScores, totalScore, hasAlert) {
+  function determineProfile(sectionScores, totalScore, hasAlert, temporalAnswers = []) {
     const { A, B, C, D, E, F } = sectionScores;
-    const allLow = Object.values(sectionScores).every((score) => score <= 6);
+    const qualiteEmpechee = temporalAnswers.some((answer) => answer.id === "T4" && answer.value >= 3);
+    const allLow = Object.values(sectionScores).every((score) => score <= 6) && !qualiteEmpechee;
 
     let profileKey = "mixed";
     if (hasAlert) {
@@ -1141,6 +1142,10 @@
       ? " La personne décrit aussi une aggravation récente, qui mérite d'être précisée."
       : tendance === 0 ? " La personne décrit une amélioration récente, sans que son origine soit établie."
       : "";
+    const qualiteEmpechee = result.temporalAnswers?.some((a) => a.id === "T4" && a.value >= 3);
+    if (qualiteEmpechee && result.dominantDimensions.every((a) => a.score <= 6)) {
+      return "La qualité du travail empêchée ressort de tes réponses, même si les autres dimensions sont peu marquées. Ce signal professionnel mérite un exemple concret à discuter, sans présumer d'une atteinte à la santé." + precisions;
+    }
     if (result.profile.key === "protected") {
       return "Sur les questions proposées, peu de difficultés ressortent. Cela ne permet pas d'exclure une autre situation de santé ou de travail." + precisions;
     }
@@ -1471,7 +1476,7 @@
     const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
     const hasAlert = alertAnswers.some((answer) => answer.yes);
     const totalLevel = getGlobalLevel(totalScore, hasAlert);
-    const profile = determineProfile(sectionScores, totalScore, hasAlert);
+    const profile = determineProfile(sectionScores, totalScore, hasAlert, temporalAnswers);
     const answers = buildAnswerItems(sectionResults);
     const topItems = getTopItems(answers);
     const dominantDimensions = getDominantDimensions(sectionResults);
