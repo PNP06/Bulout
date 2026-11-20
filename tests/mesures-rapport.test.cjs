@@ -846,6 +846,19 @@ test("la synthèse compare les trois modèles sur les mêmes faits et ne crée p
   assert.match(css,/fo-complement/);
 });
 
+test("le récapitulatif des trois modèles suit immédiatement le chapitre 4", () => {
+  const render=read("parcours.js");
+  assert.match(render,/function resumeModelesPage\(\)/);
+  assert.match(render,/i === 3 \? `<a class="fo-pager-next" href="#modeles-resume">/);
+  assert.match(render,/i === 4 \? `<a class="fo-pager-prev" href="#modeles-resume">/);
+  assert.match(render,/hash === "#modeles-resume" \? resumeModelesPage\(\)/);
+  assert.match(render,/synthese\.casCommun\.lectures\.map/);
+  assert.match(render,/resume-limites/);
+  const visual=read("tests/generer-pdf-exemple.mjs");
+  assert.match(visual,/resume-modeles-mobile/);
+  assert.match(visual,/resume-modeles-ordinateur/);
+});
+
 test("la page Méthode détaille la construction, les hypothèses testables et les inconnues", () => {
   const html=read("methode.html");
   for(const id of ["mesure","modeles-et-perimetres","construction-hypotheses","verification-inconnues","donnees-decisions","sources-limites"]) {
