@@ -1169,7 +1169,7 @@
     if (minimized && !text.includes("minimis") && !text.includes("banalis")) {
       text += " Tu as également eu l'impression que ces blagues minimisaient tes difficultés ; cela n'annule pas les autres réactions déclarées.";
     }
-    if (distance && !text.includes("recul")) {
+    if (distance && title !== "Du rire et un peu de recul" && title !== "Du recul, même sans grand éclat de rire") {
       text += " Tu déclares aussi une prise de recul sur le moment ; cela ne démontre pas un bénéfice durable.";
     }
     return { title, text,
