@@ -565,15 +565,20 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
 
   // ───────── Le bullshitomètre : la satire d'un côté, la lecture sérieuse de l'autre
   const profilBS = bs.profil || { titre: "", texte: "", survie: "", phrase: "" };
+  const satireEnRetrait = r.hasAlert || (sr.A.score >= 13 && sr.F.score >= 13);
+  const profilSatirique = satireEnRetrait
+    ? '<div class="rp-bs-satire"><p class="k">La satire reste facultative à lire</p><p>Les réponses de santé et d’épuisement ressortent suffisamment pour ne pas ajouter ici de surnom ironique, de conseil humoristique ou de « mode de survie ».</p><p>Tu peux passer cette page et te concentrer sur les faits de travail, les appuis et l’orientation adaptée.</p></div>'
+    : `<div class="rp-bs-satire"><p class="k">Ton profil satirique</p><h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
+        <p><b>Mode de survie (satirique) :</b> ${esc(profilBS.survie)}</p><p class="rp-phrase">À sortir en réunion : « ${esc(profilBS.phrase)} »</p></div>`;
+
   const grilleCase = (k, titre, texte, cls) => `<div class="rp-bs-case ${cls}${k === caseBS ? " ici" : ""}"><b>${titre}</b><span>${texte}</span>${k === caseBS ? '<em>C\'est ta case</em>' : ""}</div>`;
   const pageAbsurde = {
     titre: "Le bullshitomètre", q: "Que décrivent tes réponses sur l’absurdité perçue, la distance et le sens ?",
     intro: "Une pause satirique sur les absurdités organisationnelles, suivie d’une mise en regard avec la distance mentale (B) et le sens (C3, C5). Cette comparaison ne mesure pas l’effet protecteur de l’humour.",
-    bref: `Indice satirique interne : ${bs.percent} %${profilBS.titre ? ` (${esc(profilBS.titre)})` : ""}. Lecture sérieuse : ${esc(bsTitre.toLowerCase())}.`,
+    bref: satireEnRetrait ? "La satire n’est pas interprétée lorsque des signaux de santé ou d’épuisement importants ressortent." : `Indice satirique interne : ${bs.percent} %${profilBS.titre ? ` (${esc(profilBS.titre)})` : ""}. Lecture descriptive : ${esc(bsTitre.toLowerCase())}.`,
     corps: `<div class="rp-duo"><div class="rp-bs-score"><p class="rp-bs-pc">${bs.percent}<small> %</small></p><p class="k">Indice satirique (non validé)</p>
         <div class="rp-bs-metres">${(bsDims || []).map(([k, l]) => `<div><span>${esc(l)}</span><span class="rp-barre"><i style="width:${bs.dims[k] || 0}%;background:${C.orange}"></i></span><b>${bs.dims[k] || 0} %</b></div>`).join("")}</div></div>
-        <div class="rp-bs-satire"><p class="k">Ton profil satirique</p><h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
-        <p><b>Mode de survie :</b> ${esc(profilBS.survie)}</p><p class="rp-phrase">À sortir en réunion : « ${esc(profilBS.phrase)} »</p></div></div>
+        ${profilSatirique}</div>
       <h4 class="rp-h">La lecture sérieuse</h4>
       <p>L’indice satirique de réponses est <b>${absurdeHaut ? "dans sa moitié haute" : "dans sa moitié basse"}</b> (${bs.percent} % du barème interne). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et les difficultés de sens ${MOTSF[nv24(relatif24(perteSens, 8))]} (${perteSens}/8).</p>
       <div class="rp-bs-grille" role="table" aria-label="Grille de lecture : absurdité du poste croisée avec distance et sens">
@@ -581,7 +586,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         <span class="v">Absurdité haute</span>${grilleCase("hb", CASES.hb[0], CASES.hb[1], "g")}${grilleCase("hh", CASES.hh[0], CASES.hh[1], "o")}
         <span class="v">Absurdité basse</span>${grilleCase("bb", CASES.bb[0], CASES.bb[1], "g")}${grilleCase("bh", CASES.bh[0], CASES.bh[1], "p")}
       </div>
-      ${caseBS === "hh" ? `<p class="rp-cle"><b>Ce que tu peux faire :</b> nommer ce qui est absurde, distinguer ce qui peut changer de ce qui doit être arbitré, et le porter comme un fait de travail (pièce 8), pas comme un défaut de motivation. Le sens perdu se travaille avec ton manager ou le médecin du travail.</p>` : caseBS === "hb" ? `<p class="rp-cle"><b>À ne pas conclure :</b> ce questionnaire ne demande pas si l’humour t’aide réellement à faire face. La fonction protectrice de l’humour n’est donc pas établie.</p>` : ""}
+      ${caseBS === "hh" ? `<p class="rp-cle"><b>Ce que tu peux faire :</b> nommer ce qui est absurde, distinguer ce qui peut changer de ce qui doit être arbitré, et le porter comme un fait de travail (pièce 8), pas comme un défaut de motivation. Le sens ou les conflits de valeurs peuvent être explorés avec un interlocuteur adapté à la situation, sans obligation d'en parler à la hiérarchie.</p>` : caseBS === "hb" ? `<p class="rp-cle"><b>À ne pas conclure :</b> ce questionnaire ne demande pas si l’humour t’aide réellement à faire face. La fonction protectrice de l’humour n’est donc pas établie.</p>` : ""}
       <h4 class="rp-h">Tes réponses</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>`,
     comprendre: pourComprendre("Pourquoi un test pour rire dans un rapport sérieux", `<p>L'anthropologue David Graeber a décrit en 2018 les « bullshit jobs » : des emplois que même ceux qui les occupent jugent inutiles. Les études qui ont suivi, sur de grands échantillons européens (Soffia, Wood et Burchell, 2022), trouvent que le <b>sentiment d'inutilité</b> est bien associé à un mal-être plus élevé, mais qu'il dépend surtout de la façon dont le travail est organisé et reconnu, plus que du métier lui-même.</p><p>Côté burn-out, Maslach décrit le cynisme comme une <b>protection</b> : on se détache de ce qui coûte trop. L'humour joue un rôle proche. Les recherches sur les styles d'humour (Martin et ses collègues, 2003) distinguent un humour qui aide à prendre du recul et protège, d'un humour plus amer ou tourné contre soi, associé à plus de mal-être. D'où la grille : c'est le croisement avec ta distance et ton sens qui dit de quel côté tu es.</p><p>Le bullshitomètre est satirique. Ses pourcentages ne mesurent rien de validé et ne comptent dans aucun score.</p>`, chapLien(2)),
     garder: "L'absurde, s'il use, se travaille comme le reste : en le nommant, et en le portant là où il peut changer."
