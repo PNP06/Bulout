@@ -276,6 +276,33 @@
 .rp-nav-list { margin: 8px 0 2px; }
 .rp-nav button:focus-visible, .rp-syn-priorites button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 
+/* Schéma à couches : la personne pilote l'exploration, les données demeurent inchangées. */
+.rp-vue-commandes { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+.rp-vue-commandes button { min-width: 0; padding: 10px 8px; text-align: center; font: 700 13px/1.35 var(--font);
+  border: 1px solid var(--line-strong); background: var(--card); border-radius: 10px; color: var(--fg); cursor: pointer; }
+.rp-vue-commandes button[aria-pressed="true"] { background: var(--sapin); color: var(--creme); border-color: var(--sapin); }
+.rp-vue-commandes button:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.rp-vue-lecture { margin: 0; min-height: 2.5em; font-size: 14px; color: var(--muted); line-height: 1.5; }
+.rp-layer { opacity: 1; transition: opacity .32s ease-out; }
+.rp-vue[data-lecture="personne"] .rp-layer-work,
+.rp-vue[data-lecture="personne"] .rp-layer-support { opacity: .09; }
+.rp-vue[data-lecture="travail"] .rp-layer-manifest,
+.rp-vue[data-lecture="travail"] .rp-layer-support { opacity: .12; }
+.rp-vue[data-lecture="travail"] .rp-layer-person { opacity: .36; }
+.rp-vue[data-lecture="appuis"] .rp-layer-manifest,
+.rp-vue[data-lecture="appuis"] .rp-layer-work { opacity: .18; }
+.rp-vue[data-lecture="appuis"] .rp-layer-person { opacity: .48; }
+.rp-layer-safety { opacity: 1 !important; }
+@media (max-width: 700px) {
+  .rp-vue-commandes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .rp-vue-commandes button { font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .rp-layer { transition: none; } }
+@media print {
+  .rp-vue-commandes, .rp-vue-lecture { display: none !important; }
+  .rp-ensemble .rp-layer { opacity: 1 !important; }
+}
+
 /* Six familles INRS/Gollac : inventaire des réponses, sans scores de risques fabriqués. */
 .rp-rps { display: grid; gap: 12px; }
 .rp-rps > p { margin: 0; max-width: 78ch; color: var(--muted); }
