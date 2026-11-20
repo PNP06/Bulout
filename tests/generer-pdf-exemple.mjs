@@ -109,6 +109,8 @@ try {
   // Le navigateur charge ici le parcours normal : seul l'essai du questionnaire
   // désactive localement le verrou du diplôme, jamais le site servi au public.
   const captures = [
+    {name:"resume-modeles-ordinateur",url:"test.html#modeles-resume",width:1280,selector:"#resume-cas"},
+    {name:"resume-modeles-mobile",url:"test.html#modeles-resume",width:390,selector:"#resume-limites"},
     {name:"synthese-ordinateur",url:"test.html#synthese",width:1280,selector:"#s-croisement"},
     {name:"synthese-mobile",url:"test.html#synthese",width:390,selector:"#s-complements"},
     {name:"methode-ordinateur",url:"methode.html",width:1280,selector:"#verification-inconnues"},
@@ -129,12 +131,16 @@ try {
           viewport:window.innerWidth,documentWidth:document.documentElement.scrollWidth,
           elementWidth:Math.round(rect.width),
           modelCards:document.querySelectorAll(".fo-complement").length,
+          summaryModelCards:document.querySelectorAll(".fo-modele").length,
+          comparedRows:document.querySelectorAll(".fo-modeles-comparaison tbody tr").length,
           methodHypotheses:document.querySelectorAll("#construction-hypotheses tbody tr").length
         };
       },c.selector);
       if(errors.length)throw new Error(c.name+": "+errors.join("; "));
       if(status.documentWidth > status.viewport+2)throw new Error(c.name+": débordement horizontal "+
         status.documentWidth+" > "+status.viewport);
+      if(c.name.startsWith("resume-modeles") && (status.summaryModelCards!==3 || status.comparedRows!==3))
+        throw new Error(c.name+": attendu 3 modèles principaux et 3 lectures comparatives");
       if(c.name.startsWith("synthese") && status.modelCards!==3)
         throw new Error(c.name+": 3 cadres complémentaires attendus, "+status.modelCards+" trouvés");
       if(c.name.startsWith("methode") && status.methodHypotheses!==6)
