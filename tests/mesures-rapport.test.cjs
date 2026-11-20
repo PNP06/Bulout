@@ -443,3 +443,25 @@ test("le moteur produit des plans fondés sur des faits, jamais sur un total de 
   assert.match(engine, /sans faire du total A–F une mesure de guérison/);
   assert.doesNotMatch(engine, /vérifier si le score baisse, stagne ou monte/);
 });
+
+
+test("la qualité empêchée isolée n'est pas reclassée en situation protégée", () => {
+  const scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  const repere = [{ id: "T4", value: 4 }];
+  const p = api.determineProfile(scores, 0, false, repere);
+  assert.notEqual(p.key, "protected");
+  const sans = api.determineProfile(scores, 0, false, []);
+  assert.equal(sans.key, "protected");
+});
+
+test("la qualité empêchée justifie un interlocuteur organisationnel sauf si parler est dangereux", () => {
+  const scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  const temporal = [{ id: "T4", value: 4 }];
+  const prof = api.determineProfile(scores, 0, false, temporal);
+  const alerts = [{ yes: false }, { yes: false }, { yes: false }];
+  const noRisk = api.getRecommendedStakeholders(scores, alerts, prof, [], temporal);
+  assert.ok(noRisk.some((x) => x.key === "manager"));
+  const afraid = api.getRecommendedStakeholders(scores, alerts, prof,
+    [{ id: "fearToSpeak", yes: true }], temporal);
+  assert.equal(afraid.some((x) => x.key === "manager"), false);
+});
