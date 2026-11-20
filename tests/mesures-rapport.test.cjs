@@ -273,3 +273,42 @@ test("l'incapacité de fonctionner avec un conflit relationnel ne crée pas une 
     [{ yes: false }, { yes: true }, { yes: false }], profile, c);
   assert.equal(recos.some((r) => r.key === "emergency"), false);
 });
+
+
+test("le schéma présente quatre étapes de lecture, également sur mobile", () => {
+  const html = composer(fixture(2));
+  for (const etape of ["personne", "travail", "appuis", "tout"]) {
+    assert.match(html, new RegExp('data-vue-etape="' + etape + '"'));
+  }
+  assert.match(html, /data-lecture="tout"/);
+  const svgs = [...html.matchAll(/<svg class="rp-ensemble (?:large|etroit)"[^>]*>[\s\S]*?<\/svg>/g)];
+  assert.equal(svgs.length, 2);
+  for (const [i, match] of svgs.entries()) {
+    const svg = match[0];
+    for (const couche of ["work", "person", "support", "manifest"]) {
+      assert.match(svg, new RegExp('class="rp-layer rp-layer-' + couche + '"'), "SVG " + i + " manque " + couche);
+    }
+    assert.equal((svg.match(/<g\b/g) || []).length, (svg.match(/<\/g>/g) || []).length,
+      "SVG " + i + " comporte un groupe non fermé");
+  }
+});
+
+test("l'impression réaffiche toutes les couches même si une étape a été sélectionnée", () => {
+  const css = read("rapport.css");
+  assert.match(css, /@media print\s*\{[\s\S]*?\.rp-ensemble \.rp-layer \{ opacity: 1 !important; \}/);
+  assert.match(css, /prefers-reduced-motion: reduce/);
+});
+
+test("le rapport supprime les surnoms satiriques quand épuisement et récupération ressortent fortement", () => {
+  const html = composer(fixture(4));
+  const page = pageDuRapport(html, "absurde");
+  assert.match(page, /La satire reste facultative à lire/);
+  assert.doesNotMatch(page, /Profil fictif|À sortir en réunion|Mode de survie/);
+});
+
+test("la satire reste disponible à faible intensité, clairement séparée du commentaire scientifique", () => {
+  const html = composer(fixture(0));
+  const page = pageDuRapport(html, "absurde");
+  assert.match(page, /Profil fictif/);
+  assert.match(page, /Indice satirique/);
+});
