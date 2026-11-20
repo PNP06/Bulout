@@ -70,6 +70,64 @@ function appuisArt(g) {
 const jauge = (v) => `<span class="rp-jauge" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= v ? "on" : ""}"></i>`).join("")}</span>`;
 
 // ───────── Dessins personnalisés (SVG faits main, aux couleurs de la formation)
+// ───────── Vue d'ensemble, à la manière du Papillon : au centre ton état (batterie et trois jauges),
+// à gauche ce qui pèse, à droite ce qui aide. L'épaisseur du fil dit la force : on lit tout d'un coup d'œil.
+const FIL = [1.5, 4, 8, 13];
+function vueEnsemble({ pese, aide, reste, jaugesABC, etroit }) {
+  const T = (x, y, t, o = {}) => `<text x="${x}" y="${y}" ${o.anchor ? `text-anchor="${o.anchor}"` : ""} font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}" font-weight="${o.poids || (o.titre ? 800 : 400)}" font-size="${o.taille || 14}" fill="${o.c || C.sapin}">${esc(t)}</text>`;
+  const coulBat = reste >= 60 ? C.mid : reste >= 35 ? "#b45a12" : C.orange;
+  // Le centre : une batterie verticale et, dessous, les trois jauges de l'usure.
+  const centre = (cx, top) => {
+    const h = 150, w = 92, x = cx - w / 2, rempli = Math.round((reste / 100) * (h - 14));
+    const jw = 22, jh = 56, jy = top + h + 46;
+    const j = jaugesABC.map((d, i) => {
+      const jx = cx - 56 + i * 56 - jw / 2;
+      const hh = Math.round((d.score / 24) * jh);
+      return `<rect x="${jx}" y="${jy}" width="${jw}" height="${jh}" rx="6" fill="${C.piste}"/><rect x="${jx}" y="${jy + jh - hh}" width="${jw}" height="${hh}" rx="6" fill="${COUL[niv(d).n]}"/>${T(jx + jw / 2, jy + jh + 15, d.court, { anchor: "middle", taille: 10.5 })}`;
+    }).join("");
+    return `<rect x="${cx - 18}" y="${top - 10}" width="36" height="12" rx="4" fill="${C.sapin}"/>
+      <rect x="${x}" y="${top}" width="${w}" height="${h}" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-width="5"/>
+      <rect x="${x + 7}" y="${top + h - 7 - rempli}" width="${w - 14}" height="${rempli}" rx="11" fill="${coulBat}"/>
+      ${T(cx, top + h / 2 + 8, `${reste} %`, { anchor: "middle", titre: true, taille: 24, c: reste < 45 ? C.sapin : C.card })}
+      ${T(cx, top + h + 26, "Ton énergie", { anchor: "middle", titre: true, taille: 14 })}${j}`;
+  };
+  const ligne = (it, x, y, align, couleur) => `${T(x, y, it.label, { anchor: align, titre: true, taille: 14.5 })}${it.sub ? T(x, y + 17, it.sub, { anchor: align, taille: 12, c: "#4a5f5a" }) : ""}`;
+  const fil = (x1, y1, x2, y2, n, couleur, vertical) => {
+    const d = vertical ? `M${x1} ${y1} C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}` : `M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}`;
+    return `<path d="${d}" fill="none" stroke="${couleur}" stroke-width="${FIL[n]}" stroke-linecap="round" opacity="${n ? 0.9 : 0.35}"/>`;
+  };
+  const vide = (t) => [{ label: t, sub: "", n: 0 }];
+  const P = pese.length ? pese : vide("Rien de net");
+  const A = aide.length ? aide : vide("Rien de net");
+  if (!etroit) {
+    const W = 1000, pas = 62, top = 70;
+    const H = Math.max(top + Math.max(P.length, A.length) * pas + 10, 420);
+    const cy = 120 + 75, cx = W / 2;
+    const yL = (i) => top + 20 + i * pas + (Math.max(P.length, A.length) - P.length) * pas / 2;
+    const yR = (i) => top + 20 + i * pas + (Math.max(P.length, A.length) - A.length) * pas / 2;
+    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue d'ensemble : à gauche ce qui pèse, au centre ton énergie et tes trois jauges, à droite ce qui t'aide.">
+      ${T(30, 34, "CE QUI PÈSE", { titre: true, taille: 13, c: C.ink })}${T(W - 30, 34, "CE QUI T'AIDE", { titre: true, taille: 13, c: C.mid, anchor: "end" })}
+      ${P.map((it, i) => fil(285, yL(i) - 5, cx - 56, cy, it.n, C.orange)).join("")}
+      ${A.map((it, i) => fil(W - 285, yR(i) - 5, cx + 56, cy, it.n, C.mid)).join("")}
+      ${P.map((it, i) => ligne(it, 270, yL(i), "end")).join("")}
+      ${A.map((it, i) => ligne(it, W - 270, yR(i), "start")).join("")}
+      ${centre(cx, 120)}</svg>`;
+  }
+  const W = 400, pas = 44;
+  const hP = P.length * pas, top = 40;
+  const cTop = top + hP + 70, cx = W / 2;
+  const aTop = cTop + 150 + 140;
+  const H = aTop + A.length * pas + 70;
+  return `<svg class="rp-ensemble etroit" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue d'ensemble : en haut ce qui pèse, au centre ton énergie et tes trois jauges, en bas ce qui t'aide.">
+    ${T(16, 24, "CE QUI PÈSE", { titre: true, taille: 13, c: C.ink })}
+    ${P.map((it, i) => fil(300, top + i * pas + 2, cx, cTop - 12, it.n, C.orange, true)).join("")}
+    ${P.map((it, i) => ligne(it, 16, top + i * pas + 6, "start")).join("")}
+    ${centre(cx, cTop)}
+    ${T(16, aTop + A.length * pas + 46, "CE QUI T'AIDE", { titre: true, taille: 13, c: C.mid })}
+    ${A.map((it, i) => fil(300, aTop + i * pas + 2, cx, cTop + 150 + 120, it.n, C.mid, true)).join("")}
+    ${A.map((it, i) => ligne(it, 16, aTop + i * pas + 6, "start")).join("")}</svg>`;
+}
+
 function batterie(A, F) {
   const reste = Math.max(0, Math.round(100 - ((A + F) / 48) * 100));
   const w = Math.round((reste / 100) * 196);
@@ -379,8 +437,32 @@ function composer({ result: r, sections, strengthPart, ratingLabels }) {
     ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `Batterie à environ ${reste} %. ${esc(sr.F.comment)}`, "batterie"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
+  // ───────── Le verdict et la vue d'ensemble
+  const usureMax = Math.max(...["A", "B", "C", "F"].map((id) => niv(sr[id]).n));
+  const verdict = r.hasAlert || r.profile.key === "alert" ? { n: 3, t: "Ça ne va pas : demande de l'aide maintenant", d: "Une de tes réponses, ou le niveau d'ensemble, appelle un avis médical rapide." }
+    : usureMax >= 2 ? { n: 2, t: "Ça ne va pas bien : agis cette semaine", d: "Au moins un signe d'usure est élevé. Ce n'est pas un diagnostic, mais il ne faut pas attendre que ça passe." }
+      : usureMax === 1 || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Ça tient, mais à surveiller", d: "Des signes ou des contraintes montent. C'est le bon moment pour agir, avant que l'usure s'installe." }
+        : { n: 0, t: "Ça va", d: "Tes réponses ne montrent pas d'usure nette. Garde ce qui te protège." };
+  const nDim = (d) => niv(d).n;
+  const ecart = effort - retour;
+  const pese = [
+    { label: "Exigences du travail", sub: `${niv(sr.D).mot} · ${sr.D.score}/24`, n: nDim(sr.D) },
+    { label: "Manque de ressources", sub: `${niv(sr.E).mot} · ${sr.E.score}/24`, n: nDim(sr.E) },
+    { label: "Effort sans retour", sub: ecart >= 6 ? "net" : ecart >= 2 ? "un peu" : "pas net", n: ecart >= 6 ? 2 : ecart >= 2 ? 1 : 0 },
+    ...ctxOui.filter((a) => a.id !== "collectiveSignal").slice(0, 3).map((a) => ({ label: a.label, sub: "contexte", n: a.id === "harassment" ? 3 : 1 }))
+  ];
+  const aide = [
+    ...forts.slice(0, 4).map((a) => ({ label: APPUIS[a.id][0], sub: `point fort · ${a.value}/4`, n: a.value >= 4 ? 3 : 2 })),
+    ...(ressPresentes.length ? [{ label: "Ressources au travail", sub: liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase())), n: ressPresentes.length >= 4 ? 3 : ressPresentes.length >= 2 ? 2 : 1 }] : []),
+    ...(tient.length ? [{ label: "Ce qui tient encore", sub: `${tient.length} réponse${tient.length > 1 ? "s" : ""}`, n: tient.length >= 12 ? 3 : tient.length >= 6 ? 2 : 1 }] : [])
+  ].map((x) => ({ ...x, sub: x.sub.length > 34 ? `${x.sub.slice(0, 33)}…` : x.sub }));
+  const jaugesABC = [["A", "Épuis."], ["B", "Distance"], ["C", "Efficac."]].map(([id, court]) => ({ ...sr[id], court }));
+  const ensemble = `<figure class="rp-vue"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
+      ${vueEnsemble({ pese, aide, reste, jaugesABC, etroit: false })}${vueEnsemble({ pese, aide, reste, jaugesABC, etroit: true })}
+      <figcaption class="rp-legende">Plus un fil est épais, plus il compte. <b class="o">Orange</b> : ce qui use. <b class="v">Vert</b> : ce qui protège. Au centre, la charge de ta batterie (épuisement et récupération) et tes trois jauges d'usure.</figcaption></figure>`;
+
   const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">Synthèse</p><h2 tabindex="-1">Ce qui ressort de tes réponses</h2>
-      <p>${esc(r.summary)}</p></header>${securite}
+      <p>${esc(r.summary)}</p></header>${securite}${ensemble}
     <div class="rp-syn-cartes">${synCartes.map(([k, t, d, cible]) => `<button type="button" class="rp-syn-carte" data-aller="${cible}"><span class="k">${k}</span><span class="t">${esc(cap(t))}</span><span class="d">${d}</span></button>`).join("")}</div>
     ${ctxOui.length ? `<p class="rp-syn-ctx"><b>Contexte signalé :</b> ${esc(liste(ctxOui.map((a) => a.label.toLowerCase())))}. Cela ne change pas les scores, mais la lecture (pièce 5).</p>` : ""}
     <div class="rp-duo"><div class="rp-syn-bloc"><h3>Par quoi commencer</h3><ol>${r.actions.slice(0, 3).map((a) => `<li><b>${esc(a.title)}.</b> ${esc(a.text)}</li>`).join("")}</ol></div>
