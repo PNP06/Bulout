@@ -852,7 +852,7 @@ test("la page Méthode détaille la construction, les hypothèses testables et l
     assert.match(html,new RegExp('id="'+id+'"'));
   }
   for(let i=1;i<=6;i++)assert.match(html,new RegExp("H"+i+" ·"));
-  assert.match(html,/sensibilité, spécificité, fidélité/);
+  assert.match(html,/sensibilité, spécificité, fidélité/i);
   assert.match(html,/pas des versions officielles validées/);
   assert.match(html,/Les 79 questions/);
   assert.match(html,/traduction automatique fournie par Google/);
