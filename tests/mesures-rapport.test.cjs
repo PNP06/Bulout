@@ -312,3 +312,33 @@ test("la satire reste disponible à faible intensité, clairement séparée du c
   assert.match(page, /Profil fictif/);
   assert.match(page, /Indice satirique/);
 });
+
+
+test("le carnet décrit deux et quatre semaines sans conclure à une guérison par score", () => {
+  const html = composer(fixture(2));
+  const carnet = pageDuRapport(html, "carnet");
+  assert.match(carnet, /Dans deux semaines/);
+  assert.match(carnet, /Dans quatre semaines/);
+  assert.match(carnet, /Quels faits ont changé/);
+  assert.match(carnet, /quelle action a été décidée/i);
+  assert.match(carnet, /pas une preuve automatique/);
+  assert.doesNotMatch(carnet, /score global|\d+\/144/);
+});
+
+test("les PDF court et travail sont strictement séparés par leurs règles CSS", () => {
+  const css = read("rapport.css");
+  assert.match(css, /\.pdf-court \.rp-page:not\(\[data-page="synthese"\]\):not\(\[data-page="appuis"\]\):not\(\[data-page="plan"\]\):not\(\[data-page="portes"\]\)/);
+  assert.match(css, /\.rapport\.pdf-travail \.rp-page:not\(\[data-page="travail"\]\)/);
+  assert.match(css, /\.rapport\.pdf-travail \.rapport-cover, \.rapport\.pdf-travail \.rp-fin/);
+  const source = read("rapport.js");
+  assert.match(source, /mode === "court"/);
+  assert.match(source, /mode === "travail"/);
+});
+
+test("tous les contenus de santé restent hors de la fiche travail", () => {
+  const html = composer(fixture(4, [true, true, true]));
+  const fiche = pageDuRapport(html, "travail");
+  for (const terme of ["A1", "B1", "C1", "F1", "Alerte 1", "F5", "3114", "15 / 112", "profil satirique"]) {
+    assert.doesNotMatch(fiche, new RegExp(terme, "i"), "Fuite potentielle : " + terme);
+  }
+});
