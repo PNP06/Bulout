@@ -1,6 +1,6 @@
 // Rapport Bull-Out : composé à partir des réponses calculées par script.js (événement « bullout:rapport »).
 // Structure reprise de Papillon (psytest) : une synthèse, puis une étape par pièce vue dans la formation
-// (les 8 pièces annoncées par les chapitres), puis des annexes qui montrent le calcul, les réponses et les sources.
+// (les 9 pièces annoncées par les chapitres), puis des annexes qui montrent le calcul, les réponses et les sources.
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 
@@ -226,7 +226,41 @@ function composer({ result: r, sections, strengthPart, ratingLabels }) {
     garder: "Garde ces appuis en tête : le plan (pièce 7) s'en sert. On reprend maintenant les pièces une à une, dans l'ordre de la formation."
   };
 
-  // ───────── Les 8 étapes (une par pièce de la formation)
+  // ───────── Trace écrite (pièce « Les traces ») : faits de travail, jamais la santé
+  const FAITS = {
+    D1: "la charge dépasse régulièrement ce qui peut être fait correctement dans le temps disponible",
+    D2: "les urgences et les interruptions empêchent de travailler de façon soutenable",
+    D3: "je reçois des priorités contradictoires, sans arbitrage",
+    D4: "je porte des responsabilités sans les moyens ou l'autorité qui vont avec",
+    D5: "les exigences relationnelles et émotionnelles du poste sont fortes",
+    D6: "je compense des dysfonctionnements d'organisation pour que le travail sorte",
+    E1: "je n'ai pas de marge réelle pour organiser mon travail",
+    E2: "quand la charge dépasse ce qui est faisable, l'arbitrage manque",
+    E3: "le soutien concret de l'équipe manque sur les dossiers lourds",
+    E4: "les objectifs, les livrables ou les délais ne sont pas assez clairs"
+  };
+  const faits = Object.keys(FAITS).filter((id) => item(id).riskScore >= 3).map((id) => FAITS[id]);
+  const demande = sr.D.score >= 13 || haut("D1") ? "un point pour décider ce qui sort, ce qui attend et ce qui se simplifie"
+    : haut("D3") || haut("E2") ? "un arbitrage écrit sur les priorités de la semaine"
+      : haut("E4") ? "une clarification écrite de l'objectif, du livrable et du délai attendus"
+        : "un point court sur la charge et les priorités";
+  const brouillon = [
+    "Objet : charge de travail et priorités",
+    "",
+    "Bonjour [prénom],",
+    "",
+    faits.length ? `Depuis [date ou nombre de semaines], je constate que :\n${faits.map((f, i) => `- ${f}${i === faits.length - 1 ? "." : " ;"}`).join("\n")}` : "Je souhaite faire le point sur ma charge de travail et nos priorités.",
+    "",
+    "Exemples précis : [date, dossier ou tâche, ce qui s'est passé].",
+    "",
+    `Je te demande ${demande}, d'ici [date].`,
+    "",
+    "Merci de me répondre par écrit, pour que nous gardions la même trace de ce qui est décidé.",
+    "",
+    "[signature]"
+  ].join("\n");
+
+  // ───────── Les 9 étapes (une par pièce de la formation)
   const pieces = chapitres.map((c) => c.piece.nom);
   const etapes = [
     {
@@ -310,15 +344,29 @@ function composer({ result: r, sections, strengthPart, ratingLabels }) {
         <h4 class="rp-h">Dans deux semaines</h4><div class="rp-duo">${r.plans.twoWeeks.map((b) => carte(b.title, ul(b.items.map(esc)))).join("")}</div>
         <div class="rp-trajet"><p><b>Si le total baisse :</b> ce qui a été fait aide, garde-le.</p><p><b>S'il reste haut :</b> passe de l'adaptation individuelle à une action sur la charge, les ressources ou l'organisation.</p><p><b>S'il monte :</b> réduis l'exposition et demande de l'aide, c'est prioritaire.</p></div>`,
       comprendre: pourComprendre("Pourquoi commencer par le travail", `<p>Les recommandations de prévention (INRS) classent les actions : <b>primaire</b>, agir sur les causes (charge, organisation) ; <b>secondaire</b>, aider les personnes à faire face ; <b>tertiaire</b>, soigner et accompagner le retour. Les plus efficaces sur la durée sont primaires. Le chapitre 7 donne des phrases prêtes à l'emploi pour demander un arbitrage.</p>`, chapLien(7)),
-      garder: "Un plan se tient mieux à plusieurs. Dernière pièce : à qui en parler."
+      garder: "Une demande compte davantage quand elle laisse une trace. La pièce suivante t'aide à l'écrire."
     },
     {
-      id: "portes", chap: 8, titre: "Les portes", q: "À qui en parler, et pour quoi faire ?",
+      id: "traces", chap: 8, titre: "Les traces", q: "Comment garder une trace utile, sans parler de ta santé ?",
+      intro: "Ce qui protège, toi comme ton manager, c'est d'avoir agi et de pouvoir le montrer : des faits, des dates, des demandes précises. Jamais tes scores ni ta santé.",
+      bref: faits.length ? `Ta trace peut s'appuyer sur ${faits.length} fait${faits.length > 1 ? "s" : ""} de travail tiré${faits.length > 1 ? "s" : ""} de tes réponses, et une demande : ${esc(demande)}.` : `Aucun fait de travail ne ressort fortement ; un journal de bord court suffit pour l'instant.`,
+      corps: `<div class="rp-duo">${carte("Ce que tu écris", ul(["des faits de travail datés : volumes, délais, urgences, demandes contradictoires", "ce que tu as demandé, à qui, quand", "les réponses obtenues, ou leur absence"]), "fort")}
+        ${carte("Ce que tu n'écris pas", ul(["tes scores ou ce rapport", "un diagnostic, tes symptômes, tes traitements", "des jugements sur les personnes"]), "levier")}</div>
+        <h4 class="rp-h">Un brouillon de demande écrite, à partir de tes réponses</h4>
+        <p class="rp-legende">À adapter : complète les crochets avec des dates et des exemples précis. Il ne contient aucune information de santé.</p>
+        <pre class="rp-trace" id="rp-trace">${esc(brouillon)}</pre>
+        <p><button type="button" class="button secondary" data-copier-trace>Copier le brouillon</button></p>
+        <div class="rp-cle"><b>Ton journal de bord.</b> Chaque semaine, deux lignes : ce qui s'est passé (date, tâche, volume) et ce que tu as demandé. Garde-le pour toi, hors de la messagerie professionnelle. Le jour où il faut en parler, il évite la « parole contre parole ».</div>`,
+      comprendre: pourComprendre("Ce que dit la loi", `<p>L'employeur a une <b>obligation de sécurité</b> : il doit prévenir les risques pour la santé physique et mentale, pas seulement réparer (article L4121-1 du Code du travail), en agissant d'abord sur l'organisation du travail (L4121-2). Il échappe à sa responsabilité s'il <b>prouve</b> avoir pris les mesures nécessaires (Cour de cassation, 2015). Une surcharge connue et laissée sans réponse peut suffire, même sans harcèlement. Les risques psychosociaux doivent figurer dans le document unique d'évaluation des risques, que tu peux demander à consulter.</p><p>Ce n'est pas un conseil juridique personnalisé : pour une situation précise, un représentant du personnel, l'inspection du travail ou un avocat peuvent t'aider.</p>`, chapLien(8)),
+      garder: "Une trace se lit mieux à deux. Dernière pièce : à qui en parler."
+    },
+    {
+      id: "portes", chap: 9, titre: "Les portes", q: "À qui en parler, et pour quoi faire ?",
       intro: "Chaque interlocuteur ouvre une porte différente : soin, santé au travail, arbitrage de la charge, appui collectif. Les informations médicales restent chez les soignants ; ton manager n'a pas à connaître tes scores.",
       bref: `Proposés d'après tes réponses : ${esc(liste(r.stakeholderRecommendations.map((x) => minus(x.stakeholder.name))))}.`,
       corps: `<div class="rp-portes">${r.stakeholderRecommendations.map((x) => carte(esc(x.stakeholder.name), `<p class="rp-pourquoi">${esc(x.why)}</p><p><b>Son rôle :</b> ${esc(x.stakeholder.shortRole)}</p><p class="rp-phrase">« ${esc(x.stakeholder.script)} »</p><a href="agir.html${x.stakeholder.anchor}">Fiche détaillée</a>`, x.key === "emergency" ? "urgence" : "")).join("")}</div>
         <p class="rp-urgences"><b>Toujours valable :</b> idées suicidaires, <a href="tel:3114">3114</a> (gratuit, 24 h/24). Danger immédiat : <a href="tel:15">15</a> ou <a href="tel:112">112</a>.</p>`,
-      comprendre: pourComprendre("Ce que peut faire le médecin du travail", `<p>Le médecin du travail est tenu au secret médical vis-à-vis de l'employeur. Tu peux le voir à ta demande, sans passer par ton manager. Il peut proposer des aménagements de poste ou de temps de travail, et alerter sur des risques collectifs sans révéler ce que tu lui as dit.</p>`, chapLien(8)),
+      comprendre: pourComprendre("Ce que peut faire le médecin du travail", `<p>Le médecin du travail est tenu au secret médical vis-à-vis de l'employeur. Tu peux le voir à ta demande, sans passer par ton manager. Il peut proposer des aménagements de poste ou de temps de travail, et alerter sur des risques collectifs sans révéler ce que tu lui as dit.</p>`, chapLien(9)),
       garder: "Garde ce rapport et refais le questionnaire dans deux à quatre semaines : c'est la trajectoire qui compte."
     }
   ];
@@ -337,7 +385,7 @@ function composer({ result: r, sections, strengthPart, ratingLabels }) {
     ${ctxOui.length ? `<p class="rp-syn-ctx"><b>Contexte signalé :</b> ${esc(liste(ctxOui.map((a) => a.label.toLowerCase())))}. Cela ne change pas les scores, mais la lecture (pièce 5).</p>` : ""}
     <div class="rp-duo"><div class="rp-syn-bloc"><h3>Par quoi commencer</h3><ol>${r.actions.slice(0, 3).map((a) => `<li><b>${esc(a.title)}.</b> ${esc(a.text)}</li>`).join("")}</ol></div>
     <div class="rp-syn-bloc"><h3>Trois questions à emporter</h3><ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${k}</span>${esc(q)}</li>`).join("")}</ul></div></div>
-    <div class="rp-syn-bloc rp-sommaire"><h3>Ton rapport, page par page</h3><p>D'abord tes appuis, puis les huit pièces de la formation, dans le même ordre.</p>
+    <div class="rp-syn-bloc rp-sommaire"><h3>Ton rapport, page par page</h3><p>D'abord tes appuis, puis les neuf pièces de la formation, dans le même ordre.</p>
       <ol><li><button type="button" data-aller="appuis"><span class="n">★</span><span><b>Tes appuis</b><small>${esc(lectureAppuis)}</small></span></button></li>${etapes.map((e, i) => `<li><button type="button" data-aller="${e.id}"><span class="n">${i + 1}</span><span><b>${esc(pieces[i])}</b><small>${e.bref.replace(/<[^>]+>/g, "")}</small></span></button></li>`).join("")}</ol></div>`;
 
   // ───────── Annexes
@@ -386,7 +434,7 @@ function composer({ result: r, sections, strengthPart, ratingLabels }) {
   // ───────── Pages
   const pages = [
     { id: "synthese", court: "Synthèse", html: synthese },
-    { id: "appuis", court: "Tes appuis", html: `<header class="rp-etape-head rp-appuis-head"><p class="rp-n">Avant les huit pièces</p>
+    { id: "appuis", court: "Tes appuis", html: `<header class="rp-etape-head rp-appuis-head"><p class="rp-n">Avant les neuf pièces</p>
         <h2 tabindex="-1">${pageAppuis.titre}</h2><p class="rp-question">${pageAppuis.q}</p><p class="rp-intro">${pageAppuis.intro}</p></header>
         ${bref(pageAppuis.bref)}<div class="rp-corps">${pageAppuis.corps}</div>${pageAppuis.comprendre}${garder(pageAppuis.garder)}` },
     ...etapes.map((e, i) => ({
@@ -461,6 +509,11 @@ document.addEventListener("bullout:rapport", (event) => {
 racine.addEventListener("click", (event) => {
   const b = event.target.closest("[data-aller]");
   if (b) montrer(b.dataset.aller);
+  const t = event.target.closest("[data-copier-trace]");
+  if (t) {
+    const texte = racine.querySelector("#rp-trace")?.textContent || "";
+    navigator.clipboard?.writeText(texte).then(() => { t.textContent = "Copié"; setTimeout(() => { t.textContent = "Copier le brouillon"; }, 1600); }).catch(() => {});
+  }
 });
 racine.addEventListener("change", (event) => { if (event.target.closest(".rp-pdf")) optionsPDF(); });
 

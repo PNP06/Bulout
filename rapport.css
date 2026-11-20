@@ -259,3 +259,4 @@
 }
 .rp-table tbody th { background: transparent; color: var(--fg); font-family: var(--font); }
 .rp-top .rp-jauge i.on { background: var(--orange); }
+.rp-trace { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--bg); border: 1px dashed var(--line-strong); font: 14px/1.55 var(--font); white-space: pre-wrap; color: var(--fg); }
