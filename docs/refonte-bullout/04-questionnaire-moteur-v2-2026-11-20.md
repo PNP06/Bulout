@@ -62,7 +62,7 @@ Ces questions sont **des informations descriptives, pas une échelle**. Elles ne
 
 ## Compatibilité des anciennes sauvegardes
 
-Format `bull-out-progression-9`, champs explicites `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"` et `versionReactionHumour: "2026-11-hr-v1"`. Les progressions V8 restent importables. Les anciens fichiers v7 sont repris sans réaffecter BS1–BS8 ; si la pause satirique avait été passée, les quatre nouvelles questions conservent ce choix.
+Format `bull-out-progression-10`, champs explicites `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"` et `versionReactionHumour: "2026-11-hr-v2"`. HR3 renseigne désormais la minimisation perçue, plutôt que la reconnaissance des situations ; une réponse V9 sur l’ancien libellé est écartée. Les progressions V8 restent importables. Les anciens fichiers v7 sont repris sans réaffecter BS1–BS8 ; si la pause satirique avait été passée, les quatre nouvelles questions conservent ce choix.
 
 Les fichiers des versions précédentes peuvent être repris. Pour les quinze questions reformulées, **la réponse ancienne est écartée** au lieu d'être présentée comme réponse à une nouvelle question. Les autres réponses sont conservées. Les nouveaux repères T doivent être remplis. La sauvegarde continue d'exclure les trois réponses d'alerte.
 
@@ -70,7 +70,7 @@ Il est interdit de traiter un changement brut entre score v1 et score v2 comme u
 
 ## Vérification
 
-La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **50 cas déclarés (55 cas exécutés, dont les scénarios paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
+La branche contient une suite Node dans `tests/mesures-rapport.test.cjs`, exécutée automatiquement par `.github/workflows/verification.yml`. Elle comporte **64 cas déclarés (69 cas exécutés, dont les scénarios paramétrés)**, dont une vérification de l'exécution intégrale du moteur avec 71 réponses et avec le bullshitomètre renseigné ou passé. Le workflow vérifie aussi la syntaxe du moteur et des modules du rapport et du parcours. Ajouter lors de la recette :
 
 1. Parcours complet sur téléphone et ordinateur, clavier sur les options T de six réponses et bouton de saut BS.
 2. Sauvegarde à mi-parcours en v7, reprise d'une vraie sauvegarde v6, confirmation que seuls les quinze items changés sont redemandés.
