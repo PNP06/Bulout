@@ -1145,9 +1145,12 @@
     } else if (hurt) {
       title = "Une blague qui touche un point sensible";
       text = "Certaines questions t'ont fait de la peine ou mis·e mal à l'aise. Ce ressenti mérite d'être entendu sans supposer que tu manques d'humour.";
+    } else if (amused && minimized) {
+      title = "Drôle, mais peut-être trop léger";
+      text = "Tu déclares t'être amusé·e tout en ayant eu l'impression que les blagues minimisaient tes difficultés. Ces deux appréciations peuvent coexister sans s'annuler.";
     } else if (minimized) {
       title = "La satire t'a semblé banaliser les difficultés";
-      text = "Tu as eu l'impression que ces blagues minimisaient tes difficultés. Ce ressenti sur la formulation mérite d'être distingué de l'amusement et de la prise de recul. Il ne dit pas à lui seul ce qui t'a affecté·e.";
+      text = "Tu as eu l'impression que ces blagues minimisaient tes difficultés. Ce jugement sur la formulation mérite d'être distingué de l'amusement et de la prise de recul. Il ne dit pas à lui seul ce qui t'a affecté·e.";
     } else if (amused && distance) {
       title = "Du rire et un peu de recul";
       text = "Tu déclares t'être amusé·e et avoir pris du recul sur le moment. C'est une expérience rapportée, pas la preuve d'une protection durable contre le stress.";
@@ -1165,6 +1168,9 @@
     // L'expliciter évite qu'une lecture dominante efface une réaction différente.
     if (minimized && !text.includes("minimis") && !text.includes("banalis")) {
       text += " Tu as également eu l'impression que ces blagues minimisaient tes difficultés ; cela n'annule pas les autres réactions déclarées.";
+    }
+    if (distance && !text.includes("recul")) {
+      text += " Tu déclares aussi une prise de recul sur le moment ; cela ne démontre pas un bénéfice durable.";
     }
     return { title, text,
       minimizationPerceived: minimized,
