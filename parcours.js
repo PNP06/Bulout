@@ -43,7 +43,7 @@ function rail(actif) {
   let html = `<li class="${actif === "#formation" ? "ici" : ""}"><a href="#formation" ${actif === "#formation" ? 'aria-current="step"' : ""}><span class="fo-num">·</span><span>Introduction</span></a></li>`;
   temps.forEach((tp, k) => {
     html += `<li class="fo-rail-temps" aria-hidden="true">${tp.split("·")[1].trim()}</li>`;
-    chapitres.forEach((c, i) => { if (c.temps === k) html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); });
+    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les trois modèles, ensemble", false); } });
   });
   html += item("#synthese", "★", "Synthèse", false) + item("#quiz-final", "?", "Test final", bonnes === examen.length) + item("#diplome", "◇", "Ton diplôme", Boolean(dateDiplome));
   return `<aside class="fo-rail" aria-label="Sommaire de la formation"><p class="fo-rail-titre">La formation</p><ol>${html}</ol>
@@ -98,7 +98,7 @@ function intro() {
       <div class="fo-cta">${reprendre}${choixFichier("Reprendre un fichier")}</div>${statut}</section>
     <h2 id="s-modeles" class="fo-h">Trois façons de regarder le burn-out</h2>
     <p>Commençons par le mot. L’OMS, dans sa classification internationale (<b>CIM-11</b>, en vigueur depuis 2022), décrit le burn-out comme un <b>syndrome dû à un stress chronique au travail qui n’a pas été géré avec succès</b>. Ce n’est pas une maladie : c’est un phénomène lié au travail, avec trois signes, l’épuisement, la distance mentale et la baisse d’efficacité.</p>
-    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres cherchent les causes dans le travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les retrouveras à la fin, dans la synthèse.</p>
+    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres cherchent les causes dans le travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les compareras ensemble juste après le chapitre 4, puis dans la synthèse finale.</p>
     <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. Garde cette image en tête : c’est la carte de toute la formation.</figcaption></figure>
     <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en ${nb(introduction.essentiel.length)} idées</h2>
     <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
@@ -125,8 +125,8 @@ function chapitre(i) {
   const titres = [];
   const corps = c.blocs.map(b => bloc(b, titres)).join("");
   titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
-  const avant = i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
-  const apres = i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
+  const avant = i === 4 ? `<a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>La synthèse des trois modèles</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
+  const apres = i === 3 ? `<a class="fo-pager-next" href="#modeles-resume"><small>Étape suivante →</small><b>Les trois modèles, ensemble</b></a>` : i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
   const contenu = `
     <p class="fo-temps-k">${temps[c.temps]}</p>
     <header class="fo-chap-tete"><span class="fo-chap-n">${String(i + 1).padStart(2, "0")}</span><div><p class="fo-chap-meta">Chapitre ${i + 1} sur ${chapitres.length} · environ ${c.duree} minutes</p><h1 tabindex="-1">${c.titre}</h1></div></header>
@@ -145,6 +145,28 @@ function chapitre(i) {
   return cadre(ancre(i), contenu, titres);
 }
 
+// Étape de consolidation après les trois modèles, sans changer les neuf exercices.
+function resumeModelesPage() {
+  const titres = [["resume-modeles", "Comparer les trois modèles"], ["resume-cas", "Le même cas, trois lectures"], ["resume-limites", "Ce que cela ne démontre pas"]];
+  const contenu = `
+    <p class="fo-pill">Après le chapitre 4 · Synthèse des modèles</p>
+    <h1 tabindex="-1">Trois modèles, un même problème</h1>
+    <p class="fo-lead">Tu as découvert trois angles complémentaires : <b>les manifestations</b>, <b>les conditions de travail</b> et <b>la réciprocité des efforts</b>. Avant de poursuivre, vérifie ce que chaque modèle apporte réellement.</p>
+    <h2 id="resume-modeles" class="fo-h">Les trois modèles, côte à côte</h2>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist proposent des pistes pour examiner le travail. Aucun ne prouve à lui seul la cause des symptômes.</figcaption></figure>
+    <div class="fo-modeles">${synthese.modeles.map(m => `<section class="fo-modele"><p class="fo-modele-nom">${m.nom} · ${m.image.toLowerCase()}</p><h3>${m.question}</h3><p>${m.idee}</p><p class="fo-modele-agir"><b>Pour agir :</b> ${m.agir}</p><a href="${ancre(m.chap)}">Relire le chapitre ${m.chap + 1}</a></section>`).join("")}</div>
+    <h2 id="resume-cas" class="fo-h">Un même cas, trois lectures</h2>
+    <article class="fo-exemple"><h3>Sam, trois mois après le départ de Marc</h3><p>${synthese.casCommun.situation}</p></article>
+    <div class="fo-table fo-modeles-comparaison"><table><caption>Des questions différentes, pas trois diagnostics</caption>
+      <thead><tr><th scope="col">Modèle</th><th scope="col">Ce qu’il éclaire</th><th scope="col">Ce qu’il ne conclut pas</th><th scope="col">Une décision possible</th></tr></thead>
+      <tbody>${synthese.casCommun.lectures.map(x => `<tr><th scope="row">${x.modele}</th><td>${x.observe}</td><td>${x.neDitPas}</td><td><b>${x.action}</b></td></tr>`).join("")}</tbody>
+    </table></div>
+    <h2 id="resume-limites" class="fo-h">Trois angles ne font pas trois preuves</h2>
+    <p>${synthese.casCommun.conclusion} <b>Le niveau de preuve ne se multiplie pas avec le nombre de théories</b> : certaines interprètent les mêmes réponses, et le cas de Sam ne suffit pas à identifier une cause.</p>
+    <p>La synthèse de fin de formation reviendra sur ces modèles et présentera trois éclairages supplémentaires : <b>Hobfoll</b>, <b>Gollac / INRS</b> et <b>Sonnentag–Fritz</b>.</p>
+    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="#chapitre-5"><small>Continuer →</small><b>5 · Le piège du « c’est perso »</b></a></nav>`;
+  return cadre("#modeles-resume", contenu, titres);
+}
 // ───────── Test final et diplôme
 function quiz() {
   let contenu;
@@ -173,7 +195,7 @@ function synthesePage() {
     <h1 tabindex="-1">Ce qu’il faut emporter</h1>
     <p class="fo-lead">${synthese.chapo}</p>
     <h2 id="s-modeles" class="fo-h">Les trois modèles, en une image</h2>
-    <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. C’est pour ça qu’on agit d’abord sur le travail : c’est là que sont les causes.</figcaption></figure>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist aident à examiner les conditions de travail. Ils ne permettent pas, à eux seuls, d’attribuer une cause à chaque symptôme.</figcaption></figure>
     <div class="fo-modeles">${synthese.modeles.map(m => `<section class="fo-modele"><p class="fo-modele-nom">${m.nom} · ${m.image.toLowerCase()}</p><h3>${m.question}</h3><p>${m.idee}</p><p class="fo-modele-agir"><b>Pour agir :</b> ${m.agir}</p><a href="${ancre(m.chap)}">Revoir le chapitre ${m.chap + 1}</a></section>`).join("")}</div>
     ${troisPhrases}
     <h2 id="s-croisement" class="fo-h">Un même problème, trois questions différentes</h2>
@@ -231,7 +253,7 @@ function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
   const numero = /^#chapitre-([1-9])$/.exec(hash);
   const valide = numero && Number(numero[1]) <= chapitres.length;
-  const enFormation = Boolean(valide) || ["#formation", "#synthese", "#quiz-final", "#diplome"].includes(hash);
+  const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#synthese", "#quiz-final", "#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
   if (numero && !valide) { location.replace("#chapitre-" + chapitres.length); return; }
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
@@ -247,7 +269,7 @@ function afficher(focus = true) {
   });
   if (enFormation) {
     if (page !== ancien) justes = new Set();
-    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
+    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#modeles-resume" ? resumeModelesPage() : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
     formation.innerHTML = html;
     if ($("#prenom")) {
       $("#prenom").value = prenom;
