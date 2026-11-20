@@ -570,40 +570,99 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   ];
 
   // ───────── Le bullshitomètre : la satire d'un côté, la lecture sérieuse de l'autre
-  const profilBS = bs.profil || { titre: "", texte: "", survie: "", phrase: "" };
-  const satireEnRetrait = r.hasAlert || (sr.A.score >= 13 && sr.F.score >= 13);
-  const profilSatirique = satireEnRetrait
-    ? '<div class="rp-bs-satire"><p class="k">La satire reste facultative à lire</p><p>Les réponses de santé et d’épuisement ressortent suffisamment pour ne pas ajouter ici de surnom ironique, de conseil humoristique ou de « mode de survie ».</p><p>Tu peux passer cette page et te concentrer sur les faits de travail, les appuis et l’orientation adaptée.</p></div>'
-    : `<div class="rp-bs-satire"><p class="k">Ton profil satirique</p><h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
-        <p><b>Mode de survie (satirique) :</b> ${esc(profilBS.survie)}</p><p class="rp-phrase">À sortir en réunion : « ${esc(profilBS.phrase)} »</p></div>`;
-
-  const grilleCase = (k, titre, texte, cls) => `<div class="rp-bs-case ${cls}${k === caseBS ? " ici" : ""}"><b>${titre}</b><span>${texte}</span>${k === caseBS ? '<em>C\'est ta case</em>' : ""}</div>`;
+  const bsAxes = {
+    meeting: {title:"Réunionite",punch:"Une réunion n'est pas une décision. Même avec un ordre du jour en Comic Sans.",
+      question:"À quelle décision précise doit aboutir cette réunion, et qui en est responsable ?"},
+    dashboard: {title:"Dashboardologie",punch:"Quand un indicateur ne change aucune décision, c'est parfois juste une veilleuse pour comité.",
+      question:"Quelle décision ce KPI permet-il réellement de prendre ou de modifier ?"},
+    ghost: {title:"Contribution fantôme",punch:"Un livrable qui dort sur SharePoint n'est pas un actif stratégique. C'est un fossile numérique.",
+      question:"Qui se sert de ce livrable et qu'est-ce que son contenu change concrètement ?"}
+  };
+  const bsAngle = bs.dominantTheme ? bsAxes[bs.dominantTheme] : null;
+  const bsEtude = bsMatrice || {
+    key:caseBS, title:bsTitre,interpretation:bsTexte,
+    joke:"Le Comité scientifique du PowerPoint demande un nouveau comité.",
+    question:"Quelles situations concrètes se cachent derrière les réponses choisies ?",
+    qualityPrevented:qualiteEmpechee >= 3
+  };
+  const profilBS = bs.profil || {titre:"",texte:"",survie:"",phrase:""};
+  const satire = `<details class="rp-bs-satire" open>
+    <summary>Verdict du ministère des livrables à utilité variable <span>— humour assumé</span></summary>
+    <div class="rp-bs-satire-inner"><p class="k">Ton profil administratif imaginaire</p>
+      <h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
+      <p><b>Manuel de survie satirique :</b> ${esc(profilBS.survie)}</p>
+      <blockquote>« ${esc(profilBS.phrase)} »</blockquote>
+      <p class="rp-bs-humour-limite">Cette satire n'est ni un diagnostic, ni un conseil médical, ni une mesure de ta capacité à faire face. Tu peux replier cette section.</p>
+    </div></details>`;
+  const grilleCase = (key, titre, texte, cls) => `<div class="rp-bs-case ${cls}${key === bsEtude.key ? " ici" : ""}">
+    <b>${titre}</b><span>${texte}</span>${key === bsEtude.key ? '<em>Ta situation dans cette grille</em>' : ""}</div>`;
+  const dimensionsBS = (bsDims || []).map(([key,label]) => {
+    if (key === "absurd") return "";
+    return `<div><span>${esc(label)}</span><span class="rp-barre"><i style="width:${bs.dims[key] || 0}%;background:${C.orange}"></i></span>
+      <b>${bs.dims[key] || 0} %</b></div>`;
+  }).join("");
+  const exemplesBS = (bs.highlights || []).length
+    ? `<div class="rp-bs-exemples"><h4>Deux absurdités qui ressortent de tes réponses</h4>
+      <ul>${bs.highlights.map(a => `<li><span class="rp-id">${esc(a.id)}</span>
+        <span><b>${esc(a.question)}</b><small>« ${esc(a.answer)} »</small></span></li>`).join("")}</ul></div>`
+    : `<p class="rp-bs-exemples">Peu d'options particulièrement absurdes sont cochées. Cela n'invalide pas les autres questions.</p>`;
   const pageAbsurde = bs.skipped ? {
-    titre: "Pause humour passée",
-    q: "Tu as choisi de ne pas répondre au questionnaire satirique.",
-    intro: "Cette partie est facultative. Ton rapport personnel reste complet sur les manifestations, le travail, les appuis et les repères temporels.",
-    bref: "Non renseigné · aucun indice satirique calculé.",
-    corps: '<p>Tu as passé le bullshitomètre. <b>Aucun pourcentage de bullshit, profil ou comparaison humoristique n’a été produit.</b> Tu peux relire tes autres réponses et revenir au questionnaire si tu souhaites finalement répondre à cette partie.</p>',
-    comprendre: "",
-    garder: "Les questions satiriques ne sont pas nécessaires pour discuter de la qualité du travail ou de tes conditions de travail."
+    titre:"La pause bullshit, à ton rythme",
+    q:"Tu as choisi de ne pas répondre aux questions satiriques.",
+    intro:"Cette partie est facultative. Ton rapport sur les manifestations, le travail, les appuis et la chronologie n'en dépend pas.",
+    bref:"Bullshitomètre passé · aucun indice calculé.",
+    corps:`<p>Aucun pourcentage, profil satirique ou croisement avec la distance n'a été calculé.
+      <b>Tu peux revenir plus tard pour répondre aux douze questions.</b></p>`,
+    comprendre:"",
+    garder:"On peut discuter des absurdités du travail sans passer un test humoristique."
   } : {
-    titre: "Le bullshitomètre", q: "Que décrivent tes réponses sur l’absurdité perçue, la distance et le sens ?",
-    intro: "Une pause satirique sur les absurdités organisationnelles, suivie d’une mise en regard avec la distance mentale (B) et le sens (C3, C5). Cette comparaison ne mesure pas l’effet protecteur de l’humour.",
-    bref: satireEnRetrait ? "La satire n’est pas interprétée lorsque des signaux de santé ou d’épuisement importants ressortent." : `Indice satirique interne : ${bs.percent} %${profilBS.titre ? ` (${esc(profilBS.titre)})` : ""}. Lecture descriptive : ${esc(bsTitre.toLowerCase())}.`,
-    corps: `<div class="rp-duo"><div class="rp-bs-score"><p class="rp-bs-pc">${bs.percent}<small> %</small></p><p class="k">Indice satirique (non validé)</p>
-        <div class="rp-bs-metres">${(bsDims || []).map(([k, l]) => `<div><span>${esc(l)}</span><span class="rp-barre"><i style="width:${bs.dims[k] || 0}%;background:${C.orange}"></i></span><b>${bs.dims[k] || 0} %</b></div>`).join("")}</div></div>
-        ${profilSatirique}</div>
-      <h4 class="rp-h">La lecture sérieuse</h4>
-      <p>L’indice satirique de réponses est <b>${absurdeHaut ? "dans sa moitié haute" : "dans sa moitié basse"}</b> (${bs.percent} % du barème interne). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et les difficultés de sens ${MOTSF[nv24(relatif24(perteSens, 8))]} (${perteSens}/8).</p>
-      <div class="rp-bs-grille" role="table" aria-label="Grille de lecture : absurdité du poste croisée avec distance et sens">
-        <span></span><span class="h">Distance et perte de sens basses</span><span class="h">Distance ou perte de sens hautes</span>
-        <span class="v">Absurdité haute</span>${grilleCase("hb", CASES.hb[0], CASES.hb[1], "g")}${grilleCase("hh", CASES.hh[0], CASES.hh[1], "o")}
-        <span class="v">Absurdité basse</span>${grilleCase("bb", CASES.bb[0], CASES.bb[1], "g")}${grilleCase("bh", CASES.bh[0], CASES.bh[1], "p")}
+    titre:"Le bullshitomètre",
+    q:"Ton travail est-il absurde ? Et que devient ton rapport à ce travail ?",
+    intro:"Douze questions satiriques sur les réunions, les indicateurs, le flou et les livrables que personne ne lit. Puis une matrice pour mettre ces réponses en regard de la distance mentale et du sens. L'humour est volontaire ; la conclusion psychologique ne l'est pas.",
+    bref:`Indice satirique d'absurdité : ${bs.percent} % du barème maison. ${esc(bsEtude.title)}. Les axes ne sont pas des seuils cliniques.`,
+    corps:`<div class="rp-bs-duo">
+      <section class="rp-bs-score" aria-label="Indice humoristique">
+        <p class="rp-bs-overline">Service des absurdités administratives</p>
+        <p class="rp-bs-pc">${bs.percent}<small> %</small></p>
+        <p class="k">Indice satirique d'absurdité</p>
+        <p class="rp-bs-pc-explain">Ce pourcentage représente la position dans un barème humoristique construit pour ce questionnaire. Il ne mesure ni la proportion de travail inutile ni le risque de burn-out.</p>
+        <div class="rp-bs-metres">${dimensionsBS}</div>
+        <p class="rp-bs-pc-explain">La barre « Absurdité globale » correspond exactement à l'indice ci-dessus. Les autres barres détaillent trois formes de situations rapportées.</p>
+      </section>
+      ${satire}
+    </div>
+    ${exemplesBS}
+    <section class="rp-bs-matrice" aria-label="Matrice : absurdité perçue, distance et sens">
+      <p class="k">La matrice du bullshit</p>
+      <h4>Le paradoxe intéressant : absurdité ne veut pas forcément dire désengagement</h4>
+      <p>On croise deux axes qui ne mesurent pas la même chose : à la verticale, les choix satiriques ; à l'horizontale, la distance (B) ou les difficultés de sens (C3 et C5) déclarées sérieusement.</p>
+      <div class="rp-bs-grille" role="group" aria-label="Quatre situations descriptives">
+        <span></span><span class="h">Distance / sens peu marqués</span><span class="h">Distance ou sens marqués</span>
+        <span class="v">Absurdité haute</span>${grilleCase("hb",CASES.hb[0],CASES.hb[1],"g")}${grilleCase("hh",CASES.hh[0],CASES.hh[1],"o")}
+        <span class="v">Absurdité basse</span>${grilleCase("bb",CASES.bb[0],CASES.bb[1],"g")}${grilleCase("bh",CASES.bh[0],CASES.bh[1],"p")}
       </div>
-      ${caseBS === "hh" ? `<p class="rp-cle"><b>Ce que tu peux faire :</b> nommer ce qui est absurde, distinguer ce qui peut changer de ce qui doit être arbitré, et le porter comme un fait de travail (pièce 8), pas comme un défaut de motivation. Le sens ou les conflits de valeurs peuvent être explorés avec un interlocuteur adapté à la situation, sans obligation d'en parler à la hiérarchie.</p>` : caseBS === "hb" ? `<p class="rp-cle"><b>À ne pas conclure :</b> ce questionnaire ne demande pas si l’humour t’aide réellement à faire face. La fonction protectrice de l’humour n’est donc pas établie.</p>` : ""}
-      <h4 class="rp-h">Tes réponses</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>`,
-    comprendre: pourComprendre("Pourquoi un test pour rire dans un rapport sérieux", `<p>L'anthropologue David Graeber a décrit en 2018 les « bullshit jobs » : des emplois que même ceux qui les occupent jugent inutiles. Les études qui ont suivi, sur de grands échantillons européens (Soffia, Wood et Burchell, 2022), trouvent que le <b>sentiment d'inutilité</b> est bien associé à un mal-être plus élevé, mais qu'il dépend surtout de la façon dont le travail est organisé et reconnu, plus que du métier lui-même.</p><p>Côté burn-out, Maslach décrit le cynisme comme une <b>protection</b> : on se détache de ce qui coûte trop. L'humour joue un rôle proche. Les recherches sur les styles d'humour (Martin et ses collègues, 2003) distinguent un humour qui aide à prendre du recul et protège, d'un humour plus amer ou tourné contre soi, associé à plus de mal-être. Cette grille reste une interprétation descriptive de Bull-Out : elle ne mesure ni l'humour utilisé dans la vie réelle, ni son éventuel effet protecteur.</p><p>Le bullshitomètre est satirique. Ses pourcentages ne mesurent rien de validé et ne comptent dans aucun score.</p>`, chapLien(2)),
-    garder: "L'absurde, s'il use, se travaille comme le reste : en le nommant, et en le portant là où il peut changer."
+      <article class="rp-bs-matrice-lecture">
+        <p class="k">Dans tes réponses</p><h5>${esc(bsEtude.title)}</h5>
+        <p class="rp-bs-matrice-blague">${esc(bsEtude.joke)}</p>
+        <p>${esc(bsEtude.interpretation)}</p>
+        <p><b>Une question utile :</b> ${esc(bsEtude.question)}</p>
+        ${bsEtude.qualityPrevented ? `<p><b>À rapprocher de la qualité empêchée :</b> tu déclares aussi des difficultés à réaliser un travail de la qualité voulue (T4). Les deux réponses se complètent, mais ce ne sont pas deux preuves du même mécanisme.</p>` : ""}
+      </article>
+      <p class="rp-bs-pc-explain">Grille exploratoire : l'absurdité est dite « haute » à partir de 50 % du barème satirique ; la distance à partir de 13/24 ou les difficultés de sens à partir de 5/8. Ces coupures sont des conventions de présentation, sans étalonnage. La grille ne mesure ni la fonction de l'humour, ni une causalité.</p>
+    </section>
+    ${bsAngle ? `<section class="rp-bs-levier"><p class="k">Le thème satirique qui ressort le plus</p>
+      <h4>${esc(bsAngle.title)}</h4><p>${esc(bsAngle.punch)}</p>
+      <p><b>Question anti-bullshit :</b> ${esc(bsAngle.question)}</p></section>` : ""}
+    <details class="rp-bs-reponses"><summary>Retrouver mes 12 réponses satiriques</summary>
+      <ol class="rp-items">${bs.answers.map(a=>`<li><span class="rp-id">${esc(a.id)}</span>
+      <span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>
+    </details>`,
+    comprendre:pourComprendre("Du bullshit aux conditions de travail : ce qu'on peut vraiment conclure",
+      `<p>David Graeber (2018) a popularisé la notion de « bullshit jobs », qui critique les activités considérées comme inutiles par ceux qui les exercent. Soffia, Wood et Burchell (2022) trouvent une association entre le sentiment d'inutilité du travail et le mal-être, mais contestent les grandes conclusions causales et quantitatives de Graeber.</p>
+      <p>Dans les six familles de risques psychosociaux décrites par l'INRS, le sens et la qualité empêchée rejoignent les conflits de valeurs. Une activité absurde ou un indicateur inutile peut être une situation organisationnelle à discuter ; un score satirique ne prouve pas que le poste est objectivement inutile.</p>
+      <p>L'étude de Martin et collègues (2003) distingue plusieurs <b>usages de l'humour</b> associés différemment au bien-être. Bull-Out ne demande pas quel humour tu utilises ni ce qu'il t'apporte. On peut donc rire franchement de la réunionite sans affirmer que ce rire protège médicalement du burn-out.</p>
+      <p>Références : <a href="https://doi.org/10.1177/09500170211015067" target="_blank" rel="noopener">Soffia et al., 2022</a> ; <a href="https://doi.org/10.1016/S0092-6566(02)00534-2" target="_blank" rel="noopener">Martin et al., 2003</a> ; <a href="https://www.inrs.fr/risques/psychosociaux/facteurs-risques" target="_blank" rel="noopener">INRS</a>.`,chapLien(2)),
+    garder:"Ce qui fait rire mérite parfois une vraie question : quelle décision, quelle utilité, quels moyens et quel arbitrage ?"
   };
 
   // ───────── Modèles de lecture personnalisée (faits, limites, actions)
