@@ -279,15 +279,15 @@
 
   const sectionComments = {
     A: {
-      faible: "L'épuisement déclaré reste bas.",
-      vigilance: "L'épuisement mérite une surveillance active.",
-      élevé: "Le score d'épuisement indique une dette d'énergie importante.",
-      alerte: "L'épuisement est très marqué et justifie une réduction rapide de l'exposition."
+      faible: "Peu de réponses d'épuisement fréquentes dans ce module.",
+      vigilance: "Quelques manifestations d'épuisement sont déclarées.",
+      élevé: "Plusieurs réponses décrivent un épuisement fréquent, sans en mesurer la quantité.",
+      alerte: "Les manifestations d'épuisement sont déclarées très fréquemment. Leur retentissement et leur contexte méritent une évaluation adaptée."
     },
     B: {
       faible: "La distance mentale reste limitée.",
-      vigilance: "Un retrait protecteur commence peut-être à s'installer.",
-      élevé: "La distance mentale suggère une mise à distance protectrice ou un cynisme défensif.",
+      vigilance: "Quelques réponses décrivent une distance accrue vis-à-vis du travail.",
+      élevé: "Plusieurs réponses décrivent du détachement ou du cynisme fréquent, sans en établir la fonction.",
       alerte: "Le retrait mental est très marqué : il ne faut pas le réduire à de la mauvaise volonté."
     },
     C: {
@@ -299,46 +299,46 @@
     D: {
       faible: "Les exigences déclarées restent contenues.",
       vigilance: "Les exigences deviennent un point de vigilance.",
-      élevé: "Les exigences professionnelles ressortent comme un facteur d'usure probable.",
-      alerte: "Les exigences sont très hautes : le travail semble difficilement soutenable en l'état."
+      élevé: "Plusieurs contraintes professionnelles sont déclarées fréquemment.",
+      alerte: "De nombreuses contraintes sont déclarées presque toujours ; leur intensité concrète et les possibilités d'aménagement restent à examiner."
     },
     E: {
       faible: "Les ressources semblent globalement présentes.",
       vigilance: "Certaines ressources protectrices manquent.",
-      élevé: "Le manque de ressources devient un facteur de risque net.",
-      alerte: "Les ressources sont très insuffisantes face aux contraintes déclarées."
+      élevé: "Plusieurs ressources professionnelles semblent peu disponibles d'après tes réponses.",
+      alerte: "La plupart des ressources professionnelles de cette liste sont peu présentes."
     },
     F: {
-      faible: "La récupération semble encore fonctionner.",
+      faible: "Peu de difficultés de récupération et de santé sont déclarées dans cette partie.",
       vigilance: "La récupération montre des signes de fragilité.",
       élevé: "La récupération et les signaux de santé demandent une attention particulière.",
-      alerte: "La récupération est très dégradée : avis santé conseillé si cela persiste ou s'aggrave."
+      alerte: "De nombreuses difficultés de récupération ou de santé sont signalées fréquemment ; leur nature et leur retentissement méritent une attention particulière."
     }
   };
 
   const profileRecommendations = {
     protected: {
-      title: "Profil protégé",
+      title: "Peu de difficultés déclarées",
       recommendation: "Maintenir les protections : charge réaliste, marges de manœuvre, soutien, récupération et signaux faibles suivis régulièrement."
     },
     tension: {
-      title: "Profil sous tension",
+      title: "Contraintes professionnelles marquées",
       recommendation: "Agir rapidement sur la charge, les priorités et les ressources avant que l'usure ne s'installe."
     },
     exhaustion: {
-      title: "Profil d'épuisement installé",
+      title: "Épuisement et récupération difficiles",
       recommendation: "Réduire l'exposition, protéger la récupération et envisager un échange avec le médecin du travail ou le médecin traitant."
     },
     disengagement: {
-      title: "Profil de désengagement / cynisme",
+      title: "Distance mentale ou difficultés de sens",
       recommendation: "Travailler sur reconnaissance, sens, équité, conflits, charge émotionnelle et arbitrages de charge."
     },
     alert: {
-      title: "Profil d'alerte",
+      title: "Signal de sécurité déclaré",
       recommendation: "Demander un avis médical rapide. En cas de danger immédiat : 15 / 112. En cas d'idées suicidaires en France : 3114."
     },
     mixed: {
-      title: "Profil de vigilance mixte",
+      title: "Plusieurs dimensions à explorer",
       recommendation: "Identifier les sections les plus élevées, réduire les contraintes les plus coûteuses et renforcer les ressources concrètes cette semaine."
     }
   };
@@ -565,10 +565,13 @@
     ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${choice.key}</kbd><span class="opt-t">${choice.label}</span></span></label>`).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-2" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     if (prefix === "alert") {
-      // Comme dans Psytest : le message de sécurité s'affiche tout de suite, sous la réponse.
-      item.insertAdjacentHTML("beforeend", `<div class="q-safety" role="alert" hidden><p><b>Merci de l'avoir dit.</b> Ce n'est pas un diagnostic, mais cela mérite de ne pas rester seul·e avec.</p>`
-        + `<p>Si tu as des idées suicidaires : appelle le <a href="tel:3114"><b>3114</b></a> (gratuit, 24 h/24). En cas de danger immédiat : <a href="tel:15"><b>15</b></a> ou <a href="tel:112"><b>112</b></a>. Sinon, parles-en vite à ton médecin traitant ou au médecin du travail.</p>`
-        + `<p class="q-safety-next">Tu peux continuer le questionnaire quand tu veux.</p></div>`);
+      // Ces réponses appellent des orientations distinctes ; ce questionnaire ne gradue pas l'urgence.
+      const messages = [
+        'Si tu as des idées suicidaires ou te sens en danger, appelle le <a href="tel:3114"><b>3114</b></a> (gratuit, 24 h/24 en France). Danger immédiat : <a href="tel:15"><b>15</b></a> ou <a href="tel:112"><b>112</b></a>.',
+        "Si tu ne parviens plus à fonctionner normalement, contacte rapidement un professionnel de santé pour examiner la situation et définir l'aide adaptée.",
+        'Si tu ressens actuellement une douleur thoracique, un essoufflement inhabituel, un malaise ou un autre symptôme aigu inquiétant, appelle le <a href="tel:15"><b>15</b></a> ou le <a href="tel:112"><b>112</b></a>. Sinon, demande un avis médical adapté.'
+      ];
+      item.insertAdjacentHTML("beforeend", `<div class="q-safety" role="alert" hidden><p><b>Cette réponse mérite une attention particulière.</b> ${messages[index]}</p><p class="q-safety-next">Tu peux continuer le questionnaire si tu le souhaites.</p></div>`);
     }
     return item;
   }
@@ -849,7 +852,7 @@
   // à l'ouverture du questionnaire quand aucune réponse n'est encore donnée.
   const START_TIPS = [
     ["Pense aux quatre dernières semaines.", "Pas à ta pire journée, ni à ta meilleure : à ce qui revient le plus souvent."],
-    ["Réponds à la première impression.", "Celle qui te vient en premier est souvent la plus juste. Il n'y a pas de bonne réponse."],
+    ["Réponds sur des faits récents.", "Distingue une mauvaise journée d'une difficulté qui revient. Il n'y a pas de réponse attendue."],
     ["L'échelle compte des fois.", "<b>Rarement</b> : quelques fois dans le mois. <b>Parfois</b> : environ une fois par semaine. <b>Souvent</b> : plusieurs fois par semaine. <b>Presque toujours</b> : presque tous les jours."],
     ["Décris ce que tu vis,", "pas ce que tu devrais vivre ni ce qu'un burn-out « devrait » donner."]
   ];
@@ -919,11 +922,11 @@
     return { label: "alerte", className: "alerte", riskClass: "risk-alert" };
   }
 
-  function getGlobalLevel(score, hasAlert) {
-    if (hasAlert || score >= 109) return { label: "alerte", riskClass: "risk-alert" };
-    if (score >= 73) return { label: "élevé", riskClass: "risk-high" };
-    if (score >= 37) return { label: "vigilance", riskClass: "risk-watch" };
-    return { label: "faible", riskClass: "risk-low" };
+  // Compatibilité interne : le total agrège des construits hétérogènes, sans seuil clinique validé.
+  function getGlobalLevel(_score, hasAlert) {
+    return hasAlert
+      ? { label: "signal de sécurité déclaré", riskClass: "risk-alert" }
+      : { label: "non interprété", riskClass: "risk-low" };
   }
 
   function getSectionScore(section) {
@@ -1021,7 +1024,7 @@
     const allLow = Object.values(sectionScores).every((score) => score <= 6);
 
     let profileKey = "mixed";
-    if (hasAlert || totalScore >= 109 || Object.values(sectionScores).some((score) => score >= 22)) {
+    if (hasAlert) {
       profileKey = "alert";
     } else if (A >= 13 && F >= 13) {
       profileKey = "exhaustion";
@@ -1048,41 +1051,41 @@
     const names = result.dominantDimensions.map((section) => section.shortTitle.replace(/^[A-F] /, "").toLowerCase());
     const dominantNames = names.length > 1 ? `${names.slice(0, -1).join(", ")} et ${names[names.length - 1]}` : names[0];
     if (result.hasAlert) {
-      return "Tes réponses contiennent au moins un signal d'alerte. Ce résultat ne constitue pas un diagnostic, mais il justifie un avis médical rapide.";
+      return "Au moins une réponse relève de la sécurité ou de la santé et appelle une orientation adaptée. Ce questionnaire ne permet pas d'évaluer à lui seul le degré d'urgence.";
     }
     if (result.profile.key === "protected") {
-      return "Tes réponses montrent des protections encore présentes. L'enjeu est de les maintenir avant qu'elles ne deviennent optionnelles dans l'organisation réelle.";
+      return "Sur les questions proposées, peu de difficultés ressortent. Cela ne permet pas d'exclure une autre situation de santé ou de travail.";
     }
     if (result.profile.key === "tension") {
-      return "Tes réponses montrent surtout une tension liée aux exigences professionnelles. Les symptômes cœur ne sont pas tous au niveau maximal, mais la dynamique est défavorable si rien ne change.";
+      return "Tu décris surtout des contraintes dans ton travail ; les manifestations d'épuisement ressortent moins. C'est une situation utile à examiner en prévention.";
     }
     if (result.profile.key === "exhaustion") {
-      return "Tes réponses montrent surtout un épuisement associé à une récupération dégradée. Elles justifient d'agir sans attendre.";
+      return "Tu déclares des difficultés d'épuisement et de récupération. Leur durée, leur évolution et leurs causes éventuelles restent à préciser.";
     }
     if (result.profile.key === "disengagement") {
-      return "Tes réponses montrent surtout un retrait mental, du cynisme défensif ou une perte de sens. Ce signal mérite d'être relié aux causes de travail, pas traité comme un défaut d'attitude.";
+      return "Tu décris une distance accrue vis-à-vis du travail ou des difficultés dans ton rapport à son utilité. Les raisons restent à explorer.";
     }
-    return `Tes réponses font ressortir surtout ${dominantNames}. Elles justifient une action ciblée sur ces points.`;
+    return `Tes réponses font ressortir notamment ${dominantNames}. Ce sont des pistes de discussion, pas des causes démontrées.`;
   }
 
   function buildModelReadings(result) {
     const scores = result.sectionScores;
     const maslachLines = [];
-    if (scores.A >= 13) maslachLines.push("Le score d'épuisement indique une dette d'énergie importante.");
-    if (scores.B >= 13) maslachLines.push("Le score de distance mentale suggère une mise à distance protectrice ou un cynisme défensif.");
+    if (scores.A >= 13) maslachLines.push("Plusieurs réponses décrivent un épuisement fréquent, sans en mesurer la quantité.");
+    if (scores.B >= 13) maslachLines.push("Plusieurs réponses décrivent de la distance mentale ou du cynisme, sans en établir la fonction.");
     if (scores.C >= 13) maslachLines.push("Le score d'efficacité/sens suggère une perte de maîtrise ou une baisse du sentiment d'utilité.");
     if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Les trois dimensions cœur sont simultanément élevées : il faut éviter de réduire le problème à une simple fatigue.");
-    if (!maslachLines.length) maslachLines.push("Les dimensions cœur ne sont pas toutes élevées, mais leur évolution reste utile à suivre.");
+    if (!maslachLines.length) maslachLines.push("Ces dimensions sont décrites séparément, sans seuil diagnostique ni prédiction de leur évolution.");
 
     const jdRCauses = result.topItems
       .filter((item) => ["D", "E"].includes(item.sectionId))
       .map((item) => item.interpretation);
     const jdrLines = [
-      "Le modèle JD-R suggère que le risque vient surtout d'un déséquilibre entre ce que le travail demande et ce qu'il donne comme ressources pour y faire face."
+      "La grille JD-R distingue les exigences déclarées et les ressources disponibles. Leur comparaison est descriptive : ce questionnaire ne mesure pas un rapport de compensation."
     ];
     if (scores.D >= 13) jdrLines.push("Les demandes professionnelles sont fortes.");
     if (scores.E >= 13) jdrLines.push("Les ressources protectrices semblent insuffisantes.");
-    if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Demandes élevées + ressources faibles : la balance est défavorable.");
+    if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Les exigences ressortent fortement tandis que plusieurs ressources semblent manquer. Cette configuration mérite d'être discutée.");
     if (jdRCauses.length) jdrLines.push(`Ce qui pèse le plus dans tes réponses : ${unique(jdRCauses).map((t) => t.replace(/\.$/, "").toLowerCase()).join(", ")}.`);
 
     const eriSignals = [];
@@ -1092,7 +1095,7 @@
     if (getItem(result.answers, "F1")?.riskScore >= 3) eriSignals.push("surengagement ou rumination");
     if (getItem(result.answers, "F5")?.riskScore >= 3) eriSignals.push("stratégies de compensation");
     const eriLines = [
-      "Le modèle ERI suggère un possible déséquilibre effort / récompense lorsque les efforts sont élevés, la reconnaissance faible et la récupération dégradée."
+      "La grille de Siegrist explore l'effort, les récompenses et le surengagement. Bull-Out utilise ici des items reformulés et recoupés, pas le ratio validé de Siegrist."
     ];
     if (eriSignals.length) eriLines.push(`Signaux détectés : ${unique(eriSignals).join(", ")}.`);
     if (!eriSignals.length) eriLines.push("Les signaux ERI ciblés ne dominent pas, mais reconnaissance et équité restent à surveiller.");
@@ -1217,7 +1220,7 @@
     }
 
     if (profile.key === "protected" && recommendations.length === 0 && contextYes.size === 0) {
-      addRecommendation("manager", "Profil protégé : maintenir la clarté, les priorités et les protections existantes.");
+      addRecommendation("manager", "Peu de difficultés déclarées : maintenir la clarté, les priorités et les protections existantes.");
       addRecommendation("occupationalNurse", "Question santé-travail ou prévention : premier échange possible.");
       addRecommendation("occupationalDoctor", "Question d'aménagement ou de prévention : avis santé-travail possible.");
     }
@@ -1476,7 +1479,8 @@
       "Résultat questionnaire Bull-Out",
       "Période de référence : 4 dernières semaines",
       `Profil : ${result.profile.title}`,
-      `Score global : ${result.totalScore}/144 (${result.totalLevel.label})`,
+      "Pas de score global de risque : les six parties regroupent symptômes, contraintes et ressources.",
+      "Les niveaux par partie sont des repères descriptifs non étalonnés.",
       "Scores A-F :",
       ...sectionLines,
       "",
@@ -1922,7 +1926,11 @@
     generatePriorityActions,
     stakeholders,
     getContextAnswers,
-    getRecommendedStakeholders
+    getRecommendedStakeholders,
+    strengthPart,
+    exchangePart,
+    bullshitPart,
+    calculateResults
   };
 
 })();
