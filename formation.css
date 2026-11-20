@@ -89,6 +89,25 @@
 .fo-fig figcaption { text-align: center; color: var(--muted); font-size: 15px; max-width: 560px; justify-self: center; }
 .fo-exemple { background: var(--card); border: 1px solid var(--line-soft); border-radius: 18px; padding: 18px 22px; display: grid; gap: 6px; }
 .fo-exemple p { margin: 0; }
+/* Synthèse croisée : un même cas, trois modèles, puis les cadres secondaires. */
+.fo-modeles-comparaison table { min-width: 760px; }
+.fo-modeles-comparaison td, .fo-modeles-comparaison th { line-height: 1.5; }
+.fo-synthese-principe { background: var(--sapin); color: var(--creme); border-radius: 16px;
+  padding: 18px 21px; font-weight: 600; }
+.fo-synthese-principe b { color: var(--anis); }
+.fo-complements { display: grid; gap: 14px; }
+.fo-complement { border: 1px solid var(--line-soft); border-left: 5px solid var(--anis); background: var(--card);
+  border-radius: 16px; padding: 19px 21px; display: grid; gap: 10px; }
+.fo-complement h3 { font: 800 20px/1.3 var(--title); margin: 0; color: var(--sapin-deep); }
+.fo-complement p { margin: 0; }
+.fo-complement p.fo-complement-limite { color: var(--muted); }
+.fo-complement a { font-weight: 700; justify-self: start; color: var(--sapin-mid); }
+@media (max-width: 560px) {
+  .fo-modeles-comparaison table { min-width: 690px; font-size: 13.5px; }
+  .fo-modeles-comparaison th, .fo-modeles-comparaison td { padding: 9px 11px; }
+  .fo-complement { padding: 14px; }
+}
+
 .fo-exemple-note { border-top: 1px solid var(--line-soft); padding-top: 10px; margin-top: 6px !important; color: var(--sapin-mid); font-weight: 600; }
 .fo-cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px; }
 .fo-carte { background: var(--card); border: 1px solid var(--line-soft); border-top: 4px solid var(--sapin-mid); border-radius: 14px; padding: 14px 16px; }
