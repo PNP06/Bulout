@@ -1,4 +1,4 @@
-import { illustrations, pieceRapport } from "./formation-illustrations.js";
+import { illustrations, schemaRapport } from "./formation-illustrations.js";
 import { chapitres, examen, introduction, synthese, temps } from "./formation-contenu.js";
 import { dateLocale, dessiner, exporterPNG, lireDiplome } from "./diplome.js";
 
@@ -30,7 +30,18 @@ const Nb = n => nb(n).charAt(0).toUpperCase() + nb(n).slice(1);
 const troisPhrases = `<div class="fo-trois"><p class="fo-label">À retenir par cœur</p><ol><li>On agit à gauche, sur le travail. On mesure à droite, sur la personne.</li><li>Face à une surcharge : retirer, reporter ou simplifier. Sinon, on remonte.</li><li>Prévenir, réagir aux alertes, et pouvoir le montrer.</li></ol></div>`;
 const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller plus loin : comment ces modèles ont été construits</summary>${synthese.plusLoin}</details>`;
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
-const nomsPieces = chapitres.map(c => c.piece.nom);
+// Ce que chaque chapitre ajoute au schéma du rapport (formation-illustrations.js, schemaRapport), comme le papillon de Papillon.
+const SCHEMA_TEXTE = [
+  "Au centre, deux colonnes : l’épuisement (A) et la récupération (F). À droite, ce que dit le corps. Ce sont deux repères déclarés, pas une jauge d’énergie.",
+  "À droite, les trois signes de Maslach : l’épuisement, la distance, l’efficacité et le sens. Lus séparément, pour ne pas réduire l’usure à la fatigue.",
+  "À gauche, la balance du modèle exigences-ressources : ce que le travail demande, ce qui aide à le faire. Sous le centre, tes appuis.",
+  "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
+  "À gauche, en pointillés, le contexte : ce qui se passe autour de toi. Il change la lecture, pas le score.",
+  "Les fils relient les colonnes, plus épais quand tes réponses sont hautes. <b>Ce sont des liens à vérifier avec ta chronologie, jamais des causes prouvées.</b>",
+  "En tête, trois cadrans : ce qui tire, ce qui reste, ce qui lâche. Ton rapport commence par là, pour savoir où agir.",
+  "Pas de nouvelle pièce : ce chapitre t’aide à garder la trace de ce que montre le schéma, avec des faits et des dates, jamais ta santé.",
+  "Dernière pièce : la sécurité. Si tu coches un signal, ton rapport l’affiche à part, avec les bonnes portes. <b>Ton schéma est complet : tu sais le lire.</b>",
+];
 const choixFichier = label => `<label class="resume-file">${label}<input type="file" data-import accept=".json,.png,application/json,image/png"></label>`;
 const statut = '<p class="file-status" role="status"></p>';
 const garder = '<button class="btn-save" type="button" data-save><span aria-hidden="true">↓</span> Enregistrer ma progression</button>';
@@ -138,7 +149,7 @@ function chapitre(i) {
     <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
     <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
     <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
-    <aside class="fo-piece">${pieceRapport(i, nomsPieces)}<div><p class="fo-label">Ton rapport · pièce ${i + 1} sur ${chapitres.length} : ${c.piece.nom.toLowerCase()}</p><p>${c.piece.texte}</p><p class="fo-piece-ou">Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
     <div class="fo-pause"><p>Tu peux t’arrêter ici. « Enregistrer ma progression » télécharge un petit fichier pour reprendre plus tard, sur cet appareil ou un autre.</p>${garder}${statut}</div>
     <p class="fo-suite">${c.suite}</p>
     <nav class="fo-pager" aria-label="Chapitres">${avant}${apres}</nav>`;

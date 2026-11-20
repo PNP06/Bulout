@@ -207,13 +207,13 @@
 .fo-sources ul { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; }
 .fo-nechange { background: var(--card); border: 1px solid var(--line-soft); border-radius: 16px; padding: 16px 20px; }
 .fo-nechange p:last-child { margin: 0; }
-.fo-piece { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: center; background: #f5fbdc; border: 2px solid var(--anis); border-radius: 18px; padding: 18px 20px; }
+.fo-piece { display: grid; grid-template-columns: 1fr; gap: 14px; background: #f5fbdc; border: 2px solid var(--anis); border-radius: 18px; padding: 18px 20px; }
+.fo-piece-fig { margin: 0; }
+.fo-piece-fig figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.fo-schema { display: block; width: 100%; height: auto; background: var(--creme, #f6efe2); border-radius: 14px; }
 .fo-piece p { margin: 0 0 4px; }
 .fo-piece .fo-label { color: var(--sapin-mid); }
 .fo-piece-ou { font-size: 14.5px; color: var(--muted); }
-.fo-piece-art { width: 100%; height: auto; }
-.fo-piece-art text { font: 600 11.5px var(--font); }
-.fo-piece-art text.n { font: 800 11.5px var(--title); }
 .fo-pause { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--card); border: 1px dashed var(--line-strong); border-radius: 14px; padding: 14px 18px; font-size: 14.5px; color: var(--muted); }
 .fo-pause p { margin: 0; flex: 1 1 260px; }
 .fo-pause .file-status { flex-basis: 100%; margin: 0; }
@@ -278,7 +278,6 @@
   .fo-clefs li { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 14px; }
   .fo-clef-n { font-size: 22px; height: 40px; border-radius: 10px; }
   .fo-piece { grid-template-columns: 1fr; }
-  .fo-piece-art { max-width: 200px; }
   .fo-chap-n { font-size: 46px; }
   .fo-paires-tete { display: none; }
   .fo-paires li { grid-template-columns: 1fr; gap: 4px; }
@@ -328,3 +327,10 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
 .q-layout { scroll-margin-top: calc(var(--head-h) + 8px); }
 .fo-cartes[style*="--n:4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 860px) { .fo-cartes[style*="--n:4"] { grid-template-columns: minmax(0, 1fr); } }
+/* Le schéma du rapport reste lisible sur téléphone : il se fait défiler dans son cadre, pas la page. */
+@media (max-width: 600px) {
+  .fo-piece { padding: 14px; }
+  .fo-piece-fig { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .fo-piece-fig .fo-schema { min-width: 540px; }
+  .fo-piece-fig figcaption::after { content: " Fais glisser le schéma pour le voir en entier."; }
+}

@@ -200,15 +200,85 @@ export const illustrations = {
     `<g transform="translate(24,300)">${t(296, 14, "Article L4121-2 du Code du travail : on commence par le niveau 1. Les autres complètent.", { a: "middle", cls: "s", c: C.muted })}</g>`),
 };
 
-// La pièce du rapport que chaque chapitre met en place : la liste des pièces,
-// celles déjà vues cochées, celle du chapitre surlignée en anis, les suivantes en attente.
-export function pieceRapport(n, noms) {
-  const lignes = noms.map((nom, i) => {
-    const y = i * 24;
-    const etat = i < n ? "fait" : i === n ? "ici" : "avenir";
-    const fond = etat === "ici" ? C.anis : etat === "fait" ? C.sapin : "none";
-    const encre = etat === "fait" ? C.creme : C.sapin;
-    return `<g transform="translate(0,${y})" opacity="${etat === "avenir" ? .45 : 1}"><rect width="190" height="20" rx="6" fill="${fond}" stroke="${C.sapin}" stroke-width="1.5" ${etat === "avenir" ? 'stroke-dasharray="3 3"' : ""}/>${t(10, 14.5, etat === "fait" ? "✓" : String(i + 1), { c: etat === "fait" ? C.anis : C.sapin, cls: "n" })}${t(28, 14.5, nom, { c: encre, cls: etat === "ici" ? "n" : "m" })}</g>`;
-  }).join("");
-  return `<svg class="fo-piece-art" viewBox="-2 -2 194 ${noms.length * 24}" role="img" aria-label="Pièce ${n + 1} sur ${noms.length} du rapport : ${noms[n]}">${lignes}</svg>`;
+// ───────── Le schéma du rapport, construit au fil des chapitres (comme le papillon de Papillon).
+// Même disposition que la vue d'ensemble du rapport (rapport.js, vueEnsemble) : à gauche les conditions
+// de travail, au centre deux indices du vécu (A et F), à droite les manifestations. Données : Sam, fictif.
+// Chaque chapitre allume ses pièces ; les pièces à venir restent en pointillés, sans contenu.
+export const PIECES_SCHEMA = [
+  ["batterie", "corps"],      // 1 · fatigue ou usure : épuisement (A), récupération (F), signaux du corps
+  ["signes"],                 // 2 · les trois signes (Maslach)
+  ["balance", "appuis"],      // 3 · la balance exigences-ressources (JD-R)
+  ["retour"],                 // 4 · effort et récompense (Siegrist)
+  ["contexte"],               // 5 · le contexte, hors score
+  ["fils"],                   // 6 · ce que valent les mesures : des liens, pas des causes
+  ["bandeau"],                // 7 · agir : ce qui tire, ce qui reste, ce qui lâche
+  [],                         // 8 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
+  ["securite"],               // 9 · à qui en parler : la porte d'urgence
+];
+const NIVC = [C.piste, "#e9c46a", C.orange, "#b3261e"];
+
+// Sans argument : le schéma complet, sans pièce surlignée.
+export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = {}) {
+  const faites = new Set(PIECES_SCHEMA.slice(0, chapitre + 1).flat());
+  const ici = new Set(PIECES_SCHEMA[chapitre] || []);
+  const etat = (id) => (ici.has(id) ? "ici" : faites.has(id) ? "fait" : "avenir");
+  const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.a || "start"}" fill="${o.c || C.sapin}" font-size="${o.size || 14}" font-weight="${o.w || 600}" font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}"${o.op ? ` opacity="${o.op}"` : ""}>${s}</text>`;
+  // Une boîte : en attente (pointillés, nom seul), posée, ou nouvelle (halo anis).
+  const boite = (id, x, y, w, h, nom, modele, contenu, o = {}) => {
+    const e = etat(id);
+    if (e === "avenir") return `<g opacity=".5"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + h / 2 + 5, nom, { a: "middle", c: C.muted, w: 500, size: 13 })}</g>`;
+    return `<g>${e === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="16" fill="${C.anis}"/>` : ""}
+      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"${o.tirets ? ' stroke-dasharray="5 4"' : ""}/>
+      ${T(x + 12, y + 21, nom, { titre: true, w: 800, size: 14.5 })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .75 }) : ""}${contenu}</g>`;
+  };
+  const ligne = (x, y, w, label, mot, n) => `<circle cx="${x + 18}" cy="${y - 4}" r="5" fill="${NIVC[n]}"/>${T(x + 30, y, label, { size: 12.5, w: 500 })}${T(x + w - 10, y, mot, { a: "end", size: 12, w: 700, c: n >= 2 ? C.ink : C.muted })}`;
+  const barre = (x, y, w, label, v, n) => `${T(x + 12, y, label, { size: 12.5, w: 500 })}<rect x="${x + 12}" y="${y + 5}" width="${w - 24}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x + 12}" y="${y + 5}" width="${Math.round((w - 24) * v)}" height="7" rx="3.5" fill="${NIVC[n]}"/>`;
+  const W = 660, L = 12, R = W - 12 - 196, lw = 196, cx = W / 2;
+  const top = etat("bandeau") === "avenir" ? 34 : 112;
+  let s = "";
+  // Bandeau : trois cadrans, comme en tête du rapport.
+  if (etat("bandeau") !== "avenir") {
+    const cad = (x, k, mot, n, bon) => {
+      const arc = (j) => { const a0 = Math.PI * (1 - j / 4), a1 = Math.PI * (1 - (j + 1) / 4) + .05; const p = (a) => `${(x + 34 * Math.cos(a)).toFixed(1)} ${(60 - 34 * Math.sin(a)).toFixed(1)}`; const col = bon ? [...NIVC].reverse()[j] : NIVC[j]; return `<path d="M${p(a0)} A34 34 0 0 1 ${p(a1)}" fill="none" stroke="${col}" stroke-width="9" opacity="${j === (bon ? 3 - n : n) ? 1 : .3}"/>`; };
+      return `${[0, 1, 2, 3].map(arc).join("")}${T(x + 44, 40, k, { size: 11, w: 700, c: C.ink })}${T(x + 44, 58, mot, { titre: true, w: 800, size: 14 })}`;
+    };
+    s += `<g>${etat("bandeau") === "ici" ? `<rect x="6" y="6" width="${W - 12}" height="78" rx="16" fill="${C.anis}"/>` : ""}<rect x="12" y="12" width="${W - 24}" height="66" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
+      ${cad(70, "CE QUI TIRE", "élevé", 2, false)}${cad(285, "CE QUI RESTE", "récup. basse", 2, true)}${cad(500, "CE QUI LÂCHE", "élevé", 2, false)}</g>`;
+  }
+  s += T(L, top - 12, "LE TRAVAIL", { titre: true, w: 800, size: 11.5, c: C.ink }) + T(cx, top - 12, "TOI", { titre: true, w: 800, size: 11.5, c: C.muted, a: "middle" }) + T(W - 12, top - 12, "CE QUI SE VOIT", { titre: true, w: 800, size: 11.5, c: C.ink, a: "end" });
+  // Positions (pour les fils).
+  const yB = top, yR = top + 96, yC = top + 222, hB = 84, hR = 116, hC = 64;
+  const yS = top, hS = 132, yCo = top + 144, hCo = 70, ySe = top + 226, hSe = 40;
+  const bTop = top + 20, bH = 150, aTop = top + 196, aH = 66;
+  if (etat("fils") !== "avenir") {
+    const op = etat("fils") === "ici" ? 1 : .8;
+    const f = (x1, y1, x2, y2, w, c) => `<path d="M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
+    s += `<g>${f(L + lw, yB + hB / 2, cx - 58, bTop + 40, 7, C.orange)}${f(L + lw, yR + hR / 2, cx - 58, bTop + 80, 5, C.orange)}${f(L + lw, yC + hC / 2, cx - 58, bTop + 120, 2.5, C.orange)}
+      ${f(cx + 58, bTop + 50, R, yS + hS / 2, 7, C.orange)}${f(cx + 58, bTop + 110, R, yCo + hCo / 2, 4, C.orange)}
+      <path d="M${cx} ${aTop} V${bTop + bH}" stroke="${C.mid}" stroke-width="3" opacity="${op}"/>
+      ${etat("fils") === "ici" ? T(cx, aTop + aH + 22, "des liens à vérifier, pas des causes", { a: "middle", size: 12, w: 700, c: C.ink }) : ""}</g>`;
+  }
+  // Gauche : la balance (JD-R), le retour (Siegrist), le contexte.
+  s += boite("balance", L, yB, lw, hB, "La balance", "JD-R · chapitre 3", ligne(L, yB + 58, lw, "Exigences", "élevées", 2) + ligne(L, yB + 76, lw, "Ressources", "limitées", 1));
+  s += boite("retour", L, yR, lw, hR, "Le retour", "Siegrist · chapitre 4", ligne(L, yR + 58, lw, "Effort", "élevé", 2) + ligne(L, yR + 78, lw, "Récompense", "faible", 2) + ligne(L, yR + 98, lw, "Surengagement", "moyen", 1));
+  s += boite("contexte", L, yC, lw, hC, "Le contexte", "hors score · chapitre 5", ligne(L, yC + 56, lw, "Collègue parti", "signalé", 1), { tirets: true });
+  // Centre : deux indices du vécu, et les appuis.
+  const eB = etat("batterie");
+  if (eB === "avenir") s += boite("batterie", cx - 58, bTop, 116, bH, "Ton énergie", "", "");
+  else {
+    const col = (x, id, v, n) => `${T(x + 16, bTop + 44, id, { a: "middle", titre: true, w: 800, size: 13 })}<rect x="${x}" y="${bTop + 52}" width="32" height="74" rx="6" fill="${C.piste}"/><rect x="${x}" y="${bTop + 52 + 74 * (1 - v)}" width="32" height="${74 * v}" rx="6" fill="${NIVC[n]}"/>`;
+    s += `<g>${eB === "ici" ? `<rect x="${cx - 64}" y="${bTop - 6}" width="128" height="${bH + 12}" rx="20" fill="${C.anis}"/>` : ""}<rect x="${cx - 58}" y="${bTop}" width="116" height="${bH}" rx="16" fill="${C.card}" stroke="${C.sapin}" stroke-width="2"/>
+      ${T(cx, bTop + 22, "Fatigue ou usure", { a: "middle", titre: true, w: 800, size: 12.5 })}${col(cx - 44, "A", .7, 2)}${col(cx + 12, "F", .58, 2)}${T(cx, bTop + bH - 8, "chapitre 1", { a: "middle", size: 11, w: 500, op: .75 })}</g>`;
+  }
+  s += boite("appuis", cx - 70, aTop, 140, aH, "Tes appuis", "chapitre 3", T(cx - 58, aTop + 56, "décrocher : fragile", { size: 12, w: 500 }), { fond: "#e3eee9" });
+  // Droite : les trois signes (Maslach), les autres signaux, la sécurité.
+  s += boite("signes", R, yS, lw, hS, "Les trois signes", "Maslach · chapitre 2", barre(R, yS + 60, lw, "Épuisement", .7, 2) + barre(R, yS + 88, lw, "Distance", .5, 1) + barre(R, yS + 116, lw, "Efficacité, sens", .3, 1));
+  s += boite("corps", R, yCo, lw, hCo, "Le corps", "récupération · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
+  s += etat("securite") === "avenir" ? boite("securite", R, ySe, lw, hSe, "La sécurité", "", "")
+    : `<g>${etat("securite") === "ici" ? `<rect x="${R - 6}" y="${ySe - 6}" width="${lw + 12}" height="${hSe + 12}" rx="16" fill="${C.anis}"/>` : ""}<rect x="${R}" y="${ySe}" width="${lw}" height="${hSe}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".3" stroke-dasharray="4 4"/>${T(R + 12, ySe + 25, "Sécurité : rien de coché", { size: 12.5, w: 600 })}</g>`;
+  const H = top + 290;
+  const n = PIECES_SCHEMA.slice(0, chapitre + 1).filter((p) => p.length).length;
+  // (chapitre = PIECES_SCHEMA.length : toutes les pièces posées.)
+  const label = titre || `Le schéma de ton rapport, avec l'exemple de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES_SCHEMA.filter((p) => p.length).length}.`;
+  return `<svg class="fo-schema" viewBox="0 0 ${W} ${H}" role="img" aria-label="${label}">${s}</svg>`;
 }
