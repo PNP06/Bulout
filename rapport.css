@@ -276,6 +276,23 @@
 .rp-nav-list { margin: 8px 0 2px; }
 .rp-nav button:focus-visible, .rp-syn-priorites button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 
+/* Carnet de suivi : comparer des faits, pas un score composite. */
+.rp-carnet-reperes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.rp-carnet-reperes > div { background: var(--bg); border: 1px solid var(--line-soft); border-radius: 14px; padding: 16px 18px; }
+.rp-carnet-reperes p:last-child { margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+.rp-carnet-fiches { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.rp-carnet-fiche { border: 1px solid var(--line-strong); background: var(--card); border-radius: 14px; padding: 18px; display: grid; gap: 15px; }
+.rp-carnet-fiche h3 { margin: 0; padding-bottom: 10px; border-bottom: 3px solid var(--sapin); }
+.rp-carnet-champ { display: grid; gap: 7px; }
+.rp-carnet-champ b { font-size: 14px; font-weight: 700; }
+.rp-carnet-trait { display: block; height: 20px; border-bottom: 1px solid var(--line-strong); }
+.rp-carnet-note { color: var(--muted); padding: 15px; background: var(--bg); border-radius: 12px; }
+.rp-carnet-lien { margin: 12px 0 0; }
+@media (max-width: 760px) {
+  .rp-carnet-reperes, .rp-carnet-fiches { grid-template-columns: minmax(0, 1fr); }
+}
+@media print { .rp-carnet-fiche { break-inside: avoid; } .rp-carnet-fiches { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
 /* Schéma à couches : la personne pilote l'exploration, les données demeurent inchangées. */
 .rp-vue-commandes { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
 .rp-vue-commandes button { min-width: 0; padding: 10px 8px; text-align: center; font: 700 13px/1.35 var(--font);
