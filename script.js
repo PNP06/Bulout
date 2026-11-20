@@ -624,7 +624,8 @@
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
     const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
-    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<input type="radio" name="${name}" value="skip" hidden aria-hidden="true" tabindex="-1">` : ""}`);
+    const choicesClass = section.id === "HR" ? "choices choices-humor" : "choices choices-4";
+    item.insertAdjacentHTML("beforeend", `<fieldset class="${choicesClass}" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<input type="radio" name="${name}" value="skip" hidden aria-hidden="true" tabindex="-1">` : ""}`);
     return item;
   }
 
@@ -979,7 +980,7 @@
       const dialog = document.createElement("dialog");
       dialog.className = "start-dialog";
       dialog.setAttribute("aria-labelledby", "start-title");
-      dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions, environ 12 minutes</p>`
+      dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions proposées, environ 15 à 20 minutes</p>`
         + `<h2 id="start-title">Quatre conseils pour bien répondre</h2>`
         + `<ol class="start-tips">${START_TIPS.map(([h, p]) => `<li><b>${h}</b> <span>${p}</span></li>`).join("")}</ol>`
         + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre (<kbd>1</kbd> à <kbd>4</kbd> dans le bullshitomètre), <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
