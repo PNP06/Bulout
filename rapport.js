@@ -4,7 +4,7 @@
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 
-const VERSION = "2026.11";
+const VERSION = "2026.11.1";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -79,13 +79,12 @@ const VIOLET = "#6a4c93";
 const nv24 = (v) => (v >= 19 ? 3 : v >= 13 ? 2 : v >= 7 ? 1 : 0);
 const MOTS = ["bas", "à surveiller", "élevé", "très élevé"];
 const MOTSF = ["basse", "à surveiller", "élevée", "très élevée"];
-function vueEnsemble({ causes, recharge, signes, corps, alerte, reste, etroit }) {
+function vueEnsemble({ causes, recharge, signes, corps, alerte, aScore, fScore, etroit }) {
   const T = (x, y, t, o = {}) => `<text x="${x}" y="${y}" ${o.anchor ? `text-anchor="${o.anchor}"` : ""} font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}" font-weight="${o.poids || (o.titre ? 800 : 400)}" font-size="${o.taille || 13}" fill="${o.c || C.sapin}"${o.op ? ` opacity="${o.op}"` : ""}>${esc(t)}</text>`;
   const fil = (x1, y1, x2, y2, n, c, vertical) => {
     const d = vertical ? `M${x1} ${y1} C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}` : `M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}`;
     return `<path d="${d}" fill="none" stroke="${c}" stroke-width="${FIL[n]}" stroke-linecap="round" opacity="${n ? 0.88 : 0.3}"/>`;
   };
-  const coulBat = reste >= 60 ? C.mid : reste >= 35 ? "#b45a12" : C.orange;
   // Un paquet : un titre, le modèle, puis des lignes (pastille de couleur, libellé, niveau).
   const paquet = (x, y, w, p, tirets) => {
     const h = 54 + p.rows.length * 28;
@@ -100,29 +99,36 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, reste, etroit })
     const h = 54 + signes.length * 44;
     const ys = signes.map((_, i) => y + 64 + i * 44);
     const svg = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".18" stroke-width="1.5"/>
-      ${T(x + 16, y + 24, "Les trois signes", { titre: true, taille: 14 })}${T(x + 16, y + 40, "Maslach · chapitre 2", { taille: 11, op: 0.72 })}
+      ${T(x + 16, y + 24, "Manifestations et sens", { titre: true, taille: 14 })}${T(x + 16, y + 40, "Maslach et sens distinct · chapitre 2", { taille: 11, op: 0.72 })}
       ${signes.map((s, i) => `${T(x + 16, ys[i], s.label, { poids: 600 })}${T(x + w - 16, ys[i], s.val, { anchor: "end", taille: 11.5, c: s.n >= 2 ? C.ink : "#4a5f5a" })}
         <rect x="${x + 16}" y="${ys[i] + 8}" width="${w - 32}" height="9" rx="4.5" fill="${C.piste}"/><rect x="${x + 16}" y="${ys[i] + 8}" width="${Math.max(6, Math.round((s.v / 24) * (w - 32)))}" height="9" rx="4.5" fill="${s.c || COUL[s.n]}"/>`).join("")}`;
     return { svg, h, ys: ys.map((v) => v + 4) };
   };
-  const batt = (cx, top, h = 170, w = 96) => {
-    const rempli = Math.round((reste / 100) * (h - 16));
-    return `${T(cx, top - 38, "Ton énergie", { anchor: "middle", titre: true, taille: 14 })}${T(cx, top - 22, "épuisement A, récupération F", { anchor: "middle", taille: 11, op: 0.72 })}
-      <rect x="${cx - 18}" y="${top - 10}" width="36" height="12" rx="4" fill="${C.sapin}"/>
-      <rect x="${cx - w / 2}" y="${top}" width="${w}" height="${h}" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-width="5"/>
-      <rect x="${cx - w / 2 + 8}" y="${top + h - 8 - rempli}" width="${w - 16}" height="${rempli}" rx="11" fill="${coulBat}"/>
-      ${T(cx, top + h / 2 + 9, `${reste} %`, { anchor: "middle", titre: true, taille: 24, c: reste < 45 ? C.sapin : C.card })}`;
+  // Silhouette conservée : A et F sont deux scores déclaratifs et non un % d’énergie.
+  const batt = (cx, top, h = 170, w = 132) => {
+    const barH = h - 69, trackY = top + 45;
+    const bars = [{ id: "A", v: aScore }, { id: "F", v: fScore }].map((d, i) => {
+      const x = cx - 51 + i * 62, bh = Math.round((d.v / 24) * barH);
+      return `${T(x + 20, top + 31, d.id, { anchor: "middle", titre: true, taille: 12 })}
+        <rect x="${x}" y="${trackY}" width="40" height="${barH}" rx="7" fill="${C.piste}"/>
+        <rect x="${x}" y="${trackY + barH - bh}" width="40" height="${bh}" rx="7" fill="${COUL[nv24(d.v)]}"/>
+        ${T(x + 20, top + h - 8, `${d.v}/24`, { anchor: "middle", taille: 11, poids: 600 })}`;
+    }).join("");
+    return `${T(cx, top - 38, "Deux repères déclarés", { anchor: "middle", titre: true, taille: 14 })}
+      ${T(cx, top - 22, "A · épuisement   F · récupération/santé", { anchor: "middle", taille: 10, op: 0.72 })}
+      <rect x="${cx - w / 2}" y="${top}" width="${w}" height="${h}" rx="16" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".8" stroke-width="2"/>
+      ${bars}`;
   };
   const rechargeBox = (cx, y, w) => {
     const h = 44 + recharge.length * 22;
     return { h, svg: `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="${h}" rx="12" fill="#e3eee9"/>
-      ${T(cx, y + 24, "Ce qui recharge", { anchor: "middle", titre: true, taille: 13 })}
+      ${T(cx, y + 24, "Appuis déclarés", { anchor: "middle", titre: true, taille: 13 })}
       ${recharge.map((r, i) => T(cx, y + 46 + i * 22, `${r.label} · ${r.val}`, { anchor: "middle", taille: 12, c: r.n ? C.sapin : "#4a5f5a" })).join("")}` };
   };
   const nRecharge = Math.max(0, ...recharge.map((r) => r.n));
   const alerteBox = (x, y, w) => alerte
-    ? `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="#fbe3d8"/>${T(x + 16, y + 27, "Une réponse d'alerte : 3114 · 15 · 112", { titre: true, taille: 12.5, c: C.ink })}`
-    : `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".18" stroke-dasharray="4 4"/>${T(x + 16, y + 27, "Aucune réponse aux questions d'alerte", { taille: 12, op: 0.75 })}`;
+    ? `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="#fbe3d8"/>${T(x + 16, y + 27, "Signal déclaré : voir le message de sécurité", { titre: true, taille: 12.5, c: C.ink })}`
+    : `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".18" stroke-dasharray="4 4"/>${T(x + 16, y + 27, "Pas de signal coché aux 3 questions", { taille: 12, op: 0.75 })}`;
 
   if (!etroit) {
     const W = 1000, top = 46, gap = 14, lw = 300;
@@ -139,10 +145,10 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, reste, etroit })
     const gauche = causes.flatMap((p, i) => p.rows.map((r, j) => ({ ...r, y: L[i].ys[j] - 4 })));
     const droite = [...signes.map((s, i) => ({ ...s, y: M.ys[i] })), ...corps.rows.map((r, j) => ({ ...r, y: Co.ys[j] - 4 }))];
     const cible = (k, n, a, b) => a + ((b - a) * (n === 1 ? 0.5 : k / (n - 1)));
-    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue d'ensemble : à gauche ce qui use ou protège dans le travail, au centre ton énergie, à droite les signes de l'usure.">
-      ${T(20, 26, "D'OÙ VIENT L'USURE", { titre: true, taille: 11.5, c: C.ink })}${T(cx, 26, "CE QU'IL TE RESTE", { titre: true, taille: 11.5, anchor: "middle", c: "#4a5f5a" })}${T(W - 20, 26, "CE QUE L'USURE TE FAIT", { titre: true, taille: 11.5, anchor: "end", c: C.ink })}
-      ${gauche.map((r, k) => fil(20 + lw, r.y, cx - 48, cible(k, gauche.length, bTop + 22, bTop + bH - 22), r.n, r.c)).join("")}
-      ${droite.map((r, k) => fil(cx + 48, cible(k, droite.length, bTop + 22, bTop + bH - 22), W - 20 - lw, r.y, r.n, r.c || C.orange)).join("")}
+    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue descriptive des réponses : conditions de travail, deux scores A et F, manifestations. Les liens ne prouvent aucune causalité.">
+      ${T(20, 26, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })}${T(cx, 26, "DEUX INDICES DU VÉCU", { titre: true, taille: 11.5, anchor: "middle", c: "#4a5f5a" })}${T(W - 20, 26, "MANIFESTATIONS DÉCLARÉES", { titre: true, taille: 11.5, anchor: "end", c: C.ink })}
+      ${gauche.map((r, k) => fil(20 + lw, r.y, cx - 66, cible(k, gauche.length, bTop + 22, bTop + bH - 22), r.n, r.c)).join("")}
+      ${droite.map((r, k) => fil(cx + 66, cible(k, droite.length, bTop + 22, bTop + bH - 22), W - 20 - lw, r.y, r.n, r.c || C.orange)).join("")}
       ${fil(cx, bTop + bH + 56, cx, bTop + bH + 4, nRecharge, C.mid, true)}
       ${L.map((k) => k.svg).join("")}${M.svg}${Co.svg}${alerteBox(W - 20 - lw, yAl, lw)}
       ${batt(cx, bTop, bH)}${R.svg}</svg>`;
@@ -150,39 +156,40 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, reste, etroit })
   // Téléphone : les mêmes paquets, empilés ; deux gros fils relient les causes, l'énergie et les effets.
   const W = 400, x = 12, w = W - 24, gap = 12;
   let y = 34;
-  const parts = [T(x, 22, "D'OÙ VIENT L'USURE", { titre: true, taille: 11.5, c: C.ink })];
+  const parts = [T(x, 22, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })];
   causes.forEach((p, i) => { const k = paquet(x, y, w, p, i === causes.length - 1); parts.push(k.svg); y += k.h + gap; });
   const nCause = Math.max(0, ...causes.flatMap((p) => p.rows.filter((r) => r.c !== C.mid).map((r) => r.n)));
   const bTop = y + 76, bH = 140, cx = W / 2;
   parts.push(fil(cx, y - 4, cx, bTop - 58, nCause, C.orange, true));
-  parts.push(batt(cx, bTop, bH, 84));
+  parts.push(batt(cx, bTop, bH, 132));
   const R = rechargeBox(cx, bTop + bH + 30, 250);
   parts.push(fil(cx, bTop + bH + 30, cx, bTop + bH + 4, nRecharge, C.mid, true));
   y = bTop + bH + 30 + R.h + 46;
   const nEffet = Math.max(0, ...signes.map((s) => s.n), ...corps.rows.map((r) => r.n));
   parts.push(fil(cx + 150, bTop + bH / 2, cx + 150, y - 4, nEffet, C.orange, true));
-  parts.push(`<path d="M${cx + 42} ${bTop + bH / 2} H${cx + 150}" stroke="${C.orange}" stroke-width="${FIL[nEffet]}" stroke-linecap="round" opacity="${nEffet ? 0.88 : 0.3}"/>`);
+  parts.push(`<path d="M${cx + 66} ${bTop + bH / 2} H${cx + 150}" stroke="${C.orange}" stroke-width="${FIL[nEffet]}" stroke-linecap="round" opacity="${nEffet ? 0.88 : 0.3}"/>`);
   parts.push(R.svg);
-  parts.push(T(x, y - 10, "CE QUE L'USURE TE FAIT", { titre: true, taille: 11.5, c: C.ink }));
+  parts.push(T(x, y - 10, "MANIFESTATIONS DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink }));
   const M = barres(x, y, w); parts.push(M.svg); y += M.h + gap;
   const Co = paquet(x, y, w, corps); parts.push(Co.svg); y += Co.h + gap;
   parts.push(alerteBox(x, y, w)); y += 44 + 8;
-  return `<svg class="rp-ensemble etroit" viewBox="0 0 ${W} ${y}" role="img" aria-label="Vue d'ensemble : en haut ce qui use ou protège dans le travail, au centre ton énergie, en bas les signes de l'usure.">${parts.join("")}</svg>`;
+  return `<svg class="rp-ensemble etroit" viewBox="0 0 ${W} ${y}" role="img" aria-label="Vue descriptive des réponses : conditions de travail, deux scores A et F, manifestations. Les liens ne prouvent aucune causalité.">${parts.join("")}</svg>`;
 }
 
+// « Batterie » reste une entrée pédagogique de la formation, sans pourcentage d’énergie.
 function batterie(A, F) {
-  const reste = Math.max(0, Math.round(100 - ((A + F) / 48) * 100));
-  const w = Math.round((reste / 100) * 196);
-  const coul = reste >= 60 ? C.mid : reste >= 35 ? "#b45a12" : C.orange;
-  return `<svg class="rp-art" viewBox="0 0 320 120" role="img" aria-label="Batterie : environ ${reste} % de charge, d'après tes réponses Épuisement et Récupération">
-    <rect x="40" y="22" width="210" height="76" rx="14" fill="${C.card}" stroke="${C.sapin}" stroke-width="4"/>
-    <rect x="250" y="44" width="14" height="32" rx="4" fill="${C.sapin}"/>
-    <rect x="47" y="29" width="${w}" height="62" rx="9" fill="${coul}"/>
-    ${[1, 2, 3].map((k) => `<line x1="${47 + k * 49}" y1="29" x2="${47 + k * 49}" y2="91" stroke="${C.card}" stroke-width="3"/>`).join("")}
-    <text x="145" y="114" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="13" fill="${C.sapin}">≈ ${reste} % de charge</text>
+  const barre = (y, titre, v) => {
+    const largeur = Math.round((v / 24) * 190);
+    return `<text x="8" y="${y}" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="${C.sapin}">${titre}</text>
+      <text x="312" y="${y}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="${C.sapin}">${v}/24</text>
+      <rect x="116" y="${y - 12}" width="190" height="13" rx="6" fill="${C.piste}"/>
+      <rect x="116" y="${y - 12}" width="${largeur}" height="13" rx="6" fill="${COUL[nv24(v)]}"/>`;
+  };
+  return `<svg class="rp-art" viewBox="0 0 320 118" role="img" aria-label="Deux sommes descriptives de réponses : épuisement ${A} sur 24 et récupération santé ${F} sur 24">
+    ${barre(35, "A · Épuisement", A)}${barre(77, "F · Santé", F)}
+    <text x="160" y="111" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="${C.sapin}">Ce ne sont pas des mesures d’énergie</text>
   </svg>`;
 }
-
 function jauges(sr) {
   const ids = ["A", "B", "C"];
   const H = 120;
@@ -193,10 +200,10 @@ function jauges(sr) {
     const seuils = [6.5, 12.5, 18.5].map((s) => `<line x1="${x - 6}" x2="${x + 46}" y1="${20 + H - (s / 24) * H}" y2="${20 + H - (s / 24) * H}" stroke="${C.sapin}" stroke-opacity=".25" stroke-dasharray="3 3"/>`).join("");
     return `<rect x="${x}" y="20" width="40" height="${H}" rx="10" fill="${C.piste}"/>
       <rect x="${x}" y="${20 + H - h}" width="40" height="${h}" rx="10" fill="${COUL[niv(d).n]}"/>${seuils}
-      <text x="${x + 20}" y="${H + 40}" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="12" fill="${C.sapin}">${["Épuisement", "Distance", "Efficacité"][i]}</text>
+      <text x="${x + 20}" y="${H + 40}" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="12" fill="${C.sapin}">${["Épuisement", "Distance", "Eff./sens"][i]}</text>
       <text x="${x + 20}" y="14" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="${C.sapin}">${d.score}/24</text>`;
   }).join("");
-  return `<svg class="rp-art" viewBox="0 0 320 170" role="img" aria-label="Trois jauges : épuisement ${sr.A.score}, distance ${sr.B.score}, efficacité ${sr.C.score} sur 24">${cols}</svg>`;
+  return `<svg class="rp-art" viewBox="0 0 320 170" role="img" aria-label="Trois jauges : épuisement ${sr.A.score}, distance ${sr.B.score}, efficacité/sens ${sr.C.score} sur 24">${cols}</svg>`;
 }
 
 // Balance : le plateau le plus lourd descend. gauche/droite sur la même échelle (max).
