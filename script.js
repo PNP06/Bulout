@@ -237,8 +237,8 @@
     A4: { interpretation: "Effort disproportionné pour des tâches ordinaires.", action: "Simplifier le niveau de qualité attendu et limiter le multitâche." },
     A5: { interpretation: "Irritabilité ou saturation face aux sollicitations.", action: "Réduire les interruptions et restaurer des plages calmes." },
     A6: { interpretation: "Saturation cognitive ou mémoire de travail fragilisée.", action: "Protéger des temps de concentration et réduire les bascules de contexte." },
-    B1: { interpretation: "Mise à distance protectrice.", action: "Identifier ce qui coûte trop : conflit, absurdité, charge relationnelle ou perte de sens." },
-    B2: { interpretation: "Cynisme défensif.", action: "Nommer les sources d'absurde et distinguer ce qui peut être changé de ce qui doit être arbitré." },
+    B1: { interpretation: "Indifférence croissante à des tâches auparavant importantes.", action: "Repérer depuis quand ce sentiment existe et dans quelles situations il apparaît, sans en supposer le mécanisme." },
+    B2: { interpretation: "Amertume ou cynisme rapportés.", action: "Repérer les situations associées et distinguer désaccord, perte de sens et réaction à une surcharge." },
     B3: { interpretation: "Évitement d'interactions coûteuses.", action: "Réduire les interactions non utiles ou cadrer les échanges difficiles." },
     B4: { interpretation: "Patience ou empathie entamée.", action: "Traiter la charge émotionnelle et éviter d'ajouter du relationnel décoratif." },
     B5: { interpretation: "Retrait relationnel pour tenir.", action: "Alléger la charge sociale et clarifier les interactions indispensables." },
@@ -248,9 +248,9 @@
     C3: { interpretation: "Perte de sens.", action: "Relier les tâches aux décisions utiles ou supprimer les livrables décoratifs." },
     C4: { interpretation: "Sentiment de compétence altéré.", action: "Restaurer la maîtrise par des tâches cadrées et un périmètre réaliste." },
     C5: { interpretation: "Sentiment d'inutilité en fin de journée.", action: "Définir un résultat utile et atteignable avant d'empiler les demandes." },
-    C6: { interpretation: "Décalage entre soi et sa manière de travailler.", action: "Identifier ce qui force à travailler contre ses standards professionnels." },
+    C6: { interpretation: "Effort accru pour parvenir à un travail jugé satisfaisant.", action: "Préciser les critères de qualité, le temps disponible et les éventuels obstacles." },
     D1: { interpretation: "Surcharge.", action: "Lister les tâches et demander ce qui doit être arrêté, reporté ou simplifié." },
-    D2: { interpretation: "Interruptions ou urgences excessives.", action: "Bloquer des plages sans interruption et trier les urgences réelles." },
+    D2: { interpretation: "Interruptions fréquentes gênant la réalisation des priorités.", action: "Documenter deux interruptions et demander des plages de travail protégées." },
     D3: { interpretation: "Contradictions de priorité.", action: "Demander un arbitrage écrit sur la priorité de la semaine." },
     D4: { interpretation: "Responsabilité sans moyens.", action: "Rendre visible l'écart entre responsabilité, autorité et ressources." },
     D5: { interpretation: "Charge émotionnelle ou relationnelle élevée.", action: "Organiser du soutien, du relais ou un temps de décompression après les séquences lourdes." },
@@ -264,8 +264,8 @@
     F1: { interpretation: "Rumination.", action: "Installer un rituel de fermeture et limiter les relances hors travail." },
     F2: { interpretation: "Sommeil perturbé.", action: "Protéger les soirées et consulter si le trouble persiste." },
     F3: { interpretation: "Loisirs et liens sociaux réduits.", action: "Réserver une activité non négociable hors travail cette semaine." },
-    F4: { interpretation: "Symptômes physiques liés au travail.", action: "Surveiller l'évolution et demander un avis santé si cela persiste ou s'aggrave." },
-    F5: { interpretation: "Stratégies de compensation.", action: "Chercher un appui professionnel si ces stratégies augmentent ou deviennent nécessaires pour tenir." },
+    F4: { interpretation: "Symptômes physiques inhabituels, sans cause établie.", action: "Préciser leur nature, leur durée et demander un avis médical adapté." },
+    F5: { interpretation: "Consommations augmentées pour tenir ou dormir.", action: "Examiner les produits, les prises et les interactions possibles avec un professionnel de santé, sans arrêt brutal de médicament prescrit." },
     F6: { interpretation: "Risque fonctionnel ou sécurité.", action: "Réduire l'exposition aux tâches à risque et demander de l'aide rapidement." }
   };
 
@@ -277,7 +277,7 @@
     A5: "irritabilité ou hypersensibilité",
     A6: "attention ou mémoire de travail fragilisée",
     B1: "mise à distance mentale",
-    B2: "cynisme défensif",
+    B2: "cynisme ou amertume",
     B3: "évitement d'interactions coûteuses",
     B4: "empathie ou patience entamée",
     B5: "retrait relationnel",
@@ -287,9 +287,9 @@
     C3: "perte de sens",
     C4: "sentiment de compétence altéré",
     C5: "sentiment d'utilité faible",
-    C6: "décalage avec sa manière habituelle de travailler",
+    C6: "efforts accrus pour la qualité du travail",
     D1: "surcharge",
-    D2: "interruptions ou urgences excessives",
+    D2: "interruptions fréquentes",
     D3: "priorités contradictoires",
     D4: "responsabilité sans moyens",
     D5: "charge émotionnelle ou relationnelle élevée",
@@ -303,8 +303,8 @@
     F1: "rumination",
     F2: "sommeil perturbé",
     F3: "loisirs ou liens sociaux réduits",
-    F4: "symptômes physiques liés au travail",
-    F5: "stratégies de compensation",
+    F4: "symptômes physiques inhabituels",
+    F5: "augmentation de consommations pour tenir ou dormir",
     F6: "risque fonctionnel ou sécurité"
   };
 
@@ -1030,6 +1030,16 @@
     return answers;
   }
 
+  function getTemporalInsight(answers) {
+    const find = (id) => (answers || []).find((a) => a.id === id);
+    return {
+      duration: find("T1")?.answer || null,
+      evolution: find("T2")?.answer || null,
+      horsTravail: find("T3")?.answer || null,
+      qualiteEmpechee: find("T4")?.value ?? null
+    };
+  }
+
   function getTemporalAnswers() {
     return temporalPart.questions.map((question, index) => {
       const selected = form.querySelector(`input[name="T${index + 1}"]:checked`);
@@ -1106,19 +1116,24 @@
     if (result.hasAlert) {
       return "Au moins une réponse relève de la sécurité ou de la santé et appelle une orientation adaptée. Ce questionnaire ne permet pas d'évaluer à lui seul le degré d'urgence.";
     }
+    const tendance = result.temporalAnswers?.find((a) => a.id === "T2")?.value;
+    const precisions = tendance === 2
+      ? " La personne décrit aussi une aggravation récente, qui mérite d'être précisée."
+      : tendance === 0 ? " La personne décrit une amélioration récente, sans que son origine soit établie."
+      : "";
     if (result.profile.key === "protected") {
-      return "Sur les questions proposées, peu de difficultés ressortent. Cela ne permet pas d'exclure une autre situation de santé ou de travail.";
+      return "Sur les questions proposées, peu de difficultés ressortent. Cela ne permet pas d'exclure une autre situation de santé ou de travail." + precisions;
     }
     if (result.profile.key === "tension") {
-      return "Tu décris surtout des contraintes dans ton travail ; les manifestations d'épuisement ressortent moins. C'est une situation utile à examiner en prévention.";
+      return "Tu décris surtout des contraintes dans ton travail ; les manifestations d'épuisement ressortent moins. C'est une situation utile à examiner en prévention." + precisions;
     }
     if (result.profile.key === "exhaustion") {
-      return "Tu déclares des difficultés d'épuisement et de récupération. Leur durée, leur évolution et leurs causes éventuelles restent à préciser.";
+      return "Tu déclares des difficultés d'épuisement et de récupération. Leur origine et leur retentissement restent à préciser." + precisions;
     }
     if (result.profile.key === "disengagement") {
-      return "Tu décris une distance accrue vis-à-vis du travail ou des difficultés dans ton rapport à son utilité. Les raisons restent à explorer.";
+      return "Tu décris une distance accrue vis-à-vis du travail ou des difficultés dans ton rapport à son utilité. Les raisons restent à explorer." + precisions;
     }
-    return `Tes réponses font ressortir notamment ${dominantNames}. Ce sont des pistes de discussion, pas des causes démontrées.`;
+    return `Tes réponses font ressortir notamment ${dominantNames}. Ce sont des pistes de discussion, pas des causes démontrées.` + precisions;
   }
 
   function buildModelReadings(result) {
@@ -1126,8 +1141,8 @@
     const maslachLines = [];
     if (scores.A >= 13) maslachLines.push("Plusieurs réponses décrivent un épuisement fréquent, sans en mesurer la quantité.");
     if (scores.B >= 13) maslachLines.push("Plusieurs réponses décrivent de la distance mentale ou du cynisme, sans en établir la fonction.");
-    if (scores.C >= 13) maslachLines.push("Le score d'efficacité/sens suggère une perte de maîtrise ou une baisse du sentiment d'utilité.");
-    if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Les trois dimensions cœur sont simultanément élevées : il faut éviter de réduire le problème à une simple fatigue.");
+    if (scores.C >= 13) maslachLines.push("Les réponses du groupe C décrivent des difficultés de maîtrise et/ou de sens, sans permettre de les confondre.");
+    if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Plusieurs groupes de réponses ressortent simultanément. La partie C mêle efficacité et sens : ce n’est pas un score Maslach validé.");
     if (!maslachLines.length) maslachLines.push("Ces dimensions sont décrites séparément, sans seuil diagnostique ni prédiction de leur évolution.");
 
     const jdRCauses = result.topItems
@@ -1227,6 +1242,11 @@
     }
     if (scores.C >= 13) {
       addAction("meaning", "mastery", "Restaurer la maîtrise", "Clarifier les critères de qualité, réduire le multi-tâche, traiter les sources d'erreurs.");
+    }
+    const qualityAnswer = (result.temporalAnswers || []).find((a) => a.id === "T4");
+    if (qualityAnswer?.value >= 3) {
+      addAction("exposure", "quality-prevented", "Examiner la qualité empêchée",
+        "Noter une tâche dont la qualité souhaitée était impossible à atteindre, préciser ce qui manquait (temps, moyens, consignes) et demander un arbitrage explicite.");
     }
     if (contextYes.has("ethicalConflict")) {
       addAction("meaning", "ethics", "Clarifier le conflit éthique", "Documenter les faits, clarifier les responsabilités et chercher un appui professionnel ou collectif.");
@@ -1421,6 +1441,7 @@
     }
     const temporalAnswers = getTemporalAnswers();
     if (temporalAnswers.some((answer) => answer.value === null)) return null;
+    const temporalInsight = getTemporalInsight(temporalAnswers);
     const bullshit = computeBullshit();
     if (bullshit === null) {
       return null;
@@ -1435,9 +1456,9 @@
     const topItems = getTopItems(answers);
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
-    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers, answers });
+    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers, temporalAnswers, answers });
     const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers);
-    const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
+    const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions, temporalAnswers });
 
     const result = {
       sectionResults,
@@ -1447,6 +1468,8 @@
       strengthAnswers,
       exchangeAnswers,
       temporalAnswers,
+      temporalInsight,
+      questionnaireVersion: "2026-11-v2",
       bullshit,
       totalScore,
       totalLevel,
@@ -2013,6 +2036,7 @@
     strengthPart,
     exchangePart,
     temporalPart,
+    getTemporalInsight,
     bullshitPart,
     getTemporalAnswers,
     calculateResults
