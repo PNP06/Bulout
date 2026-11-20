@@ -686,7 +686,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const corpsRows = Object.keys(CORPS).filter((id) => item(id).riskScore >= 2).map((id) => ({ label: CORPS[id], val: ratingLabels[item(id).rawScore].replace(/^\d+\s*-\s*/, ""), n: nItem(id), c: C.orange }));
   const corps = { titre: "Autres signaux déclarés", modele: "Récupération, retentissement · chapitre 1", rows: corpsRows.length ? corpsRows : [{ label: "Pas de signal net", val: "", n: 0, c: C.piste }] };
   const vue = { causes, recharge, signes, corps, alerte: r.hasAlert, aScore: sr.A.score, fScore: sr.F.score };
-  const ensemble = `<figure class="rp-vue"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
+  const etapesVue = [
+    ["personne", "1 · Manifestations", "Commence par ce qui ressort de ton vécu : les scores A et F, la distance mentale, l'efficacité, le sens et les autres signaux."],
+    ["travail", "2 · Conditions", "Observe séparément les exigences, les ressources, l'effort et les récompenses déclarés. Les fils ne prouvent aucune causalité."],
+    ["appuis", "3 · Ressources", "Regarde les appuis déclarés et les moyens disponibles. Ils n'annulent pas mathématiquement la charge."],
+    ["tout", "4 · Vue complète", "La vue complète rapproche ces informations sans les mélanger en une mesure unique de risque."]
+  ];
+  const ensemble = `<figure class="rp-vue" data-lecture="tout"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
+      <div class="rp-vue-commandes" role="group" aria-label="Construire la lecture du schéma">
+        ${etapesVue.map(([id, libelle]) => `<button type="button" data-vue-etape="${id}" aria-pressed="${id === "tout"}">${libelle}</button>`).join("")}
+      </div>
+      <p class="rp-vue-lecture" aria-live="polite">${etapesVue[3][2]}</p>
       ${vueEnsemble({ ...vue, etroit: false })}${vueEnsemble({ ...vue, etroit: true })}
       <details class="rp-pc rp-mode-emploi"><summary>Qu'est-ce qui est réellement mesuré ici ?</summary>
         <p><b>Directement déclaré :</b> les réponses A à F (0 à 4), les appuis G, les récompenses R et les éléments de contexte.</p>
@@ -866,6 +876,24 @@ document.addEventListener("bullout:rapport", (event) => {
 });
 
 racine.addEventListener("click", (event) => {
+  const vueBtn = event.target.closest("[data-vue-etape]");
+  if (vueBtn) {
+    const figure = vueBtn.closest(".rp-vue");
+    if (figure) {
+      figure.dataset.lecture = vueBtn.dataset.vueEtape;
+      figure.querySelectorAll("[data-vue-etape]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn === vueBtn));
+      });
+      const textes = {
+        personne: "Commence par ce qui ressort de ton vécu. Les manifestations ne disent pas, seules, ce qui les provoque.",
+        travail: "Observe les exigences et les ressources déclarées. Elles sont des hypothèses d'exposition à examiner.",
+        appuis: "Regarde ce qui peut soutenir la discussion ou l'action ; un appui n'annule pas automatiquement une contrainte.",
+        tout: "Vue complète : des réponses mises en regard, sans énergie fictive ni relation causale démontrée."
+      };
+      const status = figure.querySelector(".rp-vue-lecture");
+      if (status) status.textContent = textes[figure.dataset.lecture] || textes.tout;
+    }
+  }
   const b = event.target.closest("[data-aller]");
   if (b) montrer(b.dataset.aller);
   const t = event.target.closest("[data-copier-trace]");
