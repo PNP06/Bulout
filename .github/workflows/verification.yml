@@ -1,0 +1,26 @@
+name: Vérifications Bull-Out
+
+on:
+  push:
+    branches: [main, refonte-mesures-rapport-2026-11-20]
+  pull_request:
+
+jobs:
+  mesure-rapport:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Vérifier la syntaxe du moteur
+        run: node --check script.js
+      - name: Vérifier la syntaxe des modules du rapport, du parcours et de la formation
+        run: |
+          node --input-type=module --check < rapport.js
+          node --input-type=module --check < parcours.js
+          node --input-type=module --check < formation-contenu.js
+      - name: Exécuter les scénarios de régression
+        run: node --test tests/mesures-rapport.test.cjs

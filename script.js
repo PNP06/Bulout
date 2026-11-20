@@ -34,7 +34,7 @@
       chapitres: [1, 2],
       questions: [
         "Après une journée de travail, je n'ai plus assez d'énergie pour mes activités personnelles habituelles.",
-        "Même après un repos court (une soirée, un week-end), j'ai l'impression de ne pas récupérer réellement.",
+        "Après mes périodes habituelles de repos, je me sens encore épuisé·e.",
         "Certaines journées, je me sens saturé·e avant même de commencer, à l'idée de ce qui m'attend.",
         "Les tâches ordinaires me demandent un effort disproportionné.",
         "Je deviens irritable ou hypersensible face à des sollicitations professionnelles normales (celles de mon poste, que je gérais sans difficulté avant).",
@@ -50,8 +50,8 @@
       sources: "Maslach Burnout Inventory (cynisme), Burnout Assessment Tool (distance mentale), Oldenburg Burnout Inventory (désengagement)",
       chapitres: [2],
       questions: [
-        "Je me surprends à me détacher mentalement du travail pour me protéger.",
-        "Je deviens plus cynique sur l'utilité de ce que je fais.",
+        "Des tâches professionnelles qui comptaient pour moi me laissent désormais indifférent·e.",
+        "Je me surprends à parler de mon travail avec amertume ou cynisme.",
         "J'évite certaines interactions professionnelles parce qu'elles me coûtent trop.",
         "Je ressens moins d'empathie ou de patience envers des personnes avec qui je travaille.",
         "Je fais le minimum relationnel nécessaire pour tenir la journée.",
@@ -68,11 +68,11 @@
       chapitres: [2],
       questions: [
         "Je doute plus souvent de ma capacité à produire un travail de qualité.",
-        "Je constate une baisse de qualité ou de fiabilité malgré mes efforts.",
+        "J'ai plus de difficultés qu'avant à atteindre le niveau de qualité attendu, malgré mes efforts.",
         "J'ai du mal à voir le sens concret de mon travail.",
         "Je me sens moins compétent·e dans des tâches que je maîtrisais auparavant.",
         "Je termine des journées avec le sentiment de n'avoir rien accompli d'utile.",
-        "Je ne me reconnais plus dans ma façon de travailler."
+        "Je dois fournir davantage d'efforts qu'avant pour obtenir un résultat dont je suis satisfait·e."
       ]
     },
     {
@@ -85,10 +85,10 @@
       chapitres: [3, 4],
       questions: [
         "La quantité de travail dépasse régulièrement ce qui peut être fait correctement dans le temps disponible.",
-        "Les urgences ou interruptions empêchent de travailler de manière soutenable.",
+        "Les interruptions fréquentes m'empêchent de terminer mes tâches prioritaires.",
         "Je reçois des priorités contradictoires ou insuffisamment arbitrées.",
         "Je porte une responsabilité forte sans moyens ou autorité suffisants.",
-        "Les exigences émotionnelles ou relationnelles de mon poste sont élevées.",
+        "Mon travail m'oblige à gérer régulièrement des émotions difficiles dans mes échanges professionnels.",
         "Je dois compenser des dysfonctionnements d'organisation pour que le travail sorte quand même."
       ]
     },
@@ -101,14 +101,14 @@
       sources: "modèle Exigences-Ressources (JD-R), Job Content Questionnaire de Karasek (latitude décisionnelle, soutien social), COPSOQ (clarté des rôles, justice), ERI de Siegrist (récompense)",
       chapitres: [3, 4],
       reversed: true,
-      help: "Cette section est inversée au calcul : plus la ressource est présente, moins elle ajoute au score de risque.",
+      help: "Les réponses sont inversées dans la somme descriptive : plus une ressource est présente, plus son score de manque est faible. Cela ne mesure pas un risque clinique.",
       questions: [
         "Je dispose d'une marge de manœuvre réelle pour organiser mon travail.",
         "Mon manager m'aide à arbitrer lorsque la charge dépasse la capacité réelle.",
         "Mes collègues constituent un soutien concret en cas de difficulté.",
         "Les objectifs et responsabilités sont suffisamment clairs.",
         "Mes efforts sont reconnus de manière crédible et proportionnée.",
-        "Les décisions qui me concernent me paraissent globalement équitables."
+        "La répartition des tâches et des responsabilités me paraît équitable."
       ]
     },
     {
@@ -121,11 +121,11 @@
       chapitres: [1, 4],
       questions: [
         "Je rumine le travail le soir, le week-end ou pendant les congés.",
-        "Mon sommeil est moins réparateur ou perturbé par le travail.",
+        "Mon sommeil est perturbé ou ne me paraît pas réparateur.",
         "J'ai réduit mes loisirs, activités physiques ou relations sociales à cause du travail.",
-        "J'ai des symptômes physiques inhabituels ou aggravés en période de travail.",
-        "J'utilise davantage des stratégies de compensation pour tenir ou dormir : alcool, substances, écrans, alimentation, médicaments hors cadre prescrit.",
-        "J'ai eu des oublis, erreurs, quasi-accidents ou comportements impulsifs inhabituels liés à la fatigue."
+        "Je ressens des symptômes physiques inhabituels ou plus marqués qu'auparavant.",
+        "Pour tenir ou dormir, je consomme plus souvent de l'alcool, d'autres substances ou des médicaments en dehors de leur prescription.",
+        "J'ai fait davantage d'erreurs, d'oublis ou de quasi-accidents inhabituels dans mon travail."
       ]
     }
   ];
@@ -143,7 +143,7 @@
       "En dehors du travail, j'ai des personnes à qui je peux parler de ce que je vis.",
       "Je garde des activités qui me ressourcent (sport, nature, création, amis…) et je les pratique.",
       "Quand une difficulté se présente au travail, j'arrive à en parler ou à demander de l'aide.",
-      "Je sais dire non, ou négocier un délai, quand la charge devient trop lourde."
+      "Quand j'indique qu'un délai ou une charge est irréaliste, un arbitrage ou un ajustement est possible."
     ]
   };
 
@@ -160,10 +160,10 @@
     questions: [
       "Mon salaire est en rapport avec mon investissement et mes responsabilités.",
       "Mes perspectives d'évolution sont à la hauteur des efforts que je fournis.",
-      "Ma situation d'emploi me paraît stable : je ne crains pas de perdre mon poste ou de subir un changement imposé.",
+      "Je me sens en sécurité concernant la continuité de mon emploi.",
       "J'ai du mal à refuser une demande, même quand je suis déjà débordé·e.",
       "Je me sens obligé·e d'en faire plus que ce qu'on attend de moi pour prouver ma valeur.",
-      "Dès le réveil, je pense déjà aux problèmes du travail."
+      "Dès le réveil, des préoccupations professionnelles me viennent à l'esprit et me pèsent."
     ]
   };
 
@@ -176,6 +176,61 @@
     sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
     chapitres: [2, 4],
     questions: BS.questions
+  };
+
+
+  // Retour immédiat sur l'expérience satirique : quatre ressentis indépendants.
+  // Ce n'est ni une échelle clinique ni une mesure du style habituel d'humour.
+  const humorReactionOptions = [
+    "Pas du tout", "Un peu", "Moyennement", "Beaucoup", "Tout à fait",
+    "Je préfère ne pas répondre"
+  ].map((text) => ({ text }));
+  const humorReactionPart = {
+    id: "HR",
+    title: "Et cette pause humour, comment tu l'as vécue ?",
+    explore: "ton expérience immédiate du questionnaire satirique : amusement, peine, impression de banalisation et recul perçu. Ces réactions peuvent coexister.",
+    sources: "questions originales Bull-Out sur le ressenti immédiat ; aucune validation psychométrique et aucun effet protecteur inféré",
+    chapitres: [2],
+    questions: [
+      { text: "Ces questions m'ont amusé·e ou fait sourire.", options: humorReactionOptions },
+      { text: "Certaines questions m'ont fait de la peine ou mis·e mal à l'aise.", options: humorReactionOptions },
+      { text: "J’ai eu l’impression que ces blagues minimisaient les difficultés que je rencontre.", options: humorReactionOptions },
+      { text: "Sur le moment, ces questions m'ont aidé·e à prendre un peu de recul sur mon travail.", options: humorReactionOptions }
+    ]
+  };
+
+  // Repères contextuels non notés : aucune unité, aucune agrégation avec A–F.
+  // En particulier, un mieux hors travail n'est PAS une preuve de causalité.
+  const temporalPart = {
+    id: "T",
+    title: "T. Depuis quand, et dans quelles conditions ?",
+    explore: "la durée, l'évolution et les changements observés hors travail, sans diagnostic ni attribution causale automatique.",
+    sources: "repérage clinique du burn-out (HAS), analyse des situations de travail (INRS) et questions originales Bull-Out non validées",
+    chapitres: [1, 5, 6],
+    questions: [
+      { text: "Depuis quand ressens-tu les difficultés qui t'ont amené·e ici ?", options: [
+        { text: "Je ne rencontre pas de difficulté particulière" },
+        { text: "Depuis moins d'un mois" },
+        { text: "Depuis un à trois mois" },
+        { text: "Depuis trois mois à un an" },
+        { text: "Depuis plus d'un an" },
+        { text: "Je ne sais pas exactement" }
+      ] },
+      { text: "Ces dernières semaines, comment ces difficultés évoluent-elles ?", options: [
+        { text: "Elles diminuent" }, { text: "Elles restent à peu près stables" },
+        { text: "Elles augmentent" }, { text: "Elles fluctuent beaucoup" },
+        { text: "Je ne sais pas" }, { text: "Je ne rencontre pas de difficulté particulière" }
+      ] },
+      { text: "Quand tu t'éloignes suffisamment du travail (repos, congé), que constates-tu ?", options: [
+        { text: "Je n'ai pas pu le constater" }, { text: "Mes difficultés diminuent nettement" },
+        { text: "Elles diminuent un peu" }, { text: "Elles changent peu" },
+        { text: "Elles augmentent" }, { text: "Je ne rencontre pas de difficulté particulière" }
+      ] },
+      { text: "Ces quatre dernières semaines, j'ai dû renoncer à la qualité de travail que je juge nécessaire, faute de temps, de moyens ou à cause de consignes.", options: [
+        { text: "Jamais ou presque" }, { text: "Rarement" }, { text: "Parfois" },
+        { text: "Souvent" }, { text: "Presque toujours" }
+      ] }
+    ]
   };
 
   const alertQuestions = [
@@ -202,8 +257,8 @@
     A4: { interpretation: "Effort disproportionné pour des tâches ordinaires.", action: "Simplifier le niveau de qualité attendu et limiter le multitâche." },
     A5: { interpretation: "Irritabilité ou saturation face aux sollicitations.", action: "Réduire les interruptions et restaurer des plages calmes." },
     A6: { interpretation: "Saturation cognitive ou mémoire de travail fragilisée.", action: "Protéger des temps de concentration et réduire les bascules de contexte." },
-    B1: { interpretation: "Mise à distance protectrice.", action: "Identifier ce qui coûte trop : conflit, absurdité, charge relationnelle ou perte de sens." },
-    B2: { interpretation: "Cynisme défensif.", action: "Nommer les sources d'absurde et distinguer ce qui peut être changé de ce qui doit être arbitré." },
+    B1: { interpretation: "Indifférence croissante à des tâches auparavant importantes.", action: "Repérer depuis quand ce sentiment existe et dans quelles situations il apparaît, sans en supposer le mécanisme." },
+    B2: { interpretation: "Amertume ou cynisme rapportés.", action: "Repérer les situations associées et distinguer désaccord, perte de sens et réaction à une surcharge." },
     B3: { interpretation: "Évitement d'interactions coûteuses.", action: "Réduire les interactions non utiles ou cadrer les échanges difficiles." },
     B4: { interpretation: "Patience ou empathie entamée.", action: "Traiter la charge émotionnelle et éviter d'ajouter du relationnel décoratif." },
     B5: { interpretation: "Retrait relationnel pour tenir.", action: "Alléger la charge sociale et clarifier les interactions indispensables." },
@@ -213,9 +268,9 @@
     C3: { interpretation: "Perte de sens.", action: "Relier les tâches aux décisions utiles ou supprimer les livrables décoratifs." },
     C4: { interpretation: "Sentiment de compétence altéré.", action: "Restaurer la maîtrise par des tâches cadrées et un périmètre réaliste." },
     C5: { interpretation: "Sentiment d'inutilité en fin de journée.", action: "Définir un résultat utile et atteignable avant d'empiler les demandes." },
-    C6: { interpretation: "Décalage entre soi et sa manière de travailler.", action: "Identifier ce qui force à travailler contre ses standards professionnels." },
+    C6: { interpretation: "Effort accru pour parvenir à un travail jugé satisfaisant.", action: "Préciser les critères de qualité, le temps disponible et les éventuels obstacles." },
     D1: { interpretation: "Surcharge.", action: "Lister les tâches et demander ce qui doit être arrêté, reporté ou simplifié." },
-    D2: { interpretation: "Interruptions ou urgences excessives.", action: "Bloquer des plages sans interruption et trier les urgences réelles." },
+    D2: { interpretation: "Interruptions fréquentes gênant la réalisation des priorités.", action: "Documenter deux interruptions et demander des plages de travail protégées." },
     D3: { interpretation: "Contradictions de priorité.", action: "Demander un arbitrage écrit sur la priorité de la semaine." },
     D4: { interpretation: "Responsabilité sans moyens.", action: "Rendre visible l'écart entre responsabilité, autorité et ressources." },
     D5: { interpretation: "Charge émotionnelle ou relationnelle élevée.", action: "Organiser du soutien, du relais ou un temps de décompression après les séquences lourdes." },
@@ -229,8 +284,8 @@
     F1: { interpretation: "Rumination.", action: "Installer un rituel de fermeture et limiter les relances hors travail." },
     F2: { interpretation: "Sommeil perturbé.", action: "Protéger les soirées et consulter si le trouble persiste." },
     F3: { interpretation: "Loisirs et liens sociaux réduits.", action: "Réserver une activité non négociable hors travail cette semaine." },
-    F4: { interpretation: "Symptômes physiques liés au travail.", action: "Surveiller l'évolution et demander un avis santé si cela persiste ou s'aggrave." },
-    F5: { interpretation: "Stratégies de compensation.", action: "Chercher un appui professionnel si ces stratégies augmentent ou deviennent nécessaires pour tenir." },
+    F4: { interpretation: "Symptômes physiques inhabituels, sans cause établie.", action: "Préciser leur nature, leur durée et demander un avis médical adapté." },
+    F5: { interpretation: "Consommations augmentées pour tenir ou dormir.", action: "Examiner les produits, les prises et les interactions possibles avec un professionnel de santé, sans arrêt brutal de médicament prescrit." },
     F6: { interpretation: "Risque fonctionnel ou sécurité.", action: "Réduire l'exposition aux tâches à risque et demander de l'aide rapidement." }
   };
 
@@ -242,7 +297,7 @@
     A5: "irritabilité ou hypersensibilité",
     A6: "attention ou mémoire de travail fragilisée",
     B1: "mise à distance mentale",
-    B2: "cynisme défensif",
+    B2: "cynisme ou amertume",
     B3: "évitement d'interactions coûteuses",
     B4: "empathie ou patience entamée",
     B5: "retrait relationnel",
@@ -252,9 +307,9 @@
     C3: "perte de sens",
     C4: "sentiment de compétence altéré",
     C5: "sentiment d'utilité faible",
-    C6: "décalage avec sa manière habituelle de travailler",
+    C6: "efforts accrus pour la qualité du travail",
     D1: "surcharge",
-    D2: "interruptions ou urgences excessives",
+    D2: "interruptions fréquentes",
     D3: "priorités contradictoires",
     D4: "responsabilité sans moyens",
     D5: "charge émotionnelle ou relationnelle élevée",
@@ -268,8 +323,8 @@
     F1: "rumination",
     F2: "sommeil perturbé",
     F3: "loisirs ou liens sociaux réduits",
-    F4: "symptômes physiques liés au travail",
-    F5: "stratégies de compensation",
+    F4: "symptômes physiques inhabituels",
+    F5: "augmentation de consommations pour tenir ou dormir",
     F6: "risque fonctionnel ou sécurité"
   };
 
@@ -279,15 +334,15 @@
 
   const sectionComments = {
     A: {
-      faible: "L'épuisement déclaré reste bas.",
-      vigilance: "L'épuisement mérite une surveillance active.",
-      élevé: "Le score d'épuisement indique une dette d'énergie importante.",
-      alerte: "L'épuisement est très marqué et justifie une réduction rapide de l'exposition."
+      faible: "Peu de réponses d'épuisement fréquentes dans ce module.",
+      vigilance: "Quelques manifestations d'épuisement sont déclarées.",
+      élevé: "Plusieurs réponses décrivent un épuisement fréquent, sans en mesurer la quantité.",
+      alerte: "Les manifestations d'épuisement sont déclarées très fréquemment. Leur retentissement et leur contexte méritent une évaluation adaptée."
     },
     B: {
       faible: "La distance mentale reste limitée.",
-      vigilance: "Un retrait protecteur commence peut-être à s'installer.",
-      élevé: "La distance mentale suggère une mise à distance protectrice ou un cynisme défensif.",
+      vigilance: "Quelques réponses décrivent une distance accrue vis-à-vis du travail.",
+      élevé: "Plusieurs réponses décrivent du détachement ou du cynisme fréquent, sans en établir la fonction.",
       alerte: "Le retrait mental est très marqué : il ne faut pas le réduire à de la mauvaise volonté."
     },
     C: {
@@ -299,46 +354,46 @@
     D: {
       faible: "Les exigences déclarées restent contenues.",
       vigilance: "Les exigences deviennent un point de vigilance.",
-      élevé: "Les exigences professionnelles ressortent comme un facteur d'usure probable.",
-      alerte: "Les exigences sont très hautes : le travail semble difficilement soutenable en l'état."
+      élevé: "Plusieurs contraintes professionnelles sont déclarées fréquemment.",
+      alerte: "De nombreuses contraintes sont déclarées presque toujours ; leur intensité concrète et les possibilités d'aménagement restent à examiner."
     },
     E: {
       faible: "Les ressources semblent globalement présentes.",
       vigilance: "Certaines ressources protectrices manquent.",
-      élevé: "Le manque de ressources devient un facteur de risque net.",
-      alerte: "Les ressources sont très insuffisantes face aux contraintes déclarées."
+      élevé: "Plusieurs ressources professionnelles semblent peu disponibles d'après tes réponses.",
+      alerte: "La plupart des ressources professionnelles de cette liste sont peu présentes."
     },
     F: {
-      faible: "La récupération semble encore fonctionner.",
+      faible: "Peu de difficultés de récupération et de santé sont déclarées dans cette partie.",
       vigilance: "La récupération montre des signes de fragilité.",
       élevé: "La récupération et les signaux de santé demandent une attention particulière.",
-      alerte: "La récupération est très dégradée : avis santé conseillé si cela persiste ou s'aggrave."
+      alerte: "De nombreuses difficultés de récupération ou de santé sont signalées fréquemment ; leur nature et leur retentissement méritent une attention particulière."
     }
   };
 
   const profileRecommendations = {
     protected: {
-      title: "Profil protégé",
+      title: "Peu de difficultés déclarées",
       recommendation: "Maintenir les protections : charge réaliste, marges de manœuvre, soutien, récupération et signaux faibles suivis régulièrement."
     },
     tension: {
-      title: "Profil sous tension",
+      title: "Contraintes professionnelles marquées",
       recommendation: "Agir rapidement sur la charge, les priorités et les ressources avant que l'usure ne s'installe."
     },
     exhaustion: {
-      title: "Profil d'épuisement installé",
+      title: "Épuisement et récupération difficiles",
       recommendation: "Réduire l'exposition, protéger la récupération et envisager un échange avec le médecin du travail ou le médecin traitant."
     },
     disengagement: {
-      title: "Profil de désengagement / cynisme",
+      title: "Distance mentale ou difficultés de sens",
       recommendation: "Travailler sur reconnaissance, sens, équité, conflits, charge émotionnelle et arbitrages de charge."
     },
     alert: {
-      title: "Profil d'alerte",
+      title: "Signal de sécurité déclaré",
       recommendation: "Demander un avis médical rapide. En cas de danger immédiat : 15 / 112. En cas d'idées suicidaires en France : 3114."
     },
     mixed: {
-      title: "Profil de vigilance mixte",
+      title: "Plusieurs dimensions à explorer",
       recommendation: "Identifier les sections les plus élevées, réduire les contraintes les plus coûteuses et renforcer les ressources concrètes cette semaine."
     }
   };
@@ -442,7 +497,9 @@
     F: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
     R: "M7 10h14l-4-4M17 14H3l4 4",
     BS: "M19 5 5 19M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
+    HR: "M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9 10h.01M15 10h.01M8 14c2 3 6 3 8 0",
     G: "M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.5l7.1-.6z",
+    T: "M12 2v4M12 18v4M4 12h4M16 12h4M12 8v4l3 2",
     context: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01",
     alerts: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"
   };
@@ -464,7 +521,7 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 4 + (BS.questions.length ? 1 : 0);
+    const total = sections.length + 5 + (BS.questions.length ? 2 : 0);
     questionNumber = 0;
 
     const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
@@ -498,18 +555,27 @@
     };
     ["A", "B", "C", "D", "E"].forEach(scored);
     addPart("R", exchangePart.title, PERIOD,
-      "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie ne change pas le score global.",
+      "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie n'entre pas dans les six scores A à F.",
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
       about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
     if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
-      "Ton satirique assumé. Rien ici ne compte dans les scores : le rapport s'en sert pour lire ta distance et ton rapport au sens.",
+      "Cette partie est satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
       bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
       about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
+    if (bullshitPart.questions.length) addPart("HR", humorReactionPart.title,
+      "Juste après la pause humour · ce que tu as ressenti à cet instant.",
+      "Tu peux avoir ri et avoir eu de la peine : ces réactions ne sont pas exclusives. Elles n’entrent dans aucun score, et chaque question admet « Je préfère ne pas répondre ».",
+      humorReactionPart.questions.map((question, qIndex) => createChoiceQuestion(humorReactionPart, question, qIndex)),
+      index++, about(humorReactionPart.explore, humorReactionPart.sources, humorReactionPart.chapitres));
     scored("F");
     addPart("G", strengthPart.title, "Sur les 4 dernières semaines. Ne compte pas dans les scores de risque.",
       "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
       strengthPart.questions.map((question, qIndex) => createRatingQuestion(strengthPart, question, qIndex)), index++,
       about(strengthPart.explore, strengthPart.sources, strengthPart.chapitres));
+    addPart("T", temporalPart.title, "Repères supplémentaires · hors score A–F.",
+      "Ces questions décrivent une chronologie et une difficulté de qualité empêchée. Elles ne sont pas utilisées pour calculer un risque de burn-out.",
+      temporalPart.questions.map((question, qIndex) => createChoiceQuestion(temporalPart, question, qIndex)), index++,
+      about(temporalPart.explore, temporalPart.sources, temporalPart.chapitres));
     addPart("context", "Contexte particulier", "Ne compte pas dans le score.",
       "Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat. Ils peuvent orienter vers les bons interlocuteurs.",
       contextQuestions.map((question, i) => createYesNoQuestion(question.text, i, "context")), index++,
@@ -519,7 +585,7 @@
       alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + strengthPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -551,8 +617,9 @@
     const name = `${section.id}${index + 1}`;
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
-    const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
-    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
+    const choicesClass = section.id === "HR" ? "choices choices-humor" : "choices choices-4";
+    item.insertAdjacentHTML("beforeend", `<fieldset class="${choicesClass}" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<input type="radio" name="${name}" value="skip" hidden aria-hidden="true" tabindex="-1">` : ""}`);
     return item;
   }
 
@@ -565,10 +632,13 @@
     ].map((choice) => `<label class="choice"><input type="radio" name="${name}" value="${choice.value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${choice.key}</kbd><span class="opt-t">${choice.label}</span></span></label>`).join("");
     item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-2" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
     if (prefix === "alert") {
-      // Comme dans Psytest : le message de sécurité s'affiche tout de suite, sous la réponse.
-      item.insertAdjacentHTML("beforeend", `<div class="q-safety" role="alert" hidden><p><b>Merci de l'avoir dit.</b> Ce n'est pas un diagnostic, mais cela mérite de ne pas rester seul·e avec.</p>`
-        + `<p>Si tu as des idées suicidaires : appelle le <a href="tel:3114"><b>3114</b></a> (gratuit, 24 h/24). En cas de danger immédiat : <a href="tel:15"><b>15</b></a> ou <a href="tel:112"><b>112</b></a>. Sinon, parles-en vite à ton médecin traitant ou au médecin du travail.</p>`
-        + `<p class="q-safety-next">Tu peux continuer le questionnaire quand tu veux.</p></div>`);
+      // Ces réponses appellent des orientations distinctes ; ce questionnaire ne gradue pas l'urgence.
+      const messages = [
+        'Si tu as des idées suicidaires ou te sens en danger, appelle le <a href="tel:3114"><b>3114</b></a> (gratuit, 24 h/24 en France). Danger immédiat : <a href="tel:15"><b>15</b></a> ou <a href="tel:112"><b>112</b></a>.',
+        "Si tu ne parviens plus à fonctionner normalement, contacte rapidement un professionnel de santé pour examiner la situation et définir l'aide adaptée.",
+        'Si tu ressens actuellement une douleur thoracique, un essoufflement inhabituel, un malaise ou un autre symptôme aigu inquiétant, appelle le <a href="tel:15"><b>15</b></a> ou le <a href="tel:112"><b>112</b></a>. Sinon, demande un avis médical adapté.'
+      ];
+      item.insertAdjacentHTML("beforeend", `<div class="q-safety" role="alert" hidden><p><b>Cette réponse mérite une attention particulière.</b> ${messages[index]}</p><p class="q-safety-next">Tu peux continuer le questionnaire si tu le souhaites.</p></div>`);
     }
     return item;
   }
@@ -671,6 +741,10 @@
     form.addEventListener("change", (event) => {
       const item = event.target.closest(".question-item");
       if (item) {
+        if (item.closest('[data-part="BS"]') && event.target.value !== "skip") {
+          item.closest(".question-section").querySelectorAll('input[type="radio"][value="skip"]:checked')
+            .forEach((input) => { input.checked = false; });
+        }
         item.classList.add("is-answered");
         item.classList.remove("is-missing");
       }
@@ -700,10 +774,11 @@
       }
       if (!item) return;
       const key = event.key.toLowerCase();
-      const inputs = [...item.querySelectorAll("input[type='radio']")];
+      const inputs = [...item.querySelectorAll("input[type='radio']")].filter((input) => input.value !== "skip");
       let target = null;
       if (inputs.length === 5 && /^[0-4]$/.test(key)) target = inputs[Number(key)];
       if (inputs.length === 4 && /^[1-4]$/.test(key)) target = inputs[Number(key) - 1];
+      if (inputs.length === 6 && /^[1-6]$/.test(key)) target = inputs[Number(key) - 1];
       if (inputs.length === 2) target = key === "n" || key === "1" ? inputs[0] : key === "o" || key === "2" ? inputs[1] : null;
       if (!target) return;
       event.preventDefault();
@@ -849,7 +924,7 @@
   // à l'ouverture du questionnaire quand aucune réponse n'est encore donnée.
   const START_TIPS = [
     ["Pense aux quatre dernières semaines.", "Pas à ta pire journée, ni à ta meilleure : à ce qui revient le plus souvent."],
-    ["Réponds à la première impression.", "Celle qui te vient en premier est souvent la plus juste. Il n'y a pas de bonne réponse."],
+    ["Réponds sur des faits récents.", "Distingue une mauvaise journée d'une difficulté qui revient. Il n'y a pas de réponse attendue."],
     ["L'échelle compte des fois.", "<b>Rarement</b> : quelques fois dans le mois. <b>Parfois</b> : environ une fois par semaine. <b>Souvent</b> : plusieurs fois par semaine. <b>Presque toujours</b> : presque tous les jours."],
     ["Décris ce que tu vis,", "pas ce que tu devrais vivre ni ce qu'un burn-out « devrait » donner."]
   ];
@@ -864,7 +939,7 @@
       const dialog = document.createElement("dialog");
       dialog.className = "start-dialog";
       dialog.setAttribute("aria-labelledby", "start-title");
-      dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions, environ 12 minutes</p>`
+      dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions proposées, environ 15 à 20 minutes</p>`
         + `<h2 id="start-title">Quatre conseils pour bien répondre</h2>`
         + `<ol class="start-tips">${START_TIPS.map(([h, p]) => `<li><b>${h}</b> <span>${p}</span></li>`).join("")}</ol>`
         + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre (<kbd>1</kbd> à <kbd>4</kbd> dans le bullshitomètre), <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
@@ -919,11 +994,11 @@
     return { label: "alerte", className: "alerte", riskClass: "risk-alert" };
   }
 
-  function getGlobalLevel(score, hasAlert) {
-    if (hasAlert || score >= 109) return { label: "alerte", riskClass: "risk-alert" };
-    if (score >= 73) return { label: "élevé", riskClass: "risk-high" };
-    if (score >= 37) return { label: "vigilance", riskClass: "risk-watch" };
-    return { label: "faible", riskClass: "risk-low" };
+  // Compatibilité interne : le total agrège des construits hétérogènes, sans seuil clinique validé.
+  function getGlobalLevel(_score, hasAlert) {
+    return hasAlert
+      ? { label: "signal de sécurité déclaré", riskClass: "risk-alert" }
+      : { label: "non interprété", riskClass: "risk-low" };
   }
 
   function getSectionScore(section) {
@@ -987,6 +1062,96 @@
     return answers;
   }
 
+  function getTemporalInsight(answers) {
+    const find = (id) => (answers || []).find((a) => a.id === id);
+    return {
+      duration: find("T1")?.answer || null,
+      evolution: find("T2")?.answer || null,
+      horsTravail: find("T3")?.answer || null,
+      qualiteEmpechee: find("T4")?.value ?? null
+    };
+  }
+
+  // Réaction à la satire : quatre questions indépendantes sur l'instant présent.
+  // La cinquième valeur numérique du choix (index 5) signifie « ne pas répondre ».
+  function getHumorReactionAnswers() {
+    if (!bullshitPart.questions.length) return { skipped: true, answers: [] };
+    const answers = humorReactionPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="HR${index + 1}"]:checked`);
+      const choice = selected ? Number(selected.value) : null;
+      return {
+        id: `HR${index + 1}`, question: question.text,
+        answered: choice !== null,
+        value: choice !== null && choice >= 0 && choice <= 4 ? choice : null,
+        answer: choice !== null ? question.options[choice]?.text || null : null
+      };
+    });
+    if (answers.some((answer) => !answer.answered)) return null;
+    return { skipped: answers.every((answer) => answer.value === null), answers };
+  }
+
+  function interpretHumorReaction(feedback) {
+    if (!feedback || feedback.skipped) return null;
+    const level = (index) => feedback.answers[index]?.value;
+    const high = (index) => Number.isInteger(level(index)) && level(index) >= 3;
+    const amused = high(0), hurt = high(1), minimized = high(2), distance = high(3);
+    let title, text;
+    if (amused && hurt) {
+      title = "Ça fait rire. Et ça touche.";
+      text = "Tu indiques à la fois de l'amusement et de la peine ou du malaise. Ce n'est pas contradictoire : une formule peut être drôle précisément parce qu'elle évoque une situation pénible.";
+    } else if (hurt && minimized) {
+      title = "Un malaise et une banalisation ressentie";
+      text = "Tu déclares que certaines blagues t'ont peiné·e ou mis·e mal à l'aise, et qu'elles t'ont semblé minimiser tes difficultés. Ce sont deux réponses distinctes : l'une concerne ton émotion, l'autre ta lecture du propos.";
+    } else if (hurt) {
+      title = "Une blague qui touche un point sensible";
+      text = "Certaines questions t'ont fait de la peine ou mis·e mal à l'aise. Ce ressenti mérite d'être entendu sans supposer que tu manques d'humour.";
+    } else if (amused && minimized) {
+      title = "Drôle, mais peut-être trop léger";
+      text = "Tu déclares t'être amusé·e tout en ayant eu l'impression que les blagues minimisaient tes difficultés. Ces deux appréciations peuvent coexister sans s'annuler.";
+    } else if (minimized) {
+      title = "La satire t'a semblé banaliser les difficultés";
+      text = "Tu as eu l'impression que ces blagues minimisaient tes difficultés. Ce jugement sur la formulation mérite d'être distingué de l'amusement et de la prise de recul. Il ne dit pas à lui seul ce qui t'a affecté·e.";
+    } else if (amused && distance) {
+      title = "Du rire et un peu de recul";
+      text = "Tu déclares t'être amusé·e et avoir pris du recul sur le moment. C'est une expérience rapportée, pas la preuve d'une protection durable contre le stress.";
+    } else if (distance) {
+      title = "Du recul, même sans grand éclat de rire";
+      text = "Tu déclares avoir pris du recul, même si l'amusement n'a pas particulièrement ressorti. Réfléchir à une situation et en rire sont deux expériences différentes.";
+    } else if (amused) {
+      title = "La satire t'a amusé·e";
+      text = "Tu déclares avoir souri ou ri. Cela ne permet pas de savoir comment tu vis habituellement ton travail ni si l'humour t'aide à récupérer.";
+    } else {
+      title = "Une réaction plus nuancée";
+      text = "Les réponses n'indiquent pas de ressenti particulièrement fort parmi les quatre proposés. Rien n'oblige à rire, à souffrir ou à relativiser devant une satire.";
+    }
+    // HR3 peut être élevé en même temps que l'amusement, le malaise ou le recul.
+    // L'expliciter évite qu'une lecture dominante efface une réaction différente.
+    if (minimized && !text.includes("minimis") && !text.includes("banalis")) {
+      text += " Tu as également eu l'impression que ces blagues minimisaient tes difficultés ; cela n'annule pas les autres réactions déclarées.";
+    }
+    if (distance && title !== "Du rire et un peu de recul" && title !== "Du recul, même sans grand éclat de rire") {
+      text += " Tu déclares aussi une prise de recul sur le moment ; cela ne démontre pas un bénéfice durable.";
+    }
+    return { title, text,
+      minimizationPerceived: minimized,
+      perceivedDistance: distance,
+      mixedEmotions: amused && hurt,
+      warning: "Ressenti immédiat, déclaré après les questions ; aucun score clinique ni effet causal ou durable mesuré." };
+  }
+
+  function getTemporalAnswers() {
+    return temporalPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="T${index + 1}"]:checked`);
+      const value = selected ? Number(selected.value) : null;
+      return {
+        id: `T${index + 1}`,
+        question: question.text,
+        value,
+        answer: value === null ? null : question.options[value]?.text || null
+      };
+    });
+  }
+
   function buildAnswerItems(sectionResults) {
     return sections.flatMap((section) => {
       const result = sectionResults[section.id];
@@ -1016,13 +1181,13 @@
     return topItems;
   }
 
-  function determineProfile(sectionScores, totalScore, hasAlert) {
+  function determineProfile(sectionScores, totalScore, hasAlert, temporalAnswers = []) {
     const { A, B, C, D, E, F } = sectionScores;
-    const allLow = Object.values(sectionScores).every((score) => score <= 6);
+    const qualiteEmpechee = temporalAnswers.some((answer) => answer.id === "T4" && answer.value >= 3);
+    const allLow = Object.values(sectionScores).every((score) => score <= 6) && !qualiteEmpechee;
 
     let profileKey = "mixed";
-    // Une charge de travail très haute (D, E) seule n'est pas une urgence médicale : seuls les signes d'usure comptent ici.
-    if (hasAlert || totalScore >= 109 || [A, B, C, F].some((score) => score >= 22)) {
+    if (hasAlert) {
       profileKey = "alert";
     } else if (A >= 13 && F >= 13) {
       profileKey = "exhaustion";
@@ -1035,6 +1200,7 @@
     }
 
     const profile = { key: profileKey, ...profileRecommendations[profileKey] };
+    console.debug("Choix du profil", { profileKey, sectionScores, totalScore, hasAlert });
     return profile;
   }
 
@@ -1048,41 +1214,50 @@
     const names = result.dominantDimensions.map((section) => section.shortTitle.replace(/^[A-F] /, "").toLowerCase());
     const dominantNames = names.length > 1 ? `${names.slice(0, -1).join(", ")} et ${names[names.length - 1]}` : names[0];
     if (result.hasAlert) {
-      return "Tes réponses contiennent au moins un signal d'alerte. Ce résultat ne constitue pas un diagnostic, mais il justifie un avis médical rapide.";
+      return "Au moins une réponse relève de la sécurité ou de la santé et appelle une orientation adaptée. Ce questionnaire ne permet pas d'évaluer à lui seul le degré d'urgence.";
+    }
+    const tendance = result.temporalAnswers?.find((a) => a.id === "T2")?.value;
+    const precisions = tendance === 2
+      ? " La personne décrit aussi une aggravation récente, qui mérite d'être précisée."
+      : tendance === 0 ? " La personne décrit une amélioration récente, sans que son origine soit établie."
+      : "";
+    const qualiteEmpechee = result.temporalAnswers?.some((a) => a.id === "T4" && a.value >= 3);
+    if (qualiteEmpechee && result.dominantDimensions.every((a) => a.score <= 6)) {
+      return "La qualité du travail empêchée ressort de tes réponses, même si les autres dimensions sont peu marquées. Ce signal professionnel mérite un exemple concret à discuter, sans présumer d'une atteinte à la santé." + precisions;
     }
     if (result.profile.key === "protected") {
-      return "Tes réponses montrent des protections encore présentes. L'enjeu est de les maintenir avant qu'elles ne deviennent optionnelles dans l'organisation réelle.";
+      return "Sur les questions proposées, peu de difficultés ressortent. Cela ne permet pas d'exclure une autre situation de santé ou de travail." + precisions;
     }
     if (result.profile.key === "tension") {
-      return "Tes réponses montrent surtout une tension liée aux exigences professionnelles. Les symptômes cœur ne sont pas tous au niveau maximal, mais la dynamique est défavorable si rien ne change.";
+      return "Tu décris surtout des contraintes dans ton travail ; les manifestations d'épuisement ressortent moins. C'est une situation utile à examiner en prévention." + precisions;
     }
     if (result.profile.key === "exhaustion") {
-      return "Tes réponses montrent surtout un épuisement associé à une récupération dégradée. Elles justifient d'agir sans attendre.";
+      return "Tu déclares des difficultés d'épuisement et de récupération. Leur origine et leur retentissement restent à préciser." + precisions;
     }
     if (result.profile.key === "disengagement") {
-      return "Tes réponses montrent surtout un retrait mental, du cynisme défensif ou une perte de sens. Ce signal mérite d'être relié aux causes de travail, pas traité comme un défaut d'attitude.";
+      return "Tu décris une distance accrue vis-à-vis du travail ou des difficultés dans ton rapport à son utilité. Les raisons restent à explorer." + precisions;
     }
-    return `Tes réponses font ressortir surtout ${dominantNames}. Elles justifient une action ciblée sur ces points.`;
+    return `Tes réponses font ressortir notamment ${dominantNames}. Ce sont des pistes de discussion, pas des causes démontrées.` + precisions;
   }
 
   function buildModelReadings(result) {
     const scores = result.sectionScores;
     const maslachLines = [];
-    if (scores.A >= 13) maslachLines.push("Le score d'épuisement indique une dette d'énergie importante.");
-    if (scores.B >= 13) maslachLines.push("Le score de distance mentale suggère une mise à distance protectrice ou un cynisme défensif.");
-    if (scores.C >= 13) maslachLines.push("Le score d'efficacité/sens suggère une perte de maîtrise ou une baisse du sentiment d'utilité.");
-    if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Les trois dimensions cœur sont simultanément élevées : il faut éviter de réduire le problème à une simple fatigue.");
-    if (!maslachLines.length) maslachLines.push("Les dimensions cœur ne sont pas toutes élevées, mais leur évolution reste utile à suivre.");
+    if (scores.A >= 13) maslachLines.push("Plusieurs réponses décrivent un épuisement fréquent, sans en mesurer la quantité.");
+    if (scores.B >= 13) maslachLines.push("Plusieurs réponses décrivent de la distance mentale ou du cynisme, sans en établir la fonction.");
+    if (scores.C >= 13) maslachLines.push("Les réponses du groupe C décrivent des difficultés de maîtrise et/ou de sens, sans permettre de les confondre.");
+    if (scores.A >= 13 && scores.B >= 13 && scores.C >= 13) maslachLines.push("Plusieurs groupes de réponses ressortent simultanément. La partie C mêle efficacité et sens : ce n’est pas un score Maslach validé.");
+    if (!maslachLines.length) maslachLines.push("Ces dimensions sont décrites séparément, sans seuil diagnostique ni prédiction de leur évolution.");
 
     const jdRCauses = result.topItems
       .filter((item) => ["D", "E"].includes(item.sectionId))
       .map((item) => item.interpretation);
     const jdrLines = [
-      "Le modèle JD-R suggère que le risque vient surtout d'un déséquilibre entre ce que le travail demande et ce qu'il donne comme ressources pour y faire face."
+      "La grille JD-R distingue les exigences déclarées et les ressources disponibles. Leur comparaison est descriptive : ce questionnaire ne mesure pas un rapport de compensation."
     ];
     if (scores.D >= 13) jdrLines.push("Les demandes professionnelles sont fortes.");
     if (scores.E >= 13) jdrLines.push("Les ressources protectrices semblent insuffisantes.");
-    if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Demandes élevées + ressources faibles : la balance est défavorable.");
+    if (scores.D >= 13 && scores.E >= 13) jdrLines.push("Les exigences ressortent fortement tandis que plusieurs ressources semblent manquer. Cette configuration mérite d'être discutée.");
     if (jdRCauses.length) jdrLines.push(`Ce qui pèse le plus dans tes réponses : ${unique(jdRCauses).map((t) => t.replace(/\.$/, "").toLowerCase()).join(", ")}.`);
 
     const eriSignals = [];
@@ -1092,7 +1267,7 @@
     if (getItem(result.answers, "F1")?.riskScore >= 3) eriSignals.push("surengagement ou rumination");
     if (getItem(result.answers, "F5")?.riskScore >= 3) eriSignals.push("stratégies de compensation");
     const eriLines = [
-      "Le modèle ERI suggère un possible déséquilibre effort / récompense lorsque les efforts sont élevés, la reconnaissance faible et la récupération dégradée."
+      "La grille de Siegrist explore l'effort, les récompenses et le surengagement. Bull-Out utilise ici des items reformulés et recoupés, pas le ratio validé de Siegrist."
     ];
     if (eriSignals.length) eriLines.push(`Signaux détectés : ${unique(eriSignals).join(", ")}.`);
     if (!eriSignals.length) eriLines.push("Les signaux ERI ciblés ne dominent pas, mais reconnaissance et équité restent à surveiller.");
@@ -1122,18 +1297,46 @@
       }
     };
 
-    // Un poste à enjeu de sécurité n'est pas une urgence médicale : les deux messages restent séparés.
-    if (result.hasAlert || scores.F >= 19) {
-      addAction("safety", "alert", "Sécurité / santé d'abord", "En cas de danger immédiat : 15 / 112. Idées suicidaires : 3114. Sinon, prends rendez-vous cette semaine avec ton médecin ou le médecin du travail.");
+// Chaque action cible une réponse de travail effectivement déclarée.
+    // Ce catalogue n'établit ni diagnostic ni causalité.
+    const catalogue = {
+      D1: ["Arbitrer la quantité de travail", "Préparer la liste des tâches, leurs délais et le temps réellement disponible ; demander ce qui sera retiré, reporté ou simplifié."],
+      D2: ["Réduire les interruptions", "Relever deux situations où les urgences ont interrompu le travail ; demander une règle d'arbitrage et un créneau protégé."],
+      D3: ["Clarifier les priorités contradictoires", "Présenter deux consignes incompatibles et demander qui décide de la priorité, du délai et du niveau de qualité attendu."],
+      D4: ["Aligner responsabilité et moyens", "Identifier une responsabilité sans moyens ou pouvoir de décision suffisant, puis demander les moyens ou un changement de périmètre."],
+      D5: ["Organiser un soutien face aux exigences émotionnelles", "Décrire une situation relationnelle exigeante et vérifier les temps de relais, de débriefing et les appuis disponibles."],
+      D6: ["Corriger un dysfonctionnement récurrent", "Noter le temps passé à compenser une défaillance d'organisation et identifier qui peut traiter sa cause."],
+      E1: ["Restaurer des marges de manœuvre", "Repérer une décision sur la méthode, le rythme ou la réalisation qui pourrait être prise plus près du travail réel."],
+      E2: ["Obtenir un arbitrage effectif", "Demander une décision explicite quand la charge dépasse ce qui peut être fait : qu'est-ce qui attend et qui en assume l'arbitrage ?"],
+      E3: ["Organiser l'entraide concrète", "Identifier un dossier qui nécessiterait un relais, un binôme ou un appui technique ; vérifier sa disponibilité réelle."],
+      E4: ["Clarifier les attentes", "Faire préciser par écrit le résultat attendu, le délai et le niveau de détail nécessaire pour une tâche récente."],
+      E5: ["Rendre visible le travail réel", "Documenter les contributions et contraintes invisibles, puis demander un retour sur leur qualité et leur utilité."],
+      E6: ["Expliciter les critères des décisions", "Demander sur quels critères sont réparties les tâches et les responsabilités, avec des exemples factuels."]
+    };
+    const principauxTravail = (partie) => (result.answers || [])
+      .filter((a) => a.sectionId === partie && a.riskScore >= 3 && catalogue[a.id])
+      .sort((a, b) => b.riskScore - a.riskScore);
+    const premierD = principauxTravail("D")[0];
+    const premierE = principauxTravail("E")[0];
+    const actionPour = (partie, premier, titre, texte) => {
+      const cible = premier && catalogue[premier.id];
+      const mention = premier ? ` Ce point correspond à ta réponse ${premier.id}, à vérifier dans la situation réelle.` : "";
+      return {
+        id: cible ? `${partie}-${premier.id}` : partie,
+        title: cible ? cible[0] : titre, text: (cible ? cible[1] : texte) + mention
+      };
+    };
+
+    if (result.hasAlert || scores.F >= 19 || contextYes.has("safetySensitiveJob")) {
+      addAction("safety", "alert", "Préciser les signaux de santé et de sécurité", "Si une question d'alerte a reçu oui, suis l'orientation correspondante. En cas de symptôme aigu ou de danger immédiat : 15 / 112 ; idées suicidaires : 3114. Si ton poste comporte un enjeu de sécurité et que ta vigilance est altérée, demande un ajustement rapide des tâches.");
     }
-    if (contextYes.has("safetySensitiveJob") && (scores.A >= 13 || scores.F >= 13 || result.hasAlert)) {
-      addAction("safety", "safetyJob", "Sécuriser les tâches à risque", "Ton poste comporte des enjeux de sécurité et la fatigue est là : demande à réduire ou à partager les tâches à risque le temps de récupérer, et parles-en au médecin du travail.");
+    if (scores.D >= 13 || premierD) {
+      const a = actionPour("D", premierD, "Examiner la charge de travail", "Comparer la charge réelle aux priorités, aux délais et aux moyens disponibles.");
+      addAction("exposure", a.id, a.title, a.text);
     }
-    if (scores.D >= 13) {
-      addAction("exposure", "load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
-    }
-    if (scores.E >= 13) {
-      addAction("resources", "resources", "Renforcer les ressources", "Identifier le manque principal : autonomie, soutien, clarté, reconnaissance ou équité.");
+    if (scores.E >= 13 || premierE) {
+      const a = actionPour("E", premierE, "Examiner les ressources", "Vérifier l'autonomie, l'arbitrage, le soutien, la clarté et la reconnaissance disponibles.");
+      addAction("resources", a.id, a.title, a.text);
     }
     if (scores.A >= 13 || scores.F >= 13) {
       addAction("recovery", "recovery", "Protéger la récupération", "Réduire temporairement l'exposition et restaurer des temps sans sollicitation.");
@@ -1144,15 +1347,25 @@
     if (scores.C >= 13) {
       addAction("meaning", "mastery", "Restaurer la maîtrise", "Clarifier les critères de qualité, réduire le multi-tâche, traiter les sources d'erreurs.");
     }
+    const qualityAnswer = (result.temporalAnswers || []).find((a) => a.id === "T4");
+    if (qualityAnswer?.value >= 3) {
+      addAction("exposure", "quality-prevented", "Examiner la qualité empêchée",
+        "Noter une tâche dont la qualité souhaitée était impossible à atteindre, préciser ce qui manquait (temps, moyens, consignes) et demander un arbitrage explicite.");
+    }
     if (contextYes.has("ethicalConflict")) {
       addAction("meaning", "ethics", "Clarifier le conflit éthique", "Documenter les faits, clarifier les responsabilités et chercher un appui professionnel ou collectif.");
+    }
+    if (contextYes.has("harassment") || contextYes.has("fearToSpeak")) {
+      addAction("safety", "confidential", "Chercher un appui confidentiel", "Si parler à la hiérarchie paraît risqué, commencer par un interlocuteur de confiance : service de prévention et de santé au travail, représentants du personnel ou professionnel de santé, selon la situation.");
     }
     if (contextYes.has("collectiveSignal")) {
       addAction("followup", "collective", "Lire aussi le signal comme collectif", "Comparer les contraintes partagées et envisager une remontée collective plutôt qu'une adaptation individuelle isolée.");
     }
-    addAction("followup", "followup", "Suivre la trajectoire", "Refaire le questionnaire dans 2 à 4 semaines et conserver le résumé pour comparer.");
+    // Le cas de réponses peu marquées mérite une vraie action, pas un suivi vide.
     if (!Object.values(buckets).flat().length) {
-      addAction("followup", "maintain", "Maintenir les protections", "Conserver les marges de manœuvre, les temps de récupération et les arbitrages qui maintiennent le travail soutenable.");
+      addAction("followup", "maintain", "Décrire ce qui rend le travail soutenable", "Identifier une marge de manœuvre et un appui concret à préserver, sans présumer que tout va bien.");
+    } else {
+      addAction("followup", "followup", "Observer l'évolution", "Noter les situations concrètes qui changent et réexaminer les dimensions séparément dans deux à quatre semaines.");
     }
 
     const priority = ["safety", "exposure", "resources", "recovery", "meaning", "followup"].flatMap((bucket) => buckets[bucket]).slice(0, 5);
@@ -1160,7 +1373,7 @@
     return priority;
   }
 
-  function getRecommendedStakeholders(scores, alertFlags, profile, contextAnswers = []) {
+  function getRecommendedStakeholders(scores, alertFlags, profile, contextAnswers = [], temporalAnswers = []) {
     const recommendations = [];
     const addRecommendation = (key, why) => {
       if (!recommendations.some((recommendation) => recommendation.key === key)) {
@@ -1172,7 +1385,10 @@
     const contextYes = new Set(contextAnswers.filter((answer) => answer.yes).map((answer) => answer.id));
 
     if (hasAlert) {
-      addRecommendation("emergency", "Réponse positive à une question d'alerte : en cas de danger immédiat, aide immédiate.");
+      // La question sur le fonctionnement n'est pas, à elle seule, un signal d'urgence vitale.
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) {
+        addRecommendation("emergency", "En cas d'idées suicidaires ou de symptôme aigu inquiétant, une aide urgente peut être nécessaire : 3114, 15 ou 112 selon la situation.");
+      }
       addRecommendation("generalPractitioner", "Signaux d'alerte : avis médical général à envisager rapidement.");
       addRecommendation("psychiatrist", "Signaux sévères possibles : avis spécialisé à envisager selon la situation.");
       addRecommendation("occupationalDoctor", "Lien santé-travail à analyser sans transmettre de détail médical à l'employeur.");
@@ -1192,6 +1408,10 @@
       addRecommendation("psychologist", "Soutien utile pour récupération, limites et culpabilité.");
     }
 
+    if (temporalAnswers.some((a) => a.id === "T4" && a.value >= 3)) {
+      addRecommendation("manager", "Qualité empêchée déclarée fréquemment : clarifier les moyens, délais et critères de qualité, si le climat permet la discussion.");
+      addRecommendation("cse", "Qualité empêchée : un appui collectif peut aider si cette situation concerne plusieurs personnes.");
+    }
     if (scores.D >= 13) {
       addRecommendation("manager", "Exigences élevées : besoin d'arbitrage sur charge, délais et priorités.");
       addRecommendation("occupationalDoctor", "Exigences élevées : lien santé-travail et prévention à analyser.");
@@ -1221,7 +1441,7 @@
     }
 
     if (profile.key === "protected" && recommendations.length === 0 && contextYes.size === 0) {
-      addRecommendation("manager", "Profil protégé : maintenir la clarté, les priorités et les protections existantes.");
+      addRecommendation("manager", "Peu de difficultés déclarées : maintenir la clarté, les priorités et les protections existantes.");
       addRecommendation("occupationalNurse", "Question santé-travail ou prévention : premier échange possible.");
       addRecommendation("occupationalDoctor", "Question d'aménagement ou de prévention : avis santé-travail possible.");
     }
@@ -1236,7 +1456,7 @@
       addRecommendation("generalPractitioner", "Retentissement santé possible en contexte de violence ou harcèlement.");
       addRecommendation("hr", "Procédure ou signalement possible, avec prudence sur la confidentialité.");
       addRecommendation("cse", "Appui possible des représentants du personnel si la situation doit être tracée ou portée collectivement.");
-      if (hasAlert) addRecommendation("emergency", "Danger immédiat ou alerte : aide urgente à envisager.");
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) addRecommendation("emergency", "Idées suicidaires ou symptôme aigu : une aide urgente peut être indiquée selon la situation.");
     }
     if (contextYes.has("ethicalConflict")) {
       addRecommendation("occupationalDoctor", "Conflit éthique : impact santé-travail et prévention à discuter.");
@@ -1266,7 +1486,7 @@
       addRecommendation("occupationalDoctor", "Poste à enjeu de sécurité : compatibilité santé/poste et réduction du risque.");
       addRecommendation("manager", "Réduction immédiate du risque ou ajustement temporaire des tâches.");
       addRecommendation("generalPractitioner", "Fatigue ou symptômes santé à évaluer si la sécurité peut être engagée.");
-      if (hasAlert || scores.F >= 19) addRecommendation("emergency", "Symptôme aigu ou danger immédiat : aide urgente.");
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) addRecommendation("emergency", "Symptôme aigu ou danger immédiat : aide urgente selon les signes concernés.");
     }
     if (contextYes.has("fearToSpeak")) {
       addRecommendation("occupationalDoctor", "Peur de parler : échange confidentiel santé-travail possible.");
@@ -1275,7 +1495,8 @@
       addRecommendation("cse", "Appui possible selon le contexte relationnel et la confidentialité souhaitée.");
     }
 
-    const selected = recommendations.slice(0, 5).map((recommendation) => ({
+    // Ne pas pousser automatiquement vers la hiérarchie en cas de violence ou peur de parler.
+    const selected = recommendations.filter((recommendation) => !(["manager"].includes(recommendation.key) && (contextYes.has("harassment") || contextYes.has("fearToSpeak")))).slice(0, 5).map((recommendation) => ({
       ...recommendation,
       stakeholder: stakeholders[recommendation.key]
     }));
@@ -1326,7 +1547,18 @@
     if (exchangeAnswers.some((answer) => answer.value === null)) {
       return null;
     }
+    const temporalAnswers = getTemporalAnswers();
+    if (temporalAnswers.some((answer) => answer.value === null)) return null;
+    const temporalInsight = getTemporalInsight(temporalAnswers);
     const bullshit = computeBullshit();
+    const humorReaction = getHumorReactionAnswers();
+    if (humorReaction === null) return null;
+    if (bullshit) bullshit.matrix = analyseBullshitMatrix(bullshit, sectionResults, temporalAnswers);
+    if (bullshit?.skipped) {
+      humorReaction.skipped = true;
+      humorReaction.answers = [];
+    }
+    humorReaction.interpretation = interpretHumorReaction(humorReaction);
     if (bullshit === null) {
       return null;
     }
@@ -1335,14 +1567,14 @@
     const totalScore = Object.values(sectionScores).reduce((sum, score) => sum + score, 0);
     const hasAlert = alertAnswers.some((answer) => answer.yes);
     const totalLevel = getGlobalLevel(totalScore, hasAlert);
-    const profile = determineProfile(sectionScores, totalScore, hasAlert);
+    const profile = determineProfile(sectionScores, totalScore, hasAlert, temporalAnswers);
     const answers = buildAnswerItems(sectionResults);
     const topItems = getTopItems(answers);
     const dominantDimensions = getDominantDimensions(sectionResults);
     const modelReadingCards = buildModelReadings({ sectionScores, topItems, answers });
-    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers });
-    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers);
-    const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions });
+    const actions = generatePriorityActions({ sectionScores, hasAlert, contextAnswers, temporalAnswers, answers });
+    const stakeholderRecommendations = getRecommendedStakeholders(sectionScores, alertAnswers, profile, contextAnswers, temporalAnswers);
+    const summary = buildOverallSummary({ profile, hasAlert, dominantDimensions, temporalAnswers });
 
     const result = {
       sectionResults,
@@ -1351,6 +1583,12 @@
       contextAnswers,
       strengthAnswers,
       exchangeAnswers,
+      temporalAnswers,
+      temporalInsight,
+      questionnaireVersion: "2026-11-v2",
+      bullshitometreVersion: "2026-11-bs-v2",
+      humorReactionVersion: "2026-11-hr-v2",
+      humorReaction,
       bullshit,
       totalScore,
       totalLevel,
@@ -1368,28 +1606,93 @@
     return result;
   }
 
-  // Bullshitomètre : même calcul que le test satirique (pourcentage du maximum possible, par dimension et au total).
+
+  // Matrice d'interprétation DESCRIPTIVE : deux axes ne démontrent ni causalité
+  // ni rôle protecteur de l'humour. Le style d'humour n'est pas interrogé ici.
+  function analyseBullshitMatrix(bs, sectionResults, temporalAnswers = []) {
+    if (!bs || bs.skipped || bs.percent === null) return null;
+    const distance = sectionResults.B?.score ?? 0;
+    const sens = (sectionResults.C?.values?.[2] ?? 0) + (sectionResults.C?.values?.[4] ?? 0);
+    const absurdeHaut = bs.percent >= 50; // seuil narratif, non étalonné
+    const retraitHaut = distance >= 13 || sens >= 5; // seuils de présentation, non diagnostiques
+    const key = (absurdeHaut ? "h" : "b") + (retraitHaut ? "h" : "b");
+    const cases = {
+      hh: {
+        title: "Le cirque commence à peser",
+        joke: "Même le clown demande maintenant un ordre du jour.",
+        interpretation: "Les réponses satiriques font ressortir de l’absurdité et les questions sérieuses davantage de distance ou de difficultés de sens. Ces résultats coexistent, sans prouver que l’un cause l’autre.",
+        question: "Quelles situations concrètes te font perdre de l’intérêt ou de l’utilité dans ton travail ?"
+      },
+      hb: {
+        title: "L’absurde, mais pas le désengagement",
+        joke: "Le PowerPoint est peut-être absurde. Ton rapport au travail ne l’est pas forcément.",
+        interpretation: "Tu déclares des absurdités dans l’organisation, mais peu de distance ou de perte de sens dans ces questions. Il est possible de juger une tâche absurde et de continuer à trouver de l’utilité à son travail.",
+        question: "Quels aspects de ton travail restent utiles malgré les rituels qui semblent superflus ?"
+      },
+      bh: {
+        title: "Le malaise sans le grand cirque",
+        joke: "Pas besoin de douze comités pour qu’un travail perde son sens.",
+        interpretation: "La distance ou les difficultés de sens ressortent alors que les situations satiriques sont moins fréquentes. Cela invite à examiner d’autres aspects : charge, autonomie, reconnaissance ou état de santé.",
+        question: "Qu’est-ce qui te pèse indépendamment des absurdités décrites dans ce jeu ?"
+      },
+      bb: {
+        title: "De vrais arbitrages, ça existe",
+        joke: "Apparemment, certaines réunions débouchent sur autre chose qu’une autre réunion.",
+        interpretation: "Peu d’absurdités sont sélectionnées et les difficultés de distance et de sens ressortent peu. Cela n’exclut ni d’autres contraintes ni un malaise non décrit ici.",
+        question: "Quelles pratiques permettent aujourd’hui de garder un lien entre travail accompli et résultat utile ?"
+      }
+    };
+    const quality = (temporalAnswers || []).find((a) => a.id === "T4")?.value;
+    return {
+      key, ...cases[key],
+      absurdeHaut, retraitHaut, distance, sens,
+      qualityPrevented: Number.isInteger(quality) && quality >= 3,
+      seuils: "Moitié du barème satirique (50 %), distance B à partir de 13/24 ou difficultés de sens C3+C5 à partir de 5/8 : conventions pédagogiques, pas normes psychométriques."
+    };
+  }
+
+  // Indice satirique principal = dimension « absurdité globale », sans mélanger les
+  // trois familles (réunionite, indicateurs, livrables invisibles) dans un total trompeur.
+
   function computeBullshit() {
-    if (!bullshitPart.questions.length) return { answers: [], percent: 0, dims: {}, profil: null };
+    const empty = { skipped: true, version: BS.version || null, count: 0,
+      answers: [], percent: null, dims: {}, profil: null, dominantTheme: null, highlights: [] };
+    if (!bullshitPart.questions.length) return empty;
+    const selections = bullshitPart.questions.map((_, index) => form.querySelector(`input[name="BS${index + 1}"]:checked`));
+    if (selections.every((input) => input?.value === "skip")) return empty;
+    if (selections.some((input) => !input || input.value === "skip")) return null;
+
     const keys = BS.dims.map(([key]) => key);
-    const score = Object.fromEntries(keys.map((k) => [k, 0]));
-    const max = Object.fromEntries(keys.map((k) => [k, 0]));
+    const score = Object.fromEntries(keys.map((key) => [key, 0]));
+    const max = Object.fromEntries(keys.map((key) => [key, 0]));
     const answers = [];
     for (const [index, question] of bullshitPart.questions.entries()) {
-      const selected = form.querySelector(`input[name="BS${index + 1}"]:checked`);
-      if (!selected) return null;
-      const option = question.options[Number(selected.value)];
-      keys.forEach((k) => {
-        max[k] += Math.max(...question.options.map((o) => o.w[k] || 0));
-        score[k] += option.w[k] || 0;
+      const choice = Number(selections[index].value);
+      const option = question.options[choice];
+      if (!Number.isInteger(choice) || !option) return null;
+      for (const key of keys) {
+        score[key] += option.w[key] || 0;
+        max[key] += Math.max(...question.options.map((o) => o.w[key] || 0));
+      }
+      answers.push({
+        id: `BS${index + 1}`, question: question.text, value: choice, answer: option.text,
+        poidsAbsurde: option.w.absurd || 0
       });
-      answers.push({ id: `BS${index + 1}`, question: question.text, value: Number(selected.value), answer: option.text });
     }
-    const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
-    const percent = Math.round(sum(score) / sum(max) * 100);
-    const dims = Object.fromEntries(keys.map((k) => [k, Math.round(score[k] / max[k] * 100)]));
+    const dims = Object.fromEntries(keys.map((key) =>
+      [key, max[key] ? Math.round(100 * score[key] / max[key]) : 0]));
+    // L'indice général et la barre « absurdité globale » décrivent enfin la même quantité.
+    const percent = dims.absurd;
     const profil = BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
-    return { answers, percent, dims, profil };
+    const classements = keys.filter((key) => key !== "absurd")
+      .sort((a, b) => dims[b] - dims[a]);
+    const dominantTheme = classements.length && dims[classements[0]] > 0 ? classements[0] : null;
+    const highlights = answers.filter((a) => a.poidsAbsurde >= 3)
+      .sort((a, b) => b.poidsAbsurde - a.poidsAbsurde).slice(0, 2);
+    return {
+      skipped: false, version: BS.version || null, count: answers.length,
+      answers, percent, dims, profil, dominantTheme, highlights
+    };
   }
 
   function renderResults(result) {
@@ -1397,7 +1700,7 @@
     latestResultText = buildResultText(result);
     // Le rapport (8 pièces, synthèse, annexes) est composé par rapport.js, à partir de ces données.
     document.dispatchEvent(new CustomEvent("bullout:rapport", {
-      detail: { result, sections, strengthPart, exchangePart, bullshitPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
+      detail: { result, sections, strengthPart, exchangePart, temporalPart, bullshitPart, humorReactionPart, bsDims: BS.dims, stakeholders, contextQuestions, alertQuestions, ratingLabels, texte: latestResultText }
     }));
     resultsPanel.dataset.ready = "true";
     location.hash = "rapport";
@@ -1405,54 +1708,48 @@
 
   // Plans à 72 heures et à 2 semaines : données seulement, le rendu est dans rapport.js.
   function buildActionPlans(result) {
-    const topLabels = result.topItems.slice(0, 3).map((item) => item.humanLabel);
-    const dominant = result.dominantDimensions[0]?.shortTitle || "la dimension dominante";
-    const recoveryHigh = result.sectionScores.F >= 13;
-    const demandHigh = result.sectionScores.D >= 13;
-    const resourcesHigh = result.sectionScores.E >= 13;
-    const plan = [
-      {
-        title: "À arrêter temporairement",
-        items: [
-          "accepter une nouvelle tâche sans arbitrage",
-          demandHigh ? "répondre en temps réel à toutes les sollicitations" : "ajouter des engagements sans marge",
-          "compenser seul·e un dysfonctionnement collectif"
-        ]
-      },
-      {
-        title: "À clarifier",
-        items: [
-          "priorité principale de la semaine",
-          "tâches à reporter",
-          "niveau de qualité attendu",
-          topLabels.length ? `signal principal à discuter : ${topLabels.join(", ")}` : `dimension à discuter : ${dominant}`
-        ]
-      },
-      {
-        title: "À demander",
-        items: [
-          demandHigh ? "arbitrage de charge" : "point court sur les priorités",
-          resourcesHigh ? "soutien, clarté ou moyen concret" : "soutien d'un collègue si utile",
-          recoveryHigh ? "avis médecin du travail ou médecin traitant si la récupération reste dégradée" : "aménagement temporaire si la situation s'aggrave"
-        ]
-      },
-      {
-        title: "À surveiller",
-        items: ["sommeil", "irritabilité", "erreurs", "rumination", "stratégies de compensation"]
-      }
-    ];
-    const twoWeeks = [
-      {
-        title: "Comparer",
-        items: ["refaire le questionnaire", "vérifier si le score baisse, stagne ou monte"]
-      },
-      {
-        title: "Décider",
-        items: ["vérifier si une action concrète a été obtenue", "décider si le niveau d'aide doit augmenter"]
-      }
-    ];
-    return { plan72h: plan, twoWeeks };
-  }
+  const items = result.answers || [];
+  const signaux = items.filter((a) => a.riskScore >= 3);
+  const pro = signaux.filter((a) => ["D", "E"].includes(a.sectionId));
+  const sante = signaux.filter((a) => ["A", "B", "C", "F"].includes(a.sectionId));
+  const quality = (result.temporalAnswers || []).find((a) => a.id === "T4")?.value >= 3;
+  const context = new Set((result.contextAnswers || []).filter((a) => a.yes).map((a) => a.id));
+  const situationProfessionnelle = pro[0]
+    ? `Partir d'un exemple daté concernant « ${pro[0].humanLabel} » (${pro[0].id}).`
+    : quality ? "Décrire une situation concrète dans laquelle la qualité attendue n'a pas pu être atteinte."
+      : "Identifier un exemple concret de ce qui fonctionne et de ce qui gêne aujourd'hui.";
+  const confidentialite = context.has("fearToSpeak") || context.has("harassment");
+  const travailActions = (result.actions || [])
+    .filter((a) => a.id?.startsWith("D-") || a.id?.startsWith("E-") || a.id === "quality-prevented" || ["load", "resources"].includes(a.id))
+    .slice(0, 2);
+  const demander = travailActions.length
+    ? travailActions.map((a) => a.text)
+    : ["Vérifier les priorités de la semaine et préserver les ressources qui fonctionnent."];
+  const mediation = confidentialite
+    ? "Choisir d'abord un interlocuteur confidentiel plutôt qu'une discussion imposée avec la hiérarchie."
+    : "Formuler une demande d'arbitrage ou de soutien auprès d'un interlocuteur approprié.";
+  const santeMessage = result.hasAlert
+    ? "Tenir compte de la réponse de sécurité et suivre l'orientation individuelle indiquée dans la synthèse."
+    : sante.length
+      ? `Noter ce qui a changé dans la santé ou le fonctionnement, notamment « ${sante[0].humanLabel} » ; demander un avis si la difficulté persiste ou s'aggrave.`
+      : "Ne pas déduire d'un faible score l'absence de difficulté ; demander un avis si un symptôme préoccupant apparaît.";
+  const plan72h = [
+    { title: "Décrire sans interpréter", items: [situationProfessionnelle, "Noter la date, la tâche, la contrainte et la conséquence observable."] },
+    { title: "Demander une décision", items: [...demander, mediation] },
+    { title: "Santé et sécurité", items: [santeMessage] }
+  ];
+  const twoWeeks = [
+    { title: "Observer", items: [
+      "Comparer les situations concrètes rencontrées, sans faire du total A–F une mesure de guérison.",
+      "Noter l'action effectivement mise en œuvre, sa date et les nouvelles difficultés éventuelles."
+    ] },
+    { title: "Décider", items: [
+      "Vérifier si un arbitrage, une ressource ou un aménagement a réellement été obtenu.",
+      "Réexaminer séparément les manifestations, les expositions et la récupération ; consulter si la santé ou la sécurité se dégrade."
+    ] }
+  ];
+  return { plan72h, twoWeeks };
+}
 
   function buildResultText(result) {
     const sectionLines = sections.map((section) => {
@@ -1480,7 +1777,8 @@
       "Résultat questionnaire Bull-Out",
       "Période de référence : 4 dernières semaines",
       `Profil : ${result.profile.title}`,
-      `Score global : ${result.totalScore}/144 (${result.totalLevel.label})`,
+      "Pas de score global de risque : les six parties regroupent symptômes, contraintes et ressources.",
+      "Les niveaux par partie sont des repères descriptifs non étalonnés.",
       "Scores A-F :",
       ...sectionLines,
       "",
@@ -1490,7 +1788,21 @@
       "Ce que tu donnes, ce qui revient (R, de 0 à 4, hors score) :",
       ...result.exchangeAnswers.map((answer) => `- ${answer.question} ${answer.value}/4`),
       "",
-      `Bullshitomètre (hors score) : indice d'absurdité ${result.bullshit.percent} %${result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
+      "Ressenti immédiat après les questions satiriques (HR, hors scores) :",
+      ...(result.humorReaction?.skipped
+        ? ["- Cette partie a été passée."]
+        : (result.humorReaction?.answers || []).map((answer) => `- ${answer.question} : ${answer.answer || "Non renseigné"}`)),
+      ...(result.humorReaction?.interpretation
+        ? ["- Lecture descriptive : " + result.humorReaction.interpretation.title,
+          result.humorReaction.interpretation.text,
+          "Ce ressenti n'établit pas un effet durable de l'humour."]
+        : []),
+      "",
+      "Repères supplémentaires (T, hors scores et sans valeur diagnostique) :",
+      ...(result.temporalAnswers || []).map((answer) => `- ${answer.question} : ${answer.answer}`),
+      "Ces repères décrivent la situation, ils ne prouvent pas son origine.",
+      "",
+      result.bullshit.skipped ? "Bullshitomètre : partie passée (ancienne sauvegarde), aucun indice calculé." : `Bullshitomètre (hors score) : indice satirique interne ${result.bullshit.percent} %${!result.hasAlert && !(result.sectionScores.A >= 13 && result.sectionScores.F >= 13) && result.bullshit.profil ? ` (${result.bullshit.profil.titre})` : ""}`,
       "",
       "Éléments de contexte signalés :",
       ...(contextLines.length ? contextLines : ["- Aucun élément de contexte particulier signalé dans cette section."]),
@@ -1508,12 +1820,10 @@
       ...actionLines,
       "",
       "Plan des 72 prochaines heures :",
-      "- À arrêter temporairement : accepter une nouvelle tâche sans arbitrage ; compenser seul un dysfonctionnement collectif.",
-      "- À clarifier : priorité principale, tâches à reporter, niveau de qualité attendu.",
-      "- À demander : arbitrage de charge, ressource concrète, appui santé-travail si nécessaire.",
-      "- À surveiller : sommeil, irritabilité, erreurs, rumination, stratégies de compensation.",
+      ...(result.plans?.plan72h || []).flatMap((p) => [`- ${p.title}`, ...p.items.map((item) => `  • ${item}`)]),
       "",
-      "Plan à 2 semaines : refaire le questionnaire, vérifier la trajectoire, vérifier si une action concrète a été obtenue, décider si le niveau d'aide doit augmenter.",
+      "Dans deux semaines :",
+      ...(result.plans?.twoWeeks || []).flatMap((p) => [`- ${p.title}`, ...p.items.map((item) => `  • ${item}`)]),
       "",
       "Interlocuteurs potentiellement utiles :",
       ...stakeholderLines,
@@ -1688,15 +1998,15 @@
   function initHeroScene() {
     const scene = document.querySelector("#bo-scene");
     if (!scene) return;
-    // Le niveau sert au dessin ; le texte reste en mots : on ne mesure pas l'énergie au pour cent près.
+    // Niveaux graphiques illustratifs : aucun pourcentage physiologique n’est calculé.
     const LEVELS = [80, 45, 15, 35, 35];
-    const MOTS_SAM = ["En forme", "Entamé", "À plat", "Entamé", "Entamé"];
+    const LABELS = ["En forme", "Fatigué", "Saturé", "Peu reposé", "Sous tension"];
     const CAPS = [
-      "Lundi, Sam démarre <strong>en forme</strong>. 42 mails, 3 urgences. Normal, c'est lundi.",
+      "Lundi, Sam commence sa semaine <strong>avec de l'énergie</strong>. 42 mails, 3 urgences : la pression monte.",
       "Mercredi, la <strong>pause déjeuner saute</strong> et le collègue qui aidait est parti. Son dossier, lui, est resté.",
       "Vendredi : <strong>« À quoi bon ? »</strong> Sam décroche, devient cynique, fait plus d'erreurs. Plus de soirées pour souffler.",
-      "Le week-end ne recharge plus. <strong>4 semaines plus tard</strong>, Sam repart chaque lundi <strong>déjà entamé</strong>.",
-      "Sam n'est pas faible. <strong>Le travail demande plus qu'il ne rend</strong>, depuis des semaines. C'est ça que Bull-Out t'aide à voir."
+      "Après le week-end, Sam récupère difficilement. <strong>Quatre semaines plus tard</strong>, il décrit toujours la même fatigue.",
+      "Sam décrit un travail exigeant et une récupération difficile. <strong>Cela mérite d'examiner les contraintes, les ressources et sa santé</strong>, sans déduire une cause certaine de ce dessin."
     ];
     const fill = scene.querySelector("#bo-fill");
     const pct = scene.querySelector("#bo-pct");
@@ -1705,30 +2015,16 @@
     const demands = [...scene.querySelectorAll(".bo-d")];
     const resources = [...scene.querySelectorAll(".bo-r")];
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    let shown = 80;
     let timer = null;
-    let counter = null;
     let act = -1;
 
-    const countTo = (target) => {
-      cancelAnimationFrame(counter);
-      const from = shown;
-      const start = performance.now();
-      const step = (now) => {
-        const k = Math.min((now - start) / 1300, 1);
-        shown = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
-        pct.textContent = MOTS_SAM[act] || "";
-        if (k < 1) counter = requestAnimationFrame(step);
-      };
-      if (reduce) { shown = target; pct.textContent = MOTS_SAM[act] || ""; } else counter = requestAnimationFrame(step);
-    };
-
+    // Le dessin fait évoluer un état qualitatif, non une « réserve d'énergie ».
     const show = (next) => {
       const previous = act;
       act = next;
       scene.dataset.act = String(act);
       fill.style.setProperty("--lvl", String(LEVELS[act] / 100));
-      countTo(LEVELS[act]);
+      pct.textContent = LABELS[act];
       demands.forEach((d) => {
         const visible = Number(d.dataset.in) <= Math.min(act, 2);
         const wasVisible = previous >= 0 && Number(d.dataset.in) <= Math.min(previous, 2);
@@ -1928,7 +2224,19 @@
     generatePriorityActions,
     stakeholders,
     getContextAnswers,
-    getRecommendedStakeholders
+    getRecommendedStakeholders,
+    strengthPart,
+    exchangePart,
+    temporalPart,
+    getTemporalInsight,
+    bullshitPart,
+    humorReactionPart,
+    getHumorReactionAnswers,
+    interpretHumorReaction,
+    analyseBullshitMatrix,
+    computeBullshit,
+    getTemporalAnswers,
+    calculateResults
   };
 
 })();

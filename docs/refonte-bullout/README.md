@@ -1,6 +1,6 @@
 # Bull-Out : notes de refonte
 
-**Mise à jour : 20 novembre 2026, au soir.**
+**Mise à jour : 20 novembre 2026, au soir, après la fusion de la version 2.**
 
 Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une prochaine séance (humaine ou avec une IA) reparte de là où on s'est arrêté, sans tout redécouvrir.
 
@@ -9,7 +9,16 @@ Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une pr
 1. **[L'audit du 20 novembre](audit-2026-11-20.md)** : ce qui n'allait pas, ce qui a été corrigé, ce qui reste à faire. C'est le document le plus à jour.
 2. **[Le journal des décisions](00-journal-et-decisions.md)** : qui a proposé quoi, ce qui a été décidé, ce qui reste ouvert.
 3. **[L'inventaire des 67 questions et des calculs](inventaire-questions-mesures-calculs.md)** : pour chaque question, ce qu'elle mesure, comment elle est comptée et où elle apparaît dans le rapport.
-4. Les **[archives](archives/)** gardent des propositions de l'après-midi (cadrage, comparateur de métaphores). Ce ne sont pas des décisions.
+4. La **version 2 du questionnaire et du rapport** (travail avec ChatGPT, PR #7), fusionnée le 20 novembre au soir :
+   - [premières corrections](01-implementation-mesures-rapport-2026-11-20.md) ;
+   - [audit question par question](02-audit-questionnaire-prochaine-version.md) ;
+   - [deuxième passe du rapport](03-ameliorations-rapport-2026-11-20.md) ;
+   - [questionnaire et moteur V2, migration des sauvegardes](04-questionnaire-moteur-v2-2026-11-20.md) ;
+   - [bullshitomètre à 12 questions et matrice](05-bullshitometre-12-questions-matrice.md) ;
+   - [réaction à l'humour, 4 questions](06-retour-sur-la-satire-ressenti-immediat.md).
+5. Les **[archives](archives/)** gardent des propositions de l'après-midi (cadrage, comparateur de métaphores). Ce ne sont pas des décisions.
+
+Les tests se lancent avec `node --test tests/mesures-rapport.test.cjs` (et tournent sur GitHub à chaque push).
 
 ## Ce qui doit rester vrai
 

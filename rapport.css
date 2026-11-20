@@ -72,6 +72,12 @@
 .rp-jauge i.on { background: var(--sapin-mid); }
 .rp-items li.haut .rp-jauge i.on { background: var(--orange); }
 
+/* La pause humoristique ne doit pas être un passage obligé. */
+.bs-optional { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  margin: 8px 0 16px; padding: 12px 16px; border: 1px solid var(--line-soft);
+  border-radius: 12px; background: var(--bg); }
+.bs-optional small { color: var(--muted); font-size: 13px; line-height: 1.45; }
+
 /* ---------- Rapport ---------- */
 .rapport .rp-slogan { font: 800 15px/1.2 var(--title); color: var(--anis); letter-spacing: .02em; text-transform: uppercase; }
 .rp-outils { align-items: flex-start; }
@@ -96,7 +102,7 @@
 .rp-niv.n0 { background: #e2efe6; color: #1d5c50; }
 .rp-niv.n1 { background: #fdf1d8; color: #8a4a0c; }
 .rp-niv.n2 { background: #fbe3d8; color: #a2431f; }
-.rp-niv.n3 { background: #f6d6d3; color: #8f1e17; }
+.rp-niv.n3 { background: #f9dfc9; color: #8b3d12; }
 
 /* Synthèse */
 .rp-syn-head p { max-width: 70ch; margin: 8px 0 0; }
@@ -235,6 +241,152 @@
   .rp-nav { position: static; }
 }
 
+/* ---------- Synthèse utile : lecture guidée comme Papillon, identité Bull-Out ---------- */
+.rp-qualite { display: grid; gap: 6px; padding: 14px 17px; border-radius: 13px;
+  border-left: 4px solid var(--orange); background: var(--bg); }
+.rp-qualite h3 { font: 800 15.5px/1.4 var(--title); margin: 0; }
+.rp-qualite p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.rp-qualite b { color: var(--fg); }
+@media print { .rp-qualite { padding: 8pt 11pt; break-inside: avoid; } }
+.rp-syn-principe { border-left: 4px solid var(--orange); padding-left: 15px; color: var(--muted); max-width: 78ch; }
+.rp-lecture-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.rp-lecture-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px; min-width: 0;
+  border: 1px solid var(--line-soft); border-radius: 18px; background: var(--bg); }
+.rp-lecture-card:nth-child(2) { background: #fdf1e7; }
+.rp-lecture-card:nth-child(3) { background: #e6efe9; }
+.rp-lecture-card h3 { margin: 0; font: 800 clamp(17px, 2vw, 21px)/1.25 var(--title); }
+.rp-lecture-card p { margin: 0; font-size: 14px; line-height: 1.53; }
+.rp-lecture-num { font: 800 12px/1 var(--title); letter-spacing: .12em; color: var(--orange-ink); }
+.rp-faits { display: grid; gap: 10px; margin: 0 !important; padding: 0 !important; list-style: none; }
+.rp-faits li { display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: start; gap: 8px;
+  border-top: 1px solid var(--line-soft); padding-top: 10px; font-size: 13.5px; line-height: 1.45; }
+.rp-faits small { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; }
+.rp-lecture-limite { margin-top: auto !important; padding-top: 10px; border-top: 1px dashed var(--line-strong); color: var(--muted); }
+.rp-lecture-vide { flex: 1; padding: 12px; border-radius: 10px; background: var(--card); }
+.rp-syn-priorites { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 18px;
+  background: var(--sapin); color: var(--creme); border-radius: 18px; padding: 20px 24px; }
+.rp-syn-priorites .k { color: var(--anis); }
+.rp-syn-priorites h3 { color: var(--creme); margin: 3px 0 10px; }
+.rp-syn-priorites p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.rp-priorites-liens { display: flex; flex-wrap: wrap; gap: 8px; max-width: 270px; }
+.rp-priorites-liens .button { width: 100%; justify-content: center; }
+.rp-syn-schema { display: grid; gap: 14px; }
+.rp-schema-intro h3 { margin: 5px 0 8px; }
+.rp-schema-intro p:last-child { max-width: 72ch; margin: 0; color: var(--muted); }
+.rp-schema-alternative { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.rp-syn-questions { border: 1px solid var(--line-soft); border-radius: 14px; background: var(--bg); padding: 10px 15px; }
+.rp-syn-questions summary { cursor: pointer; font-weight: 750; }
+.rp-syn-questions .rp-q3 { margin-top: 12px; }
+.rp-syn-suite { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px;
+  padding: 14px 18px; background: #e6efe9; border-radius: 14px; }
+.rp-syn-suite p { margin: 0; flex: 1 1 320px; font-size: 14.5px; line-height: 1.55; }
+.rp-nav { display: flex; flex-direction: column; align-items: stretch; }
+.rp-nav-essentiel, .rp-nav-list { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.rp-nav-label { color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-right: 6px; }
+.rp-nav-detail { border-top: 1px solid var(--line-soft); padding: 7px 3px 0; }
+.rp-nav-detail summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--sapin); padding: 3px 6px; }
+.rp-nav-list { margin: 8px 0 2px; }
+.rp-nav button:focus-visible, .rp-syn-priorites button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+/* Carnet de suivi : comparer des faits, pas un score composite. */
+.rp-carnet-reperes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.rp-carnet-reperes > div { background: var(--bg); border: 1px solid var(--line-soft); border-radius: 14px; padding: 16px 18px; }
+.rp-carnet-reperes p:last-child { margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+.rp-carnet-fiches { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.rp-carnet-fiche { border: 1px solid var(--line-strong); background: var(--card); border-radius: 14px; padding: 18px; display: grid; gap: 15px; }
+.rp-carnet-fiche h3 { margin: 0; padding-bottom: 10px; border-bottom: 3px solid var(--sapin); }
+.rp-carnet-champ { display: grid; gap: 7px; }
+.rp-carnet-champ b { font-size: 14px; font-weight: 700; }
+.rp-carnet-trait { display: block; height: 20px; border-bottom: 1px solid var(--line-strong); }
+.rp-carnet-note { color: var(--muted); padding: 15px; background: var(--bg); border-radius: 12px; }
+.rp-carnet-lien { margin: 12px 0 0; }
+@media (max-width: 760px) {
+  .rp-carnet-reperes, .rp-carnet-fiches { grid-template-columns: minmax(0, 1fr); }
+}
+@media print { .rp-carnet-fiche { break-inside: avoid; } .rp-carnet-fiches { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+/* Schéma à couches : la personne pilote l'exploration, les données demeurent inchangées. */
+.rp-vue-commandes { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+.rp-vue-commandes button { min-width: 0; padding: 10px 8px; text-align: center; font: 700 13px/1.35 var(--font);
+  border: 1px solid var(--line-strong); background: var(--card); border-radius: 10px; color: var(--fg); cursor: pointer; }
+.rp-vue-commandes button[aria-pressed="true"] { background: var(--sapin); color: var(--creme); border-color: var(--sapin); }
+.rp-vue-commandes button:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.rp-vue-lecture { margin: 0; min-height: 2.5em; font-size: 14px; color: var(--muted); line-height: 1.5; }
+.rp-layer { opacity: 1; transition: opacity .32s ease-out; }
+.rp-vue[data-lecture="personne"] .rp-layer-work,
+.rp-vue[data-lecture="personne"] .rp-layer-support { opacity: .09; }
+.rp-vue[data-lecture="travail"] .rp-layer-manifest,
+.rp-vue[data-lecture="travail"] .rp-layer-support { opacity: .12; }
+.rp-vue[data-lecture="travail"] .rp-layer-person { opacity: .36; }
+.rp-vue[data-lecture="appuis"] .rp-layer-manifest,
+.rp-vue[data-lecture="appuis"] .rp-layer-work { opacity: .18; }
+.rp-vue[data-lecture="appuis"] .rp-layer-person { opacity: .48; }
+.rp-layer-safety { opacity: 1 !important; }
+@media (max-width: 700px) {
+  .rp-vue-commandes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .rp-vue-commandes button { font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .rp-layer { transition: none; } }
+@media print {
+  .rp-vue-commandes, .rp-vue-lecture { display: none !important; }
+  .rp-ensemble .rp-layer { opacity: 1 !important; }
+}
+
+/* Six familles INRS/Gollac : inventaire des réponses, sans scores de risques fabriqués. */
+.rp-rps { display: grid; gap: 12px; }
+.rp-rps > p { margin: 0; max-width: 78ch; color: var(--muted); }
+.rp-rps-grille { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.rp-rps-famille { display: grid; align-content: start; gap: 9px; padding: 16px 18px;
+  background: var(--bg); border: 1px solid var(--line-soft); border-radius: 14px; }
+.rp-rps-famille.is-signal { border-left: 4px solid var(--orange); padding-left: 15px; }
+.rp-rps-famille h5 { margin: 0; font: 800 16px/1.3 var(--title); color: var(--fg); }
+.rp-rps-famille p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+.rp-rps-status { display: inline-block; margin-top: 3px; font-size: 12px; color: var(--muted); }
+.rp-rps-limite { color: var(--muted); border-top: 1px dashed var(--line-strong); padding-top: 8px; font-size: 12.5px !important; }
+@media(max-width: 760px) { .rp-rps-grille { grid-template-columns: minmax(0, 1fr); } }
+@media print { .rp-rps-famille { break-inside: avoid; } .rp-rps-grille { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+/* Fiche de discussion : présenter des faits déclarés, sans données médicales. */
+.rp-travail-head { display: grid; gap: 8px; border-bottom: 3px solid var(--sapin); padding-bottom: 16px; }
+.rp-travail-head h2 { max-width: 28ch; }
+.rp-travail-head p:last-child { color: var(--muted); max-width: 75ch; }
+.rp-travail-bloc { display: grid; gap: 10px; }
+.rp-travail-bloc h3, .rp-travail-demande h3 { margin: 0; }
+.rp-travail-faits { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rp-travail-faits li { display: grid; grid-template-columns: 38px minmax(0,1fr); align-items: start; gap: 12px;
+  background: var(--bg); border: 1px solid var(--line-soft); border-radius: 12px; padding: 12px 16px; }
+.rp-travail-faits small { display: block; margin-top: 5px; grid-column: 2; color: var(--muted); font-size: 12.5px; }
+.rp-travail-demande { padding: 18px 20px; border-radius: 14px; background: #e6efe9; border-left: 4px solid var(--sapin); }
+.rp-travail-demande p { margin: 8px 0 0; }
+.rp-travail-prive { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line-soft); padding-top: 12px; }
+
+@media (max-width: 970px) {
+  .rp-lecture-trio { grid-template-columns: minmax(0,1fr); }
+  .rp-lecture-card { gap: 8px; }
+}
+@media (max-width: 650px) {
+  .rp-syn-priorites { grid-template-columns: minmax(0,1fr); }
+  .rp-priorites-liens { width: 100%; max-width: none; }
+  .rp-nav-essentiel, .rp-nav-list { gap: 6px; }
+  .rp-nav button { padding: 8px 10px; }
+}
+@media print {
+  .rp-lecture-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7pt; }
+  .rp-lecture-card { padding: 10pt; border-radius: 8pt; }
+  .rp-lecture-card p, .rp-faits li { font-size: 9pt; }
+  .rp-faits small { font-size: 8pt; }
+  .rp-lecture-card h3 { font-size: 12pt; }
+  .rp-syn-priorites { grid-template-columns: minmax(0, 1fr); padding: 10pt 12pt; }
+  .rp-priorites-liens, .rp-syn-suite, .rp-syn-questions, .rp-mode-emploi { display: none !important; }
+  .rp-syn-schema { break-before: auto; }
+  .rp-vue { padding: 6pt; }
+  .rp-syn-priorites, .rp-lecture-card, .rp-travail-faits li, .rp-travail-demande { break-inside: avoid; }
+  /* Une fiche à partager au travail n'inclut aucun élément du rapport personnel. */
+  .rapport.pdf-travail .rp-page:not([data-page="travail"]) { display: none !important; }
+  .rapport.pdf-travail .rapport-cover, .rapport.pdf-travail .rp-fin { display: none !important; }
+  .rapport.pdf-travail .rp-page[data-page="travail"] { break-before: auto; }
+}
+
 /* ---------- Impression : tout le rapport, une pièce par page ---------- */
 @media print {
   @page { margin: 14mm 14mm 16mm; @bottom-left { content: "Bull-Out · Prévention burn-out sans bullshit · bullout.ddlab.fr"; font: 8pt Inter, sans-serif; color: #4a5f5a; } @bottom-right { content: counter(page); font: 8pt Inter, sans-serif; color: #4a5f5a; } }
@@ -286,6 +438,74 @@
 /* Rapport : bullshitomètre et liens internes */
 .rp-vue .p { color: #6a4c93; }
 .rp-lien { display: inline; padding: 0; border: 0; background: none; color: var(--sapin-mid); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+/* Bullshitomètre complet : satire visible + matrice descriptive qui n'infère pas un diagnostic. */
+.rp-bs-duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 16px; align-items: stretch; }
+.rp-bs-overline { margin: 0; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .075em; color: var(--muted); }
+.rp-bs-pc-explain { margin: 4px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.rp-bs-score { border: 1px solid var(--line-soft); border-radius: 16px; background: var(--bg); padding: 20px; }
+.rp-bs-satire { display: block; padding: 18px 20px; background: #fbe3d8; }
+.rp-bs-satire summary { cursor: pointer; font: 800 14px/1.4 var(--title); color: var(--sapin-deep, #123a33); }
+.rp-bs-satire summary span { font: 500 12px/1.3 var(--font); color: #82502f; }
+.rp-bs-satire-inner { display: grid; gap: 12px; padding-top: 15px; }
+.rp-bs-satire blockquote { margin: 0; border-left: 3px solid var(--orange); padding: 8px 12px;
+  background: #fff7ef; font-style: italic; color: var(--sapin-deep, #123a33); }
+.rp-bs-humour-limite { font-size: 12px; color: #70513b; }
+.rp-bs-exemples { padding: 16px 20px; background: var(--bg); border: 1px solid var(--line-soft); border-radius: 14px; }
+.rp-bs-exemples h4 { margin: 0 0 12px; }
+.rp-bs-exemples ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 12px; }
+.rp-bs-exemples li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 9px; align-items: start; font-size: 14px; }
+.rp-bs-exemples li + li { border-top: 1px solid var(--line-soft); padding-top: 12px; }
+.rp-bs-exemples small { display: block; margin-top: 4px; font-size: 13.5px; color: var(--muted); }
+.rp-bs-matrice { display: grid; gap: 13px; padding: 18px 20px; border: 1px solid var(--line-soft);
+  background: var(--card); border-radius: 16px; }
+.rp-bs-matrice h4 { margin: 0; font: 800 clamp(18px,2.6vw,23px)/1.25 var(--title); }
+.rp-bs-matrice > p { margin: 0; }
+.rp-bs-matrice-lecture { display: grid; gap: 9px; padding: 16px 18px; background: #e3eee9;
+  border-left: 4px solid var(--sapin-mid); border-radius: 12px; }
+.rp-bs-matrice-lecture h5 { font: 800 18px/1.3 var(--title); margin: 0; }
+.rp-bs-matrice-lecture p { margin: 0; line-height: 1.55; }
+.rp-bs-matrice-blague { font-weight: 750; font-style: italic; color: var(--sapin-deep, #123a33); }
+.rp-bs-levier { background: #fff2e4; border-radius: 14px; padding: 18px 20px; display: grid; gap: 8px; }
+.rp-bs-levier h4 { margin: 0; }
+.rp-bs-levier p { margin: 0; }
+/* Retour émotionnel : quatre réponses parallèles, jamais une échelle clinique globale. */
+.rp-bs-reaction { display: grid; gap: 12px; padding: 20px 22px; background: var(--bg);
+  border-radius: 16px; border: 1px solid var(--line-soft); }
+.rp-bs-reaction > p { margin: 0; line-height: 1.55; }
+.rp-bs-reaction h4 { margin: 0; font: 800 clamp(18px, 2.5vw, 23px)/1.3 var(--title); }
+.rp-bs-reaction-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.rp-bs-reaction-grid > div { padding: 12px 14px; background: var(--card);
+  border: 1px solid var(--line-soft); border-radius: 12px; display: grid; align-content: space-between; gap: 9px; }
+.rp-bs-reaction-grid b { font-size: 13.5px; line-height: 1.4; }
+.rp-bs-reaction-grid span { font: 800 15px/1.4 var(--title); color: var(--sapin); }
+.rp-bs-reaction-lecture { background: #e3eee9; padding: 15px 18px; border-radius: 12px; border-left: 4px solid var(--sapin); }
+.rp-bs-reaction-lecture h5 { font: 800 17px/1.3 var(--title); margin: 0 0 7px; }
+.rp-bs-reaction-lecture p { margin: 0; line-height: 1.55; }
+@media(max-width: 560px) { .rp-bs-reaction { padding: 13px; }
+  .rp-bs-reaction-grid { grid-template-columns: minmax(0,1fr); } }
+@media print { .rp-bs-reaction-grid > div, .rp-bs-reaction-lecture { break-inside: avoid; }
+  .rp-bs-reaction-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+.rp-bs-reponses { border: 1px solid var(--line-soft); border-radius: 14px; padding: 12px 16px; }
+.rp-bs-reponses summary { cursor: pointer; font-weight: 700; }
+.rp-bs-reponses .rp-items { margin-top: 14px; }
+.rp-bs-case.ici { opacity: 1; border-width: 3px; box-shadow: 0 3px 0 rgba(18,58,51,.10); }
+.rp-bs-case:not(.ici) { opacity: .8; }
+@media (max-width: 850px) { .rp-bs-duo { grid-template-columns: 1fr; } }
+@media (max-width: 520px) {
+  .rp-bs-matrice { padding: 12px; }
+  .rp-bs-grille { gap: 5px; }
+  .rp-bs-case { padding: 8px; font-size: 12px; }
+  .rp-bs-case b { font-size: 13px; }
+  .rp-bs-case em { font-size: 10px; line-height: 1.3; }
+  .rp-bs-grille .h { font-size: 10px; }
+  .rp-bs-matrice-lecture { padding: 12px; }
+  .rp-bs-score { padding: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .rp-bs-satire, .rp-bs-case { transition: none !important; } }
+@media print { .rp-bs-duo { grid-template-columns: repeat(2,minmax(0,1fr)); } .rp-bs-satire-inner { display: grid !important; }
+  .rp-bs-satire, .rp-bs-matrice-lecture, .rp-bs-exemples li { break-inside: avoid; } }
+
 .rp-bs-score { display: grid; gap: 6px; align-content: start; }
 .rp-bs-pc { margin: 0; font: 800 64px/1 var(--title); color: var(--orange-ink); }
 .rp-bs-pc small { font-size: 28px; }
