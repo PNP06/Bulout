@@ -797,3 +797,13 @@ test("une abstention explicite HR3 est conservée lors de l'import v9", () => {
   assert.match(code,/const format = "bull-out-progression-10"/);
   assert.match(code,/versionReactionHumour: "2026-11-hr-v2"/);
 });
+
+test("les six réponses au ressenti humoristique sont lisibles sur mobile et accessibles au clavier", () => {
+  const js = read("script.js"), css = read("charte.css");
+  assert.match(js,/section.id === "HR" \? "choices choices-humor"/);
+  assert.match(js,/inputs.length === 6 && \/\^\[1-6\]\$\/.test\(key\)/);
+  assert.match(css,/\.choices-humor \{ grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+  assert.match(css,/@media \(max-width: 620px\)[\s\S]*?\.choices-humor/);
+  assert.match(css,/\.choices-humor \.choice:last-child \{ grid-column: 1 \/ -1/);
+  assert.match(js,/questions proposées, environ 15 à 20 minutes/);
+});
