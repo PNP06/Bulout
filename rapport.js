@@ -821,8 +821,20 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["appuis", "3 · Ressources", "Regarde les appuis déclarés et les moyens disponibles. Ils n'annulent pas mathématiquement la charge."],
     ["tout", "4 · Vue complète", "La vue complète rapproche ces informations sans les mélanger en une mesure unique de risque."]
   ];
-  const ensemble = `<figure class="rp-vue" data-lecture="tout"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
-      ${bord}
+  // En tête de la synthèse (V3) : le feu, puis les trois cadrans. Le schéma vient ensuite.
+  const tete = `<div class="rp-tete"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
+      ${bord}</div>`;
+  // Les trois modèles lus sur tes réponses : trois questions, pas trois preuves (demande de David, V3).
+  const modelesLus = `<section class="rp-modeles-lus" aria-labelledby="rp-modeles-titre">
+      <h3 id="rp-modeles-titre">Trois modèles, trois questions sur tes réponses</h3>
+      <div class="rp-modeles-grille">
+        <article><p class="k">Maslach · ce qui se voit</p><h4>Qu'est-ce qui change chez toi ?</h4><p>Épuisement <b>${MOTS[nDim(sr.A)]}</b>, distance <b>${MOTS[nDim(sr.B)]}</b>, doute sur l'efficacité et le sens <b>${MOTS[nDim(sr.C)]}</b>.</p><p class="rp-modele-ou">À droite du schéma · ${chapLien(2)}</p></article>
+        <article><p class="k">Exigences-ressources · la balance</p><h4>Que demande ton travail, et qu'est-ce qui t'aide ?</h4><p>Exigences <b>${["basses", "à surveiller", "élevées", "très élevées"][nDim(sr.D)]}</b>, ressources <b>${["rares", "limitées", "présentes", "solides"][nv24(ressources)]}</b>.</p><p class="rp-modele-ou">En haut à gauche · ${chapLien(3)}</p></article>
+        <article><p class="k">Effort-récompense · le retour</p><h4>Ce que tu donnes est-il reconnu ?</h4><p>Effort <b>${MOTS[nv24(effort)]}</b>, récompense <b>${["faible", "limitée", "correcte", "bonne"][nv24(retour)]}</b>, surengagement <b>${MOTS[nv24(surengagement)]}</b>.</p><p class="rp-modele-ou">Au milieu à gauche · ${chapLien(4)}</p></article>
+      </div>
+      <p class="rp-modeles-note">Ces lectures reprennent en partie les mêmes réponses (cinq questions sont communes à la balance et au retour) : <b>trois angles, pas trois preuves</b>. Aucune ne dit, seule, ce qui cause quoi.</p>
+    </section>`;
+  const ensemble = `<figure class="rp-vue" data-lecture="tout">
       <div class="rp-vue-commandes" role="group" aria-label="Construire la lecture du schéma">
         ${etapesVue.map(([id, libelle]) => `<button type="button" data-vue-etape="${id}" aria-pressed="${id === "tout"}">${libelle}</button>`).join("")}
       </div>
@@ -857,9 +869,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <p>${esc(r.summary)}</p>
       <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
     ${securite}
-    ${qualiteLecture}
-    ${lectureTemps}
-    <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
+    ${tete}
     <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
         <p>${r.actions.length ? `<b>${esc(r.actions[0].title)}.</b> ${esc(r.actions[0].text)}` : "Partir d'un fait de travail récent et d'une difficulté concrète à éclaircir."}</p></div>
@@ -870,8 +880,12 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Une carte de tes réponses, pas une carte des causes</h3>
         <p>À gauche, les conditions déclarées. Au centre, deux repères de vécu. À droite, les manifestations. Le dessin conserve l'architecture de la formation : les fils mettent des éléments en regard, sans prouver leur origine.</p></div>
       ${ensemble}
+      ${modelesLus}
       <p class="rp-schema-alternative"><b>Lecture en texte :</b> ${esc(lectureBalance)} ${esc(lectureBatterie)} ${esc(lectureUsure)}</p>
     </section>
+    <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
+    ${lectureTemps}
+    ${qualiteLecture}
     <details class="rp-syn-questions"><summary>Trois questions pour continuer la réflexion</summary>
       <ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${esc(k)}</span>${esc(q)}</li>`).join("")}</ul></details>
     <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les neuf pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
@@ -898,7 +912,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <div class="rp-box ${L.fiable ? "ok" : "attention"}"><p class="k">État de tes réponses</p><p><b>${L.fiable ? "Réponses variées." : "Réponses répétitives ou extrêmes."}</b> ${L.fiable ? "La répartition des réponses est variée, sans constituer une preuve de fiabilité." : `${cap(L.prudence.join(" ; "))}. C'est possible, mais cela rend les écarts entre dimensions moins parlants.`} Ces contrôles décrivent uniquement la forme des réponses ; ils ne mesurent ni leur sincérité, ni leur qualité clinique.</p>
     ${L.paires.length ? `<p class="k">Points à clarifier</p><ul>${L.paires.map(([, , t, q]) => `<li>${esc(t)} <i>${esc(q)}</i></li>`).join("")}</ul><p>Ce ne sont pas des erreurs : deux réponses qui surprennent côte à côte sont souvent les plus utiles à discuter.</p>` : ""}</div>
     <ol class="rp-construit">
-      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 8 questions du bullshitomètre (satiriques, à choix), 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
+      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 12 questions du bullshitomètre (satiriques, à choix) et 4 questions sur la façon dont tu as reçu cet humour, 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
       <li><b>Le score d'une dimension.</b> La somme de ses six réponses, de 0 à 24. Les questions E décrivent des ressources : elles sont comptées à l'envers (4 moins la réponse) pour que, partout, un score haut signale une difficulté.</li>
       <li><b>Les niveaux.</b> 0 à 6 bas, 7 à 12 à surveiller, 13 à 18 élevé, 19 à 24 très élevé : quatre quarts de l'échelle, choisis pour la lecture, sans étalonnage.</li>
       <li><b>La lecture d'ensemble.</b> Seule une réponse positive aux trois questions de sécurité déclenche un message spécifique d'orientation. Les autres profils sont des regroupements descriptifs internes, sensibles aux seuils de commodité (13/24 notamment), sans valeur diagnostique. Le total A–F n'est pas interprété cliniquement.</li>

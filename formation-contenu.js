@@ -1,4 +1,4 @@
-// Formation Bull-Out : neuf chapitres d’une page, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Formation Bull-Out : neuf chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
 // Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
 // des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
 // Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7, 8 et 9 : il concerne tout le monde.
@@ -18,12 +18,12 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Neuf chapitres d’une page</b>, de 4 à 8 minutes chacun (environ 55 minutes en tout), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Neuf chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],
   essentiel: [
-    "Le meilleur indice n’est pas l’intensité de la fatigue, mais sa durée et ce que le repos te rend.",
+    "L’intensité de la fatigue ne suffit pas : sa durée, sa trajectoire et ce que le repos te rend aident à comprendre la situation.",
     "Le burn-out a trois signes : l’épuisement, la distance mentale et la baisse d’efficacité. La fatigue n’est que le premier.",
     "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire.",
     "Donner beaucoup pour peu de retour use aussi, et le surengagement rend le problème invisible.",
@@ -123,7 +123,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "La batterie", texte: "Ton rapport commence par l’énergie : ce que tu dépenses, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    piece: { nom: "La batterie", texte: "Ton rapport regarde d’abord deux repères : l’épuisement, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
@@ -132,14 +132,23 @@ export const chapitres = [
     temps: 0,
     court: "Les trois signes",
     titre: "Les trois signes : s’épuiser, se détacher, douter de soi",
-    duree: 5,
+    duree: 8,
     savoir: [
       "Reconnaître les trois signes décrits par Christina Maslach, et pourquoi la fatigue n’est que le premier.",
       "Comprendre pourquoi le cynisme peut être une protection, et la baisse d’efficacité une conséquence plutôt qu’une incompétence.",
     ],
     arrive: "« Je ne suis pas fatigué, juste dégoûté : ce n’est donc pas de l’usure. » Ou : « Je deviens cynique, c’est mon caractère. » Ce chapitre montre que ces deux phrases décrivent souvent des signes à part entière.",
-    retenir: "La psychologue Christina Maslach a décrit le burn-out comme <b>trois signes qui s’enchaînent souvent</b> : on s’épuise, on se protège en prenant de la distance, puis on a l’impression de moins bien faire. Repérer les deux derniers évite de passer à côté d’une usure qui ne se présente pas comme de la fatigue.",
+    retenir: "La psychologue Christina Maslach a structuré le burn-out autour de <b>trois dimensions distinctes</b> : épuisement, cynisme ou distance, et efficacité professionnelle diminuée. Elles peuvent coexister sans suivre obligatoirement un ordre. Regarder les trois évite de réduire l’usure à la fatigue.",
     blocs: [
+      { t: "h", texte: "D'où vient le modèle de Maslach ?" },
+      { t: "p", html: "Dans les années 1970, Christina Maslach étudie l'épuisement de professionnels engagés dans des relations humaines difficiles. Avec Susan Jackson, elle développe ensuite le <b>Maslach Burnout Inventory</b> (MBI, 1981), et les travaux avec Schaufeli et Leiter préciseront les trois dimensions. Ce modèle répond d'abord à la question <b>« Que vit la personne au travail ? »</b>, pas à « Qui est responsable ? »." },
+      { t: "cartes", items: [
+        ["Épuisement", "<b>Énergie entamée.</b> Fatigue émotionnelle, cognitive ou physique : Sam doit mobiliser davantage d'effort pour faire ce qui était habituel."],
+        ["Cynisme / distance", "<b>Rapport au travail qui se refroidit.</b> Sam s'éloigne mentalement des tâches ou des interlocuteurs. Cela peut être une réaction à une exposition pénible ; ce n'est pas automatiquement une stratégie efficace."],
+        ["Efficacité diminuée", "<b>Impression de moins bien accomplir son métier.</b> Le sentiment d'efficacité et les erreurs observées ne sont pas identiques : l'un est subjectif, l'autre demande des faits."],
+      ] },
+      { t: "p", html: "<b>Comment l'utiliser ?</b> Observe ces dimensions séparément. Une fatigue élevée sans cynisme ne raconte pas la même chose qu'un cynisme marqué avec peu de fatigue. La coexistence de plusieurs signaux oriente la discussion ; <b>elle ne révèle pas une séquence obligatoire, une cause ni un diagnostic</b>." },
+      { t: "p", html: "<b>Limite :</b> le MBI est un instrument psychométrique particulier ; les questions de Bull-Out sont reformulées, mélangées à d'autres thèmes et dotées de seuils internes non étalonnés. On ne peut pas leur transférer la validation du MBI ni conclure que le travail a causé chacun des signes." },
       { t: "h", texte: "Trois jauges, pas une" },
       { t: "fig", ill: "jauges", cap: "Trois jauges distinctes. Elles montent souvent ensemble, mais pas toujours au même rythme." },
       { t: "p", html: "Quatre semaines après le vendredi du chapitre 1, voici ce que Sam dit de lui, dans ses mots :" },
@@ -149,8 +158,8 @@ export const chapitres = [
         ["« Je n’y arrive plus »", "<b>L’efficacité réduite</b>. Il oublie une livraison, se trompe sur un bon de commande, doute de ce qu’il sait faire."],
       ] },
       { t: "h", texte: "Le cynisme, une protection qui se retourne" },
-      { t: "exemple", titre: "Le Sam d’avant, le Sam d’aujourd’hui", html: "Il y a un an, quand un client changeait d’avis, Sam reprenait le planning avec soin et l’appelait pour expliquer. Aujourd’hui, il soupire : « de toute façon, ils changeront encore d’avis ». Il n’a pas changé de caractère. Il a cessé d’investir ce qui lui coûte trop.", note: "La distance protège l’énergie à court terme. À long terme, elle coupe du sens du travail et des collègues qui pourraient aider." },
-      { t: "p", html: "Le cynisme est souvent pris pour un trait de personnalité, ou pour de la mauvaise volonté. Dans le modèle de Maslach, c’est d’abord une <b>stratégie de protection</b> : quand on ne peut plus tout donner, on donne moins. C’est compréhensible. Mais c’est aussi un signe qu’il faut regarder, même si la fatigue n’est pas au premier plan." },
+      { t: "exemple", titre: "Le Sam d’avant, le Sam d’aujourd’hui", html: "Il y a un an, quand un client changeait d’avis, Sam reprenait le planning avec soin et l’appelait pour expliquer. Aujourd’hui, il soupire : « de toute façon, ils changeront encore d’avis ». Il n’a pas changé de caractère. Il a cessé d’investir ce qui lui coûte trop.", note: "Chez Sam, la distance semble réduire son investissement immédiat ; on ne sait pas si elle l’aide réellement à récupérer. Elle peut aussi éloigner des collègues et du sens." },
+      { t: "p", html: "Le cynisme est souvent pris pour un trait de personnalité, ou pour de la mauvaise volonté. Dans la lecture de Maslach, cela peut être <b>une manière de se mettre à distance</b> : quand on ne peut plus tout donner, on donne moins. Mais ce mécanisme reste une hypothèse à vérifier chez Sam. C’est compréhensible. Mais c’est aussi un signe qu’il faut regarder, même si la fatigue n’est pas au premier plan." },
       { t: "h", texte: "Moins efficace ne veut pas dire incompétent" },
       { t: "p", html: "Quand l’efficacité baisse, la réponse réflexe est souvent individuelle : « il faut te former », « tu dois mieux t’organiser ». Or l’usure abîme d’abord l’attention, la mémoire et le sommeil. Les erreurs de Sam ne disent pas qu’il a oublié son métier : elles disent qu’<b>il travaille avec des réserves vides</b>." },
       { t: "mythes", titre: "Trois idées reçues", items: [
@@ -199,6 +208,7 @@ export const chapitres = [
       ],
     },
     sources: [
+      ["Maslach, Schaufeli & Leiter (2001) · Job burnout, Annual Review of Psychology", "https://doi.org/10.1146/annurev.psych.52.1.397"],
       ["Maslach & Leiter (2016) · Understanding the burnout experience, World Psychiatry", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4911781/"],
       ["Schaufeli, Leiter & Maslach (2009) · Burnout: 35 years of research and practice", "https://www.wilmarschaufeli.nl/publications/Schaufeli/311.pdf"],
       ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
@@ -213,14 +223,23 @@ export const chapitres = [
     temps: 1,
     court: "La balance",
     titre: "La balance : ce que le travail demande, ce qui aide à le faire",
-    duree: 6,
+    duree: 9,
     savoir: [
       "Classer ce qui se passe au travail en exigences et en ressources.",
       "Expliquer pourquoi la même charge peut être tenable pour l’un et usante pour l’autre.",
     ],
     arrive: "« C’est la charge : il y a trop de travail. » Parfois, oui. Mais la quantité n’explique pas tout. Deux postes aussi chargés peuvent user très différemment, selon ce qui aide à tenir.",
-    retenir: "Le modèle exigences–ressources (JD-R) regarde le travail comme <b>une balance à deux plateaux</b>. D’un côté, ce qu’il demande. De l’autre, ce qui aide à le faire. L’usure s’installe quand les exigences pèsent durablement plus lourd, et que la récupération ne compense plus.",
+    retenir: "Le modèle exigences–ressources (JD-R) regarde le travail comme <b>une balance à deux plateaux</b>. D’un côté, ce qu’il demande. De l’autre, ce qui aide à le faire. Des exigences fortes ou durables associées à des ressources insuffisantes <b>augmentent le risque d’épuisement</b>. La balance est une image pédagogique, pas une formule.",
     blocs: [
+      { t: "h", texte: "Le modèle JD-R : d'où vient-il et comment fonctionne-t-il ?" },
+      { t: "p", html: "Demerouti, Bakker, Nachreiner et Schaufeli proposent en 2001 le modèle <b>Job Demands–Resources</b> (JD-R). Leur idée : pour comprendre l'usure, il faut décrire le <b>travail concret</b>, pas seulement les symptômes. Une exigence est un aspect qui réclame un effort soutenu ; une ressource aide à atteindre les objectifs, réduit certains coûts ou favorise l'apprentissage." },
+      { t: "cartes", items: [
+        ["Processus d'usure", "<b>Exigences fortes ou durables → coûts physiologiques et psychologiques.</b> Par exemple, délais intenables, interruptions et charge émotionnelle peuvent alimenter l'épuisement."],
+        ["Processus motivationnel", "<b>Ressources suffisantes → possibilité de s'engager et de travailler utilement.</b> Autonomie, soutien et retours concrets ne sont pas simplement des « pauses »."],
+        ["Effet tampon possible", "<b>Une ressource peut amortir certaines exigences.</b> Une équipe de renfort change l'effet d'un pic de charge ; elle ne transforme pas automatiquement une charge illimitée en travail soutenable."],
+      ] },
+      { t: "p", html: "<b>Comment l'appliquer à Sam ?</b> Reconstituer deux colonnes : ce qui lui demande un effort, et ce qui lui donne réellement des moyens. Puis chercher une <b>décision observable</b> : supprimer deux réunions, clarifier un arbitrage, rétablir un relais. Une appréciation positive du manager ne remplace pas un moyen de faire le travail." },
+      { t: "p", html: "<b>Limite :</b> JD-R décrit des relations étudiées entre groupes et situations de travail. La « balance » est une <b>métaphore pédagogique</b>, pas une loi où 15 points de ressources annulent mécaniquement 15 points d'exigences. Dans Bull-Out, ces deux familles sont des réponses autodéclarées, non des mesures directes de l'organisation." },
       { t: "h", texte: "Deux plateaux" },
       { t: "fig", ill: "balance", cap: "Les exigences d’un côté, les ressources de l’autre, la récupération au milieu. La balance penche quand on ajoute d’un côté, ou quand on retire de l’autre." },
       { t: "p", html: "Les <b>exigences</b>, c’est tout ce qui demande un effort durable : la quantité de travail, les délais, les interruptions, le flou sur ce qu’on attend, la charge émotionnelle, les ordres contradictoires. Les <b>ressources</b>, c’est tout ce qui aide à faire face : l’autonomie, le soutien d’un collègue ou d’un manager, des priorités claires, des moyens suffisants, du temps pour se concentrer." },
@@ -232,8 +251,11 @@ export const chapitres = [
         ["Exigences du métier", "Un pic saisonnier, un client difficile. On ne les supprime pas, mais on peut les limiter dans le temps et les compenser."],
         ["Ressources réelles", "Un relais, du temps protégé, une décision claire. Elles changent la journée, pas seulement l’ambiance."],
       ] },
+      { t: "h", texte: "Une spirale de perte : l'éclairage complémentaire de Hobfoll" },
+      { t: "p", html: "La théorie <b>Conservation of Resources</b> (COR), proposée par Stevan Hobfoll en 1989, décrit le stress comme une menace de perte, une perte réelle ou l'insuffisance des ressources obtenues après un investissement. Dans l'histoire de Sam, manquer d'un collègue l'oblige à travailler le soir ; il perd du repos ; la fatigue rend certaines tâches plus coûteuses. <b>La perte peut nourrir une autre perte.</b>" },
+      { t: "exemple", titre: "Une spirale, pas une fatalité", html: "Marc part → Sam récupère son dossier → les soirées se raccourcissent → Sam fait davantage d'erreurs → les urgences se multiplient. Chaque flèche est une <b>hypothèse sur les mécanismes</b>, à vérifier avec la chronologie réelle. Un remplacement ou un arbitrage explicite peut interrompre plusieurs maillons.", note: "COR complète la balance JD-R ; Bull-Out ne calcule pas de score COR et ne démontre aucune spirale chez une personne." },
       { t: "h", texte: "La récupération, le troisième élément" },
-      { t: "p", html: "La balance a un pivot : la récupération. Le soir, le week-end, la pause déjeuner. Quand les mails arrivent à 22 h ou que le travail déborde sur le dimanche, la récupération s’use aussi. La fatigue ne se « recharge » plus, et la balance penche un peu plus chaque semaine." },
+      { t: "p", html: "La récupération est un processus <b>complémentaire</b>, pas un troisième plateau formel dans le JD-R originel. Sonnentag et Fritz (2007) en distinguent quatre expériences : <b>détachement psychologique, relaxation, maîtrise d’activités hors travail et contrôle sur son temps libre</b>. Le soir, le week-end et la pause déjeuner offrent des occasions de récupérer, pas une garantie. Quand les mails arrivent à 22 h ou que le travail déborde sur le dimanche, ces expériences peuvent être compromises. La fatigue ne se « recharge » plus, et la balance penche un peu plus chaque semaine." },
       { t: "mythes", titre: "Trois idées reçues", items: [
         ["« Il suffit de mieux s’organiser »", "L’organisation personnelle aide à la marge. Mais aucune méthode de productivité ne fait tenir trois urgences dans une seule journée, ni ne remplace un collègue parti. Cette phrase transforme un problème de balance en problème de personne."],
         ["« Une charge élevée, c’est toujours toxique »", "Non. Avec des ressources solides, une charge élevée peut même être stimulante : c’est l’autre moitié du modèle JD-R, qui décrit l’engagement. Le danger, c’est la charge élevée sans ressources, et qui dure."],
@@ -282,6 +304,8 @@ export const chapitres = [
     sources: [
       ["Demerouti, Bakker et al. (2001) · The job demands-resources model of burnout", "https://doi.org/10.1037/0021-9010.86.3.499"],
       ["Bakker & Demerouti (2017) · Job demands-resources theory: taking stock and looking forward", "https://doi.org/10.1037/ocp0000056"],
+      ["Hobfoll (1989) · Conservation of resources", "https://pubmed.ncbi.nlm.nih.gov/2648906/"],
+      ["Sonnentag & Fritz (2007) · The recovery experience questionnaire", "https://pubmed.ncbi.nlm.nih.gov/17638488/"],
       ["INRS · les facteurs de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Dire que le travail pèse n’accuse personne. C’est décrire une situation qu’on peut modifier, et c’est plutôt une bonne nouvelle.",
@@ -294,7 +318,7 @@ export const chapitres = [
     temps: 1,
     court: "Trop pour trop peu",
     titre: "Donner trop pour trop peu : l’effort et le retour",
-    duree: 5,
+    duree: 8,
     savoir: [
       "Repérer un déséquilibre entre l’effort fourni et ce qu’on reçoit en retour : salaire, estime, perspectives, sécurité.",
       "Reconnaître le surengagement, et comprendre pourquoi il rend le problème invisible.",
@@ -302,6 +326,15 @@ export const chapitres = [
     arrive: "« La reconnaissance, c’est du bonus. L’important, c’est la paie. » Ou : « Je ne me plains pas, j’aime bien rendre service. » Ce chapitre montre ce que ces phrases laissent de côté.",
     retenir: "Le sociologue Johannes Siegrist a montré que l’usure vient aussi d’une <b>réciprocité rompue</b> : beaucoup d’efforts, peu de retour. Et le retour n’est pas que l’argent : c’est aussi l’estime, les perspectives, la sécurité de l’emploi. Quand on compense sans compter, l’organisation s’habitue à l’anormal.",
     blocs: [
+      { t: "h", texte: "Siegrist : un modèle de réciprocité sociale" },
+      { t: "p", html: "Johannes Siegrist formalise en 1996 le modèle <b>Effort–Reward Imbalance</b> (ERI). Il part d'une relation sociale : au travail, on fournit un effort dans l'attente d'un retour jugé acceptable. Le retour ne se résume pas au salaire : <b>estime, possibilités d'avancement et sécurité de l'emploi</b> entrent dans cette reconnaissance. Quand l'échange paraît durablement déséquilibré, les recherches associent cette exposition à davantage de problèmes de santé." },
+      { t: "cartes", items: [
+        ["Effort extrinsèque", "<b>Ce que le poste exige.</b> Responsabilités, pression temporelle, obligations, sollicitations et contraintes de fonctionnement."],
+        ["Récompenses", "<b>Ce qui revient à la personne.</b> Argent, considération, perspectives et stabilité ; une récompense juste n'est pas toujours monétaire."],
+        ["Surengagement", "<b>Un mode d'investissement possible.</b> Difficulté à décrocher, besoin de prouver sa valeur, effort prolongé même quand la contrepartie diminue."],
+      ] },
+      { t: "p", html: "<b>Comment l'appliquer à Sam ?</b> Il porte deux dossiers, mais son entretien n'en tient pas compte. On doit distinguer <b>un fait</b> (le dossier supplémentaire), <b>un retour</b> (absence de reconnaissance perçue) et <b>une hypothèse</b> (l'effort devient coûteux parce que l'échange semble injuste). Puis demander ce qui rendrait cet échange plus juste." },
+      { t: "p", html: "<b>Limite :</b> le modèle ERI a ses propres échelles et conventions. Bull-Out n'utilise pas l'échelle ERI validée : il reconstruit une lecture avec quelques items issus aussi de JD-R. Les deux modèles qui pointent une difficulté <b>ne sont pas deux confirmations indépendantes</b>." },
       { t: "h", texte: "Une bascule entre effort et retour" },
       { t: "fig", ill: "bascule", cap: "D’un côté ce que tu donnes, de l’autre ce que tu reçois. Le surengagement appuie encore sur le côté de l’effort." },
       { t: "p", html: "Le modèle effort–récompense (ERI) pose une question simple : <b>est-ce que l’échange est juste ?</b> On accepte souvent de donner beaucoup, pendant un temps, si on sait que ça sera vu, reconnu, ou que ça ouvre quelque chose. L’usure arrive quand l’effort reste haut et que le retour ne vient pas." },
@@ -447,6 +480,7 @@ export const chapitres = [
     sources: [
       ["Code du travail, article L4121-1 · obligation de sécurité de l’employeur (santé physique et mentale)", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000035640828"],
       ["INRS · prévention des risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/ce-qu-il-faut-retenir.html"],
+      ["INRS / Gollac · les six familles des facteurs de RPS", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques"],
       ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
     ],
     nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
@@ -905,17 +939,32 @@ export const examen = [
 
 // ───────────────────────────── Synthèse : les trois modèles, les idées clefs, et « pour aller plus loin ».
 export const synthese = {
-  chapo: "Neuf chapitres, trois modèles, une seule logique. Avant le test final, voici ce qu’il faut emporter. Relis cette page autant de fois qu’il le faut : c’est elle qui doit rester.",
+  chapo: "Neuf chapitres, trois modèles principaux et trois éclairages complémentaires. Avant le test final, compare leurs questions sur une même histoire : la distinction entre <b>ce que Sam ressent</b>, <b>ce que le travail lui demande</b> et <b>ce qu’il reçoit en retour</b> rend les décisions plus précises.",
   modeles: [
     { nom: "Maslach", question: "Qu’est-ce que l’usure fait à la personne ?", image: "Les trois jauges", idee: "Le burn-out, ce sont trois signes : l’épuisement, la distance mentale, la baisse d’efficacité. La fatigue n’est que le premier.", agir: "Regarder les trois jauges, pas seulement la fatigue. Le cynisme et le doute de soi sont des signaux, pas des défauts.", chap: 1 },
-    { nom: "JD-R", question: "D’où vient l’usure ?", image: "La balance", idee: "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire. Perdre une ressource pèse autant qu’ajouter une tâche.", agir: "Alléger un plateau ou charger l’autre : retirer une exigence, ou rendre une ressource (un collègue, du temps, de l’autonomie).", chap: 2 },
-    { nom: "Siegrist", question: "Pourquoi ça ne se voit pas ?", image: "La bascule", idee: "Donner beaucoup pour peu de retour use aussi. Et le surengagement cache le problème, jusqu’au moment où il éclate.", agir: "Rendre l’effort visible, et le reconnaître autrement que par un merci : estime, perspectives, sécurité.", chap: 3 },
+    { nom: "JD-R", question: "Quelles conditions favorisent l’usure ?", image: "La balance", idee: "Des exigences fortes ou durables peuvent favoriser l’épuisement ; des ressources adaptées soutiennent le travail et l’engagement. Les effets varient selon la situation.", agir: "Réduire une exigence ou renforcer une ressource réelle : arbitrer un dossier, ajouter un relais, préserver du temps ou de l’autonomie.", chap: 2 },
+    { nom: "Siegrist", question: "Que reçoit-on en retour de ses efforts ?", image: "La bascule", idee: "Un effort élevé associé à des récompenses faibles peut être délétère. Le surengagement peut entretenir le déséquilibre, sans être systématique.", agir: "Rendre l’effort visible, agir sur sa charge et examiner les retours : estime, perspectives, rémunération et sécurité.", chap: 3 },
+  ],
+  // Un même épisode concret, lu par les trois modèles sans les confondre.
+  casCommun: {
+    situation: "Pendant trois mois, Sam reprend le dossier d'un collègue sans remplacement. Il s'endort en pensant aux livraisons, devient sec en réunion et dit : « Je fais deux postes, personne ne le voit ».",
+    lectures: [
+      { modele:"Maslach", observe:"Épuisement, distance nouvelle, doute sur sa fiabilité.", neDitPas:"Ce qui a créé ces signes.", action:"Examiner les manifestations et leur retentissement ; proposer un avis clinique si nécessaire." },
+      { modele:"JD-R", observe:"Dossiers et interruptions en hausse ; relais, autonomie et récupération en baisse.", neDitPas:"Un nombre exact d'exigences à retirer pour guérir.", action:"Retirer, reporter ou partager le dossier supplémentaire ; rétablir les moyens." },
+      { modele:"Siegrist (ERI)", observe:"Effort supplémentaire visible, mais retour et perspectives insuffisants pour Sam.", neDitPas:"Que toute fatigue vient d'une injustice.", action:"Reconnaître factuellement l'effort et négocier les contreparties et les règles." },
+    ],
+    conclusion: "Ce sont <b>trois questions différentes sur les mêmes faits</b> : signes, conditions, réciprocité. JD-R et ERI partagent même des informations. Les réunir améliore la discussion, pas la validité clinique des scores."
+  },
+  complements: [
+    { nom:"Hobfoll · COR (1989)", role:"Pourquoi la situation peut s'aggraver par étapes", principe:"<b>Perdre une ressource peut entraîner d'autres pertes.</b> Le relais disparaît, les heures s'allongent, la récupération se réduit et les erreurs coûtent davantage.", exemple:"Chez Sam : un collègue non remplacé peut créer une spirale de surcharge.", limite:"Cadre mécanistique complémentaire, <b>pas un score COR</b> et aucune chaîne causale déduite des seules réponses.", lien:"https://pubmed.ncbi.nlm.nih.gov/2648906/" },
+    { nom:"Gollac / INRS · six familles de RPS", role:"Où rechercher des leviers concrets dans l'organisation", principe:"<b>Intensité et temps, exigences émotionnelles, autonomie, rapports sociaux, conflits de valeurs, insécurité du travail.</b> Ce classement des expositions ne constitue pas une nouvelle échelle de burn-out.", exemple:"La qualité empêchée de Sam relève des conflits de valeurs ; les urgences de l'intensité du travail.", limite:"Grille d'exposition professionnelle, <b>pas diagnostic individuel</b> ni preuve automatique de causalité.", lien:"https://www.inrs.fr/risques/psychosociaux/facteurs-risques" },
+    { nom:"Sonnentag & Fritz · récupération (2007)", role:"Ce qui se passe entre deux périodes de travail", principe:"<b>Détachement, relaxation, maîtrise d'activités hors travail et contrôle sur le temps libre</b> sont quatre expériences de récupération distinctes.", exemple:"Sam est chez lui, mais répond aux mails et rumine : être physiquement absent du bureau n'est pas décrocher psychologiquement.", limite:"Cadre scientifique de récupération ; <b>Bull-Out ne reprend pas le questionnaire REQ validé</b>.", lien:"https://pubmed.ncbi.nlm.nih.gov/17638488/" }
   ],
   clefs: [
-    ["Le repos est le test.", "Une fatigue que le week-end ne répare plus est une information, pas une faiblesse.", 0],
-    ["Trois signes, pas un.", "Épuisement, distance, efficacité réduite. Le cynisme protège l’énergie, puis coupe du sens.", 1],
-    ["Une ressource perdue pèse autant qu’une tâche ajoutée.", "Regarde les deux plateaux de la balance, surtout celui qu’on oublie.", 2],
-    ["L’effort invisible use deux fois.", "Une fois par la charge, une fois par l’absence de retour.", 3],
+    ["Le repos donne un indice.", "Une fatigue durable, qui revient vite malgré le repos, mérite une analyse : ce n’est pas un test diagnostique.", 0],
+    ["Trois dimensions, pas une.", "Épuisement, distance mentale, efficacité ressentie. Leur présence ne suit pas une succession obligatoire.", 1],
+    ["Perdre un relais change la charge réelle.", "Regarde ensemble les exigences et les ressources : aucun point de ressource n’annule mécaniquement un point de demande.", 2],
+    ["L’effort mérite un retour.", "L’absence de reconnaissance ou de perspectives peut s’ajouter à la pression du travail ; il faut examiner les deux.", 3],
     ["« Perso » n’efface jamais « travail ».", "Un facteur personnel rend plus vulnérable. Il ne dispense pas de regarder la charge.", 4],
     ["Aucun dosage, aucun score total ne diagnostique.", "On lit dimension par dimension, et on parle avec un professionnel.", 5],
     ["Retirer, reporter, simplifier.", "« Fais au mieux » n’est pas une décision. Sans moyens, on remonte au lieu de compenser.", 6],
@@ -929,9 +978,9 @@ export const synthese = {
     <p><b>Ce qu’on en sait aujourd’hui</b> : l’épuisement est la dimension centrale et la plus solide. L’efficacité réduite est la plus indépendante des deux autres, et certains chercheurs la voient comme une conséquence plutôt qu’un signe. Maslach elle-même rappelle que son questionnaire <b>n’a pas de seuil diagnostique</b> : il mesure des intensités, pas une maladie. Le lien avec la dépression reste débattu, ce qui explique pourquoi Bull-Out insiste sur l’avis d’un professionnel. D’autres outils existent, comme l’Oldenburg Burnout Inventory (2003), le Copenhagen Burnout Inventory (2005) ou le Burnout Assessment Tool (2020).</p>
     <h3>JD-R : expliquer d’où vient l’usure</h3>
     <p>Le modèle <b>exigences-ressources</b> (Job Demands-Resources) est proposé en 2001 par <b>Evangelia Demerouti, Arnold Bakker</b> et leurs collègues, à partir d’une étude sur des salariés allemands de plusieurs secteurs. Il prolonge un modèle plus ancien, celui de <b>Robert Karasek</b> (1979), qui croisait la demande psychologique et la latitude de décision, puis le soutien social (Johnson, 1988). L’idée nouvelle : <b>toute exigence</b> et <b>toute ressource</b> peuvent entrer dans la balance, pas seulement la charge et l’autonomie.</p>
-    <p>Le modèle décrit <b>deux processus</b>. Les exigences durables épuisent (processus de santé). Les ressources nourrissent l’engagement, et amortissent l’effet des exigences (processus de motivation). Des études longitudinales, qui suivent les mêmes personnes dans le temps, confirment ces deux voies. <b>Sa limite</b> : il est si souple que presque tout peut être une exigence ou une ressource. Il aide à chercher, il ne dit pas à l’avance ce qui compte dans ton poste.</p>
+    <p>Le modèle décrit <b>deux processus</b>. Les exigences durables épuisent (processus de santé). Les ressources nourrissent l’engagement, et amortissent l’effet des exigences (processus de motivation). Des études longitudinales, qui suivent les mêmes personnes dans le temps, étayent ces deux voies, sans établir la cause de chaque situation individuelle. <b>Sa limite</b> : il est si souple que presque tout peut être une exigence ou une ressource. Il aide à chercher, il ne dit pas à l’avance ce qui compte dans ton poste.</p>
     <h3>Siegrist : le déséquilibre effort-récompense</h3>
-    <p>Le sociologue de la santé <b>Johannes Siegrist</b> (université de Düsseldorf) part, dans les années 1980, d’études sur les maladies cardiovasculaires chez des ouvriers allemands. Son hypothèse : ce n’est pas seulement l’effort qui rend malade, c’est l’effort <b>sans réciprocité</b>. Il formalise le modèle effort-récompense (1996), avec trois formes de récompense : le salaire, l’estime, et les perspectives avec la sécurité de l’emploi. Le rapport entre effort et récompense se calcule ; au-dessus de 1, il y a déséquilibre. Il ajoute un trait personnel, le <b>surengagement</b>, qui aggrave l’effet du déséquilibre.</p>
+    <p>Le sociologue de la santé <b>Johannes Siegrist</b> (université de Düsseldorf) part, dans les années 1980, d’études sur les maladies cardiovasculaires chez des ouvriers allemands. Son hypothèse : ce n’est pas seulement l’effort qui rend malade, c’est l’effort <b>sans réciprocité</b>. Il formalise le modèle effort-récompense (1996), avec trois formes de récompense : le salaire, l’estime, et les perspectives avec la sécurité de l’emploi. Dans le questionnaire ERI original, un rapport corrigé effort / récompense supérieur à 1 signale conventionnellement un déséquilibre ; <b>Bull-Out ne calcule pas ce ratio validé</b>. Le modèle tient aussi compte du <b>surengagement</b>, qui peut entretenir une exposition coûteuse, sans qu’on puisse le déduire de quelques réponses.</p>
     <p><b>Ce qu’on en sait</b> : de grandes cohortes, comme Whitehall II (des milliers de fonctionnaires britanniques suivis pendant des années), et des méta-analyses associent ce déséquilibre à un risque plus élevé de maladies cardiovasculaires et de dépression. Ces associations sont robustes, mais modérées : elles parlent de risques à l’échelle d’un groupe, pas du destin d’une personne.</p>
     <h3>Et en France ?</h3>
     <p>En 2011, le collège d’expertise présidé par <b>Michel Gollac</b> a proposé six familles de facteurs de risques psychosociaux : l’intensité et le temps de travail, les exigences émotionnelles, le manque d’autonomie, la mauvaise qualité des rapports sociaux, les conflits de valeurs et l’insécurité de la situation de travail. On y retrouve les trois modèles. En 2019, l’OMS a précisé dans sa classification (CIM-11) que le burn-out est un <b>phénomène lié au travail</b>, et non une maladie médicale.</p>

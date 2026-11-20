@@ -346,7 +346,8 @@ test("le carnet décrit deux et quatre semaines sans conclure à une guérison p
 
 test("les PDF court et travail sont strictement séparés par leurs règles CSS", () => {
   const css = read("rapport.css");
-  assert.match(css, /\.pdf-court \.rp-page:not\(\[data-page="synthese"\]\):not\(\[data-page="appuis"\]\):not\(\[data-page="plan"\]\):not\(\[data-page="portes"\]\)/);
+  // V3 : l'essentiel garde la synthèse, le plan et les interlocuteurs (les appuis sont résumés dans la synthèse).
+  assert.match(css, /\.pdf-court \.rp-page:not\(\[data-page="synthese"\]\):not\(\[data-page="plan"\]\):not\(\[data-page="portes"\]\)/);
   assert.match(css, /\.rapport\.pdf-travail \.rp-page:not\(\[data-page="travail"\]\)/);
   assert.match(css, /\.rapport\.pdf-travail \.rapport-cover, \.rapport\.pdf-travail \.rp-fin/);
   const source = read("rapport.js");
@@ -803,4 +804,130 @@ test("les six réponses au ressenti humoristique sont lisibles sur mobile et acc
   assert.match(css,/@media \(max-width: 620px\)[\s\S]*?\.choices-humor/);
   assert.match(css,/\.choices-humor \.choice:last-child \{ grid-column: 1 \/ -1/);
   assert.match(js,/questions proposées, environ 15 à 20 minutes/);
+});
+
+
+test("la formation conserve trois modèles principaux et explique leur origine et leurs limites", () => {
+  const code = read("formation-contenu.js").replace(/^export const /gm, "const ");
+  const {chapitres} = new Function(code + "\nreturn {chapitres};")();
+  assert.equal(chapitres.length, 9);
+  for(const i of [1,2,3]) {
+    const c=chapitres[i];
+    const prose=c.blocs.filter(b=>b.t==="p").map(b=>b.html).join(" ");
+    assert.match(prose,/Limite/i,`Chapitre ${i+1} : limite absente`);
+    assert.match(prose,/Comment (l'utiliser|l'appliquer)|Comment l'appliquer/i,`Chapitre ${i+1} : fonctionnement absent`);
+    assert.match(prose,/Maslach|Demerouti|Siegrist/i,`Chapitre ${i+1} : origine absente`);
+    assert.ok(c.duree>=8,`Chapitre ${i+1} devrait annoncer plus de lecture`);
+  }
+  const jdr=chapitres[2];
+  assert.ok(jdr.blocs.some(x=>x.t==="p" && /Hobfoll/.test(x.html)));
+  assert.ok(jdr.blocs.some(x=>x.t==="p" && /Sonnentag/.test(x.html)));
+});
+
+test("la synthèse compare les trois modèles sur les mêmes faits et ne crée pas trois nouveaux scores", () => {
+  const code=read("formation-contenu.js").replace(/^export const /gm,"const ");
+  const {synthese}=new Function(code+"\nreturn {synthese};")();
+  assert.deepEqual(Array.from(synthese.modeles.map(x=>x.nom)),["Maslach","JD-R","Siegrist"]);
+  assert.equal(synthese.casCommun.lectures.length,3);
+  for(const x of synthese.casCommun.lectures) {
+    assert.ok(x.observe.length>20 && x.neDitPas.length>15 && x.action.length>25);
+  }
+  const complements=synthese.complements;
+  assert.equal(complements.length,3);
+  for(const name of ["Hobfoll","Gollac","Sonnentag"]) {
+    const m=complements.find(x=>x.nom.includes(name));
+    assert.ok(m,`Cadre complémentaire absent : ${name}`);
+    assert.match(m.limite,/pas|aucun|non|ne /i);
+    assert.match(m.lien,/^https:\/\//);
+  }
+  const render=read("parcours.js"),css=read("formation.css");
+  for(const id of ["s-croisement","s-complements"])assert.ok(render.includes(id));
+  assert.match(render,/synthese\.casCommun\.lectures\.map/);
+  assert.match(render,/synthese\.complements\.map/);
+  assert.match(css,/fo-complement/);
+});
+
+test("le récapitulatif des trois modèles suit immédiatement le chapitre 4", () => {
+  const render=read("parcours.js");
+  assert.match(render,/function resumeModelesPage\(\)/);
+  assert.match(render,/i === 3 \? `<a class="fo-pager-next" href="#modeles-resume">/);
+  assert.match(render,/i === 4 \? `<a class="fo-pager-prev" href="#modeles-resume">/);
+  assert.match(render,/hash === "#modeles-resume" \? resumeModelesPage\(\)/);
+  assert.match(render,/synthese\.casCommun\.lectures\.map/);
+  assert.match(render,/resume-limites/);
+  const visual=read("tests/generer-pdf-exemple.mjs");
+  assert.match(visual,/resume-modeles-mobile/);
+  assert.match(visual,/resume-modeles-ordinateur/);
+});
+
+test("la page Méthode détaille la construction, les hypothèses testables et les inconnues", () => {
+  const html=read("methode.html");
+  for(const id of ["mesure","modeles-et-perimetres","construction-hypotheses","verification-inconnues","donnees-decisions","sources-limites"]) {
+    assert.match(html,new RegExp('id="'+id+'"'));
+  }
+  for(let i=1;i<=6;i++)assert.match(html,new RegExp("H"+i+" ·"));
+  assert.match(html,/sensibilité, spécificité, fidélité/i);
+  assert.match(html,/pas des versions officielles validées/);
+  assert.match(html,/Les 79 questions/);
+  assert.match(html,/traduction automatique fournie par Google/);
+  assert.match(html,/une simulation réussie valide un comportement du programme/i);
+});
+
+test("le test PDF couvre vraiment 79 réponses fictives et ne collecte aucune donnée réelle", () => {
+  const js=read("tests/generer-pdf-exemple.mjs");
+  const yml=read(".github/workflows/rapport-fictif.yml");
+  for(const x of ["#burnout-form","calculateResults()","submit","page.pdf(","rapport-essentiel-fictif.pdf","rapport-complet-fictif.pdf","fiche-travail-fictive.pdf"]) {
+    assert.ok(js.includes(x),`Élément absent du test navigateur : ${x}`);
+  }
+  assert.match(js,/synth\.items!==79/);
+  assert.match(js,/if\(synth\.alertes\)/);
+  assert.match(js,/pageErrors\.length/);
+  assert.match(yml,/actions\/upload-artifact@v4/);
+});
+
+// ───────── V3 : synthèse qui commence par l'essentiel, et schéma construit au fil des chapitres.
+test("la synthèse ouvre sur le feu et les trois cadrans, puis lit les trois modèles sous le schéma", () => {
+  const html = pageDuRapport(composer(fixture(3)), "synthese");
+  const tete = html.indexOf('class="rp-tete"'), vue = html.indexOf('class="rp-vue"'), modeles = html.indexOf('class="rp-modeles-lus"');
+  assert.ok(tete > 0 && vue > tete && modeles > vue, "ordre attendu : feu et cadrans, schéma, trois modèles");
+  assert.match(html, /Maslach · ce qui se voit/);
+  assert.match(html, /Exigences-ressources · la balance/);
+  assert.match(html, /Effort-récompense · le retour/);
+  assert.match(html, /trois angles, pas trois preuves/);
+});
+
+function schemaApi() {
+  const code = read("formation-illustrations.js").replace(/^export\s+/gm, "");
+  return new Function(code + "\nreturn { schemaRapport, PIECES_SCHEMA };")();
+}
+
+test("chaque chapitre pose sa pièce du schéma du rapport, comme le papillon de Papillon", () => {
+  const { schemaRapport, PIECES_SCHEMA } = schemaApi();
+  assert.equal(PIECES_SCHEMA.length, 9, "une entrée par chapitre");
+  const anis = /fill="#d8f25c"/g;
+  // Schéma vide : aucune pièce posée, aucune surlignée.
+  const vide = schemaRapport(-1);
+  assert.equal((vide.match(anis) || []).length, 0);
+  assert.match(vide, /0 pièce posée/);
+  // Chapitre 3 : la balance et les appuis sont nouveaux (deux halos), le retour reste en attente.
+  const ch3 = schemaRapport(2);
+  assert.equal((ch3.match(anis) || []).length, 2);
+  assert.match(ch3, /La balance/);
+  assert.doesNotMatch(ch3, /Récompense/);
+  // Chapitre 8 : pas de nouvelle pièce, rien de surligné.
+  assert.equal((schemaRapport(7).match(anis) || []).length, 0);
+  // Schéma complet (accueil) : tout est posé, rien n'est surligné, et les fils disent « pas des causes » seulement au chapitre 6.
+  const complet = schemaRapport();
+  assert.equal((complet.match(anis) || []).length, 0);
+  assert.match(complet, /Sécurité : rien de coché/);
+  assert.match(schemaRapport(5), /des liens à vérifier, pas des causes/);
+  for (let i = -1; i <= 9; i++) assert.doesNotMatch(schemaRapport(i), /undefined|NaN/);
+});
+
+test("la formation et l'accueil montrent le schéma du rapport", () => {
+  const parcours = read("parcours.js");
+  assert.match(parcours, /schemaRapport\(i\)/);
+  assert.match(parcours, /schemaRapport\(-1/);
+  assert.match(read("index.html"), /import \{ schemaRapport \} from "\.\/formation-illustrations\.js"/);
+  assert.match(read("index.html"), /Trois façons de regarder le burn-out/);
 });

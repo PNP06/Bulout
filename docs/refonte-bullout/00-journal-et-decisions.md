@@ -34,7 +34,7 @@ Quatre images d'ensemble ont été comparées (réservoir, tableau de bord, arbr
 
 ## 20 novembre, soir : audit et corrections (avec Claude Opus)
 
-David demande un audit complet et une version valable. Détail dans [l'audit](audit-2026-11-20.md).
+David demande un audit complet et une version valable. Détail dans [l'audit](historique/audit-2026-11-20.md).
 
 | Sujet | Décidé et fait |
 |---|---|
@@ -65,10 +65,21 @@ Deux chantiers avaient avancé en parallèle depuis le même point de départ : 
 | Couverture du rapport et page Méthode | Encadré « Comment lire » et section « Ce qu'on mesure », mis à jour pour 79 questions. |
 | Textes | Tutoiement de l'audit ; textes de la V2 ailleurs. |
 
+## 20 novembre, nuit : la V3
+
+David : « je veux que les gens comprennent les différentes façons d'aborder le burn-out » et « qu'à chaque fin de chapitre on voie une partie du schéma final du rapport, comme pour Papillon ». La PR #10 de ChatGPT (modèles approfondis, synthèse après le chapitre 4, page Méthode, PDF fictifs) est reprise telle quelle, puis :
+
+| Sujet | Décidé et fait |
+|---|---|
+| Schéma construit par chapitre | Fin de chaque chapitre : le schéma du rapport avec l'exemple de Sam, la pièce du chapitre en anis, les suivantes en pointillés. 1 : A et F, le corps. 2 : les trois signes. 3 : la balance et les appuis. 4 : le retour. 5 : le contexte. 6 : les fils (« des liens à vérifier, pas des causes »). 7 : les trois cadrans. 8 : pas de pièce. 9 : la sécurité. Schéma vide dans l'introduction. |
+| Les modèles sur l'accueil | Section « Trois façons de regarder le burn-out » (Maslach, balance, retour, avec leurs chapitres), les trois éclairages complémentaires, et le schéma complet. |
+| Synthèse du rapport | Ordre : feu et trois cadrans, par quoi commencer, schéma, puis « Trois modèles, trois questions sur tes réponses » (en mots), puis les trois lectures, la durée et la qualité des réponses. |
+| PDF essentiel | Synthèse, plan, interlocuteurs : 9 pages au lieu de 13, sans pages presque vides. |
+| Dépôt | Notes du 20 novembre rangées dans `historique/` ; vieux dossiers de sauvegarde supprimés (l'historique Git les garde) ; README à la racine. |
+
 ## Questions encore ouvertes
 
 1. **Validation** : avec les deux psys, tester la fidélité des parties A à F et la pertinence des seuils sur de vraies réponses (anonymes, avec accord).
 2. **Sens et absurde** : le sens repose sur deux questions. Faut-il une ou deux questions de plus (qualité empêchée, conflit de valeurs) ?
 3. **Facteurs de risques (INRS, Gollac)** : exigences émotionnelles (une question) et insécurité (une question) sont peu couvertes.
-4. **Durée et évolution** : depuis quand ? Ça s'améliore ou ça se dégrade ? Rien ne le demande aujourd'hui.
-5. **Mise en ligne** : chaque fusion dans `main` part en ligne en 5 minutes. Une branche « production » relue avant mise en ligne serait plus sûre.
+4. **Mise en ligne** : chaque fusion dans `main` part en ligne en 5 minutes. Une branche « production » relue avant mise en ligne serait plus sûre.
