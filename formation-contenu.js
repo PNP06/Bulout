@@ -1,4 +1,4 @@
-// Formation Bull-Out : neuf chapitres d’une page, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Formation Bull-Out : neuf chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
 // Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
 // des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
 // Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7, 8 et 9 : il concerne tout le monde.
@@ -18,12 +18,12 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Neuf chapitres d’une page</b>, de 4 à 8 minutes chacun (environ 55 minutes en tout), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Neuf chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],
   essentiel: [
-    "Le meilleur indice n’est pas l’intensité de la fatigue, mais sa durée et ce que le repos te rend.",
+    "L’intensité de la fatigue ne suffit pas : sa durée, sa trajectoire et ce que le repos te rend aident à comprendre la situation.",
     "Le burn-out a trois signes : l’épuisement, la distance mentale et la baisse d’efficacité. La fatigue n’est que le premier.",
     "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire.",
     "Donner beaucoup pour peu de retour use aussi, et le surengagement rend le problème invisible.",
