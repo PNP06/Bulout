@@ -704,6 +704,18 @@
     prevButton.addEventListener("click", stepBack);
     nextButton.addEventListener("click", stepForward);
     layout.addEventListener("click", (event) => {
+      const skipBS = event.target.closest("[data-skip-bs]");
+      if (skipBS) {
+        const part = skipBS.closest('.question-section[data-part="BS"]');
+        if (part) {
+          part.querySelectorAll('input[type="radio"][value="skip"]').forEach((input) => { input.checked = true; });
+          part.querySelectorAll(".question-item").forEach((item) => item.classList.add("is-answered"));
+          form.dispatchEvent(new Event("change", { bubbles: true }));
+          refreshPaging();
+          showPart(currentPart + 1, true);
+        }
+        return;
+      }
       const go = event.target.closest("[data-go]");
       if (go) { allParts.open = false; showPart(Number(go.dataset.go), true); }
       const q = event.target.closest("[data-q]");
@@ -717,6 +729,10 @@
     form.addEventListener("change", (event) => {
       const item = event.target.closest(".question-item");
       if (item) {
+        if (item.closest('[data-part="BS"]') && event.target.value !== "skip") {
+          item.closest(".question-section").querySelectorAll('input[type="radio"][value="skip"]:checked')
+            .forEach((input) => { input.checked = false; });
+        }
         item.classList.add("is-answered");
         item.classList.remove("is-missing");
       }
