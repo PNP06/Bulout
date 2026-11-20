@@ -1525,54 +1525,48 @@
 
   // Plans à 72 heures et à 2 semaines : données seulement, le rendu est dans rapport.js.
   function buildActionPlans(result) {
-    const topLabels = result.topItems.slice(0, 3).map((item) => item.humanLabel);
-    const dominant = result.dominantDimensions[0]?.shortTitle || "la dimension dominante";
-    const recoveryHigh = result.sectionScores.F >= 13;
-    const demandHigh = result.sectionScores.D >= 13;
-    const resourcesHigh = result.sectionScores.E >= 13;
-    const plan = [
-      {
-        title: "À arrêter temporairement",
-        items: [
-          "accepter une nouvelle tâche sans arbitrage",
-          demandHigh ? "répondre en temps réel à toutes les sollicitations" : "ajouter des engagements sans marge",
-          "compenser seul·e un dysfonctionnement collectif"
-        ]
-      },
-      {
-        title: "À clarifier",
-        items: [
-          "priorité principale de la semaine",
-          "tâches à reporter",
-          "niveau de qualité attendu",
-          topLabels.length ? `signal principal à discuter : ${topLabels.join(", ")}` : `dimension à discuter : ${dominant}`
-        ]
-      },
-      {
-        title: "À demander",
-        items: [
-          demandHigh ? "arbitrage de charge" : "point court sur les priorités",
-          resourcesHigh ? "soutien, clarté ou moyen concret" : "soutien d'un collègue si utile",
-          recoveryHigh ? "avis médecin du travail ou médecin traitant si la récupération reste dégradée" : "aménagement temporaire si la situation s'aggrave"
-        ]
-      },
-      {
-        title: "À surveiller",
-        items: ["sommeil", "irritabilité", "erreurs", "rumination", "stratégies de compensation"]
-      }
-    ];
-    const twoWeeks = [
-      {
-        title: "Comparer",
-        items: ["refaire le questionnaire", "vérifier si le score baisse, stagne ou monte"]
-      },
-      {
-        title: "Décider",
-        items: ["vérifier si une action concrète a été obtenue", "décider si le niveau d'aide doit augmenter"]
-      }
-    ];
-    return { plan72h: plan, twoWeeks };
-  }
+  const items = result.answers || [];
+  const signaux = items.filter((a) => a.riskScore >= 3);
+  const pro = signaux.filter((a) => ["D", "E"].includes(a.sectionId));
+  const sante = signaux.filter((a) => ["A", "B", "C", "F"].includes(a.sectionId));
+  const quality = (result.temporalAnswers || []).find((a) => a.id === "T4")?.value >= 3;
+  const context = new Set((result.contextAnswers || []).filter((a) => a.yes).map((a) => a.id));
+  const situationProfessionnelle = pro[0]
+    ? `Partir d'un exemple daté concernant « ${pro[0].humanLabel} » (${pro[0].id}).`
+    : quality ? "Décrire une situation concrète dans laquelle la qualité attendue n'a pas pu être atteinte."
+      : "Identifier un exemple concret de ce qui fonctionne et de ce qui gêne aujourd'hui.";
+  const confidentialite = context.has("fearToSpeak") || context.has("harassment");
+  const travailActions = (result.actions || [])
+    .filter((a) => a.id?.startsWith("D-") || a.id?.startsWith("E-") || a.id === "quality-prevented" || ["load", "resources"].includes(a.id))
+    .slice(0, 2);
+  const demander = travailActions.length
+    ? travailActions.map((a) => a.text)
+    : ["Vérifier les priorités de la semaine et préserver les ressources qui fonctionnent."];
+  const mediation = confidentialite
+    ? "Choisir d'abord un interlocuteur confidentiel plutôt qu'une discussion imposée avec la hiérarchie."
+    : "Formuler une demande d'arbitrage ou de soutien auprès d'un interlocuteur approprié.";
+  const santeMessage = result.hasAlert
+    ? "Tenir compte de la réponse de sécurité et suivre l'orientation individuelle indiquée dans la synthèse."
+    : sante.length
+      ? `Noter ce qui a changé dans la santé ou le fonctionnement, notamment « ${sante[0].humanLabel} » ; demander un avis si la difficulté persiste ou s'aggrave.`
+      : "Ne pas déduire d'un faible score l'absence de difficulté ; demander un avis si un symptôme préoccupant apparaît.";
+  const plan72h = [
+    { title: "Décrire sans interpréter", items: [situationProfessionnelle, "Noter la date, la tâche, la contrainte et la conséquence observable."] },
+    { title: "Demander une décision", items: [...demander, mediation] },
+    { title: "Santé et sécurité", items: [santeMessage] }
+  ];
+  const twoWeeks = [
+    { title: "Observer", items: [
+      "Comparer les situations concrètes rencontrées, sans faire du total A–F une mesure de guérison.",
+      "Noter l'action effectivement mise en œuvre, sa date et les nouvelles difficultés éventuelles."
+    ] },
+    { title: "Décider", items: [
+      "Vérifier si un arbitrage, une ressource ou un aménagement a réellement été obtenu.",
+      "Réexaminer séparément les manifestations, les expositions et la récupération ; consulter si la santé ou la sécurité se dégrade."
+    ] }
+  ];
+  return { plan72h, twoWeeks };
+}
 
   function buildResultText(result) {
     const sectionLines = sections.map((section) => {
