@@ -618,7 +618,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       : `<section class="rp-bs-reaction" aria-labelledby="rp-bs-reaction-title">
           <p class="k">Une autre lecture, indépendante de l'indice de bullshit</p>
           <h4 id="rp-bs-reaction-title">Et toi, comment as-tu vécu ces blagues ?</h4>
-          <p>Rire, se reconnaître, être peiné et prendre du recul peuvent coexister. Tu as répondu à chaque question séparément.</p>
+          <p>Rire, ressentir de la peine, avoir l'impression que des difficultés sont minimisées et prendre du recul peuvent coexister. Chaque ressenti est interrogé séparément.</p>
           <div class="rp-bs-reaction-grid">${reaction.answers.map((a) =>
             `<div><b>${esc(a.question)}</b><span>${esc(a.answer || "Non renseigné")}</span></div>`).join("")}</div>
           ${reaction.interpretation ? `<div class="rp-bs-reaction-lecture">
@@ -682,7 +682,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     comprendre:pourComprendre("Du bullshit aux conditions de travail : ce qu'on peut vraiment conclure",
       `<p>David Graeber (2018) a popularisé la notion de « bullshit jobs », qui critique les activités considérées comme inutiles par ceux qui les exercent. Soffia, Wood et Burchell (2022) trouvent une association entre le sentiment d'inutilité du travail et le mal-être, mais contestent les grandes conclusions causales et quantitatives de Graeber.</p>
       <p>Dans les six familles de risques psychosociaux décrites par l'INRS, le sens et la qualité empêchée rejoignent les conflits de valeurs. Une activité absurde ou un indicateur inutile peut être une situation organisationnelle à discuter ; un score satirique ne prouve pas que le poste est objectivement inutile.</p>
-      <p>L'étude de Martin et collègues (2003) distingue plusieurs <b>usages de l'humour</b> associés différemment au bien-être. Bull-Out te demande maintenant comment tu as reçu ces questions sur le moment : amusement, malaise, identification et recul ressenti. Ce retour ponctuel ne mesure ni ton usage habituel de l'humour, ni son éventuel effet protecteur sur ta santé.</p>
+      <p>L'étude de Martin et collègues (2003) distingue plusieurs <b>usages de l'humour</b> associés différemment au bien-être. Bull-Out te demande maintenant comment tu as reçu ces questions sur le moment : amusement, malaise, impression de minimisation et recul ressenti. Ce retour ponctuel ne mesure ni ton usage habituel de l'humour, ni son éventuel effet protecteur sur ta santé.</p>
       <p>Références : <a href="https://doi.org/10.1177/09500170211015067" target="_blank" rel="noopener">Soffia et al., 2022</a> ; <a href="https://doi.org/10.1016/S0092-6566(02)00534-2" target="_blank" rel="noopener">Martin et al., 2003</a> ; <a href="https://www.inrs.fr/risques/psychosociaux/facteurs-risques" target="_blank" rel="noopener">INRS</a>.`,chapLien(2)),
     garder:"Ce qui fait rire mérite parfois une vraie question : quelle décision, quelle utilité, quels moyens et quel arbitrage ?"
   };
