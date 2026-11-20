@@ -6,6 +6,8 @@
     <title>Test burn-out et rapport personnel · Bull-Out</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="charte.css">
+    <link rel="stylesheet" href="formation.css">
+    <link rel="stylesheet" href="rapport.css">
     <meta name="description" content="Le questionnaire Bull-Out examine les quatre dernières semaines, décrit le profil par dimension et propose des pistes d’action. Outil non diagnostique.">
     <link rel="canonical" href="https://bullout.ddlab.fr/test.html">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -38,7 +40,6 @@
         <details class="nav-group">
           <summary>Plus</summary>
           <div class="nav-panel nav-panel-compact" role="group" aria-label="Autres pages">
-            <a href="managers.html">Pour les managers</a>
             <a href="presentation.html">Présentation 15 min</a>
             <a href="comprendre.html">Archive · Guide d’origine</a>
             <a href="questionnaire_bullshit_job_satirique_html.html">Bullshitomètre</a>
@@ -57,9 +58,23 @@
           <div class="section-heading">
             <p class="kicker">Étape 2 · Le test personnel</p>
             <h1 tabindex="-1">Ton questionnaire Bull-Out</h1>
-            <p>Cotez chaque item de 0 à 4 en pensant aux 4 dernières semaines, sauf événement exceptionnel majeur. Le questionnaire donne une photographie de votre situation actuelle : il ne pose pas de diagnostic et ne prédit pas l'avenir. Les résultats restent dans votre navigateur et ne sont envoyés nulle part.</p>
+            <p class="q-lead">67 questions sur tes <b>quatre dernières semaines</b>, une à la fois, dont une pause humour : le bullshitomètre. Environ 15 minutes. Une photographie, pas un diagnostic : tes réponses restent dans ce navigateur.</p>
           </div>
 
+          <p class="kbd-tip"><b>Pour aller vite.</b> Touche une réponse : la question suivante arrive d’elle-même, au même endroit. « Précédente » permet toujours de revenir.<span class="only-fine"> Sur ordinateur, les touches <kbd>0</kbd> à <kbd>4</kbd> répondent (<kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui), <kbd>←</kbd> revient en arrière, <kbd>→</kbd> passe à la suivante.</span></p>
+          <form id="burnout-form" class="questionnaire" novalidate>
+            <div class="progress-wrap" aria-live="polite">
+              <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
+              <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+            </div>
+            <div id="questionnaire-root"></div>
+            <div class="form-actions">
+              <button class="button primary" type="submit">Obtenir mon rapport</button>
+              <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
+            </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+          <div class="q-annexe">
           <details class="questionnaire-intent notice-reflection">
             <summary>Pourquoi ce questionnaire n'est pas un diagnostic</summary>
             <div class="questionnaire-intent-body">
@@ -117,180 +132,16 @@
             </div>
           </details>
 
-          <div class="scale-legend" aria-label="Échelle de réponse">
-            <span><strong>0</strong> jamais ou presque jamais</span>
-            <span><strong>1</strong> rarement</span>
-            <span><strong>2</strong> parfois</span>
-            <span><strong>3</strong> souvent</span>
-            <span><strong>4</strong> presque toujours</span>
-          </div>
 
           <div class="parcours-tools"><button type="button" class="button secondary" data-save>Enregistrer ma progression</button><label class="resume-file">Reprendre un fichier<input type="file" data-import accept=".json,.png"></label></div>
           <p class="save-note">Le fichier de progression peut contenir tes réponses personnelles. Les réponses aux questions d’alerte restent dans cet onglet.</p>
           <p class="file-status" role="status"></p>
-          <form id="burnout-form" class="questionnaire" novalidate>
-            <div class="progress-wrap" aria-live="polite">
-              <div class="progress-text"><span id="progress-count">0</span> / <span id="progress-total">46</span> réponses</div>
-              <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-            </div>
-            <div id="questionnaire-root"></div>
-            <div class="form-actions">
-              <button class="button primary" type="submit">Obtenir mon rapport</button>
-              <button class="button secondary" type="button" id="reset-form">Réinitialiser</button>
-            </div>
-            <p id="form-error" class="form-error" role="alert" hidden></p>
-          </form>
+          </div>
 
         </div>
       </section>
       <section id="results" class="results rapport" hidden aria-labelledby="rapport-titre">
-            <header class="rapport-cover">
-              <p class="course-eyebrow">Étape 3 · Rapport personnel</p>
-              <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out</h1>
-              <p id="rapport-date"></p>
-              <p>Ce profil réunit tes réponses sur les quatre dernières semaines. Les scores servent à préparer une discussion sur ta santé et ton travail. Ils ne mesurent pas une probabilité de burn-out.</p>
-              <div class="parcours-tools"><button class="button anis" type="button" id="imprimer">Imprimer / enregistrer en PDF</button><a href="#questionnaire">Revoir mes réponses</a></div>
-            </header>
-            <nav class="rapport-nav" aria-label="Sommaire du rapport"><a href="#rapport-synthese">Synthèse</a><a href="#rapport-dimensions">Dimensions</a><a href="#rapport-contexte">Contexte</a><a href="#rapport-actions">Actions</a><a href="#rapport-interlocuteurs">Interlocuteurs</a></nav>
-            <section class="result-section result-summary" id="rapport-synthese">
-              <div class="result-header">
-                <div>
-                  <p class="kicker">Synthèse</p>
-                  <h3 id="profile-title"></h3>
-                  <p id="profile-summary"></p>
-                  <p id="global-level"></p>
-                </div>
-                <div class="score-badge"><span id="global-score"></span><small>/144</small></div>
-              </div>
-              <div id="alert-message" class="notice alert" hidden>
-                Ce résultat ne constitue pas un diagnostic, mais certains signaux justifient un avis médical rapide. En cas de danger immédiat : 15 / 112. En cas d'idées suicidaires en France : 3114.
-              </div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Lecture pratique du niveau d'action</h4>
-                <p>Le résultat n'écrit jamais “vous êtes en burn-out”. Il indique seulement que le niveau d'action recommandé augmente.</p>
-              </div>
-              <div id="risk-zone-reading" class="risk-zone-grid"></div>
-            </section>
-
-            <section class="result-section" id="rapport-dimensions">
-              <div class="result-section-title">
-                <h4>Scores par dimensions</h4>
-                <p>Un score élevé sur une dimension ne pose pas un diagnostic. Il indique une zone à investiguer.</p>
-              </div>
-              <div id="score-bars" class="score-bars"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Lecture avec les 3 modèles</h4>
-                <p>La même réponse peut être lue comme symptôme, facteur de travail ou déséquilibre de reconnaissance.</p>
-              </div>
-              <div id="model-readings" class="result-model-grid"></div>
-            </section>
-
-            <section class="result-section" id="rapport-contexte">
-              <div class="result-section-title">
-                <h4>Éléments de contexte à prendre en compte</h4>
-                <p>Ces éléments ne modifient pas le score, mais ils changent la lecture du résultat et les interlocuteurs à envisager.</p>
-              </div>
-              <div id="context-factors" class="context-factors"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Signal individuel ou signal collectif ?</h4>
-                <p id="collective-summary"></p>
-              </div>
-              <div class="collective-reading">
-                <div class="collective-grid">
-                  <article class="collective-card">
-                    <h5>Signal individuel</h5>
-                    <ul><li>Fatigue personnelle</li><li>Symptômes santé</li><li>Situation personnelle associée</li><li>Adéquation poste/personne</li><li>Besoin d'avis médical ou psychologique</li></ul>
-                  </article>
-                  <article class="collective-card">
-                    <h5>Signal collectif</h5>
-                    <ul><li>Surcharge partagée</li><li>Sous-effectif</li><li>Priorités contradictoires</li><li>Manque de ressources commun</li><li>Management ou processus générant l'usure</li><li>Besoin d'action collective ou organisationnelle</li></ul>
-                  </article>
-                </div>
-                <p>Une série de scores élevés sur les mêmes dimensions n'est pas une somme de fragilités individuelles : c'est souvent un signal organisationnel.</p>
-              </div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Items les plus préoccupants</h4>
-                <p>Les items les plus hauts pointent les zones où une action concrète est prioritaire.</p>
-              </div>
-              <ol id="top-items-list" class="top-items-list"></ol>
-            </section>
-
-            <section class="result-section" id="rapport-actions">
-              <div class="result-section-title">
-                <h4>Actions prioritaires</h4>
-                <p>Choisissez une ou deux actions réalistes, pas un plan héroïque en douze chantiers parallèles.</p>
-              </div>
-              <p class="action-order-note">On ne commence pas par optimiser sa respiration si le problème principal est une surcharge non arbitrée. On commence par réduire l'exposition ou obtenir un arbitrage.</p>
-              <div id="priority-actions" class="priority-actions"></div>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Votre plan des 72 prochaines heures</h4>
-                <p>Une aide à la décision courte : quoi arrêter temporairement, clarifier, demander et surveiller. Pas une promesse médicale.</p>
-              </div>
-              <div id="plan-72h" class="action-plan-grid"></div>
-            </section>
-
-            <section class="result-section result-takeaways">
-              <div class="result-section-title">
-                <h4>3 choses à retenir</h4>
-                <p>Une synthèse courte pour éviter de transformer le résultat en rapport de cabinet conseil intérieur.</p>
-              </div>
-              <div id="result-takeaways" class="takeaway-grid"></div>
-            </section>
-
-            <section class="result-section" id="rapport-interlocuteurs">
-              <div class="result-section-title">
-                <h4>Interlocuteurs recommandés selon votre profil</h4>
-                <p>Interlocuteurs potentiellement utiles, à envisager selon votre situation. Les informations médicales restent avec les professionnels de santé.</p>
-              </div>
-              <div id="recommended-stakeholders" class="recommended-stakeholders"></div>
-            </section>
-
-            <section class="result-section manager-result-note">
-              <div class="result-section-title">
-                <h4>Vous voulez en parler à un manager ?</h4>
-                <p>La discussion doit porter sur la charge, les priorités, les moyens et la récupération. Les scores individuels ne doivent pas être exigés par un employeur.</p>
-              </div>
-              <a class="text-link" href="managers.html">Voir la page dédiée Managers</a>
-            </section>
-
-            <section class="result-section">
-              <div class="result-section-title">
-                <h4>Messages à copier / préparer pour un entretien</h4>
-                <p>Le résumé copiable reprend les scores, dimensions dominantes, items hauts et actions prioritaires.</p>
-              </div>
-              <p id="recommendation-text" class="recommendation-text"></p>
-            </section>
-            <section class="result-section trajectory-section">
-              <div class="result-section-title">
-                <h4>Plan à 2 semaines</h4>
-                <p>Ce questionnaire est une photographie. Ce qui compte aussi, c'est la trajectoire.</p>
-              </div>
-              <div id="plan-2weeks" class="action-plan-grid compact-plan"></div>
-              <div class="trajectory-grid">
-                <article><h5>Score en baisse</h5><p>Les ajustements ou le contexte semblent améliorer la soutenabilité. Maintenir les protections.</p></article>
-                <article><h5>Score stable élevé</h5><p>La situation risque de se chroniciser. Il faut passer d'une adaptation individuelle à une action sur la charge, les ressources ou l'organisation.</p></article>
-                <article><h5>Score en hausse</h5><p>Le risque augmente. Réduire l'exposition et demander de l'aide devient prioritaire.</p></article>
-              </div>
-              <p class="copy-followup-note">Conservez ce résumé si vous souhaitez comparer votre situation dans quelques semaines.</p>
-            </section>
-            <button class="button secondary" type="button" id="copy-results">Copier mes résultats</button>
-            <p class="rapport-source">Méthode et limites · <a href="methode.html">bullout.ddlab.fr/methode.html</a></p>
-            <div class="rapport-fin"><a href="agir.html" class="button primary">Explorer les leviers d’action</a></div>
+        <!-- Composé par rapport.js à partir des réponses (synthèse, tes appuis, 8 pièces, annexes). -->
       </section>
     </main>
 
@@ -300,10 +151,12 @@
       <p>Ce site est un outil éducatif et de prévention. Il ne pose pas de diagnostic. Les résultats restent dans votre navigateur. En cas d'urgence médicale : 15 / 112. En cas d'idées suicidaires en France : 3114.</p>
       <p>Aucune donnée n'est envoyée. Pas de tracking, pas de serveur, pas de pseudo-science emballée sous vide.</p>
       <p>Ce site ne doit pas être utilisé par un employeur pour sélectionner, surveiller, classer ou évaluer individuellement des salariés. Un résultat individuel ne doit pas être exigé par un manager, une RH ou une organisation.</p>
-      <p class="footer-links"><a href="formation.html">Formation</a> · <a href="test.html">Le test</a> · <a href="agir.html">Agir</a> · <a href="methode.html">Méthode et limites</a> · <a href="managers.html">Managers</a> · <a href="presentation.html">Présentation 15 min</a></p>
+      <p class="footer-links"><a href="formation.html">Formation</a> · <a href="test.html">Le test</a> · <a href="agir.html">Agir</a> · <a href="methode.html">Méthode et limites</a> · <a href="presentation.html">Présentation 15 min</a></p>
     </footer>
 
+    <script src="bullshitometre-data.js"></script>
     <script src="script.js"></script>
+    <script type="module" src="rapport.js"></script>
     <script type="module" src="parcours.js"></script>
   </body>
 </html>
