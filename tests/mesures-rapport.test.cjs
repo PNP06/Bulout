@@ -102,16 +102,17 @@ function fixture(value, alertes = [false, false, false]) {
   };
 }
 
-test("le questionnaire compte 75 questions, dont douze satiriques et quatre repères non notés", () => {
+test("le questionnaire compte 79 questions, dont 12 satiriques et 4 réactions non notées", () => {
   assert.equal(api.sections.length, 6);
   assert.ok(api.sections.every((s) => s.questions.length === 6));
   assert.equal(api.strengthPart.questions.length, 6);
   assert.equal(api.exchangePart.questions.length, 6);
   assert.equal(api.bullshitPart.questions.length, 12);
+  assert.equal(api.humorReactionPart.questions.length, 4);
   assert.equal(api.contextQuestions.length, 8);
   assert.equal(api.alertQuestions.length, 3);
   assert.equal(api.temporalPart.questions.length, 4);
-  assert.equal(6 * 6 + 6 + 6 + 12 + 8 + 3 + 4, 75);
+  assert.equal(6 * 6 + 6 + 6 + 12 + 4 + 8 + 3 + 4, 79);
 });
 
 test("un total maximal ne déclenche pas d'alerte à lui seul", () => {
@@ -187,7 +188,7 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v1", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -421,7 +422,7 @@ test("la chronologie alimente la lecture du rapport sans déduire de causalité"
 
 test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ceux à refaire", () => {
   const src = read("parcours.js");
-  assert.match(src, /const format = "bull-out-progression-8"/);
+  assert.match(src, /const format = "bull-out-progression-9"/);
   assert.match(src, /versionQuestions: "2026-11-v2"/);
   assert.match(src, /reponsesReformulees/);
   assert.match(src, /Object.entries\(anciennes\).filter/);
@@ -495,10 +496,13 @@ function completeAnswers(options = {}) {
   for (let i = 0; i < source.bullshitPart.questions.length; i++) {
     inputs["BS" + (i + 1)] = options.skipBS ? "skip" : 0;
   }
+  for (let i = 0; i < source.humorReactionPart.questions.length; i++) {
+    inputs["HR" + (i + 1)] = options.skipBS || options.skipHR ? 5 : 0;
+  }
   return { ...inputs, ...(options.overrides || {}) };
 }
 
-test("le moteur exécute les 75 réponses avec la pause satirique passée", () => {
+test("le moteur exécute les 79 réponses avec la pause satirique passée", () => {
   const data = completeAnswers({ skipBS: true });
   const engine = debugApi(data);
   const result = engine.calculateResults();
@@ -637,4 +641,94 @@ test("la migration réelle respecte le saut volontaire des huit questions BS en 
   const mixed = migrate({...old,BS1:"1"});
   assert.equal(mixed.BS1,"1");
   assert.equal(mixed.BS9,undefined,"Ne pas confondre réponse partielle et saut complet");
+});
+
+
+test("les quatre questions d'expérience de l'humour restent distinctes et facultatives", () => {
+  const part = api.humorReactionPart;
+  assert.equal(part.id, "HR");
+  assert.equal(part.questions.length, 4);
+  assert.match(part.questions[0].text, /amusé·e|sourire/);
+  assert.match(part.questions[1].text, /peine|mal à l.aise/);
+  assert.match(part.questions[2].text, /reconnu·e/);
+  assert.match(part.questions[3].text, /prendre un peu de recul/);
+  assert.ok(part.questions.every(q => q.options.length === 6 && q.options[5].text.includes("préfère")));
+});
+
+test("une personne peut rire et être peinée à la fois, sans étiquette clinique", () => {
+  const data = completeAnswers({overrides: {HR1:4,HR2:4,HR3:4,HR4:1}});
+  const r = debugApi(data).calculateResults();
+  assert.ok(r);
+  assert.equal(r.humorReaction.skipped,false);
+  assert.equal(r.humorReaction.interpretation.mixedEmotions,true);
+  assert.equal(r.humorReaction.interpretation.identified,true);
+  assert.match(r.humorReaction.interpretation.title,/fait rire.*touche/);
+  assert.match(r.humorReaction.interpretation.warning,/aucun score clinique/);
+  assert.equal(r.humorReaction.answers.length,4);
+});
+
+test("prise de recul déclarée et rire sont deux réactions distinctes", () => {
+  const response = completeAnswers({overrides:{HR1:0,HR2:0,HR3:2,HR4:4}});
+  const r = debugApi(response).calculateResults();
+  assert.ok(r);
+  assert.match(r.humorReaction.interpretation.title,/Du recul, même sans grand éclat de rire/);
+  assert.equal(r.humorReaction.interpretation.perceivedDistance,true);
+  assert.equal(r.humorReaction.interpretation.mixedEmotions,false);
+  assert.doesNotMatch(r.humorReaction.interpretation.text,/protège durablement/);
+});
+
+test("quatre réactions neutres ou non renseignées ne deviennent pas un diagnostic", () => {
+  const neutral = debugApi(completeAnswers({overrides:{HR1:0,HR2:0,HR3:0,HR4:0}})).calculateResults();
+  assert.ok(neutral);
+  assert.match(neutral.humorReaction.interpretation.title,/réaction plus nuancée/);
+  const skipped = debugApi(completeAnswers({skipHR:true})).calculateResults();
+  assert.ok(skipped);
+  assert.equal(skipped.humorReaction.skipped,true);
+  assert.equal(skipped.humorReaction.interpretation,null);
+  assert.equal(skipped.bullshit.skipped,false);
+  assert.ok(Number.isFinite(skipped.bullshit.percent));
+});
+
+test("le saut du bullshitomètre neutralise aussi ses questions de ressenti", () => {
+  const result = debugApi(completeAnswers({skipBS:true})).calculateResults();
+  assert.ok(result);
+  assert.equal(result.bullshit.skipped,true);
+  assert.equal(result.humorReaction.skipped,true);
+  assert.equal(result.humorReaction.answers.length,0);
+  assert.equal(result.humorReaction.interpretation,null);
+  const code = read("script.js");
+  assert.match(code,/data-skip-hr/);
+  assert.match(code,/showPart\(currentPart \+ \(feedback \? 2 : 1\), true\)/);
+});
+
+test("le rapport restitue l'expérience de l'humour sans toucher à la matrice ou aux scores", () => {
+  const r = debugApi(completeAnswers({overrides:{HR1:4,HR2:4,HR3:3,HR4:3}})).calculateResults();
+  assert.ok(r);
+  const state = fixture(2);
+  const html = composer({...state,result:{...state.result,...r,plans:state.result.plans}});
+  const page = pageDuRapport(html,"absurde");
+  assert.match(page,/Et toi, comment as-tu vécu ces blagues/);
+  assert.match(page,/Ça fait rire\. Et ça touche/);
+  assert.match(page,/Rire, se reconnaître, être peiné et prendre du recul peuvent coexister/);
+  assert.match(page,/Matrice : absurdité perçue, distance et sens/);
+  assert.match(page,/aucun score clinique|ne démontre pas/);
+  const fiche = pageDuRapport(html,"travail");
+  assert.doesNotMatch(fiche,/HR1|HR2|amusé·e|m'ont fait de la peine/i);
+});
+
+test("le rapport ne fabrique pas de réaction quand la partie a été passée", () => {
+  const r = debugApi(completeAnswers({skipHR:true})).calculateResults();
+  const state=fixture(0);
+  const html = composer({...state,result:{...state.result,...r,plans:state.result.plans}});
+  assert.match(pageDuRapport(html,"absurde"),/Tu as préféré ne pas répondre/);
+  assert.doesNotMatch(pageDuRapport(html,"absurde"),/Ça fait rire\. Et ça touche/);
+});
+
+test("l'import v8 est repris en v9 et conserve la décision de passer les modules BS/HR", () => {
+  const src=read("parcours.js");
+  assert.match(src,/const format = "bull-out-progression-9"/);
+  assert.match(src,/p\?\.format === "bull-out-progression-8"/);
+  assert.match(src,/versionReactionHumour: "2026-11-hr-v1"/);
+  assert.match(src,/reponses\[`HR\$\{i\}`\] = "5"/);
+  assert.match(src,/i = 1; i <= 4/);
 });
