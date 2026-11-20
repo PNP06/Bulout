@@ -296,6 +296,19 @@ function message(el, msg) {
 
 const dateValide = d => typeof d === "string" && /^\d{4}-\d\d-\d\d$/.test(d) && Number.isFinite(Date.parse(d));
 
+// V7 → V8 : fonction pure, testable sans interface.
+// Les huit réponses BS existantes conservent leur identifiant, même si leur ordre
+// diffère de celui du test satirique autonome de douze questions.
+function migrerBullshitometreV7(reponses) {
+  const anciennes = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
+  const resultat = { ...anciennes };
+  const sautees = Array.from({ length: 8 }, (_, i) => anciennes[`BS${i + 1}`] === "skip").every(Boolean);
+  if (sautees) {
+    for (let i = 9; i <= 12; i += 1) resultat[`BS${i}`] = "skip";
+  }
+  return resultat;
+}
+
 function restaurer(p) {
   const formatOriginal = p?.format;
   let reponsesARelire = 0;
@@ -322,13 +335,8 @@ function restaurer(p) {
   // Quatre nouvelles questions complètent désormais le jeu : BS9–BS12.
   // Si la personne avait passé toute la pause humour, conserver ce choix pour les 12.
   if (p?.format === "bull-out-progression-7") {
-    const anciennes = p.reponses && typeof p.reponses === "object" && !Array.isArray(p.reponses) ? p.reponses : {};
-    const sansBullshit = Array.from({ length: 8 }, (_, i) => anciennes[`BS${i + 1}`] === "skip").every(Boolean);
-    const reponses = { ...anciennes };
-    if (sansBullshit) {
-      for (let i = 9; i <= 12; i++) reponses[`BS${i}`] = "skip";
-    }
-    p = { ...p, format, versionBullshitometre: "2026-11-bs-v2", reponses };
+    p = { ...p, format, versionBullshitometre: "2026-11-bs-v2",
+      reponses: migrerBullshitometreV7(p.reponses) };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
