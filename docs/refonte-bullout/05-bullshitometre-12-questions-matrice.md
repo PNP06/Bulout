@@ -90,15 +90,15 @@ Le cas échéant, **T4 qualité empêchée** est mis à proximité de la matrice
 - Si elle est renseignée, le profil satirique d'origine reste **visible par défaut**, même si le rapport comprend des manifestations d'épuisement ; le portrait est **repliable**.
 - Le ton reste franc et drôle ; les conseils du profil d'origine sont balisés comme « manuel de survie satirique », pas comme recommandations de santé.
 - Le rapport **Essentiel** se concentre sur les décisions ; le rapport complet contient la satire. La fiche professionnelle destinée au dialogue au travail exclut tout le rapport BS, les manifestations et les alertes de santé.
-- L'annexe conserve les réponses BS. Le questionnaire principal passe de **71 à 75 propositions de questions**, dont 12 peuvent être passées.
+- L'annexe conserve les réponses BS. Le questionnaire principal est d'abord passé de 71 à 75 questions après restauration des douze BS, puis à **79 questions proposées** avec quatre réactions immédiates HR1–HR4, facultatives et non notées : voir [le module de retour sur l'humour](06-retour-sur-la-satire-ressenti-immediat.md).
 
 ## Compatibilité des sauvegardes
 
-`bull-out-progression-8`, `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"`.
+`bull-out-progression-9`, `versionQuestions: "2026-11-v2"`, `versionBullshitometre: "2026-11-bs-v2"`, `versionReactionHumour: "2026-11-hr-v1"`. La version V8 reste reconnue à l'import.
 
 - Anciennes réponses **BS1–BS8** conservées sans changement d'identifiant.
 - **BS9–BS12** doivent être renseignées pour un portrait complet.
-- Si une sauvegarde V7 marquait **BS1–BS8 comme sautées**, le choix « passer la pause BS » est étendu automatiquement aux quatre nouvelles questions.
+- Si une sauvegarde V7 marquait **BS1–BS8 comme sautées**, le choix « passer la pause BS » est étendu automatiquement aux quatre nouvelles questions. Une sauvegarde V7/V8 dont les douze BS sont passées entraîne aussi le passage des nouvelles réactions HR ; sinon, celles-ci restent à remplir ou à passer.
 - Les questions d'alerte demeurent exclues des fichiers de reprise.
 
 ## Références scientifiques à ne pas confondre avec la satire
