@@ -534,6 +534,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       corps: `<h4 class="rp-h">Actions prioritaires</h4><ol class="rp-actions">${r.actions.map((a) => `<li><b>${esc(a.title)}</b><span>${esc(a.text)}</span></li>`).join("")}</ol>
         <h4 class="rp-h">Les 72 prochaines heures</h4><div class="rp-grille4">${r.plans.plan72h.map((b) => carte(b.title, ul(b.items.map(esc)))).join("")}</div>
         <h4 class="rp-h">Dans deux semaines</h4><div class="rp-duo">${r.plans.twoWeeks.map((b) => carte(b.title, ul(b.items.map(esc)))).join("")}</div>
+        <p class="rp-carnet-lien"><button type="button" class="button secondary" data-aller="carnet">Préparer mon carnet de suivi sur deux et quatre semaines</button></p>
         <div class="rp-trajet"><p><b>Si certaines réponses évoluent :</b> recherche les situations concrètes qui ont changé. Une amélioration après une action ne prouve pas, à elle seule, son efficacité.</p><p><b>Si des difficultés persistent :</b> examine séparément les exigences, les ressources et le retentissement sur ta santé.</p><p><b>Si la sécurité ou le fonctionnement se dégradent :</b> demande un avis de santé adapté, sans attendre un nouveau score.</p></div>`,
       comprendre: pourComprendre("Pourquoi commencer par le travail", `<p>Les recommandations de prévention (INRS) classent les actions : <b>primaire</b>, agir sur les causes (charge, organisation) ; <b>secondaire</b>, aider les personnes à faire face ; <b>tertiaire</b>, soigner et accompagner le retour. Les plus efficaces sur la durée sont primaires. Le chapitre 7 donne des phrases prêtes à l'emploi pour demander un arbitrage.</p>`, chapLien(7)),
       garder: "Une demande compte davantage quand elle laisse une trace. La pièce suivante t'aide à l'écrire."
@@ -733,6 +734,22 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les neuf pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
       <button type="button" class="button secondary" data-aller="travail">Préparer une discussion sur le travail réel</button></div>`;
 
+const carnetFait = travailRessort[0]?.question || "Une situation de travail à choisir après une observation concrète";
+  const carnetVécu = manifs[0]?.question || "Une difficulté de vie ou de récupération à observer, si elle existe";
+  const carnet = `<header class="rp-etape-head"><p class="rp-n">Outil facultatif · aucune donnée transmise</p>
+      <h2 tabindex="-1">Un carnet pour voir ce qui change</h2><p class="rp-question">Qu'est-ce qui évolue réellement après une action ?</p>
+      <p class="rp-intro">Un même score peut masquer deux situations opposées. Ce carnet suit des faits datés : <b>conditions de travail, manifestation ressentie, action obtenue</b>. Une amélioration après une décision est informative, pas une preuve automatique que cette décision en est la cause.</p></header>
+      <div class="rp-carnet-reperes"><div><p class="k">Un fait de travail à observer</p><p>${esc(carnetFait)}</p></div>
+        <div><p class="k">Une manifestation à observer</p><p>${esc(carnetVécu)}</p></div></div>
+      <div class="rp-carnet-fiches">
+        ${["Dans deux semaines", "Dans quatre semaines"].map((periode) => `<section class="rp-carnet-fiche"><h3>${periode}</h3>
+          <div class="rp-carnet-champ"><b>Quels faits ont changé ?</b><span class="rp-carnet-trait"></span><span class="rp-carnet-trait"></span></div>
+          <div class="rp-carnet-champ"><b>Quelle action a été décidée, par qui, à quelle date ?</b><span class="rp-carnet-trait"></span><span class="rp-carnet-trait"></span></div>
+          <div class="rp-carnet-champ"><b>Qu'est-ce qui s'améliore, persiste ou s'aggrave ?</b><span class="rp-carnet-trait"></span><span class="rp-carnet-trait"></span></div>
+          <div class="rp-carnet-champ"><b>Quel point faut-il réexaminer ou demander ?</b><span class="rp-carnet-trait"></span></div>
+        </section>`).join("")}</div>
+      <p class="rp-carnet-note"><b>À ne pas faire :</b> considérer une variation du total A–F comme une preuve de guérison ou d'efficacité. Les questions décrivent différentes dimensions et Bull-Out ne dispose pas d'étalonnage longitudinal.</p>`;
+
   // ───────── Annexes
   const definitions = `<h3>1. Comment ce rapport est construit</h3>
     <div class="rp-box ${L.fiable ? "ok" : "attention"}"><p class="k">État de tes réponses</p><p><b>${L.fiable ? "Réponses variées." : "Réponses répétitives ou extrêmes."}</b> ${L.fiable ? "La répartition des réponses est variée, sans constituer une preuve de fiabilité." : `${cap(L.prudence.join(" ; "))}. C'est possible, mais cela rend les écarts entre dimensions moins parlants.`} Ces contrôles décrivent uniquement la forme des réponses ; ils ne mesurent ni leur sincérité, ni leur qualité clinique.</p>
@@ -802,12 +819,13 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
         ${bref(e.bref)}<div class="rp-corps">${e.corps}</div>${e.comprendre}${garder(e.garder, i === etapes.length - 1)}`
     })),
     { id: "travail", court: "Fiche travail", html: ficheTravail },
+    { id: "carnet", court: "Carnet de suivi", html: carnet },
     { id: "annexes", court: "Annexes", html: `<header class="rp-etape-head"><p class="rp-n">Annexes</p><h2 tabindex="-1">Comment lire, ce que tu as répondu, d'où viennent les questions</h2></header>
       <section class="rp-annexe" id="annexe-1">${definitions}</section><section class="rp-annexe" id="annexe-2">${annexeReponses}</section><section class="rp-annexe" id="annexe-3">${annexeSources}</section>` }
   ];
 
   // Lire dans l'ordre utile : synthèse, plan, interlocuteurs ; approfondir ensuite.
-  const ordrePages = ["synthese", "plan", "portes", "travail", "appuis", "absurde",
+  const ordrePages = ["synthese", "plan", "portes", "travail", "carnet", "appuis", "absurde",
     ...etapes.filter((e) => !["plan", "portes"].includes(e.id)).map((e) => e.id), "annexes"];
   pages.sort((a, b) => ordrePages.indexOf(a.id) - ordrePages.indexOf(b.id));
 
