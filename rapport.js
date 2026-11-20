@@ -18,7 +18,8 @@ const NIV = {
   "élevé": { mot: "élevé", n: 2 },
   alerte: { mot: "très élevé", n: 3 }
 };
-const COUL = [C.mid, "#b45a12", C.orange, C.rouge];
+// Les intensités descriptives restent dans l'orange ; le rouge est réservé aux signaux de sécurité.
+const COUL = [C.mid, "#b45a12", C.orange, "#c65a25"];
 const niv = (d) => NIV[d.level.label];
 const tag = (d) => `<span class="rp-niv n${niv(d).n}">${niv(d).mot}</span>`;
 const NOMS = { A: "Épuisement", B: "Distance mentale", C: "Efficacité et sens", D: "Exigences du travail", E: "Manque de ressources", F: "Récupération et santé" };
