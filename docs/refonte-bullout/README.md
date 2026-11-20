@@ -13,7 +13,7 @@
 
 ## Implémentation en cours (branche de refonte, novembre 2026)
 
-La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours propose désormais **79 questions**, dont 12 satiriques et 4 de ressenti immédiat de l'humour, toutes facultatives. Les huit BS d’origine intégrées restent à leur place ; les quatre absentes sont ajoutées sous BS9–BS12. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
+La branche conserve **les six groupes A–F de six items et leurs identifiants**, mais **15 formulations ont été revues et 4 repères T ajoutés** : le parcours propose désormais **79 questions**, dont 12 satiriques et 4 de ressenti immédiat de l'humour, toutes facultatives. HR3 a été révisée : elle interroge désormais l’impression de minimisation plutôt que la reconnaissance des scènes déjà explorées par BS. Les huit BS d’origine intégrées restent à leur place ; les quatre absentes sont ajoutées sous BS9–BS12. Le schéma reste en trois zones ; le moteur et le rapport ont été révisés. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
 
 - [Journal de la discussion et des arbitrages encore ouverts](00-journal-et-decisions.md)
 - [Inventaire des 67 questions et des transformations mathématiques](inventaire-questions-mesures-calculs.md)
@@ -22,7 +22,7 @@ La branche conserve **les six groupes A–F de six items et leurs identifiants**
 - [Audit scientifique et éditorial initial question par question](02-audit-questionnaire-prochaine-version.md)
 - [**Version codée du questionnaire et du moteur : 15 reformulations, 4 repères T, BS facultatif, migration des sauvegardes**](04-questionnaire-moteur-v2-2026-11-20.md)
 - [**Bullshitomètre V2 : 12 questions d’origine, matrice croisée, humour et limites**](05-bullshitometre-12-questions-matrice.md)
-- [**Après le Bullshitomètre : quatre questions sur l'amusement, la peine, l'identification et le recul**](06-retour-sur-la-satire-ressenti-immediat.md)
+- [**Après le Bullshitomètre : quatre questions sur l'amusement, la peine, la banalisation perçue et le recul**](06-retour-sur-la-satire-ressenti-immediat.md)
 - [Suite de tests automatisés](../../tests/mesures-rapport.test.cjs) et [workflow GitHub Actions](../../.github/workflows/verification.yml)
 
 **PR en brouillon :** [#7 — Refonte des mesures et du rapport](https://github.com/PNP06/Bulout/pull/7). Elle ne modifie pas le site publié tant qu'elle n'est pas fusionnée.
