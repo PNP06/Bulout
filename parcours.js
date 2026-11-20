@@ -9,7 +9,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-7";
+const format = "bull-out-progression-8";
 const reponsesReformulees = new Set(["A2","B1","B2","C2","C6","D2","D5","E6","F2","F4","F5","F6","G6","R3","R6"]);
 let acquis = new Set();
 let bonnes = 0;
@@ -283,7 +283,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionQuestions: "2026-11-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -317,6 +317,18 @@ function restaurer(p) {
     const gardees = Object.entries(anciennes).filter(([id]) => !reponsesReformulees.has(id));
     reponsesARelire = Object.keys(anciennes).length - gardees.length;
     p = { ...p, format, versionQuestions: "2026-11-v2", reponses: Object.fromEntries(gardees) };
+  }
+  // V7 : huit questions satiriques déjà présentes (BS1–BS8), conservées sous le même identifiant.
+  // Quatre nouvelles questions complètent désormais le jeu : BS9–BS12.
+  // Si la personne avait passé toute la pause humour, conserver ce choix pour les 12.
+  if (p?.format === "bull-out-progression-7") {
+    const anciennes = p.reponses && typeof p.reponses === "object" && !Array.isArray(p.reponses) ? p.reponses : {};
+    const sansBullshit = Array.from({ length: 8 }, (_, i) => anciennes[`BS${i + 1}`] === "skip").every(Boolean);
+    const reponses = { ...anciennes };
+    if (sansBullshit) {
+      for (let i = 9; i <= 12; i++) reponses[`BS${i}`] = "skip";
+    }
+    p = { ...p, format, versionBullshitometre: "2026-11-bs-v2", reponses };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
