@@ -399,6 +399,35 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     "[signature]"
   ].join("\n");
 
+// L'INRS retient six familles RPS. Cette lecture indique la couverture des items
+  // Bull-Out, pas un dépistage exhaustif ni une validation de l'exposition.
+  const rpsFamilles = [
+    { nom: "Intensité et temps de travail", ids: ["D1", "D2", "D6"], limite: "Le temps de travail et les horaires ne sont pas demandés directement." },
+    { nom: "Exigences émotionnelles", ids: ["D5"], limite: "Une seule question, très générale ; les situations relationnelles précises restent inconnues." },
+    { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4"], limite: "Les ressources et l'autorité sont abordées, mais pas toutes les marges de décision." },
+    { nom: "Rapports sociaux au travail", ids: ["E2", "E3", "E5", "E6"], limite: "Le soutien, l'arbitrage, la reconnaissance et l'équité sont partiellement interrogés." },
+    { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Seule une question oui/non aborde ce thème ; la qualité empêchée n'est pas détaillée." },
+    { nom: "Insécurité professionnelle", ids: [], retour: "R3", limite: "Une seule question sur la stabilité perçue ; les changements imposés restent peu explorés." }
+  ];
+  const rpsCartes = rpsFamilles.map((famille) => {
+    const signaux = famille.ids.map((id) => item(id)).filter((a) => a.riskScore >= 3);
+    const ouiContexte = famille.contexte && (r.contextAnswers || []).some((a) => a.id === famille.contexte && a.yes);
+    const retourBas = famille.retour && rep[famille.retour]?.value <= 1;
+    const signale = signaux.length > 0 || ouiContexte || retourBas;
+    const detail = signaux.length
+      ? signaux.map((a) => `<span class="rp-id">${esc(a.id)}</span> ${esc(a.question)}`).join(" ; ")
+      : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
+        : retourBas ? "La stabilité ou la sécurité d'emploi est peu ressentie (R3)."
+          : "Aucun signal fréquent dans les questions retenues pour ce thème.";
+    return `<article class="rp-rps-famille ${signale ? "is-signal" : ""}">
+      <div><h5>${famille.nom}</h5><span class="rp-rps-status">${signale ? "Élément à éclaircir" : "Peu ou pas exploré dans ces réponses"}</span></div>
+      <p>${detail}</p><p class="rp-rps-limite">${famille.limite}</p></article>`;
+  }).join("");
+  const grilleRPS = `<section class="rp-rps" aria-labelledby="rp-rps-title"><h4 class="rp-h" id="rp-rps-title">Six familles de facteurs psychosociaux</h4>
+    <p>Le référentiel français <a href="https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html" target="_blank" rel="noopener">INRS / Gollac</a> décrit six familles d'expositions. Ce tableau relie tes réponses à ces thèmes, sans fabriquer de six nouveaux scores ni prétendre les couvrir complètement.</p>
+    <div class="rp-rps-grille">${rpsCartes}</div>
+    <p class="rp-legende">Une absence de signal n'exclut pas une exposition réelle : certains thèmes ne disposent que d'une question et aucun détail sur l'organisation du travail n'a été vérifié.</p></section>`;
+
   // ───────── Les 9 étapes (une par pièce de la formation)
   const pieces = chapitres.map((c) => c.piece.nom);
   const etapes = [
@@ -429,15 +458,15 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       garder: "Les jauges disent ce que tu ressens. La suite cherche d'où cela vient : ce que le travail te demande, et ce qui t'aide à le faire."
     },
     {
-      id: "balance", chap: 3, titre: "La balance", q: "Ce que le travail te demande est-il compensé par ce qui t'aide à le faire ?",
+      id: "balance", chap: 3, titre: "La balance", q: "Quelles exigences rencontres-tu, et sur quelles ressources peux-tu compter ?",
       intro: "Le modèle Exigences-Ressources (JD-R, Demerouti et Bakker, 2001) pose les exigences du travail (D) sur un plateau et les ressources (E) sur l'autre. Le modèle décrit des processus liés aux contraintes et aux ressources, sans supposer que leurs scores s'annulent mathématiquement.",
       bref: lectureBalance,
       corps: `<div class="rp-duo"><div>${balance(sr.D.score, ressources, 24, "Exigences", "Ressources", `Balance : exigences ${sr.D.score}, ressources ${ressources} sur 24`)}<p class="rp-legende">Les ressources sont tes réponses E telles quelles (plus elles sont présentes, plus le plateau est lourd). Dans le score « Manque de ressources », elles sont comptées à l'envers.</p></div>
         <div>${r.modelReadings[1].lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div></div>
         <h4 class="rp-h">Exigences ${tag(sr.D)}</h4>${reponses(sr.D, sec.D, ratingLabels, r)}
-        <h4 class="rp-h">Manque de ressources ${tag(sr.E)}</h4>${reponses(sr.E, sec.E, ratingLabels, r)}`,
-      comprendre: pourComprendre("Pourquoi les ressources comptent autant que la charge", `<p>Karasek (1979) a montré que la tension au travail vient de la combinaison d'une forte demande et d'une faible latitude de décision ; le soutien social a ensuite été ajouté comme troisième facteur. Le modèle JD-R généralise : toute exigence coûte de l'énergie, toute ressource (autonomie, soutien, clarté, reconnaissance) aide à y faire face et protège de l'usure.</p><p>Conséquence pratique : on peut agir des deux côtés. Retirer une exigence ou ajouter une ressource fait pencher la balance.</p>`, chapLien(3)),
-      garder: "La balance compare des quantités. L'étape suivante regarde l'échange : ce que tu reçois en retour de ton effort."
+        <h4 class="rp-h">Manque de ressources ${tag(sr.E)}</h4>${reponses(sr.E, sec.E, ratingLabels, r)}${grilleRPS}`,
+      comprendre: pourComprendre("Pourquoi les ressources comptent autant que la charge", `<p>Karasek (1979) a montré que la tension au travail vient de la combinaison d'une forte demande et d'une faible latitude de décision ; le soutien social a ensuite été ajouté comme troisième facteur. Le modèle JD-R généralise : toute exigence coûte de l'énergie, toute ressource (autonomie, soutien, clarté, reconnaissance) aide à y faire face et protège de l'usure.</p><p>En pratique, plusieurs leviers peuvent être étudiés : réduire des contraintes, restaurer de l’autonomie ou améliorer les moyens. Leur efficacité dépend du travail réel ; elle ne se déduit pas d’une différence entre scores.</p>`, chapLien(3)),
+      garder: "La balance aide à distinguer des expositions et des ressources, pas à calculer une compensation. La lecture de Siegrist examine ensuite l’effort et les récompenses."
     },
     {
       id: "retour", chap: 4, titre: "Le retour", q: "Ce que tu reçois est-il à la hauteur de ce que tu donnes ?",
