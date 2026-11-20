@@ -1,7 +1,7 @@
 # Bull-Out — chantier de refonte (documentaire)
 
 **Dernière mise à jour : 20 novembre 2026.**  
-**État : revue du fond ; aucune réécriture de l'application autorisée par ces documents.**
+**État : implémentation en cours sur une branche de revue, sans fusion ni déploiement. Le schéma existant reste la base ; les choix de questionnaire demeurent provisoires.**
 
 ## Point d'entrée pour reprendre le travail
 
@@ -13,11 +13,16 @@
 
 ## Implémentation en cours (branche de refonte, novembre 2026)
 
-Le code comporte désormais une première série de corrections de mesure, de sécurité et de restitution, **sans changement du contenu des 67 questions ni du schéma en trois zones**.
+La branche conserve **les 67 questions et leurs identifiants**, et la structure du schéma en trois zones, tout en corrigeant les mesures et en reconstruisant le rapport autour du lecteur. Pour éviter de confondre une hypothèse d'étude avec une décision validée, reprendre les documents dans cet ordre :
 
-- [Journal technique, décisions conservées et recette de vérification](01-implementation-mesures-rapport-2026-11-20.md)
-- [Scénarios de tests automatisés](../../tests/mesures-rapport.test.cjs)
-- [Vérifications GitHub Actions](../../.github/workflows/verification.yml)
+- [Journal de la discussion et des arbitrages encore ouverts](00-journal-et-decisions.md)
+- [Inventaire des 67 questions et des transformations mathématiques](inventaire-questions-mesures-calculs.md)
+- [Première implémentation : scores, sécurité et interprétations](01-implementation-mesures-rapport-2026-11-20.md)
+- [Deuxième implémentation : rapport court, présentation, graphique progressif, fiche travail et carnet](03-ameliorations-rapport-2026-11-20.md)
+- [Audit scientifique et éditorial question par question pour la prochaine version](02-audit-questionnaire-prochaine-version.md)
+- [Suite de tests automatisés](../../tests/mesures-rapport.test.cjs) et [workflow GitHub Actions](../../.github/workflows/verification.yml)
+
+**PR en brouillon :** [#7 — Refonte des mesures et du rapport](https://github.com/PNP06/Bulout/pull/7). Elle ne modifie pas le site publié tant qu'elle n'est pas fusionnée.
 
 **Attention :** cette branche n'a pas encore été fusionnée dans `main`. Ce README distingue donc la décision de conserver provisoirement le visuel et les modifications de texte/code réalisées depuis.
 
@@ -29,7 +34,7 @@ Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement ê
 
 ## Ce qui doit rester vrai
 
-- Aucune modification de `script.js`, `rapport.js`, `index.html`, de la formation, du test ou du déploiement n'a été demandée dans ce cycle.
+- Les premières modifications de `script.js`, `rapport.js`, `rapport.css`, `index.html` et des pages publiques ont été demandées dans les cycles suivants, mais uniquement sur une branche de revue. La **formulation et le nombre des questions restent inchangés**.
 - Ne pas confondre manifestation, exposition, ressource, contexte, signal de sécurité et action.
 - Distinguer les **réponses observées**, les **scores artisanaux**, les **représentations visuelles** et les **hypothèses explicatives**.
 - Ne pas présenter comme une mesure physiologique le « pourcentage de batterie », comme des preuves indépendantes les lectures JD-R/ERI qui réutilisent les mêmes questions, ou comme validation clinique des seuils internes.
@@ -47,6 +52,6 @@ Le schéma **actuellement utilisé dans le rapport Bull-Out** peut finalement ê
 | PDF court / long | [rapport.css](../../rapport.css) |
 | Animation d'accueil | [index.html](../../index.html) |
 
-Les documents de ce répertoire sont un **journal d'analyse et un cahier de travail**, pas un cahier des charges déjà approuvé.
+Les documents distinguent les décisions confirmées, les travaux effectivement codés et les hypothèses encore à valider. La validation de la mise en page réelle et du parcours complet reste nécessaire avant fusion.
 
 Le dépôt est public : aucun détail privé de conversation ni réponse individuelle à un questionnaire ne doit être ajouté aux documents versionnés.
