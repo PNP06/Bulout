@@ -595,7 +595,7 @@
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
     const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
-    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>`);
+    item.insertAdjacentHTML("beforeend", `<fieldset class="choices choices-4" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<label class="sr-only">Passer cette question<input type="radio" name="${name}" value="skip"></label>` : ""}`);
     return item;
   }
 
