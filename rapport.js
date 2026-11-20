@@ -278,9 +278,9 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     : coeurHauts.length ? `${cap(liste(coeurHauts.map((d) => NOMS[d.id].toLowerCase())))} ${coeurHauts.length > 1 ? "ressortent" : "ressort"} nettement ; ${coeurHauts.length === 1 ? "les deux autres jauges" : "la troisième"} moins.`
       : coeur.some((d) => d.score >= 7) ? "Aucune jauge n'est haute, mais au moins une est à surveiller." : "Les trois jauges restent basses.";
   const penche = sr.D.score - ressources;
-  const lectureBalance = penche >= 4 ? `Les exigences (${sr.D.score}/24) pèsent plus lourd que les ressources (${ressources}/24).`
-    : penche <= -4 ? `Les ressources (${ressources}/24) compensent les exigences (${sr.D.score}/24).`
-      : `Exigences (${sr.D.score}/24) et ressources (${ressources}/24) s'équilibrent à peu près.`;
+  const lectureBalance = penche >= 4 ? `Les exigences (${sr.D.score}/24) ressortent plus que les ressources présentes (${ressources}/24), sans qu’un rapport causal puisse être déduit.`
+    : penche <= -4 ? `Les ressources (${ressources}/24) sont davantage déclarées que les exigences (${sr.D.score}/24). Cela ne garantit pas une compensation.`
+      : `Les scores d’exigences (${sr.D.score}/24) et de ressources présentes (${ressources}/24) sont proches. Ce n’est pas une mesure de compensation.`;
   // Le retour (Siegrist) : effort D1, D4, D6 ; récompense E5, E6 (estime, équité) et R1-R3 (salaire, perspectives, sécurité) ;
   // surengagement R4-R6 et F1. Chaque groupe est ramené sur 24 (moyenne des réponses x 6) pour être comparable.
   const rep = Object.fromEntries((r.exchangeAnswers || []).map((a) => [a.id, a]));
@@ -290,10 +290,10 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const retour = moy24(recompIds.map((id) => (id.startsWith("E") ? item(id).rawScore : rep[id].value)));
   const surIds = ["R4", "R5", "R6"].filter((id) => rep[id]);
   const surengagement = moy24([...surIds.map((id) => rep[id].value), item("F1").riskScore]);
-  const lectureRetour = effort - retour >= 6 ? "Tu donnes beaucoup et tu reçois peu en retour : le déséquilibre effort-récompense est net."
-    : effort - retour >= 2 ? "L'effort dépasse un peu ce que tu reçois en retour." : "Ce que tu reçois en retour reste à la hauteur de l'effort déclaré.";
-  const lectureSur = surengagement >= 13 ? "Ta façon de t'engager (du mal à refuser, à décrocher, besoin de prouver) amplifie le déséquilibre : c'est le surengagement décrit par Siegrist."
-    : surengagement >= 7 ? "Quelques signes de surengagement : à surveiller, surtout si la charge monte." : "";
+  const lectureRetour = effort - retour >= 6 ? "Sur les items retenus, les efforts déclarés dépassent sensiblement les récompenses déclarées : une piste à examiner, pas un ratio ERI validé."
+    : effort - retour >= 2 ? "Sur ces items, les efforts ressortent légèrement plus que les récompenses ; leur comparaison reste descriptive." : "Sur ces items, les récompenses déclarées sont proches ou supérieures aux efforts déclarés.";
+  const lectureSur = surengagement >= 13 ? "Des difficultés à refuser ou à décrocher ressortent fréquemment ; leur effet éventuel sur les conditions de travail n’est pas démontré par ce score."
+    : surengagement >= 7 ? "Quelques réponses suggèrent un surengagement ; l’interprétation doit tenir compte de la situation réelle." : "";
   // Efficacité (C1, C2, C4, C6) et sens (C3, C5) : la partie C mêle deux choses, le rapport les sépare.
   const efficacite = moy24(["C1", "C2", "C4", "C6"].map((id) => item(id).riskScore));
   const perteSens = moy24(["C3", "C5"].map((id) => item(id).riskScore));
@@ -302,18 +302,19 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const absurdeHaut = bs.percent >= 50;
   const coupe = sr.B.score >= 13 || perteSens >= 13;
   const CASES = {
-    hh: ["L'absurde qui use", "Le non-sens n'amuse plus : il va avec ta distance ou ta perte de sens. Se sentir inutile au travail pèse sur la santé, plus que le métier exercé. Ce n'est pas un défaut d'attitude : c'est un signal à prendre au sérieux."],
-    hb: ["Le recul qui protège", "Tu vois l'absurde et tu en ris, sans te couper de ce qui compte. Ce recul fonctionne comme un décrochage : garde-le, c'est un appui. Reste attentif·ve s'il tourne en « de toute façon, rien ne sert à rien »."],
-    bh: ["Un cynisme qui vient d'ailleurs", "Ton poste n'a rien d'absurde, et pourtant tu prends tes distances ou tu perds le sens. C'est plutôt la charge, le manque de ressources ou de retour qui use : regarde la balance et le retour."],
-    bb: ["Le travail a du sens", "Peu d'absurde, et le sens tient. Rien à signaler de ce côté : ton énergie se joue ailleurs."]
+    hh: ["Absurdité et retrait déclarés", "Les réponses satiriques signalent de l’absurdité perçue et les questions sérieuses davantage de distance ou de perte de sens. Leur lien causal n’est pas établi."],
+    hb: ["Absurdité sans retrait marqué", "Les réponses satiriques décrivent de l’absurdité perçue, mais les questions sur la distance et le sens ressortent moins. Ce résultat ne mesure pas un humour protecteur."],
+    bh: ["Retrait sans forte absurdité déclarée", "La distance ou la perte de sens ressortent malgré un indice satirique moins élevé. Les autres conditions de travail et le contexte méritent examen."],
+    bb: ["Peu de signaux sur ces thèmes", "La distance, la perte de sens et l’absurdité perçue ressortent relativement peu dans ces questions. D’autres difficultés restent possibles."]
   };
   const caseBS = (absurdeHaut ? "h" : "b") + (coupe ? "h" : "b");
   const [bsTitre, bsTexte] = CASES[caseBS];
-  const reste = Math.max(0, Math.round(100 - ((sr.A.score + sr.F.score) / 48) * 100));
-  const lectureBatterie = sr.A.score >= 13 && sr.F.score >= 13 ? "Le travail prend beaucoup, et le repos ne rend plus assez : c'est le signe central de l'usure."
-    : sr.A.score >= 13 ? "Le travail prend beaucoup d'énergie ; la récupération tient encore, mais elle est sollicitée."
-      : sr.F.score >= 13 ? "L'énergie au travail tient, mais la récupération se dégrade : sommeil, rumination ou corps envoient des signaux."
-        : sr.A.score >= 7 || sr.F.score >= 7 ? "La batterie se vide plus vite qu'avant, sans être à plat." : "La batterie se recharge encore correctement.";
+  const lectureBatterie = sr.A.score >= 13 && sr.F.score >= 13
+    ? "Tu déclares à la fois des manifestations d’épuisement et plusieurs difficultés de récupération ou de santé."
+    : sr.A.score >= 13 ? "Plusieurs manifestations d’épuisement ressortent, sans que les autres réponses suffisent à expliquer leur origine."
+      : sr.F.score >= 13 ? "Plusieurs difficultés de récupération ou de santé sont déclarées, même si les réponses d’épuisement ressortent moins."
+        : sr.A.score >= 7 || sr.F.score >= 7 ? "Quelques difficultés ressortent dans les modules épuisement et récupération."
+          : "Peu de difficultés sont déclarées dans ces deux modules. Cela ne constitue pas une mesure de santé globale.";
 
   // ───────── Trois questions à emporter
   const top = r.topItems[0];
@@ -508,24 +509,23 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
 
   // ───────── Le bullshitomètre : la satire d'un côté, la lecture sérieuse de l'autre
   const profilBS = bs.profil || { titre: "", texte: "", survie: "", phrase: "" };
-  if (caseBS === "hb") { /* le recul protège : il compte parmi les appuis */ }
   const grilleCase = (k, titre, texte, cls) => `<div class="rp-bs-case ${cls}${k === caseBS ? " ici" : ""}"><b>${titre}</b><span>${texte}</span>${k === caseBS ? '<em>C\'est ta case</em>' : ""}</div>`;
   const pageAbsurde = {
-    titre: "Le bullshitomètre", q: "L'absurde de ton travail t'amuse-t-il, ou t'use-t-il ?",
-    intro: "D'abord pour rire : réunions, tableaux de bord, livrables que personne ne lit. Puis sérieusement : l'absurde peut aider à prendre du recul, ou nourrir le cynisme. Ce qui fait la différence, c'est ta distance (B) et ton rapport au sens (C3, C5).",
-    bref: `Indice d'absurdité : ${bs.percent} %${profilBS.titre ? ` (${esc(profilBS.titre)})` : ""}. Lecture sérieuse : ${esc(bsTitre.toLowerCase())}.`,
-    corps: `<div class="rp-duo"><div class="rp-bs-score"><p class="rp-bs-pc">${bs.percent}<small> %</small></p><p class="k">Indice d'absurdité</p>
+    titre: "Le bullshitomètre", q: "Que décrivent tes réponses sur l’absurdité perçue, la distance et le sens ?",
+    intro: "Une pause satirique sur les absurdités organisationnelles, suivie d’une mise en regard avec la distance mentale (B) et le sens (C3, C5). Cette comparaison ne mesure pas l’effet protecteur de l’humour.",
+    bref: `Indice satirique interne : ${bs.percent} %${profilBS.titre ? ` (${esc(profilBS.titre)})` : ""}. Lecture sérieuse : ${esc(bsTitre.toLowerCase())}.`,
+    corps: `<div class="rp-duo"><div class="rp-bs-score"><p class="rp-bs-pc">${bs.percent}<small> %</small></p><p class="k">Indice satirique (non validé)</p>
         <div class="rp-bs-metres">${(bsDims || []).map(([k, l]) => `<div><span>${esc(l)}</span><span class="rp-barre"><i style="width:${bs.dims[k] || 0}%;background:${C.orange}"></i></span><b>${bs.dims[k] || 0} %</b></div>`).join("")}</div></div>
         <div class="rp-bs-satire"><p class="k">Ton profil satirique</p><h4>${esc(cap(profilBS.titre))}</h4><p>${esc(profilBS.texte)}</p>
         <p><b>Mode de survie :</b> ${esc(profilBS.survie)}</p><p class="rp-phrase">À sortir en réunion : « ${esc(profilBS.phrase)} »</p></div></div>
       <h4 class="rp-h">La lecture sérieuse</h4>
-      <p>Ton absurde est <b>${absurdeHaut ? "haut" : "bas"}</b> (${bs.percent} %). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et ta perte de sens ${MOTSF[nv24(perteSens)]} (${perteSens}/24).</p>
+      <p>L’indice satirique de réponses est <b>${absurdeHaut ? "dans sa moitié haute" : "dans sa moitié basse"}</b> (${bs.percent} % du barème interne). Ta distance est ${MOTS[nv24(sr.B.score)]} (${sr.B.score}/24) et ta perte de sens ${MOTSF[nv24(perteSens)]} (${perteSens}/24).</p>
       <div class="rp-bs-grille" role="table" aria-label="Grille de lecture : absurdité du poste croisée avec distance et sens">
         <span></span><span class="h">Distance et perte de sens basses</span><span class="h">Distance ou perte de sens hautes</span>
         <span class="v">Absurdité haute</span>${grilleCase("hb", CASES.hb[0], CASES.hb[1], "g")}${grilleCase("hh", CASES.hh[0], CASES.hh[1], "o")}
         <span class="v">Absurdité basse</span>${grilleCase("bb", CASES.bb[0], CASES.bb[1], "g")}${grilleCase("bh", CASES.bh[0], CASES.bh[1], "p")}
       </div>
-      ${caseBS === "hh" ? `<p class="rp-cle"><b>Ce que tu peux faire :</b> nommer ce qui est absurde, distinguer ce qui peut changer de ce qui doit être arbitré, et le porter comme un fait de travail (pièce 8), pas comme un défaut de motivation. Le sens perdu se travaille avec ton manager ou le médecin du travail.</p>` : caseBS === "hb" ? `<p class="rp-cle"><b>Ton humour est un appui.</b> Il apparaît en vert dans l'image d'ensemble. Garde-le, et garde un œil sur le moment où il deviendrait amer.</p>` : ""}
+      ${caseBS === "hh" ? `<p class="rp-cle"><b>Ce que tu peux faire :</b> nommer ce qui est absurde, distinguer ce qui peut changer de ce qui doit être arbitré, et le porter comme un fait de travail (pièce 8), pas comme un défaut de motivation. Le sens perdu se travaille avec ton manager ou le médecin du travail.</p>` : caseBS === "hb" ? `<p class="rp-cle"><b>À ne pas conclure :</b> ce questionnaire ne demande pas si l’humour t’aide réellement à faire face. La fonction protectrice de l’humour n’est donc pas établie.</p>` : ""}
       <h4 class="rp-h">Tes réponses</h4><ol class="rp-items">${bs.answers.map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>`,
     comprendre: pourComprendre("Pourquoi un test pour rire dans un rapport sérieux", `<p>L'anthropologue David Graeber a décrit en 2018 les « bullshit jobs » : des emplois que même ceux qui les occupent jugent inutiles. Les études qui ont suivi, sur de grands échantillons européens (Soffia, Wood et Burchell, 2022), trouvent que le <b>sentiment d'inutilité</b> est bien associé à un mal-être plus élevé, mais qu'il dépend surtout de la façon dont le travail est organisé et reconnu, plus que du métier lui-même.</p><p>Côté burn-out, Maslach décrit le cynisme comme une <b>protection</b> : on se détache de ce qui coûte trop. L'humour joue un rôle proche. Les recherches sur les styles d'humour (Martin et ses collègues, 2003) distinguent un humour qui aide à prendre du recul et protège, d'un humour plus amer ou tourné contre soi, associé à plus de mal-être. D'où la grille : c'est le croisement avec ta distance et ton sens qui dit de quel côté tu es.</p><p>Le bullshitomètre est satirique. Ses pourcentages ne mesurent rien de validé et ne comptent dans aucun score.</p>`, chapLien(2)),
     garder: "L'absurde, s'il use, se travaille comme le reste : en le nommant, et en le portant là où il peut changer."
@@ -536,19 +536,19 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     ["Tes réponses", L.fiable ? "Lisibles telles quelles" : "À lire avec prudence", `Sur les quatre dernières semaines.${L.paires.length ? ` ${L.paires.length} point${L.paires.length > 1 ? "s" : ""} à clarifier (annexe 1).` : ""}`, "annexes"],
     ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de jauge haute", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Les ressources compensent" : "Balance à peu près équilibrée", lectureBalance, "balance"],
-    ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `Batterie à environ ${reste} %. ${esc(sr.F.comment)}`, "batterie"],
-    ["L'absurde", `${bsTitre} (${bs.percent} %)`, caseBS === "hh" ? "Le non-sens ne fait plus rire : il pèse." : caseBS === "hb" ? "Ton humour te protège." : caseBS === "bh" ? "Ta distance vient d'ailleurs que de l'absurde." : "Le sens tient.", "absurde"],
+    ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `${esc(sr.A.comment)} ${esc(sr.F.comment)}`, "batterie"],
+    ["L'absurde", `${bsTitre} (${bs.percent} %)`, caseBS === "hh" ? "Absurdité déclarée avec distance ou perte de sens." : caseBS === "hb" ? "Absurdité déclarée, sans retrait fortement déclaré." : caseBS === "bh" ? "Distance ou perte de sens, avec peu d’absurdité déclarée." : "Peu de signaux sur ces thèmes.", "absurde"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
   // ───────── Le verdict et la vue d'ensemble
   const usureMax = Math.max(...["A", "B", "C", "F"].map((id) => niv(sr[id]).n));
-  const verdict = r.hasAlert || r.profile.key === "alert" ? { n: 3, t: "Ça ne va pas : demande de l'aide maintenant", d: "Une de tes réponses, ou le niveau d'ensemble, appelle un avis médical rapide." }
-    : usureMax >= 2 ? { n: 2, t: "Ça ne va pas bien : agis cette semaine", d: "Au moins un signe d'usure est élevé. Ce n'est pas un diagnostic, mais il ne faut pas attendre que ça passe." }
-      : usureMax === 1 || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Ça tient, mais à surveiller", d: "Des signes ou des contraintes montent. C'est le bon moment pour agir, avant que l'usure s'installe." }
-        : { n: 0, t: "Ça va", d: "Tes réponses ne montrent pas d'usure nette. Garde ce qui te protège." };
+  const verdict = r.hasAlert ? { n: 3, t: "Un signal de sécurité est déclaré", d: "L’orientation dépend de la réponse concernée : consulte le message de sécurité distinct, sans interpréter le score total." }
+    : usureMax >= 2 ? { n: 2, t: "Plusieurs manifestations ressortent", d: "Des difficultés sont déclarées fréquemment ; leur origine et leur retentissement demandent à être précisés." }
+      : usureMax === 1 || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Des éléments méritent attention", d: "Des manifestations ou contraintes ressortent sur certaines questions, sans qu’un niveau clinique soit déterminé." }
+        : { n: 0, t: "Peu de difficultés déclarées", d: "Ce questionnaire ne fait pas ressortir de difficultés fréquentes dans les domaines explorés. Il ne remplace pas une appréciation médicale ou professionnelle." };
   const nDim = (d) => niv(d).n;
   const val = (v) => `${MOTS[nv24(v)]} · ${v}/24`;
-  const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "wantToLeave", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
+  const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
   const causes = [
     { titre: "La balance", modele: "Exigences-ressources (JD-R) · chapitre 3", rows: [
       { label: "Exigences du travail", val: val(sr.D.score), n: nDim(sr.D), c: C.orange },
@@ -557,7 +557,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       { label: "Effort", val: val(effort), n: nv24(effort), c: C.orange },
       { label: "Récompense", val: `${retour}/24`, n: nv24(retour), c: C.mid },
       { label: "Surengagement", val: val(surengagement), n: nv24(surengagement), c: VIOLET }] },
-    { titre: "Ce qui aggrave", modele: "Contexte · chapitre 5 · hors score", rows: ctxAggr.length
+    { titre: "Éléments de contexte", modele: "Déclarations · chapitre 5 · hors score", rows: ctxAggr.length
       ? ctxAggr.slice(0, 4).map((a) => ({ label: a.label.length > 30 ? `${a.label.slice(0, 29)}…` : a.label, val: "signalé", n: a.id === "harassment" || a.id === "ethicalConflict" ? 2 : 1, c: C.orange }))
       : [{ label: "Rien de signalé", val: "", n: 0, c: C.piste }] }
   ];
@@ -565,7 +565,6 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const recharge = [
     { label: "Décrocher, loisirs", val: fRecharge >= 6 ? "ça tient" : fRecharge >= 3 ? "fragile" : "en panne", n: fRecharge >= 6 ? 2 : fRecharge >= 3 ? 1 : 0 },
     { label: "Tes appuis", val: forts.length ? `${forts.length} point${forts.length > 1 ? "s" : ""} fort${forts.length > 1 ? "s" : ""}` : "à reconstruire", n: forts.length >= 4 ? 3 : forts.length >= 2 ? 2 : forts.length ? 1 : 0 },
-    ...(caseBS === "hb" ? [{ label: "Le recul par l'humour", val: "protège", n: 2 }] : [])
   ];
   const signes = [
     { label: "Épuisement (A)", v: sr.A.score, val: val(sr.A.score), n: nDim(sr.A) },
@@ -576,9 +575,8 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
   const nItem = (id) => [0, 0, 1, 2, 3][item(id).riskScore];
   const CORPS = { F2: "Sommeil perturbé", F4: "Symptômes physiques", F5: "Compensations pour tenir", F6: "Erreurs liées à la fatigue" };
   const corpsRows = Object.keys(CORPS).filter((id) => item(id).riskScore >= 2).map((id) => ({ label: CORPS[id], val: ratingLabels[item(id).rawScore].replace(/^\d+\s*-\s*/, ""), n: nItem(id), c: C.orange }));
-  if (ctxOui.some((a) => a.id === "wantToLeave")) corpsRows.push({ label: "Envie de partir", val: "signalée", n: 2, c: C.orange });
-  const corps = { titre: "Les signaux du corps", modele: "Santé et sécurité · chapitre 1", rows: corpsRows.length ? corpsRows : [{ label: "Pas de signal net", val: "", n: 0, c: C.piste }] };
-  const vue = { causes, recharge, signes, corps, alerte: r.hasAlert, reste };
+  const corps = { titre: "Autres signaux déclarés", modele: "Récupération, retentissement · chapitre 1", rows: corpsRows.length ? corpsRows : [{ label: "Pas de signal net", val: "", n: 0, c: C.piste }] };
+  const vue = { causes, recharge, signes, corps, alerte: r.hasAlert, aScore: sr.A.score, fScore: sr.F.score };
   const ensemble = `<figure class="rp-vue"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
       ${vueEnsemble({ ...vue, etroit: false })}${vueEnsemble({ ...vue, etroit: true })}
       <figcaption class="rp-legende">Deux modèles disent <b>d'où vient l'usure</b> : la balance et le retour, à gauche. La batterie montre <b>ce qu'il te reste</b>. Le troisième, Maslach, montre <b>ce que l'usure te fait</b>, à droite. Plus un fil est épais, plus il compte : <b class="o">orange</b>, ce qui use ; <b class="v">vert</b>, ce qui protège ou recharge ; <b class="p">violet</b>, le surengagement et le sens.</figcaption></figure>`;
