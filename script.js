@@ -516,6 +516,9 @@
         + (period ? `<p class="period">${svgIcon(ICON_CLOCK)}<span>${period}</span></p>` : "")
         + aboutHTML
         + (help ? `<p class="part-help">${help}</p>` : "");
+      if (key === "BS") {
+        part.insertAdjacentHTML("beforeend", '<p class="bs-optional"><button type="button" class="button secondary" data-skip-bs>Passer cette pause humoristique</button><small>Facultatif : aucune conséquence sur les autres résultats.</small></p>');
+      }
       const list = document.createElement("ol");
       list.className = "qlist";
       items.forEach((item) => list.appendChild(item));
@@ -538,7 +541,7 @@
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
       about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
     if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
-      "Ton satirique assumé. Rien ici ne compte dans les scores : le rapport s'en sert pour lire ta distance et ton rapport au sens.",
+      "Cette partie est facultative et satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
       bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
       about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
     scored("F");
@@ -743,7 +746,7 @@
       }
       if (!item) return;
       const key = event.key.toLowerCase();
-      const inputs = [...item.querySelectorAll("input[type='radio']")];
+      const inputs = [...item.querySelectorAll("input[type='radio']")].filter((input) => input.value !== "skip");
       let target = null;
       if (inputs.length === 5 && /^[0-4]$/.test(key)) target = inputs[Number(key)];
       if (inputs.length === 4 && /^[1-4]$/.test(key)) target = inputs[Number(key) - 1];
