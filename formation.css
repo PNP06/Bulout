@@ -117,8 +117,8 @@
 .fo-table table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.45; min-width: 560px; }
 .fo-table caption { text-align: left; padding: 14px 16px 6px; font: 700 15px/1.3 var(--title); }
 .fo-table th, .fo-table td { text-align: left; vertical-align: top; padding: 10px 16px; border-top: 1px solid var(--line-soft); }
-.fo-table thead th { font: 700 12px/1.2 var(--title); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.fo-table tbody th { font-weight: 600; }
+.fo-table thead th { font: 700 12px/1.2 var(--title); letter-spacing: .08em; text-transform: uppercase; background: var(--sapin); color: var(--anis); }
+.fo-table tbody th { font: 700 15px/1.4 var(--title); background: var(--bg-sunk); color: var(--sapin); }
 .fo-paires { background: var(--card); border: 1px solid var(--line-soft); border-radius: 18px; padding: 18px 20px; }
 .fo-paires-tete, .fo-paires li { display: grid; grid-template-columns: 1fr 1.3fr; gap: 16px; }
 .fo-paires-tete { font: 700 12px/1 var(--title); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 0; }
