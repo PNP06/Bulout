@@ -711,11 +711,19 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
       </details>
       <figcaption class="rp-legende"><b>Comment lire ce schéma :</b> à gauche, les contraintes et ressources déclarées (D/E, complétées par une lecture partielle de Siegrist et des éléments de contexte). Au centre, deux scores descriptifs distincts : épuisement (A) et récupération/santé (F). À droite, les manifestations déclarées (A, B, C et retentissements). <b>Les fils rapprochent des thèmes ; ils ne prouvent pas que le travail cause un symptôme, ni qu'une ressource le compense.</b> Leur épaisseur correspond à une convention interne, pas à une force de causalité. Les couleurs aident à se repérer, pas à diagnostiquer.</figcaption></figure>`;
 
+  const qualiteLecture = `<section class="rp-qualite" aria-label="Comment lire la qualité des réponses">
+    <h3>Ces réponses se lisent-elles facilement ?</h3>
+    <p>${L.prudence.length
+      ? `<b>Certains contrastes sont peu informatifs :</b> ${esc(L.prudence.join(" ; "))}. Cela peut refléter une situation vécue comme uniformément difficile, une manière de répondre ou une difficulté à différencier les questions. Ce contrôle ne mesure ni la sincérité ni la validité clinique.`
+      : "<b>Les réponses sont suffisamment différenciées pour examiner les écarts entre thèmes.</b> Cela ne valide pas pour autant le questionnaire ni ses seuils."}</p>
+    ${L.paires.length ? `<p><b>À clarifier :</b> ${L.paires.length} rapprochement${L.paires.length > 1 ? "s" : ""} de réponses méritent une discussion. Il ne s'agit pas d'erreurs à corriger.</p>` : ""}
+  </section>`;
   const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">L'essentiel · trois minutes</p>
       <h2 tabindex="-1">Ce que tes réponses permettent de comprendre</h2>
       <p>${esc(r.summary)}</p>
       <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
     ${securite}
+    ${qualiteLecture}
     <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
     <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
