@@ -146,13 +146,27 @@ function vueEnsemble({ causes, recharge, signes, corps, alerte, aScore, fScore, 
     const gauche = causes.flatMap((p, i) => p.rows.map((r, j) => ({ ...r, y: L[i].ys[j] - 4 })));
     const droite = [...signes.map((s, i) => ({ ...s, y: M.ys[i] })), ...corps.rows.map((r, j) => ({ ...r, y: Co.ys[j] - 4 }))];
     const cible = (k, n, a, b) => a + ((b - a) * (n === 1 ? 0.5 : k / (n - 1)));
-    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue descriptive des réponses : conditions de travail, deux scores A et F, manifestations. Les liens ne prouvent aucune causalité.">
-      ${T(20, 26, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })}${T(cx, 26, "DEUX INDICES DU VÉCU", { titre: true, taille: 11.5, anchor: "middle", c: "#4a5f5a" })}${T(W - 20, 26, "MANIFESTATIONS DÉCLARÉES", { titre: true, taille: 11.5, anchor: "end", c: C.ink })}
-      ${gauche.map((r, k) => fil(20 + lw, r.y, cx - 66, cible(k, gauche.length, bTop + 22, bTop + bH - 22), r.n, r.c)).join("")}
-      ${droite.map((r, k) => fil(cx + 66, cible(k, droite.length, bTop + 22, bTop + bH - 22), W - 20 - lw, r.y, r.n, r.c || C.orange)).join("")}
-      ${fil(cx, bTop + bH + 56, cx, bTop + bH + 4, nRecharge, C.mid, true)}
-      ${L.map((k) => k.svg).join("")}${M.svg}${Co.svg}${alerteBox(W - 20 - lw, yAl, lw)}
-      ${batt(cx, bTop, bH)}${R.svg}</svg>`;
+    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue descriptive : conditions de travail, vécu déclaré et manifestations. Les liens ne prouvent aucune causalité.">
+      <g class="rp-layer rp-layer-work">
+        ${T(20, 26, "CONDITIONS ET RESSOURCES DÉCLARÉES", { titre: true, taille: 11.5, c: C.ink })}
+        ${gauche.map((r, k) => fil(20 + lw, r.y, cx - 66, cible(k, gauche.length, bTop + 22, bTop + bH - 22), r.n, r.c)).join("")}
+        ${L.map((k) => k.svg).join("")}
+      </g>
+      <g class="rp-layer rp-layer-person">
+        ${T(cx, 26, "DEUX INDICES DU VÉCU", { titre: true, taille: 11.5, anchor: "middle", c: "#4a5f5a" })}
+        ${batt(cx, bTop, bH)}
+      </g>
+      <g class="rp-layer rp-layer-support">
+        ${fil(cx, bTop + bH + 56, cx, bTop + bH + 4, nRecharge, C.mid, true)}
+        ${R.svg}
+      </g>
+      <g class="rp-layer rp-layer-manifest">
+        ${T(W - 20, 26, "MANIFESTATIONS DÉCLARÉES", { titre: true, taille: 11.5, anchor: "end", c: C.ink })}
+        ${droite.map((r, k) => fil(cx + 66, cible(k, droite.length, bTop + 22, bTop + bH - 22), W - 20 - lw, r.y, r.n, r.c || C.orange)).join("")}
+        ${M.svg}${Co.svg}
+      </g>
+      <g class="rp-layer-safety">${alerteBox(W - 20 - lw, yAl, lw)}</g>
+    </svg>`;
   }
   // Téléphone : les mêmes paquets, empilés ; deux gros fils relient les causes, l'énergie et les effets.
   const W = 400, x = 12, w = W - 24, gap = 12;
