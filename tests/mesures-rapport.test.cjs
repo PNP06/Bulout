@@ -613,3 +613,28 @@ test("l’ancienne sauvegarde v7 ne renumérote pas BS1–BS8 et respecte le sau
   assert.match(code,/i = 9; i <= 12/);
   assert.match(code,/versionBullshitometre: "2026-11-bs-v2"/);
 });
+
+
+test("la migration réelle d'un BS v7 complet conserve les huit réponses sans les décaler", () => {
+  const src = read("parcours.js");
+  const match = src.match(/function migrerBullshitometreV7\(reponses\) \{[\s\S]*?\n\}/);
+  assert.ok(match,"Fonction de migration absente");
+  const migrate = new Function(match[0] + ";return migrerBullshitometreV7;")();
+  const old = Object.fromEntries(Array.from({length:8},(_,i)=>["BS"+(i+1),String(i%4)]));
+  const migrated = migrate(old);
+  for(let i=1;i<=8;i++) assert.equal(migrated["BS"+i],old["BS"+i]);
+  for(let i=9;i<=12;i++) assert.equal(migrated["BS"+i],undefined);
+  assert.equal(Object.keys(migrated).length,8);
+});
+
+test("la migration réelle respecte le saut volontaire des huit questions BS en v7", () => {
+  const source = read("parcours.js").match(/function migrerBullshitometreV7\(reponses\) \{[\s\S]*?\n\}/);
+  const migrate = new Function(source[0] + ";return migrerBullshitometreV7;")();
+  const old = Object.fromEntries(Array.from({length:8},(_,i)=>["BS"+(i+1),"skip"]));
+  const migrated = migrate({...old,D1:"3"});
+  assert.equal(migrated.D1,"3");
+  for(let i=1;i<=12;i++) assert.equal(migrated["BS"+i],"skip");
+  const mixed = migrate({...old,BS1:"1"});
+  assert.equal(mixed.BS1,"1");
+  assert.equal(mixed.BS9,undefined,"Ne pas confondre réponse partielle et saut complet");
+});
