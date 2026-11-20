@@ -539,6 +539,59 @@ function composer({ result: r, sections, strengthPart, exchangePart, bullshitPar
     garder: "L'absurde, s'il use, se travaille comme le reste : en le nommant, et en le portant là où il peut changer."
   };
 
+  // ───────── Modèles de lecture personnalisée (faits, limites, actions)
+// Synthèse : partir des réponses individuelles, pas d'un score global ou d'un verdict.
+  const frequences = (a) => ratingLabels[a.rawScore].replace(/^\d+\s*-\s*/, "");
+  const principaux = (ids, limite = 2) => r.answers
+    .filter((a) => ids.includes(a.sectionId) && a.riskScore >= 3)
+    .sort((a, b) => b.riskScore - a.riskScore)
+    .slice(0, limite);
+  const manifs = principaux(["A", "B", "C", "F"]);
+  const travailRessort = principaux(["D", "E"]);
+  const appuisRessort = (r.strengthAnswers || []).filter((a) => a.value >= 3).slice(0, 2);
+  const place = (items, vide) => items.length
+    ? `<ul class="rp-faits">${items.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span>${esc(a.question)}<small>Réponse : <b>${esc(frequences(a))}</b></small></span></li>`).join("")}</ul>`
+    : `<p class="rp-lecture-vide">${vide}</p>`;
+  const lectureCard = (num, titre, texte, preuve, limite) => `<article class="rp-lecture-card">
+    <span class="rp-lecture-num" aria-hidden="true">${num}</span><h3>${titre}</h3><p>${texte}</p>
+    ${preuve}<p class="rp-lecture-limite"><b>Ce que cela ne prouve pas :</b> ${limite}</p></article>`;
+  const lecturePersonne = lectureCard("01", "Ce que tu vis",
+    "Épuisement, distance au travail, efficacité, sens et santé sont examinés, sans les confondre.",
+    place(manifs, "Aucune manifestation n'a reçu « souvent » ou « presque toujours » dans ces quatre parties."),
+    "ni un diagnostic, ni une origine exclusivement professionnelle.");
+  const lectureTravail = lectureCard("02", "Ce que tu décris au travail",
+    "Les exigences et les ressources sont séparées des manifestations personnelles.",
+    place(travailRessort, "Aucune contrainte fréquente ni ressource fortement manquante n'est déclarée dans les items D/E."),
+    "que ces conditions expliquent à elles seules les difficultés ressenties.");
+  const lectureAppui = lectureCard("03", "Ce sur quoi tu peux t'appuyer",
+    "Les ressources déclarées ne compensent pas mathématiquement les exigences.",
+    appuisRessort.length
+      ? `<ul class="rp-faits">${appuisRessort.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span>${esc(a.question)}<small>Réponse : <b>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}</b></small></span></li>`).join("")}</ul>`
+      : `<p class="rp-lecture-vide">Aucun appui personnel n'est coché fréquemment parmi les six questions G. Cela n'exclut pas d'autres ressources.</p>`,
+    "qu'un appui suffit à résoudre une contrainte organisationnelle.");
+
+  // Fiche de discussion sur les conditions de travail : ne jamais y placer des réponses de santé.
+  // Les questions D/E sont des déclarations subjectives que la discussion doit confronter au travail réel.
+  const dFaits = r.answers.filter((a) => a.sectionId === "D" && a.riskScore >= 3).slice(0, 4);
+  const eFaits = r.answers.filter((a) => a.sectionId === "E" && a.riskScore >= 3).slice(0, 3);
+  const prouverAuTravail = (items, vide) => items.length
+    ? `<ul class="rp-travail-faits">${items.map((a) => `<li><span class="rp-id">${esc(a.id)}</span>${esc(a.question)} <small>Réponse au questionnaire : ${esc(frequences(a))}</small></li>`).join("")}</ul>`
+    : `<p>${vide}</p>`;
+  const demandeOrganisation = item("D3").riskScore >= 3 || item("E2").riskScore >= 3
+    ? "Quelles priorités peuvent être arbitrées explicitement, et qui décide de ce qui attend ?"
+    : item("D1").riskScore >= 3
+      ? "Quelle charge est réalisable dans le temps disponible ? Quelles tâches retirer, reporter ou simplifier ?"
+      : item("D6").riskScore >= 3
+        ? "Quels dysfonctionnements peuvent être corrigés pour ne plus dépendre d'une compensation individuelle ?"
+        : "Quels sont les objectifs prioritaires, les ressources disponibles et les modalités d'arbitrage ?";
+  const ficheTravail = `<header class="rp-travail-head"><p class="rp-n">Document facultatif · conditions de travail</p>
+      <h2 tabindex="-1">Préparer une discussion sur le travail réel</h2><p>Cette fiche reprend <b>uniquement des réponses relatives aux conditions de travail</b>. Ni les questions de santé, ni les alertes, ni les consommations, ni les événements personnels, ni les scores ne sont reproduits.</p></header>
+    <section class="rp-travail-bloc"><h3>Contraintes à vérifier</h3>${prouverAuTravail(dFaits, "Aucune contrainte de cette liste n'a été déclarée « souvent » ou « presque toujours ». Cela n'exclut pas d'autres situations.")}</section>
+    <section class="rp-travail-bloc"><h3>Ressources à examiner</h3>${prouverAuTravail(eFaits, "Aucun manque de ressource n'est particulièrement déclaré parmi les six éléments explorés.")}</section>
+    <section class="rp-travail-demande"><h3>Proposition de question pour la discussion</h3><p><b>${esc(demandeOrganisation)}</b></p>
+      <p>Pour éclairer la discussion, ajouter un exemple vérifiable : <b>tâche, date, conséquence et arbitrage demandé</b>. Le questionnaire recueille un ressenti, pas une enquête sur les faits.</p></section>
+    <p class="rp-travail-prive">Document préparatoire volontaire. Il ne constitue ni un diagnostic ni une évaluation du salarié. Le partage du rapport personnel complet n'est pas requis pour discuter des conditions de travail.</p>`;
+
   // ───────── Synthèse
   const synCartes = [
     ["Tes réponses", L.fiable ? "Réponses variées" : "Réponses peu différenciées", `Sur les quatre dernières semaines.${L.paires.length ? ` ${L.paires.length} point${L.paires.length > 1 ? "s" : ""} à clarifier (annexe 1).` : ""}`, "annexes"],
