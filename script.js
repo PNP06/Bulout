@@ -1126,7 +1126,7 @@
     };
 
     if (result.hasAlert || scores.F >= 19 || contextYes.has("safetySensitiveJob")) {
-      addAction("safety", "alert", "Sécurité / santé d'abord", "En cas de danger immédiat : 15 / 112. Idées suicidaires : 3114. Si un poste à enjeu de sécurité est concerné, réduire l'exposition aux tâches à risque.");
+      addAction("safety", "alert", "Préciser les signaux de santé et de sécurité", "Si une question d'alerte a reçu oui, suis l'orientation correspondante. En cas de symptôme aigu ou de danger immédiat : 15 / 112 ; idées suicidaires : 3114. Si ton poste comporte un enjeu de sécurité et que ta vigilance est altérée, demande un ajustement rapide des tâches.");
     }
     if (scores.D >= 13) {
       addAction("exposure", "load", "Réduire ou arbitrer la charge", "Lister les tâches en cours et demander explicitement ce qui doit être arrêté, reporté ou simplifié.");
@@ -1171,7 +1171,10 @@
     const contextYes = new Set(contextAnswers.filter((answer) => answer.yes).map((answer) => answer.id));
 
     if (hasAlert) {
-      addRecommendation("emergency", "Réponse positive à une question d'alerte : en cas de danger immédiat, aide immédiate.");
+      // La question sur le fonctionnement n'est pas, à elle seule, un signal d'urgence vitale.
+      if (alertFlags[0]?.yes || alertFlags[2]?.yes) {
+        addRecommendation("emergency", "En cas d'idées suicidaires ou de symptôme aigu inquiétant, une aide urgente peut être nécessaire : 3114, 15 ou 112 selon la situation.");
+      }
       addRecommendation("generalPractitioner", "Signaux d'alerte : avis médical général à envisager rapidement.");
       addRecommendation("psychiatrist", "Signaux sévères possibles : avis spécialisé à envisager selon la situation.");
       addRecommendation("occupationalDoctor", "Lien santé-travail à analyser sans transmettre de détail médical à l'employeur.");
