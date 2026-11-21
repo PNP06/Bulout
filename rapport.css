@@ -408,7 +408,7 @@
   .rp-bref { background: white; color: #123a33; border: 1.5px solid #123a33; }
   .rp-bref .k { color: #b4512b; }
   .rapport * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .pdf-court .rp-page:not([data-page="synthese"]):not([data-page="plan"]):not([data-page="portes"]) { display: none !important; }
+  .pdf-court .rp-page:not([data-page="synthese"]):not([data-page="plan"]):not([data-page="portes"]):not([data-page="routine"]) { display: none !important; }
   .pdf-court .rp-pc { display: none; }
   .pdf-sans-reponses #annexe-2 { display: none; }
   .start-dialog, .q-safety { display: none !important; }
@@ -602,3 +602,50 @@
 .rp-depuis div { background: var(--card, #fffdf8); border: 1px solid var(--line-soft); border-radius: 12px; padding: 10px 14px; }
 .rp-depuis dt { font: 700 11px/1.2 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink, #b4512b); }
 .rp-depuis dd { margin: 4px 0 0; font-weight: 600; }
+
+
+/* La routine personnelle est une page du rapport (et du PDF Essentiel), pas du dossier stagiaire. */
+.rp-routine-head { border-bottom: 4px solid var(--anis); padding-bottom: 12px; }
+.rp-routine-reperes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.rp-routine-reperes > div { display:grid; gap:5px; padding:12px 14px; border:1px solid var(--line-soft); background:var(--bg); border-radius:12px; min-width:0; }
+.rp-routine-reperes > div:nth-child(3) { background:#e3eee9; }
+.rp-routine-reperes > div:nth-child(4) { background:#f4f8df; }
+.rp-routine-reperes p { margin:0; line-height:1.38; font-size:13px; }
+.rp-routine-reperes .k { font-size:11px; line-height:1.28; }
+.rp-routine-jours { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.rp-routine-jour { border:1px solid var(--line-soft); border-top:5px solid var(--sapin); border-radius:13px; padding:14px; min-width:0; }
+.rp-routine-jour:nth-child(2) { border-top-color:var(--orange); }
+.rp-routine-jour-titre { display:grid; gap:3px; margin-bottom:9px; }
+.rp-routine-jour-titre h3 { font:800 16px/1.3 var(--title); margin:0; }
+.rp-jour-badge { font:800 11px var(--font); letter-spacing:.12em; color:var(--sapin-mid); }
+.rp-routine-jour ol { margin:0 0 10px; padding-left:20px; display:grid; gap:7px; }
+.rp-routine-jour li { font-size:13px; line-height:1.4; }
+.rp-routine-ligne { display:grid; gap:5px; font-size:12px; }
+.rp-routine-ligne > span { border-bottom:1px dashed var(--line-strong); height:20px; }
+.rp-routine-traces { display:grid; gap:7px; }
+.rp-routine-traces h3 { font:800 15px var(--title); }
+.rp-routine-traces table { border-collapse:collapse; width:100%; table-layout:fixed; }
+.rp-routine-traces th,.rp-routine-traces td { border:1px solid var(--line-strong); padding:8px; font-size:12px; vertical-align:top; }
+.rp-routine-traces thead th { background:var(--bg); font-weight:600; }
+.rp-routine-traces thead th:first-child { width:74px; }
+.rp-routine-traces tbody td { height:39px; }
+.rp-routine-limite { padding:10px 12px; margin:0; border-left:4px solid var(--sapin-mid); background:var(--bg); font-size:12px; line-height:1.4; }
+@media (max-width:700px) {
+  .rp-routine-reperes,.rp-routine-jours { grid-template-columns:1fr; }
+}
+@media print {
+  .rapport .rp-page[data-page="routine"] { break-before:page; page-break-before:always; }
+  .rp-routine-reperes,.rp-routine-jours { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8pt; }
+  .rp-routine-head { padding-bottom:6pt; }
+  .rp-routine-head .rp-intro { font-size:10pt; }
+  .rp-routine-reperes>div { padding:7pt 9pt; break-inside:avoid; }
+  .rp-routine-reperes p { font-size:9pt; }
+  .rp-routine-reperes .k { font-size:8pt; }
+  .rp-routine-jour { padding:8pt; break-inside:avoid; }
+  .rp-routine-jour ol { gap:4pt; }
+  .rp-routine-jour li { font-size:9pt; }
+  .rp-routine-ligne > span { height:12pt; }
+  .rp-routine-traces th,.rp-routine-traces td { padding:4pt; font-size:8.5pt; }
+  .rp-routine-traces tbody td { height:24pt; }
+  .rp-routine-limite { font-size:8.5pt; padding:6pt; }
+}
