@@ -1114,18 +1114,38 @@ test("l'absurde est le chapitre 5, avec sa pièce, ses rappels et l'ancienne adr
   assert.match(absurde.pictoPipeau(0, 0, 40), /^<g class="picto-pipeau"/);
 });
 
-test("le mémo de poche existe en page et en PDF (une page A4 par feuille), sans donnée personnelle, avec les contacts vérifiés", () => {
+test("le dossier stagiaire reprend les onze chapitres et le PDF contient six pages A4 illustrées", () => {
   const memo = read("memo.html");
-  // Seuls les numéros de sécurité et les portes de base sont obligatoires : la liste des lignes d'écoute peut évoluer.
-  for (const n of ["3114", "15", "112", "médecin du travail"]) assert.ok(memo.toLowerCase().includes(n.toLowerCase()), "contact attendu : " + n);
-  assert.match(memo, /Prévention burn-out sans bullshit/i);
-  const feuilles = (memo.match(/class="feuille"/g) || []).length;
-  assert.ok(feuilles >= 1 && feuilles <= 8, "de une à huit feuilles A4");
-  assert.doesNotMatch(memo, /<script/i, "le mémo ne lit aucune réponse");
+  assert.match(memo, /Dossier stagiaire/i);
+  assert.equal((memo.match(/class="feuille"/g) || []).length, 6, "six planches A4");
+  assert.equal((memo.match(/class="chap-heading"/g) || []).length, 11, "un rappel par chapitre");
+  for (const chapitre of Array.from({ length: 11 }, (_, i) => i + 1)) {
+    assert.ok(memo.includes('id="chap-' + chapitre + '"'), "chapitre " + chapitre + " joignable");
+  }
+  for (const sujet of ["Maslach", "Siegrist", "JD-R", "Gollac", "bullshit", "récupération"]) {
+    assert.ok(memo.toLowerCase().includes(sujet.toLowerCase()), "notion à retrouver : " + sujet);
+  }
+  assert.ok((memo.match(/<svg/g) || []).length >= 7, "plusieurs schémas vectoriels pédagogiques");
+  assert.doesNotMatch(memo, /<script/i, "aucun script ne lit de réponses personnelles");
   const pdf = fs.readFileSync(path.join(ROOT, "bull-out-memo.pdf"));
   assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
-  assert.equal((pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length, feuilles, "une page par feuille : relancer node tests/generer-memo-pdf.mjs");
+  assert.equal((pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length, 6, "le PDF doit être régénéré sur six pages");
   assert.match(read("parcours.js"), /href="bull-out-memo\.pdf" download/, "bouton à côté du diplôme");
   assert.match(read("rapport.js"), /href="bull-out-memo\.pdf"/, "lien dans le rapport");
-  assert.match(read("memo.css"), /--rouge:/);
+  assert.match(read("memo.css"), /--anis:/);
+});
+
+test("la routine du rapport personnel ne se confond pas avec le dossier stagiaire", () => {
+  const rapport = read("rapport.js");
+  const routine = read("routine.js");
+  const css = read("rapport.css");
+  assert.match(rapport, /produireRoutine/);
+  assert.match(rapport, /id: "routine"/);
+  assert.match(rapport, /"portes", "routine", "travail"/, "la routine est visible tôt dans le rapport");
+  assert.match(css, /pdf-court[\s\S]*data-page="routine"/, "la routine est dans le PDF Essentiel");
+  assert.match(css, /pdf-travail[\s\S]*data-page="travail"/, "la fiche travail exclut les données personnelles");
+  assert.match(routine, /LUNDI/);
+  assert.match(routine, /VENDREDI/);
+  assert.match(routine, /Quatre semaines/);
+  assert.doesNotMatch(routine, /localStorage|sessionStorage|fetch\(/);
 });
