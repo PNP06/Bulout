@@ -88,6 +88,17 @@ try {
   if(pageErrors.length)throw new Error("Erreurs JavaScript page: "+pageErrors.join(" ; "));
   if(synth.items!==88)throw new Error(`Attendu 88 réponses, reçu ${synth.items}`);
   if(synth.alertes)throw new Error("Le profil d'exemple ne doit pas déclencher de réponse de sécurité");
+  // La routine doit réellement figurer dans le rapport personnalisé, sans être un nouveau questionnaire.
+  const controleRoutine=await page.evaluate(()=>{
+    const el=document.querySelector("#rapport-routine");
+    return {present:!!el,repères:el?.querySelectorAll(".rp-routine-reperes > div").length||0,
+      lundi:el?.textContent.includes("LUNDI"),vendredi:el?.textContent.includes("VENDREDI"),
+      semaines:el?.querySelectorAll(".rp-routine-traces tbody tr").length||0};
+  });
+  if(!controleRoutine.present || controleRoutine.repères!==4 || !controleRoutine.lundi ||
+     !controleRoutine.vendredi || controleRoutine.semaines!==4)
+    throw new Error("Routine personnalisée du rapport absente ou incomplète : "+JSON.stringify(controleRoutine));
+
   await page.addStyleTag({content:`@media print {
     .site-header, .site-footer, #questionnaire, #espace-formation, #porte-test,
     .main-nav, .nav-direct, .translation-widget { display:none !important; }
@@ -102,11 +113,26 @@ try {
       e.checked=true;
       e.dispatchEvent(new Event("change",{bubbles:true}));
     },mode);
+    await page.emulateMedia({media:"print"});
+    const routineVisible=await page.evaluate(()=>{
+      const el=document.querySelector("#rapport-routine");
+      return !!el && getComputedStyle(el).display!=="none";
+    });
+    if(routineVisible === (mode==="travail"))
+      throw new Error("Confidentialité/inclusion de la routine non conforme dans le PDF "+mode);
+    await page.emulateMedia({media:"screen"});
     await page.pdf({path:join(OUT,file),format:"A4",printBackground:true,preferCSSPageSize:true,displayHeaderFooter:false});
     const buffer=await readFile(join(OUT,file));
     if(buffer.byteLength<10000 || buffer.subarray(0,5).toString()!=="%PDF-")
       throw new Error("PDF manquant ou invalide: "+file);
   }
+  // Capture de la routine avec le profil fictif, disponible dans l'artefact de contrôle.
+  await page.evaluate(()=>{
+    const b=document.querySelector('[data-aller="routine"]');
+    if(!b)throw new Error("Lien vers la routine absent de la navigation");
+    b.click();
+  });
+  await page.screenshot({path:join(OUT,"capture-routine.png"),fullPage:true});
   // Recette visuelle minimale des deux zones nouvellement développées.
   // Le navigateur charge ici le parcours normal : seul l'essai du questionnaire
   // désactive localement le verrou du diplôme, jamais le site servi au public.
