@@ -123,7 +123,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "La batterie", texte: "Ton rapport regarde d’abord deux repères : l’épuisement, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    piece: { nom: "Épuisement et récupération", texte: "Ton rapport regarde d’abord deux choses, séparément : ce que le travail te prend (l’épuisement, partie A) et ce que le repos te rend (la récupération, partie F).", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
@@ -816,7 +816,7 @@ export const chapitres = [
         ["Danger immédiat", "15 ou 112.", "3114 en cas de risque suicidaire."],
       ] },
       { t: "h", texte: "Préparer la reprise" },
-      { t: "exemple", titre: "Le retour de Sam", html: "Pendant son arrêt, Sam demande une <b>visite de pré-reprise</b> avec le médecin du travail. Ensemble, ils listent ce qui l’a usé : le dossier de Marc, les réunions à 18 h 30, les mails du soir. À la <b>visite de reprise</b>, le médecin propose un temps partiel thérapeutique les deux premiers mois. Nadia, de son côté, a fait entrer un renfort sur le dossier de Marc.", note: "Revenir au même poste, avec la même charge, c’est remettre la même batterie dans le même circuit." },
+      { t: "exemple", titre: "Le retour de Sam", html: "Pendant son arrêt, Sam demande une <b>visite de pré-reprise</b> avec le médecin du travail. Ensemble, ils listent ce qui l’a usé : le dossier de Marc, les réunions à 18 h 30, les mails du soir. À la <b>visite de reprise</b>, le médecin propose un temps partiel thérapeutique les deux premiers mois. Nadia, de son côté, a fait entrer un renfort sur le dossier de Marc.", note: "Revenir au même poste, avec la même charge, c’est retrouver les mêmes causes d’usure." },
       { t: "cartes", items: [
         ["Pendant l’arrêt", "La visite de pré-reprise (possible dès 30 jours d’arrêt) prépare le retour avec le médecin du travail, sans que l’employeur soit présent."],
         ["Au retour", "La visite de reprise est obligatoire après certains arrêts (60 jours pour une maladie non professionnelle). Elle vérifie que le poste est compatible avec ta santé."],

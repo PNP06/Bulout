@@ -32,7 +32,7 @@ const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller pl
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
 // Ce que chaque chapitre ajoute au schéma du rapport (formation-illustrations.js, schemaRapport), comme le papillon de Papillon.
 const SCHEMA_TEXTE = [
-  "Au centre, deux colonnes : l’épuisement (A) et la récupération (F). À droite, ce que dit le corps. Ce sont deux repères déclarés, pas une jauge d’énergie.",
+  "Au centre, ton vécu en deux colonnes. <b>Épuisement</b> : la partie A du questionnaire (vidé, à bout, le repos ne suffit plus). <b>Récupération difficile</b> : la partie F (mal dormir, ne plus décrocher, symptômes). Plus une colonne est haute et orange, plus ça use. On les regarde séparément : c’est quand les deux montent ensemble que la fatigue devient de l’usure. À droite, ce que dit le corps.",
   "À droite, les trois signes de Maslach : l’épuisement, la distance, l’efficacité et le sens. Lus séparément, pour ne pas réduire l’usure à la fatigue.",
   "À gauche, la balance du modèle exigences-ressources : ce que le travail demande, ce qui aide à le faire. Sous le centre, tes appuis.",
   "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
@@ -152,7 +152,7 @@ function chapitre(i) {
     <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
     <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
     <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
-    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra. <b>La couleur dit l’effet pour Sam</b> : vert, ça protège ; orange, ça use. Une ressource rare est donc orange.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
     <div class="fo-pause"><p>Tu peux t’arrêter ici. « Enregistrer ma progression » télécharge un petit fichier pour reprendre plus tard, sur cet appareil ou un autre.</p>${garder}${statut}</div>
     <p class="fo-suite">${c.suite}</p>
     <nav class="fo-pager" aria-label="Chapitres">${avant}${apres}</nav>`;

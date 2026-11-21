@@ -100,9 +100,9 @@
 /* Niveaux nommés */
 .rp-niv { display: inline-block; padding: 2px 9px; border-radius: 999px; font: 600 12.5px/1.5 var(--font); letter-spacing: 0; text-transform: none; }
 .rp-niv.n0 { background: #e2efe6; color: #1d5c50; }
-.rp-niv.n1 { background: #fdf1d8; color: #8a4a0c; }
+.rp-niv.n1 { background: #fbf0c9; color: #6e5200; }
 .rp-niv.n2 { background: #fbe3d8; color: #a2431f; }
-.rp-niv.n3 { background: #f9dfc9; color: #8b3d12; }
+.rp-niv.n3 { background: #f2cdbb; color: #7d2e12; }
 
 /* Synthèse */
 .rp-syn-head p { max-width: 70ch; margin: 8px 0 0; }
@@ -587,3 +587,9 @@
   .rp-modeles-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .rp-temps dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* Code couleur unique : la couleur dit l'effet pour toi (vert protège, jaune à surveiller, orange use). */
+.rp-couleurs { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; font-size: 13px; color: var(--muted); }
+.rp-couleurs span { display: inline-flex; align-items: center; gap: 6px; }
+.rp-couleurs i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+@media print { .rp-couleurs { font-size: 8.5pt; } .rp-couleurs i { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
