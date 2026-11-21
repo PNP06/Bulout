@@ -41,9 +41,12 @@ function debugApi(responses = null) {
 function composerRapport() {
   // Le schéma (schema.js) est inliné : mêmes fonctions que dans le navigateur, sans les mots-clés de module.
   const schema = read("schema.js").replace(/^export\s+/gm, "");
-  const code = "const { schemaDouble } = (() => {\n" + schema + "\nreturn { schemaDouble };\n})();\n" + read("rapport.js")
+  const routine = read("routine.js").replace(/^export\s+/gm, "");
+  const code = "const { schemaDouble } = (() => {\n" + schema + "\nreturn { schemaDouble };\n})();\n"
+    + "const { produireRoutine } = (() => {\n" + routine + "\nreturn { produireRoutine };\n})();\n" + read("rapport.js")
     .replace(/^import\s+\{\s*chapitres\s*\}\s+from\s+["']\.\/formation-contenu\.js["'];?\s*/m, "")
-    .replace(/^import\s+\{\s*schemaDouble\s*\}\s+from\s+["']\.\/schema\.js["'];?\s*/m, "");
+    .replace(/^import\s+\{\s*schemaDouble\s*\}\s+from\s+["']\.\/schema\.js["'];?\s*/m, "")
+    .replace(/^import\s+\{\s*produireRoutine\s*\}\s+from\s+["']\.\/routine\.js["'];?\s*/m, "");
   const root = { addEventListener() {}, querySelectorAll() { return []; }, querySelector() { return null; } };
   const document = { querySelector() { return root; }, addEventListener() {} };
   const window = { addEventListener() {} };
