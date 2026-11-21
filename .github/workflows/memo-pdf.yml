@@ -1,0 +1,49 @@
+name: Mémo Bull-Out · PDF synchronisé
+
+on:
+  push:
+    branches: [main, claude/memo-fin-formation]
+    paths:
+      - memo.html
+      - memo.css
+      - tests/generer-memo-pdf.mjs
+      - .github/workflows/memo-pdf.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: memo-pdf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer la branche
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Installer Playwright
+        run: npm install --no-save --no-package-lock playwright
+      - name: Générer le dossier et vérifier sa pagination
+        run: node tests/generer-memo-pdf.mjs
+      - name: Publier le dossier vérifié en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dossier-stagiaire-Bull-Out
+          path: bull-out-memo.pdf
+      - name: Synchroniser le PDF après génération
+        run: |
+          git add bull-out-memo.pdf
+          if ! git diff --cached --quiet; then
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Mettre à jour le PDF du dossier Bull-Out"
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
