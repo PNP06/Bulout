@@ -1,7 +1,7 @@
 // Génère bull-out-memo.pdf (le mémo de fin de formation) à partir de memo.html, via Chromium.
 // Exécution : npm i --no-save --no-package-lock playwright && node tests/generer-memo-pdf.mjs
 // À relancer après chaque modification de memo.html ou memo.css.
-// Le script échoue si une feuille déborde de sa page A4 : le PDF doit faire exactement deux pages.
+// Le script échoue si une feuille déborde de sa page A4 : le PDF a une page par feuille (.feuille).
 import { createServer } from "node:http";
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -43,11 +43,12 @@ try {
   if (!polices.some((p) => p.includes("Poppins")) || !polices.some((p) => p.includes("Inter"))) throw new Error("Les polices Poppins et Inter ne sont pas chargées : " + polices.join(", "));
   if (erreurs.length) throw new Error(erreurs.join("\n"));
 
+  const feuilles = await page.$$eval(".feuille", (f) => f.length);
   const pdf = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
   const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
-  if (pages !== 2) throw new Error(`Le PDF fait ${pages} page(s) au lieu de 2.`);
+  if (pages !== feuilles) throw new Error(`Le PDF fait ${pages} page(s) pour ${feuilles} feuille(s).`);
   await writeFile(SORTIE, pdf);
-  console.log(`bull-out-memo.pdf écrit : 2 pages A4, ${Math.round(pdf.length / 1024)} Ko.`);
+  console.log(`bull-out-memo.pdf écrit : ${pages} page(s) A4, ${Math.round(pdf.length / 1024)} Ko.`);
 } finally {
   await navigateur?.close();
   serveur.close();
