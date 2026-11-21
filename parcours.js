@@ -27,9 +27,10 @@ const nombres = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept"
 const nb = n => nombres[n] ?? String(n);
 const Nb = n => nb(n).charAt(0).toUpperCase() + nb(n).slice(1);
 // Les trois phrases à retenir par cœur : répétées dans la synthèse et sur la page du diplôme.
-// Le mémo de poche : une feuille A4 recto verso, la même pour tout le monde (aucune réponse dedans).
-// Source : memo.html ; PDF régénéré par tests/generer-memo-pdf.mjs.
-const memoHTML = `<section class="fo-memo" aria-labelledby="memo-titre"><p class="fo-label">À emporter avec ton diplôme</p><h2 id="memo-titre">Ton mémo de poche</h2><p>Une feuille A4 recto verso : les onze idées clefs, les signaux à surveiller, quoi faire quand tu doutes, des mantras et les contacts utiles. Elle ne contient aucune de tes réponses : imprime-la, affiche-la, montre-la.</p><div class="fo-cta"><a class="button primary" href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf" data-memo>Télécharger mon mémo (PDF)</a><a href="memo.html">Le lire en ligne</a></div></section>`;
+// Le dossier stagiaire reprend les onze chapitres en six planches A4 illustrées.
+// Les réponses personnelles et le suivi hebdomadaire restent dans le rapport.
+// Source : memo.html ; PDF généré par tests/generer-memo-pdf.mjs.
+const memoHTML = `<section class="fo-memo" aria-labelledby="memo-titre"><p class="fo-label">À emporter avec ton diplôme</p><h2 id="memo-titre">Ton dossier de formation illustré</h2><p>Six pages pour retrouver les <b>onze chapitres</b>, les <b>quatre modèles</b>, leurs schémas, les exemples et les limites. À relire quand tu veux, sans refaire la formation. Ce dossier est commun à tout le monde : il ne contient aucune de tes réponses. <b>Ta routine personnelle du lundi et du vendredi</b> se trouve dans ton rapport.</p><div class="fo-cta"><a class="button primary" href="bull-out-memo.pdf" download="dossier-bull-out.pdf" type="application/pdf" data-memo>Télécharger mon dossier (PDF)</a><a href="memo.html">Le consulter en ligne</a></div></section>`;
 const troisPhrases = `<div class="fo-trois"><p class="fo-label">À retenir par cœur</p><ol><li>On agit à gauche, sur le travail. On suit à droite l’impact dans ta vie.</li><li>Face à une surcharge : retirer, reporter ou simplifier. Sinon, on remonte.</li><li>Prévenir, réagir aux alertes, et pouvoir le montrer.</li></ol></div>`;
 const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller plus loin : comment ces modèles ont été construits</summary>${synthese.plusLoin}</details>`;
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
