@@ -203,84 +203,8 @@ export const illustrations = {
 };
 
 // ───────── Le schéma du rapport, construit au fil des chapitres (comme le papillon de Papillon).
-// Même disposition et mêmes mots que la vue d'ensemble du rapport (rapport.js, vueEnsemble) :
-// à gauche TON TRAVAIL, au centre TOI (ta fatigue, tes appuis), à droite CE QUI SE VOIT. Données : Sam, fictif.
-// Chaque chapitre allume ses pièces ; les pièces à venir restent en pointillés, sans contenu.
-export const PIECES_SCHEMA = [
-  ["fatigue", "corps"],       // 1 · fatigue ou usure : épuisement, mal à récupérer, signaux du corps
-  ["signes"],                 // 2 · les trois signes (Maslach)
-  ["balance", "appuis"],      // 3 · la balance exigences-ressources (JD-R)
-  ["retour"],                 // 4 · effort et récompense (Siegrist)
-  ["contexte", "absurde"],    // 5 · ce qui pèse autour : le contexte et l'absurde (bullshitomètre), hors score
-  ["fils"],                   // 6 · ce que valent les mesures : des liens, pas des causes
-  ["bandeau"],                // 7 · agir : les trois cadrans, ton travail, ta fatigue, ce qui se voit
-  [],                         // 8 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
-  ["securite"],               // 9 · à qui en parler : la porte d'urgence
-];
-// Même code couleur que le rapport : la couleur dit l'effet pour la personne (vert ça va ou ça protège, jaune à surveiller, orange ça use, orange foncé ça use beaucoup).
-export const NIVC = [C.mid, "#d9a21b", C.orange, "#a8401c"];
-export const NIVMOTS = ["ça va", "à surveiller", "ça use", "ça use beaucoup"];
-
-// Sans argument : le schéma complet, sans pièce surlignée.
-export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = {}) {
-  const faites = new Set(PIECES_SCHEMA.slice(0, chapitre + 1).flat());
-  const ici = new Set(PIECES_SCHEMA[chapitre] || []);
-  const etat = (id) => (ici.has(id) ? "ici" : faites.has(id) ? "fait" : "avenir");
-  const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.a || "start"}" fill="${o.c || C.sapin}" font-size="${o.size || 14}" font-weight="${o.w || 600}" font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}"${o.op ? ` opacity="${o.op}"` : ""}>${s}</text>`;
-  // Une boîte : en attente (pointillés, nom seul), posée, ou nouvelle (halo anis).
-  const boite = (id, x, y, w, h, nom, modele, contenu, o = {}) => {
-    const e = etat(id);
-    if (e === "avenir") return `<g opacity=".5"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + h / 2 + 5, nom, { a: "middle", c: C.muted, w: 500, size: 13 })}</g>`;
-    return `<g>${e === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="16" fill="${C.anis}"/>` : ""}
-      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity="${o.bord || .25}" stroke-width="${o.epais || 1.5}"${o.tirets ? ' stroke-dasharray="5 4"' : ""}/>
-      ${T(x + (o.centre ? w / 2 : 12), y + 21, nom, { titre: true, w: 800, size: 14.5, a: o.centre ? "middle" : "start" })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .75 }) : ""}${contenu}</g>`;
-  };
-  const ligne = (x, y, w, label, mot, n) => `<circle cx="${x + 18}" cy="${y - 4}" r="5" fill="${NIVC[n]}"/>${T(x + 30, y, label, { size: 12.5, w: 500 })}${T(x + w - 10, y, mot, { a: "end", size: 12, w: 700, c: n >= 2 ? C.ink : C.muted })}`;
-  const barre = (x, y, w, label, v, n) => `${T(x + 12, y, label, { size: 12.5, w: 500 })}<rect x="${x + 12}" y="${y + 5}" width="${w - 24}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x + 12}" y="${y + 5}" width="${Math.round((w - 24) * v)}" height="7" rx="3.5" fill="${NIVC[n]}"/>`;
-  const W = 660, L = 12, R = W - 12 - 196, lw = 196, cx = W / 2, bw = 200;
-  const top = etat("bandeau") === "avenir" ? 34 : 112;
-  let s = "";
-  // Bandeau : trois cadrans, comme en tête du rapport, avec les mêmes trois zones que le schéma.
-  if (etat("bandeau") !== "avenir") {
-    const cad = (x, k, mot, n) => {
-      const arc = (j) => { const a0 = Math.PI * (1 - j / 4), a1 = Math.PI * (1 - (j + 1) / 4) + .05; const p = (a) => `${(x + 34 * Math.cos(a)).toFixed(1)} ${(60 - 34 * Math.sin(a)).toFixed(1)}`; return `<path d="M${p(a0)} A34 34 0 0 1 ${p(a1)}" fill="none" stroke="${NIVC[j]}" stroke-width="9" opacity="${j === n ? 1 : .3}"/>`; };
-      return `${[0, 1, 2, 3].map(arc).join("")}${T(x + 44, 40, k, { size: 11, w: 700, c: C.ink })}${T(x + 44, 58, mot, { titre: true, w: 800, size: 14 })}`;
-    };
-    s += `<g>${etat("bandeau") === "ici" ? `<rect x="6" y="6" width="${W - 12}" height="78" rx="16" fill="${C.anis}"/>` : ""}<rect x="12" y="12" width="${W - 24}" height="66" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-      ${cad(60, "TON TRAVAIL", "lourd", 2)}${cad(275, "TA FATIGUE", "forte", 2)}${cad(480, "CE QUI SE VOIT", "nets", 2)}</g>`;
-  }
-  s += T(L, top - 12, "TON TRAVAIL", { titre: true, w: 800, size: 11.5, c: C.ink }) + T(cx, top - 12, "TOI", { titre: true, w: 800, size: 11.5, c: C.ink, a: "middle" }) + T(W - 12, top - 12, "CE QUI SE VOIT", { titre: true, w: 800, size: 11.5, c: C.ink, a: "end" });
-  // Positions (pour les fils).
-  const yB = top, yR = top + 96, yC = top + 224, yX = top + 296, hB = 84, hR = 116, hC = 60;
-  const yS = top, hS = 132, yCo = top + 144, hCo = 70, ySe = top + 226, hSe = 40;
-  const bTop = top + 20, bH = 170, aTop = top + 214, aH = 66;
-  if (etat("fils") !== "avenir") {
-    const op = etat("fils") === "ici" ? 1 : .8;
-    const f = (x1, y1, x2, y2, w, c) => `<path d="M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
-    s += `<g>${f(L + lw, yB + hB / 2, cx - bw / 2, bTop + 40, 7, C.orange)}${f(L + lw, yR + hR / 2, cx - bw / 2, bTop + 75, 5, C.orange)}${f(L + lw, yC + hC / 2, cx - bw / 2, bTop + 110, 2.5, C.orange)}${f(L + lw, yX + hC / 2, cx - bw / 2, bTop + 140, 4, C.orange)}
-      ${f(cx + bw / 2, bTop + 55, R, yS + hS / 2, 7, C.orange)}${f(cx + bw / 2, bTop + 120, R, yCo + hCo / 2, 4, C.orange)}
-      <path d="M${cx} ${aTop} V${bTop + bH}" stroke="${C.mid}" stroke-width="3" opacity="${op}"/>
-      ${etat("fils") === "ici" ? T(cx, aTop + aH + 22, "des liens à vérifier, pas des causes", { a: "middle", size: 12, w: 700, c: C.ink }) : ""}</g>`;
-  }
-  // Ton travail : la balance (JD-R), le retour (Siegrist), le contexte et l'absurde (hors score).
-  s += boite("balance", L, yB, lw, hB, "La balance", "JD-R · chapitre 3", ligne(L, yB + 58, lw, "Exigences", "élevées", 2) + ligne(L, yB + 76, lw, "Ressources", "limitées", 1));
-  s += boite("retour", L, yR, lw, hR, "Le retour", "Siegrist · chapitre 4", ligne(L, yR + 58, lw, "Effort", "élevé", 2) + ligne(L, yR + 78, lw, "Récompense", "faible", 2) + ligne(L, yR + 98, lw, "Surengagement", "moyen", 1));
-  s += boite("contexte", L, yC, lw, hC, "Le contexte", "hors score · chapitre 5", ligne(L, yC + 52, lw, "Collègue parti", "signalé", 1), { tirets: true });
-  s += boite("absurde", L, yX, lw, hC, "L'absurde", "bullshitomètre · hors score", ligne(L, yX + 52, lw, "Réunions vides", "ça use", 2), { tirets: true });
-  // Toi : ta fatigue en deux colonnes nommées en clair (plus haute et plus orange = ça use plus), et tes appuis.
-  const col = (x, nom, v, n) => `<rect x="${x - 17}" y="${bTop + 34}" width="34" height="84" rx="6" fill="${C.piste}"/><rect x="${x - 17}" y="${bTop + 34 + 84 * (1 - v)}" width="34" height="${84 * v}" rx="6" fill="${NIVC[n]}"/>${T(x, bTop + 136, nom, { a: "middle", w: 700, size: 11.5 })}${T(x, bTop + 154, NIVMOTS[n], { a: "middle", w: 700, size: 11, c: n >= 2 ? C.ink : C.muted })}`;
-  s += boite("fatigue", cx - bw / 2, bTop, bw, bH, "Ta fatigue", "", etat("fatigue") === "avenir" ? "" : col(cx - 48, "Épuisement", .7, 2) + col(cx + 48, "Mal à récupérer", .82, 3), { centre: true, bord: .8, epais: 2 });
-  s += boite("appuis", cx - 70, aTop, 140, aH, "Tes appuis", "chapitre 3", T(cx - 58, aTop + 56, "décrocher : fragile", { size: 12, w: 500 }), { fond: "#e3eee9" });
-  // Ce qui se voit : les trois signes (Maslach), le corps, la sécurité.
-  s += boite("signes", R, yS, lw, hS, "Les trois signes", "Maslach · chapitre 2", barre(R, yS + 60, lw, "Épuisement", .7, 2) + barre(R, yS + 88, lw, "Distance, cynisme", .5, 1) + barre(R, yS + 116, lw, "Perte d'efficacité, de sens", .3, 1));
-  s += boite("corps", R, yCo, lw, hCo, "Le corps", "sommeil, santé · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
-  s += etat("securite") === "avenir" ? boite("securite", R, ySe, lw, hSe, "La sécurité", "", "")
-    : `<g>${etat("securite") === "ici" ? `<rect x="${R - 6}" y="${ySe - 6}" width="${lw + 12}" height="${hSe + 12}" rx="16" fill="${C.anis}"/>` : ""}<rect x="${R}" y="${ySe}" width="${lw}" height="${hSe}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".3" stroke-dasharray="4 4"/>${T(R + 12, ySe + 25, "Sécurité : rien de coché", { size: 12.5, w: 600 })}</g>`;
-  // Légende du code couleur, la même que dans le rapport et sur l'accueil.
-  s += NIVC.map((c, i) => `<circle cx="${L + 8 + i * 160}" cy="${top + 382}" r="6" fill="${c}"/>${T(L + 20 + i * 160, top + 387, NIVMOTS[i] === "ça va" ? "ça va, ça protège" : NIVMOTS[i], { size: 12.5, w: 600 })}`).join("");
-  const H = top + 400;
-  const n = PIECES_SCHEMA.slice(0, chapitre + 1).filter((p) => p.length).length;
-  // (chapitre = PIECES_SCHEMA.length : toutes les pièces posées.)
-  const label = titre || `Le schéma de ton rapport, avec l'exemple de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES_SCHEMA.filter((p) => p.length).length}.`;
-  return `<svg class="fo-schema" viewBox="0 0 ${W} ${H}" role="img" aria-label="${label}">${s}</svg>`;
-}
+// Un seul dessin pour l'accueil, la formation et le rapport : schema.js. Ici, l'exemple fictif de Sam.
+import { schemaDouble, PIECES } from "./schema.js";
+export { PIECES, NIVC, NIVMOTS } from "./schema.js";
+// Sans argument : le schéma complet, sans pièce surlignée. chapitre = -1 : le cadre vide.
+export const schemaRapport = (chapitre = PIECES.length, { titre = "" } = {}) => schemaDouble({ chapitre, titre, classe: "fo-schema" });

@@ -275,7 +275,10 @@
 .rp-schema-intro p:last-child { max-width: 72ch; margin: 0; color: var(--muted); }
 .rp-schema-alternative { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
 .rp-syn-questions { border: 1px solid var(--line-soft); border-radius: 14px; background: var(--bg); padding: 10px 15px; }
-.rp-syn-questions summary { cursor: pointer; font-weight: 750; }
+.rp-syn-questions h3 { margin: 0; font-size: 16px; }
+.rp-syn-detail { border: 1px solid var(--line-soft); border-radius: 14px; background: var(--card, #fffdf8); padding: 12px 16px; }
+.rp-syn-detail > summary { cursor: pointer; font-weight: 750; }
+.rp-syn-detail[open] { display: grid; gap: 16px; }
 .rp-syn-questions .rp-q3 { margin-top: 12px; }
 .rp-syn-suite { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px;
   padding: 14px 18px; background: #e6efe9; border-radius: 14px; }
@@ -377,7 +380,7 @@
   .rp-faits small { font-size: 8pt; }
   .rp-lecture-card h3 { font-size: 12pt; }
   .rp-syn-priorites { grid-template-columns: minmax(0, 1fr); padding: 10pt 12pt; }
-  .rp-priorites-liens, .rp-syn-suite, .rp-syn-questions, .rp-mode-emploi { display: none !important; }
+  .rp-priorites-liens, .rp-syn-suite, .rp-syn-questions, .rp-mode-emploi, .rp-syn-detail { display: none !important; }
   .rp-syn-schema { break-before: auto; }
   .rp-vue { padding: 6pt; }
   .rp-syn-priorites, .rp-lecture-card, .rp-travail-faits li, .rp-travail-demande { break-inside: avoid; }
@@ -593,3 +596,9 @@
 .rp-couleurs span { display: inline-flex; align-items: center; gap: 6px; }
 .rp-couleurs i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 @media print { .rp-couleurs { font-size: 8.5pt; } .rp-couleurs i { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+
+/* Étape 8 : la bande « Depuis quand ? » du schéma, en clair. */
+.rp-depuis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0; }
+.rp-depuis div { background: var(--card, #fffdf8); border: 1px solid var(--line-soft); border-radius: 12px; padding: 10px 14px; }
+.rp-depuis dt { font: 700 11px/1.2 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink, #b4512b); }
+.rp-depuis dd { margin: 4px 0 0; font-weight: 600; }

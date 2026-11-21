@@ -38,7 +38,11 @@ function debugApi(responses = null) {
 }
 
 function composerRapport() {
-  const code = read("rapport.js").replace(/^import\s+\{\s*chapitres\s*\}\s+from\s+["']\.\/formation-contenu\.js["'];?\s*/m, "");
+  // Le schéma (schema.js) est inliné : mêmes fonctions que dans le navigateur, sans les mots-clés de module.
+  const schema = read("schema.js").replace(/^export\s+/gm, "");
+  const code = "const { schemaDouble } = (() => {\n" + schema + "\nreturn { schemaDouble };\n})();\n" + read("rapport.js")
+    .replace(/^import\s+\{\s*chapitres\s*\}\s+from\s+["']\.\/formation-contenu\.js["'];?\s*/m, "")
+    .replace(/^import\s+\{\s*schemaDouble\s*\}\s+from\s+["']\.\/schema\.js["'];?\s*/m, "");
   const root = { addEventListener() {}, querySelectorAll() { return []; }, querySelector() { return null; } };
   const document = { querySelector() { return root; }, addEventListener() {} };
   const window = { addEventListener() {} };
@@ -136,10 +140,15 @@ for (const value of [0, 1, 2, 3, 4]) {
     // Mêmes trois zones partout (accueil, formation, rapport), sans lettres de questionnaire dans le schéma.
     assert.match(html, /TON TRAVAIL/);
     assert.match(html, /CE QUI SE VOIT/);
-    assert.match(html, />Ta fatigue</);
-    assert.match(html, />Mal à récupérer</);
+    assert.match(html, />Ta récupération</);
+    assert.match(html, />Depuis quand \?</);
     assert.match(html, />L&#39;absurde<|>L'absurde</);
-    assert.match(html, /Ton travail<\/p>/);
+    assert.match(html, /Toi · ta récupération<\/p>/);
+    // Une réponse n'est dessinée qu'à un seul endroit : l'épuisement est un des trois signes, pas une colonne du centre.
+    const large = html.match(/<svg class="rp-ensemble large"[\s\S]*?<\/svg>/)[0];
+    assert.equal((large.match(/>Épuisement</g) || []).length, 1);
+    assert.equal((large.match(/>Sommeil</g) || []).length, 1);
+    assert.doesNotMatch(large, />Ta fatigue<|undefined|NaN/);
     assert.doesNotMatch(html, /Ce qui tire|Ce qui lâche|Deux repères déclarés|Épuisement \(A\)/);
     assert.match(html, /Les fils rapprochent des thèmes/);
     assert.doesNotMatch(html, /≈\s*\d+\s*% de charge/i);
@@ -834,17 +843,17 @@ test("la formation conserve trois modèles principaux et explique leur origine e
   assert.ok(jdr.blocs.some(x=>x.t==="p" && /Sonnentag/.test(x.html)));
 });
 
-test("la synthèse compare les trois modèles sur les mêmes faits et ne crée pas trois nouveaux scores", () => {
+test("la synthèse compare les quatre modèles sur les mêmes faits et ne crée pas de nouveaux scores", () => {
   const code=read("formation-contenu.js").replace(/^export const /gm,"const ");
   const {synthese}=new Function(code+"\nreturn {synthese};")();
-  assert.deepEqual(Array.from(synthese.modeles.map(x=>x.nom)),["Maslach","JD-R","Siegrist"]);
-  assert.equal(synthese.casCommun.lectures.length,3);
+  assert.deepEqual(Array.from(synthese.modeles.map(x=>x.nom)),["Effort-récupération","Maslach","JD-R","Siegrist"]);
+  assert.equal(synthese.casCommun.lectures.length,4);
   for(const x of synthese.casCommun.lectures) {
     assert.ok(x.observe.length>20 && x.neDitPas.length>15 && x.action.length>25);
   }
   const complements=synthese.complements;
   assert.equal(complements.length,3);
-  for(const name of ["Hobfoll","Gollac","Sonnentag"]) {
+  for(const name of ["Hobfoll","Gollac","Clot"]) {
     const m=complements.find(x=>x.nom.includes(name));
     assert.ok(m,`Cadre complémentaire absent : ${name}`);
     assert.match(m.limite,/pas|aucun|non|ne /i);
@@ -896,42 +905,47 @@ test("le test PDF couvre vraiment 79 réponses fictives et ne collecte aucune do
 });
 
 // ───────── V3 : synthèse qui commence par l'essentiel, et schéma construit au fil des chapitres.
-test("la synthèse ouvre sur le feu et les trois cadrans, puis lit les trois modèles sous le schéma", () => {
+test("la synthèse ouvre sur le feu et les trois cadrans, puis le schéma, et replie les quatre modèles", () => {
   const html = pageDuRapport(composer(fixture(3)), "synthese");
-  const tete = html.indexOf('class="rp-tete"'), vue = html.indexOf('class="rp-vue"'), modeles = html.indexOf('class="rp-modeles-lus"');
-  assert.ok(tete > 0 && vue > tete && modeles > vue, "ordre attendu : feu et cadrans, schéma, trois modèles");
+  const tete = html.indexOf('class="rp-tete"'), vue = html.indexOf('class="rp-vue"'), suite = html.indexOf('class="rp-syn-priorites"'), detail = html.indexOf('class="rp-syn-detail"'), modeles = html.indexOf('class="rp-modeles-lus"');
+  assert.ok(tete > 0 && vue > tete && suite > vue && detail > suite && modeles > detail, "ordre attendu : feu et cadrans, schéma, par quoi commencer, puis le détail replié");
+  assert.match(html, /Effort-récupération · au centre/);
   assert.match(html, /Maslach · ce qui se voit/);
   assert.match(html, /Exigences-ressources · la balance/);
   assert.match(html, /Effort-récompense · le retour/);
-  assert.match(html, /trois angles, pas trois preuves/);
+  assert.match(html, /quatre angles, pas quatre preuves/);
 });
 
 function schemaApi() {
-  const code = read("formation-illustrations.js").replace(/^export\s+/gm, "");
-  return new Function(code + "\nreturn { schemaRapport, PIECES_SCHEMA };")();
+  const code = read("schema.js").replace(/^export\s+/gm, "");
+  return new Function(code + "\nreturn { schema, PIECES };")();
 }
 
-test("chaque chapitre pose sa pièce du schéma du rapport, comme le papillon de Papillon", () => {
-  const { schemaRapport, PIECES_SCHEMA } = schemaApi();
-  assert.equal(PIECES_SCHEMA.length, 9, "une entrée par chapitre");
-  const anis = /fill="#d8f25c"/g;
-  // Schéma vide : aucune pièce posée, aucune surlignée.
-  const vide = schemaRapport(-1);
-  assert.equal((vide.match(anis) || []).length, 0);
-  assert.match(vide, /0 pièce posée/);
-  // Chapitre 3 : la balance et les appuis sont nouveaux (deux halos), le retour reste en attente.
-  const ch3 = schemaRapport(2);
-  assert.equal((ch3.match(anis) || []).length, 2);
+test("chaque chapitre pose sa pièce et sa règle, comme le papillon de Papillon", () => {
+  const { schema, PIECES } = schemaApi();
+  assert.equal(PIECES.length, 9, "une entrée par chapitre");
+  assert.ok(PIECES.every((p) => p.length > 0), "aucun chapitre sans pièce");
+  const halos = (svg) => (svg.match(/<rect [^>]*fill="#d8f25c"/g) || []).length;
+  // Schéma vide : aucune pièce posée, aucune surlignée ; le cadre est déjà là.
+  const vide = schema({ chapitre: -1 });
+  assert.equal(halos(vide), 0);
+  assert.match(vide, /encore vide/);
+  assert.match(vide, /Depuis quand \?/);
+  // Chapitre 3 : la balance seule est nouvelle ; le retour reste en attente.
+  const ch3 = schema({ chapitre: 2 });
+  assert.equal(halos(ch3), 1);
   assert.match(ch3, /La balance/);
-  assert.doesNotMatch(ch3, /Récompense/);
-  // Chapitre 8 : pas de nouvelle pièce, rien de surligné.
-  assert.equal((schemaRapport(7).match(anis) || []).length, 0);
-  // Schéma complet (accueil) : tout est posé, rien n'est surligné, et les fils disent « pas des causes » seulement au chapitre 6.
-  const complet = schemaRapport();
-  assert.equal((complet.match(anis) || []).length, 0);
-  assert.match(complet, /Sécurité : rien de coché/);
-  assert.match(schemaRapport(5), /des liens à vérifier, pas des causes/);
-  for (let i = -1; i <= 9; i++) assert.doesNotMatch(schemaRapport(i), /undefined|NaN/);
+  assert.doesNotMatch(ch3, /Reconnaissance/);
+  // Chapitre 4 : Siegrist en deux moitiés (le retour, ton engagement) et l'absurde.
+  assert.equal(halos(schema({ chapitre: 3 })), 3);
+  // Chapitre 6 : les fils disent « pas des causes ».
+  assert.match(schema({ chapitre: 5 }), /des liens à vérifier avec ta chronologie, pas des causes/);
+  // Schéma complet : tout est posé, rien n'est surligné, la sécurité reste à part.
+  const complet = schema();
+  assert.equal(halos(complet), 0);
+  assert.match(complet, /Sécurité, toujours à part/);
+  assert.equal((complet.match(/>Épuisement</g) || []).length, 1);
+  for (let i = -1; i <= 9; i++) for (const etroit of [false, true]) assert.doesNotMatch(schema({ chapitre: i, etroit }), /undefined|NaN/);
 });
 
 test("la formation et l'accueil montrent le schéma du rapport", () => {
@@ -939,5 +953,5 @@ test("la formation et l'accueil montrent le schéma du rapport", () => {
   assert.match(parcours, /schemaRapport\(i\)/);
   assert.match(parcours, /schemaRapport\(-1/);
   assert.match(read("index.html"), /import \{ schemaRapport \} from "\.\/formation-illustrations\.js"/);
-  assert.match(read("index.html"), /Trois façons de regarder le burn-out/);
+  assert.match(read("index.html"), /Quatre façons de regarder le burn-out/);
 });

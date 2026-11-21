@@ -77,6 +77,19 @@ David : « je veux que les gens comprennent les différentes façons d'aborder l
 | PDF essentiel | Synthèse, plan, interlocuteurs : 9 pages au lieu de 13, sans pages presque vides. |
 | Dépôt | Notes du 20 novembre rangées dans `historique/` ; vieux dossiers de sauvegarde supprimés (l'historique Git les garde) ; README à la racine. |
 
+## 21 novembre 2026 · Audit du schéma (remplace la PR 12)
+
+Audit présenté à David dans un artifact (« Audit du schéma Bull-Out »), avec six décisions. Problèmes trouvés : l'épuisement (A) dessiné deux fois, le sommeil (F2) aussi, l'effort compté deux fois à gauche, le temps jamais dessiné, un chapitre 8 sans pièce, le perso rangé dans « ton travail ».
+
+| Sujet | Décidé et fait |
+|---|---|
+| Un seul dessin | `schema.js` sert l'accueil, la formation et le rapport (deux mises en page : ordinateur et téléphone). Le cadre ne bouge pas d'un chapitre à l'autre. |
+| Une réponse, un endroit | Centre : ta récupération (F1 à F3). Droite : les trois signes (A, B, C) et le corps (F4 à F6). Gauche : la balance, le retour (reconnaissance, salaire), l'absurde (bullshitomètre, qualité empêchée T4). |
+| Quatre modèles | Effort-récupération (chapitre 1, centre), Maslach (2, droite), exigences-ressources (3, gauche), effort-récompense (4 : le retour à gauche, le surengagement au centre). Clot remplace Sonnentag dans les éclairages. |
+| Une pièce, une règle | 1 récupération et corps · 2 trois signes · 3 balance · 4 retour, engagement, absurde · 5 autour de toi · 6 fils · 7 où agir · 8 depuis quand · 9 portes et sécurité. |
+| Synthèse du rapport | Feu et cadrans (le cadran du centre devient « Toi · ta récupération »), schéma, par quoi commencer ; le reste replié sous « Lire en détail ». |
+| Inchangé | Questions, seuils, alertes, verdict, scores A à F. |
+
 ## Questions encore ouvertes
 
 1. **Validation** : avec les deux psys, tester la fidélité des parties A à F et la pertinence des seuils sur de vraies réponses (anonymes, avec accord).

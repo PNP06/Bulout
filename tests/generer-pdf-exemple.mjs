@@ -139,8 +139,8 @@ try {
       if(errors.length)throw new Error(c.name+": "+errors.join("; "));
       if(status.documentWidth > status.viewport+2)throw new Error(c.name+": débordement horizontal "+
         status.documentWidth+" > "+status.viewport);
-      if(c.name.startsWith("resume-modeles") && (status.summaryModelCards!==3 || status.comparedRows!==3))
-        throw new Error(c.name+": attendu 3 modèles principaux et 3 lectures comparatives");
+      if(c.name.startsWith("resume-modeles") && (status.summaryModelCards!==4 || status.comparedRows!==4))
+        throw new Error(c.name+": attendu 4 modèles principaux et 4 lectures comparatives");
       if(c.name.startsWith("synthese") && status.modelCards!==3)
         throw new Error(c.name+": 3 cadres complémentaires attendus, "+status.modelCards+" trouvés");
       if(c.name.startsWith("methode") && status.methodHypotheses!==6)

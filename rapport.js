@@ -3,6 +3,7 @@
 // (les 9 pièces annoncées par les chapitres), puis des annexes qui montrent le calcul, les réponses et les sources.
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
+import { schemaDouble } from "./schema.js";
 
 const VERSION = "2026.11.3";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
@@ -75,144 +76,28 @@ function appuisArt(g) {
 const jauge = (v) => `<span class="rp-jauge" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= v ? "on" : ""}"></i>`).join("")}</span>`;
 
 // ───────── Dessins personnalisés (SVG faits main, aux couleurs de la formation)
-// ───────── Vue d'ensemble : les trois modèles de la formation en une seule image.
-// À gauche : conditions et ressources déclarées. Au centre : deux scores descriptifs A/F.
-// À droite : manifestations et autres réponses de santé. Les traits sont des liens de lecture,
-// pas des liens de causalité ; leur épaisseur dépend d'une convention graphique interne.
+// ───────── Les quatre modèles de la formation sont réunis dans un seul schéma (schema.js).
+// À gauche : le travail déclaré. Au centre : la récupération (F1 à F3). À droite : les trois signes et le corps.
+// Les traits sont des liens de lecture, pas des liens de causalité ; leur épaisseur dépend d'une convention graphique interne.
 const FIL = [1.5, 4, 8, 13];
 const nv24 = (v) => (v >= 19 ? 3 : v >= 13 ? 2 : v >= 7 ? 1 : 0);
 const MOTS = ["bas", "à surveiller", "élevé", "très élevé"];
 const MOTSF = ["basse", "à surveiller", "élevée", "très élevée"];
-function vueEnsemble({ causes, recharge, signes, corps, alerte, aScore, fScore, etroit }) {
-  const T = (x, y, t, o = {}) => `<text x="${x}" y="${y}" ${o.anchor ? `text-anchor="${o.anchor}"` : ""} font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}" font-weight="${o.poids || (o.titre ? 800 : 400)}" font-size="${o.taille || 13}" fill="${o.c || C.sapin}"${o.op ? ` opacity="${o.op}"` : ""}>${esc(t)}</text>`;
-  const fil = (x1, y1, x2, y2, n, c, vertical) => {
-    const d = vertical ? `M${x1} ${y1} C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}` : `M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}`;
-    return `<path d="${d}" fill="none" stroke="${c}" stroke-width="${FIL[n]}" stroke-linecap="round" opacity="${n ? 0.88 : 0.3}"/>`;
-  };
-  // Un paquet : un titre, le modèle, puis des lignes (pastille de couleur, libellé, niveau).
-  const paquet = (x, y, w, p, tirets) => {
-    const h = 54 + p.rows.length * 28;
-    const ys = p.rows.map((_, i) => y + 70 + i * 28);
-    const svg = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".18" stroke-width="1.5"${tirets ? ' stroke-dasharray="5 4"' : ""}/>
-      ${T(x + 16, y + 24, p.titre, { titre: true, taille: 14 })}${T(x + 16, y + 40, p.modele, { taille: 11, op: 0.72 })}
-      ${p.rows.map((r, i) => `<circle cx="${x + 22}" cy="${ys[i] - 4}" r="5" fill="${r.c}"/>${T(x + 34, ys[i], r.label, { poids: 600 })}${T(x + w - 14, ys[i], r.val, { anchor: "end", taille: 11.5, poids: 700, c: (r.g ?? r.n) >= 2 ? C.ink : (r.g ?? r.n) === 0 && r.val ? C.mid : "#4a5f5a" })}`).join("")}`;
-    return { svg, h, ys };
-  };
-  // Les trois signes : une barre par signe, sur 24.
-  const barres = (x, y, w) => {
-    const h = 54 + signes.length * 44;
-    const ys = signes.map((_, i) => y + 64 + i * 44);
-    const svg = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".18" stroke-width="1.5"/>
-      ${T(x + 16, y + 24, "Les trois signes", { titre: true, taille: 14 })}${T(x + 16, y + 40, "Maslach, et le sens à part · chapitre 2", { taille: 11, op: 0.72 })}
-      ${signes.map((s, i) => `${T(x + 16, ys[i], s.label, { poids: 600 })}${T(x + w - 16, ys[i], s.val, { anchor: "end", taille: 11.5, c: s.n >= 2 ? C.ink : "#4a5f5a" })}
-        <rect x="${x + 16}" y="${ys[i] + 8}" width="${w - 32}" height="9" rx="4.5" fill="${C.piste}"/><rect x="${x + 16}" y="${ys[i] + 8}" width="${Math.max(6, Math.round((s.v / (s.max || 24)) * (w - 32)))}" height="9" rx="4.5" fill="${s.c || COUL[s.n]}"/>`).join("")}`;
-    return { svg, h, ys: ys.map((v) => v + 4) };
-  };
-  // Ta fatigue : deux colonnes nommées en clair, lues pareil (plus haute et plus orange = ça use plus). Pas un % d’énergie.
-  const batt = (cx, top, h = 170, w = 190) => {
-    const barH = h - 92, trackY = top + 36;
-    const bars = [{ nom: "Épuisement", v: aScore }, { nom: "Mal à récupérer", v: fScore }].map((d, i) => {
-      const xc = cx - 46 + i * 92, bh = Math.round((d.v / 24) * barH), n = nv24(d.v);
-      return `<rect x="${xc - 20}" y="${trackY}" width="40" height="${barH}" rx="7" fill="${C.piste}"/>
-        <rect x="${xc - 20}" y="${trackY + barH - bh}" width="40" height="${bh}" rx="7" fill="${COUL[n]}"/>
-        ${T(xc, top + h - 36, d.nom, { anchor: "middle", taille: 11.5, poids: 700 })}
-        ${T(xc, top + h - 20, NIVMOTS[n], { anchor: "middle", taille: 11, poids: 700, c: n >= 2 ? C.ink : "#4a5f5a" })}
-        ${T(xc, top + h - 6, `${d.v}/24`, { anchor: "middle", taille: 10, op: 0.75 })}`;
-    }).join("");
-    return `<rect x="${cx - w / 2}" y="${top}" width="${w}" height="${h}" rx="16" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".8" stroke-width="2"/>
-      ${T(cx, top + 24, "Ta fatigue", { anchor: "middle", titre: true, taille: 14 })}
-      ${bars}`;
-  };
-  const rechargeBox = (cx, y, w) => {
-    const h = 44 + recharge.length * 22;
-    return { h, svg: `<rect x="${cx - w / 2}" y="${y}" width="${w}" height="${h}" rx="12" fill="#e3eee9"/>
-      ${T(cx, y + 24, "Tes appuis", { anchor: "middle", titre: true, taille: 13 })}
-      ${recharge.map((r, i) => T(cx, y + 46 + i * 22, `${r.label} · ${r.val}`, { anchor: "middle", taille: 12, c: r.n ? C.sapin : "#4a5f5a" })).join("")}` };
-  };
-  const nRecharge = Math.max(0, ...recharge.map((r) => r.n));
-  const alerteBox = (x, y, w) => alerte
-    ? `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="#fbe3d8"/>${T(x + 16, y + 27, "Signal déclaré : voir le message de sécurité", { titre: true, taille: 12.5, c: C.ink })}`
-    : `<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".18" stroke-dasharray="4 4"/>${T(x + 16, y + 27, "Pas de signal coché aux 3 questions", { taille: 12, op: 0.75 })}`;
-
-  if (!etroit) {
-    const W = 1000, top = 46, gap = 14, lw = 300;
-    let y = top;
-    const L = causes.map((p) => { const k = paquet(20, y, lw, p, p.horsScore); y += k.h + gap; return k; });
-    const hL = y;
-    let yr = top;
-    const M = barres(W - 20 - lw, yr, lw); yr += M.h + gap;
-    const Co = paquet(W - 20 - lw, yr, lw, corps); yr += Co.h + gap;
-    const yAl = yr; yr += 44 + gap;
-    const bTop = top + 92, bH = 190, cx = W / 2;
-    const R = rechargeBox(cx, bTop + bH + 56, 230);
-    const H = Math.max(hL, yr, bTop + bH + 56 + R.h + gap) + 6;
-    const gauche = causes.flatMap((p, i) => p.rows.map((r, j) => ({ ...r, y: L[i].ys[j] - 4 })));
-    const droite = [...signes.map((s, i) => ({ ...s, y: M.ys[i] })), ...corps.rows.map((r, j) => ({ ...r, y: Co.ys[j] - 4 }))];
-    const cible = (k, n, a, b) => a + ((b - a) * (n === 1 ? 0.5 : k / (n - 1)));
-    return `<svg class="rp-ensemble large" viewBox="0 0 ${W} ${H}" role="img" aria-label="Vue descriptive de tes réponses : ton travail, ta fatigue, ce qui se voit. Les liens ne prouvent aucune causalité.">
-      <g class="rp-layer rp-layer-work">
-        ${T(20, 26, "TON TRAVAIL", { titre: true, taille: 11.5, c: C.ink })}
-        ${gauche.map((r, k) => fil(20 + lw, r.y, cx - 95, cible(k, gauche.length, bTop + 22, bTop + bH - 22), r.n, r.c)).join("")}
-        ${L.map((k) => k.svg).join("")}
-      </g>
-      <g class="rp-layer rp-layer-person">
-        ${T(cx, 26, "TOI", { titre: true, taille: 11.5, anchor: "middle", c: C.ink })}
-        ${batt(cx, bTop, bH)}
-      </g>
-      <g class="rp-layer rp-layer-support">
-        ${fil(cx, bTop + bH + 56, cx, bTop + bH + 4, nRecharge, C.mid, true)}
-        ${R.svg}
-      </g>
-      <g class="rp-layer rp-layer-manifest">
-        ${T(W - 20, 26, "CE QUI SE VOIT", { titre: true, taille: 11.5, anchor: "end", c: C.ink })}
-        ${droite.map((r, k) => fil(cx + 95, cible(k, droite.length, bTop + 22, bTop + bH - 22), W - 20 - lw, r.y, r.n, r.c || COUL[r.n])).join("")}
-        ${M.svg}${Co.svg}
-      </g>
-      <g class="rp-layer-safety">${alerteBox(W - 20 - lw, yAl, lw)}</g>
-    </svg>`;
-  }
-  // Téléphone : les mêmes paquets, empilés ; deux gros fils relient les causes, l'énergie et les effets.
-  const W = 400, x = 12, w = W - 24, gap = 12;
-  let y = 34;
-  const parts = [`<g class="rp-layer rp-layer-work">`, T(x, 22, "TON TRAVAIL", { titre: true, taille: 11.5, c: C.ink })];
-  causes.forEach((p) => { const k = paquet(x, y, w, p, p.horsScore); parts.push(k.svg); y += k.h + gap; });
-  const nCause = Math.max(0, ...causes.flatMap((p) => p.rows.filter((r) => !r.bon).map((r) => r.n)));
-  const bTop = y + 76, bH = 170, cx = W / 2;
-  parts.push(fil(cx, y - 4, cx, bTop - 58, nCause, C.orange, true));
-  parts.push("</g>");
-  parts.push('<g class="rp-layer rp-layer-person">', batt(cx, bTop, bH, 190), "</g>");
-  const R = rechargeBox(cx, bTop + bH + 30, 250);
-  parts.push('<g class="rp-layer rp-layer-support">');
-  parts.push(fil(cx, bTop + bH + 30, cx, bTop + bH + 4, nRecharge, C.mid, true));
-  parts.push(R.svg);
-  parts.push("</g>");
-  y = bTop + bH + 30 + R.h + 46;
-  const nEffet = Math.max(0, ...signes.map((s) => s.n), ...corps.rows.map((r) => r.n));
-  parts.push('<g class="rp-layer rp-layer-manifest">');
-  parts.push(fil(cx + 150, bTop + bH / 2, cx + 150, y - 4, nEffet, C.orange, true));
-  parts.push(`<path d="M${cx + 95} ${bTop + bH / 2} H${cx + 150}" stroke="${C.orange}" stroke-width="${FIL[nEffet]}" stroke-linecap="round" opacity="${nEffet ? 0.88 : 0.3}"/>`);
-  parts.push(T(x, y - 10, "CE QUI SE VOIT", { titre: true, taille: 11.5, c: C.ink }));
-  const M = barres(x, y, w); parts.push(M.svg); y += M.h + gap;
-  const Co = paquet(x, y, w, corps); parts.push(Co.svg); y += Co.h + gap;
-  parts.push("</g>");
-  parts.push(`<g class="rp-layer-safety">${alerteBox(x, y, w)}</g>`); y += 44 + 8;
-  return `<svg class="rp-ensemble etroit" viewBox="0 0 ${W} ${y}" role="img" aria-label="Vue descriptive de tes réponses : ton travail, ta fatigue (épuisement, mal à récupérer), ce qui se voit. Les liens ne prouvent aucune causalité.">${parts.join("")}</svg>`;
-}
-
-// Deux barres nommées : épuisement (partie A) et récupération (partie F), sans pourcentage d’énergie.
-function epuisementRecup(A, F) {
+// Deux barres nommées : la récupération (F1 à F3, sur 12) et le corps (F4 à F6, sur 12), sans pourcentage d’énergie.
+function recupCorps(rec, corps) {
   const barre = (y, titre, v) => {
-    const largeur = Math.round((v / 24) * 190);
+    const largeur = Math.round((v / 12) * 170), n = nv24(v * 2);
     return `<text x="8" y="${y}" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="${C.sapin}">${titre}</text>
-      <text x="312" y="${y}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="${C.sapin}">${v}/24</text>
-      <rect x="116" y="${y - 12}" width="190" height="13" rx="6" fill="${C.piste}"/>
-      <rect x="116" y="${y - 12}" width="${largeur}" height="13" rx="6" fill="${COUL[nv24(v)]}"/>`;
+      <text x="312" y="${y}" text-anchor="end" font-family="Inter, sans-serif" font-size="12" fill="${C.sapin}">${v}/12</text>
+      <rect x="110" y="${y - 12}" width="170" height="13" rx="6" fill="${C.piste}"/>
+      <rect x="110" y="${y - 12}" width="${largeur}" height="13" rx="6" fill="${COUL[n]}"/>`;
   };
-  return `<svg class="rp-art" viewBox="0 0 320 118" role="img" aria-label="Deux sommes descriptives de réponses : épuisement ${A} sur 24 et mal à récupérer ${F} sur 24">
-    ${barre(35, "Épuisement", A)}${barre(77, "Mal à récupérer", F)}
+  return `<svg class="rp-art" viewBox="0 0 320 118" role="img" aria-label="Deux sommes descriptives de réponses : mal à récupérer ${rec} sur 12 et signaux du corps ${corps} sur 12">
+    ${barre(35, "Mal à récupérer", rec)}${barre(77, "Le corps", corps)}
     <text x="160" y="111" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="${C.sapin}">Plus la barre est longue, plus la difficulté est fréquente</text>
   </svg>`;
 }
+
 function jauges(sr) {
   const ids = ["A", "B", "C"];
   const H = 120;
@@ -305,9 +190,9 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   // ───────── Lectures courtes, réutilisées dans la synthèse et les étapes
   const coeur = ["A", "B", "C"].map((id) => sr[id]);
   const coeurHauts = coeur.filter((d) => d.score >= 13);
-  const lectureUsure = coeurHauts.length === 3 ? "Les trois jauges sont hautes en même temps : l'usure ne se résume pas à la fatigue."
-    : coeurHauts.length ? `${cap(liste(coeurHauts.map((d) => NOMS[d.id].toLowerCase())))} ${coeurHauts.length > 1 ? "ressortent" : "ressort"} nettement ; ${coeurHauts.length === 1 ? "les deux autres jauges" : "la troisième"} moins.`
-      : coeur.some((d) => d.score >= 7) ? "Aucune jauge n'est haute, mais au moins une est à surveiller." : "Les trois jauges restent basses.";
+  const lectureUsure = coeurHauts.length === 3 ? "Les trois signes sont hauts en même temps : l'usure ne se résume pas à la fatigue."
+    : coeurHauts.length ? `${cap(liste(coeurHauts.map((d) => NOMS[d.id].toLowerCase())))} ${coeurHauts.length > 1 ? "ressortent" : "ressort"} nettement ; ${coeurHauts.length === 1 ? "les deux autres signes" : "le troisième"} moins.`
+      : coeur.some((d) => d.score >= 7) ? "Aucun signe n'est haut, mais au moins un est à surveiller." : "Les trois signes restent bas.";
   const penche = sr.D.score - ressources;
   const lectureBalance = penche >= 4 ? `Les exigences (${sr.D.score}/24) ressortent plus que les ressources présentes (${ressources}/24), sans qu’un rapport causal puisse être déduit.`
     : penche <= -4 ? `Les ressources (${ressources}/24) sont davantage déclarées que les exigences (${sr.D.score}/24). Cela ne garantit pas une compensation.`
@@ -455,34 +340,86 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     <div class="rp-rps-grille">${rpsCartes}</div>
     <p class="rp-legende">Une absence de signal n'exclut pas une exposition réelle : certains thèmes ne disposent que d'une question et aucun détail sur l'organisation du travail n'a été vérifié.</p></section>`;
 
+  const nDim = (d) => niv(d).n;
+  const val = (v) => `${MOTS[nv24(v)]} · ${v}/24`;
+  // L'absurde : la couleur dit l'effet. Beaucoup d'absurde sans retrait ni perte de sens = à surveiller (le recul peut protéger) ;
+  // avec retrait ou perte de sens = ça use.
+  const nAbsurde = !absurdeHaut ? (bs.percent >= 25 ? 1 : 0) : coupe ? (bs.percent >= 75 ? 3 : 2) : 1;
+  const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
+  // ───────── Les données du schéma (schema.js) : chaque réponse n'est dessinée qu'à un seul endroit.
+  // Centre : la récupération (F1 à F3). Droite : les trois signes (A, B, C) et le corps (F4 à F6). Gauche : la balance, le retour, l'absurde.
+  const freq = (id) => ratingLabels[item(id).rawScore].replace(/^\d+\s*-\s*/, "").toLowerCase();
+  const nItem = (id) => [0, 0, 1, 2, 3][item(id).riskScore];
+  const signes = [
+    { label: "Épuisement", v: sr.A.score, mot: niv(sr.A).mot, n: nDim(sr.A) },
+    { label: "Distance, cynisme", v: sr.B.score, mot: niv(sr.B).mot, n: nDim(sr.B) },
+    { label: "Perte d'efficacité", v: efficacite, max: 16, mot: MOTS[nv24(relatif24(efficacite, 16))], n: nv24(relatif24(efficacite, 16)) },
+    { label: "Perte de sens", v: perteSens, max: 8, mot: MOTSF[nv24(relatif24(perteSens, 8))], n: nv24(relatif24(perteSens, 8)) }
+  ];
+  const CORPS = { F4: "Symptômes", F5: "Compensations", F6: "Erreurs de fatigue" };
+  const corps = { rows: Object.keys(CORPS).map((id) => ({ label: CORPS[id], mot: freq(id), n: nItem(id) })) };
+  const recupScore = ["F1", "F2", "F3"].reduce((n, id) => n + item(id).riskScore, 0); // 0–12
+  const nRecup = nv24(relatif24(recupScore, 12));
+  const MOTS_RECUP = ["ça récupère", "fragile", "récupère mal", "ne récupère plus"];
+  const recupRows = [["F1", "Décrocher"], ["F2", "Sommeil"], ["F3", "Loisirs, liens"]].map(([id, label]) => ({ label, mot: freq(id), n: nItem(id) }));
+  const moyE = moy24(["E5", "E6"].map((id) => item(id).rawScore));
+  const rIds = ["R1", "R2", "R3"].filter((id) => rep[id]);
+  const moyR = rIds.length ? moy24(rIds.map((id) => rep[id].value)) : null;
+  const T4MOTS = ["jamais", "rarement", "parfois", "souvent", "presque toujours"];
+  const T2MOTS = { "Elles diminuent": "en baisse", "Elles restent à peu près stables": "stable", "Elles augmentent": "en hausse", "Elles fluctuent beaucoup": "fluctue beaucoup", "Je ne sais pas": "ne sait pas" };
+  const T3MOTS = { "Je n'ai pas pu le constater": "pas constaté", "Mes difficultés diminuent nettement": "nettement mieux", "Elles diminuent un peu": "un peu mieux", "Elles changent peu": "peu de changement", "Elles augmentent": "plus difficile" };
+  const court = (id, table) => { const t = repere(id)?.answer; if (!t || /pas de difficulté/.test(t)) return t ? "pas de difficulté" : ""; return table ? table[t] || t.toLowerCase() : t.replace(/^Depuis /, "").replace(/^Je ne sais pas exactement$/, "ne sait pas"); };
+  const perso = ctxOui.find((a) => a.id === "personalBurden");
+  const autresCtx = ctxOui.filter((a) => a.id !== "personalBurden");
+  const dSchema = {
+    balance: { rows: [
+      { label: "Exigences", mot: ["basses", "à surveiller", "élevées", "très élevées"][nDim(sr.D)], n: nDim(sr.D) },
+      { label: "Ressources", mot: ["rares", "limitées", "présentes", "solides"][nv24(ressources)], n: 3 - nv24(ressources) }] },
+    retour: { rows: [
+      { label: "Reconnaissance", mot: ["faible", "limitée", "correcte", "bonne"][nv24(moyE)], n: 3 - nv24(moyE) },
+      ...(moyR === null ? [] : [{ label: "Salaire, perspectives", mot: ["faibles", "limités", "corrects", "bons"][nv24(moyR)], n: 3 - nv24(moyR) }])] },
+    absurde: { rows: [bs.skipped ? { label: "Pause humour passée", mot: "", n: 0 } : { label: "Tâches absurdes", mot: `${bs.percent} %`, n: nAbsurde },
+      ...(qualiteEmpechee === null ? [] : [{ label: "Qualité empêchée", mot: T4MOTS[qualiteEmpechee] || "", n: qualiteEmpechee >= 3 ? 2 : qualiteEmpechee === 2 ? 1 : 0 }])] },
+    recup: { n: nRecup, mot: MOTS_RECUP[nRecup], rows: recupRows },
+    engagement: { rows: [{ label: "Surengagement", mot: MOTS[nv24(surengagement)], n: nv24(surengagement) }] },
+    autour: { rows: [
+      { label: "Tes appuis", mot: forts.length ? `${forts.length} point${forts.length > 1 ? "s" : ""} fort${forts.length > 1 ? "s" : ""}` : "à reconstruire", n: forts.length >= 2 ? 0 : forts.length ? 1 : 2 },
+      perso ? { label: "Vie perso lourde", mot: "signalée", n: 1 }
+        : autresCtx.length ? { label: autresCtx.length > 1 ? "Contexte" : (autresCtx[0].label.length > 22 ? `${autresCtx[0].label.slice(0, 21)}…` : autresCtx[0].label), mot: autresCtx.length > 1 ? `${autresCtx.length} éléments` : "signalé", n: autresCtx.some((a) => a.id === "harassment" || a.id === "ethicalConflict") ? 2 : 1 }
+          : { label: "Contexte", mot: "rien de signalé", n: 0 }] },
+    signes, corps,
+    temps: { duree: court("T1"), evolution: court("T2", T2MOTS), conge: court("T3", T3MOTS) },
+    securite: r.hasAlert,
+  };
   // ───────── Les 9 étapes (une par pièce de la formation)
   const pieces = chapitres.map((c) => c.piece.nom);
   const etapes = [
     {
-      id: "batterie", chap: 1, titre: "Ta fatigue", q: "Le repos te rend-il ce que le travail te prend ?",
-      intro: "Deux choses, lues séparément et dans le même sens : plus la barre est longue et orange, plus ça use. <b>Épuisement</b> : être vidé, à bout, ne plus récupérer d'un repos court. <b>Mal à récupérer</b> : mal dormir, ne plus décrocher, symptômes, erreurs de fatigue. Quand les deux montent ensemble, la fatigue ressemble moins à une fatigue passagère qu'à de l'usure. Elles ne disent pas, seules, d'où elle vient.",
-      bref: `${lectureVecu} Épuisement : ${niv(sr.A).mot} (${sr.A.score}/24). Mal à récupérer : ${niv(sr.F).mot} (${sr.F.score}/24).`,
-      corps: `<div class="rp-duo"><div>${epuisementRecup(sr.A.score, sr.F.score)}<p class="rp-legende">Chaque barre résume six questions, sur 24. Ce ne sont ni une quantité d’énergie, ni une mesure clinique validée.</p></div>
-        <div>${carte(`Épuisement ${tag(sr.A)}`, `<p>${esc(sr.A.comment)}</p>`)}${carte(`Mal à récupérer ${tag(sr.F)}`, `<p>${esc(sr.F.comment)}</p>`)}
-        ${haut("A2") ? `<p class="rp-cle"><b>Question clé :</b> tu réponds que même un repos court ne te fait plus récupérer (A2). Cette réponse appelle à examiner sa durée, la récupération, les contraintes du travail et d'autres causes possibles. Elle ne suffit pas à identifier un burn-out.</p>` : ""}</div></div>
-        <h4 class="rp-h">Tes réponses</h4>${reponses(sr.A, sec.A, ratingLabels, r)}${reponses(sr.F, sec.F, ratingLabels, r)}
+      id: "batterie", chap: 1, titre: "Ta récupération et le corps", q: "Le repos te rend-il ce que le travail te prend ?",
+      intro: "Le modèle effort-récupération : travailler fatigue, c'est normal. Ce qui use, c'est quand le repos ne répare plus. <b>Ta récupération</b> (F1 à F3) : décrocher, dormir, garder tes loisirs et tes liens. <b>Le corps</b> (F4 à F6) : ce que la fatigue abîme quand elle dure. L'épuisement lui-même est lu avec les trois signes, à l'étape suivante.",
+      bref: `Ta récupération : ${MOTS_RECUP[nRecup]}. La partie F (récupération et corps) : ${niv(sr.F).mot} (${sr.F.score}/24).`,
+      corps: `<div class="rp-duo"><div>${recupCorps(recupScore, ["F4", "F5", "F6"].reduce((n, id) => n + item(id).riskScore, 0))}<p class="rp-legende">Chaque barre résume trois questions, sur 12. Ce ne sont ni une quantité d’énergie, ni une mesure clinique validée.</p></div>
+        <div>${carte(`Mal à récupérer ${tag(sr.F)}`, `<p>${esc(sr.F.comment)}</p>`)}</div></div>
+        <h4 class="rp-h">Tes réponses</h4>${reponses(sr.F, sec.F, ratingLabels, r)}
         ${haut("F5") || haut("F6") ? `<p class="rp-cle"><b>À ne pas laisser de côté :</b> ${[haut("F5") ? "des stratégies pour tenir ou dormir (F5)" : "", haut("F6") ? "des erreurs ou quasi-accidents liés à la fatigue (F6)" : ""].filter(Boolean).join(" et ")}. Ce sont des signaux de sécurité : parles-en à un médecin.</p>` : ""}`,
       comprendre: pourComprendre("Fatigue, stress ou usure", `<p>Le stress est une réaction d'adaptation à une exigence. La fatigue se répare avec le repos. Le burn-out est décrit par l'OMS (CIM-11, 2019) comme un <b>phénomène lié au travail</b>, résultant d'un stress chronique au travail qui n'a pas été géré avec succès. Ce n'est pas une maladie dans la classification, et aucun test sanguin ou hormonal ne le mesure chez une personne.</p><p>Les changements pendant un congé ou à la reprise peuvent éclairer le rôle du travail, sans démontrer à eux seuls une causalité. Une fatigue persistante peut également avoir d’autres origines.</p>`, chapLien(1)),
-      garder: `${lectureVecu} On regarde maintenant si l'usure touche aussi ta relation au travail et ta confiance.`
+      garder: "Le repos dit si tu récupères. On regarde maintenant ce que l'usure change chez toi : l'épuisement, la distance, la confiance."
     },
     {
-      id: "jauges", chap: 2, titre: "Les trois jauges", q: "L'usure touche-t-elle seulement ton énergie, ou aussi ta relation au travail et ta confiance ?",
+      id: "jauges", chap: 2, titre: "Les trois signes", q: "L'usure touche-t-elle seulement ton énergie, ou aussi ta relation au travail et ta confiance ?",
       intro: "Le modèle de Christina Maslach distingue épuisement, distance ou cynisme et efficacité professionnelle réduite. Bull-Out explore aussi le sens du travail, mais ce dernier ne constitue pas une quatrième dimension clinique de Maslach.",
       bref: `${lectureUsure} Épuisement ${niv(sr.A).mot}, distance ${niv(sr.B).mot}, efficacité et sens ${niv(sr.C).mot}.`,
       corps: `<div class="rp-duo"><div>${jauges(sr)}<p class="rp-legende">Les pointillés marquent les seuils de lecture (6, 12 et 18 sur 24).</p></div>
         <div>${r.modelReadings[0].lines.map((l) => `<p>${esc(l)}</p>`).join("")}
         ${sr.B.score >= 7 ? `<p class="rp-cle"><b>La distance n'est pas un défaut d'attitude.</b> La distance peut avoir plusieurs fonctions : protection, désengagement ou symptôme. Ces questions ne permettent pas de trancher seules.</p>` : ""}</div></div>
+        <h4 class="rp-h">Épuisement ${tag(sr.A)}</h4>${reponses(sr.A, sec.A, ratingLabels, r)}
+        ${haut("A2") ? `<p class="rp-cle"><b>Question clé :</b> tu réponds que même un repos court ne te fait plus récupérer (A2). Cette réponse appelle à examiner sa durée, la récupération, les contraintes du travail et d'autres causes possibles. Elle ne suffit pas à identifier un burn-out.</p>` : ""}
         <h4 class="rp-h">Distance mentale ${tag(sr.B)}</h4>${reponses(sr.B, sec.B, ratingLabels, r)}
         <h4 class="rp-h">Perte d'efficacité et de sens ${tag(sr.C)}</h4>
         <p>La partie C mêle deux choses : l'<b>efficacité perçue</b> (C1, C2, C4, C6 : ${MOTS[nv24(relatif24(efficacite, 16))]}, ${efficacite}/16) et le <b>sens</b> (C3, C5 : difficultés de sens ${MOTSF[nv24(relatif24(perteSens, 8))]}, ${perteSens}/8). Le sens et l’utilité sont explorés à part du questionnaire satirique : <button type="button" class="rp-lien" data-aller="absurde">${esc(bsTitre.toLowerCase())}</button>.</p>
         ${reponses(sr.C, sec.C, ratingLabels, r)}`,
-      comprendre: pourComprendre("D'où viennent les trois jauges", `<p>Maslach et Jackson ont construit en 1981 le Maslach Burnout Inventory autour de trois dimensions : épuisement émotionnel, dépersonnalisation (devenue « cynisme »), accomplissement personnel réduit. Schaufeli et ses collègues ont proposé en 2020 le Burnout Assessment Tool, qui garde l'épuisement et la distance mentale et ajoute les altérations cognitives (attention, mémoire : A6) et émotionnelles (irritabilité : A5).</p><p>Les questions de Bull-Out reprennent ces dimensions avec des formulations nouvelles. Elles n'ont pas les propriétés mesurées de ces outils : on lit des tendances, pas un score normé.</p>`, chapLien(2)),
-      garder: "Les jauges disent ce que tu ressens. La suite cherche d'où cela vient : ce que le travail te demande, et ce qui t'aide à le faire."
+      comprendre: pourComprendre("D'où viennent les trois signes", `<p>Maslach et Jackson ont construit en 1981 le Maslach Burnout Inventory autour de trois dimensions : épuisement émotionnel, dépersonnalisation (devenue « cynisme »), accomplissement personnel réduit. Schaufeli et ses collègues ont proposé en 2020 le Burnout Assessment Tool, qui garde l'épuisement et la distance mentale et ajoute les altérations cognitives (attention, mémoire : A6) et émotionnelles (irritabilité : A5).</p><p>Les questions de Bull-Out reprennent ces dimensions avec des formulations nouvelles. Elles n'ont pas les propriétés mesurées de ces outils : on lit des tendances, pas un score normé.</p>`, chapLien(2)),
+      garder: "Les trois signes disent ce que tu ressens. La suite cherche d'où cela vient : ce que le travail te demande, et ce qui t'aide à le faire."
     },
     {
       id: "balance", chap: 3, titre: "La balance", q: "Quelles exigences rencontres-tu, et sur quelles ressources peux-tu compter ?",
@@ -496,7 +433,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "La balance aide à distinguer des expositions et des ressources, pas à calculer une compensation. La lecture de Siegrist examine ensuite l’effort et les récompenses."
     },
     {
-      id: "retour", chap: 4, titre: "Le retour", q: "Ce que tu reçois est-il à la hauteur de ce que tu donnes ?",
+      id: "retour", chap: 4, titre: "Le retour et ton engagement", q: "Ce que tu reçois est-il à la hauteur de ce que tu donnes ?",
       intro: "Le modèle de Johannes Siegrist (ERI, 1996) compare l'effort fourni et ce qui revient : l'estime, le salaire, les perspectives et la sécurité de l'emploi. Il ajoute le surengagement : du mal à refuser, à décrocher, le besoin de prouver sa valeur.",
       bref: `${lectureRetour}${lectureSur ? ` ${lectureSur}` : ""}`,
       corps: `<div class="rp-duo"><div>${balance(effort, retour, 24, "Effort", "Récompense", `Bascule : effort ${effort}, récompense ${retour} sur 24`)}<p class="rp-legende">Effort : D1, D4 et D6. Récompense : E5 et E6 (estime, équité), R1 à R3 (salaire, perspectives, sécurité). Moyennes ramenées sur 24 pour être comparables.</p></div>
@@ -509,7 +446,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Les quatre premières pièces lisent tes réponses notées. La suivante ajoute ce qui se passe autour, et qui change la lecture."
     },
     {
-      id: "contexte", chap: 5, titre: "Le contexte", q: "Qu'est-ce qui, autour de toi, change la lecture du résultat ?",
+      id: "contexte", chap: 5, titre: "Autour de toi", q: "Qu'est-ce qui, autour de toi, change la lecture du résultat ?",
       intro: "Ces réponses n'entrent pas dans le score. Elles évitent deux pièges : tout mettre sur le dos du « perso », ou lire comme individuel un problème partagé par l'équipe.",
       bref: ctxOui.length ? `Tu signales : ${liste(ctxOui.map((a) => a.label.toLowerCase()))}.` : "Tu ne signales aucun élément de contexte particulier.",
       corps: `${ctxOui.length ? `<ul class="rp-ctx">${ctxOui.map((a) => `<li><b>${esc(a.label)}</b><span>${esc(a.text)}</span></li>`).join("")}</ul>` : "<p>Aucun élément de la liste. Cela n'exclut pas qu'un contexte non listé compte.</p>"}
@@ -521,7 +458,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Tu as maintenant les pièces une à une. L'étape suivante les remet côte à côte, avec les scores et leur façon de les lire."
     },
     {
-      id: "dimensions", chap: 6, titre: "Les dimensions", q: "Que valent ces scores, et comment les lire ?",
+      id: "dimensions", chap: 6, titre: "Les fils et les dimensions", q: "Que valent ces scores, et comment les lire ?",
       intro: "Six dimensions, chacune sur 24 (six questions de 0 à 4). On les lit une par une : un total cache plus qu'il ne montre.",
       bref: `${r.dominantDimensions.length ? `Ce qui ressort : ${liste(r.dominantDimensions.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`))}.` : ""} Lecture d'ensemble : ${esc(r.profile.title.toLowerCase())}.`,
       corps: `<table class="rp-table"><thead><tr><th scope="col">Dimension</th><th scope="col">Score</th><th scope="col">Lecture</th><th scope="col" class="rp-col-barre">Sur 24</th></tr></thead><tbody>
@@ -536,7 +473,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Les réponses donnent des indices, pas des normes individuelles. Il reste à choisir quoi vérifier et comment agir."
     },
     {
-      id: "plan", chap: 7, titre: "Le plan", q: "Que faire dans les 72 heures, puis dans les deux semaines ?",
+      id: "plan", chap: 7, titre: "Où agir : le plan", q: "Que faire dans les 72 heures, puis dans les deux semaines ?",
       intro: "On commence par le travail réel : retirer, reporter, simplifier. Optimiser sa respiration ne règle pas une surcharge non arbitrée. Choisis une ou deux actions, pas douze.",
       bref: `D'abord : ${esc(liste(r.actions.slice(0, 2).map((a) => a.title.toLowerCase())))}.${forts.length || ressPresentes.length ? ` Pour le mener, appuie-toi sur ${esc(liste([...forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()), ...ressPresentes.slice(0, 1).map((id) => RESSOURCES[id][0].toLowerCase())]))}.` : ""}`,
       corps: `<h4 class="rp-h">Actions prioritaires</h4><ol class="rp-actions">${r.actions.map((a) => `<li><b>${esc(a.title)}</b><span>${esc(a.text)}</span></li>`).join("")}</ol>
@@ -548,10 +485,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Une demande compte davantage quand elle laisse une trace. La pièce suivante t'aide à l'écrire."
     },
     {
-      id: "traces", chap: 8, titre: "Les traces", q: "Comment garder une trace utile, sans parler de ta santé ?",
+      id: "traces", chap: 8, titre: "Depuis quand, et les traces", q: "Depuis quand, et comment garder une trace utile sans parler de ta santé ?",
       intro: "Ce qui protège, toi comme ton manager, c'est d'avoir agi et de pouvoir le montrer : des faits, des dates, des demandes précises. Jamais tes scores ni ta santé.",
       bref: faits.length ? `Ta trace peut s'appuyer sur ${faits.length} fait${faits.length > 1 ? "s" : ""} de travail tiré${faits.length > 1 ? "s" : ""} de tes réponses, et une demande : ${esc(demande)}.` : `Aucun fait de travail ne ressort fortement ; un journal de bord court suffit pour l'instant.`,
-      corps: `<div class="rp-duo">${carte("Ce que tu écris", ul(["des faits de travail datés : volumes, délais, urgences, demandes contradictoires", "ce que tu as demandé, à qui, quand", "les réponses obtenues, ou leur absence"]), "fort")}
+      corps: `${[dSchema.temps.duree, dSchema.temps.evolution, dSchema.temps.conge].some(Boolean) ? `<dl class="rp-depuis">${[["Depuis", dSchema.temps.duree], ["Évolution", dSchema.temps.evolution], ["En congé", dSchema.temps.conge]].filter(([, v]) => v).map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl><p class="rp-legende">La bande « Depuis quand ? » du schéma. Une carte se lit avec des dates : note-les aussi dans ta trace.</p>` : ""}
+        <div class="rp-duo">${carte("Ce que tu écris", ul(["des faits de travail datés : volumes, délais, urgences, demandes contradictoires", "ce que tu as demandé, à qui, quand", "les réponses obtenues, ou leur absence"]), "fort")}
         ${carte("Ce que tu n'écris pas", ul(["tes scores ou ce rapport", "un diagnostic, tes symptômes, tes traitements", "des jugements sur les personnes"]), "levier")}</div>
         <h4 class="rp-h">Un brouillon de demande écrite, à partir de tes réponses</h4>
         <p class="rp-legende">À adapter : complète les crochets avec des dates et des exemples précis. Il ne contient aucune information de santé.</p>
@@ -747,9 +685,9 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   // ───────── Synthèse
   const synCartes = [
     ["Tes réponses", L.fiable ? "Réponses variées" : "Réponses peu différenciées", `Sur les quatre dernières semaines.${L.paires.length ? ` ${L.paires.length} point${L.paires.length > 1 ? "s" : ""} à clarifier (annexe 1).` : ""}`, "annexes"],
-    ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de jauge haute", lectureUsure, "jauges"],
+    ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de signe haut", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Ressources davantage déclarées" : "Scores proches, sans compensation démontrée", lectureBalance, "balance"],
-    ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, `${esc(sr.A.comment)} ${esc(sr.F.comment)}`, "batterie"],
+    ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, esc(sr.F.comment), "batterie"],
     ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent} %`, bs.skipped ? "Partie satirique non renseignée (ancienne sauvegarde)." : (bsMatrice?.interpretation || bsTexte), "absurde"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
@@ -767,48 +705,10 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       : hautes.length === 1 ? { n: 1, t: "Un signe ressort nettement", d: `${cap(nomsUsure(hautes))} ressort ; les autres tiennent encore. C'est le bon moment pour agir, avant que l'usure s'installe.` }
       : usureMax === 1 || sr.D.score >= 13 || sr.E.score >= 13 ? { n: 1, t: "Des éléments méritent attention", d: "Des manifestations ou contraintes ressortent sur certaines questions, sans qu’un niveau clinique soit déterminé." }
         : { n: 0, t: "Peu de difficultés déclarées", d: "Ce questionnaire ne fait pas ressortir de difficultés fréquentes dans les domaines explorés. Il ne remplace pas une appréciation médicale ou professionnelle." };
-  const nDim = (d) => niv(d).n;
-  const val = (v) => `${MOTS[nv24(v)]} · ${v}/24`;
-  // L'absurde : la couleur dit l'effet. Beaucoup d'absurde sans retrait ni perte de sens = à surveiller (le recul peut protéger) ;
-  // avec retrait ou perte de sens = ça use.
-  const nAbsurde = !absurdeHaut ? (bs.percent >= 25 ? 1 : 0) : coupe ? (bs.percent >= 75 ? 3 : 2) : 1;
-  const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
-  const causes = [
-    { titre: "La balance", modele: "Exigences-ressources (JD-R) · chapitre 3", rows: [
-      { label: "Exigences", val: val(sr.D.score), n: nDim(sr.D), g: nDim(sr.D), c: COUL[nDim(sr.D)] },
-      { label: "Ressources", val: ["rares", "limitées", "présentes", "solides"][nv24(ressources)], n: nv24(ressources), g: 3 - nv24(ressources), c: COUL[3 - nv24(ressources)], bon: true }] },
-    { titre: "Le retour", modele: "Effort-récompense (Siegrist) · chapitre 4", rows: [
-      { label: "Effort", val: MOTS[nv24(effort)], n: nv24(effort), g: nv24(effort), c: COUL[nv24(effort)] },
-      { label: "Récompense", val: ["faible", "limitée", "correcte", "bonne"][nv24(retour)], n: nv24(retour), g: 3 - nv24(retour), c: COUL[3 - nv24(retour)], bon: true },
-      { label: "Surengagement", val: MOTS[nv24(surengagement)], n: nv24(surengagement), g: nv24(surengagement), c: COUL[nv24(surengagement)] }] },
-    { titre: "Le contexte", modele: "Ce qui se passe autour · chapitre 5 · hors score", horsScore: true, rows: ctxAggr.length
-      ? ctxAggr.slice(0, 4).map((a) => ({ label: a.label.length > 30 ? `${a.label.slice(0, 29)}…` : a.label, val: "signalé", n: a.id === "harassment" || a.id === "ethicalConflict" ? 2 : 1, c: COUL[a.id === "harassment" || a.id === "ethicalConflict" ? 2 : 1] }))
-      : [{ label: "Rien de signalé", val: "", n: 0, c: C.piste }] },
-    { titre: "L'absurde", modele: "Bullshitomètre · pause humour · hors score", horsScore: true, rows: [bs.skipped
-      ? { label: "Pause humour passée", val: "", n: 0, c: C.piste }
-      : { label: "Absurde au travail", val: `${NIVMOTS[nAbsurde]} · ${bs.percent} %`, n: nAbsurde, g: nAbsurde, c: COUL[nAbsurde] }] }
-  ];
-  const fRecharge = 8 - item("F1").riskScore - item("F3").riskScore;
-  const recharge = [
-    { label: "Décrocher, loisirs", val: fRecharge >= 6 ? "ça tient" : fRecharge >= 3 ? "fragile" : "en panne", n: fRecharge >= 6 ? 2 : fRecharge >= 3 ? 1 : 0 },
-    { label: "Tes appuis", val: forts.length ? `${forts.length} point${forts.length > 1 ? "s" : ""} fort${forts.length > 1 ? "s" : ""}` : "à reconstruire", n: forts.length >= 4 ? 3 : forts.length >= 2 ? 2 : forts.length ? 1 : 0 },
-  ];
-  const signes = [
-    { label: "Épuisement", v: sr.A.score, val: val(sr.A.score), n: nDim(sr.A) },
-    { label: "Distance, cynisme", v: sr.B.score, val: val(sr.B.score), n: nDim(sr.B) },
-    { label: "Perte d'efficacité", v: efficacite, max: 16, val: `${efficacite}/16`, n: nv24(relatif24(efficacite, 16)) },
-    { label: "Perte de sens", v: perteSens, max: 8, val: `${perteSens}/8`, n: nv24(relatif24(perteSens, 8)) }
-  ];
-  const nItem = (id) => [0, 0, 1, 2, 3][item(id).riskScore];
-  const CORPS = { F2: "Sommeil perturbé", F4: "Symptômes physiques", F5: "Compensations pour tenir", F6: "Erreurs liées à la fatigue" };
-  const corpsRows = Object.keys(CORPS).filter((id) => item(id).riskScore >= 2).map((id) => ({ label: CORPS[id], val: ratingLabels[item(id).rawScore].replace(/^\d+\s*-\s*/, ""), n: nItem(id), c: COUL[nItem(id)] }));
-  const corps = { titre: "Le corps", modele: "Sommeil, santé · chapitre 1", rows: corpsRows.length ? corpsRows : [{ label: "Pas de signal net", val: "", n: 0, c: C.piste }] };
-  const vue = { causes, recharge, signes, corps, alerte: r.hasAlert, aScore: sr.A.score, fScore: sr.F.score };
   // ───────── Tableau de bord : trois cadrans lus en trois secondes, avant le détail (choix de David, 20/11).
-  const nE = nv24(Math.round((sr.A.score + sr.F.score) / 2));
   const tireListe = [["les exigences", nDim(sr.D)], ["le manque de ressources", nDim(sr.E)], ["l'effort sans retour", Math.min(nv24(effort), Math.max(0, 3 - nv24(retour)))]];
   const tire = Math.max(...tireListe.map(([, n]) => n));
-  const lacheListe = [...signes.map((x) => [x.label.replace(/ \(.*\)$/, "").toLowerCase(), x.n]), ...corps.rows.filter((x) => x.n).map((x) => [x.label.toLowerCase(), x.n])];
+  const lacheListe = [...signes.map((x) => [x.label.toLowerCase(), x.n]), ...corps.rows.filter((x) => x.n).map((x) => [x.label.toLowerCase(), x.n])];
   const lache = Math.max(0, ...lacheListe.map(([, n]) => n));
   const enTete = (xs, n) => liste(xs.filter(([, k]) => k === n && n > 0).map(([l]) => l).slice(0, 2));
   const cadran = (titre, n, mot, detail, bon) => {
@@ -819,43 +719,44 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     return `<div class="rp-cadran"><svg viewBox="0 0 120 66" aria-hidden="true">${[0, 1, 2, 3].map(arc).join("")}<line x1="60" y1="58" x2="${(60 + 34 * Math.cos(ang)).toFixed(1)}" y2="${(58 - 34 * Math.sin(ang)).toFixed(1)}" stroke="${C.sapin}" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="58" r="6" fill="${C.sapin}"/></svg>
       <p class="k">${titre}</p><p class="t">${esc(cap(mot))}</p><p class="d">${esc(detail)}</p></div>`;
   };
-  // Les trois cadrans reprennent les trois zones du schéma : ton travail, ta fatigue, ce qui se voit.
-  const bord = `<div class="rp-bord" role="group" aria-label="Tableau de bord : ton travail, ta fatigue, ce qui se voit">
+  // Les trois cadrans reprennent les trois zones du schéma : ton travail, toi (ta récupération), ce qui se voit.
+  const bord = `<div class="rp-bord" role="group" aria-label="Tableau de bord : ton travail, toi, ce qui se voit">
     ${cadran("Ton travail", tire, ["léger", "à surveiller", "lourd", "très lourd"][tire], tire ? `Surtout ${enTete(tireListe, tire)}.` : "Le travail déclaré ne pèse pas fort.", false)}
-    ${cadran("Ta fatigue", nE, ["légère", "à surveiller", "forte", "très forte"][nE], "D'après l'épuisement et le mal à récupérer. Un niveau en mots, pas un pourcentage.", false)}
+    ${cadran("Toi · ta récupération", nRecup, MOTS_RECUP[nRecup], "Décrocher, dormir, garder tes loisirs (F1 à F3). Un niveau en mots, pas un pourcentage.", false)}
     ${cadran("Ce qui se voit", lache, ["peu de signes", "à surveiller", "des signes nets", "des signes très nets"][lache], lache ? `Surtout ${enTete(lacheListe, lache)}.` : "Pas de signe net d'usure.", false)}
   </div>`;
   const etapesVue = [
-    ["personne", "1 · Toi", "Commence par toi : ta fatigue (épuisement, mal à récupérer), puis ce qui se voit (distance, efficacité, sens, corps)."],
-    ["travail", "2 · Ton travail", "Observe séparément les exigences, les ressources, l'effort, la récompense, le contexte et l'absurde. Les fils ne prouvent aucune causalité."],
-    ["appuis", "3 · Tes appuis", "Regarde ce qui t'aide encore. Les appuis n'annulent pas la charge, mais ils comptent pour agir."],
+    ["personne", "1 · Toi", "Commence par toi : ta récupération au centre, puis ce qui se voit à droite (les trois signes, le corps)."],
+    ["travail", "2 · Ton travail", "Observe séparément la balance, le retour et l'absurde. Les fils ne prouvent aucune causalité."],
+    ["appuis", "3 · Autour de toi", "Regarde ce qui t'aide encore et ce qui pèse dans ta vie perso. Cela change la lecture, pas le score, et n'annule pas la charge."],
     ["tout", "4 · Vue complète", "La vue complète rapproche ces informations sans les mélanger en une mesure unique de risque."]
   ];
   // En tête de la synthèse (V3) : le feu, puis les trois cadrans. Le schéma vient ensuite.
   const tete = `<div class="rp-tete"><div class="rp-verdict v${verdict.n}"><span class="rp-feu" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i class="${k === verdict.n ? "on" : ""}"></i>`).join("")}</span><div><p class="t">${verdict.t}</p><p>${verdict.d}</p></div></div>
       ${bord}${LEGENDE_COULEURS}</div>`;
-  // Les trois modèles lus sur tes réponses : trois questions, pas trois preuves (demande de David, V3).
+  // Les quatre modèles lus sur tes réponses : quatre questions, pas quatre preuves (demande de David, V3).
   const modelesLus = `<section class="rp-modeles-lus" aria-labelledby="rp-modeles-titre">
-      <h3 id="rp-modeles-titre">Trois modèles, trois questions sur tes réponses</h3>
+      <h3 id="rp-modeles-titre">Quatre modèles, quatre questions sur tes réponses</h3>
       <div class="rp-modeles-grille">
+        <article><p class="k">Effort-récupération · au centre</p><h4>Le repos te rend-il ce que le travail te prend ?</h4><p>Ta récupération : <b>${MOTS_RECUP[nRecup]}</b> (décrocher ${freq("F1")}, sommeil perturbé ${freq("F2")}).</p><p class="rp-modele-ou">Au centre du schéma · ${chapLien(1)}</p></article>
         <article><p class="k">Maslach · ce qui se voit</p><h4>Qu'est-ce qui change chez toi ?</h4><p>Épuisement <b>${MOTS[nDim(sr.A)]}</b>, distance <b>${MOTS[nDim(sr.B)]}</b>, doute sur l'efficacité et le sens <b>${MOTS[nDim(sr.C)]}</b>.</p><p class="rp-modele-ou">À droite du schéma · ${chapLien(2)}</p></article>
-        <article><p class="k">Exigences-ressources · la balance</p><h4>Que demande ton travail, et qu'est-ce qui t'aide ?</h4><p>Exigences <b>${["basses", "à surveiller", "élevées", "très élevées"][nDim(sr.D)]}</b>, ressources <b>${["rares", "limitées", "présentes", "solides"][nv24(ressources)]}</b>.</p><p class="rp-modele-ou">En haut à gauche · ${chapLien(3)}</p></article>
-        <article><p class="k">Effort-récompense · le retour</p><h4>Ce que tu donnes est-il reconnu ?</h4><p>Effort <b>${MOTS[nv24(effort)]}</b>, récompense <b>${["faible", "limitée", "correcte", "bonne"][nv24(retour)]}</b>, surengagement <b>${MOTS[nv24(surengagement)]}</b>.</p><p class="rp-modele-ou">Au milieu à gauche · ${chapLien(4)}</p></article>
+        <article><p class="k">Exigences-ressources · la balance</p><h4>Que demande ton travail, et qu'est-ce qui t'aide ?</h4><p>Exigences <b>${["basses", "à surveiller", "élevées", "très élevées"][nDim(sr.D)]}</b>, ressources <b>${["rares", "limitées", "présentes", "solides"][nv24(ressources)]}</b>.</p><p class="rp-modele-ou">À gauche, en haut · ${chapLien(3)}</p></article>
+        <article><p class="k">Effort-récompense · le retour</p><h4>Ce que tu donnes est-il reconnu ?</h4><p>Effort <b>${MOTS[nv24(effort)]}</b>, récompense <b>${["faible", "limitée", "correcte", "bonne"][nv24(retour)]}</b>, surengagement <b>${MOTS[nv24(surengagement)]}</b>.</p><p class="rp-modele-ou">Le retour à gauche, ton engagement au centre · ${chapLien(4)}</p></article>
       </div>
-      <p class="rp-modeles-note">Ces lectures reprennent en partie les mêmes réponses (cinq questions sont communes à la balance et au retour) : <b>trois angles, pas trois preuves</b>. Aucune ne dit, seule, ce qui cause quoi.</p>
+      <p class="rp-modeles-note">Ces lectures reprennent en partie les mêmes réponses (cinq questions sont communes à la balance et au retour) : <b>quatre angles, pas quatre preuves</b>. Aucune ne dit, seule, ce qui cause quoi.</p>
     </section>`;
   const ensemble = `<figure class="rp-vue" data-lecture="tout">
       <div class="rp-vue-commandes" role="group" aria-label="Construire la lecture du schéma">
         ${etapesVue.map(([id, libelle]) => `<button type="button" data-vue-etape="${id}" aria-pressed="${id === "tout"}">${libelle}</button>`).join("")}
       </div>
       <p class="rp-vue-lecture" aria-live="polite">${etapesVue[3][2]}</p>
-      ${vueEnsemble({ ...vue, etroit: false })}${vueEnsemble({ ...vue, etroit: true })}
+      ${schemaDouble({ d: dSchema, classe: "rp-ensemble", couches: true, titre: "Vue descriptive de tes réponses : ton travail, toi, ce qui se voit, depuis quand, où agir et à qui en parler. Les liens ne prouvent aucune causalité." })}
       <details class="rp-pc rp-mode-emploi"><summary>Qu'est-ce qui est réellement mesuré ici ?</summary>
         <p><b>Directement déclaré :</b> les réponses A à F (0 à 4), les appuis G, les récompenses R et les éléments de contexte.</p>
         <p><b>Recalculé :</b> sommes A–F (0 à 24), indices partiels d'efficacité et de sens, effort/récompense/surengagement construits à partir de questions réutilisées, indice satirique du bullshitomètre.</p>
         <p><b>Non mesuré :</b> une réserve d'énergie, une probabilité individuelle de burn-out, l'effet protecteur de l'humour ou une relation causale entre les colonnes. Un score élevé n'est pas une urgence médicale à lui seul.</p>
       </details>
-      ${LEGENDE_COULEURS}<figcaption class="rp-legende"><b>Comment lire ce schéma :</b> à gauche, <b>ton travail</b> (ce qui pèse, ce qui aide, ce qui se passe autour, l'absurde). Au centre, <b>toi</b> : ta fatigue en deux colonnes, l'épuisement et le mal à récupérer, et en dessous tes appuis. À droite, <b>ce qui se voit</b> : les trois signes et le corps. <b>La couleur dit l'effet pour toi, jamais si le chiffre est haut</b> : une ressource solide est verte, une ressource rare est orange. Tout vient de tes réponses. <b>Les fils rapprochent des thèmes ; ils ne prouvent pas que le travail cause un symptôme, ni qu'une ressource le compense.</b> Leur épaisseur suit une convention interne, pas une force de causalité.</figcaption></figure>`;
+      <figcaption class="rp-legende"><b>Comment lire ce schéma :</b> à gauche, <b>ton travail</b> (la balance, le retour, l'absurde). Au centre, <b>toi</b> : ta récupération, ton engagement, et en pointillés ce qui t'entoure. À droite, <b>ce qui se voit</b> : les trois signes et le corps. En haut, où agir ; en bas, depuis quand et à qui en parler. Chaque réponse n'est dessinée qu'à un seul endroit. <b>La couleur dit l'effet pour toi, jamais si le chiffre est haut</b> : une ressource solide est verte, une ressource rare est orange. Tout vient de tes réponses. <b>Les fils rapprochent des thèmes ; ils ne prouvent pas que le travail cause un symptôme, ni qu'une ressource le compense.</b> Leur épaisseur suit une convention interne, pas une force de causalité.</figcaption></figure>`;
 
   const qualiteLecture = `<section class="rp-qualite" aria-label="Comment lire la qualité des réponses">
     <h3>Ces réponses se lisent-elles facilement ?</h3>
@@ -877,27 +778,29 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const synthese = `<header class="rp-syn-head"><p class="course-eyebrow">L'essentiel · trois minutes</p>
       <h2 tabindex="-1">Ce que tes réponses permettent de comprendre</h2>
       <p>${esc(r.summary)}</p>
-      <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
+      <p class="rp-syn-principe"><b>Dans l'ordre :</b> le feu et les trois cadrans pour l'essentiel, puis la carte de tes réponses, puis par quoi commencer. Le détail est replié plus bas. Rien ici n'est une preuve de causalité.</p></header>
     ${securite}
     ${tete}
+    <section class="rp-syn-schema" aria-labelledby="rp-schema-titre">
+      <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Une carte de tes réponses, pas une carte des causes</h3>
+        <p>Le même schéma que dans la formation, pièce par pièce. À gauche, <b>ton travail</b>. Au centre, <b>toi</b> : ta récupération. À droite, <b>ce qui se voit</b>. Les fils mettent des éléments en regard, sans prouver leur origine.</p></div>
+      ${ensemble}
+    </section>
     <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
         <p>${r.actions.length ? `<b>${esc(r.actions[0].title)}.</b> ${esc(r.actions[0].text)}` : "Partir d'un fait de travail récent et d'une difficulté concrète à éclaircir."}</p></div>
       <div class="rp-priorites-liens"><button type="button" class="button primary" data-aller="plan">Voir mon plan →</button>
         <button type="button" class="button secondary" data-aller="portes">À qui en parler ?</button></div>
     </section>
-    <section class="rp-syn-schema" aria-labelledby="rp-schema-titre">
-      <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Une carte de tes réponses, pas une carte des causes</h3>
-        <p>Le même schéma que dans la formation. À gauche, <b>ton travail</b>. Au centre, <b>toi</b> : ta fatigue et tes appuis. À droite, <b>ce qui se voit</b>. Le dessin reprend l'architecture de la formation : les fils mettent des éléments en regard, sans prouver leur origine.</p></div>
-      ${ensemble}
+    <details class="rp-syn-detail"><summary>Lire en détail : les quatre modèles, tes réponses en mots, la qualité des réponses</summary>
       ${modelesLus}
       <p class="rp-schema-alternative"><b>Lecture en texte :</b> ${esc(lectureBalance)} ${esc(lectureVecu)} ${esc(lectureUsure)}</p>
-    </section>
-    <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
-    ${lectureTemps}
-    ${qualiteLecture}
-    <details class="rp-syn-questions"><summary>Trois questions pour continuer la réflexion</summary>
-      <ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${esc(k)}</span>${esc(q)}</li>`).join("")}</ul></details>
+      <section class="rp-lecture-trio" aria-label="Trois lectures de tes réponses">${lecturePersonne}${lectureTravail}${lectureAppui}</section>
+      ${lectureTemps}
+      ${qualiteLecture}
+      <div class="rp-syn-questions"><h3>Trois questions pour continuer la réflexion</h3>
+        <ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${esc(k)}</span>${esc(q)}</li>`).join("")}</ul></div>
+    </details>
     <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les neuf pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
       <button type="button" class="button secondary" data-aller="travail">Préparer une discussion sur le travail réel</button></div>`;
 
@@ -1087,9 +990,9 @@ racine.addEventListener("click", (event) => {
         btn.setAttribute("aria-pressed", String(btn === vueBtn));
       });
       const textes = {
-        personne: "Commence par toi : ta fatigue, puis ce qui se voit. Les manifestations ne disent pas, seules, ce qui les provoque.",
+        personne: "Commence par toi : ta récupération, puis ce qui se voit. Les manifestations ne disent pas, seules, ce qui les provoque.",
         travail: "Observe les exigences et les ressources déclarées. Elles sont des hypothèses d'exposition à examiner.",
-        appuis: "Regarde ce qui peut soutenir la discussion ou l'action ; un appui n'annule pas automatiquement une contrainte.",
+        appuis: "Regarde ce qui t’entoure : tes appuis et ta vie perso. Ils changent la lecture, pas le score, et n’annulent pas une contrainte.",
         tout: "Vue complète : des réponses mises en regard, sans énergie fictive ni relation causale démontrée."
       };
       const status = figure.querySelector(".rp-vue-lecture");
