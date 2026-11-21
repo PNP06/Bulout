@@ -1,6 +1,6 @@
 # Bull-Out : notes de refonte
 
-**Mise à jour : 20 novembre 2026, nuit (V3).**
+**Mise à jour : proposition RPS du 21 novembre 2026 (branche de PR, non fusionnée).**
 
 Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une prochaine séance (humaine ou avec une IA) reparte de là où on s'est arrêté.
 
@@ -33,3 +33,7 @@ Ce dossier garde le raisonnement derrière les choix de Bull-Out, pour qu'une pr
 | Ce qu'on mesure et nos limites, pour le public | [methode.html](../../methode.html) |
 | Tests | `node --test tests/mesures-rapport.test.cjs` ; PDF fictifs : `tests/generer-pdf-exemple.mjs` |
 | Mise en ligne (bullout.ddlab.fr) | [worker.js](../../worker.js) : sert la branche `main` (cache 5 min) |
+
+## Proposition RPS du 21 novembre 2026
+
+La branche `chatgpt/rps-six-familles-formation-rapport` propose quatre repères RPS supplémentaires, un chapitre de formation sur les six familles Gollac / INRS, une page spécifique dans le rapport et un bilan distinct des signes d’usure. **Tant que la PR n'est pas fusionnée, `main` reste la référence.**
