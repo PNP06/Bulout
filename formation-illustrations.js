@@ -211,9 +211,10 @@ export const PIECES_SCHEMA = [
   ["retour"],                 // 4 · effort et récompense (Siegrist)
   ["contexte"],               // 5 · le contexte, hors score
   ["fils"],                   // 6 · ce que valent les mesures : des liens, pas des causes
-  ["bandeau"],                // 7 · agir : ce qui tire, ce qui reste, ce qui lâche
-  [],                         // 8 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
-  ["securite"],               // 9 · à qui en parler : la porte d'urgence
+  ["rps"],                    // 7 · les six familles de facteurs psychosociaux
+  ["bandeau"],                // 8 · agir : ce qui tire, ce qui reste, ce qui lâche
+  [],                         // 9 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
+  ["securite"],               // 10 · à qui en parler : la porte de sécurité
 ];
 const NIVC = [C.piste, "#e9c46a", C.orange, "#b3261e"];
 
@@ -276,7 +277,11 @@ export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = 
   s += boite("corps", R, yCo, lw, hCo, "Le corps", "récupération · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
   s += etat("securite") === "avenir" ? boite("securite", R, ySe, lw, hSe, "La sécurité", "", "")
     : `<g>${etat("securite") === "ici" ? `<rect x="${R - 6}" y="${ySe - 6}" width="${lw + 12}" height="${hSe + 12}" rx="16" fill="${C.anis}"/>` : ""}<rect x="${R}" y="${ySe}" width="${lw}" height="${hSe}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".3" stroke-dasharray="4 4"/>${T(R + 12, ySe + 25, "Sécurité : rien de coché", { size: 12.5, w: 600 })}</g>`;
-  const H = top + 290;
+  // Satellite RPS : expositions, pas manifestations et pas de flèche causale.
+  s += boite("rps", L, top + 292, W - 2 * L, 68, "Les six familles de RPS",
+    "Gollac / INRS · chapitre 7 · hors score",
+    T(L + 12, top + 349, "Temps · Émotions · Autonomie · Relations · Valeurs · Insécurité", { size: 12, w: 600 }));
+  const H = top + 375;
   const n = PIECES_SCHEMA.slice(0, chapitre + 1).filter((p) => p.length).length;
   // (chapitre = PIECES_SCHEMA.length : toutes les pièces posées.)
   const label = titre || `Le schéma de ton rapport, avec l'exemple de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES_SCHEMA.filter((p) => p.length).length}.`;
