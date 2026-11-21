@@ -38,7 +38,8 @@ const SCHEMA_TEXTE = [
   "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
   "À gauche, en pointillés, le contexte : ce qui se passe autour de toi. Il change la lecture, pas le score.",
   "Les fils relient les colonnes, plus épais quand tes réponses sont hautes. <b>Ce sont des liens à vérifier avec ta chronologie, jamais des causes prouvées.</b>",
-  "En tête, trois cadrans : ce qui tire, ce qui reste, ce qui lâche. Ton rapport commence par là, pour savoir où agir.",
+  "Sous le schéma, les six familles de RPS : une <b>carte des expositions</b>, ni un score ni six nouveaux diagnostics.",
+  "En tête, trois cadrans : ce qui tire, ce qui reste, ce qui lâche. Ton rapport commence par là, pour savoir où agir."
   "Pas de nouvelle pièce : ce chapitre t’aide à garder la trace de ce que montre le schéma, avec des faits et des dates, jamais ta santé.",
   "Dernière pièce : la sécurité. Si tu coches un signal, ton rapport l’affiche à part, avec les bonnes portes. <b>Ton schéma est complet : tu sais le lire.</b>",
 ];
@@ -338,7 +339,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -424,6 +425,16 @@ function restaurer(p) {
     const sautBS = Array.from({ length: 12 }, (_, i) => reponses[`BS${i + 1}`] === "skip").every(Boolean);
     if (sautBS) for (let i = 1; i <= 4; i++) reponses[`HR${i}`] = "5";
     p = { ...p, reponses, versionReactionHumour: "2026-11-hr-v2" };
+  }
+  // Ajout du chapitre 7 : préserver les acquis 1–6 et décaler les anciens 7–9.
+  // Les diplômes déjà délivrés restent reconnus, sans inventer de réponses RPS.
+  if (p?.format === format && p.versionFormation !== "2026-11-rps-10-chapitres" &&
+      Array.isArray(p.chapitres) && p.chapitres.every(i => i < 9)) {
+    const ancienDiplome = p.bonnes === examen.length && dateValide(p.dateDiplome);
+    const remappes = p.chapitres.map(i => i >= 6 ? i + 1 : i);
+    p = { ...p, versionFormation: "2026-11-rps-10-chapitres",
+      chapitres: ancienDiplome ? [...new Set([...remappes, 6])].sort((x, y) => x - y) : remappes,
+      versionQuestions: "2026-11-rps-v1" };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
