@@ -18,7 +18,7 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Neuf chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Dix chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],
@@ -568,7 +568,7 @@ export const chapitres = [
     ],
     nechange: "Qu’aucun test sanguin ne voie ton usure ne veut pas dire qu’elle n’existe pas. Elle se lit dans ce que tu vis et dans ton travail : c’est là que Bull-Out regarde.",
     piece: { nom: "Les dimensions", texte: "Ton rapport détaille six dimensions, à lire une par une plutôt que de t’arrêter au total.", rapport: "les scores par dimension et la façon de les lire." },
-    suite: "Comprendre ne suffit pas. Le dernier temps de la formation passe à l’action : que peut-on changer, et qui peut le faire ?",
+    suite: "Avant d'agir, il reste à voir une carte plus large : les six familles de risques psychosociaux.",
   },
 
   // ───────────────────────────── 7
@@ -1080,4 +1080,220 @@ export const plusLoin = [
     <h3>Le 3114</h3>
     <p>Le numéro national de prévention du suicide, ouvert en 2021, est joignable 24 h/24, gratuitement. Il répond aux personnes en détresse, à leurs proches, et aux professionnels qui s’inquiètent pour quelqu’un.</p>` },
 ];
+// Chapitre 7 : intercalé avant « Agir », sans déplacer la synthèse des trois modèles.
+const chapitreRPS = {
+  "temps": 1,
+  "court": "Six familles de RPS",
+  "titre": "Les six familles de RPS : repérer les contraintes avant qu'elles ne deviennent des symptômes",
+  "duree": 8,
+  "savoir": [
+    "Distinguer une <b>exposition au travail</b> de ses conséquences sur la santé.",
+    "Repérer les six familles Gollac–INRS, y compris celles que Bull-Out explore encore peu.",
+    "Transformer un signal RPS en <b>fait vérifiable</b> et en première demande de prévention."
+  ],
+  "arrive": "« Je ne suis pas épuisé, donc il n'y a pas de risque. » Ou « notre équipe a un bon score, donc notre organisation va bien ». Les deux confondent <b>l'absence de symptôme</b> et <b>l'absence d'exposition</b>.",
+  "retenir": "Les RPS sont des <b>facteurs liés au travail</b> qui peuvent contribuer à des atteintes à la santé. Le collège d'expertise présidé par <b>Michel Gollac</b> les classe en <b>six familles</b>. Ce n'est ni six maladies, ni six scores de burn-out. Bull-Out les explore partiellement et doit dire honnêtement ce qu'il ignore.",
+  "blocs": [
+    {
+      "t": "h",
+      "texte": "Six familles, mais pas six diagnostics"
+    },
+    {
+      "t": "p",
+      "html": "En 2011, un collège d'experts réuni à la demande des pouvoirs publics, présidé par le statisticien et sociologue <b>Michel Gollac</b>, propose une grille pour décrire les <b>expositions psychosociales professionnelles</b>. Le but n'est pas de répartir les personnes entre « fragiles » et « solides » ; il est de mieux observer ce qui, dans l'activité et son organisation, mérite prévention. L'INRS utilise encore ces six familles pour guider cette analyse."
+    },
+    {
+      "t": "table",
+      "titre": "La même situation vue avec six angles différents",
+      "cols": [
+        "Famille",
+        "Ce qu'on cherche",
+        "Exemple avec Sam"
+      ],
+      "rows": [
+        [
+          "<b>1. Intensité et temps</b>",
+          "Quantité, urgence, interruptions, horaires qui débordent.",
+          "Sam termine son planning chez lui chaque soir."
+        ],
+        [
+          "<b>2. Exigences émotionnelles</b>",
+          "Faire face à la souffrance, à l'agressivité ; cacher ses émotions.",
+          "Sam doit rassurer un client en colère sans pouvoir dire qu'il n'a pas de solution."
+        ],
+        [
+          "<b>3. Autonomie</b>",
+          "Pouvoir organiser son activité, décider, employer ses compétences.",
+          "On modifie son périmètre sans lui demander son avis."
+        ],
+        [
+          "<b>4. Rapports sociaux</b>",
+          "Soutien, reconnaissance, équité, conflits, violences.",
+          "Un collègue le soutient ; un responsable l'humilie en réunion."
+        ],
+        [
+          "<b>5. Conflits de valeurs</b>",
+          "Travail jugé inutile, contraire à l'éthique, qualité empêchée.",
+          "Sam doit annoncer un délai qu'il sait impossible ou rendre un dossier bâclé."
+        ],
+        [
+          "<b>6. Insécurité</b>",
+          "Emploi, revenus, transformations imposées et avenir du métier.",
+          "Son emploi est stable, mais son métier change chaque mois sans explication."
+        ]
+      ]
+    },
+    {
+      "t": "h",
+      "texte": "Le piège : « pas de burn-out » ne veut pas dire « pas de RPS »"
+    },
+    {
+      "t": "exemple",
+      "titre": "Deux Sam, un même niveau d'usure",
+      "html": "<b>Premier Sam :</b> il dort correctement et se sent efficace, mais subit régulièrement des humiliations. <b>Second Sam :</b> il est épuisé sans déclarer d'humiliations, dans une période de surcharge aiguë. Le premier a une <b>exposition à examiner même sans symptômes</b> ; le second a des <b>manifestations à prendre au sérieux</b>. Un score unique raterait l'un des deux.",
+      "note": "On ne transforme pas une déclaration en diagnostic de harcèlement ; on ne l'ignore pas non plus parce que la fatigue reste faible."
+    },
+    {
+      "t": "p",
+      "html": "Les six familles ne sont pas des cases hermétiques. Une réorganisation peut à la fois provoquer des <b>horaires imprévisibles</b>, réduire l'<b>autonomie</b> et créer des <b>conflits de valeurs</b>. À l'inverse, un métier très exigeant peut être soutenable lorsque les moyens, le soutien et les possibilités d'agir sont suffisants. Cela invite à examiner les <b>combinaisons</b>, sans inventer une formule qui donnerait « 62 % de RPS »."
+    },
+    {
+      "t": "h",
+      "texte": "Ce que Bull-Out peut — et ne peut pas — explorer"
+    },
+    {
+      "t": "p",
+      "html": "Les réponses D décrivent les exigences, E les ressources, R une partie des récompenses et de l'insécurité, T4 la <b>qualité empêchée</b>, le contexte certains conflits et violences. Quatre nouveaux repères hors score complètent les lacunes : <b>débordements des horaires (RPS1)</b>, <b>masquage des émotions (RPS2)</b>, <b>changement non préparé (RPS3)</b> et <b>absence de voix dans les décisions (RPS4)</b>. Ce n'est <b>pas un questionnaire RPS validé</b> : certaines situations restent invisibles, et la fréquence déclarée n'identifie ni leur gravité ni leur causalité."
+    },
+    {
+      "t": "principe",
+      "html": "Une réponse élevée ne dit pas « ce salarié est à risque à 80 % ». Elle signifie : <b>« cette situation mérite un exemple et une discussion sur le travail réel »</b>. Une réponse basse ne signifie pas « exposition exclue »."
+    },
+    {
+      "t": "h",
+      "texte": "Du résultat à la prévention : trois questions"
+    },
+    {
+      "t": "gestes",
+      "items": [
+        [
+          "Décrire",
+          "La déclaration ne remplace pas un fait situé.",
+          "« Sur les quatre dernières semaines, quels horaires ont débordé, à quelles dates ? »",
+          "Demander deux exemples sans réclamer d'informations de santé."
+        ],
+        [
+          "Comprendre",
+          "Chercher le mécanisme organisationnel, pas un coupable automatique.",
+          "« Qui décide du planning ? Qu'est-ce qui rend l'urgence inévitable ? »",
+          "Vérifier la procédure, les moyens et le retour d'expérience."
+        ],
+        [
+          "Modifier",
+          "Une mesure utile touche la situation de travail.",
+          "« Peut-on stabiliser la plage sans sollicitation, et tester cela deux semaines ? »",
+          "Fixer un responsable, une échéance, puis vérifier si l'exposition diminue."
+        ]
+      ]
+    },
+    {
+      "t": "piege",
+      "titre": "Le piège · « elle tient encore, donc tout va bien »",
+      "depart": "Sam déclare une forte exposition à des changements non préparés, mais aucun signe d'épuisement marqué.",
+      "etapes": [
+        [
+          "l'absence de symptôme devient absence de risque",
+          "Il n'est pas fatigué, donc il n'y a rien à traiter."
+        ],
+        [
+          "l'attente devient une stratégie",
+          "On attend qu'il n'arrive plus à suivre pour intervenir."
+        ]
+      ],
+      "fin": "La prévention primaire intervient <b>avant</b> l'aggravation. On peut changer des horaires, des modalités de consultation ou une procédure sans attendre un diagnostic."
+    }
+  ],
+  "exo": {
+    "titre": "Une exposition ou un diagnostic ?",
+    "intro": "Choisis le raisonnement qui permet d'agir, sans sauter du signal à la conclusion.",
+    "situations": [
+      {
+        "q": "Sam se sent bien mais dit qu'il subit des humiliations répétées.",
+        "choix": [
+          "Aucun sujet : ses jauges ne sont pas hautes.",
+          "C'est forcément un harcèlement établi par le questionnaire.",
+          "C'est une situation à examiner et à protéger, même sans manifestation d'épuisement."
+        ],
+        "bonne": 2,
+        "fb": [
+          "Les expositions existent avant les symptômes.",
+          "Un questionnaire ne qualifie pas juridiquement des faits ; il déclenche une vérification appropriée.",
+          "Oui. Rechercher les faits, protéger et mobiliser les bons interlocuteurs sans attendre un score élevé."
+        ]
+      },
+      {
+        "q": "Une salariée répond « souvent » à RPS2, mais son épuisement est bas.",
+        "choix": [
+          "Elle déclare du travail émotionnel ; vérifier contexte, intensité, marges de manœuvre.",
+          "RPS2 prouve qu'elle va faire un burn-out.",
+          "RPS2 prouve qu'elle s'est trompée sur sa fatigue."
+        ],
+        "bonne": 0,
+        "fb": [
+          "Oui. C'est une exposition déclarée, pas une prédiction individuelle.",
+          "On ignore la probabilité de maladie ; aucun seuil n'est validé.",
+          "Une exposition et un symptôme sont deux objets différents."
+        ]
+      },
+      {
+        "q": "Dans une entreprise, les six familles sont en bas d'un questionnaire individuel.",
+        "choix": [
+          "Le DUERP peut déclarer l'absence de RPS.",
+          "Il faut compléter par l'observation, les échanges collectifs et les données de travail.",
+          "Le seul bon indicateur est le nombre d'arrêts maladie."
+        ],
+        "bonne": 1,
+        "fb": [
+          "Le questionnaire d'une personne ne remplace pas l'analyse collective du travail.",
+          "Exact. L'INRS recommande plusieurs sources et une démarche collective adaptée à l'activité.",
+          "Les arrêts sont des conséquences indirectes, pas une cartographie exhaustive des expositions."
+        ]
+      }
+    ]
+  },
+  "sources": [
+    [
+      "Gollac & Bodier (2011) · Rapport du collège d'expertise",
+      "https://travail-emploi.gouv.fr/IMG/pdf/rapport_SRPST_definitif_rectifie_11_05_10.pdf"
+    ],
+    [
+      "INRS · Les six familles de facteurs RPS",
+      "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"
+    ],
+    [
+      "INRS (2025) · Effets sur la santé, synthèse de plus de 800 études",
+      "https://www.inrs.fr/header/presse/cp-expositions-psychosociales-effets-sante.html"
+    ],
+    [
+      "INRS · Les questionnaires doivent être complétés par d'autres méthodes",
+      "https://www.inrs.fr/risques/psychosociaux/questionnaires.html"
+    ],
+    [
+      "COPSOQ III (2019) · Dimensions du travail psychosocial",
+      "https://www.copsoq-network.org/assets/Uploads/The-Third-Version-of-the-Copenhagen-Psychosocial-Questionnaire.pdf"
+    ]
+  ],
+  "nechange": "Un test individuel ne remplace ni une démarche d'évaluation collective des RPS, ni le DUERP, ni une enquête sur les situations de travail. <b>Rendre visible n'est pas valider psychométriquement.</b>",
+  "piece": {
+    "nom": "Les six familles de RPS",
+    "texte": "Le schéma ajoute une carte des expositions déclarées, à part des manifestations et des alertes de santé.",
+    "rapport": "une page dédiée qui relie les six familles aux réponses, aux limites et aux actions vérifiables."
+  },
+  "suite": "On sait maintenant où chercher les expositions. Le chapitre suivant aide à transformer ces signaux en <b>arbitrages concrets</b> sur le travail."
+};
+chapitres.splice(6, 0, chapitreRPS);
+plusLoin.splice(6, 0, {
+  "titre": "les six familles de RPS, leur origine et leurs limites",
+  "html": "<h3>Un référentiel de facteurs, pas une nouvelle maladie</h3><p>Le collège d'expertise réuni à la demande du ministère du Travail (rapport Gollac/Bodier, 2011) regroupe les facteurs psychosociaux en six familles. L'INRS les utilise pour guider l'observation et la prévention <b>dans des situations de travail réelles</b>.</p><p>Ces catégories ne sont ni mutuellement exclusives ni un score de diagnostic. Une faible fréquence déclarée peut masquer un événement rare mais grave ; une réponse élevée doit être confrontée aux horaires, procédures, moyens et interactions.</p><h3>Pourquoi seulement quatre questions supplémentaires ?</h3><p>Bull-Out pose déjà des questions sur charge, soutien, autonomie, reconnaissance, insécurité de l'emploi, qualité empêchée et conflit éthique. Les nouveaux items RPS1 à RPS4 complètent quatre lacunes, <b>sans créer un total RPS</b>. Ils ne reproduisent ni le COPSOQ III ni une échelle validée.</p><p>Dans une organisation, l'INRS recommande de confronter questionnaires, entretiens, observations et données sur le travail. Le rapport individuel Bull-Out ne permet pas d'établir un DUERP.</p>"
+});
 chapitres.forEach((c, i) => { c.plusLoin = plusLoin[i]; });
