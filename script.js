@@ -1001,7 +1001,7 @@
       dialog.innerHTML = `<div class="stack"><p class="eyebrow">Avant de commencer · ${total} questions proposées, environ 15 à 20 minutes</p>`
         + `<h2 id="start-title">Quatre conseils pour bien répondre</h2>`
         + `<ol class="start-tips">${START_TIPS.map(([h, p]) => `<li><b>${h}</b> <span>${p}</span></li>`).join("")}</ol>`
-        + `<p class="start-kbd only-fine">Sur ordinateur : <kbd>0</kbd> à <kbd>4</kbd> pour répondre (<kbd>1</kbd> à <kbd>4</kbd> dans le bullshitomètre), <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui, <kbd>←</kbd> pour revenir.</p>`
+        + `<div class="start-kbd only-fine"><span class="start-kbd-ic" aria-hidden="true">⌨</span><p><b>Tu peux répondre au clavier, sans la souris.</b> Le chiffre affiché devant chaque réponse est sa touche : <kbd>0</kbd> à <kbd>4</kbd> pour les fréquences (<kbd>1</kbd> à <kbd>4</kbd> dans le bullshitomètre), <kbd>N</kbd> ou <kbd>O</kbd> pour non ou oui. La question suivante arrive seule ; <kbd>←</kbd> revient en arrière, <kbd>→</kbd> avance.</p></div>`
         + `<div class="start-note"><p><b>Rien n'est enregistré automatiquement.</b> Si tu fermes ou recharges la page, tes réponses sont perdues. Pour t'arrêter, « Enregistrer ma progression », sous les questions, télécharge un fichier.</p></div>`
         + `<div class="start-actions"><button class="button primary" type="button" data-start-ok>J'ai compris, je commence</button>`
         + `<button class="button secondary" type="button" data-start-resume>Reprendre grâce à mon fichier</button></div></div>`;

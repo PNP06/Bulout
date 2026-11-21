@@ -19,7 +19,10 @@
 .start-tips li { counter-increment: tip; display: grid; grid-template-columns: 30px 1fr; gap: 2px 10px; }
 .start-tips li::before { content: counter(tip); grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--anis); color: var(--sapin); font: 800 13px/1 var(--title); }
 .start-tips span { color: var(--muted); }
-.start-kbd { margin: 0; font-size: 14px; color: var(--muted); }
+.start-kbd { display: flex; gap: 12px; align-items: flex-start; margin: 0; padding: 12px 14px; border-radius: 14px; background: #eef5d6; font-size: 15px; line-height: 1.5; color: var(--ink); }
+@media (hover: none) { .start-kbd { display: none; } }
+.start-kbd p { margin: 0; }
+.start-kbd-ic { flex: none; font-size: 26px; line-height: 1; color: var(--sapin); }
 .start-kbd kbd { font: 600 12px/1 var(--font); padding: 3px 6px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 6px; background: var(--card); }
 .start-note { padding: 12px 14px; border-radius: 12px; background: #fdf1d8; border-left: 4px solid var(--orange); }
 .start-note p { margin: 0; font-size: 14.5px; }
