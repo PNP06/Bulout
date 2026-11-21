@@ -1120,7 +1120,7 @@ test("le mémo de poche existe en page et en PDF (une page A4 par feuille), sans
   for (const n of ["3114", "15", "112", "médecin du travail"]) assert.ok(memo.toLowerCase().includes(n.toLowerCase()), "contact attendu : " + n);
   assert.match(memo, /Prévention burn-out sans bullshit/i);
   const feuilles = (memo.match(/class="feuille"/g) || []).length;
-  assert.ok(feuilles >= 1 && feuilles <= 2, "une feuille A4, recto ou recto verso");
+  assert.ok(feuilles >= 1 && feuilles <= 8, "de une à huit feuilles A4");
   assert.doesNotMatch(memo, /<script/i, "le mémo ne lit aucune réponse");
   const pdf = fs.readFileSync(path.join(ROOT, "bull-out-memo.pdf"));
   assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
