@@ -1,0 +1,39 @@
+name: Régénérer le PDF du mémo (branche de relecture)
+
+on:
+  push:
+    branches: [claude/memo-fin-formation]
+    paths:
+      - memo.html
+      - memo.css
+      - .github/workflows/memo-pdf-regen.yml
+  workflow_dispatch:
+
+jobs:
+  regenerer:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Installer le pilote du navigateur
+        run: npm install --no-save --no-package-lock playwright
+      - name: Vérifier deux pages A4 et régénérer le PDF
+        run: node tests/generer-memo-pdf.mjs
+      - name: Joindre le nouveau PDF aux résultats
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bull-Out-memo-relue
+          path: bull-out-memo.pdf
+      - name: Mettre à jour le PDF dans la PR seulement s'il a changé
+        run: |
+          git add bull-out-memo.pdf
+          if ! git diff --cached --quiet; then
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Régénérer le mémo PDF après relecture"
+            git push origin HEAD:claude/memo-fin-formation
+          fi
