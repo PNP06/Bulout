@@ -165,30 +165,31 @@ export const illustrations = {
         <g transform="translate(64,56)"><circle r="24" fill="${C.creme}"/><path d="${icone}" fill="none" stroke="${C.sapin}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
         ${t(64, 220, nom, { a: "middle", cls: "b" })}${t(64, 240, qui, { a: "middle", cls: "s", c: C.muted })}</g>`;
     }).join("") + `<g transform="translate(34,308)"><rect width="572" height="44" rx="22" fill="${C.sapin}"/>${t(286, 28, "Danger immédiat : 15 ou 112   ·   Idées suicidaires : 3114, 24 h/24", { a: "middle", c: C.anis, cls: "b" })}</g>`),
-  modeles: svg("Les trois modèles en une image",
-    "À gauche, dans le travail, les causes : la balance exigences ressources (JD-R) et la bascule effort retour (Siegrist). Des flèches mènent à Sam, au centre : deux colonnes hautes : son épuisement, et le mal qu’il a à récupérer. Une flèche mène à droite, dans la personne, les effets : les trois jauges de Maslach, épuisement, distance mentale et efficacité réduite. En bas : on agit à gauche, on mesure à droite.",
+  modeles: svg("Les quatre modèles en une image",
+    "Les trois colonnes du schéma. À gauche, le travail : deux pesées, ce qu’on te demande contre ce qui t’aide (JD-R), et ce que tu donnes contre ce que tu reçois (Siegrist). Des flèches mènent à Sam, au centre : sa fatigue, avec deux colonnes hautes, l’épuisement et le repos qui ne suit plus (effort-récupération). Une flèche mène à droite, l’impact dans sa vie : la distance, la perte d’efficacité et de sens (Maslach, avec l’épuisement). En bas : on agit à gauche, on suit l’impact à droite.",
     720, 436, `
     <defs><marker id="fo-fleche" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${C.sapin}"/></marker></defs>
-    ${t(135, 34, "DANS LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "les causes", { a: "middle", cls: "s" })}
-    ${t(585, 34, "DANS LA PERSONNE", { a: "middle", cls: "k", c: C.mid })}${t(585, 52, "les effets", { a: "middle", cls: "s" })}
+    ${t(135, 34, "LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "ce qu’il demande, ce qu’il rend", { a: "middle", cls: "s" })}
+    ${t(360, 120, "TOI", { a: "middle", cls: "k", c: C.ink })}${t(360, 138, "ta fatigue", { a: "middle", cls: "s" })}
+    ${t(585, 34, "L’IMPACT DANS TA VIE", { a: "middle", cls: "k", c: C.ink })}${t(585, 52, "ce que ça change", { a: "middle", cls: "s" })}
     <g transform="translate(20,68)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
       <g transform="translate(115,44)"><path d="M0 -2l-14 30h28z" fill="${C.sapin}"/><path d="M-46 8L46 -10" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="10" width="34" height="14" rx="5" fill="${C.orange}"/><rect x="-60" y="-4" width="26" height="12" rx="5" fill="${C.orange}"/><rect x="30" y="-24" width="30" height="11" rx="5" fill="none" stroke="${C.mid}" stroke-width="2" stroke-dasharray="4 3"/></g>
-      ${t(115, 98, "La balance · JD-R", { a: "middle", cls: "b" })}${t(115, 117, "ce qui pèse, ce qui aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
+      ${t(115, 98, "JD-R · une pesée", { a: "middle", cls: "b" })}${t(115, 117, "on te demande / ce qui t’aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
     <g transform="translate(20,232)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
       <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${VERT}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
-      ${t(115, 98, "Le retour · Siegrist", { a: "middle", cls: "b" })}${t(115, 117, "ce que je donne, ce que je reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
+      ${t(115, 98, "Siegrist · une pesée", { a: "middle", cls: "b" })}${t(115, 117, "tu donnes / tu reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
     <path d="M254 142C292 142 300 190 326 196" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <path d="M254 306C292 306 300 254 326 246" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <g transform="translate(326,150)"><rect width="68" height="130" rx="14" fill="${C.card}" stroke="${C.sapin}" stroke-width="3"/>
       <rect x="12" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="12" y="${14 + 96 * .25}" width="18" height="${96 * .75}" rx="6" fill="${C.orange}"/>
       <rect x="38" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="38" y="${14 + 96 * .4}" width="18" height="${96 * .6}" rx="6" fill="${C.orange}"/>
 </g>
-    ${t(360, 302, "Sam", { a: "middle", cls: "t" })}${t(360, 320, "épuisement", { a: "middle", cls: "s", c: C.muted })}${t(360, 336, "mal à récupérer", { a: "middle", cls: "s", c: C.muted })}
+    ${t(360, 302, "Sam", { a: "middle", cls: "t" })}${t(360, 320, "épuisement", { a: "middle", cls: "s", c: C.muted })}${t(360, 336, "le repos ne suit plus", { a: "middle", cls: "s", c: C.muted })}
     <path d="M396 222H462" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <g transform="translate(470,68)"><rect width="230" height="310" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
-      ${[["Épuisement", .8, C.orange, 45], ["Distance", .65, C.orange, 115], ["Perte d'eff.", .55, "#d9a21b", 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
-      ${t(115, 246, "Les trois signes · Maslach", { a: "middle", cls: "b" })}${t(115, 265, "ce que l’usure fait à la personne", { a: "middle", cls: "s" })}${t(115, 283, "Maslach et Jackson, 1981", { a: "middle", cls: "s", c: C.muted })}</g>
-    <g transform="translate(20,392)"><rect width="680" height="34" rx="17" fill="${C.sapin}"/>${t(340, 22.5, "On agit à gauche, sur le travail. On mesure à droite, sur la personne.", { a: "middle", cls: "b", c: C.anis })}</g>`),
+      ${[["Distance", .65, C.orange, 45], ["Perte d'eff.", .55, "#d9a21b", 115], ["Sens", .4, "#d9a21b", 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
+      ${t(115, 246, "Ta relation au travail · Maslach", { a: "middle", cls: "b" })}${t(115, 265, "avec l’épuisement : les trois signes", { a: "middle", cls: "s" })}${t(115, 283, "Maslach et Jackson, 1981", { a: "middle", cls: "s", c: C.muted })}</g>
+    <g transform="translate(20,392)"><rect width="680" height="34" rx="17" fill="${C.sapin}"/>${t(340, 22.5, "On agit à gauche, sur le travail. On suit à droite l’impact dans ta vie.", { a: "middle", cls: "b", c: C.anis })}</g>`),
 
   niveaux: svg("Les trois niveaux de prévention",
     "Trois bandes empilées, de la plus prioritaire à la moins prioritaire. Un : prévention primaire, supprimer le risque à la source, par exemple retirer, reporter, simplifier, remplacer Marc. Deux : prévention secondaire, aider à faire face, par exemple former, faire des points de charge. Trois : prévention tertiaire, réparer, par exemple soigner, aménager la reprise. La loi demande de commencer par le premier niveau.",

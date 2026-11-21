@@ -1,189 +1,229 @@
 // Le schéma Bull-Out : un seul dessin pour l'accueil, la formation et le rapport.
 // Il se construit chapitre par chapitre, comme le papillon de Papillon : chaque pièce apporte une donnée ET une règle de lecture.
 //
-//   TON TRAVAIL (ce qui pèse, ce qui aide)  →  TOI (comment tu récupères)  →  CE QUI SE VOIT (les signes d'usure)
+//   [ Ton travail ]  →  [ Ta fatigue ]  →  [ Les impacts ]      ← trois jauges : la vue d'ensemble, d'un coup d'œil
+//    LE TRAVAIL           TOI                L'IMPACT DANS TA VIE ← sous chaque jauge, le pourquoi
+//    deux pesées          ta fatigue         ta relation au travail (Maslach)
+//    l'absurde            trop investi·e ?   ton corps
+//                         ton recul, appuis  ta vie hors travail
 //
-// Chaque réponse n'apparaît qu'une fois : l'épuisement (partie A) est un des trois signes, à droite, et nulle part ailleurs ;
-// la récupération (F1 à F3) est au centre ; le corps (F4 à F6) à droite. Quatre modèles, chacun à sa place :
-// effort-récupération (centre), Maslach (droite), exigences-ressources et effort-récompense (gauche, avec le surengagement au centre).
-// Le cadre ne bouge jamais : les pièces à venir restent en pointillés, à leur place.
+// Règles : chaque question n'est dessinée qu'à un seul endroit ; chaque case pose une question simple ;
+// la couleur dit l'effet pour la personne (vert protège, jaune à surveiller, orange use). Pas de fils entre les colonnes :
+// l'ordre des zones suffit, et des fils feraient croire à des causes. Le cadre ne bouge jamais : les pièces à venir restent en pointillés.
 
-const C = { sapin: "#123a33", mid: "#1d5c50", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#ddd4c2", muted: "#5d6f6a", rouge: "#b3261e", appui: "#e3eee9", creme: "#f6efe2" };
+const C = { sapin: "#123a33", mid: "#1d5c50", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#ddd4c2", muted: "#5d6f6a", rouge: "#b3261e", appui: "#e3eee9", creme: "#f6efe2", violet: "#6b5b95" };
 // Code couleur unique : la couleur dit l'effet pour la personne, jamais si le chiffre est haut.
 export const NIVC = [C.mid, "#d9a21b", C.orange, "#a8401c"];
 export const NIVMOTS = ["ça va", "à surveiller", "ça use", "ça use beaucoup"];
-const FIL = [1.5, 3, 5.5, 8];
 
-// Une pièce par chapitre (index 0 = chapitre 1). Le chapitre 8 n'est plus vide : il pose le temps.
+// Une pièce par chapitre (index 0 = chapitre 1).
 export const PIECES = [
-  ["recup", "corps"],                       // 1 · fatigue ou usure : le repos te rend-il ce que le travail te prend ? (effort-récupération)
-  ["signes"],                               // 2 · les trois signes (Maslach) : l'épuisement est ici, et seulement ici
-  ["balance"],                              // 3 · la balance exigences-ressources (Karasek, JD-R)
-  ["retour", "engagement", "absurde"],      // 4 · donner trop pour trop peu (Siegrist) : le retour, le surengagement, l'effort pour rien
-  ["autour"],                               // 5 · « c'est perso » : ce qui t'entoure module, ne remplace pas
-  ["fils"],                                 // 6 · ce que valent les mesures : des liens à vérifier, pas des causes
-  ["leviers"],                              // 7 · agir : on agit à gauche, on mesure à droite
+  ["fatigue", "corps"],                     // 1 · fatigue ou usure : le repos te rend-il ce que le travail te prend ? (effort-récupération)
+  ["relation"],                             // 2 · les trois signes (Maslach) : l'épuisement est dans ta fatigue, les deux autres dans l'impact
+  ["pesee1"],                               // 3 · ton travail t'aide-t-il assez ? (exigences-ressources)
+  ["pesee2", "investi", "absurde", "recul"],// 4 · ce que tu donnes est-il payé ? (Siegrist) ; l'absurde, du travail pour rien, et ton recul face à lui
+  ["appuis", "vie"],                        // 5 · « c'est perso » : ce qui te tient, ce que tu sacrifies
+  ["jauges"],                               // 6 · ce que valent les mesures : trois jauges, trois mots, pas un pourcentage
+  ["leviers"],                              // 7 · agir : on agit sur le travail, on prend soin de soi, on suit l'impact
   ["temps"],                                // 8 · la loi et la trace : une carte se lit avec des dates
   ["portes"],                               // 9 · à qui en parler : une porte par zone, et la sécurité à part
 ];
 export const NOMS_PIECES = {
-  recup: "Ta récupération", corps: "Le corps", signes: "Les trois signes", balance: "La balance", retour: "Le retour",
-  engagement: "Ton engagement", absurde: "L'absurde", autour: "Autour de toi", fils: "Les fils", leviers: "Où agir",
-  temps: "Depuis quand", portes: "Les portes",
+  fatigue: "Ta fatigue", corps: "Ton corps", relation: "Ta relation au travail", pesee1: "Ton travail t'aide-t-il assez ?",
+  pesee2: "Ce que tu donnes est-il payé ?", investi: "Trop investi·e ?", absurde: "L'absurde", recul: "Ton recul face à l'absurde",
+  appuis: "Tes appuis", vie: "Ta vie hors travail", jauges: "Les trois jauges", leviers: "Où agir", temps: "Depuis quand ?", portes: "Les portes",
+  familles: "Les six familles de risques",
 };
+// Les six familles de risques psychosociaux (Gollac, INRS) décrivent la colonne LE TRAVAIL : pas de case à elles,
+// mais une pastille numérotée sur la case qui les mesure. La pièce « familles » n'est pas dans PIECES ici :
+// le chapitre RPS l'insère à son index. d.familles = numéros des familles qui ressortent (allumées).
+export const FAMILLES = ["", "Intensité et temps de travail", "Exigences émotionnelles", "Autonomie", "Rapports sociaux", "Conflits de valeurs", "Insécurité"];
 
 // Sam, 38 ans, coordinateur logistique : l'exemple fictif de la formation et de l'accueil.
 export const SAM = {
-  balance: { rows: [{ label: "Exigences", mot: "élevées", n: 2 }, { label: "Ressources", mot: "limitées", n: 2 }] },
-  retour: { rows: [{ label: "Reconnaissance", mot: "faible", n: 2 }, { label: "Salaire, perspectives", mot: "limités", n: 1 }] },
-  absurde: { rows: [{ label: "Tâches absurdes", mot: "souvent", n: 2 }, { label: "Qualité empêchée", mot: "parfois", n: 1 }] },
-  recup: { n: 2, mot: "fragile", rows: [{ label: "Décrocher", mot: "rarement", n: 2 }, { label: "Sommeil", mot: "perturbé", n: 2 }, { label: "Loisirs, liens", mot: "réduits", n: 1 }] },
-  engagement: { rows: [{ label: "Surengagement", mot: "moyen", n: 1 }] },
-  autour: { rows: [{ label: "Tes appuis", mot: "2 points forts", n: 0 }, { label: "Séparation", mot: "signalée", n: 1 }] },
-  signes: [
-    { label: "Épuisement", v: 17, max: 24, n: 2 },
-    { label: "Distance, cynisme", v: 11, max: 24, n: 1 },
-    { label: "Perte d'efficacité", v: 6, max: 16, n: 1 },
+  jauges: [
+    { n: 2, mot: "lourd", sous: "surtout la charge et l'absurde" },
+    { n: 2, mot: "forte", sous: "le repos ne suffit plus" },
+    { n: 2, mot: "des signes nets", sous: "surtout les erreurs" },
+  ],
+  pesee1: { g: { label: "On te demande", mot: "beaucoup", n: 2 }, d: { label: "Ce qui t'aide", mot: "peu", n: 2 }, penche: 1, verdict: "Ça penche : plus de demandes que d'aide" },
+  pesee2: { g: { label: "Tu donnes", mot: "beaucoup", n: 2 }, d: { label: "Tu reçois", mot: "peu", n: 2 }, penche: 1, verdict: "Ça penche : tu donnes plus que tu ne reçois" },
+  absurde: { rows: [{ label: "Tâches inutiles", mot: "souvent", n: 2 }, { label: "Qualité empêchée", mot: "parfois", n: 1 }] },
+  fatigue: { n: 2, epuisement: { v: 17, max: 24, n: 2, mot: "ça use" }, conclusion: "le repos ne répare plus",
+    rows: [{ label: "Décrocher le soir", mot: "rarement", n: 2 }, { label: "Sommeil", mot: "perturbé", n: 2 }, { label: "En congé", mot: "ça revient vite", n: 2 }] },
+  investi: { rows: [{ label: "Refuser, prouver, y penser", mot: "parfois", n: 1 }] },
+  recul: { rows: [{ label: "Tu en ris", mot: "souvent", n: 0 }, { label: "Ça te reste le soir", mot: "parfois", n: 1 }] },
+  appuis: { rows: [{ label: "Points forts", mot: "2 (amis, sport)", n: 0 }], cote: "À côté : une séparation · hors score" },
+  relation: [
+    { label: "Distance, cynisme", v: 11, max: 24, n: 1, m: true },
+    { label: "Perte d'efficacité", v: 6, max: 16, n: 1, m: true },
     { label: "Perte de sens", v: 3, max: 8, n: 1 },
   ],
-  corps: { rows: [{ label: "Symptômes", mot: "parfois", n: 1 }, { label: "Compensations", mot: "rarement", n: 0 }, { label: "Erreurs de fatigue", mot: "souvent", n: 2 }] },
+  corps: { rows: [{ label: "Symptômes", mot: "parfois", n: 1 }, { label: "Erreurs, oublis", mot: "souvent", n: 2 }, { label: "Pour tenir (alcool…)", mot: "rarement", n: 0 }] },
+  vie: { rows: [{ label: "Loisirs, liens", mot: "réduits", n: 1 }, { label: "Envie de partir", mot: "non", n: 0 }] },
   temps: { duree: "3 mois à un an", evolution: "ça augmente", conge: "ça revient vite" },
+  familles: [1, 4, 5],
   securite: false,
 };
 
 const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}"${o.a ? ` text-anchor="${o.a}"` : ""} fill="${o.c || C.sapin}" font-size="${o.size || 13}" font-weight="${o.w || 600}" font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}"${o.op ? ` opacity="${o.op}"` : ""}${o.it ? ' font-style="italic"' : ""}>${esc(s)}</text>`;
-const nMax = (rows) => Math.max(0, ...(rows || []).map((r) => r.n || 0));
+const JAUGES = [["Ton travail", "LE TRAVAIL", "Que te demande-t-il ? Que te rend-il ?"], ["Ta fatigue", "TOI", "Comment tu tiens ?"], ["Les impacts", "L'IMPACT DANS TA VIE", "Qu'est-ce que ça change ?"]];
 
 /**
  * Dessine le schéma.
  * d : données (SAM par défaut) ; chapitre : -1 = vide, 0 à 8 = construit jusqu'à ce chapitre (sa pièce en anis), absent = complet.
- * etroit : mise en page téléphone (colonne unique). couches : ajoute les classes rp-layer pour la lecture pas à pas du rapport.
+ * etroit : mise en page téléphone (colonne unique). couches : classes rp-layer pour la lecture pas à pas du rapport.
+ * jauges : false pour ne pas redessiner les jauges quand la page les montre déjà juste au-dessus (rapport).
  */
-export function schema({ d = SAM, chapitre = PIECES.length, etroit = false, titre = "", classe = "bo-schema", couches = false } = {}) {
+export function schema({ d = SAM, chapitre = PIECES.length, etroit = false, titre = "", classe = "bo-schema", couches = false, jauges = true } = {}) {
   const faites = new Set(PIECES.slice(0, chapitre + 1).flat());
   const ici = new Set(PIECES[chapitre] || []);
   const etat = (id) => (ici.has(id) ? "ici" : faites.has(id) ? "fait" : "avenir");
   const vu = (id) => etat(id) !== "avenir";
-  const halo = (id, x, y, w, h, r = 16) => (etat(id) === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="${r}" fill="${C.anis}"/>` : "");
-  const attente = (x, y, w, h, nom) => `<g opacity=".55"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + h / 2 + 5, nom, { a: "middle", c: C.muted, w: 500 })}</g>`;
-  const ligne = (x, y, w, r) => `<circle cx="${x + 18}" cy="${y - 4}" r="5" fill="${NIVC[r.n || 0]}"/>${T(x + 30, y, r.label, { size: 12.5, w: 500 })}${T(x + w - 10, y, r.mot, { a: "end", size: 12, w: 700, c: (r.n || 0) >= 2 ? C.ink : C.muted })}`;
-  // Une boîte : nom, modèle, lignes. hors : pointillés (hors score). fond : couleur de fond (appuis).
-  const boite = (id, x, y, w, h, nom, modele, rows, o = {}) => {
-    if (!vu(id)) return attente(x, y, w, h, nom);
-    return `<g>${halo(id, x, y, w, h)}<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity="${o.hors ? .45 : .25}" stroke-width="1.5"${o.hors ? ' stroke-dasharray="5 4"' : ""}/>
-      ${T(x + 12, y + 21, nom, { titre: true, w: 800, size: 14.5 })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .78 }) : ""}
-      ${(rows || []).map((r, i) => ligne(x, y + (o.y0 || 60) + i * 22, w, r)).join("")}${o.extra || ""}</g>`;
-  };
-  // La boucle de récupération : effort → fatigue → repos. Fermée et verte quand le repos répare ; ouverte et orange quand il ne suffit plus.
-  const boucle = (cx, cy, n) => {
-    const r = 17, ouvert = n >= 2, coul = NIVC[n];
-    const a0 = -Math.PI / 2 + (ouvert ? .55 : .2), a1 = -Math.PI / 2 + 2 * Math.PI - .2;
-    const p = (a) => `${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`;
-    const fl = a1, fx = cx + r * Math.cos(fl), fy = cy + r * Math.sin(fl);
-    return `<path d="M${p(a0)} A${r} ${r} 0 1 1 ${p(a1)}" fill="none" stroke="${coul}" stroke-width="4" stroke-linecap="round"/>
-      <path d="M${(fx - 7).toFixed(1)} ${(fy - 5).toFixed(1)} L${(fx + 1).toFixed(1)} ${fy.toFixed(1)} L${(fx - 6).toFixed(1)} ${(fy + 6).toFixed(1)}" fill="none" stroke="${coul}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-  };
-  const barres = (x, y, w, signes) => signes.map((s, i) => {
-    const yy = y + i * 30;
-    return `${T(x + 12, yy, s.label, { size: 12.5, w: 500 })}${T(x + w - 12, yy, s.mot || NIVMOTS[s.n], { a: "end", size: 11.5, w: 700, c: s.n >= 2 ? C.ink : C.muted })}<rect x="${x + 12}" y="${yy + 5}" width="${w - 24}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x + 12}" y="${yy + 5}" width="${Math.max(5, Math.round((w - 24) * (s.v / (s.max || 24))))}" height="7" rx="3.5" fill="${NIVC[s.n]}"/>`;
-  }).join("");
-  const fil = (x1, y1, x2, y2, n, c, vertical = false) => {
-    const dd = vertical ? `M${x1} ${y1} C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}` : `M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}`;
-    return `<path d="${dd}" fill="none" stroke="${c}" stroke-width="${FIL[n]}" stroke-linecap="round" opacity="${n ? .9 : .35}"/>`;
-  };
+  const halo = (id, x, y, w, h) => (etat(id) === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="16" fill="${C.anis}"/>` : "");
+  const attente = (x, y, w, h, nom) => `<g opacity=".55"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + Math.min(h / 2, 40) + 5, nom, { a: "middle", c: C.muted, w: 500 })}</g>`;
+  const cadre = (x, y, w, h, fond = C.card, pointille = false) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${fond}" stroke="${C.sapin}" stroke-opacity="${pointille ? .45 : .25}" stroke-width="1.5"${pointille ? ' stroke-dasharray="5 4"' : ""}/>`;
+  const tete = (x, y, nom, sous) => T(x + 12, y + 21, nom, { titre: true, w: 800, size: 14 }) + (sous ? T(x + 12, y + 37, sous, { size: 11, w: 500, c: C.muted }) : "");
+  const point = (x, y, n) => `<circle cx="${x}" cy="${y}" r="5" fill="${NIVC[n || 0]}"/>`;
+  const ligne = (x, y, w, r) => `${point(x + 18, y - 4, r.n)}${T(x + 30, y, r.label, { size: 12.5, w: 500 })}${T(x + w - 10, y, r.mot, { a: "end", size: 12, w: 700, c: (r.n || 0) >= 2 ? C.ink : C.muted })}`;
+  const lignes = (x, y, w, rows, pas = 24) => (rows || []).map((r, i) => ligne(x, y + i * pas, w, r)).join("");
+  const barre = (x, y, w, b) => `${T(x, y, b.label || "", { size: 12.5, w: 500 })}${T(x + w, y, b.mot || NIVMOTS[b.n || 0], { a: "end", size: 11.5, w: 700, c: (b.n || 0) >= 2 ? C.ink : C.muted })}<rect x="${x}" y="${y + 5}" width="${w}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x}" y="${y + 5}" width="${Math.max(5, Math.round(w * Math.min(1, (b.v || 0) / (b.max || 24))))}" height="7" rx="3.5" fill="${NIVC[b.n || 0]}"/>`;
+  // M : un des trois signes de Maslach. Visible dès le chapitre 2.
+  const M = (x, y) => (vu("relation") ? `<circle cx="${x}" cy="${y}" r="8" fill="${C.anis}" stroke="${C.sapin}" stroke-width="1"/>${T(x, y + 4, "M", { a: "middle", size: 10, w: 800 })}` : "");
+  // Pastilles des six familles (pièce « familles ») : allumées en orange si la famille ressort, sinon claires.
+  const pastilles = (x, y, nums) => (vu("familles") ? nums.map((k, i) => { const on = (d.familles || []).includes(k), cx = x + i * 22; return `<g><title>${esc(FAMILLES[k])}</title><circle cx="${cx}" cy="${y}" r="9" fill="${on ? C.orange : C.card}" stroke="${on ? C.ink : C.sapin}" stroke-opacity="${on ? 1 : .5}" stroke-width="1.3"/>${T(cx, y + 4, String(k), { a: "middle", size: 10.5, w: 800, c: on ? "#fff" : C.sapin })}</g>`; }).join("") : "");
+  // Une boîte : vue (avec halo si c'est la pièce du chapitre) ou en attente.
+  const boite = (id, x, y, w, h, contenu, fond, pointille) => (vu(id) ? `<g>${halo(id, x, y, w, h)}${cadre(x, y, w, h, fond, pointille)}${contenu}</g>` : attente(x, y, w, h, NOMS_PIECES[id]));
   const g = (cls, inner) => (couches ? `<g class="rp-layer rp-layer-${cls}">${inner}</g>` : `<g>${inner}</g>`);
 
-  const nRecup = d.recup.n ?? nMax(d.recup.rows);
-  const recupExtra = (x, y, w) => `${boucle(x + w - 30, y + 26, nRecup)}${T(x + w - 10, y + 60, d.recup.mot || "", { a: "end", size: 12, w: 700, c: nRecup >= 2 ? C.ink : C.muted })}`;
-  const legende = (x, y, pas) => NIVC.map((c, i) => `<circle cx="${x + 8 + i * pas}" cy="${y - 4}" r="6" fill="${c}"/>${T(x + 20 + i * pas, y, i === 0 ? "ça va, ça protège" : NIVMOTS[i], { size: 12.5, w: 600 })}`).join("");
+  // La jauge : un demi-cercle à quatre crans, une aiguille, un mot.
+  const jauge = (cx, cy, r, j, nom) => {
+    const n = j?.n ?? null;
+    let s = "";
+    for (let k = 0; k < 4; k++) {
+      const a0 = Math.PI * (1 - k / 4), a1 = Math.PI * (1 - (k + 1) / 4) + .04;
+      const p = (a) => `${(cx + r * Math.cos(a)).toFixed(1)} ${(cy - r * Math.sin(a)).toFixed(1)}`;
+      s += `<path d="M${p(a0)} A${r} ${r} 0 0 1 ${p(a1)}" fill="none" stroke="${NIVC[k]}" stroke-width="${(r * .26).toFixed(1)}" opacity="${k === n ? 1 : .28}"/>`;
+    }
+    if (n !== null) {
+      const ang = Math.PI * (1 - (n + .5) / 4);
+      s += `<line x1="${cx}" y1="${cy}" x2="${(cx + r * .72 * Math.cos(ang)).toFixed(1)}" y2="${(cy - r * .72 * Math.sin(ang)).toFixed(1)}" stroke="${C.sapin}" stroke-width="4" stroke-linecap="round"/>`;
+    }
+    return `${s}<circle cx="${cx}" cy="${cy}" r="5.5" fill="${C.sapin}"/>${T(cx, cy + 22, nom, { a: "middle", titre: true, w: 800, size: 13 })}${T(cx, cy + 40, j?.mot || "non renseigné", { a: "middle", size: 13, w: 700, c: (n || 0) >= 2 ? C.ink : C.mid })}${j?.sous ? T(cx, cy + 56, j.sous, { a: "middle", size: 11, w: 500, c: C.muted }) : ""}`;
+  };
+  // La pesée : la question en titre, chaque plateau porte son étiquette, une phrase dit de quel côté ça penche.
+  const pesee = (id, x, y, w, nom, modele, p, detail, fam = {}) => {
+    const cx = x + w / 2, by = y + 116, demi = Math.min(68, w / 4), pen = p?.penche ?? 0;
+    const yL = by + 14 * pen, yR = by - 14 * pen;
+    const tag = (px, py, o) => `<rect x="${px - 58}" y="${py - 44}" width="116" height="38" rx="9" fill="${C.card}" stroke="${NIVC[o.n || 0]}" stroke-width="2"/>${T(px, py - 28, o.label, { a: "middle", size: 11.5, w: 600 })}${T(px, py - 12, o.mot, { a: "middle", size: 12.5, w: 800, c: (o.n || 0) >= 2 ? C.ink : NIVC[o.n || 0] })}<path d="M${px - 40} ${py} H${px + 40}" stroke="${NIVC[o.n || 0]}" stroke-width="5" stroke-linecap="round"/>`;
+    const corps = p ? `<line x1="${cx - demi}" y1="${yL}" x2="${cx + demi}" y2="${yR}" stroke="${C.sapin}" stroke-width="3.5" stroke-linecap="round"/>${tag(cx - demi, yL - 4, p.g)}${tag(cx + demi, yR - 4, p.d)}
+      <path d="M${cx} ${by} L${cx - 11} ${by + 30} H${cx + 11}Z" fill="${C.sapin}"/><circle cx="${cx}" cy="${by}" r="4" fill="${C.anis}" stroke="${C.sapin}"/>
+      ${pastilles(cx - demi - 11 * ((fam.g || []).length - 1), yL - 58, fam.g || [])}${pastilles(cx + demi - 11 * ((fam.d || []).length - 1), yR - 58, fam.d || [])}
+      ${T(cx, y + 166, p.verdict || "", { a: "middle", size: 12, w: 700, c: pen ? C.ink : C.mid })}${T(cx, y + 182, detail, { a: "middle", size: 11, w: 500, c: C.muted })}` : T(cx, y + 110, "non renseigné", { a: "middle", size: 12, w: 600, c: C.muted });
+    return boite(id, x, y, w, 192, tete(x, y, nom, modele) + corps);
+  };
+  // La boucle effort → repos : fermée et verte quand le repos répare ; ouverte et orange quand il ne suffit plus.
+  const boucle = (cx, cy, n) => {
+    const r = 17, ouvert = n >= 2, coul = NIVC[n || 0];
+    const a0 = -Math.PI / 2 + (ouvert ? .7 : .2), a1 = -Math.PI / 2 + 2 * Math.PI - .2;
+    const p = (a) => `${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`;
+    const fx = cx + r * Math.cos(a1), fy = cy + r * Math.sin(a1);
+    return `<path d="M${p(a0)} A${r} ${r} 0 1 1 ${p(a1)}" fill="none" stroke="${coul}" stroke-width="4.5" stroke-linecap="round"/><path d="M${(fx - 7).toFixed(1)} ${(fy - 5).toFixed(1)} L${(fx + 1).toFixed(1)} ${fy.toFixed(1)} L${(fx - 6).toFixed(1)} ${(fy + 6).toFixed(1)}" fill="none" stroke="${coul}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  };
+  // Le pipeau de l'absurde (double sens : l'instrument et le discours creux).
+  const pipeau = (x, y) => `<g transform="translate(${x} ${y}) rotate(-20)"><rect x="0" y="0" width="44" height="8" rx="4" fill="${C.violet}"/><rect x="-6" y="-1" width="10" height="10" rx="3" fill="${C.violet}"/>${[14, 23, 32].map((h) => `<circle cx="${h}" cy="4" r="1.8" fill="#fff"/>`).join("")}</g>${T(x + 46, y - 14, "♪", { size: 13, c: C.violet })}${T(x + 56, y - 4, "♫", { size: 11, c: C.violet })}`;
   const securite = (x, y, w) => d.securite
     ? `<rect x="${x}" y="${y}" width="${w}" height="34" rx="10" fill="#fbe3d8" stroke="${C.rouge}" stroke-width="1.5"/>${T(x + 14, y + 22, "Signal de sécurité déclaré : lis d'abord le message à part", { size: 12.5, w: 800, c: C.rouge })}`
     : `<rect x="${x}" y="${y}" width="${w}" height="34" rx="10" fill="none" stroke="${C.rouge}" stroke-opacity=".5" stroke-dasharray="4 4"/>${T(x + 14, y + 22, "Sécurité, toujours à part : 15 · 112 · 3114 (idées suicidaires)", { size: 12.5, w: 600, c: C.rouge })}`;
 
+  // ── Le contenu de chaque case, pour une largeur w donnée (le même en grand et sur téléphone).
+  const fatigue = (x, y, w) => {
+    const f = d.fatigue || {};
+    return boite("fatigue", x, y, w, 190, tete(x, y, "Ta fatigue", "effort-récupération · ch. 1") + boucle(x + w - 34, y + 30, f.n)
+      + M(x + 20, y + 60) + barre(x + 34, y + 64, w - 46, { label: "Épuisement", ...(f.epuisement || {}) })
+      + lignes(x, y + 108, w, f.rows, 22) + (f.conclusion ? T(x + 12, y + 176, f.conclusion, { size: 11.5, w: 700, c: (f.n || 0) >= 2 ? C.ink : C.mid, it: true }) : ""));
+  };
+  const investi = (x, y, w) => boite("investi", x, y, w, 64, tete(x, y, "Trop investi·e ?") + lignes(x, y + 48, w, d.investi?.rows));
+  const recul = (x, y, w) => boite("recul", x, y, w, 100, tete(x, y, "Ton recul face à l'absurde", "ta réaction · interlude") + lignes(x, y + 62, w, d.recul?.rows));
+  const appuis = (x, y, w) => boite("appuis", x, y, w, 120, tete(x, y, "Tes appuis", "ce qui te tient · ch. 5") + lignes(x, y + 62, w, d.appuis?.rows)
+    + (d.appuis?.cote ? `<rect x="${x + 10}" y="${y + 76}" width="${w - 20}" height="32" rx="8" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-dasharray="4 4"/>${T(x + 20, y + 96, d.appuis.cote, { size: 11.5, w: 500, c: C.muted })}` : ""), C.appui);
+  const absurde = (x, y, w) => boite("absurde", x, y, w, 100, tete(x, y, "L'absurde", "du travail pour rien · interlude") + pipeau(x + w - 70, y + 22) + pastilles(x + w - 86, y + 28, [5]) + lignes(x, y + 64, w, d.absurde?.rows));
+  const relation = (x, y, w) => boite("relation", x, y, w, 190, tete(x, y, "Ta relation au travail", "Maslach · ch. 2")
+    + `${M(x + w - 92, y + 32)}${vu("relation") ? T(x + w - 10, y + 36, "= Maslach", { a: "end", size: 11, w: 700, c: C.mid }) : ""}`
+    + (d.relation || []).map((b, i) => `${b.m ? M(x + 20, y + 64 + i * 44) : ""}${barre(x + 34, y + 68 + i * 44, w - 46, b)}`).join(""));
+  const corps = (x, y, w) => boite("corps", x, y, w, 110, tete(x, y, "Ton corps", "ce que la fatigue abîme · ch. 1") + lignes(x, y + 60, w, d.corps?.rows, 22));
+  const vie = (x, y, w) => boite("vie", x, y, w, 90, tete(x, y, "Ta vie hors travail", "ce que tu sacrifies · ch. 5") + lignes(x, y + 60, w, d.vie?.rows, 22));
+  const t = d.temps || {};
+  const AGIR = [["AGIR ICI", "retirer · reporter · simplifier"], ["PRENDRE SOIN", "repos, appuis, sans tout porter seul"], ["SUIVRE", "pour voir si ça bouge, pas pour juger"]];
+  const PORTES = [["POUR LE TRAVAIL", "manager · RH · CSE"], ["POUR TOI", "médecin traitant · psy"], ["ENTRE LES DEUX", "médecin du travail"]];
+
   let s = "", H;
   if (!etroit) {
-    const W = 760, w = 214, L = 12, M = 273, R = 534, top = 104;
-    // Où agir (chapitre 7) : au-dessus des colonnes.
-    if (vu("leviers")) {
-      s += g("leviers", `${halo("leviers", 12, 8, W - 24, 46)}<rect x="12" y="8" width="${W - 24}" height="46" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-        <rect x="${L}" y="8" width="${w}" height="46" rx="12" fill="${C.mid}"/>${T(L + w / 2, 27, "AGIR ICI", { a: "middle", titre: true, w: 800, size: 12, c: "#fff" })}${T(L + w / 2, 44, "retirer · reporter · simplifier", { a: "middle", size: 12, w: 600, c: C.anis })}
-        ${T(M + w / 2, 27, "PRENDRE SOIN", { a: "middle", titre: true, w: 800, size: 12, c: C.sapin })}${T(M + w / 2, 44, "sans tout porter seul", { a: "middle", size: 12, w: 500, c: C.muted })}
-        ${T(R + w / 2, 27, "MESURER ICI", { a: "middle", titre: true, w: 800, size: 12, c: C.sapin })}${T(R + w / 2, 44, "pour suivre, pas pour juger", { a: "middle", size: 12, w: 500, c: C.muted })}`);
-    } else s += attente(12, 8, W - 24, 46, "Où agir");
-    // Les trois zones.
-    s += T(L, 80, "TON TRAVAIL", { titre: true, w: 800, size: 12, c: C.ink }) + T(L, 95, "ce qui pèse, ce qui aide", { size: 11.5, w: 500, c: C.muted })
-      + T(M + w / 2, 80, "TOI", { a: "middle", titre: true, w: 800, size: 12, c: C.ink }) + T(M + w / 2, 95, "comment tu récupères", { a: "middle", size: 11.5, w: 500, c: C.muted })
-      + T(R + w, 80, "CE QUI SE VOIT", { a: "end", titre: true, w: 800, size: 12, c: C.ink }) + T(R + w, 95, "les signes d'usure", { a: "end", size: 11.5, w: 500, c: C.muted });
-    const yB = top, hB = 104, yRt = top + 116, hRt = 104, yX = top + 232, hX = 92;
-    const yRc = top, hRc = 136, yE = top + 148, hE = 64, yA = top + 224, hA = 100;
-    const yS = top, hS = 172, yC = top + 184, hC = 140;
-    // Les fils (chapitre 6) : sous les boîtes.
-    if (vu("fils")) {
-      const n = (rows) => nMax(rows);
-      const cible = (k) => yRc + 30 + k * 24;
-      s += g("fils", `${fil(L + w, yB + hB / 2, M, cible(0), n(d.balance.rows), C.orange)}${fil(L + w, yRt + hRt / 2, M, cible(1), n(d.retour.rows), C.orange)}${fil(L + w, yX + hX / 2, M, cible(3), n(d.absurde.rows), C.orange)}
-        ${fil(M + w, yRc + 50, R, yS + hS / 2, Math.max(nRecup, n(d.signes)), C.orange)}${fil(M + w, yRc + 100, R, yC + hC / 2, Math.max(nRecup, n(d.corps.rows)), C.orange)}
-        ${fil(M + w / 2, yE, M + w / 2, yRc + hRc, n(d.engagement.rows), C.orange, true)}
-        <path d="M${M + 30} ${yA} V${yRc + hRc}" stroke="${C.mid}" stroke-width="4" opacity=".9"/>`);
+    const W = 900, w = 272, X = [18, 314, 610];
+    let top = 14;
+    if (jauges) {
+      if (vu("jauges")) {
+        s += g("jauges", X.map((x, i) => `${halo("jauges", x, top, w, 128)}${cadre(x, top, w, 128)}${jauge(x + w / 2, top + 58, 42, (d.jauges || [])[i], JAUGES[i][0])}`).join("")
+          + [0, 1].map((i) => `<path d="M${X[i] + w + 6} ${top + 64} H${X[i + 1] - 6}" stroke="${C.sapin}" stroke-width="2.5" opacity=".45"/><path d="M${X[i + 1] - 14} ${top + 58} L${X[i + 1] - 6} ${top + 64} L${X[i + 1] - 14} ${top + 70}" fill="none" stroke="${C.sapin}" stroke-width="2.5" opacity=".45" stroke-linecap="round"/>`).join(""));
+      } else s += X.map((x, i) => attente(x, top, w, 128, i === 1 ? "Les trois jauges" : "")).join("");
+      top += 152;
     }
-    s += g("work", boite("balance", L, yB, w, hB, "La balance", "exigences-ressources · ch. 3", d.balance.rows)
-      + boite("retour", L, yRt, w, hRt, "Le retour", "effort-récompense · ch. 4", d.retour.rows)
-      + boite("absurde", L, yX, w, hX, "L'absurde", "bullshitomètre · hors score", d.absurde.rows, { hors: true, y0: 56 }));
-    s += g("person", boite("recup", M, yRc, w, hRc, "Ta récupération", "effort-récupération · ch. 1", d.recup.rows, { y0: 82, extra: recupExtra(M, yRc, w) })
-      + boite("engagement", M, yE, w, hE, "Ton engagement", "surengagement · ch. 4", d.engagement.rows, { y0: 54 }));
-    s += g("support", boite("autour", M, yA, w, hA, "Autour de toi", "appuis et vie perso · ch. 5", d.autour.rows, { hors: true, fond: C.appui, y0: 62 }));
-    s += g("manifest", (vu("signes") ? `<g>${halo("signes", R, yS, w, hS)}<rect x="${R}" y="${yS}" width="${w}" height="${hS}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(R + 12, yS + 21, "Les trois signes", { titre: true, w: 800, size: 14.5 })}${T(R + 12, yS + 37, "Maslach · ch. 2", { size: 11.5, w: 500, op: .78 })}${barres(R, yS + 60, w, d.signes)}</g>` : attente(R, yS, w, hS, "Les trois signes"))
-      + boite("corps", R, yC, w, hC, "Le corps", "ce que la fatigue abîme · ch. 1", d.corps.rows, { y0: 62 }));
-    if (etat("fils") === "ici") s += T(W / 2, top + 340, "Les fils : des liens à vérifier avec ta chronologie, pas des causes prouvées.", { a: "middle", size: 12, w: 700, c: C.ink, it: true });
+    s += X.map((x, i) => T(x + 4, top, JAUGES[i][1], { titre: true, w: 800, size: 12, c: C.ink }) + T(x + 4, top + 15, JAUGES[i][2], { size: 11.5, w: 500, c: C.muted })).join("");
+    const y0 = top + 26;
+    s += g("work", pesee("pesee1", X[0], y0, w, "Ton travail t'aide-t-il assez ?", "exigences-ressources · ch. 3", d.pesee1, "aide = marge, manager, collègues, clarté", { g: [1, 2], d: [3, 4] })
+      + pesee("pesee2", X[0], y0 + 202, w, "Ce que tu donnes est-il payé ?", "effort-récompense · ch. 4", d.pesee2, "reçois = estime, équité, salaire, avenir", { d: [6] })
+      + absurde(X[0], y0 + 404, w));
+    s += g("person", fatigue(X[1], y0, w) + investi(X[1], y0 + 200, w) + recul(X[1], y0 + 274, w));
+    s += g("support", appuis(X[1], y0 + 384, w));
+    s += g("manifest", relation(X[2], y0, w) + corps(X[2], y0 + 200, w) + vie(X[2], y0 + 320, w));
+    // Où agir (chapitre 7) : sous chaque zone.
+    const yA = y0 + 520;
+    s += vu("leviers") ? g("leviers", X.map((x, i) => `${halo("leviers", x, yA, w, 48)}<rect x="${x}" y="${yA}" width="${w}" height="48" rx="12" fill="${i === 0 ? C.mid : C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(x + w / 2, yA + 20, AGIR[i][0], { a: "middle", titre: true, w: 800, size: 12, c: i === 0 ? "#fff" : C.sapin })}${T(x + w / 2, yA + 38, AGIR[i][1], { a: "middle", size: 11.5, w: 600, c: i === 0 ? C.anis : C.muted })}`).join(""))
+      : X.map((x, i) => attente(x, yA, w, 48, i === 1 ? "Où agir" : "")).join("");
     // Depuis quand (chapitre 8).
-    const yT = top + 352;
+    const yT = yA + 62, Wt = W - 36;
     if (vu("temps")) {
-      const t = d.temps || {};
       const c3 = [["DEPUIS", t.duree], ["ÉVOLUTION", t.evolution], ["EN CONGÉ", t.conge]];
-      s += g("temps", `${halo("temps", 12, yT, W - 24, 56)}<rect x="12" y="${yT}" width="${W - 24}" height="56" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-        <path d="M24 ${yT + 44} H${W - 30}" stroke="${C.sapin}" stroke-opacity=".3" stroke-width="2"/><path d="M${W - 36} ${yT + 39} L${W - 28} ${yT + 44} L${W - 36} ${yT + 49}" fill="none" stroke="${C.sapin}" stroke-opacity=".4" stroke-width="2"/>
-        ${T(24, yT + 21, "Depuis quand ?", { titre: true, w: 800, size: 14 })}
-        ${c3.map(([k, v], i) => `${T(190 + i * 190, yT + 19, k, { size: 10.5, w: 800, c: C.ink })}${T(190 + i * 190, yT + 35, v || "—", { size: 12.5, w: 600 })}`).join("")}`);
-    } else s += attente(12, yT, W - 24, 56, "Depuis quand ?");
+      s += g("temps", `${halo("temps", 18, yT, Wt, 56)}${cadre(18, yT, Wt, 56)}<path d="M30 ${yT + 46} H${W - 36}" stroke="${C.sapin}" stroke-opacity=".3" stroke-width="2"/><path d="M${W - 42} ${yT + 41} L${W - 34} ${yT + 46} L${W - 42} ${yT + 51}" fill="none" stroke="${C.sapin}" stroke-opacity=".4" stroke-width="2"/>
+        ${T(32, yT + 24, "Depuis quand ?", { titre: true, w: 800, size: 14 })}${c3.map(([k, v], i) => `${T(250 + i * 210, yT + 20, k, { size: 10.5, w: 800, c: C.ink })}${T(250 + i * 210, yT + 36, v || "—", { size: 12.5, w: 600 })}`).join("")}`);
+    } else s += attente(18, yT, Wt, 56, "Depuis quand ?");
     // Les portes et la sécurité (chapitre 9).
     const yP = yT + 70;
     if (vu("portes")) {
-      const porte = (x, k, v) => `${T(x + 12, yP + 20, k, { size: 10.5, w: 800, c: C.ink })}${T(x + 12, yP + 37, v, { size: 12.5, w: 600 })}`;
-      s += g("portes", `${halo("portes", 12, yP, W - 24, 92)}<rect x="12" y="${yP}" width="${W - 24}" height="92" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-        ${porte(L, "POUR LE TRAVAIL", "manager · RH · CSE")}${porte(M, "POUR TOI", "médecin traitant · psy")}${porte(R, "ENTRE LES DEUX", "médecin du travail")}
-        ${securite(24, yP + 48, W - 48)}`);
-    } else s += attente(12, yP, W - 24, 92, "Les portes");
+      s += g("portes", `${halo("portes", 18, yP, Wt, 92)}${cadre(18, yP, Wt, 92)}${X.map((x, i) => `${T(x + 12, yP + 20, PORTES[i][0], { size: 10.5, w: 800, c: C.ink })}${T(x + 12, yP + 37, PORTES[i][1], { size: 12.5, w: 600 })}`).join("")}${securite(30, yP + 48, Wt - 24)}`);
+    } else s += attente(18, yP, Wt, 92, "Les portes");
     const yL = yP + 120;
-    s += legende(L, yL, 186);
+    s += NIVC.map((c, i) => `<circle cx="${26 + i * 190}" cy="${yL - 4}" r="6" fill="${c}"/>${T(38 + i * 190, yL, i === 0 ? "ça va, ça protège" : NIVMOTS[i], { size: 12.5, w: 600 })}`).join("")
+      + T(W - 18, yL, "la couleur dit l'effet pour toi", { a: "end", size: 11.5, w: 500, c: C.muted, it: true });
     H = yL + 14;
     return `<svg class="${classe} large" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(titre || label(chapitre))}">${s}</svg>`;
   }
-  // Téléphone : une colonne, dans le même ordre que l'histoire (ton travail, puis toi, puis ce qui se voit).
+  // Téléphone : une colonne, dans le même ordre (les jauges, puis le travail, toi, l'impact).
   const W = 380, x = 10, w = W - 20;
   let y = 8;
   const pile = [];
   const pose = (h, f) => { pile.push(f(y)); y += h + 12; };
-  pose(46, (yy) => vu("leviers") ? g("leviers", `${halo("leviers", x, yy, w, 46)}<rect x="${x}" y="${yy}" width="${w}" height="46" rx="12" fill="${C.mid}"/>${T(W / 2, yy + 20, "AGIR SUR LE TRAVAIL", { a: "middle", titre: true, w: 800, size: 12, c: "#fff" })}${T(W / 2, yy + 37, "retirer · reporter · simplifier", { a: "middle", size: 12, w: 600, c: C.anis })}`) : attente(x, yy, w, 46, "Où agir"));
-  pile.push(T(x, y + 6, "TON TRAVAIL · ce qui pèse, ce qui aide", { titre: true, w: 800, size: 12, c: C.ink })); y += 16;
-  pose(104, (yy) => g("work", boite("balance", x, yy, w, 104, "La balance", "exigences-ressources · ch. 3", d.balance.rows)));
-  pose(104, (yy) => g("work", boite("retour", x, yy, w, 104, "Le retour", "effort-récompense · ch. 4", d.retour.rows)));
-  pose(92, (yy) => g("work", boite("absurde", x, yy, w, 92, "L'absurde", "bullshitomètre · hors score", d.absurde.rows, { hors: true, y0: 56 })));
-  if (vu("fils")) { pile.push(g("fils", fil(W / 2, y - 12, W / 2, y + 14, Math.max(nMax(d.balance.rows), nMax(d.retour.rows)), C.orange, true))); }
-  y += 14;
-  pile.push(T(x, y + 6, "TOI · comment tu récupères", { titre: true, w: 800, size: 12, c: C.ink })); y += 16;
-  pose(136, (yy) => g("person", boite("recup", x, yy, w, 136, "Ta récupération", "effort-récupération · ch. 1", d.recup.rows, { y0: 82, extra: recupExtra(x, yy, w) })));
-  pose(64, (yy) => g("person", boite("engagement", x, yy, w, 64, "Ton engagement", "surengagement · ch. 4", d.engagement.rows, { y0: 54 })));
-  pose(100, (yy) => g("support", boite("autour", x, yy, w, 100, "Autour de toi", "appuis et vie perso · ch. 5", d.autour.rows, { hors: true, fond: C.appui, y0: 62 })));
-  if (vu("fils")) { pile.push(g("fils", fil(W / 2, y - 12, W / 2, y + 14, Math.max(nRecup, nMax(d.signes)), C.orange, true))); }
-  y += 14;
-  pile.push(T(x, y + 6, "CE QUI SE VOIT · les signes d'usure", { titre: true, w: 800, size: 12, c: C.ink })); y += 16;
-  pose(172, (yy) => g("manifest", vu("signes") ? `<g>${halo("signes", x, yy, w, 172)}<rect x="${x}" y="${yy}" width="${w}" height="172" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(x + 12, yy + 21, "Les trois signes", { titre: true, w: 800, size: 14.5 })}${T(x + 12, yy + 37, "Maslach · ch. 2", { size: 11.5, w: 500, op: .78 })}${barres(x, yy + 60, w, d.signes)}</g>` : attente(x, yy, w, 172, "Les trois signes")));
-  pose(140, (yy) => g("manifest", boite("corps", x, yy, w, 140, "Le corps", "ce que la fatigue abîme · ch. 1", d.corps.rows, { y0: 62 })));
-  if (etat("fils") === "ici") { pile.push(T(W / 2, y + 4, "Les fils : des liens à vérifier, pas des causes.", { a: "middle", size: 12, w: 700, c: C.ink, it: true })); y += 18; }
-  const t = d.temps || {};
-  pose(92, (yy) => vu("temps") ? g("temps", `${halo("temps", x, yy, w, 92)}<rect x="${x}" y="${yy}" width="${w}" height="92" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(x + 12, yy + 21, "Depuis quand ?", { titre: true, w: 800, size: 14 })}${[["Depuis", t.duree], ["Évolution", t.evolution], ["En congé", t.conge]].map(([k, v], i) => `${T(x + 12, yy + 44 + i * 18, k, { size: 12, w: 700, c: C.ink })}${T(x + 110, yy + 44 + i * 18, v || "—", { size: 12.5, w: 600 })}`).join("")}`) : attente(x, yy, w, 92, "Depuis quand ?"));
-  pose(130, (yy) => vu("portes") ? g("portes", `${halo("portes", x, yy, w, 130)}<rect x="${x}" y="${yy}" width="${w}" height="130" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(x + 12, yy + 21, "Les portes", { titre: true, w: 800, size: 14 })}${[["Travail", "manager · RH · CSE"], ["Toi", "médecin traitant · psy"], ["Les deux", "médecin du travail"]].map(([k, v], i) => `${T(x + 12, yy + 44 + i * 18, k, { size: 12, w: 700, c: C.ink })}${T(x + 90, yy + 44 + i * 18, v, { size: 12.5, w: 600 })}`).join("")}${securite(x + 8, yy + 88, w - 16).replace(/Sécurité, toujours à part : /, "Sécurité : ").replace(/ \(idées suicidaires\)/, "")}`) : attente(x, yy, w, 130, "Les portes"));
+  if (jauges) {
+    pose(116, (yy) => (vu("jauges") ? g("jauges", `${halo("jauges", x, yy, w, 116)}${cadre(x, yy, w, 116)}${[0, 1, 2].map((i) => jauge(x + 60 + i * 120, yy + 46, 30, (d.jauges || [])[i], JAUGES[i][0]).replace(/<text[^>]*font-size="11"[^>]*>[^<]*<\/text>/, "")).join("")}`) : attente(x, yy, w, 116, "Les trois jauges")));
+  }
+  const titreZone = (i) => { pile.push(T(x, y + 6, JAUGES[i][1], { titre: true, w: 800, size: 12, c: C.ink }) + T(x, y + 21, JAUGES[i][2], { size: 11.5, w: 500, c: C.muted })); y += 32; };
+  titreZone(0);
+  pose(192, (yy) => g("work", pesee("pesee1", x, yy, w, "Ton travail t'aide-t-il assez ?", "exigences-ressources · ch. 3", d.pesee1, "aide = marge, manager, collègues, clarté", { g: [1, 2], d: [3, 4] })));
+  pose(192, (yy) => g("work", pesee("pesee2", x, yy, w, "Ce que tu donnes est-il payé ?", "effort-récompense · ch. 4", d.pesee2, "reçois = estime, équité, salaire, avenir", { d: [6] })));
+  pose(100, (yy) => g("work", absurde(x, yy, w)));
+  titreZone(1);
+  pose(190, (yy) => g("person", fatigue(x, yy, w)));
+  pose(64, (yy) => g("person", investi(x, yy, w)));
+  pose(100, (yy) => g("person", recul(x, yy, w)));
+  pose(120, (yy) => g("support", appuis(x, yy, w)));
+  titreZone(2);
+  pose(190, (yy) => g("manifest", relation(x, yy, w)));
+  pose(110, (yy) => g("manifest", corps(x, yy, w)));
+  pose(90, (yy) => g("manifest", vie(x, yy, w)));
+  pose(92, (yy) => (vu("leviers") ? g("leviers", `${halo("leviers", x, yy, w, 92)}${cadre(x, yy, w, 92)}${T(x + 12, yy + 21, "Où agir", { titre: true, w: 800, size: 14 })}${AGIR.map(([k, v], i) => `${T(x + 12, yy + 44 + i * 18, k, { size: 11.5, w: 800, c: C.ink })}${T(x + 120, yy + 44 + i * 18, v, { size: 12, w: 600 })}`).join("")}`) : attente(x, yy, w, 92, "Où agir")));
+  pose(92, (yy) => (vu("temps") ? g("temps", `${halo("temps", x, yy, w, 92)}${cadre(x, yy, w, 92)}${T(x + 12, yy + 21, "Depuis quand ?", { titre: true, w: 800, size: 14 })}${[["Depuis", t.duree], ["Évolution", t.evolution], ["En congé", t.conge]].map(([k, v], i) => `${T(x + 12, yy + 44 + i * 18, k, { size: 12, w: 700, c: C.ink })}${T(x + 110, yy + 44 + i * 18, v || "—", { size: 12.5, w: 600 })}`).join("")}`) : attente(x, yy, w, 92, "Depuis quand ?")));
+  pose(130, (yy) => (vu("portes") ? g("portes", `${halo("portes", x, yy, w, 130)}${cadre(x, yy, w, 130)}${T(x + 12, yy + 21, "Les portes", { titre: true, w: 800, size: 14 })}${[["Travail", "manager · RH · CSE"], ["Toi", "médecin traitant · psy"], ["Les deux", "médecin du travail"]].map(([k, v], i) => `${T(x + 12, yy + 44 + i * 18, k, { size: 12, w: 700, c: C.ink })}${T(x + 90, yy + 44 + i * 18, v, { size: 12.5, w: 600 })}`).join("")}${securite(x + 8, yy + 88, w - 16).replace(/Sécurité, toujours à part : /, "Sécurité : ").replace(/ \(idées suicidaires\)/, "")}`) : attente(x, yy, w, 130, "Les portes")));
   pile.push(NIVC.map((c, i) => `<circle cx="${x + 8 + (i % 2) * 180}" cy="${y + 2 + Math.floor(i / 2) * 20}" r="6" fill="${c}"/>${T(x + 20 + (i % 2) * 180, y + 6 + Math.floor(i / 2) * 20, i === 0 ? "ça va, ça protège" : NIVMOTS[i], { size: 12.5, w: 600 })}`).join(""));
   H = y + 34;
   return `<svg class="${classe} etroit" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(titre || label(chapitre))}">${pile.join("")}</svg>`;
@@ -192,7 +232,7 @@ export function schema({ d = SAM, chapitre = PIECES.length, etroit = false, titr
 function label(chapitre) {
   if (chapitre < 0) return "Le schéma de ton rapport, encore vide : chaque chapitre y ajoutera une pièce.";
   const n = Math.min(chapitre + 1, PIECES.length);
-  return n >= PIECES.length ? "Le schéma complet, avec l'exemple fictif de Sam : ton travail, toi, ce qui se voit, depuis quand, où agir et à qui en parler."
+  return n >= PIECES.length ? "Le schéma complet, avec l'exemple fictif de Sam : trois jauges, puis le travail, toi et l'impact dans ta vie, où agir, depuis quand et à qui en parler."
     : `Le schéma de ton rapport, avec l'exemple fictif de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES.length}.`;
 }
 

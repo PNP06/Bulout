@@ -138,19 +138,23 @@ for (const value of [0, 1, 2, 3, 4]) {
   test("le rapport se compose avec toutes les réponses à " + value, () => {
     const html = composer(fixture(value));
     // Mêmes trois zones partout (accueil, formation, rapport), sans lettres de questionnaire dans le schéma.
-    assert.match(html, /TON TRAVAIL/);
-    assert.match(html, /CE QUI SE VOIT/);
-    assert.match(html, />Ta récupération</);
+    assert.match(html, /LE TRAVAIL/);
+    assert.match(html, /L&#39;IMPACT DANS TA VIE|L'IMPACT DANS TA VIE/);
+    assert.match(html, />Ta fatigue</);
     assert.match(html, />Depuis quand \?</);
     assert.match(html, />L&#39;absurde<|>L'absurde</);
-    assert.match(html, /Toi · ta récupération<\/p>/);
-    // Une réponse n'est dessinée qu'à un seul endroit : l'épuisement est un des trois signes, pas une colonne du centre.
+    assert.match(html, /Ton travail t&#39;aide-t-il assez \?|Ton travail t'aide-t-il assez \?/);
+    // Les trois cadrans du rapport sont les trois jauges : ton travail, ta fatigue, les impacts.
+    assert.match(html, /<p class="k">Ton travail<\/p>/);
+    assert.match(html, /<p class="k">Ta fatigue<\/p>/);
+    assert.match(html, /<p class="k">Les impacts<\/p>/);
+    // Une réponse n'est dessinée qu'à un seul endroit ; plus de fils entre les colonnes.
     const large = html.match(/<svg class="rp-ensemble large"[\s\S]*?<\/svg>/)[0];
     assert.equal((large.match(/>Épuisement</g) || []).length, 1);
-    assert.equal((large.match(/>Sommeil</g) || []).length, 1);
-    assert.doesNotMatch(large, />Ta fatigue<|undefined|NaN/);
-    assert.doesNotMatch(html, /Ce qui tire|Ce qui lâche|Deux repères déclarés|Épuisement \(A\)/);
-    assert.match(html, /Les fils rapprochent des thèmes/);
+    assert.equal((large.match(/>Sommeil perturbé</g) || []).length, 1);
+    assert.doesNotMatch(large, />Le retour<|>Ce qui se voit<|undefined|NaN/);
+    assert.doesNotMatch(html, /Ce qui tire|Ce qui lâche|Deux repères déclarés|Épuisement \(A\)|Les fils rapprochent/);
+    assert.match(html, /L'ordre des colonnes n'est pas une preuve/);
     assert.doesNotMatch(html, /≈\s*\d+\s*% de charge/i);
     assert.doesNotMatch(html, /Batterie à environ\s*\d+\s*%/);
     assert.doesNotMatch(html, /Le total, pour comparer dans le temps/);
@@ -909,10 +913,10 @@ test("la synthèse ouvre sur le feu et les trois cadrans, puis le schéma, et re
   const html = pageDuRapport(composer(fixture(3)), "synthese");
   const tete = html.indexOf('class="rp-tete"'), vue = html.indexOf('class="rp-vue"'), suite = html.indexOf('class="rp-syn-priorites"'), detail = html.indexOf('class="rp-syn-detail"'), modeles = html.indexOf('class="rp-modeles-lus"');
   assert.ok(tete > 0 && vue > tete && suite > vue && detail > suite && modeles > detail, "ordre attendu : feu et cadrans, schéma, par quoi commencer, puis le détail replié");
-  assert.match(html, /Effort-récupération · au centre/);
-  assert.match(html, /Maslach · ce qui se voit/);
-  assert.match(html, /Exigences-ressources · la balance/);
-  assert.match(html, /Effort-récompense · le retour/);
+  assert.match(html, /Effort-récupération · ta fatigue/);
+  assert.match(html, /Maslach · les pastilles M/);
+  assert.match(html, /Exigences-ressources · la première pesée/);
+  assert.match(html, /Effort-récompense · la seconde pesée/);
   assert.match(html, /quatre angles, pas quatre preuves/);
 });
 
@@ -931,15 +935,16 @@ test("chaque chapitre pose sa pièce et sa règle, comme le papillon de Papillon
   assert.equal(halos(vide), 0);
   assert.match(vide, /encore vide/);
   assert.match(vide, /Depuis quand \?/);
-  // Chapitre 3 : la balance seule est nouvelle ; le retour reste en attente.
+  // Chapitre 3 : la première pesée seule est nouvelle ; la seconde reste en attente.
   const ch3 = schema({ chapitre: 2 });
   assert.equal(halos(ch3), 1);
-  assert.match(ch3, /La balance/);
-  assert.doesNotMatch(ch3, /Reconnaissance/);
-  // Chapitre 4 : Siegrist en deux moitiés (le retour, ton engagement) et l'absurde.
-  assert.equal(halos(schema({ chapitre: 3 })), 3);
-  // Chapitre 6 : les fils disent « pas des causes ».
-  assert.match(schema({ chapitre: 5 }), /des liens à vérifier avec ta chronologie, pas des causes/);
+  assert.match(ch3, /Ton travail t('|&#39;)aide-t-il assez/);
+  assert.doesNotMatch(ch3, /Tu reçois/);
+  // Chapitre 4 : Siegrist en deux moitiés (la pesée donner/recevoir, trop investi·e ?), l'absurde et ton recul.
+  assert.equal(halos(schema({ chapitre: 3 })), 4);
+  // Chapitre 6 : les trois jauges.
+  assert.match(schema({ chapitre: 5 }), /Les impacts/);
+  assert.doesNotMatch(schema({ chapitre: 4 }), />Les impacts</);
   // Schéma complet : tout est posé, rien n'est surligné, la sécurité reste à part.
   const complet = schema();
   assert.equal(halos(complet), 0);

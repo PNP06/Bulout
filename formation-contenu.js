@@ -126,7 +126,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "Ta récupération et le corps", texte: "Au centre de ton rapport, la question de ce chapitre : le repos te rend-il ce que le travail te prend ? Décrocher, dormir, garder tes loisirs et tes liens. À droite, ce que la fatigue abîme quand elle dure : symptômes, compensations, erreurs.", rapport: "le cadran « Toi », la pièce « Ta récupération » et la pièce « Le corps »." },
+    piece: { nom: "Ta fatigue et ton corps", texte: "Au centre de ton rapport, la question de ce chapitre : le repos te rend-il ce que le travail te prend ? L’épuisement, décrocher le soir, dormir, et ce que change un congé. À droite, ce que la fatigue abîme quand elle dure : symptômes, erreurs, ce qu’on prend pour tenir.", rapport: "la jauge « Ta fatigue », la case « Ta fatigue » et la case « Ton corps »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
@@ -217,7 +217,7 @@ export const chapitres = [
       ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Repérer un signe ne t’oblige à rien. Mais un cynisme qui s’installe ou des erreurs inhabituelles sont des informations, pas des défauts à cacher.",
-    piece: { nom: "Les trois signes", texte: "Ton rapport regarde séparément l’épuisement, la distance et la perte d’efficacité, avec le sens à part, pour ne pas réduire l’usure à la fatigue.", rapport: "la pièce « Les trois signes » et les dimensions « Épuisement », « Distance mentale » et « Perte d’efficacité et de sens »." },
+    piece: { nom: "Ta relation au travail", texte: "Ton rapport regarde séparément les trois signes de Maslach, marqués M : l’épuisement, déjà dans ta fatigue, puis la distance et la perte d’efficacité, avec le sens à part. Pour ne pas réduire l’usure à la fatigue.", rapport: "la case « Ta relation au travail », les pastilles M et les dimensions « Épuisement », « Distance mentale » et « Perte d’efficacité et de sens »." },
     suite: "Ces trois signes décrivent ce que tu vis. Ils ne disent pas ce qui, dans le travail, les produit. C’est le rôle du chapitre suivant.",
   },
 
@@ -312,7 +312,7 @@ export const chapitres = [
       ["INRS · les facteurs de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Dire que le travail pèse n’accuse personne. C’est décrire une situation qu’on peut modifier, et c’est plutôt une bonne nouvelle.",
-    piece: { nom: "La balance", texte: "Ton rapport pose tes réponses sur les deux plateaux : ce que ton travail demande, ce qui t’aide à le faire.", rapport: "la pièce « La balance » et les dimensions « Exigences » et « Manque de ressources »." },
+    piece: { nom: "Ton travail t’aide-t-il assez ?", texte: "Ton rapport pose tes réponses sur une pesée : d’un côté ce qu’on te demande, de l’autre ce qui t’aide (marge, manager, collègues, clarté). Une phrase dit de quel côté ça penche.", rapport: "la première pesée du schéma et les dimensions « Exigences » et « Manque de ressources »." },
     suite: "Il reste une question que la balance ne pose pas : qu’est-ce que tu reçois en retour de tout cet effort ?",
   },
 
@@ -401,7 +401,7 @@ export const chapitres = [
       ["INRS · manque de reconnaissance et risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Aimer son travail ne protège pas de l’usure. Ce n’est pas un défaut d’en faire beaucoup : c’est une information sur ce que le poste demande vraiment.",
-    piece: { nom: "Le retour, ton engagement et l’absurde", texte: "Ton rapport regarde ce que tu reçois en échange de ton effort (reconnaissance, salaire, perspectives), ta façon de t’engager (dire non, vouloir prouver), et l’effort pour rien : les tâches absurdes du bullshitomètre et la qualité empêchée.", rapport: "les pièces « Le retour », « Ton engagement » et « L’absurde », et la page du bullshitomètre." },
+    piece: { nom: "Ce que tu donnes est-il payé ?", texte: "Ton rapport pèse ce que tu donnes contre ce que tu reçois (estime, équité, salaire, avenir), regarde si tu es trop investi·e (dire non, vouloir prouver), et pose l’absurde : les tâches qui ne servent à rien et la qualité empêchée. Au centre, ton recul face à l’absurde.", rapport: "la seconde pesée, les cases « Trop investi·e ? », « L’absurde » et « Ton recul face à l’absurde », et la page du bullshitomètre." },
     suite: "Et si, en plus, Sam traverse quelque chose de lourd dans sa vie personnelle ? Est-ce que ça change tout ? C’est le piège du chapitre suivant.",
   },
 
@@ -487,7 +487,7 @@ export const chapitres = [
       ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
     ],
     nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
-    piece: { nom: "Autour de toi", texte: "Ton rapport note tes appuis (ce qui t’aide hors du travail) et ce qui pèse dans ta vie perso. Les deux changent la lecture, jamais le score : ils sont en pointillés, sous toi, pas sur le chemin entre ton travail et ce qui se voit.", rapport: "la pièce « Autour de toi », les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
+    piece: { nom: "Tes appuis et ta vie hors travail", texte: "Ton rapport note ce qui te tient (tes appuis), ce que tu portes à côté (une vie perso lourde, en pointillés) et ce que le travail te fait sacrifier (loisirs, liens). Ce qui est perso change la lecture, jamais le score.", rapport: "les cases « Tes appuis » et « Ta vie hors travail », les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
     suite: "Et si un test sanguin pouvait trancher ? Le chapitre suivant regarde ce que valent les mesures, cortisol compris.",
   },
 
@@ -570,7 +570,7 @@ export const chapitres = [
       ["Endocrine Society · la « fatigue surrénalienne » n’est pas un diagnostic", "https://www.endocrine.org/patient-engagement/endocrine-library/adrenal-fatigue"],
     ],
     nechange: "Qu’aucun test sanguin ne voie ton usure ne veut pas dire qu’elle n’existe pas. Elle se lit dans ce que tu vis et dans ton travail : c’est là que Bull-Out regarde.",
-    piece: { nom: "Les fils", texte: "Ton rapport relie les zones par des fils, plus épais quand tes réponses sont hautes. Ce sont des liens à vérifier avec ta chronologie, jamais des causes. Chaque dimension se lit une par une, sans total.", rapport: "les fils du schéma, et les scores par dimension avec la façon de les lire." },
+    piece: { nom: "Les trois jauges", texte: "Ton rapport résume chaque colonne par une jauge : ton travail, ta fatigue, les impacts. Un mot, pas un pourcentage ; une tendance, pas un diagnostic. Chaque dimension se lit ensuite une par une, sans total.", rapport: "les trois jauges en tête du rapport, et les scores par dimension avec la façon de les lire." },
     suite: "Comprendre ne suffit pas. Le dernier temps de la formation passe à l’action : que peut-on changer, et qui peut le faire ?",
   },
 
@@ -671,7 +671,7 @@ export const chapitres = [
       ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
     ],
     nechange: "Agir sur le travail ne veut pas dire que tout dépend de toi. Si tu n’as pas la main, ta part est de dire clairement ce qui ne tient pas, et à qui.",
-    piece: { nom: "Où agir", texte: "Ton rapport montre où agir : à gauche, sur le travail (retirer, reporter, simplifier). Il propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "la bande « Où agir » du schéma, les trois cadrans, et le plan." },
+    piece: { nom: "Où agir", texte: "Ton rapport montre où agir, sous chaque colonne : sur le travail d’abord (retirer, reporter, simplifier), prendre soin de toi sans tout porter seul, suivre l’impact pour voir si ça bouge. Il propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "la bande « Où agir » du schéma et le plan." },
     suite: "Agir sur le travail, c’est aussi ce que la loi attend. Que dit-elle exactement, et comment se protéger ? C’est le chapitre suivant.",
   },
 
