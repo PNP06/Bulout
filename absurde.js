@@ -14,10 +14,12 @@
   const VERSION_BS = "2026-11-bs-v3";
   // Mêmes mots et mêmes 4 crans que les autres familles de la jauge.
   const MOTS = ["ça va", "à surveiller", "ça use", "ça use beaucoup"];
+  // Dans le schéma, la fréquence tient dans la case ; le mot de la jauge reste dans le rapport.
+  const FREQ = ["rarement", "parfois", "souvent", "très souvent"];
   const cran = (pc) => (pc < 25 ? 0 : pc < 50 ? 1 : pc < 75 ? 2 : 3);
   const LIBELLES = {
-    meeting: "Réunions sans décision",
-    dashboard: "Indicateurs sans usage",
+    meeting: "Réunions sans suite",
+    dashboard: "Chiffres sans usage",
     ghost: "Travail sans lecteur",
     notmine: "Pas ton boulot"
   };
@@ -35,7 +37,7 @@
       .filter((d) => d.pc >= 25)
       .sort((a, b) => b.pc - a.pc)
       .slice(0, 3)
-      .map((d) => ({ label: LIBELLES[d.key], mot: MOTS[cran(d.pc)], n: cran(d.pc) }));
+      .map((d) => ({ label: LIBELLES[d.key], mot: MOTS[cran(d.pc)], court: FREQ[cran(d.pc)], n: cran(d.pc) }));
     return { n, mot: MOTS[n], lignes };
   }
 

@@ -414,7 +414,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const dSchema = {
     jauges: jaugesSchema, pesee1, pesee2,
     absurde: { rows: [...(nAbsurde === null ? [{ label: "Bullshitomètre", mot: "non renseigné", n: 0 }]
-        : scoreAbs.lignes.length ? scoreAbs.lignes : [{ label: "Travail pour rien", mot: scoreAbs.mot, n: nAbsurde }]),
+        : scoreAbs.lignes.length ? scoreAbs.lignes.map((l) => ({ label: l.label, mot: l.court || l.mot, n: l.n })) : [{ label: "Travail pour rien", mot: scoreAbs.mot, n: nAbsurde }]),
       ...(qualiteEmpechee === null ? [] : [{ label: "Qualité empêchée", mot: T4MOTS[qualiteEmpechee] || "", n: qualiteEmpechee >= 3 ? 2 : qualiteEmpechee === 2 ? 1 : 0 }])].slice(0, 2) },
     fatigue: { n: nRecup, conclusion: MOTS_RECUP[nRecup], epuisement: { v: sr.A.score, max: 24, n: nDim(sr.A), mot: niv(sr.A).mot },
       rows: [{ label: "Décrocher le soir", mot: freq("F1") === "jamais ou presque jamais" ? "sans souci" : `rumine ${freq("F1")}`, n: nItem("F1") },

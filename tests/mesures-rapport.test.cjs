@@ -531,7 +531,7 @@ function completeAnswers(options = {}) {
   return { ...inputs, ...(options.overrides || {}) };
 }
 
-test("le moteur exécute les 79 réponses avec la pause satirique passée", () => {
+test("le moteur exécute les 82 réponses avec la pause satirique passée", () => {
   const data = completeAnswers({ skipBS: true });
   const engine = debugApi(data);
   const result = engine.calculateResults();
@@ -919,13 +919,13 @@ test("la page Méthode détaille la construction, les hypothèses testables et l
   assert.match(html,/une simulation réussie valide un comportement du programme/i);
 });
 
-test("le test PDF couvre vraiment 79 réponses fictives et ne collecte aucune donnée réelle", () => {
+test("le test PDF couvre vraiment 82 réponses fictives et ne collecte aucune donnée réelle", () => {
   const js=read("tests/generer-pdf-exemple.mjs");
   const yml=read(".github/workflows/rapport-fictif.yml");
   for(const x of ["#burnout-form","calculateResults()","submit","page.pdf(","rapport-essentiel-fictif.pdf","rapport-complet-fictif.pdf","fiche-travail-fictive.pdf"]) {
     assert.ok(js.includes(x),`Élément absent du test navigateur : ${x}`);
   }
-  assert.match(js,/synth\.items!==79/);
+  assert.match(js,/synth\.items!==82/);
   assert.match(js,/if\(synth\.alertes\)/);
   assert.match(js,/pageErrors\.length/);
   assert.match(yml,/actions\/upload-artifact@v4/);

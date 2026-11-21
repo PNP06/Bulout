@@ -1,5 +1,5 @@
 // Formation Bull-Out · interlude « L'absurde ».
-// Placé après la page « Les trois modèles, ensemble » (après le chapitre 4) et avant le chapitre « c'est perso ».
+// Placé après la page « Les quatre modèles, ensemble » (après le chapitre 4) et avant le chapitre « c'est perso ».
 // Il n'est PAS dans le tableau `chapitres` : aucun index ne bouge, il ne conditionne pas le diplôme.
 // Même gabarit qu'un chapitre, plus un bloc « rappel » (Tu te souviens ?) qui renvoie vers un chapitre par son index.
 // Sources principales en fin de fichier ; la proposition de recherche d'origine est dans
