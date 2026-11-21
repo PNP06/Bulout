@@ -190,7 +190,8 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1"/);
+  assert.match(src, /versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -953,7 +954,7 @@ test("RPS et humiliation restent visibles même quand les manifestations A–F s
   f.result.rpsAnswers = api.rpsPart.questions.map((question, i) => ({ id: "RPS" + (i + 1), question, value: i === 2 ? 4 : 0 }));
   const report = composer(f);
   assert.match(pageDuRapport(report, "synthese"), /Conditions de travail, indépendamment des symptômes/);
-  assert.match(pageDuRapport(report, "rps"), /Les six familles de RPS/);
+  assert.match(pageDuRapport(report, "rps"), /Six familles de facteurs psychosociaux/);
   assert.match(pageDuRapport(report, "rps"), /RPS3/);
   assert.match(pageDuRapport(report, "rps"), /Rapports sociaux au travail/);
   assert.match(pageDuRapport(report, "travail"), /RPS3/);
