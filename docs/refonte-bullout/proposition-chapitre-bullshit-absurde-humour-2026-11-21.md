@@ -3,7 +3,7 @@
 **Proposition éditoriale et scientifique — 21 novembre 2026.**  
 **Statut : document de travail à arbitrer avec David et Claude ; aucun changement de code ou de barème n'est autorisé par ce document.**
 
-**Base inspectée :** \`main\` après fusion de la **PR #11 (V3)** : \`formation-contenu.js\` (9 chapitres et Sam), \`formation-illustrations.js\` (\`schemaRapport\`), \`rapport.js\` (matrice BS × distance/sens), \`bullshitometre-data.js\` (BS1–BS12), \`script.js\` (HR1–HR4, interprétations), \`methode.html\`, journal et notes 05–06 de \`docs/refonte-bullout/historique\`. Ce texte **part de ce qui existe**, sans refaire le travail précédent.
+**Base inspectée :** `main` après fusion de la **PR #11 (V3)** : `formation-contenu.js` (9 chapitres et Sam), `formation-illustrations.js` (`schemaRapport`), `rapport.js` (matrice BS × distance/sens), `bullshitometre-data.js` (BS1–BS12), `script.js` (HR1–HR4, interprétations), `methode.html`, journal et notes 05–06 de `docs/refonte-bullout/historique`. Ce texte **part de ce qui existe**, sans refaire le travail précédent.
 
 > **L'idée directrice : on peut mesurer la perception de situations absurdes, et demander ce que les blagues font ressentir. Mais un rire n'est pas une preuve de résilience ; une larme n'est pas une preuve de fragilité.** Le plus intéressant est souvent leur **coexistence**.
 
@@ -170,7 +170,7 @@ Le **pipeau** a un double sens français immédiatement compréhensible : **inst
 
 **Maquette textuelle du schéma étendu :**
 
-\`\`\`text
+```text
              CE QUI TIRE        CE QUI RESTE        CE QUI LÂCHE
  [ TRAVAIL ]      ── liens à vérifier ──> [ TOI ] ──> [ CE QUI SE VOIT ]
   Balance JD-R                               A/F           Trois signes
@@ -181,11 +181,11 @@ Le **pipeau** a un double sens français immédiatement compréhensible : **inst
        Réunions · KPI · livrables                Sourire · peine · minimisation · recul
        12 réponses satiriques · hors score       4 réactions · hors score
                       AUCUNE FLÈCHE CAUSALE VERS LES SCORES
-\`\`\`
+```
 
 **Recommandation UX :** un **bandeau sous le schéma** (fond crème très clair, fin séparateur violet, plutôt que le orange des liens de charge), avec **deux cartes latérales** : à gauche le pipeau et les **situations** ; à droite un **petit miroir** ou deux visages non caricaturaux et la **réception émotionnelle**. L'un décrit **ce qui se passe au travail** ; l'autre **comment le questionnaire a été vécu**. Rien n'oblige à associer les deux par une flèche.
 
-**À construire si validé :** sur \`formation-illustrations.js\`, un composant satellite activé à l'interlude 6 bis, **indépendant de \`PIECES_SCHEMA\`** (ne pas perturber l'ordre des neuf chapitres) ; dans \`rapport.js\`, le même langage visuel sous la \`vueEnsemble\`. Le rail peut être **masqué dans le PDF Essentiel** et conservé dans le rapport complet ; il n'entre jamais dans la fiche de travail ni les alertes. Vérifier lisibilité à **390 px**, défilement horizontal, contraste, intitulés ARIA, SVG descriptif et impression.
+**À construire si validé :** sur `formation-illustrations.js`, un composant satellite activé à l'interlude 6 bis, **indépendant de `PIECES_SCHEMA`** (ne pas perturber l'ordre des neuf chapitres) ; dans `rapport.js`, le même langage visuel sous la `vueEnsemble`. Le rail peut être **masqué dans le PDF Essentiel** et conservé dans le rapport complet ; il n'entre jamais dans la fiche de travail ni les alertes. Vérifier lisibilité à **390 px**, défilement horizontal, contraste, intitulés ARIA, SVG descriptif et impression.
 
 **Libellé sous l'image :** « L'absurde perçu et ta réaction à l'humour sont **hors du score de burn-out**. Ils peuvent éclairer une discussion ; ils ne prouvent pas la cause d'un symptôme. »
 
@@ -199,7 +199,7 @@ Parce que notre questionnaire **ne permet pas** de démontrer : (a) qu'un proces
 
 # 3. Audit des 12 questions actuelles : ce qu'elles captent et ce qu'elles confondent
 
-**État vérifié sur \`main\` :** 12 BS, ordonnées \`BS1…BS12\` ; les huit premières conservent leurs identifiants historiques et BS9–BS12 complètent le test d'origine. Quatre pondérations maison par réponse : \`absurd\`, \`meeting\`, \`dashboard\`, \`ghost\`. Le pourcentage principal est **l'indice \`absurd\` normalisé sur le barème**, **pas** le % de temps réellement perdu. Le seuil 50 % de la matrice est **narratif**, pas étalonné.
+**État vérifié sur `main` :** 12 BS, ordonnées `BS1…BS12` ; les huit premières conservent leurs identifiants historiques et BS9–BS12 complètent le test d'origine. Quatre pondérations maison par réponse : `absurd`, `meeting`, `dashboard`, `ghost`. Le pourcentage principal est **l'indice `absurd` normalisé sur le barème**, **pas** le % de temps réellement perdu. Le seuil 50 % de la matrice est **narratif**, pas étalonné.
 
 | Item | Ce qui fonctionne | Confusion actuelle / priorité |
 |---|---|---|
@@ -216,7 +216,7 @@ Parce que notre questionnaire **ne permet pas** de démontrer : (a) qu'un proces
 | **BS11** « agenda » | Bonne mesure des interruptions / réunions. | **Double couverture BS2** ; réserver BS11 au **morcellement du travail**. |
 | **BS12** « KPI » | Bon angle sur la mesure auto-entretenue. | **Double couverture BS3** ; BS3 = usage des KPI, BS12 = **prolifération et maintenance des KPI**. |
 
-**Problèmes communs :** (1) l'option A incarne trop souvent le salarié idéal, (2) les choix D sont très drôles mais parfois irréalistes, (3) aucune période uniforme, (4) les **fonctions de coordination**, la traçabilité et l'effet préventif sont pénalisés, (5) les poids \`absurd\` ne sont **pas validés** et pondèrent parfois un **état affectif**. Un fort score peut donc refléter **l'identification à un registre humoristique** autant qu'une fréquence réelle de situations.
+**Problèmes communs :** (1) l'option A incarne trop souvent le salarié idéal, (2) les choix D sont très drôles mais parfois irréalistes, (3) aucune période uniforme, (4) les **fonctions de coordination**, la traçabilité et l'effet préventif sont pénalisés, (5) les poids `absurd` ne sont **pas validés** et pondèrent parfois un **état affectif**. Un fort score peut donc refléter **l'identification à un registre humoristique** autant qu'une fréquence réelle de situations.
 
 **Principe de refonte :** annoncer « Pense aux **quatre dernières semaines**. Choisis le **cas le plus fréquent**, pas la phrase la plus drôle. » Les **quatre options restent drôles**, mais représentent une gradation **observable**. Si l'item ne s'applique pas au métier, proposer **« Pas concerné·e » hors score** plutôt que forcer un 0 ; documenter les réponses manquantes. Tester si les répondants prennent au pied de la lettre la blague.
 
@@ -327,7 +327,7 @@ D. « Il pond deux nouveaux KPI pour sécuriser son maintien en poste. »
 ## 4.1. Ce que ces reformulations ne résolvent PAS
 
 - Une **réponse en quatre niveaux** n'est pas une échelle validée. Certaines options A/B sont qualitativement différentes, pas de simples niveaux de fréquence. **Revue cognitive indispensable**.
-- Les **poids croisés** \`absurd/meeting/dashboard/ghost\` sont subjectifs. **Ne pas reprendre automatiquement les poids V2**. Une première version plus honnête peut **afficher les 3 thèmes** et deux exemples sans chiffre général, ou conserver un **« indice satirique de réponses »** explicitement conventionnel.
+- Les **poids croisés** `absurd/meeting/dashboard/ghost` sont subjectifs. **Ne pas reprendre automatiquement les poids V2**. Une première version plus honnête peut **afficher les 3 thèmes** et deux exemples sans chiffre général, ou conserver un **« indice satirique de réponses »** explicitement conventionnel.
 - **BS2 et BS11** se recoupent ; **BS3 et BS12** aussi. Distinguer les mécanismes ne garantit pas leur **indépendance statistique**.
 - Un même environnement peut provoquer **cynisme, lassitude, colère, désintérêt** : ces émotions ne doivent pas devenir des **poids de « bullshit »**.
 - Le **périmètre** (cadres / salariés de première ligne / travail indépendant / soin / production / sécurité) est insuffisamment testé. Ajouter « pas concerné » quand nécessaire, plutôt que de pénaliser par absence d'opportunité.
@@ -362,7 +362,7 @@ Le projet gagne en profondeur **sans attribuer automatiquement à l'employeur la
 
 **À garder :** modalités indépendantes de « Pas du tout » à « Tout à fait », « Je préfère ne pas répondre », absence de score et possibilité d'émotions contradictoires. Conserver la distinction existante entre la **matrice BS × B/C** et les **réponses HR séparées**.
 
-**À mieux faire :** la restitution actuelle de \`interpretHumorReaction\` choisit **un titre dominant** par cascade de conditions (amusement + peine d'abord, etc.). Cela peut **rendre moins visibles** deux réactions importantes. Afficher d'abord **quatre petites cartes non classées** avec les déclarations propres à chaque personne, puis une **phrase de synthèse non exclusive**. Surtout : si HR3 est élevé, ne pas camoufler ce signal dans une note de bas de page sous une blague.
+**À mieux faire :** la restitution actuelle de `interpretHumorReaction` choisit **un titre dominant** par cascade de conditions (amusement + peine d'abord, etc.). Cela peut **rendre moins visibles** deux réactions importantes. Afficher d'abord **quatre petites cartes non classées** avec les déclarations propres à chaque personne, puis une **phrase de synthèse non exclusive**. Surtout : si HR3 est élevé, ne pas camoufler ce signal dans une note de bas de page sous une blague.
 
 ## 5.3. Petits portraits de réaction, SANS diagnostic ni type de personnalité
 
@@ -431,10 +431,10 @@ Dans un petit pilote, comparer **aléatoirement** une version des 12 situations 
 
 1. **Ne modifier aucun score A–F, aucune alerte, aucun modèle principal** en raison d'un résultat BS ou HR.
 2. **Ne pas faire glisser BS dans le total de burn-out.** Ajouter éventuellement le volet 6 bis, hors score, avec un quiz de compréhension **non diagnostique**.
-3. Si le texte des questions BS change substantiellement : **nouvelle version** \`versionBullshitometre\`, traçabilité, test de migration ; **ne pas réinterpréter les anciennes réponses**.
-4. Si une HR change de sens : versionner \`versionReactionHumour\`, **invalider uniquement les anciennes réponses concernées** ; conserver les abstentions, ne pas inventer de choix.
+3. Si le texte des questions BS change substantiellement : **nouvelle version** `versionBullshitometre`, traçabilité, test de migration ; **ne pas réinterpréter les anciennes réponses**.
+4. Si une HR change de sens : versionner `versionReactionHumour`, **invalider uniquement les anciennes réponses concernées** ; conserver les abstentions, ne pas inventer de choix.
 5. Vérifier les quatre cases de la matrice existante, les exemples BS, HR contradictoires, BS historiquement passés, export des rapports, et **PDF Essentiel vs Complet**.
-6. Mettre à jour ensemble \`methode.html\`, textes d'accessibilité, tests Node, contenus de formation et rapport ; **pas seulement une illustration**.
+6. Mettre à jour ensemble `methode.html`, textes d'accessibilité, tests Node, contenus de formation et rapport ; **pas seulement une illustration**.
 7. Faire un contrôle de **longueur et d'adhésion** : ne pas épuiser la personne avec une formation sur le burn-out.
 
 ### Critères d'acceptation pour Claude
@@ -483,10 +483,10 @@ Les liens ci-dessous renvoient en priorité aux **textes originaux**, aux revues
 
 ## 8. Remise à Claude : ordre de travail conseillé
 
-1. **Lire ce document et l'état actuel de \`main\` ; décider avec David** du statut « interlude 6 bis » et du choix **pipeau + miroir** sous le schéma.
+1. **Lire ce document et l'état actuel de `main` ; décider avec David** du statut « interlude 6 bis » et du choix **pipeau + miroir** sous le schéma.
 2. **Conserver le chapitre proposé comme texte pédagogique**, en vérifiant liens et nuances, puis l'intégrer aux composants existants **sans casser** les neuf étapes, la progression, l'évaluation finale et la génération du rapport.
 3. **Ne pas refondre tout le Bullshitomètre d'un coup** : commencer par un prototype lisible mobile des douze items proposés, avec leurs **nouveaux objets mesurés**, puis tests cognitifs et arbitrage. Établir avant toute mise en production la version, les poids et la migration.
 4. **Préserver et améliorer la restitution HR** : montrer les quatre réactions en parallèle ; ne pas créer un score de résilience, de souplesse ou de relâchement. Tester la question qualitative facultative seulement si sa valeur est démontrée.
-5. Tester **UX, accessibilité, sauvegardes, rapports, PDF, cohérence du schéma**. N'écrire sur \`main\` le code qu'après validation du périmètre.
+5. Tester **UX, accessibilité, sauvegardes, rapports, PDF, cohérence du schéma**. N'écrire sur `main` le code qu'après validation du périmètre.
 
 **Fin du document.**
