@@ -233,15 +233,21 @@ function pageDuRapport(html, id) {
   return html.slice(start, next >= 0 ? next : undefined);
 }
 
-test("le rapport commence par la synthèse, le plan et les interlocuteurs", () => {
+test("le rapport se lit comme la formation : synthèse, avant de lire, neuf étapes, outils et annexes", () => {
   const html = composer(fixture(2));
-  const positions = ["synthese", "plan", "portes", "travail"].map((id) => html.indexOf('data-page="' + id + '"'));
-  assert.ok(positions.every((n) => n >= 0));
-  assert.ok(positions.every((n, i) => i === 0 || n > positions[i - 1]), "Parcours principal mal ordonné");
-  assert.match(html, /Approfondir · modèles, appuis, annexes/);
-  assert.match(html, /Ce que tu vis/);
-  assert.match(html, /Ce que tu décris au travail/);
-  assert.match(html, /Ce sur quoi tu peux t'appuyer/);
+  const ordre = ["synthese", "lire", "fatigue", "signes", "balance", "retour", "absurde", "rps", "autour", "plan", "portes", "travail", "carnet", "annexes"];
+  const positions = ordre.map((id) => html.indexOf('data-page="' + id + '"'));
+  assert.ok(positions.every((n) => n >= 0), "Page absente");
+  assert.ok(positions.every((n, i) => i === 0 || n > positions[i - 1]), "Parcours mal ordonné");
+  assert.match(html, /class="rp-rail"/);
+  assert.match(html, /Le parcours/);
+  assert.match(html, /Ton histoire en quatre phrases/);
+  assert.match(html, /Étape 3 sur 9/);
+  assert.match(html, /data-tete="ÉTAPE 3 SUR 9 · TON TRAVAIL T'AIDE-T-IL ASSEZ \?"/);
+  // Les deux rituels de la semaine, dans l'étape « plan ».
+  const plan = pageDuRapport(html, "plan");
+  assert.match(plan, /Vendredi soir/);
+  assert.match(plan, /Lundi matin/);
 });
 
 test("la fiche travail ne divulgue pas les réponses sensibles du rapport personnel", () => {
@@ -258,9 +264,10 @@ test("la fiche travail ne divulgue pas les réponses sensibles du rapport person
   assert.match(css, /\.rapport\.pdf-travail \.rapport-cover/);
 });
 
-test("l'export Essentiel est proposé par défaut, avec option distincte pour le travail", () => {
+test("l'export Complet est proposé par défaut, avec option distincte pour le travail", () => {
   const html = composer(fixture(1));
-  assert.match(html, /name="rp-pdf" value="court" checked/);
+  assert.match(html, /name="rp-pdf" value="complet" checked/);
+  assert.match(html, /name="rp-pdf" value="court"/);
   assert.match(html, /name="rp-pdf" value="travail"/);
   assert.match(html, /name="rp-pdf" value="complet"/);
 });
@@ -393,11 +400,11 @@ test("tous les contenus de santé restent hors de la fiche travail", () => {
 
 test("les réponses uniformes sont signalées dans la synthèse sans invalider le rapport", () => {
   const html = composer(fixture(2));
-  const syn = pageDuRapport(html, "synthese");
-  assert.match(syn, /Ces réponses se lisent-elles facilement/);
-  assert.match(syn, /Certains contrastes sont peu informatifs/);
-  assert.match(syn, /ne mesure ni la sincérité ni la validité clinique/);
-  assert.match(syn, /Ce que tu vis/);
+  const lire = pageDuRapport(html, "lire");
+  assert.match(lire, /Ces réponses se lisent-elles facilement/);
+  assert.match(lire, /Certains contrastes sont peu informatifs/);
+  assert.match(lire, /ne mesure ni la sincérité ni la validité clinique/);
+  assert.match(pageDuRapport(html, "synthese"), /Ton histoire en quatre phrases/);
 });
 
 test("les différences entre dimensions restent descriptives, même lorsque les réponses varient", () => {
@@ -466,7 +473,7 @@ test("la pause satirique peut être entièrement passée sans créer de faux sco
   assert.match(bsPage, /aucun indice calculé/);
   assert.doesNotMatch(bsPage, /null\s*%|0\s*% du barème/);
   assert.doesNotMatch(bsPage, /Profil fictif|À sortir en réunion/);
-  assert.match(html, /Ce que tu vis/);
+  assert.match(html, /Ton histoire en quatre phrases/);
 });
 
 test("le bullshitomètre fait partie du parcours, les anciennes sauvegardes « passées » restent lisibles", () => {
@@ -866,14 +873,16 @@ test("la formation conserve trois modèles principaux et explique leur origine e
   for(const i of [1,2,3]) {
     const c=chapitres[i];
     const prose=c.blocs.filter(b=>b.t==="p").map(b=>b.html).join(" ");
-    assert.match(prose,/Limite/i,`Chapitre ${i+1} : limite absente`);
+    // V4 : les limites sont regroupées dans la section « méthode » du chapitre, plus dans le fil du texte.
+    assert.ok((c.methode||[]).join(" ").length>80,`Chapitre ${i+1} : limites de méthode absentes`);
+    assert.doesNotMatch(prose,/<b>Limite<\/b>/,`Chapitre ${i+1} : limite restée dans le texte`);
     assert.match(prose,/Comment (l'utiliser|l'appliquer)|Comment l'appliquer/i,`Chapitre ${i+1} : fonctionnement absent`);
     assert.match(prose,/Maslach|Demerouti|Siegrist/i,`Chapitre ${i+1} : origine absente`);
     assert.ok(c.duree>=8,`Chapitre ${i+1} devrait annoncer plus de lecture`);
   }
   const jdr=chapitres[2];
   assert.ok(jdr.blocs.some(x=>x.t==="p" && /Hobfoll/.test(x.html)));
-  assert.ok(jdr.blocs.some(x=>x.t==="p" && /Sonnentag/.test(x.html)));
+  assert.ok(jdr.blocs.some(x=>JSON.stringify(x).includes("Sonnentag")));
 });
 
 test("la synthèse compare les quatre modèles sur les mêmes faits et ne crée pas de nouveaux scores", () => {
@@ -893,20 +902,19 @@ test("la synthèse compare les quatre modèles sur les mêmes faits et ne crée 
     assert.match(m.lien,/^https:\/\//);
   }
   const render=read("parcours.js"),css=read("formation.css");
-  for(const id of ["s-croisement","s-complements"])assert.ok(render.includes(id));
+  for(const id of ["s-schema","s-complements","resume-cas"])assert.ok(render.includes(id));
   assert.match(render,/synthese\.casCommun\.lectures\.map/);
   assert.match(render,/synthese\.complements\.map/);
   assert.match(css,/fo-complement/);
 });
 
-test("le récapitulatif des trois modèles suit immédiatement le chapitre 4", () => {
+test("le récapitulatif des quatre approches suit immédiatement le chapitre 4", () => {
   const render=read("parcours.js");
   assert.match(render,/function resumeModelesPage\(\)/);
   assert.match(render,/i === 3 \? `<a class="fo-pager-next" href="#modeles-resume">/);
   assert.match(render,/i === 4 \? `<a class="fo-pager-prev" href="#modeles-resume">/);
   assert.match(render,/hash === "#modeles-resume" \? resumeModelesPage\(\)/);
   assert.match(render,/synthese\.casCommun\.lectures\.map/);
-  assert.match(render,/resume-limites/);
   const visual=read("tests/generer-pdf-exemple.mjs");
   assert.match(visual,/resume-modeles-mobile/);
   assert.match(visual,/resume-modeles-ordinateur/);
@@ -938,15 +946,15 @@ test("le test PDF couvre vraiment 88 réponses fictives et ne collecte aucune do
 });
 
 // ───────── V3 : synthèse qui commence par l'essentiel, et schéma construit au fil des chapitres.
-test("la synthèse ouvre sur le feu et les trois cadrans, puis le schéma, et replie les quatre modèles", () => {
+test("la synthèse ouvre sur le feu et les trois cadrans, raconte en mots, puis renvoie aux étapes", () => {
   const html = pageDuRapport(composer(fixture(3)), "synthese");
-  const tete = html.indexOf('class="rp-tete"'), vue = html.indexOf('class="rp-vue"'), suite = html.indexOf('class="rp-syn-priorites"'), detail = html.indexOf('class="rp-syn-detail"'), modeles = html.indexOf('class="rp-modeles-lus"');
-  assert.ok(tete > 0 && vue > tete && suite > vue && detail > suite && modeles > detail, "ordre attendu : feu et cadrans, schéma, par quoi commencer, puis le détail replié");
-  assert.match(html, /Effort-récupération · ta fatigue/);
-  assert.match(html, /Maslach · les pastilles M/);
-  assert.match(html, /Exigences-ressources · la première pesée/);
-  assert.match(html, /Effort-récompense · la seconde pesée/);
-  assert.match(html, /quatre angles, pas quatre preuves/);
+  const tete = html.indexOf('class="rp-tete"'), histoire = html.indexOf('class="rp-histoire"'), suite = html.indexOf('class="rp-syn-priorites"'), fil = html.indexOf('class="rp-fil-syn"'), vue = html.indexOf('class="rp-vue"');
+  assert.ok(tete > 0 && histoire > tete && suite > histoire && fil > suite && vue > fil, "ordre attendu : feu et cadrans, histoire, par quoi commencer, fil des étapes, schéma");
+  assert.match(html, /data-aller="fatigue"/);
+  assert.match(html, /data-aller="signes"/);
+  assert.match(html, /<b>Donc :<\/b>/);
+  assert.match(html, /Trois questions à emporter/);
+  assert.match(html, /data-aller="lire"/);
 });
 
 function schemaApi() {
@@ -1112,4 +1120,17 @@ test("l'absurde est le chapitre 5, avec sa pièce, ses rappels et l'ancienne adr
   assert.match(render, /\^#chapitre-\(\[1-9\]\[0-9\]\?\)\$/, "les chapitres 10 et 11 sont joignables");
   assert.doesNotMatch(render, /formation-absurde/);
   assert.match(absurde.pictoPipeau(0, 0, 40), /^<g class="picto-pipeau"/);
+});
+
+// ───────── V4 : le dossier stagiaire, donné après la synthèse et avec le diplôme.
+test("le dossier stagiaire tient en quatre feuilles, garde les urgences et est annoncé partout", () => {
+  const html = read("dossier.html");
+  assert.equal((html.match(/<section class="feuille"/g) || []).length, 4);
+  for (const x of ["3114", ">15<", ">112<", "09 72 39 40 50", "0 806 000 126", "Vendredi soir", "Lundi matin", "Prévention burn-out"]) assert.ok(html.includes(x), "Absent : " + x);
+  assert.match(html, /bull-out-dossier\.pdf/);
+  assert.ok(require("node:fs").existsSync(require("node:path").join(__dirname, "..", "bull-out-dossier.pdf")), "PDF du dossier absent");
+  const parcours = read("parcours.js");
+  assert.match(parcours, /const dossierHTML = /);
+  assert.match(read("index.html"), /dossier stagiaire/);
+  assert.match(read("rapport.js"), /href="dossier\.html"/);
 });

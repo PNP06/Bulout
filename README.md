@@ -7,18 +7,20 @@ Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Ce n'
 
 ## Le parcours
 
-1. **La formation** (`test.html#formation`) : onze chapitres avec Sam en fil rouge, un exercice par chapitre, une synthèse des trois modèles après le chapitre 4, une synthèse finale, un test final et un diplôme. À la fin de chaque chapitre, une pièce du schéma du rapport se pose.
+1. **La formation** (`test.html#formation`) : onze chapitres avec Sam en fil rouge, un exercice par chapitre, les quatre approches réunies autour de Sam après le chapitre 4, une synthèse finale suivie du dossier stagiaire, un test final et un diplôme. À la fin de chaque chapitre, une pièce du schéma du rapport se pose.
 2. **Le questionnaire** (`test.html#questionnaire`) : six parties notées A à F (0 à 24), puis des parties hors score (retour Siegrist, six repères RPS, bullshitomètre et réaction à l'humour, appuis, durée et évolution, contexte, sécurité).
-3. **Le rapport** : feu et trois cadrans, schéma (le travail, toi, ce qui se voit), lecture des trois modèles, plan d'action, interlocuteurs, pièces détaillées, annexes. PDF essentiel, complet, ou fiche travail sans données de santé.
+3. **Le rapport** (V4, sur le modèle de psytest) : une synthèse (feu, trois cadrans, « ton histoire en quatre phrases », par quoi commencer, trois questions, schéma), « Avant de lire » (sommaire et méthode regroupée), puis neuf étapes dans l'ordre de la formation, chacune avec sa question, son « En bref » en mots et ses réponses repliées, et un fil d'Ariane à gauche. L'étape « plan » propose deux rituels personnalisés (vendredi soir, lundi matin). PDF complet par défaut (en-têtes « Étape 3 sur 9 · … »), essentiel, ou fiche travail sans données de santé.
+4. **Le dossier stagiaire** (`dossier.html`, `bull-out-dossier.pdf`) : quatre feuilles A4 illustrées (notions, six familles, agir, rituels, portes et urgences), données après la synthèse, avec le diplôme et depuis le rapport.
 
 ## Les fichiers
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Accueil : slogan, animation de Sam, les trois modèles, le schéma du rapport |
+| `index.html` | Accueil : slogan, animation de Sam, les quatre approches, le schéma du rapport |
 | `test.html`, `parcours.js`, `formation-contenu.js`, `formation-illustrations.js`, `formation.css`, `diplome.js` | Formation, questionnaire, diplôme |
 | `script.js`, `bullshitometre-data.js` | Questions, calculs, profils, actions, interlocuteurs, sauvegardes |
 | `rapport.js`, `rapport.css` | Le rapport et ses PDF |
+| `dossier.html`, `dossier.css`, `bull-out-dossier.pdf` | Le dossier stagiaire (PDF généré par `node tests/generer-dossier-pdf.mjs`, à relancer après chaque retouche) |
 | `agir.html`, `methode.html`, `comprendre.html`, `presentation.html`, `formation.html` | Pages d'appui |
 | `questionnaire decision.html`, `questionnaire_bullshit_job_satirique_html.html` | Deux questionnaires satiriques autonomes |
 | `managers.html` | Ancienne page, renvoie vers les chapitres de la formation |
@@ -32,6 +34,7 @@ Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Ce n'
 ```sh
 node --test tests/mesures-rapport.test.cjs        # calculs, rapport, formation : sans navigateur
 npm i --no-save --no-package-lock playwright && node tests/generer-pdf-exemple.mjs   # PDF fictifs
+node tests/generer-dossier-pdf.mjs                # régénère bull-out-dossier.pdf (échoue si une feuille déborde)
 ```
 
 Les deux tournent dans GitHub Actions à chaque PR. Toute fusion dans `main` part en ligne en 5 minutes environ.

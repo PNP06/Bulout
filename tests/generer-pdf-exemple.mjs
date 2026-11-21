@@ -112,8 +112,8 @@ try {
   // désactive localement le verrou du diplôme, jamais le site servi au public.
   const captures = [
     {name:"resume-modeles-ordinateur",url:"test.html#modeles-resume",width:1280,selector:"#resume-cas"},
-    {name:"resume-modeles-mobile",url:"test.html#modeles-resume",width:390,selector:"#resume-limites"},
-    {name:"synthese-ordinateur",url:"test.html#synthese",width:1280,selector:"#s-croisement"},
+    {name:"resume-modeles-mobile",url:"test.html#modeles-resume",width:390,selector:"#resume-cas"},
+    {name:"synthese-ordinateur",url:"test.html#synthese",width:1280,selector:"#s-schema"},
     {name:"synthese-mobile",url:"test.html#synthese",width:390,selector:"#s-complements"},
     {name:"methode-ordinateur",url:"methode.html",width:1280,selector:"#verification-inconnues"},
     {name:"methode-mobile",url:"methode.html",width:390,selector:"#construction-hypotheses"}
