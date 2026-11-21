@@ -914,7 +914,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ${qualiteLecture}
     <details class="rp-syn-questions"><summary>Trois questions pour continuer la réflexion</summary>
       <ul class="rp-q3">${questions.map(([k, q]) => `<li><span class="k">${esc(k)}</span>${esc(q)}</li>`).join("")}</ul></details>
-    <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les neuf pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
+    <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les dix pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
       <button type="button" class="button secondary" data-aller="travail">Préparer une discussion sur le travail réel</button></div>`;
 
 const carnetFait = travailRessort[0]?.question || "Une situation de travail à choisir après une observation concrète";
@@ -1000,7 +1000,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
   // ───────── Pages
   const pages = [
     { id: "synthese", court: "Synthèse", html: synthese },
-    { id: "appuis", court: "Tes appuis", html: `<header class="rp-etape-head rp-appuis-head"><p class="rp-n">Avant les neuf pièces</p>
+    { id: "appuis", court: "Tes appuis", html: `<header class="rp-etape-head rp-appuis-head"><p class="rp-n">Avant les dix pièces</p>
         <h2 tabindex="-1">${pageAppuis.titre}</h2><p class="rp-question">${pageAppuis.q}</p><p class="rp-intro">${pageAppuis.intro}</p></header>
         ${bref(pageAppuis.bref)}<div class="rp-corps">${pageAppuis.corps}</div>${pageAppuis.comprendre}${garder(pageAppuis.garder)}` },
     { id: "absurde", court: "Le bullshitomètre", html: `<header class="rp-etape-head rp-appuis-head"><p class="rp-n">Pause humour, lecture sérieuse</p>
