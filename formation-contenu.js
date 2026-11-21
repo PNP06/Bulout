@@ -18,7 +18,7 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Neuf chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Neuf chapitres progressifs</b> et un interlude sur l’absurde, de 5 à 10 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],

@@ -344,7 +344,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const val = (v) => `${MOTS[nv24(v)]} · ${v}/24`;
   // L'absurde : la couleur dit l'effet. Beaucoup d'absurde sans retrait ni perte de sens = à surveiller (le recul peut protéger) ;
   // avec retrait ou perte de sens = ça use.
-  const nAbsurde = !absurdeHaut ? (bs.percent >= 25 ? 1 : 0) : coupe ? (bs.percent >= 75 ? 3 : 2) : 1;
+  // La lecture vient d'absurde.js (même règle que le parcours) : 4 crans sur le bullshitomètre V3, null si non renseigné.
+  const lectAbs = r.lectureAbsurde || (typeof window !== "undefined" && window.BullOutAbsurde
+    ? { score: window.BullOutAbsurde.scoreAbsurde(r), recul: window.BullOutAbsurde.reculAbsurde(r) } : null);
+  const scoreAbs = lectAbs && lectAbs.score;
+  const nAbsurde = scoreAbs ? scoreAbs.n : null;
   const ctxAggr = ctxOui.filter((a) => !["collectiveSignal", "previousMedicalAlert", "safetySensitiveJob"].includes(a.id));
   // ───────── Les données du schéma (schema.js) : chaque réponse n'est dessinée qu'à un seul endroit.
   // Centre : la récupération (F1 à F3). Droite : les trois signes (A, B, C) et le corps (F4 à F6). Gauche : la balance, le retour, l'absurde.
@@ -383,7 +387,6 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     penche: signe(nEffort - nRetour) };
   pesee2.verdict = pesee2.penche > 0 ? "Ça penche : tu donnes plus que tu ne reçois" : pesee2.penche < 0 ? "Ça penche du bon côté : tu reçois" : "À peu près à l'équilibre";
   const surEngage = surIds.length ? moy24(surIds.map((id) => rep[id].value)) : null; // R4–R6 seulement : F1 est dans ta fatigue
-  const BSMOTS = (pc) => (pc >= 75 ? "très souvent" : pc >= 50 ? "souvent" : pc >= 25 ? "parfois" : "rarement");
   const hr = r.humorReaction && !r.humorReaction.skipped ? Object.fromEntries(r.humorReaction.answers.map((a) => [a.id, a.value])) : null;
   const HRMOTS = ["pas du tout", "un peu", "moyennement", "beaucoup", "tout à fait"];
   const hrLigne = (id, label, use) => (hr && hr[id] !== null && hr[id] !== undefined ? [{ label, mot: HRMOTS[hr[id]], n: use ? (hr[id] >= 3 ? 2 : hr[id] === 2 ? 1 : 0) : 0 }] : []);
@@ -392,7 +395,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   // Les trois jauges : le travail prend la famille la plus lourde ; ta fatigue, épuisement et repos ; les impacts, le signe le plus net.
   const ABSURDE_DANS_JAUGE = true; // choix proposé à David : l'absurde est une famille du travail comme les autres
   const tireListe = [["la charge", nD], ["le manque d'aide", nManque], ["l'effort sans retour", Math.min(nEffort, 3 - nRetour)],
-    ...(ABSURDE_DANS_JAUGE && !bs.skipped ? [["l'absurde", nAbsurde]] : [])];
+    ...(ABSURDE_DANS_JAUGE && nAbsurde !== null ? [["l'absurde", nAbsurde]] : [])];
   const tire = Math.max(...tireListe.map(([, n]) => n));
   const relation = [
     { label: "Distance, cynisme", v: sr.B.score, mot: niv(sr.B).mot, n: nDim(sr.B), m: true },
@@ -410,14 +413,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   ];
   const dSchema = {
     jauges: jaugesSchema, pesee1, pesee2,
-    absurde: { rows: [bs.skipped ? { label: "Pause humour passée", mot: "non renseigné", n: 0 } : { label: "Tâches inutiles", mot: BSMOTS(bs.percent), n: nAbsurde },
-      ...(qualiteEmpechee === null ? [] : [{ label: "Qualité empêchée", mot: T4MOTS[qualiteEmpechee] || "", n: qualiteEmpechee >= 3 ? 2 : qualiteEmpechee === 2 ? 1 : 0 }])] },
+    absurde: { rows: [...(nAbsurde === null ? [{ label: "Bullshitomètre", mot: "non renseigné", n: 0 }]
+        : scoreAbs.lignes.length ? scoreAbs.lignes : [{ label: "Travail pour rien", mot: scoreAbs.mot, n: nAbsurde }]),
+      ...(qualiteEmpechee === null ? [] : [{ label: "Qualité empêchée", mot: T4MOTS[qualiteEmpechee] || "", n: qualiteEmpechee >= 3 ? 2 : qualiteEmpechee === 2 ? 1 : 0 }])].slice(0, 2) },
     fatigue: { n: nRecup, conclusion: MOTS_RECUP[nRecup], epuisement: { v: sr.A.score, max: 24, n: nDim(sr.A), mot: niv(sr.A).mot },
       rows: [{ label: "Décrocher le soir", mot: freq("F1") === "jamais ou presque jamais" ? "sans souci" : `rumine ${freq("F1")}`, n: nItem("F1") },
         { label: "Sommeil perturbé", mot: freq("F2"), n: nItem("F2") },
         ...(conge && conge !== "pas de difficulté" ? [{ label: "En congé", mot: conge, n: T3N[conge] ?? 0 }] : [])] },
     investi: { rows: [surEngage === null ? { label: "Refuser, prouver, y penser", mot: "non renseigné", n: 0 } : { label: "Refuser, prouver, y penser", mot: MOTS[nv24(surEngage)], n: nv24(surEngage) }] },
-    recul: { rows: hr ? [...hrLigne("HR1", "Tu en as souri", false), ...hrLigne("HR4", "Ça t'a donné du recul", false), ...hrLigne("HR2", "Ça t'a pesé", true)].slice(0, 2)
+    recul: { rows: lectAbs && lectAbs.recul && lectAbs.recul.lignes.some((l) => l.court)
+      ? lectAbs.recul.lignes.filter((l) => l.court).slice(0, 2).map((l) => ({ label: l.label, mot: l.court, n: l.n }))
+      : hr ? [...hrLigne("HR1", "Tu en as souri", false), ...hrLigne("HR4", "Ça t'a donné du recul", false), ...hrLigne("HR2", "Ça t'a pesé", true)].slice(0, 2)
       : [{ label: "Pas de réponse", mot: "non renseigné", n: 0 }] },
     appuis: { rows: [{ label: "Points forts", mot: forts.length ? `${forts.length} sur 6` : "à reconstruire", n: forts.length >= 2 ? 0 : forts.length ? 1 : 2 }],
       cote: perso ? "À côté : une vie perso lourde · hors score" : "" },
@@ -553,7 +559,9 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     dashboard: {title:"Dashboardologie",punch:"Quand un indicateur ne change aucune décision, c'est parfois juste une veilleuse pour comité.",
       question:"Quelle décision ce KPI permet-il réellement de prendre ou de modifier ?"},
     ghost: {title:"Contribution fantôme",punch:"Un livrable qui dort sur SharePoint n'est pas un actif stratégique. C'est un fossile numérique.",
-      question:"Qui se sert de ce livrable et qu'est-ce que son contenu change concrètement ?"}
+      question:"Qui se sert de ce livrable et qu'est-ce que son contenu change concrètement ?"},
+    notmine: {title:"Pas ton boulot",punch:"Standardiste, archiviste et responsable de la machine à café : trois postes, zéro fiche de poste.",
+      question:"À qui revient vraiment cette tâche, et qui peut décider de la lui rendre ?"}
   };
   const bsAngle = bs.dominantTheme ? bsAxes[bs.dominantTheme] : null;
   const bsEtude = bsMatrice || {
@@ -604,32 +612,47 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
           <p class="rp-bs-pc-explain"><b>Ce que cela montre :</b> la façon dont tu déclares avoir reçu ce questionnaire, à cet instant.
             <b>Ce que cela ne démontre pas :</b> que l'humour te protège durablement, que tu relativises habituellement ou qu'une blague explique ton état de santé.</p>
         </section>`;
+  // Lecture de absurde.js : niveau dans la jauge du travail et portrait du recul (sans points).
+  const lectureAbs = lectAbs;
+  const jaugeAbs = lectureAbs && lectureAbs.score && lectureAbs.score.n !== null
+    ? `<p class="rp-bs-pc-explain"><b>Dans la jauge « Ton travail » :</b> ${esc(lectureAbs.score.mot)}. L'absurde y compte comme une famille, à côté de ce que le travail demande, de ce qui t'aide et de l'équilibre donner / recevoir.</p>` : "";
+  const recul = lectureAbs && lectureAbs.recul;
+  const reculPanel = !recul ? "" : `<section class="rp-bs-reaction rp-bs-recul" aria-labelledby="rp-bs-recul-title">
+      <p class="k">Ta façon de prendre l'absurde · dans la vraie vie</p>
+      <h4 id="rp-bs-recul-title">${esc(recul.titre)}</h4>
+      <p>${esc(recul.texte)}</p>
+      ${recul.lignes.length ? `<div class="rp-bs-reaction-grid">${recul.lignes.map((l) => `<div><b>${esc(l.label)}</b><span>${esc(l.mot)}</span></div>`).join("")}</div>` : ""}
+      <p class="rp-bs-pc-explain"><b>Ce que cela montre :</b> ta façon habituelle de réagir, lue avec ta récupération et ta distance au travail.
+        <b>Ce que cela ne donne pas :</b> une note de résilience. Ces deux questions n'ajoutent aucun point.</p>
+    </section>`;
   const pageAbsurde = bs.skipped ? {
     titre:"La pause bullshit, à ton rythme",
     q:"Cette sauvegarde ne contient pas de réponses aux questions satiriques.",
     intro:"Elle date d'une version où la pause humour pouvait être passée. Ton rapport sur les manifestations, le travail, les appuis et la chronologie n'en dépend pas.",
     bref:"Bullshitomètre passé · aucun indice calculé.",
     corps:`<p>Aucun pourcentage, profil satirique ou croisement avec la distance n'a été calculé.
-      <b>Tu peux revenir plus tard pour répondre aux douze questions.</b></p>`,
+      <b>Tu peux revenir plus tard pour répondre aux treize questions.</b></p>`,
     comprendre:"",
     garder:"On peut discuter des absurdités du travail sans passer un test humoristique."
   } : {
     titre:"Le bullshitomètre",
     q:"Ton travail est-il absurde ? Et que devient ton rapport à ce travail ?",
-    intro:"Douze questions satiriques sur les réunions, les indicateurs, le flou et les livrables que personne ne lit. Puis une matrice pour mettre ces réponses en regard de la distance mentale et du sens. L'humour est volontaire ; la conclusion psychologique ne l'est pas.",
-    bref:`Indice satirique d'absurdité : ${bs.percent} % du barème maison. ${esc(bsEtude.title)}. Les axes ne sont pas des seuils cliniques.`,
+    intro:"Treize questions satiriques sur les réunions, les indicateurs, le flou, les livrables que personne ne lit et les tâches qui ne sont pas les tiennes. L'absurde compte comme une famille de la jauge de ton travail. Puis ta façon de le prendre, et une matrice pour mettre ces réponses en regard de la distance mentale et du sens. L'humour est volontaire ; la conclusion psychologique ne l'est pas.",
+    bref:`Indice satirique d'absurdité : ${bs.percent ?? "—"} % du barème maison. ${esc(bsEtude.title)}. Les axes ne sont pas des seuils cliniques.`,
     corps:`<div class="rp-bs-duo">
       <section class="rp-bs-score" aria-label="Indice humoristique">
         <p class="rp-bs-overline">Service des absurdités administratives</p>
-        <p class="rp-bs-pc">${bs.percent}<small> %</small></p>
+        <p class="rp-bs-pc">${bs.percent ?? "—"}<small> %</small></p>
         <p class="k">Indice satirique d'absurdité</p>
         <p class="rp-bs-pc-explain">Ce pourcentage représente la position dans un barème humoristique construit pour ce questionnaire. Il ne mesure ni la proportion de travail inutile ni le risque de burn-out.</p>
         <div class="rp-bs-metres">${dimensionsBS}</div>
-        <p class="rp-bs-pc-explain">La barre « Absurdité globale » correspond exactement à l'indice ci-dessus. Les autres barres détaillent trois formes de situations rapportées.</p>
+        ${jaugeAbs}
+        <p class="rp-bs-pc-explain">La barre « Absurdité globale » correspond exactement à l'indice ci-dessus. Les autres barres détaillent quatre formes de situations rapportées.</p>
       </section>
       ${satire}
     </div>
     ${exemplesBS}
+    ${reculPanel}
     ${reactionPanel}
     <section class="rp-bs-matrice" aria-label="Matrice : absurdité perçue, distance et sens">
       <p class="k">La matrice du bullshit</p>
@@ -652,7 +675,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ${bsAngle ? `<section class="rp-bs-levier"><p class="k">Le thème satirique qui ressort le plus</p>
       <h4>${esc(bsAngle.title)}</h4><p>${esc(bsAngle.punch)}</p>
       <p><b>Question anti-bullshit :</b> ${esc(bsAngle.question)}</p></section>` : ""}
-    <details class="rp-bs-reponses"><summary>Retrouver mes 12 réponses satiriques</summary>
+    <details class="rp-bs-reponses"><summary>Retrouver mes ${bs.answers.length} réponses satiriques</summary>
       <ol class="rp-items">${bs.answers.map(a=>`<li><span class="rp-id">${esc(a.id)}</span>
       <span class="rp-q">${esc(a.question)}</span><span class="rp-a"><span>${esc(a.answer)}</span></span></li>`).join("")}</ol>
     </details>`,
@@ -724,7 +747,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ["L'usure", coeurHauts.length ? liste(coeurHauts.map((d) => `${NOMS[d.id].toLowerCase()} (${niv(d).mot})`)) : "Pas de signe haut", lectureUsure, "jauges"],
     ["Le travail", penche >= 4 ? "La balance penche du côté des exigences" : penche <= -4 ? "Ressources davantage déclarées" : "Scores proches, sans compensation démontrée", lectureBalance, "balance"],
     ["La récupération", `${cap(niv(sr.F).mot)} (${sr.F.score}/24)`, esc(sr.F.comment), "batterie"],
-    ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent} %`, bs.skipped ? "Partie satirique non renseignée (ancienne sauvegarde)." : (bsMatrice?.interpretation || bsTexte), "absurde"],
+    ["L'absurde", bs.skipped ? "Pause humour passée" : `${bsMatrice?.title || bsTitre} · ${bs.percent ?? "—"} %`, bs.skipped ? "Partie satirique non renseignée (ancienne sauvegarde)." : (bsMatrice?.interpretation || bsTexte), "absurde"],
     ["Tes appuis", forts.length ? liste(forts.slice(0, 3).map((a) => APPUIS[a.id][0].toLowerCase())) : ressPresentes.length ? cap(liste(ressPresentes.slice(0, 2).map((id) => RESSOURCES[id][0].toLowerCase()))) : "À reconstruire", forts.length || ressPresentes.length ? "Ce sur quoi t'appuyer pour agir." : "Peu d'appuis nets : la page propose des premiers pas.", "appuis"]
   ];
   // ───────── Le verdict et la vue d'ensemble
@@ -856,7 +879,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <div class="rp-box ${L.fiable ? "ok" : "attention"}"><p class="k">État de tes réponses</p><p><b>${L.fiable ? "Réponses variées." : "Réponses répétitives ou extrêmes."}</b> ${L.fiable ? "La répartition des réponses est variée, sans constituer une preuve de fiabilité." : `${cap(L.prudence.join(" ; "))}. C'est possible, mais cela rend les écarts entre dimensions moins parlants.`} Ces contrôles décrivent uniquement la forme des réponses ; ils ne mesurent ni leur sincérité, ni leur qualité clinique.</p>
     ${L.paires.length ? `<p class="k">Points à clarifier</p><ul>${L.paires.map(([, , t, q]) => `<li>${esc(t)} <i>${esc(q)}</i></li>`).join("")}</ul><p>Ce ne sont pas des erreurs : deux réponses qui surprennent côte à côte sont souvent les plus utiles à discuter.</p>` : ""}</div>
     <ol class="rp-construit">
-      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 12 questions du bullshitomètre (satiriques, à choix) et 4 questions sur la façon dont tu as reçu cet humour, 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
+      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 13 questions du bullshitomètre (satiriques, à choix, comptées dans la jauge du travail), 4 questions sur la façon dont tu as reçu cet humour et 2 sur ta façon de prendre l'absurde, 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
       <li><b>Le score d'une dimension.</b> La somme de ses six réponses, de 0 à 24. Les questions E décrivent des ressources : elles sont comptées à l'envers (4 moins la réponse) pour que, partout, un score haut signale une difficulté.</li>
       <li><b>Les niveaux.</b> 0 à 6 bas, 7 à 12 à surveiller, 13 à 18 élevé, 19 à 24 très élevé : quatre quarts de l'échelle, choisis pour la lecture, sans étalonnage.</li>
       <li><b>La lecture d'ensemble.</b> Seule une réponse positive aux trois questions de sécurité déclenche un message spécifique d'orientation. Les autres profils sont des regroupements descriptifs internes, sensibles aux seuils de commodité (13/24 notamment), sans valeur diagnostique. Le total A–F n'est pas interprété cliniquement.</li>

@@ -32,6 +32,7 @@ function debugApi(responses = null) {
     navigator: {}, location: { hash: "", pathname: "/test", href: "https://example.invalid/test" } };
   // Respecter l'ordre de chargement réel de test.html : données BS avant moteur.
   vm.runInNewContext(read("bullshitometre-data.js"), context, { filename: "bullshitometre-data.js" });
+  vm.runInNewContext(read("absurde.js"), context, { filename: "absurde.js" });
   vm.runInNewContext(read("script.js"), context, { filename: "script.js" });
   assert.ok(window.BullOutDebug, "API de test absente");
   return window.BullOutDebug;
@@ -106,17 +107,18 @@ function fixture(value, alertes = [false, false, false]) {
   };
 }
 
-test("le questionnaire compte 79 questions, dont 12 satiriques et 4 réactions non notées", () => {
+test("le questionnaire compte 82 questions, dont 13 satiriques, 4 réactions à l'humour et 2 sur l'absurde, non notées", () => {
   assert.equal(api.sections.length, 6);
   assert.ok(api.sections.every((s) => s.questions.length === 6));
   assert.equal(api.strengthPart.questions.length, 6);
   assert.equal(api.exchangePart.questions.length, 6);
-  assert.equal(api.bullshitPart.questions.length, 12);
+  assert.equal(api.bullshitPart.questions.length, 13);
   assert.equal(api.humorReactionPart.questions.length, 4);
+  assert.equal(api.absurdeReactionPart.questions.length, 2);
   assert.equal(api.contextQuestions.length, 8);
   assert.equal(api.alertQuestions.length, 3);
   assert.equal(api.temporalPart.questions.length, 4);
-  assert.equal(6 * 6 + 6 + 6 + 12 + 4 + 8 + 3 + 4, 79);
+  assert.equal(6 * 6 + 6 + 6 + 13 + 4 + 2 + 8 + 3 + 4, 82);
 });
 
 test("un total maximal ne déclenche pas d'alerte à lui seul", () => {
@@ -207,7 +209,7 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v3", versionReactionHumour: "2026-11-hr-v2", versionReactionAbsurde: "2026-11-ra-v1", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -446,7 +448,7 @@ test("la chronologie alimente la lecture du rapport sans déduire de causalité"
 
 test("la sauvegarde v7 conserve les items anciens non modifiés et avertit de ceux à refaire", () => {
   const src = read("parcours.js");
-  assert.match(src, /const format = "bull-out-progression-10"/);
+  assert.match(src, /const format = "bull-out-progression-11"/);
   assert.match(src, /versionQuestions: "2026-11-v2"/);
   assert.match(src, /reponsesReformulees/);
   assert.match(src, /Object.entries\(anciennes\).filter/);
@@ -523,6 +525,9 @@ function completeAnswers(options = {}) {
   for (let i = 0; i < source.humorReactionPart.questions.length; i++) {
     inputs["HR" + (i + 1)] = options.skipBS || options.skipHR ? 5 : 0;
   }
+  for (let i = 0; i < (source.absurdeReactionPart?.questions.length || 0); i++) {
+    inputs["RA" + (i + 1)] = options.skipBS ? 4 : 0;
+  }
   return { ...inputs, ...(options.overrides || {}) };
 }
 
@@ -571,27 +576,45 @@ test("une réponse manquante dans T empêche la fabrication d'un rapport complet
 });
 
 
-test("les quatre questions originales ajoutées occupent BS9 à BS12, sans décaler les huit précédentes", () => {
+test("le bullshitomètre V3 : 13 questions ancrées sur 4 semaines, chutes gardées, « pas concerné·e » hors calcul", () => {
   const source = debugApi();
   const q = source.bullshitPart.questions;
-  assert.equal(q.length, 12);
-  assert.match(q[0].text, /Quand on te demande ce que tu as produit/);
-  assert.match(q[7].text, /À la fin d’une semaine/);
-  assert.match(q[8].text, /directeur demande une slide/);
-  assert.match(q[9].text, /demande la plus typique/);
-  assert.match(q[10].text, /agenda contient/);
-  assert.match(q[11].text, /rapport aux KPI/);
+  assert.equal(q.length, 13);
+  assert.match(q[1].text, /4 dernières semaines/);
+  assert.match(q[5].options[3].text, /grotte SharePoint/);
+  assert.match(q[3].options[2].text, /groupe Teams/);
+  assert.match(q[12].text, /ne devraient pas être les tiennes/);
+  for (const question of q) {
+    assert.equal(question.options.length, 5);
+    assert.equal(question.options[4].w, null);
+    assert.match(question.options[4].text, /Pas concerné·e/);
+    // A = situation saine, poids nul ; D = la chute la plus absurde.
+    assert.equal(question.options[0].w.absurd, 0);
+    assert.ok(question.options[3].w.absurd >= question.options[2].w.absurd);
+  }
+});
+
+test("« pas concerné·e » sort la question du calcul, sans la compter comme saine", () => {
+  const base = Object.fromEntries(Array.from({ length: 13 }, (_, i) => ["BS" + (i + 1), 3]));
+  const tout = debugApi(completeAnswers({ overrides: base })).calculateResults();
+  const sansTableau = debugApi(completeAnswers({ overrides: { ...base, BS3: 4, BS12: 4 } })).calculateResults();
+  assert.equal(tout.bullshit.percent, 100);
+  assert.equal(sansTableau.bullshit.percent, 100, "Deux questions non concernées ne font pas baisser l'indice");
+  assert.equal(sansTableau.bullshit.concerned, 11);
+  const rien = debugApi(completeAnswers({ overrides: Object.fromEntries(Array.from({ length: 13 }, (_, i) => ["BS" + (i + 1), 4])) })).calculateResults();
+  assert.equal(rien.bullshit.percent, null);
+  assert.equal(rien.lectureAbsurde.score.n, null);
 });
 
 test("l’indice général et l’absurdité globale ont exactement la même valeur", () => {
   for (const response of [0, 1, 2, 3]) {
     const input = completeAnswers({ overrides: Object.fromEntries(
-      Array.from({ length: 12 }, (_, index) => ["BS" + (index + 1), response])) });
+      Array.from({ length: 13 }, (_, index) => ["BS" + (index + 1), response])) });
     const result = debugApi(input).calculateResults();
     assert.ok(result);
-    assert.equal(result.bullshit.count, 12);
+    assert.equal(result.bullshit.count, 13);
     assert.equal(result.bullshit.percent, result.bullshit.dims.absurd);
-    assert.equal(result.bullshit.version, "2026-11-bs-v2");
+    assert.equal(result.bullshit.version, "2026-11-bs-v3");
   }
 });
 
@@ -630,7 +653,7 @@ test("la matrice du rapport explique ses axes, affiche l’humour et une questio
   assert.match(page,/Distance \/ sens/);
   assert.match(page,/Question anti-bullshit|Une question utile/);
   assert.match(page,/Verdict du ministère/);
-  assert.match(page,/Retrouver mes 12 réponses/);
+  assert.match(page,/Retrouver mes 13 réponses/);
 });
 
 test("l’ancienne sauvegarde v7 ne renumérote pas BS1–BS8 et respecte le saut volontaire", () => {
@@ -748,7 +771,7 @@ test("le rapport ne fabrique pas de réaction quand la partie a été passée", 
 
 test("l'import v8 est repris en v9 et conserve la décision de passer les modules BS/HR", () => {
   const src=read("parcours.js");
-  assert.match(src,/const format = "bull-out-progression-10"/);
+  assert.match(src,/const format = "bull-out-progression-11"/);
   assert.match(src,/p\?\.format === "bull-out-progression-8"/);
   assert.match(src,/versionReactionHumour: "2026-11-hr-v2"/);
   assert.match(src,/reponses\[`HR\$\{i\}`\] = "5"/);
@@ -815,7 +838,7 @@ test("une abstention explicite HR3 est conservée lors de l'import v9", () => {
   assert.equal(migrate({HR3:"5"}).reponsesARelire,0);
   assert.equal(migrate({HR1:"3"}).reponsesARelire,0);
   assert.equal(migrate({HR1:"3"}).reponses.HR3,undefined);
-  assert.match(code,/const format = "bull-out-progression-10"/);
+  assert.match(code,/const format = "bull-out-progression-11"/);
   assert.match(code,/versionReactionHumour: "2026-11-hr-v2"/);
 });
 
@@ -874,7 +897,7 @@ test("le récapitulatif des trois modèles suit immédiatement le chapitre 4", (
   const render=read("parcours.js");
   assert.match(render,/function resumeModelesPage\(\)/);
   assert.match(render,/i === 3 \? `<a class="fo-pager-next" href="#modeles-resume">/);
-  assert.match(render,/i === 4 \? `<a class="fo-pager-prev" href="#modeles-resume">/);
+  assert.match(render,/i === 4 \? `<a class="fo-pager-prev" href="#absurde">/);
   assert.match(render,/hash === "#modeles-resume" \? resumeModelesPage\(\)/);
   assert.match(render,/synthese\.casCommun\.lectures\.map/);
   assert.match(render,/resume-limites/);
@@ -891,7 +914,7 @@ test("la page Méthode détaille la construction, les hypothèses testables et l
   for(let i=1;i<=6;i++)assert.match(html,new RegExp("H"+i+" ·"));
   assert.match(html,/sensibilité, spécificité, fidélité/i);
   assert.match(html,/pas des versions officielles validées/);
-  assert.match(html,/Les 79 questions/);
+  assert.match(html,/Les 82 questions/);
   assert.match(html,/traduction automatique fournie par Google/);
   assert.match(html,/une simulation réussie valide un comportement du programme/i);
 });
@@ -959,4 +982,85 @@ test("la formation et l'accueil montrent le schéma du rapport", () => {
   assert.match(parcours, /schemaRapport\(-1/);
   assert.match(read("index.html"), /import \{ schemaRapport \} from "\.\/formation-illustrations\.js"/);
   assert.match(read("index.html"), /Quatre façons de regarder le burn-out/);
+});
+
+
+// ───────── L'absurde : famille de la jauge du travail, portrait du recul, migration V11
+const absurde = require(path.join(ROOT, "absurde.js"));
+
+test("l'absurde devient une famille de la jauge du travail, sur les mêmes 4 crans", () => {
+  const crans = [0, 1, 2, 3].map((reponse) => {
+    const r = debugApi(completeAnswers({ overrides: Object.fromEntries(Array.from({ length: 13 }, (_, i) => ["BS" + (i + 1), reponse])) })).calculateResults();
+    return r.lectureAbsurde.score;
+  });
+  assert.equal(crans[0].n, 0);
+  assert.equal(crans[0].mot, "ça va");
+  assert.equal(crans[3].n, 3);
+  assert.equal(crans[3].mot, "ça use beaucoup");
+  assert.ok(crans[3].lignes.length > 0 && crans[3].lignes.length <= 3);
+  assert.ok(crans.every((c, i) => i === 0 || c.n >= crans[i - 1].n));
+});
+
+test("une sauvegarde sans BS V3 n'invente pas de niveau d'absurde", () => {
+  assert.deepEqual(absurde.scoreAbsurde({ bullshit: { skipped: true } }), { n: null, mot: "non renseigné", lignes: [] });
+  assert.equal(absurde.scoreAbsurde({ bullshit: { skipped: false, version: "2026-11-bs-v2", percent: 80, dims: {} } }).n, null);
+  assert.equal(absurde.reculAbsurde({}).mot, "non renseigné");
+});
+
+test("le portrait du recul croise RA1 avec la récupération et la distance, sans points", () => {
+  const ra = (v1, v2 = 0) => ({ skipped: false, answers: [{ id: "RA1", value: v1 }, { id: "RA2", value: v2 }] });
+  const bsHaut = { skipped: false, version: "2026-11-bs-v3", percent: 80, dims: { meeting: 80 } };
+  const rire = absurde.reculAbsurde({ bullshit: bsHaut, reactionAbsurde: ra(0), sectionScores: { F: 4, B: 4 } });
+  assert.match(rire.titre, /cirque/);
+  const rireFatigue = absurde.reculAbsurde({ bullshit: bsHaut, reactionAbsurde: ra(0), sectionScores: { F: 18, B: 4 } });
+  assert.match(rireFatigue.titre, /récupères mal/);
+  const rumine = absurde.reculAbsurde({ bullshit: bsHaut, reactionAbsurde: ra(2), sectionScores: { F: 18 } });
+  assert.match(rumine.texte, /pas un manque d'humour/);
+  assert.match(rumine.texte, /récupération le confirme/);
+  const retrait = absurde.reculAbsurde({ bullshit: bsHaut, reactionAbsurde: ra(3, 3), sectionScores: { B: 16 } });
+  assert.match(retrait.titre, /cessé d'attendre du sens/);
+  assert.equal(retrait.lignes[1].mot, "plutôt en solo");
+  // Aucun score caché : le portrait ne renvoie que des mots.
+  for (const p of [rire, rireFatigue, rumine, retrait]) assert.deepEqual(Object.keys(p).sort(), ["lignes", "mot", "texte", "titre"]);
+});
+
+test("RA1 et RA2 n'entrent dans aucun score A–F ni dans l'indice satirique", () => {
+  const a = debugApi(completeAnswers({ overrides: { RA1: 0, RA2: 0 } })).calculateResults();
+  const b = debugApi(completeAnswers({ overrides: { RA1: 3, RA2: 3 } })).calculateResults();
+  assert.equal(JSON.stringify(a.sectionScores), JSON.stringify(b.sectionScores));
+  assert.equal(a.totalScore, b.totalScore);
+  assert.equal(a.bullshit.percent, b.bullshit.percent);
+  assert.notEqual(a.lectureAbsurde.recul.titre, b.lectureAbsurde.recul.titre);
+  const refus = debugApi(completeAnswers({ overrides: { RA1: 4, RA2: 4 } })).calculateResults();
+  assert.ok(refus, "« Je préfère ne pas répondre » est une réponse valide");
+  assert.equal(refus.lectureAbsurde.recul.mot, "non renseigné");
+});
+
+test("la migration V11 retire les anciennes réponses BS sans en inventer, et prolonge un saut complet", () => {
+  const code = read("parcours.js");
+  const found = code.match(/function migrerBullshitometreV10\(reponses\) \{[\s\S]*?\n\}/);
+  const migrate = new Function(found[0] + "\nreturn migrerBullshitometreV10;")();
+  const old = { A1: "2", HR1: "3", ...Object.fromEntries(Array.from({ length: 12 }, (_, i) => ["BS" + (i + 1), "1"])) };
+  const m = migrate(old);
+  assert.equal(m.reponses.A1, "2");
+  assert.equal(m.reponses.HR1, "3");
+  assert.equal(m.reponses.BS1, undefined);
+  assert.equal(m.reponsesARelire, 12);
+  const saut = migrate(Object.fromEntries(Array.from({ length: 12 }, (_, i) => ["BS" + (i + 1), "skip"])));
+  for (let i = 1; i <= 13; i++) assert.equal(saut.reponses["BS" + i], "skip");
+  assert.equal(saut.reponses.RA1, "4");
+  assert.equal(saut.reponsesARelire, 0);
+});
+
+test("l'interlude sur l'absurde s'insère sans décaler les chapitres", async () => {
+  const { interludeAbsurde } = await import(path.join(ROOT, "formation-absurde.js"));
+  const { chapitres } = await import(path.join(ROOT, "formation-contenu.js"));
+  assert.equal(chapitres.length, 9);
+  assert.equal(interludeAbsurde.exo.situations.length, 3);
+  for (const s of interludeAbsurde.exo.situations) assert.equal(s.choix.length, s.fb.length);
+  for (const b of interludeAbsurde.blocs.filter((x) => x.t === "rappel")) assert.ok(chapitres[b.chap], "Rappel vers un chapitre existant");
+  const render = read("parcours.js");
+  assert.match(render, /hash === "#absurde" \? absurdePage\(\)/);
+  assert.match(render, /href="#absurde"><small>Continuer →/);
+  assert.match(absurde.pictoPipeau(0, 0, 40), /^<g class="picto-pipeau"/);
 });
