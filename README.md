@@ -1,14 +1,14 @@
 # Bull-Out · prévention burn-out sans bullshit
 
-Site éducatif de prévention du burn-out : une formation en dix chapitres, un questionnaire de 86 questions et un rapport personnel. Tout se calcule dans le navigateur : rien n'est envoyé.
+Site éducatif de prévention du burn-out : une formation en onze chapitres, un questionnaire de 88 questions et un rapport personnel. Tout se calcule dans le navigateur : rien n'est envoyé.
 En ligne : [bullout.ddlab.fr](https://bullout.ddlab.fr) (l'ancienne adresse bull-out.netlify.app reste active).
 
 Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Ce n'est pas un outil de diagnostic, et le questionnaire n'est pas validé scientifiquement : voir [Méthode et limites](methode.html).
 
 ## Le parcours
 
-1. **La formation** (`test.html#formation`) : dix chapitres avec Sam en fil rouge, un exercice par chapitre, une synthèse des trois modèles après le chapitre 4, une synthèse finale, un test final et un diplôme. À la fin de chaque chapitre, une pièce du schéma du rapport se pose.
-2. **Le questionnaire** (`test.html#questionnaire`) : six parties notées A à F (0 à 24), puis des parties hors score (retour Siegrist, quatre repères RPS, bullshitomètre et réaction à l'humour, appuis, durée et évolution, contexte, sécurité).
+1. **La formation** (`test.html#formation`) : onze chapitres avec Sam en fil rouge, un exercice par chapitre, une synthèse des trois modèles après le chapitre 4, une synthèse finale, un test final et un diplôme. À la fin de chaque chapitre, une pièce du schéma du rapport se pose.
+2. **Le questionnaire** (`test.html#questionnaire`) : six parties notées A à F (0 à 24), puis des parties hors score (retour Siegrist, six repères RPS, bullshitomètre et réaction à l'humour, appuis, durée et évolution, contexte, sécurité).
 3. **Le rapport** : feu et trois cadrans, schéma (le travail, toi, ce qui se voit), lecture des trois modèles, plan d'action, interlocuteurs, pièces détaillées, annexes. PDF essentiel, complet, ou fiche travail sans données de santé.
 
 ## Les fichiers

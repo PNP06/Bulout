@@ -1,6 +1,5 @@
 import { illustrations, schemaRapport } from "./formation-illustrations.js";
 import { chapitres, examen, introduction, synthese, temps } from "./formation-contenu.js";
-import { interludeAbsurde } from "./formation-absurde.js";
 import { dateLocale, dessiner, exporterPNG, lireDiplome } from "./diplome.js";
 
 const $ = (s, root = document) => root.querySelector(s);
@@ -33,11 +32,13 @@ const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller pl
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
 // Ce que chaque chapitre ajoute au schéma du rapport (formation-illustrations.js, schemaRapport), comme le papillon de Papillon.
 // Chaque pièce apporte une donnée et une règle de lecture (comme Papillon). Une réponse n'est dessinée qu'à un seul endroit.
+const VERSION_FORMATION = "2026-11-11-chapitres";
 const SCHEMA_TEXTE = [
   "Au centre, <b>ta fatigue</b> : l’épuisement, décrocher le soir, dormir, et ce que change un congé. C’est le modèle <b>effort-récupération</b>. <b>Règle de lecture : la fatigue est normale, ce qui compte, c’est si le repos la répare.</b> Boucle fermée et verte, ça récupère ; boucle ouverte et orange, le repos ne suit plus. À droite, <b>ton corps</b> : ce que la fatigue abîme quand elle dure.",
   "À droite, <b>ta relation au travail</b> : la distance, la perte d’efficacité, et le sens à part. Avec l’épuisement, ce sont les trois signes de Maslach, marqués <b>M</b>. <b>Règle : ils se lisent un par un, jamais en total.</b> L’épuisement est dans ta fatigue, les deux autres dans l’impact : l’usure ne se résume pas à la fatigue.",
   "À gauche, <b>le travail</b> commence par une pesée : <b>ton travail t’aide-t-il assez ?</b> D’un côté ce qu’on te demande, de l’autre ce qui t’aide (Karasek, puis JD-R). <b>Règle : on lit de quel côté ça penche.</b> Une aide qui manque pèse autant qu’une tâche en plus.",
-  "Une seconde pesée : <b>ce que tu donnes est-il payé ?</b> Ce que tu donnes, c’est ta charge vue comme un échange ; ce que tu reçois, c’est l’estime, l’équité, le salaire, l’avenir (Siegrist). Au centre, <b>trop investi·e ?</b> Et <b>l’absurde</b> : les tâches qui ne servent à rien et la qualité empêchée, avec, chez toi, <b>ton recul face à l’absurde</b>. <b>Règle : chaque réponse n’a qu’une place.</b>",
+  "Une seconde pesée : <b>ce que tu donnes est-il payé ?</b> Ce que tu donnes, c’est ta charge vue comme un échange ; ce que tu reçois, c’est l’estime, l’équité, le salaire, l’avenir (Siegrist). Au centre, <b>trop investi·e ?</b> : dire non, vouloir prouver. <b>Règle : on lit de quel côté ça penche, et ce qui rend le déséquilibre invisible.</b>",
+  "Dans le travail, <b>l’absurde</b> (le pipeau) : les tâches qui ne servent à rien, les tâches qui ne devraient pas être les tiennes, la qualité empêchée. Au centre, <b>ton recul face à l’absurde</b> : en rire, s’agacer puis lâcher, ruminer, ne plus réagir. <b>Règle : l’absurde compte dans la jauge du travail ; ta réaction se lit en mots, sans points, avec ta récupération et ta distance.</b>",
   "Au centre, <b>tes appuis</b> : ce qui te tient, et en pointillés ce que tu portes à côté (une séparation, un deuil, un proche malade). À droite, <b>ta vie hors travail</b> : ce que le travail te fait sacrifier. <b>Règle : ce qui est perso change la lecture, jamais le score, et ne remplace pas le travail.</b>",
   "En haut, <b>les trois jauges</b> : ton travail, ta fatigue, les impacts. Chacune résume sa colonne en un mot. <b>Règle : un mot, pas un pourcentage ; une tendance, pas un diagnostic.</b> On regarde d’abord les jauges, puis la colonne sous la plus orange. L’ordre des colonnes n’est pas une preuve : c’est une piste à vérifier avec ta chronologie.",
   "Sur la colonne du travail, <b>six pastilles</b> : les six familles de risques du travail (Gollac, INRS). <b>Règle : la jauge du travail dit à quoi tu es exposé·e, les deux autres ce que ça te fait.</b> Une famille allumée avec une fatigue verte reste à traiter : on n’attend pas d’être épuisé·e pour changer le travail.",
@@ -57,7 +58,7 @@ function rail(actif) {
   let html = `<li class="${actif === "#formation" ? "ici" : ""}"><a href="#formation" ${actif === "#formation" ? 'aria-current="step"' : ""}><span class="fo-num">·</span><span>Introduction</span></a></li>`;
   temps.forEach((tp, k) => {
     html += `<li class="fo-rail-temps" aria-hidden="true">${tp.split("·")[1].trim()}</li>`;
-    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les quatre modèles, ensemble", false) + item("#absurde", "♪", "Interlude · " + interludeAbsurde.court, false); } });
+    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les quatre modèles, ensemble", false); } });
   });
   html += item("#synthese", "★", "Synthèse", false) + item("#quiz-final", "?", "Test final", bonnes === examen.length) + item("#diplome", "◇", "Ton diplôme", Boolean(dateDiplome));
   return `<aside class="fo-rail" aria-label="Sommaire de la formation"><p class="fo-rail-titre">La formation</p><ol>${html}</ol>
@@ -133,7 +134,7 @@ function exerciceHTML(i, e = chapitres[i].exo, fait = acquis.has(i)) {
     <ol class="fo-sits">${e.situations.map((s, k) => `<li class="fo-sit" data-sit="${k}"><p class="fo-sit-q"><span class="fo-label">Situation ${k + 1} sur ${e.situations.length}</span>${s.q}</p>
       <div class="fo-choix" role="group" aria-label="Réponses de la situation ${k + 1}">${s.choix.map((c, j) => `<button type="button" data-sit="${k}" data-choix="${j}" aria-pressed="${fait && j === s.bonne}" class="${fait && j === s.bonne ? "juste" : ""}"><b>${lettre(j)}</b><span>${c}</span></button>`).join("")}</div>
       <p class="fo-fb ${fait ? "ok" : ""}" aria-live="polite" ${fait ? "" : "hidden"}>${fait ? s.fb[s.bonne] : ""}</p></li>`).join("")}</ol>
-    <p class="fo-exo-note" role="status">${fait ? "Exercice réussi : le chapitre est validé." : i < 0 ? "Choisis une réponse : l’explication s’affiche tout de suite. Cet interlude ne conditionne pas le diplôme. Rien n’est noté ni envoyé." : "Choisis une réponse : l’explication s’affiche tout de suite. Le chapitre est validé quand les trois situations sont résolues. Rien n’est noté ni envoyé."}</p></section>`;
+    <p class="fo-exo-note" role="status">${fait ? "Exercice réussi : le chapitre est validé." : "Choisis une réponse : l’explication s’affiche tout de suite. Le chapitre est validé quand les trois situations sont résolues. Rien n’est noté ni envoyé."}</p></section>`;
 }
 
 function chapitre(i) {
@@ -141,7 +142,7 @@ function chapitre(i) {
   const titres = [];
   const corps = c.blocs.map(b => bloc(b, titres)).join("");
   titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
-  const avant = i === 4 ? `<a class="fo-pager-prev" href="#absurde"><small>← Retour à</small><b>Interlude · ${interludeAbsurde.court}</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
+  const avant = i === 4 ? `<a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>Les quatre modèles, ensemble</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
   const apres = i === 3 ? `<a class="fo-pager-next" href="#modeles-resume"><small>Étape suivante →</small><b>Les quatre modèles, ensemble</b></a>` : i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
   const contenu = `
     <p class="fo-temps-k">${temps[c.temps]}</p>
@@ -180,33 +181,10 @@ function resumeModelesPage() {
     <h2 id="resume-limites" class="fo-h">Quatre angles ne font pas quatre preuves</h2>
     <p>${synthese.casCommun.conclusion} <b>Le niveau de preuve ne se multiplie pas avec le nombre de théories</b> : certaines interprètent les mêmes réponses, et le cas de Sam ne suffit pas à identifier une cause.</p>
     <p>La synthèse de fin de formation reviendra sur ces modèles et présentera trois éclairages supplémentaires : <b>Hobfoll</b>, <b>Gollac / INRS</b> et <b>Clot</b> (la qualité empêchée).</p>
-    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="#absurde"><small>Continuer →</small><b>Interlude · ${interludeAbsurde.court}</b></a></nav>`;
+    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="${ancre(4)}"><small>Chapitre suivant →</small><b>5 · ${chapitres[4].court}</b></a></nav>`;
   return cadre("#modeles-resume", contenu, titres);
 }
 
-// Interlude sur l'absurde : même gabarit qu'un chapitre, hors du tableau `chapitres` (aucun index ne bouge).
-function absurdePage() {
-  const c = interludeAbsurde;
-  const titres = [];
-  const corps = c.blocs.map(b => bloc(b, titres)).join("");
-  titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
-  const pipeau = window.BullOutAbsurde ? `<svg viewBox="0 0 48 48" class="fo-chap-picto" aria-hidden="true">${window.BullOutAbsurde.pictoPipeau(2, 2, 44)}</svg>` : "♪";
-  const contenu = `
-    <p class="fo-temps-k">${temps[1]}</p>
-    <header class="fo-chap-tete"><span class="fo-chap-n">${pipeau}</span><div><p class="fo-chap-meta">Interlude, après le chapitre 4 · environ ${c.duree} minutes</p><h1 tabindex="-1">${c.titre}</h1></div></header>
-    <section class="fo-savoir"><p class="fo-label">Ce que tu sauras faire</p><ul>${c.savoir.map(s => `<li>${s}</li>`).join("")}</ul></section>
-    <aside class="fo-arrive"><p class="fo-label">Tu arrives peut-être avec</p><p>${c.arrive}</p></aside>
-    <aside class="fo-retenir"><p class="fo-label">À retenir</p><p>${c.retenir}</p></aside>
-    ${corps}
-    ${exerciceHTML(-1, c.exo, false)}
-    <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
-    <details class="fo-sources"><summary>Sources de cet interlude</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
-    <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
-    <aside class="fo-piece fo-piece-absurde" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(3)}<figcaption>Exemple fictif : Sam. L’absurde et ton recul face à lui sont posés à gauche avec la seconde pesée. <b>L’absurde compte dans la jauge « Ton travail »</b> ; ton recul colore la lecture, sans ajouter de point.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · interlude</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
-    <p class="fo-suite">${c.suite}</p>
-    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>Les quatre modèles, ensemble</b></a><a class="fo-pager-next" href="${ancre(4)}"><small>Chapitre suivant →</small><b>5 · ${chapitres[4].court}</b></a></nav>`;
-  return cadre("#absurde", contenu, titres);
-}
 // ───────── Test final et diplôme
 function quiz() {
   let contenu;
@@ -291,9 +269,11 @@ function porteHTML() {
 // ───────── Affichage
 function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
-  const numero = /^#chapitre-([1-9])$/.exec(hash);
+  // L'ancienne adresse de l'interlude mène au chapitre 5 sur l'absurde.
+  if (hash === "#absurde") { location.replace("#chapitre-5"); return; }
+  const numero = /^#chapitre-([1-9][0-9]?)$/.exec(hash);
   const valide = numero && Number(numero[1]) <= chapitres.length;
-  const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#absurde", "#synthese", "#quiz-final", "#diplome"].includes(hash);
+  const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#synthese", "#quiz-final", "#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
   if (numero && !valide) { location.replace("#chapitre-" + chapitres.length); return; }
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
@@ -309,7 +289,7 @@ function afficher(focus = true) {
   });
   if (enFormation) {
     if (page !== ancien) justes = new Set();
-    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#modeles-resume" ? resumeModelesPage() : hash === "#absurde" ? absurdePage() : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
+    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#modeles-resume" ? resumeModelesPage() : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
     formation.innerHTML = html;
     if ($("#prenom")) {
       $("#prenom").value = prenom;
@@ -364,7 +344,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v3", versionReactionHumour: "2026-11-hr-v2", versionReactionAbsurde: "2026-11-ra-v1", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionFormation: VERSION_FORMATION, versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v3", versionReactionHumour: "2026-11-hr-v2", versionReactionAbsurde: "2026-11-ra-v1", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -476,15 +456,15 @@ function restaurer(p) {
     reponsesARelire += migrationBS.reponsesARelire;
     p = { ...p, format, versionBullshitometre: "2026-11-bs-v3", versionReactionAbsurde: "2026-11-ra-v1", reponses: migrationBS.reponses };
   }
-  // Ajout du chapitre 7 (six familles de risques) : préserver les acquis 1–6 et décaler les anciens 7–9.
-  // Les diplômes déjà délivrés restent reconnus, sans inventer de réponses RPS.
-  if (p?.format === format && p.versionFormation !== "2026-11-rps-10-chapitres" &&
-      Array.isArray(p.chapitres) && p.chapitres.every(i => i < 9)) {
-    const ancienDiplome = p.bonnes === examen.length && dateValide(p.dateDiplome);
-    const remappes = p.chapitres.map(i => i >= 6 ? i + 1 : i);
-    p = { ...p, versionFormation: "2026-11-rps-10-chapitres",
-      chapitres: ancienDiplome ? [...new Set([...remappes, 6])].sort((x, y) => x - y) : remappes,
-      versionQuestions: "2026-11-rps-v1" };
+  // Passage de 9 à 11 chapitres : l’absurde devient le chapitre 5, les six familles de risques le chapitre 8.
+  // Anciens 1–4 inchangés ; 5 → 6, 6 → 7, 7 → 9, 8 → 10, 9 → 11. Un diplôme déjà obtenu reste valable.
+  if (p?.format === format && p.versionFormation !== VERSION_FORMATION &&
+      Array.isArray(p.chapitres) && p.chapitres.every(i => Number.isInteger(i) && i < 9)) {
+    const ancienDiplome = (p.bonnes === 9 || p.bonnes === examen.length) && dateValide(p.dateDiplome);
+    const remappes = p.chapitres.map(i => (i <= 3 ? i : i <= 5 ? i + 1 : i + 2));
+    p = { ...p, versionFormation: VERSION_FORMATION, versionQuestions: "2026-11-rps-v1",
+      chapitres: ancienDiplome ? chapitres.map((_, k) => k) : remappes,
+      bonnes: ancienDiplome ? examen.length : 0 };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
@@ -542,9 +522,8 @@ async function importer(input) {
 
 // Exercice d’un chapitre : chaque situation affiche son explication tout de suite.
 function repondreSituation(btn) {
-  const interlude = page === "#absurde";
-  const i = interlude ? -1 : Number(page.split("-")[1]) - 1;
-  const exo = interlude ? interludeAbsurde.exo : chapitres[i].exo;
+  const i = Number(page.split("-")[1]) - 1;
+  const exo = chapitres[i].exo;
   const k = Number(btn.dataset.sit), j = Number(btn.dataset.choix);
   const s = exo.situations[k];
   const li = btn.closest(".fo-sit");
@@ -557,10 +536,6 @@ function repondreSituation(btn) {
   fb.className = "fo-fb " + (ok ? "ok" : "ko");
   fb.textContent = (ok ? "Oui. " : "Pas tout à fait. ") + s.fb[j].replace(/^Oui\. /, "") + (ok ? "" : " Essaie une autre réponse.");
   if (ok) justes.add(k);
-  if (interlude) {
-    if (justes.size === exo.situations.length) $(".fo-exo-note", formation).textContent = "Exercice réussi. Tu as tous les outils pour démasquer le pipeau.";
-    return;
-  }
   if (justes.size === exo.situations.length && !acquis.has(i)) {
     acquis.add(i);
     $(".fo-exo-note", formation).textContent = "Exercice réussi : le chapitre est validé.";

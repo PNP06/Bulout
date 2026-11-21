@@ -136,7 +136,7 @@
     title: "G. Ce qui t'aide à tenir",
     explore: "tes points d'appui : ce qui te recharge, ce qui te soutient, ce que tu sais déjà faire pour te protéger.",
     sources: "Recovery Experience Questionnaire de Sonnentag et Fritz (détachement, relaxation, maîtrise), ressources personnelles du modèle JD-R (Xanthopoulou et al.), soutien social (Karasek), stratégies d'ajustement (Lazarus et Folkman)",
-    chapitres: [3, 8],
+    chapitres: [3, 9],
     questions: [
       "Je vis au travail des moments où je me sens utile et à la hauteur.",
       "J'arrive à décrocher vraiment du travail au moins une soirée ou une journée par semaine.",
@@ -168,17 +168,19 @@
   };
 
   // Repères RPS complémentaires : expositions auto-déclarées, hors score A–F.
-  // Quatre lacunes du référentiel Gollac/INRS, sans prétention psychométrique.
+  // Six lacunes du référentiel Gollac/INRS, sans prétention psychométrique.
   const rpsPart = {
-    id: "RPS", title: "Ton travail au quotidien : quatre repères de plus",
-    explore: "quatre risques du travail que les autres questions voient mal : le repos grignoté, les émotions à cacher, les changements imposés, les décisions prises sans toi.",
+    id: "RPS", title: "Ton travail au quotidien : six repères de plus",
+    explore: "six risques du travail que les autres questions voient mal : le repos grignoté, les émotions à cacher, les changements imposés, les décisions prises sans toi, l’agressivité ou la détresse des autres, un travail où tu n’apprends plus.",
     sources: "Gollac et Bodier (2011), INRS (six familles de RPS), COPSOQ III (dimensions, sans reproduction de son échelle)",
-    chapitres: [7],
+    chapitres: [8],
     questions: [
       "Mes horaires, changements de planning ou sollicitations professionnelles empiètent sur mes temps de repos ou ma vie personnelle.",
       "Je dois masquer ou simuler ce que je ressens dans mes interactions professionnelles pour faire mon travail.",
       "Des changements dans mon travail me sont imposés sans visibilité ni préparation suffisantes.",
-      "Des décisions qui modifient directement mon travail sont prises sans que je puisse faire entendre mon point de vue."
+      "Des décisions qui modifient directement mon travail sont prises sans que je puisse faire entendre mon point de vue.",
+      "Dans mon travail, je fais face à l'agressivité, aux tensions ou à la détresse d'autres personnes (public, clients, usagers, patients, collègues).",
+      "Mon travail me laisse peu d'occasions d'utiliser ce que je sais faire ou d'apprendre de nouvelles choses."
     ]
   };
   // Partie BS : le bullshitomètre (données dans bullshitometre-data.js). Satirique, hors score.
@@ -190,7 +192,7 @@
     title: "Le bullshitomètre",
     explore: "la part d'absurde dans ton travail : réunions sans décision, tableaux de bord sans usage, livrables que personne ne lit, tâches qui ne devraient pas être les tiennes. On en rit, et on le compte : c'est une exigence qui use.",
     sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; tâches illégitimes (Semmer et al., 2015) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
-    chapitres: [3, 4],
+    chapitres: [5],
     questions: BS.questions
   };
 
@@ -206,7 +208,7 @@
     title: "Et cette pause humour, comment tu l'as vécue ?",
     explore: "ton expérience immédiate du questionnaire satirique : amusement, peine, impression de banalisation et recul perçu. Ces réactions peuvent coexister.",
     sources: "questions originales Bull-Out sur le ressenti immédiat ; aucune validation psychométrique et aucun effet protecteur inféré",
-    chapitres: [2],
+    chapitres: [5],
     questions: [
       { text: "Ces questions m'ont amusé·e ou fait sourire.", options: humorReactionOptions },
       { text: "Certaines questions m'ont fait de la peine ou mis·e mal à l'aise.", options: humorReactionOptions },
@@ -223,7 +225,7 @@
     title: "Et dans la vraie vie, l'absurde, tu en fais quoi ?",
     explore: "ta façon habituelle de réagir à une absurdité au travail : en rire et passer à autre chose, s'agacer puis lâcher, ruminer, ou ne plus réagir. Et si l'on peut en rire à plusieurs.",
     sources: "questions originales Bull-Out ; recul, rumination et détachement psychologique (Sonnentag et Fritz, 2007) ; humour partagé et soutien entre collègues. Aucune validation psychométrique",
-    chapitres: [2, 3],
+    chapitres: [5, 1],
     questions: [
       { text: "Quand une absurdité te tombe dessus au travail, le plus souvent :",
         sub: "Pas celle d'aujourd'hui. Celle de d'habitude.",
@@ -253,7 +255,7 @@
     title: "T. Depuis quand, et dans quelles conditions ?",
     explore: "la durée, l'évolution et les changements observés hors travail, sans diagnostic ni attribution causale automatique.",
     sources: "repérage clinique du burn-out (HAS), analyse des situations de travail (INRS) et questions originales Bull-Out non validées",
-    chapitres: [1, 5, 6],
+    chapitres: [1, 6, 7],
     questions: [
       { text: "Depuis quand ressens-tu les difficultés qui t'ont amené·e ici ?", options: [
         { text: "Je ne rencontre pas de difficulté particulière" },
@@ -603,7 +605,7 @@
     };
     ["A", "B", "C", "D", "E"].forEach(scored);
     addPart("RPS", rpsPart.title, PERIOD,
-      "Quatre questions de plus sur ton travail au quotidien. Elles n'entrent dans aucun score : une réponse haute appelle un exemple concret, pas une étiquette.",
+      "Six questions de plus sur ton travail au quotidien. Elles n'entrent dans aucun score : une réponse haute appelle un exemple concret, pas une étiquette.",
       rpsPart.questions.map((question, qIndex) => createRatingQuestion(rpsPart, question, qIndex)), index++,
       about(rpsPart.explore, rpsPart.sources, rpsPart.chapitres));
     addPart("R", exchangePart.title, PERIOD,

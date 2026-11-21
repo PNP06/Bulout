@@ -49,7 +49,7 @@ try {
     [3,1,3,2,1,2].forEach((v,i)=>response["G"+(i+1)]=v);
     [2,1,2,3,3,2].forEach((v,i)=>response["R"+(i+1)]=v);
     [3,2,2,3].forEach((v,i)=>response["T"+(i+1)]=v);
-    [3,2,4,3].forEach((v,i)=>response["RPS"+(i+1)]=v);
+    [3,2,4,3,2,1].forEach((v,i)=>response["RPS"+(i+1)]=v);
     [1,2,2,3,2,1,3,2,1,2,3,2,2].forEach((v,i)=>response["BS"+(i+1)]=v);
     [2,1].forEach((v,i)=>response["RA"+(i+1)]=v);
     [4,2,3,3].forEach((v,i)=>response["HR"+(i+1)]=v);
@@ -86,7 +86,7 @@ try {
     return summary;
   });
   if(pageErrors.length)throw new Error("Erreurs JavaScript page: "+pageErrors.join(" ; "));
-  if(synth.items!==86)throw new Error(`Attendu 86 réponses, reçu ${synth.items}`);
+  if(synth.items!==88)throw new Error(`Attendu 88 réponses, reçu ${synth.items}`);
   if(synth.alertes)throw new Error("Le profil d'exemple ne doit pas déclencher de réponse de sécurité");
   await page.addStyleTag({content:`@media print {
     .site-header, .site-footer, #questionnaire, #espace-formation, #porte-test,

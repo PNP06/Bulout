@@ -334,7 +334,7 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
 .fo-h3 { font: 800 20px/1.25 var(--title); margin: 26px 0 8px; color: var(--sapin); }
 .fo-piece-vide { margin: 10px 0 0; padding: 14px; border-radius: 18px; background: #f5fbdc; border: 2px dashed var(--anis); }
 
-/* Interlude « L'absurde » : pipeau dans la pastille du chapitre, rappels vers les chapitres précédents. */
+/* Chapitre 5 « L'absurde » : pipeau dans la pastille du chapitre, rappels vers les chapitres précédents. */
 .fo-chap-n .fo-chap-picto { width: 1.4em; height: 1.4em; display: block; }
 .fo-rappel { border-left: 4px solid var(--sub, #6b4fa3); }
 .fo-rappel .fo-label a { color: inherit; }
