@@ -43,6 +43,8 @@ jobs:
           # Identité nécessaire pour le commit ET pour le rebase qui suit.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add bull-out-memo.pdf
           if ! git diff --cached --quiet; then
             git commit -m "Mettre à jour le PDF du dossier Bull-Out"
