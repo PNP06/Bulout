@@ -427,12 +427,12 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   const rpsAnswers = r.rpsAnswers || [];
   const rpsFortes = rpsAnswers.filter((a) => a.value >= 3);
   const rpsFamilles = [
-    { nom: "Intensité et temps de travail", ids: ["D1", "D2", "D6", "RPS1"], limite: "Le temps de travail et les horaires ne sont pas demandés directement." },
-    { nom: "Exigences émotionnelles", ids: ["D5", "RPS2"], limite: "Une seule question, très générale ; les situations relationnelles précises restent inconnues." },
-    { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4", "RPS4"], limite: "Les ressources et l'autorité sont abordées, mais pas toutes les marges de décision." },
-    { nom: "Rapports sociaux au travail", ids: ["E2", "E3", "E5", "E6"], limite: "Le soutien, l'arbitrage, la reconnaissance et l'équité sont partiellement interrogés." },
-    { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Le conflit éthique est interrogé par oui/non et la qualité empêchée par une fréquence T4 ; les situations précises restent à documenter." },
-    { nom: "Insécurité professionnelle", ids: [], retour: "R3", rps: "RPS3", limite: "Une seule question sur la stabilité perçue ; les changements imposés restent peu explorés." }
+    { nom: "Intensité et temps de travail", ids: ["D1", "D2", "D6", "RPS1"], limite: "Débordements interrogés, mais durée de travail et horaires réels non vérifiés.", action: "Quels horaires débordent, à quelles dates, et qui peut arbitrer ?" },
+    { nom: "Exigences émotionnelles", ids: ["D5", "RPS2"], limite: "Émotions difficiles et masquées, sans caractériser agressions ou exposition à la souffrance.", action: "Quelles interactions demandent de masquer tes émotions, et quel soutien existe ?" },
+    { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4", "RPS4"], limite: "Moyens et participation explorés, pas le développement des compétences.", action: "Sur quelles décisions pourrais-tu être consulté·e ?" },
+    { nom: "Rapports sociaux au travail", ids: ["E2", "E3", "E5", "E6"], contexte: "harassment", limite: "Soutien et équité explorés ; violences seulement déclarées en oui/non, sans qualification juridique.", action: "Quels faits datés examiner avec un interlocuteur sûr ?" },
+    { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Conflit éthique oui/non et qualité empêchée T4 ; circonstances à préciser.", action: "Quelle qualité ou exigence de sécurité n’a pas pu être respectée ?" },
+    { nom: "Insécurité professionnelle", ids: [], retour: "R3", rps: "RPS3", limite: "Sécurité de l’emploi et transformations subies, sans explorer toutes les formes de précarité.", action: "Quel changement est annoncé, et quelle préparation manque ?" }
   ];
   const rpsCartes = rpsFamilles.map((famille) => {
     const signaux = famille.ids.map((id) => id.startsWith("RPS")
@@ -443,14 +443,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     const retourBas = famille.retour && rep[famille.retour]?.value <= 1;
     const changementSubi = famille.rps && rpsAnswers.some((a) => a.id === famille.rps && a.value >= 3);
     const signale = signaux.length > 0 || ouiContexte || retourBas || qualiteFrequente || changementSubi;
-    const detail = signaux.length
-      ? signaux.map((a) => `<span class="rp-id">${esc(a.id)}</span> ${esc(a.question)}`).join(" ; ")
-      : changementSubi ? "Des changements imposés sans préparation suffisante sont signalés (RPS3)." : qualiteFrequente ? "La qualité empêchée est déclarée fréquemment (T4, hors score)." : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
-        : retourBas ? "La stabilité ou la sécurité d'emploi est peu ressentie (R3)."
-          : "Aucun signal fréquent parmi les éléments interrogés, ce qui n’exclut pas une exposition.";
+    const details = signaux.map((a) => `<span class="rp-id">${esc(a.id)}</span> ${esc(a.question)}`);
+    if (changementSubi) details.push("Changements imposés sans préparation signalés (RPS3).");
+    if (qualiteFrequente) details.push("Qualité empêchée fréquemment déclarée (T4).");
+    if (ouiContexte) details.push(famille.contexte === "harassment"
+      ? "Humiliations ou violences déclarées : rechercher les faits et les protections, même sans fatigue."
+      : "Conflit éthique déclaré dans le contexte.");
+    if (retourBas) details.push("Sentiment de sécurité d’emploi faible (R3).");
+    const detail = details.join(" ; ") || "Aucun signal fréquent parmi les éléments interrogés, ce qui n’exclut pas une exposition.";
     return `<article class="rp-rps-famille ${signale ? "is-signal" : ""}">
       <div><h5>${famille.nom}</h5><span class="rp-rps-status">${signale ? "Élément à éclaircir" : "Pas de signal marqué dans les réponses retenues"}</span></div>
-      <p>${detail}</p><p class="rp-rps-limite">${famille.limite}</p></article>`;
+      <p>${detail}</p><p><b>Pour agir :</b> ${esc(famille.action)}</p><p class="rp-rps-limite">${famille.limite}</p></article>`;
   }).join("");
   const grilleRPS = `<section class="rp-rps" aria-labelledby="rp-rps-title"><h4 class="rp-h" id="rp-rps-title">Six familles de facteurs psychosociaux</h4>
     <p>Le référentiel français <a href="https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html" target="_blank" rel="noopener">INRS / Gollac</a> décrit six familles d'expositions. Ce tableau relie tes réponses à ces thèmes, sans fabriquer de six nouveaux scores ni prétendre les couvrir complètement.</p>
@@ -575,7 +578,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
         <pre class="rp-trace" id="rp-trace">${esc(brouillon)}</pre>
         <p><button type="button" class="button secondary" data-copier-trace>Copier le brouillon</button></p>
         <div class="rp-cle"><b>Ton journal de bord.</b> Chaque semaine, deux lignes : ce qui s'est passé (date, tâche, volume) et ce que tu as demandé. Garde-le pour toi, hors de la messagerie professionnelle. Le jour où il faut en parler, il évite la « parole contre parole ».</div>`,
-      comprendre: pourComprendre("Ce que dit la loi", `<p>L'employeur a une <b>obligation de sécurité</b> : il doit prévenir les risques pour la santé physique et mentale, pas seulement réparer (article L4121-1 du Code du travail), en agissant d'abord sur l'organisation du travail (L4121-2). Il échappe à sa responsabilité s'il <b>prouve</b> avoir pris les mesures nécessaires (Cour de cassation, 2015). Une surcharge connue et laissée sans réponse peut suffire, même sans harcèlement. Les risques psychosociaux doivent figurer dans le document unique d'évaluation des risques, que tu peux demander à consulter.</p><p>Ce n'est pas un conseil juridique personnalisé : pour une situation précise, un représentant du personnel, l'inspection du travail ou un avocat peuvent t'aider.</p>`, chapLien(8)),
+      comprendre: pourComprendre("Ce que dit la loi", `<p>L'employeur a une <b>obligation de sécurité</b> : il doit prévenir les risques pour la santé physique et mentale, pas seulement réparer (article L4121-1 du Code du travail), en agissant d'abord sur l'organisation du travail (L4121-2). Il échappe à sa responsabilité s'il <b>prouve</b> avoir pris les mesures nécessaires (Cour de cassation, 2015). Une surcharge connue et laissée sans réponse peut suffire, même sans harcèlement. Les risques psychosociaux doivent figurer dans le document unique d'évaluation des risques, que tu peux demander à consulter.</p><p>Ce n'est pas un conseil juridique personnalisé : pour une situation précise, un représentant du personnel, l'inspection du travail ou un avocat peuvent t'aider.</p>`, chapLien(9)),
       garder: "Une trace se lit mieux à deux. Dernière pièce : à qui en parler."
     },
     {
@@ -584,7 +587,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       bref: `Proposés d'après tes réponses : ${esc(liste(r.stakeholderRecommendations.map((x) => minus(x.stakeholder.name))))}.`,
       corps: `<div class="rp-portes">${r.stakeholderRecommendations.map((x) => carte(esc(x.stakeholder.name), `<p class="rp-pourquoi">${esc(x.why)}</p><p><b>Son rôle :</b> ${esc(x.stakeholder.shortRole)}</p><p class="rp-phrase">« ${esc(x.stakeholder.script)} »</p><a href="agir.html${x.stakeholder.anchor}">Fiche détaillée</a>`, x.key === "emergency" ? "urgence" : "")).join("")}</div>
         <p class="rp-urgences"><b>Toujours valable :</b> idées suicidaires, <a href="tel:3114">3114</a> (gratuit, 24 h/24). Danger immédiat : <a href="tel:15">15</a> ou <a href="tel:112">112</a>.</p>`,
-      comprendre: pourComprendre("Ce que peut faire le médecin du travail", `<p>Le médecin du travail est tenu au secret médical vis-à-vis de l'employeur. Tu peux le voir à ta demande, sans passer par ton manager. Il peut proposer des aménagements de poste ou de temps de travail, et alerter sur des risques collectifs sans révéler ce que tu lui as dit.</p>`, chapLien(9)),
+      comprendre: pourComprendre("Ce que peut faire le médecin du travail", `<p>Le médecin du travail est tenu au secret médical vis-à-vis de l'employeur. Tu peux le voir à ta demande, sans passer par ton manager. Il peut proposer des aménagements de poste ou de temps de travail, et alerter sur des risques collectifs sans révéler ce que tu lui as dit.</p>`, chapLien(10)),
       garder: "Garde ce rapport et refais le questionnaire dans deux à quatre semaines : c'est la trajectoire qui compte."
     }
   ];
