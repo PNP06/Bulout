@@ -1,5 +1,6 @@
 // Illustrations de la formation, dessinées à la main en SVG dans la charte DD Lab.
 // Chacune montre le mécanisme du chapitre sur l’histoire de Sam : pas de décor, pas d’image générique.
+const VERT = "#6fbf8f"; // code couleur commun : vert = ça protège
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", soft: "#fbf7ef", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#ddd4c2", violet: "#5b3fcf", muted: "#6b7d78" };
 
 const svg = (titre, desc, w, h, corps) =>
@@ -45,7 +46,7 @@ export const illustrations = {
   jauges: svg("Les trois jauges de Sam",
     "Trois jauges verticales. Épuisement, rempli à 80 % : « Je suis vidé ». Distance mentale, rempli à 65 % : « À quoi bon ? ». Efficacité réduite, rempli à 55 % : « Je n’y arrive plus ».",
     640, 340, [
-      ["Épuisement", "« Je suis vidé »", .8, C.orange, 110],
+      ["Épuisement", "« Je suis vidé »", .8, "#a8401c", 110],
       ["Distance mentale", "« À quoi bon ? »", .65, C.orange, 320],
       ["Efficacité réduite", "« Je n’y arrive plus »", .55, "#d9a21b", 530],
     ].map(([nom, citation, niv, coul, x]) => `
@@ -66,7 +67,7 @@ export const illustrations = {
     <path d="M16 316H184" stroke="${C.sapin}" stroke-width="7" stroke-linecap="round"/>
     <path d="M456 222H624" stroke="${C.sapin}" stroke-width="7" stroke-linecap="round"/>
     ${chip(26, 190, 148, "42 mails non lus", C.orange)}${chip(26, 220, 148, "3 urgences « pour hier »", C.orange)}${chip(26, 250, 148, "Réunion à 18 h 30", C.orange)}${chip(26, 280, 148, "Dossier de Marc", C.ink, C.creme)}
-    ${chip(466, 130, 148, "Pause déjeuner", C.anis, C.sapin, true)}${chip(466, 160, 148, "Marc, le collègue", C.anis, C.sapin, true)}${chip(466, 190, 148, "Soirées", C.anis, C.sapin, true)}
+    ${chip(466, 130, 148, "Pause déjeuner", VERT, C.sapin, true)}${chip(466, 160, 148, "Marc, le collègue", VERT, C.sapin, true)}${chip(466, 190, 148, "Soirées", VERT, C.sapin, true)}
     ${t(100, 40, "EXIGENCES", { a: "middle", cls: "k", c: C.ink })}${t(100, 60, "ce que le travail demande", { a: "middle", cls: "s" })}
     ${t(540, 40, "RESSOURCES", { a: "middle", cls: "k", c: C.mid })}${t(540, 60, "ce qui aide à le faire", { a: "middle", cls: "s" })}
     ${t(540, 250, "retirées dans la semaine", { a: "middle", cls: "s", c: C.ink })}`),
@@ -87,7 +88,7 @@ export const illustrations = {
     ${t(92, 48, "du mal à dire non, à couper", { cls: "s", c: C.violet })}
     ${[["Salaire", false, 404], ["Estime", true, 468], ["Perspectives", true, 532], ["Sécurité", true, 596]].map(([n, absent, x], i) => {
       const y = 166 - (x - 320) * 0.192 - 28;
-      return `<circle cx="${x}" cy="${y}" r="22" fill="${absent ? "none" : C.anis}" stroke="${C.sapin}" stroke-width="2.5" ${absent ? 'stroke-dasharray="5 5"' : ""}/>${t(x, i % 2 ? y - 32 : y + 42, n, { a: "middle", cls: "s" })}`;
+      return `<circle cx="${x}" cy="${y}" r="22" fill="${absent ? "none" : VERT}" stroke="${C.sapin}" stroke-width="2.5" ${absent ? 'stroke-dasharray="5 5"' : ""}/>${t(x, i % 2 ? y - 32 : y + 42, n, { a: "middle", cls: "s" })}`;
     }).join("")}
     ${t(500, 30, "RETOUR", { a: "middle", cls: "k", c: C.mid })}${t(500, 48, "ce que Sam reçoit", { a: "middle", cls: "s" })}`),
 

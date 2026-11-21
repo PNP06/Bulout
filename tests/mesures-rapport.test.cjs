@@ -193,9 +193,12 @@ test("les réponses aux questions d'alerte restent exclues du fichier de progres
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
   const html = read("index.html");
-  assert.match(html, /Ressenti de Sam/);
-  assert.match(html, /En forme/);
-  assert.doesNotMatch(html, /id="bo-pct"[^>]*>80 %/);
+  assert.match(html, /id="bo-fill-a"/);
+  assert.match(html, /id="bo-fill-f"/);
+  assert.match(html, />Épuisement</);
+  assert.match(html, /difficile · F/);
+  assert.match(html, /class="bo-legende"/);
+  assert.doesNotMatch(html, /id="bo-pct"[^>]*>\d+ %/);
 });
 
 

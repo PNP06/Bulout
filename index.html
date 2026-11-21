@@ -66,7 +66,7 @@
             <p class="home-reassure">Gratuit. Rien n'est envoyé : tes réponses restent dans ton navigateur.</p>
             <p class="home-made"><span aria-hidden="true">✓</span> Développé avec deux psys, et en discussion avec un juge aux prud'hommes.</p>
           </div>
-          <figure class="bo-scene" id="bo-scene" aria-label="Exemple fictif : Sam, 38 ans. L’indicateur est une image narrative et ne mesure pas son énergie.">
+          <figure class="bo-scene" id="bo-scene" aria-label="Exemple fictif : Sam, 38 ans. Deux colonnes montent quand ça use : son épuisement et sa récupération difficile. Image narrative, sans mesure.">
             <div class="bo-scene-top">
               <span class="bo-who">Exemple fictif : Sam, 38 ans</span>
               <button class="bo-replay" type="button" id="bo-replay">Rejouer</button>
@@ -81,11 +81,15 @@
             <svg class="bo-svg" viewBox="0 0 560 330" role="img" aria-labelledby="bo-svg-desc">
               <desc id="bo-svg-desc">Illustration symbolique et non chiffrée : Sam ressent une fatigue croissante ; contraintes et ressources de travail sont présentées séparément de ses manifestations. Aucune relation causale individuelle n’est prouvée par le dessin.</desc>
               <g class="bo-battery">
-                <rect class="bo-bat-cap" x="72" y="18" width="46" height="14" rx="4"/>
-                <rect class="bo-bat-body" x="40" y="30" width="110" height="250" rx="16"/>
-                <rect class="bo-bat-fill" id="bo-fill" x="52" y="42" width="86" height="226" rx="9"/>
-                <text class="bo-bat-pct" id="bo-pct" x="95" y="168" text-anchor="middle">En forme</text>
-                <text class="bo-bat-lbl" x="95" y="306" text-anchor="middle">Ressenti de Sam</text>
+                <text class="bo-bat-pct" id="bo-pct" x="97" y="24" text-anchor="middle">Ça va</text>
+                <rect class="bo-col-track" x="28" y="38" width="46" height="222" rx="12"/>
+                <rect class="bo-col-fill" id="bo-fill-a" x="32" y="42" width="38" height="214" rx="9"/>
+                <rect class="bo-col-track" x="118" y="38" width="46" height="222" rx="12"/>
+                <rect class="bo-col-fill" id="bo-fill-f" x="122" y="42" width="38" height="214" rx="9"/>
+                <text class="bo-bat-lbl" x="51" y="280" text-anchor="middle">Épuisement</text>
+                <text class="bo-bat-lbl bo-bat-sub" x="51" y="296" text-anchor="middle">partie A</text>
+                <text class="bo-bat-lbl" x="141" y="280" text-anchor="middle">Récupération</text>
+                <text class="bo-bat-lbl bo-bat-sub" x="141" y="296" text-anchor="middle">difficile · F</text>
               </g>
               <g class="bo-bubble" id="bo-bubble">
                 <path d="M170,62 h104 a14,14 0 0 1 14,14 v24 a14,14 0 0 1 -14,14 h-84 l-16,14 v-14 h-4 a14,14 0 0 1 -14,-14 v-24 a14,14 0 0 1 14,-14z"/>
@@ -113,6 +117,7 @@
                 </g>
               </g>
             </svg>
+            <p class="bo-legende" aria-label="Code couleur"><span><i class="c0"></i>ça va, ça protège</span><span><i class="c1"></i>à surveiller</span><span><i class="c2"></i>ça use</span><span><i class="c3"></i>ça use beaucoup</span></p>
             <figcaption class="bo-caption" id="bo-caption" aria-live="polite">Lundi, Sam commence sa semaine avec de l’énergie. Illustration fictive, sans mesure quantitative.</figcaption>
           </figure>
         </div>

@@ -1999,8 +1999,13 @@
     const scene = document.querySelector("#bo-scene");
     if (!scene) return;
     // Niveaux graphiques illustratifs : aucun pourcentage physiologique n’est calculé.
-    const LEVELS = [80, 45, 15, 35, 35];
-    const LABELS = ["En forme", "Fatigué", "Saturé", "Peu reposé", "Sous tension"];
+    // Deux colonnes, comme au centre du schéma du rapport : épuisement (A) et récupération difficile (F).
+    // Elles montent quand ça use ; la couleur suit le code unique (vert ça va, jaune à surveiller, orange ça use).
+    const NIV_A = [.15, .42, .74, .7, .7];
+    const NIV_F = [.1, .3, .55, .82, .82];
+    const TEINTES = ["#6fbf8f", "#e0b13c", "#e8794f", "#d0602c"];
+    const teinte = (v) => TEINTES[v < .25 ? 0 : v < .5 ? 1 : v < .78 ? 2 : 3];
+    const LABELS = ["Ça va", "Fatigué", "Saturé", "Ne récupère plus", "Sous tension"];
     const CAPS = [
       "Lundi, Sam commence sa semaine <strong>avec de l'énergie</strong>. 42 mails, 3 urgences : la pression monte.",
       "Mercredi, la <strong>pause déjeuner saute</strong> et le collègue qui aidait est parti. Son dossier, lui, est resté.",
@@ -2008,7 +2013,8 @@
       "Après le week-end, Sam récupère difficilement. <strong>Quatre semaines plus tard</strong>, il décrit toujours la même fatigue.",
       "Sam décrit un travail exigeant et une récupération difficile. <strong>Cela mérite d'examiner les contraintes, les ressources et sa santé</strong>, sans déduire une cause certaine de ce dessin."
     ];
-    const fill = scene.querySelector("#bo-fill");
+    const fillA = scene.querySelector("#bo-fill-a");
+    const fillF = scene.querySelector("#bo-fill-f");
     const pct = scene.querySelector("#bo-pct");
     const caption = scene.querySelector("#bo-caption");
     const chips = [...scene.querySelectorAll("#bo-acts button")];
@@ -2023,7 +2029,10 @@
       const previous = act;
       act = next;
       scene.dataset.act = String(act);
-      fill.style.setProperty("--lvl", String(LEVELS[act] / 100));
+      fillA.style.setProperty("--lvl", String(NIV_A[act]));
+      fillF.style.setProperty("--lvl", String(NIV_F[act]));
+      fillA.style.fill = teinte(NIV_A[act]);
+      fillF.style.fill = teinte(NIV_F[act]);
       pct.textContent = LABELS[act];
       demands.forEach((d) => {
         const visible = Number(d.dataset.in) <= Math.min(act, 2);
