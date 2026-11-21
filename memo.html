@@ -1,172 +1,128 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Le point du vendredi · Bull-Out</title>
-    <meta name="description" content="Une minute chaque vendredi pour repérer ce qui use au travail, ce qui protège et ce qu’on peut changer. Un aide-mémoire Bull-Out illustré.">
-    <link rel="canonical" href="https://bullout.ddlab.fr/memo.html">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Bull-Out">
-    <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="Le point du vendredi · Bull-Out">
-    <meta property="og:description" content="Le rituel Bull-Out d’une minute chaque vendredi : quatre questions, des schémas et une chose à changer lundi.">
-    <meta property="og:url" content="https://bullout.ddlab.fr/memo.html">
-    <meta property="og:image" content="https://bullout.ddlab.fr/bull-out-social.png">
-    <link rel="stylesheet" href="memo.css">
-  </head>
-  <body>
-    <!--
-      Le point du vendredi. Une page A4, la même pour tout le monde :
-      aucune donnée personnelle, aucune réponse au questionnaire.
-      Après toute modification de ce fichier, régénérer le PDF :
-        node tests/generer-memo-pdf.mjs
-      Le script vérifie que le mémo tient sur une seule page A4 et écrit bull-out-memo.pdf.
-      Les numéros ont été vérifiés le 21/11/2026 (sante.fr, service-public.fr, DREETS,
-      monparcourshandicap.gouv.fr) : revérifier avant de changer la date du pied de page.
-    -->
-    <header class="memo-outils">
-      <p class="slogan">Prévention burn-out sans bullshit</p>
-      <h1>Le point du vendredi</h1>
-      <p>Une page illustrée à ressortir chaque vendredi avant le week-end : quatre questions, les repères de la formation et une décision pour lundi. Aucune réponse personnelle n’est enregistrée.</p>
-      <div class="memo-boutons">
-        <a class="memo-btn principal" href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Garder la fiche (PDF)</a>
-        <a class="memo-btn" href="test.html#diplome">Retour à mon diplôme</a>
-        <a href="agir.html#aide">Besoin d’aide maintenant ?</a>
-      </div>
-    </header>
-
-    <main class="memo">
-      <article class="feuille" aria-label="Le point du vendredi : mémo Bull-Out d'une page">
-        <header class="entete">
-          <div class="entete-texte">
-            <p class="marque">BULL-OUT <span aria-hidden="true">/</span> À GARDER SOUS LA MAIN</p>
-            <h1>Le point du <em>vendredi.</em></h1>
-            <p class="sous-titre">Avant de fermer l’ordinateur : <b>une minute</b> pour relire ta semaine autrement.</p>
-          </div>
-          <div class="horloge" aria-label="Une minute, une fois par semaine">
-            <svg viewBox="0 0 92 92" role="img" aria-label="Cadran d'une minute">
-              <circle cx="46" cy="46" r="35" fill="none" stroke="#d8f25c" stroke-width="5" stroke-dasharray="177 44" stroke-linecap="round" transform="rotate(-90 46 46)"/>
-              <circle cx="46" cy="46" r="27" fill="#234c43"/>
-              <path d="M46 28v19l14 9" fill="none" stroke="#f8f7ed" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="46" cy="46" r="3" fill="#d8f25c"/>
-            </svg>
-            <span>1 min</span>
-          </div>
-        </header>
-
-        <section class="bloc" aria-labelledby="m-carte">
-          <div class="ligne-titre"><h2 id="m-carte">La carte à garder en tête</h2><span class="repere">3 angles · pas 3 diagnostics</span></div>
-          <div class="trois-zones">
-            <div class="zone">
-              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Une balance entre les demandes du travail et les moyens disponibles">
-                <path d="M71 15v35M53 51h36M43 20h56" stroke="#123a33" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <circle cx="71" cy="17" r="6" fill="#1d5c50"/>
-                <path d="M43 20 24 48h38L43 20Zm56 0L80 41h38L99 20Z" fill="#e8794f" opacity=".83"/>
-                <path d="M43 20 26 48h34M99 20 82 41h34" fill="none" stroke="#123a33" stroke-width="2" stroke-linejoin="round"/>
-                <rect x="16" y="48" width="53" height="5" rx="2" fill="#123a33"/><rect x="73" y="41" width="53" height="5" rx="2" fill="#123a33"/>
-              </svg>
-              <h3>LE TRAVAIL</h3>
-              <p>Ce qu’il me demande.<br><b>Ce qu’il me donne pour y arriver.</b></p>
-            </div>
-            <div class="zone">
-              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Une boucle d'effort et de récupération">
-                <path d="M23 35c0-13 12-22 27-22 16 0 26 8 28 21" fill="none" stroke="#1d5c50" stroke-width="5" stroke-linecap="round"/>
-                <path d="m68 27 11 9 7-13" fill="none" stroke="#1d5c50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M119 32c0 13-12 22-27 22-16 0-26-8-28-21" fill="none" stroke="#e8794f" stroke-width="5" stroke-linecap="round" stroke-dasharray="8 6"/>
-                <path d="m74 41-11-9-7 13" fill="none" stroke="#e8794f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <h3>MA FATIGUE</h3>
-              <p>Ce que la semaine me coûte.<br><b>Ce que le repos me rend.</b></p>
-            </div>
-            <div class="zone">
-              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Trois cercles représentant le travail, la santé et la vie personnelle">
-                <circle cx="54" cy="26" r="18" fill="#d8f25c" stroke="#123a33" stroke-width="2.3"/>
-                <circle cx="83" cy="26" r="18" fill="#e3eee9" stroke="#123a33" stroke-width="2.3"/>
-                <circle cx="69" cy="43" r="18" fill="#fde6da" stroke="#123a33" stroke-width="2.3"/>
-                <path d="M54 23v7m-3-3h6M80 22l7 7m0-7-7 7M65 43h9" stroke="#123a33" stroke-width="2.5" stroke-linecap="round"/>
-              </svg>
-              <h3>LES IMPACTS</h3>
-              <p>Ma relation au travail.<br><b>Ma santé et ma vie hors boulot.</b></p>
-            </div>
-          </div>
-          <p class="regle"><b>Le réflexe :</b> chercher ce qui use <b>dans le travail</b>, sans négliger la santé. Des liens à examiner, pas une preuve de causalité.</p>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-questions">
-          <div class="ligne-titre"><h2 id="m-questions">Les 4 questions du vendredi</h2><span class="repere">Les modèles, sans réciter le cours</span></div>
-          <div class="questions">
-            <div class="question q1">
-              <svg viewBox="0 0 52 52" role="img" aria-label="Flèches formant un cycle">
-                <path d="M10 27a16 16 0 0 1 29-9M42 25a16 16 0 0 1-29 9" fill="none" stroke="#1d5c50" stroke-width="4" stroke-linecap="round"/>
-                <path d="m38 9 1 11-11-1M14 43l-1-11 11 1" fill="none" stroke="#1d5c50" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <div><span class="modele">EFFORT–RÉCUPÉRATION</span><h3>Est-ce que je récupère vraiment ?</h3><p>Le repos est un indice. S’il ne suffit plus, je m’interroge.</p></div>
-            </div>
-            <div class="question q2">
-              <svg viewBox="0 0 52 52" role="img" aria-label="Trois voyants qui représentent les signes décrits par Maslach">
-                <circle cx="11" cy="26" r="8" fill="#e8794f"/><circle cx="26" cy="26" r="8" fill="#f2c76a"/><circle cx="41" cy="26" r="8" fill="#e3eee9" stroke="#1d5c50" stroke-width="2"/>
-                <path d="M11 23v5m15-5v5m15-5v5" stroke="#123a33" stroke-width="2.5" stroke-linecap="round"/>
-              </svg>
-              <div><span class="modele">MASLACH</span><h3>Plus vidé, plus distant, moins sûr de moi ?</h3><p>Trois signes possibles. Aucun ne suffit à diagnostiquer.</p></div>
-            </div>
-            <div class="question q3">
-              <svg viewBox="0 0 52 52" role="img" aria-label="Deux plateaux d'une balance demandes-ressources">
-                <path d="M26 7v36M12 43h28M8 17h36" fill="none" stroke="#1d5c50" stroke-width="3.3" stroke-linecap="round"/>
-                <path d="M12 17 5 33h15L12 17Zm28 0-7 16h15L40 17Z" fill="#d8f25c" stroke="#123a33" stroke-width="1.6"/>
-              </svg>
-              <div><span class="modele">JD-R · DEMANDES / RESSOURCES</span><h3>On m’en demande trop, ou on m’aide trop peu ?</h3><p>Temps, moyens, autonomie et soutien comptent aussi.</p></div>
-            </div>
-            <div class="question q4">
-              <svg viewBox="0 0 52 52" role="img" aria-label="Deux mains stylisées qui échangent">
-                <rect x="6" y="12" width="26" height="11" rx="5.5" fill="#d8f25c" stroke="#123a33" stroke-width="1.8"/>
-                <path d="m31 17 10 0-5-5m5 5-5 5M21 35H11l5-5m-5 5 5 5" fill="none" stroke="#1d5c50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="20" y="29" width="26" height="11" rx="5.5" fill="#e3eee9" stroke="#123a33" stroke-width="1.8"/>
-              </svg>
-              <div><span class="modele">SIEGRIST · EFFORT / RETOUR</span><h3>Je donne beaucoup. Qu’est-ce que je reçois ?</h3><p>Reconnaissance, salaire, perspectives et sécurité.</p></div>
-            </div>
-          </div>
-        </section>
-
-        <section class="absurde" aria-label="Une question sur les tâches absurdes">
-          <svg viewBox="0 0 118 64" role="img" aria-label="Pile de dossiers inutiles et petit tampon urgent">
-            <rect x="13" y="39" width="63" height="14" rx="3" fill="#f8f7ed" stroke="#123a33" stroke-width="2"/>
-            <rect x="23" y="26" width="63" height="14" rx="3" fill="#e3eee9" stroke="#123a33" stroke-width="2"/>
-            <rect x="33" y="13" width="63" height="14" rx="3" fill="#d8f25c" stroke="#123a33" stroke-width="2"/>
-            <path d="M42 20h25m-35 13h25m-34 13h25" stroke="#1d5c50" stroke-width="2.3" stroke-linecap="round"/>
-            <circle cx="100" cy="45" r="12" fill="#e8794f" stroke="#123a33" stroke-width="1.6"/>
-            <path d="m95 40 10 10m0-10-10 10" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
-          </svg>
-          <div><h2>Et le bullshit de la semaine ?</h2><p><b>Qu’est-ce qui m’a pris du temps sans produire de valeur ?</b> L’absurde peut user. En rire peut aider sur le moment ; ça ne règle pas l’organisation.</p></div>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-six">
-          <div class="ligne-titre"><h2 id="m-six">Les 6 endroits où chercher les risques</h2><span class="repere">Même si, pour l’instant, « ça va »</span></div>
-          <div class="familles" aria-label="Six familles de facteurs de risques psychosociaux">
-            <span><i aria-hidden="true">◷</i> Charge / temps</span>
-            <span><i aria-hidden="true">♡</i> Émotions</span>
-            <span><i aria-hidden="true">↔</i> Autonomie</span>
-            <span><i aria-hidden="true">◎</i> Relations</span>
-            <span><i aria-hidden="true">◇</i> Valeurs</span>
-            <span><i aria-hidden="true">△</i> Insécurité</span>
-          </div>
-        </section>
-
-        <section class="fin-semaine" aria-labelledby="m-decision">
-          <div class="ligne-titre"><h2 id="m-decision">Et lundi ? Une décision suffit pour commencer.</h2><span class="repere">À noter si tu veux, sans score</span></div>
-          <div class="trois-decisions">
-            <div><span class="pastille">01</span><b>Ce qui m’aide</b><p>Je le garde.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
-            <div><span class="pastille">02</span><b>Ce qui m’use</b><p>Je le fais discuter / arbitrer.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
-            <div><span class="pastille">03</span><b>Si ça persiste</b><p>Je n’attends pas d’être à bout.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
-          </div>
-        </section>
-
-        <footer class="pied">
-          <div><b>Besoin d’aide ?</b> Médecin traitant ou médecin du travail (visite à ta demande). <b>Idées suicidaires :</b> 3114. <b>Urgence :</b> 15 / 112.</div>
-          <div class="pied-bas"><span>Un rappel, pas un diagnostic ni une évaluation RPS · <a href="methode.html">Méthode</a> · <a href="agir.html">Agir</a></span><b>bullout.ddlab.fr</b></div>
-        </footer>
-      </article>
-    </main>
-  </body>
-</html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dossier stagiaire · Les 11 idées de la formation Bull-Out</title><meta name="description" content="Les onze chapitres de Bull-Out en six pages illustrées : effort-récupération, Maslach, JD-R, Siegrist, bullshit, risques psychosociaux et prévention."><link rel="canonical" href="https://bullout.ddlab.fr/memo.html"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:site_name" content="Bull-Out"><meta property="og:locale" content="fr_FR"><meta property="og:title" content="Dossier stagiaire · Bull-Out"><meta property="og:description" content="Un support illustré pour retrouver les concepts des onze chapitres après la formation."><meta property="og:url" content="https://bullout.ddlab.fr/memo.html"><meta property="og:image" content="https://bullout.ddlab.fr/bull-out-social.png"><link rel="stylesheet" href="memo.css"></head><body><!-- Support universel : aucune donnée individuelle, aucun script de questionnaire. Après toute retouche, régénérer bull-out-memo.pdf via tests/generer-memo-pdf.mjs et vérifier la pagination et le rendu. --><header class="memo-outils"><p class="slogan">Bull-Out · Prévention de l'usure au travail</p><h1>Le dossier à garder après la formation</h1><p>Les onze chapitres et les quatre modèles, illustrés et expliqués pour retrouver une notion sans refaire tout le parcours. Ce document est <b>commun à tous</b> : aucune réponse personnelle.</p><div class="memo-boutons"><a class="memo-btn principal" href="bull-out-memo.pdf" download="dossier-formation-bull-out.pdf" type="application/pdf">Télécharger le dossier illustré (PDF)</a><a class="memo-btn" href="formation.html">Revoir la formation</a><a href="test.html#diplome">Retour au diplôme</a></div></header><main class="memo"><article class="feuille" aria-label="Page 1 : La carte du cours"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>La carte du cours</span></header>
+ <div class="hero"><div><p class="eyebrow">LE SUPPORT STAGIAIRE</p><h1>Ce que tu dois retenir <em>du burn-out.</em></h1><p>Onze chapitres, quatre modèles, une idée : <b>comprendre ce qui use avant de décider quoi changer.</b></p></div><svg viewBox="0 0 100 80" role="img" aria-label="Une loupe observe trois parties d'une situation"><circle cx="41" cy="34" r="23" fill="#e3eee9" stroke="#123a33" stroke-width="5"/><path d="M58 51 81 74" stroke="#123a33" stroke-width="7" stroke-linecap="round"/><circle cx="34" cy="28" r="5" fill="#d8f25c"/><circle cx="49" cy="28" r="5" fill="#e8794f"/><circle cx="42" cy="43" r="5" fill="#1d5c50"/></svg></div>
+ <div class="notion"><p class="eyebrow">LE FIL ROUGE DE LA FORMATION</p><h2>Le travail, la personne et les conséquences : trois lectures différentes.</h2>
+ <div class="triade"><div><b>01 · LE TRAVAIL</b><span>Exigences, ressources, reconnaissance, absurdité et facteurs de risques.</span></div><div><b>02 · LA FATIGUE</b><span>Épuisement, difficulté à décrocher et à récupérer.</span></div><div><b>03 · LES IMPACTS</b><span>Relation au travail, corps, erreurs, vie hors travail.</span></div></div>
+ <p class="notice"><b>À retenir :</b> rapprocher ces trois angles aide à raisonner ; le schéma ne prouve aucune relation de cause à effet.</p></div>
+ <section class="toc"><div class="section-heading"><h2>Retrouver un chapitre en quelques secondes</h2><span>La numérotation est celle de la formation</span></div>
+ <div class="toc-grid"><div class="toc-group"><h3>01 · Nommer les signes</h3><a href="#chap-1"><b>01</b> Fatigue, stress ou burn-out</a><a href="#chap-2"><b>02</b> Les trois signes de Maslach</a></div>
+ <div class="toc-group"><h3>02 · Comprendre ce qui use</h3><a href="#chap-3"><b>03</b> Exigences et ressources</a><a href="#chap-4"><b>04</b> Effort et récompense</a><a href="#chap-5"><b>05</b> Le travail absurde</a><a href="#chap-6"><b>06</b> Le piège du « c'est perso »</a><a href="#chap-7"><b>07</b> Ce que valent les mesures</a><a href="#chap-8"><b>08</b> Les six familles de risques</a></div>
+ <div class="toc-group full"><h3>03 · Passer à l'action</h3><a href="#chap-9"><b>09</b> Retirer, reporter, simplifier</a><a href="#chap-10"><b>10</b> La loi et la prévention</a><a href="#chap-11"><b>11</b> Les interlocuteurs utiles</a></div></div></section>
+ <div class="repere-bandeau"><b>La bonne question :</b> « Qu'est-ce qui, dans cette situation de travail, est observable, modifiable et discutable ? »</div>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>1 / 6</span></footer></article>
+<article class="feuille" aria-label="Page 2 : Nommer les signes"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>Nommer les signes</span></header>
+ <div class="page-heading"><p class="eyebrow">PARTIE 1 · COMPRENDRE LE VÉCU</p><h2>Fatigue, stress, burn-out : ne pas tout mettre dans la même case.</h2><p>Les deux premiers chapitres te donnent des indices pour décrire une situation, pas pour poser un diagnostic.</p></div>
+ <section class="chap" id="chap-1">
+ <div class="chap-heading"><span class="chap-num">01</span><div><p class="small-label">CHAPITRE 1 / 11</p><h3>Ce que le repos te rend</h3></div></div>
+ <p class="chap-core"><b>La fatigue n'est pas automatiquement un burn-out.</b> La durée, l'évolution et la récupération comptent.</p>
+ <p><b>Le mécanisme.</b> Le modèle effort–récupération (Meijman & Mulder) décrit l'effort suivi d'une récupération nécessaire. Quand on repart avant d'avoir récupéré, la fatigue peut s'accumuler. Le détachement du travail (Sonnentag & Fritz) aide à rompre ce cycle.</p>
+ <p class="sam"><b>Avec Sam.</b> Après dix jours de congé, il récupère ; trois jours après la reprise, il se sent de nouveau vidé. C'est un indice à examiner avec ses conditions de travail.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Un mieux en vacances ou une fatigue persistante ne prouvent ni une cause unique ni un burn-out. D'autres situations de santé doivent être envisagées.</p>
+</section>
+ <figure class="illustration"><figcaption>Le modèle effort–récupération en un dessin</figcaption><svg viewBox="0 0 360 115" role="img" aria-label="Deux boucles effort et récupération : l'une refermée, l'autre qui ne se referme pas"><text x="5" y="17" class="svg-label">La boucle se ferme</text><path d="M55 47a32 30 0 1 1-2 1" fill="none" stroke="#1d5c50" stroke-width="9" stroke-linecap="round"/><path d="M45 35 55 48 66 34" fill="none" stroke="#d8f25c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><text x="17" y="102">effort → repos → récupération</text><text x="183" y="17" class="svg-label">La boucle reste ouverte</text><path d="M246 43a32 30 0 1 1-5 7" fill="none" stroke="#e8794f" stroke-width="9" stroke-linecap="round" stroke-dasharray="11 7"/><path d="M265 36v27m-12-13h24" stroke="#123a33" stroke-width="4" stroke-linecap="round"/><text x="186" y="102">effort → repos insuffisant → cumul</text></svg><p>Le problème n'est pas d'être fatigué après un effort. C'est de ne plus réussir à <b>refermer la boucle</b>.</p></figure>
+ <section class="chap" id="chap-2">
+ <div class="chap-heading"><span class="chap-num">02</span><div><p class="small-label">CHAPITRE 2 / 11</p><h3>Les trois dimensions de Maslach</h3></div></div>
+ <p class="chap-core"><b>Être épuisé ne suffit pas à résumer l'expérience.</b> Il faut regarder aussi la relation au travail et l'efficacité ressentie.</p>
+ <p><b>Le mécanisme.</b> Christina Maslach distingue trois dimensions : épuisement, distance mentale ou cynisme, efficacité professionnelle réduite. Elles peuvent évoluer différemment ; ce ne sont pas trois étapes obligatoires.</p>
+ <p class="sam"><b>Avec Sam.</b> Il ne se dit pas seulement fatigué : il devient cynique en réunion, doute de lui et relit trois fois ses mails.</p>
+ <p class="limite"><b>À ne pas confondre.</b> La distance mentale peut avoir plusieurs significations. Ces signes existent aussi dans d'autres situations ; ils ne font pas un diagnostic individuel.</p>
+</section>
+ <figure class="illustration"><figcaption>Trois dimensions à observer séparément</figcaption><svg viewBox="0 0 350 104" role="img" aria-label="Trois dimensions différentes du burn-out : épuisement, distance mentale, efficacité réduite"><rect x="5" y="8" width="102" height="76" rx="12" fill="#fde6da"/><rect x="124" y="8" width="102" height="76" rx="12" fill="#fbf0d2"/><rect x="243" y="8" width="102" height="76" rx="12" fill="#e3eee9"/><g stroke="#123a33" fill="none" stroke-width="4" stroke-linecap="round"><path d="M33 27v34m18-34v34m18-34v34"/><path d="M153 46h43M153 46l11-11m-11 11 11 11"/><path d="M264 30h60m-60 13h41m-41 13h24"/></g><text x="56" y="97" text-anchor="middle">Épuisement</text><text x="175" y="97" text-anchor="middle">Distance</text><text x="294" y="97" text-anchor="middle">Efficacité</text></svg><p><b>Pas de flèche entre les trois :</b> aucun ordre universel n'est établi.</p></figure>
+ <aside class="attention"><b>Définition OMS (CIM-11) :</b> le burn-out est décrit comme un <b>phénomène lié au contexte professionnel</b>, issu d'un stress chronique au travail non géré avec succès. Ce n'est pas classé comme maladie dans la CIM-11.</aside>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>2 / 6</span></footer></article>
+<article class="feuille" aria-label="Page 3 : Deux modèles du travail"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>Deux modèles du travail</span></header>
+ <div class="page-heading"><p class="eyebrow">PARTIE 2 · COMPRENDRE CE QUI USE</p><h2>Pourquoi deux personnes avec la même charge peuvent vivre deux réalités différentes.</h2><p>Deux modèles célèbres examinent des questions complémentaires, sans fournir une équation du risque.</p></div>
+ <section class="chap" id="chap-3">
+ <div class="chap-heading"><span class="chap-num">03</span><div><p class="small-label">CHAPITRE 3 / 11</p><h3>Le modèle exigences–ressources (JD-R)</h3></div></div>
+ <p class="chap-core"><b>Le travail n'est pas seulement une quantité de tâches.</b> Il comporte aussi les moyens de les accomplir.</p>
+ <p><b>Le mécanisme.</b> Le modèle JD-R (Demerouti, Bakker et collègues, 2001) distingue les <b>exigences</b> (charge, complexité, interruptions, tensions émotionnelles) et les <b>ressources</b> (autonomie, soutien, temps, clarté). Des exigences durables associées à peu de ressources favorisent l'usure ; les ressources soutiennent aussi l'engagement.</p>
+ <p class="sam"><b>Avec Sam.</b> On lui confie un nouveau projet sans lui rendre de temps ni désigner de relais. La charge monte pendant que ses moyens baissent.</p>
+ <p class="limite"><b>À ne pas confondre.</b> La balance est une image : les scores de deux échelles ne se soustraient pas pour produire un risque individuel.</p>
+</section>
+ <figure class="illustration illustration-large"><figcaption>JD-R : deux questions, pas une soustraction</figcaption><svg viewBox="0 0 360 133" role="img" aria-label="Une balance pédagogique entre exigences et ressources"><path d="M180 26v74M147 102h66M96 36h168" stroke="#123a33" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="180" cy="26" r="10" fill="#d8f25c"/><path d="M96 36 61 97h70L96 36Z" fill="#fde6da" stroke="#123a33" stroke-width="3"/><path d="M264 36 229 97h70L264 36Z" fill="#e3eee9" stroke="#123a33" stroke-width="3"/><text x="96" y="79" text-anchor="middle">Trop à faire</text><text x="264" y="79" text-anchor="middle">Ce qui aide</text><text x="96" y="123" text-anchor="middle">EXIGENCES</text><text x="264" y="123" text-anchor="middle">RESSOURCES</text></svg><p>Face à la surcharge, on peut <b>alléger les exigences</b> et <b>renforcer les ressources</b>.</p></figure>
+ <section class="chap" id="chap-4">
+ <div class="chap-heading"><span class="chap-num">04</span><div><p class="small-label">CHAPITRE 4 / 11</p><h3>Le modèle effort–récompense de Siegrist</h3></div></div>
+ <p class="chap-core"><b>Donner beaucoup ne suffit pas : il faut regarder ce qui revient.</b></p>
+ <p><b>Le mécanisme.</b> Dans le modèle de Siegrist (1996), un déséquilibre entre <b>effort</b> et <b>récompense</b> (salaire, estime, perspectives, sécurité) constitue une source de tension. Le <b>surengagement</b> — besoin de prouver, difficulté à refuser ou décrocher — peut accentuer cette situation.</p>
+ <p class="sam"><b>Avec Sam.</b> Sam compense les absences et finit à 21 h. On le remercie, mais rien ne change ni dans la charge ni dans les perspectives.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Être investi n'est pas, en soi, pathologique. Ce modèle n'établit pas la cause individuelle d'une fatigue.</p>
+</section>
+ <figure class="illustration"><figcaption>Siegrist : l'effort et ce qui revient</figcaption><svg viewBox="0 0 360 117" role="img" aria-label="De gros efforts et de faibles récompenses, et une boucle de surengagement"><rect x="16" y="22" width="132" height="18" rx="9" fill="#e8794f"/><rect x="16" y="50" width="66" height="18" rx="9" fill="#1d5c50"/><text x="165" y="35">Effort fourni</text><text x="92" y="65">Retour</text><path d="M230 58c0-20 17-34 40-34 22 0 39 14 39 34 0 22-17 35-39 35" fill="none" stroke="#d9a21b" stroke-width="7" stroke-linecap="round"/><path d="m265 86 6 10 8-10" fill="none" stroke="#d9a21b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><text x="235" y="112">Surengagement</text></svg></figure>
+ <aside class="comparaison"><b>La différence en une ligne :</b> JD-R demande « <b>Ai-je les moyens de faire le travail ?</b> ». Siegrist demande « <b>Que reçois-je pour ce que je donne ?</b> ». Les deux modèles se recoupent, sans être deux preuves indépendantes.</aside>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>3 / 6</span></footer></article>
+<article class="feuille" aria-label="Page 4 : L'absurde, le contexte et les mesures"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>L'absurde, le contexte et les mesures</span></header>
+ <div class="page-heading"><p class="eyebrow">PARTIE 2 · LES PIÈGES D'INTERPRÉTATION</p><h2>Trois chapitres pour ne pas tirer la mauvaise conclusion.</h2><p>Un travail absurde, une situation personnelle difficile ou un chiffre isolé ne racontent jamais toute l'histoire.</p></div>
+ <div class="focus-absurde">
+ <div><section class="chap" id="chap-5">
+ <div class="chap-heading"><span class="chap-num">05</span><div><p class="small-label">CHAPITRE 5 / 11</p><h3>L'absurde : en rire, en souffrir, ou les deux</h3></div></div>
+ <p class="chap-core"><b>Une tâche sans utilité apparente peut aussi coûter de l'énergie et du sens.</b></p>
+ <p><b>Le mécanisme.</b> Les travaux sur les <b>tâches illégitimes</b> (Semmer) distinguent notamment les tâches inutiles et celles qui ne devraient pas nous incomber. La <b>qualité empêchée</b> et les conflits de valeurs comptent aussi. L'humour peut procurer du recul momentané, sans mesurer à lui seul une « résilience ».</p>
+ <p class="sam"><b>Avec Sam.</b> Préparer pour la cinquième fois des diapositives que personne ne lit. Il en rit avec ses collègues ; mais il rentre aussi frustré.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Le bullshitomètre Bull-Out est une exploration satirique originale, pas une échelle psychométrique validée.</p>
+</section></div><figure><svg viewBox="0 0 270 112" role="img" aria-label="Une pile de documents urgents inutiles"><g stroke="#123a33" stroke-width="2"><rect x="28" y="62" width="161" height="37" rx="6" fill="#fffdf8"/><rect x="45" y="41" width="161" height="37" rx="6" fill="#e3eee9"/><rect x="63" y="20" width="161" height="37" rx="6" fill="#d8f25c"/></g><path d="M82 38h70M65 59h70M49 79h70" stroke="#1d5c50" stroke-width="3"/><rect x="155" y="39" width="76" height="29" rx="6" transform="rotate(-15 155 39)" fill="#e8794f"/><text x="191" y="54" text-anchor="middle" transform="rotate(-15 191 54)" fill="#fff" font-weight="800">URGENT</text></svg><figcaption>Une urgence de plus. Une utilité de moins.</figcaption></figure></div>
+ <section class="chap" id="chap-6">
+ <div class="chap-heading"><span class="chap-num">06</span><div><p class="small-label">CHAPITRE 6 / 11</p><h3>Le piège du « c'est personnel »</h3></div></div>
+ <p class="chap-core"><b>Le contexte personnel peut compter. Il n'efface pas les conditions de travail.</b></p>
+ <p><b>Le mécanisme.</b> Un deuil, des troubles du sommeil ou des difficultés familiales peuvent modifier la vulnérabilité. Ce constat ne dispense jamais de regarder la charge, les moyens et les décisions sur le poste. L'argument « c'est perso » peut devenir une façon d'éviter d'agir sur l'organisation.</p>
+ <p class="sam"><b>Avec Sam.</b> Sam traverse une séparation. Dans le même temps, il reçoit deux nouvelles missions sans renfort. Les deux situations sont réelles ; aucune n'annule l'autre.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Ne présume ni que le travail explique tout, ni que l'histoire personnelle explique tout.</p>
+</section>
+ <section class="chap" id="chap-7">
+ <div class="chap-heading"><span class="chap-num">07</span><div><p class="small-label">CHAPITRE 7 / 11</p><h3>Cortisol, questionnaires et scores</h3></div></div>
+ <p class="chap-core"><b>On peut mesurer des réponses, pas diagnostiquer un burn-out avec une prise de sang.</b></p>
+ <p><b>Le mécanisme.</b> Aucun dosage isolé de cortisol ne permet de diagnostiquer un burn-out. Les questionnaires décrivent des <b>dimensions déclarées</b>, selon leurs propriétés propres. Bull-Out reprend des idées de modèles reconnus, mais ses formulations et ses seuils ne sont <b>pas validés psychométriquement</b>.</p>
+ <p class="sam"><b>Avec Sam.</b> Deux personnes obtiennent une moyenne similaire : l'une manque de ressources, l'autre souffre d'une perte de sens. Un total ferait disparaître cette différence.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Un score élevé est une invitation à examiner une situation, pas une probabilité de maladie.</p>
+</section>
+ <div class="double-message"><div><b>« C'est perso »</b><span>→ On regarde aussi le travail.</span></div><div><b>« J'ai un score »</b><span>→ On lit les dimensions et les faits.</span></div></div>
+ <aside class="attention"><b>Règle scientifique :</b> distinguer une <b>exposition</b> (ce qui se passe au travail), une <b>manifestation</b> (ce qui est ressenti) et une <b>hypothèse</b> sur leur relation.</aside>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>4 / 6</span></footer></article>
+<article class="feuille" aria-label="Page 5 : Risques et décisions"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>Risques et décisions</span></header>
+ <div class="page-heading"><p class="eyebrow">PARTIE 2 → PARTIE 3</p><h2>Voir les risques, puis retrouver des leviers sur le travail.</h2><p>Ne pas attendre l'épuisement pour repérer une situation de travail problématique.</p></div>
+ <section class="chap" id="chap-8">
+ <div class="chap-heading"><span class="chap-num">08</span><div><p class="small-label">CHAPITRE 8 / 11</p><h3>Les six familles de risques psychosociaux</h3></div></div>
+ <p class="chap-core"><b>Un risque existe même si la personne dit encore « je tiens ».</b></p>
+ <p><b>Le mécanisme.</b> Le référentiel Gollac–INRS décrit <b>six familles d'expositions professionnelles</b>. Elles ne sont ni des maladies ni six sous-scores. Une même situation peut relever de plusieurs familles.</p>
+ <p class="sam"><b>Avec Sam.</b> Le poste de Sam combine interruptions, décisions imposées et dossiers bâclés. Il n'y a pas un risque unique.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Le questionnaire individuel ne remplace ni l'observation du travail réel ni l'évaluation collective des RPS.</p>
+</section>
+ <div class="six-rps">
+ <div><span class="rps-icon">⏱</span><b>01 · Intensité et temps</b><small>Urgences permanentes, horaires qui débordent.</small></div>
+ <div><span class="rps-icon">♡</span><b>02 · Émotions</b><small>Rester calme face à l'agressivité, cacher ce qu'on ressent.</small></div>
+ <div><span class="rps-icon">↔</span><b>03 · Autonomie</b><small>Ne pas pouvoir décider comment bien faire.</small></div>
+ <div><span class="rps-icon">◎</span><b>04 · Relations</b><small>Isolement, manque de soutien, conflits, violences.</small></div>
+ <div><span class="rps-icon">◇</span><b>05 · Valeurs</b><small>Qualité empêchée, travail absurde, conflit éthique.</small></div>
+ <div><span class="rps-icon">⌁</span><b>06 · Insécurité</b><small>Incertitude de l'emploi, transformations imposées.</small></div>
+ </div>
+ <section class="chap" id="chap-9">
+ <div class="chap-heading"><span class="chap-num">09</span><div><p class="small-label">CHAPITRE 9 / 11</p><h3>Agir sur le travail réel</h3></div></div>
+ <p class="chap-core"><b>Face à une charge impossible : retirer, reporter ou simplifier.</b></p>
+ <p><b>Le mécanisme.</b> Le premier levier de prévention porte sur les <b>conditions d'activité</b>. Une demande utile décrit les tâches, les contraintes et la décision attendue. Quand on n'a pas la main pour arbitrer, on <b>fait remonter</b> à la personne ou à l'instance qui peut décider.</p>
+ <p class="sam"><b>Avec Sam.</b> Sam ne dit plus « je vais essayer de tout faire ». Il demande : « Entre la revue A et le dossier B, lequel doit passer en premier ? Que retire-t-on ? »</p>
+ <p class="limite"><b>À ne pas confondre.</b> Le salarié ne peut pas résoudre seul une surcharge organisée. Prendre soin de soi ne remplace pas les changements nécessaires au travail.</p>
+</section>
+ <figure class="illustration"><figcaption>Les trois décisions qui modifient la charge réelle</figcaption><svg viewBox="0 0 340 96" role="img" aria-label="Trois leviers pour agir sur le travail réel"><rect x="5" y="18" width="100" height="58" rx="12" fill="#e3eee9" stroke="#1d5c50" stroke-width="2"/><rect x="120" y="18" width="100" height="58" rx="12" fill="#fbf0d2" stroke="#d9a21b" stroke-width="2"/><rect x="235" y="18" width="100" height="58" rx="12" fill="#fde6da" stroke="#e8794f" stroke-width="2"/><path d="M36 34h40m-40 12h25" stroke="#123a33" stroke-width="4" stroke-linecap="round"/><path d="M142 36h55m-55 13h36" stroke="#123a33" stroke-width="4" stroke-linecap="round"/><path d="m270 38 12 12 24-24" stroke="#123a33" stroke-width="4" fill="none" stroke-linecap="round"/><text x="55" y="88" text-anchor="middle">RETIRER</text><text x="170" y="88" text-anchor="middle">REPORTER</text><text x="285" y="88" text-anchor="middle">SIMPLIFIER</text></svg></figure>
+ <div class="repere-bandeau"><b>Dans la pratique :</b> un fait daté → une contrainte identifiée → une décision demandée → une vérification de son effet.</div>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>5 / 6</span></footer></article>
+<article class="feuille" aria-label="Page 6 : Protection et synthèse"><header class="folio-top"><span>DD LAB <i aria-hidden="true">/</i> BULL-OUT</span><span>Protection et synthèse</span></header>
+ <div class="page-heading"><p class="eyebrow">PARTIE 3 · SAVOIR QUI FAIT QUOI</p><h2>La prévention est une responsabilité organisée, pas un concours d'endurance.</h2></div>
+ <section class="chap" id="chap-10">
+ <div class="chap-heading"><span class="chap-num">10</span><div><p class="small-label">CHAPITRE 10 / 11</p><h3>Ce que dit la loi, et comment se protéger</h3></div></div>
+ <p class="chap-core"><b>L'employeur doit protéger la santé physique et mentale.</b></p>
+ <p><b>Le mécanisme.</b> Le Code du travail (notamment L4121-1 et suivants) impose une démarche de prévention : <b>éviter et évaluer les risques</b>, agir sur l'organisation, informer et former. Une trace utile porte sur les faits, les arbitrages et les mesures prises — sans imposer au salarié de révéler ses données de santé.</p>
+ <p class="sam"><b>Avec Sam.</b> Nadia, la manager, demande un arbitrage de charge écrit ; Sam conserve les faits et les décisions. Chacun documente ce qui relève de sa responsabilité.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Une trace écrite aide à établir les faits ; elle ne garantit pas une protection juridique. Les questions de droit exigent un examen circonstancié.</p>
+</section>
+ <section class="chap" id="chap-11">
+ <div class="chap-heading"><span class="chap-num">11</span><div><p class="small-label">CHAPITRE 11 / 11</p><h3>À qui en parler ? Quatre portes différentes</h3></div></div>
+ <p class="chap-core"><b>Le bon interlocuteur est celui qui peut agir sur le bon problème.</b></p>
+ <p><b>Le mécanisme.</b> Le <b>médecin traitant</b> évalue et soigne ; le <b>médecin du travail</b> propose des adaptations en respectant le secret médical ; <b>management et RH</b> arbitrent l'activité lorsque ce canal est sûr ; <b>CSE, représentants et acteurs de la prévention</b> aident à traiter les problèmes collectifs et les signalements.</p>
+ <p class="sam"><b>Avec Sam.</b> Si son manager est concerné par un comportement problématique, Sam peut contacter directement d'autres interlocuteurs, sans lui dévoiler ses informations médicales.</p>
+ <p class="limite"><b>À ne pas confondre.</b> Une personne n'a pas à attendre un « score suffisant » pour demander une aide appropriée.</p>
+</section>
+ <div class="quatre-portes"><div><span>01</span><b>Ma santé</b><small>Médecin traitant</small></div><div><span>02</span><b>Mon poste</b><small>Médecin du travail</small></div><div><span>03</span><b>Ma charge</b><small>Responsable / RH, si sûr</small></div><div><span>04</span><b>Ma protection</b><small>CSE / représentants / prévention</small></div></div>
+ <section class="bilan"><h2>Les quatre modèles : une phrase pour chacun</h2><div class="bilan-grid">
+ <div><b>Effort–récupération</b><span>Est-ce que le repos referme la boucle ?</span></div><div><b>Maslach</b><span>Quels signes d'usure se manifestent ?</span></div>
+ <div><b>JD-R</b><span>Qu'est-ce qu'on demande, qu'est-ce qui aide ?</span></div><div><b>Siegrist</b><span>Qu'est-ce que je donne, qu'est-ce que je reçois ?</span></div></div>
+ <p><b>Ces modèles ne diagnostiquent pas une personne et ne démontrent pas chacun une cause.</b> Ils servent à poser de meilleures questions, puis à examiner le travail réel.</p></section>
+ <aside class="sources"><b>Pour reprendre le cours :</b> <a href="formation.html">bullout.ddlab.fr/formation.html</a>. <b>Pour les références et limites :</b> <a href="methode.html">Méthode et limites</a>. <b>Pour une situation personnelle :</b> le <a href="test.html">rapport Bull-Out</a> propose une routine hebdomadaire adaptée aux réponses de la personne.</aside>
+<footer class="folio"><span>Formation Bull-Out · les idées à conserver · <a href="methode.html">Méthode et limites</a></span><span>6 / 6</span></footer></article></main></body></html>
