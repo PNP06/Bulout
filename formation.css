@@ -211,6 +211,9 @@
 .fo-piece-fig { margin: 0; }
 .fo-piece-fig figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .fo-schema { display: block; width: 100%; height: auto; background: var(--creme, #f6efe2); border-radius: 14px; }
+/* Deux mises en page du même schéma (schema.js) : la large sur ordinateur, l'étroite (une colonne) sur téléphone. */
+.fo-schema.etroit { display: none; max-width: 420px; margin: 0 auto; }
+@media (max-width: 640px) { .fo-schema.large { display: none; } .fo-schema.etroit { display: block; } }
 .fo-piece p { margin: 0 0 4px; }
 .fo-piece .fo-label { color: var(--sapin-mid); }
 .fo-piece-ou { font-size: 14.5px; color: var(--muted); }
@@ -327,12 +330,12 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
 .q-layout { scroll-margin-top: calc(var(--head-h) + 8px); }
 .fo-cartes[style*="--n:4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 860px) { .fo-cartes[style*="--n:4"] { grid-template-columns: minmax(0, 1fr); } }
-/* Le schéma du rapport reste lisible sur téléphone : il se fait défiler dans son cadre, pas la page. */
-@media (max-width: 600px) {
-  .fo-piece { padding: 14px; }
-  .fo-piece-fig { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .fo-piece-fig .fo-schema { min-width: 540px; }
-  .fo-piece-fig figcaption::after { content: " Fais glisser le schéma pour le voir en entier."; }
-}
+@media (max-width: 600px) { .fo-piece { padding: 14px; } }
 .fo-h3 { font: 800 20px/1.25 var(--title); margin: 26px 0 8px; color: var(--sapin); }
 .fo-piece-vide { margin: 10px 0 0; padding: 14px; border-radius: 18px; background: #f5fbdc; border: 2px dashed var(--anis); }
+
+/* Chapitre 5 « L'absurde » : pipeau dans la pastille du chapitre, rappels vers les chapitres précédents. */
+.fo-chap-n .fo-chap-picto { width: 1.4em; height: 1.4em; display: block; }
+.fo-rappel { border-left: 4px solid var(--sub, #6b4fa3); }
+.fo-rappel .fo-label a { color: inherit; }
+.fo-fig svg { max-width: 100%; height: auto; color: var(--fg); }

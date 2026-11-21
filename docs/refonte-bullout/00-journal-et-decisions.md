@@ -77,6 +77,34 @@ David : « je veux que les gens comprennent les différentes façons d'aborder l
 | PDF essentiel | Synthèse, plan, interlocuteurs : 9 pages au lieu de 13, sans pages presque vides. |
 | Dépôt | Notes du 20 novembre rangées dans `historique/` ; vieux dossiers de sauvegarde supprimés (l'historique Git les garde) ; README à la racine. |
 
+## 21 novembre 2026 · Audit du schéma (remplace la PR 12)
+
+Audit présenté à David dans un artifact (« Audit du schéma Bull-Out »), avec six décisions. Problèmes trouvés : l'épuisement (A) dessiné deux fois, le sommeil (F2) aussi, l'effort compté deux fois à gauche, le temps jamais dessiné, un chapitre 8 sans pièce, le perso rangé dans « ton travail ».
+
+| Sujet | Décidé et fait |
+|---|---|
+| Un seul dessin | `schema.js` sert l'accueil, la formation et le rapport (deux mises en page : ordinateur et téléphone). Le cadre ne bouge pas d'un chapitre à l'autre. |
+| Une réponse, un endroit | Centre : ta récupération (F1 à F3). Droite : les trois signes (A, B, C) et le corps (F4 à F6). Gauche : la balance, le retour (reconnaissance, salaire), l'absurde (bullshitomètre, qualité empêchée T4). |
+| Quatre modèles | Effort-récupération (chapitre 1, centre), Maslach (2, droite), exigences-ressources (3, gauche), effort-récompense (4 : le retour à gauche, le surengagement au centre). Clot remplace Sonnentag dans les éclairages. |
+| Une pièce, une règle | 1 récupération et corps · 2 trois signes · 3 balance · 4 retour, engagement, absurde · 5 autour de toi · 6 fils · 7 où agir · 8 depuis quand · 9 portes et sécurité. |
+| Synthèse du rapport | Feu et cadrans (le cadran du centre devient « Toi · ta récupération »), schéma, par quoi commencer ; le reste replié sous « Lire en détail ». |
+| Inchangé | Questions, seuils, alertes, verdict, scores A à F. |
+
+## 21 novembre, matin : le schéma repris à partir de ce qu'on mesure
+
+Analyse : https://claude.ai/artifact/CjsygfBStQtGaygTQ4mUXq (les 79 questions, leur modèle, leur place ; trois maquettes). David choisit la maquette A.
+
+| Sujet | Décidé et fait |
+|---|---|
+| Vue d'ensemble | Trois jauges en haut, dans le schéma et en tête du rapport : **ton travail**, **ta fatigue**, **les impacts**. Le travail prend la famille la plus lourde (charge, manque d'aide, effort sans retour, absurde) ; la fatigue, l'épuisement et ce que le repos répare (A, F1, F2) ; les impacts, le signe le plus net (distance, efficacité, sens, corps, loisirs). |
+| Trois colonnes | LE TRAVAIL / TOI / L'IMPACT DANS TA VIE. Chaque case pose une question simple. |
+| Les modèles en images | Deux pesées (« Ton travail t'aide-t-il assez ? », JD-R ; « Ce que tu donnes est-il payé ? », Siegrist) avec une étiquette par plateau et une phrase qui dit de quel côté ça penche ; la boucle du repos (effort-récupération) ; les pastilles M (Maslach : l'épuisement dans ta fatigue, la distance et l'efficacité dans l'impact). |
+| Une question, une place | D1, D4, D6 dans la première pesée (la seconde y renvoie) ; E5, E6 dans « tu reçois » ; F1 dans ta fatigue (« trop investi·e ? » = R4 à R6) ; F3 dans ta vie hors travail. Les scores et seuils ne changent pas. |
+| Mots | « Le retour » devient « tu donnes / tu reçois » ; « ce qui se voit », « l'impact dans ta vie » ; « ton engagement », « trop investi·e ? » ; « autour de toi », « tes appuis » + « ta vie hors travail ». |
+| Fils | Retirés : ils faisaient croire à des causes. |
+| L'absurde | Dans le périmètre (demande de David) : une case du travail, famille de la jauge ; ton recul face à l'absurde chez toi, sans points. Questions et chapitre : fil dédié (`absurde.js`). |
+| RPS | La pièce `familles` (pastilles 1 à 6 de Gollac sur les cases du travail) est prête dans `schema.js`, à insérer au chapitre RPS. |
+
 ## Questions encore ouvertes
 
 1. **Validation** : avec les deux psys, tester la fidélité des parties A à F et la pertinence des seuils sur de vraies réponses (anonymes, avec accord).

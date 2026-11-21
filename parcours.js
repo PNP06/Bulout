@@ -9,7 +9,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-10";
+const format = "bull-out-progression-11";
 const reponsesReformulees = new Set(["A2","B1","B2","C2","C6","D2","D5","E6","F2","F4","F5","F6","G6","R3","R6"]);
 let acquis = new Set();
 let bonnes = 0;
@@ -27,20 +27,24 @@ const nombres = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept"
 const nb = n => nombres[n] ?? String(n);
 const Nb = n => nb(n).charAt(0).toUpperCase() + nb(n).slice(1);
 // Les trois phrases à retenir par cœur : répétées dans la synthèse et sur la page du diplôme.
-const troisPhrases = `<div class="fo-trois"><p class="fo-label">À retenir par cœur</p><ol><li>On agit à gauche, sur le travail. On mesure à droite, sur la personne.</li><li>Face à une surcharge : retirer, reporter ou simplifier. Sinon, on remonte.</li><li>Prévenir, réagir aux alertes, et pouvoir le montrer.</li></ol></div>`;
+const troisPhrases = `<div class="fo-trois"><p class="fo-label">À retenir par cœur</p><ol><li>On agit à gauche, sur le travail. On suit à droite l’impact dans ta vie.</li><li>Face à une surcharge : retirer, reporter ou simplifier. Sinon, on remonte.</li><li>Prévenir, réagir aux alertes, et pouvoir le montrer.</li></ol></div>`;
 const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller plus loin : comment ces modèles ont été construits</summary>${synthese.plusLoin}</details>`;
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
 // Ce que chaque chapitre ajoute au schéma du rapport (formation-illustrations.js, schemaRapport), comme le papillon de Papillon.
+// Chaque pièce apporte une donnée et une règle de lecture (comme Papillon). Une réponse n'est dessinée qu'à un seul endroit.
+const VERSION_FORMATION = "2026-11-11-chapitres";
 const SCHEMA_TEXTE = [
-  "Au centre, deux colonnes : l’épuisement (A) et la récupération (F). À droite, ce que dit le corps. Ce sont deux repères déclarés, pas une jauge d’énergie.",
-  "À droite, les trois signes de Maslach : l’épuisement, la distance, l’efficacité et le sens. Lus séparément, pour ne pas réduire l’usure à la fatigue.",
-  "À gauche, la balance du modèle exigences-ressources : ce que le travail demande, ce qui aide à le faire. Sous le centre, tes appuis.",
-  "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
-  "À gauche, en pointillés, le contexte : ce qui se passe autour de toi. Il change la lecture, pas le score.",
-  "Les fils relient les colonnes, plus épais quand tes réponses sont hautes. <b>Ce sont des liens à vérifier avec ta chronologie, jamais des causes prouvées.</b>",
-  "En tête, trois cadrans : ce qui tire, ce qui reste, ce qui lâche. Ton rapport commence par là, pour savoir où agir.",
-  "Pas de nouvelle pièce : ce chapitre t’aide à garder la trace de ce que montre le schéma, avec des faits et des dates, jamais ta santé.",
-  "Dernière pièce : la sécurité. Si tu coches un signal, ton rapport l’affiche à part, avec les bonnes portes. <b>Ton schéma est complet : tu sais le lire.</b>",
+  "Au centre, <b>ta fatigue</b> : l’épuisement, décrocher le soir, dormir, et ce que change un congé. C’est le modèle <b>effort-récupération</b>. <b>Règle de lecture : la fatigue est normale, ce qui compte, c’est si le repos la répare.</b> Boucle fermée et verte, ça récupère ; boucle ouverte et orange, le repos ne suit plus. À droite, <b>ton corps</b> : ce que la fatigue abîme quand elle dure.",
+  "À droite, <b>ta relation au travail</b> : la distance, la perte d’efficacité, et le sens à part. Avec l’épuisement, ce sont les trois signes de Maslach, marqués <b>M</b>. <b>Règle : ils se lisent un par un, jamais en total.</b> L’épuisement est dans ta fatigue, les deux autres dans l’impact : l’usure ne se résume pas à la fatigue.",
+  "À gauche, <b>le travail</b> commence par une pesée : <b>ton travail t’aide-t-il assez ?</b> D’un côté ce qu’on te demande, de l’autre ce qui t’aide (Karasek, puis JD-R). <b>Règle : on lit de quel côté ça penche.</b> Une aide qui manque pèse autant qu’une tâche en plus.",
+  "Une seconde pesée : <b>ce que tu donnes est-il payé ?</b> Ce que tu donnes, c’est ta charge vue comme un échange ; ce que tu reçois, c’est l’estime, l’équité, le salaire, l’avenir (Siegrist). Au centre, <b>trop investi·e ?</b> : dire non, vouloir prouver. <b>Règle : on lit de quel côté ça penche, et ce qui rend le déséquilibre invisible.</b>",
+  "Dans le travail, <b>l’absurde</b> (le pipeau) : les tâches qui ne servent à rien, les tâches qui ne devraient pas être les tiennes, la qualité empêchée. Au centre, <b>ton recul face à l’absurde</b> : en rire, s’agacer puis lâcher, ruminer, ne plus réagir. <b>Règle : l’absurde compte dans la jauge du travail ; ta réaction se lit en mots, sans points, avec ta récupération et ta distance.</b>",
+  "Au centre, <b>tes appuis</b> : ce qui te tient, et en pointillés ce que tu portes à côté (une séparation, un deuil, un proche malade). À droite, <b>ta vie hors travail</b> : ce que le travail te fait sacrifier. <b>Règle : ce qui est perso change la lecture, jamais le score, et ne remplace pas le travail.</b>",
+  "En haut, <b>les trois jauges</b> : ton travail, ta fatigue, les impacts. Chacune résume sa colonne en un mot. <b>Règle : un mot, pas un pourcentage ; une tendance, pas un diagnostic.</b> On regarde d’abord les jauges, puis la colonne sous la plus orange. L’ordre des colonnes n’est pas une preuve : c’est une piste à vérifier avec ta chronologie.",
+  "Sur la colonne du travail, <b>six pastilles</b> : les six familles de risques du travail (Gollac, INRS). <b>Règle : la jauge du travail dit à quoi tu es exposé·e, les deux autres ce que ça te fait.</b> Une famille allumée avec une fatigue verte reste à traiter : on n’attend pas d’être épuisé·e pour changer le travail.",
+  "Sous les colonnes, <b>où agir</b>. <b>Règle : on agit d’abord sur le travail (retirer, reporter, simplifier). On prend soin de soi, sans tout porter seul. On suit l’impact, pour voir si ça bouge, pas pour juger.</b>",
+  "En bas, <b>depuis quand ?</b> La durée, le sens de l’évolution, et ce que change un congé. <b>Règle : une carte se lit avec des dates.</b> C’est aussi ce que la loi regarde : des faits datés, jamais ta santé.",
+  "Dernière pièce : <b>les portes</b>, une par zone. Pour le travail, ton manager, les RH, le CSE ; pour toi, ton médecin, un psy ; entre les deux, le médecin du travail. La sécurité reste à part, toujours visible. <b>Ton schéma est complet : tu sais le lire.</b>",
 ];
 const choixFichier = label => `<label class="resume-file">${label}<input type="file" data-import accept=".json,.png,application/json,image/png"></label>`;
 const statut = '<p class="file-status" role="status"></p>';
@@ -54,7 +58,7 @@ function rail(actif) {
   let html = `<li class="${actif === "#formation" ? "ici" : ""}"><a href="#formation" ${actif === "#formation" ? 'aria-current="step"' : ""}><span class="fo-num">·</span><span>Introduction</span></a></li>`;
   temps.forEach((tp, k) => {
     html += `<li class="fo-rail-temps" aria-hidden="true">${tp.split("·")[1].trim()}</li>`;
-    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les trois modèles, ensemble", false); } });
+    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les quatre modèles, ensemble", false); } });
   });
   html += item("#synthese", "★", "Synthèse", false) + item("#quiz-final", "?", "Test final", bonnes === examen.length) + item("#diplome", "◇", "Ton diplôme", Boolean(dateDiplome));
   return `<aside class="fo-rail" aria-label="Sommaire de la formation"><p class="fo-rail-titre">La formation</p><ol>${html}</ol>
@@ -78,7 +82,8 @@ function bloc(b, titres) {
   switch (b.t) {
     case "h": { const id = "s-" + slug(b.texte); titres.push([id, b.texte]); return `<h2 id="${id}" class="fo-h">${b.texte}</h2>`; }
     case "p": return `<p>${b.html}</p>`;
-    case "fig": return `<figure class="fo-fig">${illustrations[b.ill]}<figcaption>${b.cap}</figcaption></figure>`;
+    case "fig": return `<figure class="fo-fig">${b.svg || illustrations[b.ill]}<figcaption>${b.cap}</figcaption></figure>`;
+    case "rappel": return `<aside class="fo-exemple fo-rappel"><p class="fo-label">${b.chap <= 3 ? "Tu te souviens ?" : "Tu le verras plus loin"} · <a href="${ancre(b.chap)}">chapitre ${b.chap + 1} · ${chapitres[b.chap].court}</a></p><p>${b.html}</p></aside>`;
     case "exemple": return `<aside class="fo-exemple"><p class="fo-label">Exemple · ${b.titre}</p><p>${b.html}</p>${b.note ? `<p class="fo-exemple-note">${b.note}</p>` : ""}</aside>`;
     case "cartes": return `<div class="fo-cartes" style="--n:${b.items.length}">${b.items.map(([k, v]) => `<div class="fo-carte"><h3>${k}</h3><p>${v}</p></div>`).join("")}</div>`;
     case "mythes": { const id = "s-" + slug(b.titre); titres.push([id, b.titre]); return `<h2 id="${id}" class="fo-h">${b.titre}</h2><div class="fo-mythes">${b.items.map(([q, r]) => `<details class="fo-mythe"><summary>${q}</summary><p>${r}</p></details>`).join("")}</div>`; }
@@ -107,13 +112,13 @@ function intro() {
     <section class="fo-carton"><h2 id="s-pourquoi" class="fo-h">Pourquoi une formation avant le test ?</h2>${introduction.pourquoi.map(x => `<p>${x}</p>`).join("")}
       <ul class="fo-contrat">${introduction.contrat.map(x => `<li>${x}</li>`).join("")}</ul>
       <div class="fo-cta">${reprendre}${choixFichier("Reprendre un fichier")}</div>${statut}</section>
-    <h2 id="s-modeles" class="fo-h">Trois façons de regarder le burn-out</h2>
+    <h2 id="s-modeles" class="fo-h">Quatre façons de regarder le burn-out</h2>
     <p>Commençons par le mot. L’OMS, dans sa classification internationale (<b>CIM-11</b>, en vigueur depuis 2022), décrit le burn-out comme un <b>syndrome dû à un stress chronique au travail qui n’a pas été géré avec succès</b>. Ce n’est pas une maladie : c’est un phénomène lié au travail, avec trois signes, l’épuisement, la distance mentale et la baisse d’efficacité.</p>
-    <p>Pour comprendre d’où il vient, la recherche s’appuie surtout sur <b>trois modèles</b>. Le premier décrit ce que l’usure fait à la personne (<b>Maslach</b>, chapitre 2). Les deux autres examinent les conditions de travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>JD-R</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Toute la formation s’appuie sur eux. Tu les compareras ensemble juste après le chapitre 4, puis dans la synthèse finale.</p>
-    <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. Garde cette image en tête : c’est la carte de toute la formation.</figcaption></figure>
+    <p>Pour le comprendre, la formation s’appuie sur <b>quatre modèles</b>, chacun avec sa question. Le premier regarde si le repos répare encore la fatigue (<b>effort-récupération</b>, chapitre 1). Le deuxième décrit ce que l’usure change chez la personne (<b>Maslach</b>, chapitre 2). Les deux derniers examinent le travail : la balance entre ce qu’il demande et ce qui aide à le faire (<b>exigences-ressources</b>, chapitre 3), et l’équilibre entre l’effort et le retour (<b>Siegrist</b>, chapitre 4). Tu les compareras juste après le chapitre 4, puis dans la synthèse finale.</p>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde ce qui change chez la personne. Le quatrième, la récupération, fait le lien : il occupe le centre de ton schéma.</figcaption></figure>
     <h3 class="fo-h3">Ton rapport, pièce par pièce</h3>
-    <p>Ces trois modèles se retrouvent dans <b>un seul schéma</b> : celui de ton rapport. Pour l’instant, il est vide. <b>À la fin de chaque chapitre, une pièce s’y pose</b>, avec l’exemple de Sam. Quand tu ouvriras ton rapport, tu sauras le lire.</p>
-    <figure class="fo-piece-fig fo-piece-vide">${schemaRapport(-1, { titre: "Le schéma de ton rapport, encore vide : chaque chapitre y ajoutera une pièce." })}<figcaption>À gauche le travail, au centre toi, à droite ce qui se voit. Les cases en pointillés se rempliront au fil des chapitres.</figcaption></figure>
+    <p>Ces quatre modèles se retrouvent dans <b>un seul schéma</b> : celui de ton rapport. Pour l’instant, il est vide. <b>À la fin de chaque chapitre, une pièce s’y pose</b>, avec l’exemple de Sam. Quand tu ouvriras ton rapport, tu sauras le lire.</p>
+    <figure class="fo-piece-fig fo-piece-vide">${schemaRapport(-1, { titre: "Le schéma de ton rapport, encore vide : chaque chapitre y ajoutera une pièce." })}<figcaption>En haut, trois jauges : ton travail, ta fatigue, les impacts. Sous chacune, sa colonne : le travail, toi, l’impact dans ta vie. Dessous, où agir, depuis quand et à qui en parler. Chaque chapitre pose une pièce, avec sa règle de lecture.</figcaption></figure>
     <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en ${nb(introduction.essentiel.length)} idées</h2>
     <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
     <h2 id="s-programme" class="fo-h-label">Le programme</h2>
@@ -123,9 +128,7 @@ function intro() {
 }
 
 // ───────── Chapitre
-function exerciceHTML(i) {
-  const e = chapitres[i].exo;
-  const fait = acquis.has(i);
+function exerciceHTML(i, e = chapitres[i].exo, fait = acquis.has(i)) {
   return `<section class="fo-exo" aria-labelledby="exo-titre"><h2 id="exo-titre" class="fo-h">À toi de jouer</h2>
     <p class="fo-exo-t"><b>${e.titre}${/[?!]$/.test(e.titre) ? "" : "."}</b> ${e.intro}</p>
     <ol class="fo-sits">${e.situations.map((s, k) => `<li class="fo-sit" data-sit="${k}"><p class="fo-sit-q"><span class="fo-label">Situation ${k + 1} sur ${e.situations.length}</span>${s.q}</p>
@@ -139,8 +142,8 @@ function chapitre(i) {
   const titres = [];
   const corps = c.blocs.map(b => bloc(b, titres)).join("");
   titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
-  const avant = i === 4 ? `<a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>La synthèse des trois modèles</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
-  const apres = i === 3 ? `<a class="fo-pager-next" href="#modeles-resume"><small>Étape suivante →</small><b>Les trois modèles, ensemble</b></a>` : i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
+  const avant = i === 4 ? `<a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>Les quatre modèles, ensemble</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
+  const apres = i === 3 ? `<a class="fo-pager-next" href="#modeles-resume"><small>Étape suivante →</small><b>Les quatre modèles, ensemble</b></a>` : i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
   const contenu = `
     <p class="fo-temps-k">${temps[c.temps]}</p>
     <header class="fo-chap-tete"><span class="fo-chap-n">${String(i + 1).padStart(2, "0")}</span><div><p class="fo-chap-meta">Chapitre ${i + 1} sur ${chapitres.length} · environ ${c.duree} minutes</p><h1 tabindex="-1">${c.titre}</h1></div></header>
@@ -152,35 +155,36 @@ function chapitre(i) {
     <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
     <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
     <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
-    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra. <b>La couleur dit l’effet pour Sam, jamais si le chiffre est haut</b> : vert, ça protège ; orange, ça use.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
     <div class="fo-pause"><p>Tu peux t’arrêter ici. « Enregistrer ma progression » télécharge un petit fichier pour reprendre plus tard, sur cet appareil ou un autre.</p>${garder}${statut}</div>
     <p class="fo-suite">${c.suite}</p>
     <nav class="fo-pager" aria-label="Chapitres">${avant}${apres}</nav>`;
   return cadre(ancre(i), contenu, titres);
 }
 
-// Étape de consolidation après les trois modèles, sans changer les neuf exercices.
+// Étape de consolidation après les quatre modèles, sans changer les neuf exercices.
 function resumeModelesPage() {
-  const titres = [["resume-modeles", "Comparer les trois modèles"], ["resume-cas", "Le même cas, trois lectures"], ["resume-limites", "Ce que cela ne démontre pas"]];
+  const titres = [["resume-modeles", "Comparer les quatre modèles"], ["resume-cas", "Le même cas, quatre lectures"], ["resume-limites", "Ce que cela ne démontre pas"]];
   const contenu = `
     <p class="fo-pill">Après le chapitre 4 · Synthèse des modèles</p>
-    <h1 tabindex="-1">Trois modèles, un même problème</h1>
-    <p class="fo-lead">Tu as découvert trois angles complémentaires : <b>les manifestations</b>, <b>les conditions de travail</b> et <b>la réciprocité des efforts</b>. Avant de poursuivre, vérifie ce que chaque modèle apporte réellement.</p>
-    <h2 id="resume-modeles" class="fo-h">Les trois modèles, côte à côte</h2>
-    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist proposent des pistes pour examiner le travail. Aucun ne prouve à lui seul la cause des symptômes.</figcaption></figure>
+    <h1 tabindex="-1">Quatre modèles, un même problème</h1>
+    <p class="fo-lead">Tu as découvert quatre angles complémentaires : <b>la récupération</b>, <b>les manifestations</b>, <b>les conditions de travail</b> et <b>la réciprocité des efforts</b>. Avant de poursuivre, vérifie ce que chaque modèle apporte réellement.</p>
+    <h2 id="resume-modeles" class="fo-h">Les quatre modèles, côte à côte</h2>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist proposent des pistes pour examiner le travail ; la récupération dit si le repos suit encore. Aucun ne prouve à lui seul la cause des symptômes.</figcaption></figure>
     <div class="fo-modeles">${synthese.modeles.map(m => `<section class="fo-modele"><p class="fo-modele-nom">${m.nom} · ${m.image.toLowerCase()}</p><h3>${m.question}</h3><p>${m.idee}</p><p class="fo-modele-agir"><b>Pour agir :</b> ${m.agir}</p><a href="${ancre(m.chap)}">Relire le chapitre ${m.chap + 1}</a></section>`).join("")}</div>
-    <h2 id="resume-cas" class="fo-h">Un même cas, trois lectures</h2>
+    <h2 id="resume-cas" class="fo-h">Un même cas, quatre lectures</h2>
     <article class="fo-exemple"><h3>Sam, trois mois après le départ de Marc</h3><p>${synthese.casCommun.situation}</p></article>
     <div class="fo-table fo-modeles-comparaison"><table><caption>Des questions différentes, pas trois diagnostics</caption>
       <thead><tr><th scope="col">Modèle</th><th scope="col">Ce qu’il éclaire</th><th scope="col">Ce qu’il ne conclut pas</th><th scope="col">Une décision possible</th></tr></thead>
       <tbody>${synthese.casCommun.lectures.map(x => `<tr><th scope="row">${x.modele}</th><td>${x.observe}</td><td>${x.neDitPas}</td><td><b>${x.action}</b></td></tr>`).join("")}</tbody>
     </table></div>
-    <h2 id="resume-limites" class="fo-h">Trois angles ne font pas trois preuves</h2>
+    <h2 id="resume-limites" class="fo-h">Quatre angles ne font pas quatre preuves</h2>
     <p>${synthese.casCommun.conclusion} <b>Le niveau de preuve ne se multiplie pas avec le nombre de théories</b> : certaines interprètent les mêmes réponses, et le cas de Sam ne suffit pas à identifier une cause.</p>
-    <p>La synthèse de fin de formation reviendra sur ces modèles et présentera trois éclairages supplémentaires : <b>Hobfoll</b>, <b>Gollac / INRS</b> et <b>Sonnentag–Fritz</b>.</p>
-    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="#chapitre-5"><small>Continuer →</small><b>5 · Le piège du « c’est perso »</b></a></nav>`;
+    <p>La synthèse de fin de formation reviendra sur ces modèles et présentera trois éclairages supplémentaires : <b>Hobfoll</b>, <b>Gollac / INRS</b> et <b>Clot</b> (la qualité empêchée).</p>
+    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="${ancre(4)}"><small>Chapitre suivant →</small><b>5 · ${chapitres[4].court}</b></a></nav>`;
   return cadre("#modeles-resume", contenu, titres);
 }
+
 // ───────── Test final et diplôme
 function quiz() {
   let contenu;
@@ -202,17 +206,17 @@ function quiz() {
 }
 
 function synthesePage() {
-  const titres = [["s-modeles", "Les trois modèles"], ["s-croisement", "Les trois modèles sur un même cas"], ["s-complements", "Trois éclairages complémentaires"], ["s-clefs", "Les idées clefs"], ["s-plusloin", "Pour aller plus loin"]];
+  const titres = [["s-modeles", "Les quatre modèles"], ["s-croisement", "Les quatre modèles sur un même cas"], ["s-complements", "Trois éclairages complémentaires"], ["s-clefs", "Les idées clefs"], ["s-plusloin", "Pour aller plus loin"]];
   const dernier = chapitres.length - 1;
   const contenu = `
     <p class="fo-pill">Synthèse · avant le test final</p>
     <h1 tabindex="-1">Ce qu’il faut emporter</h1>
     <p class="fo-lead">${synthese.chapo}</p>
-    <h2 id="s-modeles" class="fo-h">Les trois modèles, en une image</h2>
-    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist aident à examiner les conditions de travail. Ils ne permettent pas, à eux seuls, d’attribuer une cause à chaque symptôme.</figcaption></figure>
+    <h2 id="s-modeles" class="fo-h">Les quatre modèles, en une image</h2>
+    <figure class="fo-fig">${illustrations.modeles}<figcaption>Maslach décrit les manifestations ; JD-R et Siegrist aident à examiner les conditions de travail ; la récupération dit si le repos suit encore. Ils ne permettent pas, à eux seuls, d’attribuer une cause à chaque symptôme.</figcaption></figure>
     <div class="fo-modeles">${synthese.modeles.map(m => `<section class="fo-modele"><p class="fo-modele-nom">${m.nom} · ${m.image.toLowerCase()}</p><h3>${m.question}</h3><p>${m.idee}</p><p class="fo-modele-agir"><b>Pour agir :</b> ${m.agir}</p><a href="${ancre(m.chap)}">Revoir le chapitre ${m.chap + 1}</a></section>`).join("")}</div>
     ${troisPhrases}
-    <h2 id="s-croisement" class="fo-h">Un même problème, trois questions différentes</h2>
+    <h2 id="s-croisement" class="fo-h">Un même problème, quatre questions différentes</h2>
     <p>Les théories se lisent mieux sur <b>les mêmes faits</b> que dans trois chapitres séparés.</p>
     <article class="fo-exemple"><h3>Sam, trois mois après le départ de Marc</h3><p>${synthese.casCommun.situation}</p></article>
     <div class="fo-table fo-modeles-comparaison"><table>
@@ -222,7 +226,7 @@ function synthesePage() {
     </table></div>
     <p class="fo-synthese-principe">${synthese.casCommun.conclusion}</p>
     <h2 id="s-complements" class="fo-h">Trois autres éclairages, sans multiplier les scores</h2>
-    <p>Les trois modèles principaux ne répondent pas à tout. D'autres cadres permettent de comprendre <b>la spirale des pertes</b>, <b>les expositions professionnelles</b> et <b>la récupération hors travail</b>.</p>
+    <p>Les quatre modèles principaux ne répondent pas à tout. D'autres cadres permettent de comprendre <b>la spirale des pertes</b>, <b>les expositions professionnelles</b> et <b>la qualité empêchée</b>.</p>
     <div class="fo-complements">${synthese.complements.map(x => `<article class="fo-complement">
       <p class="fo-label">Cadre complémentaire · pas une nouvelle note Bull-Out</p>
       <h3>${x.nom}</h3><p><b>À quoi il sert.</b> ${x.role}.</p>
@@ -265,7 +269,9 @@ function porteHTML() {
 // ───────── Affichage
 function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
-  const numero = /^#chapitre-([1-9])$/.exec(hash);
+  // L'ancienne adresse de l'interlude mène au chapitre 5 sur l'absurde.
+  if (hash === "#absurde") { location.replace("#chapitre-5"); return; }
+  const numero = /^#chapitre-([1-9][0-9]?)$/.exec(hash);
   const valide = numero && Number(numero[1]) <= chapitres.length;
   const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#synthese", "#quiz-final", "#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
@@ -338,7 +344,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionFormation: VERSION_FORMATION, versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v3", versionReactionHumour: "2026-11-hr-v2", versionReactionAbsurde: "2026-11-ra-v1", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -366,6 +372,25 @@ function migrerBullshitometreV7(reponses) {
 
 // HR3 a changé de question. Une valeur V9 ne peut pas devenir une réponse V10.
 // Une ancienne abstention explicite (valeur 5) peut être conservée.
+// V10 → V11 : le bullshitomètre passe en V3 (13 questions réécrites, option « pas concerné·e »).
+// Une réponse à l'ancienne formulation n'a plus le même sens : on la retire, sans en inventer.
+// Un saut complet volontaire (anciennes versions) est prolongé aux 13 questions, à HR et à RA.
+function migrerBullshitometreV10(reponses) {
+  const anciennes = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
+  const resultat = {};
+  let retirees = 0;
+  for (const [nom, valeur] of Object.entries(anciennes)) {
+    if (/^BS\d+$/.test(nom)) retirees += 1; else resultat[nom] = valeur;
+  }
+  const sautees = Array.from({ length: 12 }, (_, i) => anciennes[`BS${i + 1}`] === "skip").every(Boolean);
+  if (sautees) {
+    for (let i = 1; i <= 13; i += 1) resultat[`BS${i}`] = "skip";
+    for (let i = 1; i <= 2; i += 1) resultat[`RA${i}`] = "4";
+    return { reponses: resultat, reponsesARelire: 0 };
+  }
+  return { reponses: resultat, reponsesARelire: retirees };
+}
+
 function migrerReactionHumourV9(reponses) {
   const ancien = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
   const nouveau = { ...ancien };
@@ -425,6 +450,22 @@ function restaurer(p) {
     if (sautBS) for (let i = 1; i <= 4; i++) reponses[`HR${i}`] = "5";
     p = { ...p, reponses, versionReactionHumour: "2026-11-hr-v2" };
   }
+  // V11 : bullshitomètre V3. Concerne toute sauvegarde antérieure (déjà ramenée au format courant ci-dessus, ou en V10).
+  if (formatOriginal !== format && (p?.format === format || p?.format === "bull-out-progression-10")) {
+    const migrationBS = migrerBullshitometreV10(p.reponses);
+    reponsesARelire += migrationBS.reponsesARelire;
+    p = { ...p, format, versionBullshitometre: "2026-11-bs-v3", versionReactionAbsurde: "2026-11-ra-v1", reponses: migrationBS.reponses };
+  }
+  // Passage de 9 à 11 chapitres : l’absurde devient le chapitre 5, les six familles de risques le chapitre 8.
+  // Anciens 1–4 inchangés ; 5 → 6, 6 → 7, 7 → 9, 8 → 10, 9 → 11. Un diplôme déjà obtenu reste valable.
+  if (p?.format === format && p.versionFormation !== VERSION_FORMATION &&
+      Array.isArray(p.chapitres) && p.chapitres.every(i => Number.isInteger(i) && i < 9)) {
+    const ancienDiplome = (p.bonnes === 9 || p.bonnes === examen.length) && dateValide(p.dateDiplome);
+    const remappes = p.chapitres.map(i => (i <= 3 ? i : i <= 5 ? i + 1 : i + 2));
+    p = { ...p, versionFormation: VERSION_FORMATION, versionQuestions: "2026-11-rps-v1",
+      chapitres: ancienDiplome ? chapitres.map((_, k) => k) : remappes,
+      bonnes: ancienDiplome ? examen.length : 0 };
+  }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&
     new Set(p.chapitres).size === p.chapitres.length && Number.isInteger(p.bonnes) && p.bonnes >= 0 && p.bonnes <= examen.length &&
@@ -482,8 +523,9 @@ async function importer(input) {
 // Exercice d’un chapitre : chaque situation affiche son explication tout de suite.
 function repondreSituation(btn) {
   const i = Number(page.split("-")[1]) - 1;
+  const exo = chapitres[i].exo;
   const k = Number(btn.dataset.sit), j = Number(btn.dataset.choix);
-  const s = chapitres[i].exo.situations[k];
+  const s = exo.situations[k];
   const li = btn.closest(".fo-sit");
   const ok = j === s.bonne;
   li.querySelectorAll("button").forEach(b => { b.classList.remove("juste", "a-revoir"); b.setAttribute("aria-pressed", "false"); });
@@ -494,7 +536,7 @@ function repondreSituation(btn) {
   fb.className = "fo-fb " + (ok ? "ok" : "ko");
   fb.textContent = (ok ? "Oui. " : "Pas tout à fait. ") + s.fb[j].replace(/^Oui\. /, "") + (ok ? "" : " Essaie une autre réponse.");
   if (ok) justes.add(k);
-  if (justes.size === chapitres[i].exo.situations.length && !acquis.has(i)) {
+  if (justes.size === exo.situations.length && !acquis.has(i)) {
     acquis.add(i);
     $(".fo-exo-note", formation).textContent = "Exercice réussi : le chapitre est validé.";
     $(".fo-rail", formation).outerHTML = rail(page);

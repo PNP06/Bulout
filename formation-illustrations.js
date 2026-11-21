@@ -1,5 +1,6 @@
 // Illustrations de la formation, dessinées à la main en SVG dans la charte DD Lab.
 // Chacune montre le mécanisme du chapitre sur l’histoire de Sam : pas de décor, pas d’image générique.
+const VERT = "#6fbf8f"; // code couleur commun : vert = ça protège
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", soft: "#fbf7ef", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#ddd4c2", violet: "#5b3fcf", muted: "#6b7d78" };
 
 const svg = (titre, desc, w, h, corps) =>
@@ -10,8 +11,6 @@ const t = (x, y, s, opt = {}) => `<text x="${x}" y="${y}" class="${opt.cls || ""
 const chip = (x, y, w, s, fond, encre = C.sapin, barre = false) =>
   `<g transform="translate(${x},${y})"><rect width="${w}" height="26" rx="13" fill="${fond}"/>${t(w / 2, 17.5, s, { a: "middle", c: encre, cls: "s" })}${barre ? `<path d="M10 13H${w - 10}" stroke="${C.ink}" stroke-width="2"/>` : ""}</g>`;
 const avatar = (x, y, lettre, fond, encre = C.sapin) => `<circle cx="${x}" cy="${y}" r="15" fill="${fond}"/>${t(x, y + 5, lettre, { a: "middle", c: encre, cls: "b" })}`;
-const batterie = (x, y, niveau, couleur) =>
-  `<g transform="translate(${x},${y})"><rect x="9" y="0" width="14" height="6" rx="2" fill="${C.sapin}"/><rect x="0" y="5" width="32" height="56" rx="7" fill="${C.card}" stroke="${C.sapin}" stroke-width="3"/><rect x="5" y="${10 + 46 * (1 - niveau)}" width="22" height="${46 * niveau}" rx="3" fill="${couleur}"/></g>`;
 
 // Petit générateur pseudo-aléatoire, pour que le nuage de points soit identique à chaque affichage.
 function graine(s) { return () => ((s = (s * 16807) % 2147483647) / 2147483647); }
@@ -47,9 +46,9 @@ export const illustrations = {
   jauges: svg("Les trois jauges de Sam",
     "Trois jauges verticales. Épuisement, rempli à 80 % : « Je suis vidé ». Distance mentale, rempli à 65 % : « À quoi bon ? ». Efficacité réduite, rempli à 55 % : « Je n’y arrive plus ».",
     640, 340, [
-      ["Épuisement", "« Je suis vidé »", .8, C.orange, 110],
-      ["Distance mentale", "« À quoi bon ? »", .65, C.violet, 320],
-      ["Efficacité réduite", "« Je n’y arrive plus »", .55, C.mid, 530],
+      ["Épuisement", "« Je suis vidé »", .8, "#a8401c", 110],
+      ["Distance mentale", "« À quoi bon ? »", .65, C.orange, 320],
+      ["Efficacité réduite", "« Je n’y arrive plus »", .55, "#d9a21b", 530],
     ].map(([nom, citation, niv, coul, x]) => `
       <g transform="translate(${x - 82},22)"><rect width="164" height="40" rx="14" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/><path d="M74 39l8 10 8-10" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/><path d="M73 38h18" stroke="${C.card}" stroke-width="3"/>${t(82, 26, citation, { a: "middle", cls: "b" })}</g>
       <rect x="${x - 38}" y="84" width="76" height="200" rx="38" fill="${C.card}" stroke="${C.sapin}" stroke-width="3"/>
@@ -68,7 +67,7 @@ export const illustrations = {
     <path d="M16 316H184" stroke="${C.sapin}" stroke-width="7" stroke-linecap="round"/>
     <path d="M456 222H624" stroke="${C.sapin}" stroke-width="7" stroke-linecap="round"/>
     ${chip(26, 190, 148, "42 mails non lus", C.orange)}${chip(26, 220, 148, "3 urgences « pour hier »", C.orange)}${chip(26, 250, 148, "Réunion à 18 h 30", C.orange)}${chip(26, 280, 148, "Dossier de Marc", C.ink, C.creme)}
-    ${chip(466, 130, 148, "Pause déjeuner", C.anis, C.sapin, true)}${chip(466, 160, 148, "Marc, le collègue", C.anis, C.sapin, true)}${chip(466, 190, 148, "Soirées", C.anis, C.sapin, true)}
+    ${chip(466, 130, 148, "Pause déjeuner", VERT, C.sapin, true)}${chip(466, 160, 148, "Marc, le collègue", VERT, C.sapin, true)}${chip(466, 190, 148, "Soirées", VERT, C.sapin, true)}
     ${t(100, 40, "EXIGENCES", { a: "middle", cls: "k", c: C.ink })}${t(100, 60, "ce que le travail demande", { a: "middle", cls: "s" })}
     ${t(540, 40, "RESSOURCES", { a: "middle", cls: "k", c: C.mid })}${t(540, 60, "ce qui aide à le faire", { a: "middle", cls: "s" })}
     ${t(540, 250, "retirées dans la semaine", { a: "middle", cls: "s", c: C.ink })}`),
@@ -89,7 +88,7 @@ export const illustrations = {
     ${t(92, 48, "du mal à dire non, à couper", { cls: "s", c: C.violet })}
     ${[["Salaire", false, 404], ["Estime", true, 468], ["Perspectives", true, 532], ["Sécurité", true, 596]].map(([n, absent, x], i) => {
       const y = 166 - (x - 320) * 0.192 - 28;
-      return `<circle cx="${x}" cy="${y}" r="22" fill="${absent ? "none" : C.anis}" stroke="${C.sapin}" stroke-width="2.5" ${absent ? 'stroke-dasharray="5 5"' : ""}/>${t(x, i % 2 ? y - 32 : y + 42, n, { a: "middle", cls: "s" })}`;
+      return `<circle cx="${x}" cy="${y}" r="22" fill="${absent ? "none" : VERT}" stroke="${C.sapin}" stroke-width="2.5" ${absent ? 'stroke-dasharray="5 5"' : ""}/>${t(x, i % 2 ? y - 32 : y + 42, n, { a: "middle", cls: "s" })}`;
     }).join("")}
     ${t(500, 30, "RETOUR", { a: "middle", cls: "k", c: C.mid })}${t(500, 48, "ce que Sam reçoit", { a: "middle", cls: "s" })}`),
 
@@ -166,27 +165,31 @@ export const illustrations = {
         <g transform="translate(64,56)"><circle r="24" fill="${C.creme}"/><path d="${icone}" fill="none" stroke="${C.sapin}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
         ${t(64, 220, nom, { a: "middle", cls: "b" })}${t(64, 240, qui, { a: "middle", cls: "s", c: C.muted })}</g>`;
     }).join("") + `<g transform="translate(34,308)"><rect width="572" height="44" rx="22" fill="${C.sapin}"/>${t(286, 28, "Danger immédiat : 15 ou 112   ·   Idées suicidaires : 3114, 24 h/24", { a: "middle", c: C.anis, cls: "b" })}</g>`),
-  modeles: svg("Les trois modèles en une image",
-    "À gauche, dans le travail, les causes : la balance exigences ressources (JD-R) et la bascule effort retour (Siegrist). Des flèches mènent à la batterie de Sam, presque vide. Une flèche mène à droite, dans la personne, les effets : les trois jauges de Maslach, épuisement, distance mentale et efficacité réduite. En bas : on agit à gauche, on mesure à droite.",
+  modeles: svg("Les quatre modèles en une image",
+    "Les trois colonnes du schéma. À gauche, le travail : deux pesées, ce qu’on te demande contre ce qui t’aide (JD-R), et ce que tu donnes contre ce que tu reçois (Siegrist). Des flèches mènent à Sam, au centre : sa fatigue, avec deux colonnes hautes, l’épuisement et le repos qui ne suit plus (effort-récupération). Une flèche mène à droite, l’impact dans sa vie : la distance, la perte d’efficacité et de sens (Maslach, avec l’épuisement). En bas : on agit à gauche, on suit l’impact à droite.",
     720, 436, `
     <defs><marker id="fo-fleche" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${C.sapin}"/></marker></defs>
-    ${t(135, 34, "DANS LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "les causes", { a: "middle", cls: "s" })}
-    ${t(585, 34, "DANS LA PERSONNE", { a: "middle", cls: "k", c: C.mid })}${t(585, 52, "les effets", { a: "middle", cls: "s" })}
+    ${t(135, 34, "LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "ce qu’il demande, ce qu’il rend", { a: "middle", cls: "s" })}
+    ${t(360, 120, "TOI", { a: "middle", cls: "k", c: C.ink })}${t(360, 138, "ta fatigue", { a: "middle", cls: "s" })}
+    ${t(585, 34, "L’IMPACT DANS TA VIE", { a: "middle", cls: "k", c: C.ink })}${t(585, 52, "ce que ça change", { a: "middle", cls: "s" })}
     <g transform="translate(20,68)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
       <g transform="translate(115,44)"><path d="M0 -2l-14 30h28z" fill="${C.sapin}"/><path d="M-46 8L46 -10" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="10" width="34" height="14" rx="5" fill="${C.orange}"/><rect x="-60" y="-4" width="26" height="12" rx="5" fill="${C.orange}"/><rect x="30" y="-24" width="30" height="11" rx="5" fill="none" stroke="${C.mid}" stroke-width="2" stroke-dasharray="4 3"/></g>
-      ${t(115, 98, "La balance · JD-R", { a: "middle", cls: "b" })}${t(115, 117, "ce qui pèse, ce qui aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
+      ${t(115, 98, "JD-R · une pesée", { a: "middle", cls: "b" })}${t(115, 117, "on te demande / ce qui t’aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
     <g transform="translate(20,232)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
-      <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${C.anis}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
-      ${t(115, 98, "Le retour · Siegrist", { a: "middle", cls: "b" })}${t(115, 117, "ce que je donne, ce que je reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
+      <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${VERT}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
+      ${t(115, 98, "Siegrist · une pesée", { a: "middle", cls: "b" })}${t(115, 117, "tu donnes / tu reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
     <path d="M254 142C292 142 300 190 326 196" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <path d="M254 306C292 306 300 254 326 246" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
-    <g transform="translate(332,150)"><rect x="18" y="0" width="20" height="10" rx="3" fill="${C.sapin}"/><rect x="0" y="9" width="56" height="128" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-width="4"/><rect x="8" y="${17 + 112 * .78}" width="40" height="${112 * .22}" rx="6" fill="${C.orange}"/></g>
-    ${t(360, 312, "Sam", { a: "middle", cls: "t" })}${t(360, 330, "son énergie", { a: "middle", cls: "s", c: C.muted })}
+    <g transform="translate(326,150)"><rect width="68" height="130" rx="14" fill="${C.card}" stroke="${C.sapin}" stroke-width="3"/>
+      <rect x="12" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="12" y="${14 + 96 * .25}" width="18" height="${96 * .75}" rx="6" fill="${C.orange}"/>
+      <rect x="38" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="38" y="${14 + 96 * .4}" width="18" height="${96 * .6}" rx="6" fill="${C.orange}"/>
+</g>
+    ${t(360, 302, "Sam", { a: "middle", cls: "t" })}${t(360, 320, "épuisement", { a: "middle", cls: "s", c: C.muted })}${t(360, 336, "le repos ne suit plus", { a: "middle", cls: "s", c: C.muted })}
     <path d="M396 222H462" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <g transform="translate(470,68)"><rect width="230" height="310" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
-      ${[["Épuisement", .8, C.orange, 45], ["Distance", .65, C.violet, 115], ["Efficacité", .55, C.mid, 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
-      ${t(115, 246, "Les trois signes · Maslach", { a: "middle", cls: "b" })}${t(115, 265, "ce que l’usure fait à la personne", { a: "middle", cls: "s" })}${t(115, 283, "Maslach et Jackson, 1981", { a: "middle", cls: "s", c: C.muted })}</g>
-    <g transform="translate(20,392)"><rect width="680" height="34" rx="17" fill="${C.sapin}"/>${t(340, 22.5, "On agit à gauche, sur le travail. On mesure à droite, sur la personne.", { a: "middle", cls: "b", c: C.anis })}</g>`),
+      ${[["Distance", .65, C.orange, 45], ["Perte d'eff.", .55, "#d9a21b", 115], ["Sens", .4, "#d9a21b", 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
+      ${t(115, 246, "Ta relation au travail · Maslach", { a: "middle", cls: "b" })}${t(115, 265, "avec l’épuisement : les trois signes", { a: "middle", cls: "s" })}${t(115, 283, "Maslach et Jackson, 1981", { a: "middle", cls: "s", c: C.muted })}</g>
+    <g transform="translate(20,392)"><rect width="680" height="34" rx="17" fill="${C.sapin}"/>${t(340, 22.5, "On agit à gauche, sur le travail. On suit à droite l’impact dans ta vie.", { a: "middle", cls: "b", c: C.anis })}</g>`),
 
   niveaux: svg("Les trois niveaux de prévention",
     "Trois bandes empilées, de la plus prioritaire à la moins prioritaire. Un : prévention primaire, supprimer le risque à la source, par exemple retirer, reporter, simplifier, remplacer Marc. Deux : prévention secondaire, aider à faire face, par exemple former, faire des points de charge. Trois : prévention tertiaire, réparer, par exemple soigner, aménager la reprise. La loi demande de commencer par le premier niveau.",
@@ -201,84 +204,8 @@ export const illustrations = {
 };
 
 // ───────── Le schéma du rapport, construit au fil des chapitres (comme le papillon de Papillon).
-// Même disposition que la vue d'ensemble du rapport (rapport.js, vueEnsemble) : à gauche les conditions
-// de travail, au centre deux indices du vécu (A et F), à droite les manifestations. Données : Sam, fictif.
-// Chaque chapitre allume ses pièces ; les pièces à venir restent en pointillés, sans contenu.
-export const PIECES_SCHEMA = [
-  ["batterie", "corps"],      // 1 · fatigue ou usure : épuisement (A), récupération (F), signaux du corps
-  ["signes"],                 // 2 · les trois signes (Maslach)
-  ["balance", "appuis"],      // 3 · la balance exigences-ressources (JD-R)
-  ["retour"],                 // 4 · effort et récompense (Siegrist)
-  ["contexte"],               // 5 · le contexte, hors score
-  ["fils"],                   // 6 · ce que valent les mesures : des liens, pas des causes
-  ["bandeau"],                // 7 · agir : ce qui tire, ce qui reste, ce qui lâche
-  [],                         // 8 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
-  ["securite"],               // 9 · à qui en parler : la porte d'urgence
-];
-const NIVC = [C.piste, "#e9c46a", C.orange, "#b3261e"];
-
-// Sans argument : le schéma complet, sans pièce surlignée.
-export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = {}) {
-  const faites = new Set(PIECES_SCHEMA.slice(0, chapitre + 1).flat());
-  const ici = new Set(PIECES_SCHEMA[chapitre] || []);
-  const etat = (id) => (ici.has(id) ? "ici" : faites.has(id) ? "fait" : "avenir");
-  const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.a || "start"}" fill="${o.c || C.sapin}" font-size="${o.size || 14}" font-weight="${o.w || 600}" font-family="${o.titre ? "Poppins, sans-serif" : "Inter, sans-serif"}"${o.op ? ` opacity="${o.op}"` : ""}>${s}</text>`;
-  // Une boîte : en attente (pointillés, nom seul), posée, ou nouvelle (halo anis).
-  const boite = (id, x, y, w, h, nom, modele, contenu, o = {}) => {
-    const e = etat(id);
-    if (e === "avenir") return `<g opacity=".5"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + h / 2 + 5, nom, { a: "middle", c: C.muted, w: 500, size: 13 })}</g>`;
-    return `<g>${e === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="16" fill="${C.anis}"/>` : ""}
-      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"${o.tirets ? ' stroke-dasharray="5 4"' : ""}/>
-      ${T(x + 12, y + 21, nom, { titre: true, w: 800, size: 14.5 })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .75 }) : ""}${contenu}</g>`;
-  };
-  const ligne = (x, y, w, label, mot, n) => `<circle cx="${x + 18}" cy="${y - 4}" r="5" fill="${NIVC[n]}"/>${T(x + 30, y, label, { size: 12.5, w: 500 })}${T(x + w - 10, y, mot, { a: "end", size: 12, w: 700, c: n >= 2 ? C.ink : C.muted })}`;
-  const barre = (x, y, w, label, v, n) => `${T(x + 12, y, label, { size: 12.5, w: 500 })}<rect x="${x + 12}" y="${y + 5}" width="${w - 24}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x + 12}" y="${y + 5}" width="${Math.round((w - 24) * v)}" height="7" rx="3.5" fill="${NIVC[n]}"/>`;
-  const W = 660, L = 12, R = W - 12 - 196, lw = 196, cx = W / 2;
-  const top = etat("bandeau") === "avenir" ? 34 : 112;
-  let s = "";
-  // Bandeau : trois cadrans, comme en tête du rapport.
-  if (etat("bandeau") !== "avenir") {
-    const cad = (x, k, mot, n, bon) => {
-      const arc = (j) => { const a0 = Math.PI * (1 - j / 4), a1 = Math.PI * (1 - (j + 1) / 4) + .05; const p = (a) => `${(x + 34 * Math.cos(a)).toFixed(1)} ${(60 - 34 * Math.sin(a)).toFixed(1)}`; const col = bon ? [...NIVC].reverse()[j] : NIVC[j]; return `<path d="M${p(a0)} A34 34 0 0 1 ${p(a1)}" fill="none" stroke="${col}" stroke-width="9" opacity="${j === (bon ? 3 - n : n) ? 1 : .3}"/>`; };
-      return `${[0, 1, 2, 3].map(arc).join("")}${T(x + 44, 40, k, { size: 11, w: 700, c: C.ink })}${T(x + 44, 58, mot, { titre: true, w: 800, size: 14 })}`;
-    };
-    s += `<g>${etat("bandeau") === "ici" ? `<rect x="6" y="6" width="${W - 12}" height="78" rx="16" fill="${C.anis}"/>` : ""}<rect x="12" y="12" width="${W - 24}" height="66" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-      ${cad(70, "CE QUI TIRE", "élevé", 2, false)}${cad(285, "CE QUI RESTE", "récup. basse", 2, true)}${cad(500, "CE QUI LÂCHE", "élevé", 2, false)}</g>`;
-  }
-  s += T(L, top - 12, "LE TRAVAIL", { titre: true, w: 800, size: 11.5, c: C.ink }) + T(cx, top - 12, "TOI", { titre: true, w: 800, size: 11.5, c: C.muted, a: "middle" }) + T(W - 12, top - 12, "CE QUI SE VOIT", { titre: true, w: 800, size: 11.5, c: C.ink, a: "end" });
-  // Positions (pour les fils).
-  const yB = top, yR = top + 96, yC = top + 222, hB = 84, hR = 116, hC = 64;
-  const yS = top, hS = 132, yCo = top + 144, hCo = 70, ySe = top + 226, hSe = 40;
-  const bTop = top + 20, bH = 150, aTop = top + 196, aH = 66;
-  if (etat("fils") !== "avenir") {
-    const op = etat("fils") === "ici" ? 1 : .8;
-    const f = (x1, y1, x2, y2, w, c) => `<path d="M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
-    s += `<g>${f(L + lw, yB + hB / 2, cx - 58, bTop + 40, 7, C.orange)}${f(L + lw, yR + hR / 2, cx - 58, bTop + 80, 5, C.orange)}${f(L + lw, yC + hC / 2, cx - 58, bTop + 120, 2.5, C.orange)}
-      ${f(cx + 58, bTop + 50, R, yS + hS / 2, 7, C.orange)}${f(cx + 58, bTop + 110, R, yCo + hCo / 2, 4, C.orange)}
-      <path d="M${cx} ${aTop} V${bTop + bH}" stroke="${C.mid}" stroke-width="3" opacity="${op}"/>
-      ${etat("fils") === "ici" ? T(cx, aTop + aH + 22, "des liens à vérifier, pas des causes", { a: "middle", size: 12, w: 700, c: C.ink }) : ""}</g>`;
-  }
-  // Gauche : la balance (JD-R), le retour (Siegrist), le contexte.
-  s += boite("balance", L, yB, lw, hB, "La balance", "JD-R · chapitre 3", ligne(L, yB + 58, lw, "Exigences", "élevées", 2) + ligne(L, yB + 76, lw, "Ressources", "limitées", 1));
-  s += boite("retour", L, yR, lw, hR, "Le retour", "Siegrist · chapitre 4", ligne(L, yR + 58, lw, "Effort", "élevé", 2) + ligne(L, yR + 78, lw, "Récompense", "faible", 2) + ligne(L, yR + 98, lw, "Surengagement", "moyen", 1));
-  s += boite("contexte", L, yC, lw, hC, "Le contexte", "hors score · chapitre 5", ligne(L, yC + 56, lw, "Collègue parti", "signalé", 1), { tirets: true });
-  // Centre : deux indices du vécu, et les appuis.
-  const eB = etat("batterie");
-  if (eB === "avenir") s += boite("batterie", cx - 58, bTop, 116, bH, "Ton énergie", "", "");
-  else {
-    const col = (x, id, v, n) => `${T(x + 16, bTop + 44, id, { a: "middle", titre: true, w: 800, size: 13 })}<rect x="${x}" y="${bTop + 52}" width="32" height="74" rx="6" fill="${C.piste}"/><rect x="${x}" y="${bTop + 52 + 74 * (1 - v)}" width="32" height="${74 * v}" rx="6" fill="${NIVC[n]}"/>`;
-    s += `<g>${eB === "ici" ? `<rect x="${cx - 64}" y="${bTop - 6}" width="128" height="${bH + 12}" rx="20" fill="${C.anis}"/>` : ""}<rect x="${cx - 58}" y="${bTop}" width="116" height="${bH}" rx="16" fill="${C.card}" stroke="${C.sapin}" stroke-width="2"/>
-      ${T(cx, bTop + 22, "Fatigue ou usure", { a: "middle", titre: true, w: 800, size: 12.5 })}${col(cx - 44, "A", .7, 2)}${col(cx + 12, "F", .58, 2)}${T(cx, bTop + bH - 8, "chapitre 1", { a: "middle", size: 11, w: 500, op: .75 })}</g>`;
-  }
-  s += boite("appuis", cx - 70, aTop, 140, aH, "Tes appuis", "chapitre 3", T(cx - 58, aTop + 56, "décrocher : fragile", { size: 12, w: 500 }), { fond: "#e3eee9" });
-  // Droite : les trois signes (Maslach), les autres signaux, la sécurité.
-  s += boite("signes", R, yS, lw, hS, "Les trois signes", "Maslach · chapitre 2", barre(R, yS + 60, lw, "Épuisement", .7, 2) + barre(R, yS + 88, lw, "Distance", .5, 1) + barre(R, yS + 116, lw, "Efficacité, sens", .3, 1));
-  s += boite("corps", R, yCo, lw, hCo, "Le corps", "récupération · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
-  s += etat("securite") === "avenir" ? boite("securite", R, ySe, lw, hSe, "La sécurité", "", "")
-    : `<g>${etat("securite") === "ici" ? `<rect x="${R - 6}" y="${ySe - 6}" width="${lw + 12}" height="${hSe + 12}" rx="16" fill="${C.anis}"/>` : ""}<rect x="${R}" y="${ySe}" width="${lw}" height="${hSe}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".3" stroke-dasharray="4 4"/>${T(R + 12, ySe + 25, "Sécurité : rien de coché", { size: 12.5, w: 600 })}</g>`;
-  const H = top + 290;
-  const n = PIECES_SCHEMA.slice(0, chapitre + 1).filter((p) => p.length).length;
-  // (chapitre = PIECES_SCHEMA.length : toutes les pièces posées.)
-  const label = titre || `Le schéma de ton rapport, avec l'exemple de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES_SCHEMA.filter((p) => p.length).length}.`;
-  return `<svg class="fo-schema" viewBox="0 0 ${W} ${H}" role="img" aria-label="${label}">${s}</svg>`;
-}
+// Un seul dessin pour l'accueil, la formation et le rapport : schema.js. Ici, l'exemple fictif de Sam.
+import { schemaDouble, PIECES } from "./schema.js";
+export { PIECES, NIVC, NIVMOTS } from "./schema.js";
+// Sans argument : le schéma complet, sans pièce surlignée. chapitre = -1 : le cadre vide.
+export const schemaRapport = (chapitre = PIECES.length, { titre = "" } = {}) => schemaDouble({ chapitre, titre, classe: "fo-schema" });

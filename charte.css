@@ -428,18 +428,20 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .bo-caption strong { color: var(--anis); font-weight: 600; }
 
 /* Batterie */
-.bo-battery { transition: opacity .6s, transform .8s var(--ease); transform-box: view-box; transform-origin: 95px 160px; }
-.bo-bat-cap, .bo-bat-body { fill: none; stroke: var(--creme); stroke-width: 4; }
-.bo-bat-cap { fill: var(--creme); stroke: none; }
-.bo-bat-fill { fill: var(--anis); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--lvl, .8)); transition: transform 1.4s var(--ease), fill 1.2s; }
-.bo-bat-pct { fill: var(--sapin-deep); font: 800 14px/1 var(--title) !important; font-family: var(--title) !important; transition: fill .8s; }
-.bo-bat-lbl { fill: rgba(246, 239, 226, .75); font-size: 13px; font-weight: 600; }
-.bo-scene[data-act="1"] .bo-bat-fill { fill: #e8c25c; }
-.bo-scene[data-act="2"] .bo-bat-fill, .bo-scene[data-act="3"] .bo-bat-fill { fill: var(--orange); }
-.bo-scene[data-act="2"] .bo-bat-fill { fill: #e5574a; }
-.bo-scene[data-act="2"] .bo-bat-pct, .bo-scene[data-act="3"] .bo-bat-pct { fill: var(--creme); }
+.bo-battery { transition: opacity .6s, transform .8s var(--ease); transform-box: view-box; transform-origin: 87px 160px; }
+/* Deux colonnes (épuisement A, récupération difficile F) qui montent quand ça use : même logique et même code couleur que le rapport. */
+.bo-col-track { fill: rgba(246, 239, 226, .08); stroke: rgba(246, 239, 226, .7); stroke-width: 2.5; }
+.bo-col-fill { fill: #6fbf8f; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--lvl, .15)); transition: transform 1.4s var(--ease), fill 1.2s; }
+.bo-bat-pct { fill: var(--creme); font: 800 15px/1 var(--title) !important; font-family: var(--title) !important; }
+.bo-bat-lbl { fill: rgba(246, 239, 226, .9); font-size: 10.5px; font-weight: 700; }
+.bo-bat-sub { fill: rgba(246, 239, 226, .65); font-size: 11px; font-weight: 500; }
+.bo-bat-niv { fill: #f6efe2; font-size: 10.5px; font-weight: 600; opacity: .85; }
 .bo-scene[data-act="2"] .bo-battery { animation: bo-shake .5s 1.2s 2; }
 .bo-scene[data-act="4"] .bo-battery { opacity: .18; transform: scale(.82) translateX(-10px); }
+.bo-legende { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; font-size: 12.5px; color: rgba(246, 239, 226, .8); }
+.bo-legende span { display: inline-flex; align-items: center; gap: 6px; }
+.bo-legende i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.bo-legende .c0 { background: #6fbf8f; } .bo-legende .c1 { background: #e0b13c; } .bo-legende .c2 { background: #e8794f; } .bo-legende .c3 { background: #b9481f; }
 @keyframes bo-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
 /* Demandes qui s'empilent, ressources qui disparaissent */
@@ -450,9 +452,9 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .bo-d.is-hidden { opacity: 0; }
 .bo-d.is-new { animation: bo-drop .7s var(--ease); }
 @keyframes bo-drop { from { opacity: 0; translate: 0 -26px; } to { opacity: 1; translate: 0 0; } }
-.bo-r rect { fill: var(--anis); }
+.bo-r rect { fill: #6fbf8f; }
 .bo-r text { fill: var(--sapin-deep); font-size: 13.5px; font-weight: 600; }
-.bo-strike { stroke: #e5574a; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 90; stroke-dashoffset: 90; transition: stroke-dashoffset .6s .3s; }
+.bo-strike { stroke: #d0602c; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 90; stroke-dashoffset: 90; transition: stroke-dashoffset .6s .3s; }
 .bo-r.is-lost { opacity: .35; }
 .bo-r.is-lost .bo-strike { stroke-dashoffset: 0; }
 .bo-scene[data-act="3"] .bo-d { opacity: .55; }
@@ -462,7 +464,7 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 /* Bulle « À quoi bon ? » */
 .bo-bubble { opacity: 0; transform: translateY(8px); transition: opacity .5s .6s, transform .5s .6s; }
 .bo-bubble path { fill: var(--creme); }
-.bo-bubble text { fill: #b3261e; font: 800 17px var(--title) !important; font-family: var(--title) !important; }
+.bo-bubble text { fill: #d0602c; font: 800 17px var(--title) !important; font-family: var(--title) !important; }
 .bo-scene[data-act="2"] .bo-bubble { opacity: 1; transform: none; }
 
 /* Balance exigences / ressources (modèle JD-R) */
@@ -479,7 +481,7 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .bo-pan-r { transform-origin: 470px 150px; }
 .bo-scene[data-act="4"] .bo-pan { transform: rotate(13deg); }
 .bo-pan-l rect { fill: var(--orange); }
-.bo-pan-r rect { fill: var(--anis); }
+.bo-pan-r rect { fill: #6fbf8f; }
 .bo-pan text { fill: var(--sapin-deep); font: 800 16px var(--title) !important; font-family: var(--title) !important; }
 .bo-pan .bo-pan-sub { font: 600 11.5px var(--font) !important; font-family: var(--font) !important; }
 
@@ -810,7 +812,7 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 /* Accueil : les trois modèles, puis le schéma du rapport qui les réunit (V3). */
 .home-schema, .home-schema-art { min-width: 0; max-width: 100%; }
 .home-modeles-lead { max-width: 760px; font-size: 18px; margin: 0 0 18px; }
-.home-modeles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.home-modeles-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .home-modele { display: grid; gap: 8px; align-content: start; padding: 22px; border-radius: var(--radius); border: 1px solid var(--line-soft); background: var(--card); }
 .home-modele-k { margin: 0; font: 800 12.5px/1.3 var(--title); letter-spacing: .06em; text-transform: uppercase; color: var(--hot-ink); }
 .home-modele h3 { font-size: 20px; margin: 0; }
@@ -821,4 +823,12 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 .home-schema-art .fo-schema { display: block; width: 100%; max-width: 860px; height: auto; margin: 0 auto; background: #f6efe2; border-radius: 14px; }
 .home-schema figcaption { margin-top: 12px; font-size: 15px; color: var(--muted); max-width: 860px; margin-inline: auto; }
 @media (max-width: 860px) { .home-modeles-grid { grid-template-columns: 1fr; } }
-@media (max-width: 600px) { .home-schema { padding: 12px; } .home-schema-art { overflow-x: auto; } .home-schema-art .fo-schema { min-width: 540px; } }
+.home-schema-art .fo-schema.etroit { display: none; max-width: 420px; }
+@media (max-width: 640px) { .home-schema { padding: 12px; } .home-schema-art .fo-schema.large { display: none; } .home-schema-art .fo-schema.etroit { display: block; } }
+/* Schéma Bull-Out (schema.js) : deux mises en page, la large sur ordinateur, l'étroite sur téléphone. */
+.fo-schema.etroit { display: none; }
+@media (max-width: 640px) { .fo-schema.large { display: none; } .fo-schema.etroit { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; } }
+
+/* Bullshitomètre V3 et RA : la dernière option (« pas concerné·e », « je préfère ne pas répondre ») est en retrait. */
+.choices-retrait .choice:last-child .opt { border-style: dashed; background: transparent; }
+.choices-retrait .choice:last-child .opt-t { color: var(--muted); font-style: italic; }

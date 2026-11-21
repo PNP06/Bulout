@@ -1,7 +1,7 @@
-// Formation Bull-Out : neuf chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Formation Bull-Out : onze chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
 // Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
 // des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
-// Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7, 8 et 9 : il concerne tout le monde.
+// Le contenu de l’ancienne page « Managers » est intégré aux chapitres 6, 9, 10 et 11 : il concerne tout le monde.
 
 export const temps = [
   "Premier temps · Nommer sans se tromper",
@@ -18,7 +18,7 @@ export const introduction = {
     "Tu suivras Sam, 38 ans, coordinateur logistique dans une PME. Sa semaine se dégrade, puis son mois. Chaque chapitre éclaire une partie de son histoire, et une partie de ton futur rapport. Nadia, sa manager, est aussi là : ce qui se joue côté management concerne tout le monde, pas seulement les managers.",
   ],
   contrat: [
-    "<b>Neuf chapitres progressifs</b>, de 5 à 9 minutes chacun (environ une heure de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
+    "<b>Onze chapitres progressifs</b>, de 5 à 10 minutes chacun (environ 75 minutes de lecture), une synthèse, puis un test final qui te donne ton diplôme : c’est lui qui ouvre le questionnaire.",
     "<b>En plusieurs fois, si tu veux.</b> Rien n’est gardé sur ce site : « Enregistrer ma progression » télécharge un petit fichier, « Reprendre un fichier » te ramène où tu en étais.",
     "<b>Des sources à chaque chapitre</b>, et les points encore débattus sont signalés.",
   ],
@@ -27,8 +27,10 @@ export const introduction = {
     "Le burn-out a trois signes : l’épuisement, la distance mentale et la baisse d’efficacité. La fatigue n’est que le premier.",
     "L’usure s’installe quand ce que le travail demande pèse durablement plus que ce qui aide à le faire.",
     "Donner beaucoup pour peu de retour use aussi, et le surengagement rend le problème invisible.",
+    "L’absurde n’est pas un détail comique : c’est une exigence qui gêne sans rien rapporter. Ce qui compte aussi, c’est ce que tu en fais.",
     "Un facteur personnel peut rendre plus vulnérable. Il ne dispense jamais de regarder le travail.",
     "Aucun dosage ne diagnostique un burn-out, et un score se lit dimension par dimension.",
+    "Pas de burn-out ne veut pas dire pas de risque : on peut être exposé·e sans être usé·e, et ça se traite quand même.",
     "Face à une surcharge, il faut une décision : retirer, reporter ou simplifier. Sinon, on escalade.",
     "La loi demande de prévenir, pas seulement de réparer. Ce qui protège, salarié comme manager, c’est d’avoir agi et de pouvoir le montrer.",
     "Chaque interlocuteur ouvre une porte différente : soin, aménagement, arbitrage ou protection.",
@@ -54,6 +56,9 @@ export const chapitres = [
       { t: "fig", ill: "weekend", cap: "Même vendredi, deux suites différentes. Ce qui distingue une fatigue d’une usure, c’est ce que le repos rend." },
       { t: "p", html: "Lundi, Léa a retrouvé de l’énergie. Trois semaines plus tard, elle a repris le tennis. Sam, lui, a dormi tout le week-end sans récupérer. Il annule ses soirées, relit trois fois le même mail. La différence ne tient pas à la dureté du vendredi : elle tient à <b>ce que le repos leur rend</b>, et à <b>ce qu’ils arrivent encore à faire</b>." },
       { t: "exemple", titre: "Le test des vacances", html: "Sam part dix jours en congé. Il revient reposé. Trois jours après la reprise, il est aussi vidé qu’avant. Ce retour rapide ne prouve pas que le travail est la seule cause. Mais il en fait <b>une piste sérieuse</b> : ce qui revient avec le travail mérite d’être regardé de près.", note: "Une fatigue qui revient avec la reprise est une information, pas un échec des vacances." },
+      { t: "h", texte: "Le modèle effort-récupération" },
+      { t: "p", html: "Ce critère a un nom : le modèle <b>effort-récupération</b> (Meijman et Mulder, 1998). Tout travail coûte un effort, et c’est normal. Ce qui use, c’est de repartir avant d’avoir récupéré : la fatigue s’additionne d’un jour sur l’autre. Pour récupérer, il faut surtout <b>décrocher</b> (ne plus penser au travail), <b>dormir</b>, et <b>garder ce qui ressource</b> : un sport, des amis, du temps à soi (Sonnentag et Fritz, 2007)." },
+      { t: "p", html: "Chez Léa, la boucle se referme : effort, fatigue, repos, et elle repart. Chez Sam, elle reste ouverte : il rumine le dimanche soir, dort mal, a lâché ses soirées. C’est cette boucle qui sera <b>au centre de ton schéma</b>." },
       { t: "h", texte: "Ce que dit l’OMS" },
       { t: "p", html: "Depuis 2022, la Classification internationale des maladies de l’OMS (CIM-11) décrit le burn-out comme un <b>phénomène professionnel</b>, et non comme une maladie. Il résulte d’un stress chronique au travail qui n’a pas été géré avec succès. Il se reconnaît à trois signes :" },
       { t: "cartes", items: [
@@ -74,7 +79,7 @@ export const chapitres = [
         ["Stress aigu", "Une réaction forte à un événement précis : une échéance, une crise, un conflit.", "Traiter l’événement, vérifier que la tension ne s’installe pas."],
         ["Burn-out", "Une usure liée au travail qui dure : épuisement, distance, efficacité en baisse.", "Analyser le travail réel, réduire ce qui use, demander un avis de santé."],
         ["Dépression", "Humeur basse, perte d’envie, culpabilité, souvent au-delà du travail.", "Un avis médical ou psychologique, sans attendre."],
-        ["Harcèlement ou violence", "Humiliations, menaces, isolement, propos dégradants répétés.", "Protection, traces écrites, interlocuteurs compétents (chapitres 8 et 9)."],
+        ["Harcèlement ou violence", "Humiliations, menaces, isolement, propos dégradants répétés.", "Protection, traces écrites, interlocuteurs compétents (chapitres 10 et 11)."],
         ["Conflit éthique", "Devoir faire un travail contraire à ses valeurs, à la qualité ou à la sécurité.", "Clarifier les responsabilités, documenter, chercher un appui collectif."],
       ] },
       { t: "principe", html: "Se tromper de mot, c’est se tromper de porte. Une dépression appelle un soin, un harcèlement une protection, une surcharge un arbitrage. Plusieurs situations peuvent aussi coexister : on traite alors chacune." },
@@ -123,7 +128,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "La batterie", texte: "Ton rapport regarde d’abord deux repères : l’épuisement, et ce que le repos te rend.", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    piece: { nom: "Ta fatigue et ton corps", texte: "Au centre de ton rapport, la question de ce chapitre : le repos te rend-il ce que le travail te prend ? L’épuisement, décrocher le soir, dormir, et ce que change un congé. À droite, ce que la fatigue abîme quand elle dure : symptômes, erreurs, ce qu’on prend pour tenir.", rapport: "la jauge « Ta fatigue », la case « Ta fatigue » et la case « Ton corps »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
@@ -149,8 +154,8 @@ export const chapitres = [
       ] },
       { t: "p", html: "<b>Comment l'utiliser ?</b> Observe ces dimensions séparément. Une fatigue élevée sans cynisme ne raconte pas la même chose qu'un cynisme marqué avec peu de fatigue. La coexistence de plusieurs signaux oriente la discussion ; <b>elle ne révèle pas une séquence obligatoire, une cause ni un diagnostic</b>." },
       { t: "p", html: "<b>Limite :</b> le MBI est un instrument psychométrique particulier ; les questions de Bull-Out sont reformulées, mélangées à d'autres thèmes et dotées de seuils internes non étalonnés. On ne peut pas leur transférer la validation du MBI ni conclure que le travail a causé chacun des signes." },
-      { t: "h", texte: "Trois jauges, pas une" },
-      { t: "fig", ill: "jauges", cap: "Trois jauges distinctes. Elles montent souvent ensemble, mais pas toujours au même rythme." },
+      { t: "h", texte: "Trois signes, pas un" },
+      { t: "fig", ill: "jauges", cap: "Trois signes distincts. Ils montent souvent ensemble, mais pas toujours au même rythme." },
       { t: "p", html: "Quatre semaines après le vendredi du chapitre 1, voici ce que Sam dit de lui, dans ses mots :" },
       { t: "cartes", items: [
         ["« Je suis vidé »", "<b>L’épuisement</b>. Le corps et la tête n’ont plus de réserve. Le matin, la journée paraît déjà longue."],
@@ -167,7 +172,7 @@ export const chapitres = [
         ["« Burn-out égale fatigue extrême »", "On peut être très fatigué sans burn-out (après une naissance, par exemple), et en burn-out avec une distance mentale au premier plan. C’est la combinaison des signes, et leur lien avec le travail, qui compte."],
         ["« Si j’aime mon travail, je suis protégé »", "C’est souvent l’inverse. Les personnes les plus engagées donnent plus, compensent plus, et s’épuisent parfois plus vite. L’engagement n’est pas un défaut : c’est une raison de plus de surveiller la charge."],
       ] },
-      { t: "principe", html: "Un signe n’est pas une étiquette. Trois jauges hautes déclenchent une analyse du travail, pas un verdict sur la personne." },
+      { t: "principe", html: "Un signe n’est pas une étiquette. Trois signes hauts déclenchent une analyse du travail, pas un verdict sur la personne." },
       { t: "piege", titre: "Le piège · de l’erreur au défaut", depart: "Sam fait plus d’erreurs qu’avant.", etapes: [
         ["un effet devient un trait", "Donc Sam est moins compétent."],
         ["un trait appelle une solution individuelle", "Donc il doit suivre une formation."],
@@ -214,7 +219,7 @@ export const chapitres = [
       ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Repérer un signe ne t’oblige à rien. Mais un cynisme qui s’installe ou des erreurs inhabituelles sont des informations, pas des défauts à cacher.",
-    piece: { nom: "Les trois jauges", texte: "Ton rapport regarde séparément l’épuisement, la distance et l’efficacité, pour ne pas réduire l’usure à la fatigue.", rapport: "les dimensions « Épuisement », « Distance mentale » et « Efficacité et sens », et la lecture Maslach." },
+    piece: { nom: "Ta relation au travail", texte: "Ton rapport regarde séparément les trois signes de Maslach, marqués M : l’épuisement, déjà dans ta fatigue, puis la distance et la perte d’efficacité, avec le sens à part. Pour ne pas réduire l’usure à la fatigue.", rapport: "la case « Ta relation au travail », les pastilles M et les dimensions « Épuisement », « Distance mentale » et « Perte d’efficacité et de sens »." },
     suite: "Ces trois signes décrivent ce que tu vis. Ils ne disent pas ce qui, dans le travail, les produit. C’est le rôle du chapitre suivant.",
   },
 
@@ -309,7 +314,7 @@ export const chapitres = [
       ["INRS · les facteurs de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Dire que le travail pèse n’accuse personne. C’est décrire une situation qu’on peut modifier, et c’est plutôt une bonne nouvelle.",
-    piece: { nom: "La balance", texte: "Ton rapport pose tes réponses sur les deux plateaux, pour voir lequel pèse le plus.", rapport: "les dimensions « Exigences » et « Ressources », et la lecture JD-R." },
+    piece: { nom: "Ton travail t’aide-t-il assez ?", texte: "Ton rapport pose tes réponses sur une pesée : d’un côté ce qu’on te demande, de l’autre ce qui t’aide (marge, manager, collègues, clarté). Une phrase dit de quel côté ça penche.", rapport: "la première pesée du schéma et les dimensions « Exigences » et « Manque de ressources »." },
     suite: "Il reste une question que la balance ne pose pas : qu’est-ce que tu reçois en retour de tout cet effort ?",
   },
 
@@ -398,8 +403,8 @@ export const chapitres = [
       ["INRS · manque de reconnaissance et risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
     ],
     nechange: "Aimer son travail ne protège pas de l’usure. Ce n’est pas un défaut d’en faire beaucoup : c’est une information sur ce que le poste demande vraiment.",
-    piece: { nom: "Le retour", texte: "Ton rapport regarde aussi ce que tu reçois en échange de ton effort, et ton rapport au travail en dehors des heures.", rapport: "la lecture ERI (effort, reconnaissance, surengagement)." },
-    suite: "Et si, en plus, Sam traverse quelque chose de lourd dans sa vie personnelle ? Est-ce que ça change tout ? C’est le piège du chapitre suivant.",
+    piece: { nom: "Ce que tu donnes est-il payé ?", texte: "Ton rapport pèse ce que tu donnes contre ce que tu reçois (estime, équité, salaire, avenir), et regarde si tu es trop investi·e (dire non, vouloir prouver).", rapport: "la seconde pesée et la case « Trop investi·e ? »." },
+    suite: "Donner beaucoup pour peu, c’est déjà lourd. Donner beaucoup pour rien, c’est pire : le chapitre suivant parle de l’absurde.",
   },
 
   // ───────────────────────────── 5
@@ -484,7 +489,7 @@ export const chapitres = [
       ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
     ],
     nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
-    piece: { nom: "Le contexte", texte: "Ton rapport note ce qui se passe autour (situation personnelle lourde, collègues touchés, peur de parler) : cela change la lecture, sans changer le score.", rapport: "les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
+    piece: { nom: "Tes appuis et ta vie hors travail", texte: "Ton rapport note ce qui te tient (tes appuis), ce que tu portes à côté (une vie perso lourde, en pointillés) et ce que le travail te fait sacrifier (loisirs, liens). Ce qui est perso change la lecture, jamais le score.", rapport: "les cases « Tes appuis » et « Ta vie hors travail », les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
     suite: "Et si un test sanguin pouvait trancher ? Le chapitre suivant regarde ce que valent les mesures, cortisol compris.",
   },
 
@@ -538,7 +543,7 @@ export const chapitres = [
           "Il faut refaire le test dans un vrai laboratoire.",
         ], bonne: 1, fb: [
           "Un cortisol normal n’exclut rien. Beaucoup de personnes épuisées ont des valeurs normales.",
-          "Oui. Ni normal ni anormal, ce chiffre ne change ce qu’il faut faire. Ce qui compte : ses trois jauges, sa balance, son retour.",
+          "Oui. Ni normal ni anormal, ce chiffre ne change ce qu’il faut faire. Ce qui compte : ses trois signes, sa balance, son retour.",
           "Même au laboratoire, aucun seuil ne permet de diagnostiquer un burn-out. Le problème n’est pas la qualité du test, c’est la question qu’on lui pose.",
         ] },
         { q: "Sam et Léa ont tous les deux 72 sur 144.", choix: [
@@ -567,8 +572,8 @@ export const chapitres = [
       ["Endocrine Society · la « fatigue surrénalienne » n’est pas un diagnostic", "https://www.endocrine.org/patient-engagement/endocrine-library/adrenal-fatigue"],
     ],
     nechange: "Qu’aucun test sanguin ne voie ton usure ne veut pas dire qu’elle n’existe pas. Elle se lit dans ce que tu vis et dans ton travail : c’est là que Bull-Out regarde.",
-    piece: { nom: "Les dimensions", texte: "Ton rapport détaille six dimensions, à lire une par une plutôt que de t’arrêter au total.", rapport: "les scores par dimension et la façon de les lire." },
-    suite: "Comprendre ne suffit pas. Le dernier temps de la formation passe à l’action : que peut-on changer, et qui peut le faire ?",
+    piece: { nom: "Les trois jauges", texte: "Ton rapport résume chaque colonne par une jauge : ton travail, ta fatigue, les impacts. Un mot, pas un pourcentage ; une tendance, pas un diagnostic. Chaque dimension se lit ensuite une par une, sans total.", rapport: "les trois jauges en tête du rapport, et les scores par dimension avec la façon de les lire." },
+    suite: "Avant d’agir, une dernière carte : les six familles de risques du travail. Elles mettent un nom officiel sur ce que montre ta colonne LE TRAVAIL.",
   },
 
   // ───────────────────────────── 7
@@ -668,7 +673,7 @@ export const chapitres = [
       ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
     ],
     nechange: "Agir sur le travail ne veut pas dire que tout dépend de toi. Si tu n’as pas la main, ta part est de dire clairement ce qui ne tient pas, et à qui.",
-    piece: { nom: "Le plan", texte: "Ton rapport propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "les actions à arrêter, clarifier, demander et surveiller." },
+    piece: { nom: "Où agir", texte: "Ton rapport montre où agir, sous chaque colonne : sur le travail d’abord (retirer, reporter, simplifier), prendre soin de toi sans tout porter seul, suivre l’impact pour voir si ça bouge. Il propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "la bande « Où agir » du schéma et le plan." },
     suite: "Agir sur le travail, c’est aussi ce que la loi attend. Que dit-elle exactement, et comment se protéger ? C’est le chapitre suivant.",
   },
 
@@ -773,7 +778,7 @@ export const chapitres = [
       ["Service-public.fr · obligations de l’employeur en santé et sécurité", "https://entreprendre.service-public.fr/vosdroits/F33437"],
     ],
     nechange: "Ces repères ne remplacent pas un avis juridique. Ils servent à savoir quand demander conseil, et à ne pas attendre d’être à bout pour le faire.",
-    piece: { nom: "Les traces", texte: "Ton rapport t’aide à garder une trace utile : des faits, des dates, et des demandes précises, jamais ta santé.", rapport: "les actions « demander » et les phrases prêtes à l’emploi." },
+    piece: { nom: "Depuis quand", texte: "Ton rapport date ce que tu vis : depuis quand, dans quel sens ça évolue, ce que change un congé. Il t’aide à garder une trace utile : des faits, des dates, des demandes précises, jamais ta santé.", rapport: "la bande « Depuis quand ? » du schéma, les actions « demander » et les phrases prêtes à l’emploi." },
     suite: "Il reste une question : à qui en parler, selon ce qui se passe ? C’est le dernier chapitre.",
   },
 
@@ -816,7 +821,7 @@ export const chapitres = [
         ["Danger immédiat", "15 ou 112.", "3114 en cas de risque suicidaire."],
       ] },
       { t: "h", texte: "Préparer la reprise" },
-      { t: "exemple", titre: "Le retour de Sam", html: "Pendant son arrêt, Sam demande une <b>visite de pré-reprise</b> avec le médecin du travail. Ensemble, ils listent ce qui l’a usé : le dossier de Marc, les réunions à 18 h 30, les mails du soir. À la <b>visite de reprise</b>, le médecin propose un temps partiel thérapeutique les deux premiers mois. Nadia, de son côté, a fait entrer un renfort sur le dossier de Marc.", note: "Revenir au même poste, avec la même charge, c’est remettre la même batterie dans le même circuit." },
+      { t: "exemple", titre: "Le retour de Sam", html: "Pendant son arrêt, Sam demande une <b>visite de pré-reprise</b> avec le médecin du travail. Ensemble, ils listent ce qui l’a usé : le dossier de Marc, les réunions à 18 h 30, les mails du soir. À la <b>visite de reprise</b>, le médecin propose un temps partiel thérapeutique les deux premiers mois. Nadia, de son côté, a fait entrer un renfort sur le dossier de Marc.", note: "Revenir au même poste, avec la même charge, c’est retrouver les mêmes causes d’usure." },
       { t: "cartes", items: [
         ["Pendant l’arrêt", "La visite de pré-reprise (possible dès 30 jours d’arrêt) prépare le retour avec le médecin du travail, sans que l’employeur soit présent."],
         ["Au retour", "La visite de reprise est obligatoire après certains arrêts (60 jours pour une maladie non professionnelle). Elle vérifie que le poste est compatible avec ta santé."],
@@ -874,12 +879,12 @@ export const chapitres = [
       ["INRS · les acteurs de la prévention en entreprise", "https://www.inrs.fr/demarche/acteurs-prevention/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Tu n’as pas à trouver la porte parfaite. N’importe quelle porte ouverte vaut mieux que le silence : chacun peut t’orienter vers le bon interlocuteur.",
-    piece: { nom: "Les portes", texte: "Ton rapport propose des interlocuteurs selon tes réponses, avec ce que chacun peut faire pour toi.", rapport: "la liste des interlocuteurs, et les numéros d’urgence en cas de signal d’alerte." },
-    suite: "Tu as toutes les pièces. Avant le test final, la synthèse les rassemble : les trois modèles en une image, et les idées clefs à emporter.",
+    piece: { nom: "Les portes", texte: "Ton rapport propose une porte par zone (le travail, toi, entre les deux), selon tes réponses, et garde la sécurité à part.", rapport: "la liste des interlocuteurs, et les numéros d’urgence en cas de signal d’alerte." },
+    suite: "Tu as toutes les pièces. Avant le test final, la synthèse les rassemble : les quatre modèles, et les idées clefs à emporter.",
   },
 ];
 
-// Test final : neuf situations nouvelles. Format : [question, choix, index de la bonne réponse, explication par choix].
+// Test final : onze situations nouvelles, une par chapitre. Format : [question, choix, index de la bonne réponse, explication par choix].
 export const examen = [
   [
     "Après trois semaines de vacances, Inès a récupéré. Quatre jours après la reprise, elle est de nouveau épuisée. Que retenir ?",
@@ -906,6 +911,12 @@ export const examen = [
     ["Ceux qui compensent le plus sont souvent les plus exposés.", "Exact. Son effort est devenu invisible, et rien ne revient en échange.", "Une prime changerait le retour, pas l’effort ni la récupération. Il faut regarder les deux côtés."],
   ],
   [
+    "Chaque lundi, Nora remplit un tableau de suivi que personne ne lit. Elle en rit avec ses collègues, mais depuis un mois elle y repense le soir et dort moins bien.",
+    ["C’est drôle, donc ça ne l’use pas.", "L’absurde est une exigence qui gêne, et sa façon de le prendre a changé : rire puis ruminer, c’est à regarder, avec ce tableau à remettre en question.", "Elle manque de recul : elle devrait relativiser."],
+    1,
+    ["Rire n’empêche pas d’être usé·e. Ce qui alerte, c’est la rumination et le sommeil.", "Exact. On regarde la tâche (à quoi sert ce tableau ?) et la réaction (le rire a laissé place à la rumination).", "Relativiser ne retire pas la tâche. Son agacement est une information, pas un défaut."]
+  ],
+  [
     "Une manager dit : « Elle traverse un divorce, donc ce n’est pas le travail. »",
     ["C’est probablement vrai : il faut attendre que ça passe.", "Il faut lui demander des détails pour en être sûr.", "Un facteur personnel n’efface pas une charge connue : il faut vérifier ce qui, au travail, était modifiable."],
     2,
@@ -916,6 +927,12 @@ export const examen = [
     ["Aucun dosage ne diagnostique un burn-out : le résultat ne changerait rien à ce qu’il faut faire.", "C’est utile si le test est fait en laboratoire.", "Un cortisol bas prouve l’épuisement des surrénales."],
     0,
     ["Exact. Aucun seuil n’est validé, et la question reste le travail.", "Même en laboratoire, aucune valeur ne permet de trancher pour une personne.", "La « fatigue surrénalienne » n’est pas un diagnostic reconnu."],
+  ],
+  [
+    "Karim dort bien et se sent efficace. Mais au questionnaire, il signale des humiliations répétées de la part d’un responsable.",
+    ["Ses signes d’usure sont bas : il n’y a pas de sujet.", "C’est une exposition à examiner et à faire cesser, même sans fatigue : on cherche les faits datés et un interlocuteur sûr.", "Le questionnaire prouve un harcèlement."],
+    1,
+    ["Pas de burn-out ne veut pas dire pas de risque : l’exposition se traite avant les symptômes.", "Exact. La jauge du travail dit l’exposition, les autres l’usure. On agit sur l’exposition sans attendre.", "Un questionnaire ne qualifie pas des faits. Il déclenche une vérification et une protection."]
   ],
   [
     "Face à une surcharge, un manager dit à son équipe : « Faites au mieux. »",
@@ -937,28 +954,30 @@ export const examen = [
   ],
 ];
 
-// ───────────────────────────── Synthèse : les trois modèles, les idées clefs, et « pour aller plus loin ».
+// ───────────────────────────── Synthèse : les quatre modèles, les idées clefs, et « pour aller plus loin ».
 export const synthese = {
-  chapo: "Neuf chapitres, trois modèles principaux et trois éclairages complémentaires. Avant le test final, compare leurs questions sur une même histoire : la distinction entre <b>ce que Sam ressent</b>, <b>ce que le travail lui demande</b> et <b>ce qu’il reçoit en retour</b> rend les décisions plus précises.",
+  chapo: "Onze chapitres, quatre modèles principaux et trois éclairages complémentaires. Avant le test final, compare leurs questions sur une même histoire : la distinction entre <b>ce que le repos rend à Sam</b>, <b>ce qu’il ressent</b>, <b>ce que le travail lui demande</b> et <b>ce qu’il reçoit en retour</b> rend les décisions plus précises.",
   modeles: [
-    { nom: "Maslach", question: "Qu’est-ce que l’usure fait à la personne ?", image: "Les trois jauges", idee: "Le burn-out, ce sont trois signes : l’épuisement, la distance mentale, la baisse d’efficacité. La fatigue n’est que le premier.", agir: "Regarder les trois jauges, pas seulement la fatigue. Le cynisme et le doute de soi sont des signaux, pas des défauts.", chap: 1 },
+    { nom: "Effort-récupération", question: "Le repos répare-t-il encore la fatigue ?", image: "La boucle", idee: "Travailler fatigue, c’est normal. L’usure commence quand la récupération ne suit plus : ne plus décrocher, mal dormir, abandonner ses loisirs (Meijman et Mulder, Sonnentag).", agir: "Protéger un vrai temps de coupure, et regarder ce qui, dans le travail, empêche de décrocher : messages du soir, urgences, rumination.", chap: 0 },
+    { nom: "Maslach", question: "Qu’est-ce que l’usure fait à la personne ?", image: "Les trois signes", idee: "Le burn-out, ce sont trois signes : l’épuisement, la distance mentale, la baisse d’efficacité. La fatigue n’est que le premier.", agir: "Regarder les trois signes, pas seulement la fatigue. Le cynisme et le doute de soi sont des signaux, pas des défauts.", chap: 1 },
     { nom: "JD-R", question: "Quelles conditions favorisent l’usure ?", image: "La balance", idee: "Des exigences fortes ou durables peuvent favoriser l’épuisement ; des ressources adaptées soutiennent le travail et l’engagement. Les effets varient selon la situation.", agir: "Réduire une exigence ou renforcer une ressource réelle : arbitrer un dossier, ajouter un relais, préserver du temps ou de l’autonomie.", chap: 2 },
     { nom: "Siegrist", question: "Que reçoit-on en retour de ses efforts ?", image: "La bascule", idee: "Un effort élevé associé à des récompenses faibles peut être délétère. Le surengagement peut entretenir le déséquilibre, sans être systématique.", agir: "Rendre l’effort visible, agir sur sa charge et examiner les retours : estime, perspectives, rémunération et sécurité.", chap: 3 },
   ],
-  // Un même épisode concret, lu par les trois modèles sans les confondre.
+  // Un même épisode concret, lu par les quatre modèles sans les confondre.
   casCommun: {
     situation: "Pendant trois mois, Sam reprend le dossier d'un collègue sans remplacement. Il s'endort en pensant aux livraisons, devient sec en réunion et dit : « Je fais deux postes, personne ne le voit ».",
     lectures: [
+      { modele:"Effort-récupération", observe:"Sam s'endort en pensant aux livraisons ; le week-end ne le répare plus.", neDitPas:"Que Sam « ne sait pas se reposer ».", action:"Rendre un vrai temps de coupure possible : plus de messages le soir, un relais pendant les congés." },
       { modele:"Maslach", observe:"Épuisement, distance nouvelle, doute sur sa fiabilité.", neDitPas:"Ce qui a créé ces signes.", action:"Examiner les manifestations et leur retentissement ; proposer un avis clinique si nécessaire." },
       { modele:"JD-R", observe:"Dossiers et interruptions en hausse ; relais, autonomie et récupération en baisse.", neDitPas:"Un nombre exact d'exigences à retirer pour guérir.", action:"Retirer, reporter ou partager le dossier supplémentaire ; rétablir les moyens." },
       { modele:"Siegrist (ERI)", observe:"Effort supplémentaire visible, mais retour et perspectives insuffisants pour Sam.", neDitPas:"Que toute fatigue vient d'une injustice.", action:"Reconnaître factuellement l'effort et négocier les contreparties et les règles." },
     ],
-    conclusion: "Ce sont <b>trois questions différentes sur les mêmes faits</b> : signes, conditions, réciprocité. JD-R et ERI partagent même des informations. Les réunir améliore la discussion, pas la validité clinique des scores."
+    conclusion: "Ce sont <b>quatre questions différentes sur les mêmes faits</b> : récupération, signes, conditions, réciprocité. JD-R et ERI partagent même des informations. Les réunir améliore la discussion, pas la validité clinique des scores."
   },
   complements: [
     { nom:"Hobfoll · COR (1989)", role:"Pourquoi la situation peut s'aggraver par étapes", principe:"<b>Perdre une ressource peut entraîner d'autres pertes.</b> Le relais disparaît, les heures s'allongent, la récupération se réduit et les erreurs coûtent davantage.", exemple:"Chez Sam : un collègue non remplacé peut créer une spirale de surcharge.", limite:"Cadre mécanistique complémentaire, <b>pas un score COR</b> et aucune chaîne causale déduite des seules réponses.", lien:"https://pubmed.ncbi.nlm.nih.gov/2648906/" },
     { nom:"Gollac / INRS · six familles de RPS", role:"Où rechercher des leviers concrets dans l'organisation", principe:"<b>Intensité et temps, exigences émotionnelles, autonomie, rapports sociaux, conflits de valeurs, insécurité du travail.</b> Ce classement des expositions ne constitue pas une nouvelle échelle de burn-out.", exemple:"La qualité empêchée de Sam relève des conflits de valeurs ; les urgences de l'intensité du travail.", limite:"Grille d'exposition professionnelle, <b>pas diagnostic individuel</b> ni preuve automatique de causalité.", lien:"https://www.inrs.fr/risques/psychosociaux/facteurs-risques" },
-    { nom:"Sonnentag & Fritz · récupération (2007)", role:"Ce qui se passe entre deux périodes de travail", principe:"<b>Détachement, relaxation, maîtrise d'activités hors travail et contrôle sur le temps libre</b> sont quatre expériences de récupération distinctes.", exemple:"Sam est chez lui, mais répond aux mails et rumine : être physiquement absent du bureau n'est pas décrocher psychologiquement.", limite:"Cadre scientifique de récupération ; <b>Bull-Out ne reprend pas le questionnaire REQ validé</b>.", lien:"https://pubmed.ncbi.nlm.nih.gov/17638488/" }
+    { nom:"Clot · la qualité empêchée", role:"Pourquoi un travail mal fait use, même sans surcharge", principe:"<b>Devoir renoncer à faire du bon travail</b>, faute de temps, de moyens ou à cause de consignes, coûte autant que d'en faire trop : on fait ce qu'on juge mal fait.", exemple:"Sam bâcle les relances clients pour tenir les délais : il le vit comme une faute, pas comme une économie.", limite:"Cadre d'analyse du travail ; Bull-Out le repère par une seule question (T4), <b>hors score</b>.", lien:"https://www.inrs.fr/risques/psychosociaux/facteurs-risques" }
   ],
   clefs: [
     ["Le repos donne un indice.", "Une fatigue durable, qui revient vite malgré le repos, mérite une analyse : ce n’est pas un test diagnostique.", 0],
@@ -972,10 +991,13 @@ export const synthese = {
     ["Quatre portes, aucune mauvaise.", "Soin, aménagement, arbitrage, protection. Et en cas de danger : 15, 112, 3114.", 8],
   ],
   plusLoin: `
-    <p>Bull-Out s’appuie sur trois modèles parmi les plus étudiés en psychologie et en santé au travail. Aucun n’est parfait. Voici comment ils ont été construits, ce qu’ils montrent, et ce qu’ils ne montrent pas.</p>
+    <p>Bull-Out s’appuie sur quatre modèles parmi les plus étudiés en psychologie et en santé au travail. Aucun n’est parfait. Voici comment ils ont été construits, ce qu’ils montrent, et ce qu’ils ne montrent pas.</p>
+    <h3>Effort-récupération : pourquoi le repos compte</h3>
+    <p>En 1998, les psychologues néerlandais <b>Theo Meijman</b> et <b>Gijsbertus Mulder</b> proposent un modèle simple : tout travail coûte un effort, et cet effort est normal tant que la personne <b>récupère</b> ensuite. Le problème commence quand elle doit se remettre au travail avant d’avoir récupéré : la fatigue s’additionne d’un jour sur l’autre. <b>Sabine Sonnentag</b> et <b>Charlotte Fritz</b> (2007) précisent ce qui fait récupérer : se détacher psychologiquement du travail, se détendre, faire des activités qui ressourcent, garder la main sur son temps libre.</p>
+    <p><b>Ce qu’on en sait</b> : le détachement psychologique est l’un des liens les mieux établis avec la fatigue et le bien-être, dans des études qui suivent les mêmes personnes au fil des jours. <b>Sa limite</b> : il décrit la récupération, pas sa cause. Ne pas décrocher peut venir d’un travail qui déborde le soir, autant que d’un trait personnel. Bull-Out ne reprend pas le questionnaire validé de Sonnentag (REQ) : il pose trois questions proches (F1 à F3).</p>
     <h3>Maslach : décrire le burn-out</h3>
     <p>Au milieu des années 1970, la psychologue <b>Christina Maslach</b> (université de Berkeley) interroge et observe des professionnels de l’aide : infirmières, travailleurs sociaux, avocats commis d’office. Elle remarque des récits très proches : épuisement émotionnel, mise à distance des personnes aidées, sentiment de ne plus être efficace. Avec <b>Susan Jackson</b>, elle construit un questionnaire de 22 questions, le <b>Maslach Burnout Inventory</b> (1981). Des analyses statistiques (analyses factorielles) sur plus d’un millier de réponses confirment que les réponses se regroupent bien en trois dimensions. Une version pour tous les métiers suit en 1996.</p>
-    <p><b>Ce qu’on en sait aujourd’hui</b> : l’épuisement est la dimension centrale et la plus solide. L’efficacité réduite est la plus indépendante des deux autres, et certains chercheurs la voient comme une conséquence plutôt qu’un signe. Maslach elle-même rappelle que son questionnaire <b>n’a pas de seuil diagnostique</b> : il mesure des intensités, pas une maladie. Le lien avec la dépression reste débattu, ce qui explique pourquoi Bull-Out insiste sur l’avis d’un professionnel. D’autres outils existent, comme l’Oldenburg Burnout Inventory (2003), le Copenhagen Burnout Inventory (2005) ou le Burnout Assessment Tool (2020).</p>
+    <p><b>Ce qu’on en sait aujourd’hui</b> : l’épuisement est la dimension centrale et la plus solide. L’efficacité réduite est la plus indépendante des deux autres, et certains chercheurs la voient comme une conséquence plutôt qu’un signe. Maslach elle-même rappelle que son questionnaire <b>n’a pas de seuil diagnostique</b> : il mesure des intensités, pas une maladie. Le lien avec la dépression reste débattu, ce qui explique pourquoi Bull-Out insiste sur l’avis d’un professionnel. D’autres outils existent, comme l’Oldenburg Burnout Inventory (2003), le Copenhagen Burnout Inventory (2005) ou le <b>Burnout Assessment Tool</b> (BAT, Schaufeli, 2020). Le BAT ajoute aux signes les troubles de l’attention et des émotions, que Bull-Out repère dans l’épuisement (A5 et A6).</p>
     <h3>JD-R : expliquer d’où vient l’usure</h3>
     <p>Le modèle <b>exigences-ressources</b> (Job Demands-Resources) est proposé en 2001 par <b>Evangelia Demerouti, Arnold Bakker</b> et leurs collègues, à partir d’une étude sur des salariés allemands de plusieurs secteurs. Il prolonge un modèle plus ancien, celui de <b>Robert Karasek</b> (1979), qui croisait la demande psychologique et la latitude de décision, puis le soutien social (Johnson, 1988). L’idée nouvelle : <b>toute exigence</b> et <b>toute ressource</b> peuvent entrer dans la balance, pas seulement la charge et l’autonomie.</p>
     <p>Le modèle décrit <b>deux processus</b>. Les exigences durables épuisent (processus de santé). Les ressources nourrissent l’engagement, et amortissent l’effet des exigences (processus de motivation). Des études longitudinales, qui suivent les mêmes personnes dans le temps, étayent ces deux voies, sans établir la cause de chaque situation individuelle. <b>Sa limite</b> : il est si souple que presque tout peut être une exigence ou une ressource. Il aide à chercher, il ne dit pas à l’avance ce qui compte dans ton poste.</p>
@@ -983,7 +1005,7 @@ export const synthese = {
     <p>Le sociologue de la santé <b>Johannes Siegrist</b> (université de Düsseldorf) part, dans les années 1980, d’études sur les maladies cardiovasculaires chez des ouvriers allemands. Son hypothèse : ce n’est pas seulement l’effort qui rend malade, c’est l’effort <b>sans réciprocité</b>. Il formalise le modèle effort-récompense (1996), avec trois formes de récompense : le salaire, l’estime, et les perspectives avec la sécurité de l’emploi. Dans le questionnaire ERI original, un rapport corrigé effort / récompense supérieur à 1 signale conventionnellement un déséquilibre ; <b>Bull-Out ne calcule pas ce ratio validé</b>. Le modèle tient aussi compte du <b>surengagement</b>, qui peut entretenir une exposition coûteuse, sans qu’on puisse le déduire de quelques réponses.</p>
     <p><b>Ce qu’on en sait</b> : de grandes cohortes, comme Whitehall II (des milliers de fonctionnaires britanniques suivis pendant des années), et des méta-analyses associent ce déséquilibre à un risque plus élevé de maladies cardiovasculaires et de dépression. Ces associations sont robustes, mais modérées : elles parlent de risques à l’échelle d’un groupe, pas du destin d’une personne.</p>
     <h3>Et en France ?</h3>
-    <p>En 2011, le collège d’expertise présidé par <b>Michel Gollac</b> a proposé six familles de facteurs de risques psychosociaux : l’intensité et le temps de travail, les exigences émotionnelles, le manque d’autonomie, la mauvaise qualité des rapports sociaux, les conflits de valeurs et l’insécurité de la situation de travail. On y retrouve les trois modèles. En 2019, l’OMS a précisé dans sa classification (CIM-11) que le burn-out est un <b>phénomène lié au travail</b>, et non une maladie médicale.</p>
+    <p>En 2011, le collège d’expertise présidé par <b>Michel Gollac</b> a proposé six familles de facteurs de risques psychosociaux : l’intensité et le temps de travail, les exigences émotionnelles, le manque d’autonomie, la mauvaise qualité des rapports sociaux, les conflits de valeurs et l’insécurité de la situation de travail. On y retrouve les modèles précédents, et les conflits de valeurs rejoignent la qualité empêchée. En 2019, l’OMS a précisé dans sa classification (CIM-11) que le burn-out est un <b>phénomène lié au travail</b>, et non une maladie médicale.</p>
     <h3>Les limites communes</h3>
     <ul>
       <li>La plupart des études reposent sur des <b>questionnaires remplis par les personnes</b> elles-mêmes, ce qui mélange parfois l’état et la perception.</li>
@@ -1042,7 +1064,7 @@ export const plusLoin = [
     <h3>Ce que montrent les études</h3>
     <p>Des méta-analyses trouvent des liens entre certains traits de personnalité (comme une forte sensibilité émotionnelle) et le burn-out. Mais les facteurs liés au travail pèsent au moins autant. Christina Maslach et Michael Leiter en décrivent six : la charge, le contrôle, la reconnaissance, la qualité du collectif, l’équité et l’accord avec les valeurs du travail. Ce sont des leviers sur lesquels on peut agir, contrairement à la personnalité.</p>
     <h3>Ce que ça change en pratique</h3>
-    <p>La prévention commence par ce qui est modifiable et touche tout le monde : l’organisation du travail. C’est aussi ce que demande la loi (chapitre 8). Soutenir une personne fragilisée reste utile, mais en plus, pas à la place.</p>` },
+    <p>La prévention commence par ce qui est modifiable et touche tout le monde : l’organisation du travail. C’est aussi ce que demande la loi (chapitre 10). Soutenir une personne fragilisée reste utile, mais en plus, pas à la place.</p>` },
   // 6
   { titre: "biomarqueurs, questionnaires et seuils", html: `
     <h3>Le cortisol</h3>
@@ -1080,4 +1102,401 @@ export const plusLoin = [
     <h3>Le 3114</h3>
     <p>Le numéro national de prévention du suicide, ouvert en 2021, est joignable 24 h/24, gratuitement. Il répond aux personnes en détresse, à leurs proches, et aux professionnels qui s’inquiètent pour quelqu’un.</p>` },
 ];
+// Chapitre 8 : les six familles de risques, juste avant « Agir ».
+const chapitreRPS = {
+  "temps": 1,
+  "court": "Six familles de risques",
+  "titre": "Les six familles de risques du travail : voir l’exposition avant l’usure",
+  "duree": 8,
+  "savoir": [
+    "Distinguer une <b>exposition au travail</b> de ses conséquences sur la santé.",
+    "Retrouver les six familles Gollac–INRS sur la colonne LE TRAVAIL de ton schéma, et savoir lesquelles Bull-Out explore peu.",
+    "Transformer un signal en <b>fait vérifiable</b> et en première demande de prévention."
+  ],
+  "arrive": "« Je ne suis pas épuisé, donc il n'y a pas de risque. » Ou « notre équipe a un bon score, donc notre organisation va bien ». Les deux confondent <b>l'absence de symptôme</b> et <b>l'absence d'exposition</b>.",
+  "retenir": "Les risques psychosociaux (on dit <b>RPS</b>) sont des <b>caractéristiques du travail</b> qui peuvent abîmer la santé. Le collège d’experts présidé par <b>Michel Gollac</b> les range en <b>six familles</b>. Ce ne sont ni six maladies ni six scores. Sur ton schéma, ce sont les étiquettes de la colonne LE TRAVAIL : <b>la jauge du travail dit à quoi tu es exposé·e, les deux autres ce que ça te fait</b>. On peut être exposé·e sans être usé·e, et ça se traite quand même.",
+  "blocs": [
+    {
+      "t": "h",
+      "texte": "Six familles, mais pas six diagnostics"
+    },
+    {
+      "t": "p",
+      "html": "En 2011, un collège d'experts réuni à la demande des pouvoirs publics, présidé par le statisticien et sociologue <b>Michel Gollac</b>, propose une grille pour décrire les <b>expositions psychosociales professionnelles</b>. Le but n'est pas de répartir les personnes entre « fragiles » et « solides » ; il est de mieux observer ce qui, dans l'activité et son organisation, mérite prévention. L'INRS utilise encore ces six familles pour guider cette analyse."
+    },
+    {
+      "t": "table",
+      "titre": "La même situation vue avec six angles différents",
+      "cols": [
+        "Famille",
+        "Ce qu'on cherche",
+        "Exemple avec Sam"
+      ],
+      "rows": [
+        [
+          "<b>1. Intensité et temps</b>",
+          "Quantité, urgence, interruptions, horaires qui débordent.",
+          "Sam termine son planning chez lui chaque soir."
+        ],
+        [
+          "<b>2. Exigences émotionnelles</b>",
+          "Faire face à la souffrance, à l'agressivité ; cacher ses émotions.",
+          "Sam doit rassurer un client en colère sans pouvoir dire qu'il n'a pas de solution."
+        ],
+        [
+          "<b>3. Autonomie</b>",
+          "Pouvoir organiser son activité, décider, employer ses compétences.",
+          "On modifie son périmètre sans lui demander son avis."
+        ],
+        [
+          "<b>4. Rapports sociaux</b>",
+          "Soutien, reconnaissance, équité, conflits, violences.",
+          "Un collègue le soutient ; un responsable l'humilie en réunion."
+        ],
+        [
+          "<b>5. Conflits de valeurs</b>",
+          "Travail jugé inutile, contraire à l'éthique, qualité empêchée.",
+          "Sam doit annoncer un délai qu'il sait impossible ou rendre un dossier bâclé."
+        ],
+        [
+          "<b>6. Insécurité</b>",
+          "Emploi, revenus, transformations imposées et avenir du métier.",
+          "Son emploi est stable, mais son métier change chaque mois sans explication."
+        ]
+      ]
+    },
+    {
+      "t": "h",
+      "texte": "Le piège : « pas de burn-out » ne veut pas dire « pas de risque »"
+    },
+    {
+      "t": "exemple",
+      "titre": "Deux Sam, un même niveau d'usure",
+      "html": "<b>Premier Sam :</b> il dort correctement et se sent efficace, mais subit régulièrement des humiliations. <b>Second Sam :</b> il est épuisé sans déclarer d'humiliations, dans une période de surcharge aiguë. Le premier a une <b>exposition à examiner même sans symptômes</b> ; le second a des <b>manifestations à prendre au sérieux</b>. Un score unique raterait l'un des deux.",
+      "note": "On ne transforme pas une déclaration en diagnostic de harcèlement ; on ne l'ignore pas non plus parce que la fatigue reste faible."
+    },
+    {
+      "t": "p",
+      "html": "Les six familles ne sont pas des cases hermétiques. Une réorganisation peut à la fois provoquer des <b>horaires imprévisibles</b>, réduire l'<b>autonomie</b> et créer des <b>conflits de valeurs</b>. À l'inverse, un métier très exigeant peut être soutenable lorsque les moyens, le soutien et les possibilités d'agir sont suffisants. Cela invite à examiner les <b>combinaisons</b>, sans inventer une formule qui donnerait « 62 % de RPS »."
+    },
+    {
+      "t": "h",
+      "texte": "Ce que Bull-Out peut — et ne peut pas — explorer"
+    },
+    {
+      "t": "p",
+      "html": "Tu connais déjà la plupart des familles. Les deux pesées couvrent l’<b>intensité</b> (ce qu’on te demande), l’<b>autonomie</b> et les <b>relations</b> (ce qui t’aide), l’<b>insécurité</b> (ce que tu reçois). La famille des <b>conflits de valeurs</b>, c’est l’absurde vu de près : tâches qui ne servent à rien, qualité empêchée, ce qui va contre ce que tu crois juste (<a href=\"test.html#chapitre-5\">le chapitre sur l’absurde</a>). Six questions de plus, hors score, bouchent les trous : le travail qui <b>déborde sur le repos</b>, les <b>émotions qu’il faut cacher</b>, les <b>changements imposés</b> sans préparation, les <b>décisions prises sans toi</b>, l’<b>agressivité ou la détresse</b> des autres, un travail où tu <b>n’apprends plus</b>. Ce n’est <b>pas un questionnaire RPS validé</b> : certaines situations restent invisibles, et la fréquence déclarée ne dit ni leur gravité ni leur cause."
+    },
+    {
+      "t": "principe",
+      "html": "Sur ton schéma, les familles apparaissent en <b>pastilles numérotées</b> sur la colonne LE TRAVAIL : 1 et 2 sur « on te demande », 3 et 4 sur « ce qui t’aide », 5 sur l’absurde, 6 sur « tu reçois ». Une pastille orange avec une fatigue verte, c’est le premier Sam : <b>une exposition à traiter même si tu tiens</b>."
+    },
+    {
+      "t": "principe",
+      "html": "Une réponse élevée ne dit pas « ce salarié est à risque à 80 % ». Elle signifie : <b>« cette situation mérite un exemple et une discussion sur le travail réel »</b>. Une réponse basse ne signifie pas « exposition exclue »."
+    },
+    {
+      "t": "h",
+      "texte": "Du résultat à la prévention : trois questions"
+    },
+    {
+      "t": "gestes",
+      "items": [
+        [
+          "Décrire",
+          "La déclaration ne remplace pas un fait situé.",
+          "« Sur les quatre dernières semaines, quels horaires ont débordé, à quelles dates ? »",
+          "Demander deux exemples sans réclamer d'informations de santé."
+        ],
+        [
+          "Comprendre",
+          "Chercher le mécanisme organisationnel, pas un coupable automatique.",
+          "« Qui décide du planning ? Qu'est-ce qui rend l'urgence inévitable ? »",
+          "Vérifier la procédure, les moyens et le retour d'expérience."
+        ],
+        [
+          "Modifier",
+          "Une mesure utile touche la situation de travail.",
+          "« Peut-on stabiliser la plage sans sollicitation, et tester cela deux semaines ? »",
+          "Fixer un responsable, une échéance, puis vérifier si l'exposition diminue."
+        ]
+      ]
+    },
+    {
+      "t": "piege",
+      "titre": "Le piège · « elle tient encore, donc tout va bien »",
+      "depart": "Sam déclare une forte exposition à des changements non préparés, mais aucun signe d'épuisement marqué.",
+      "etapes": [
+        [
+          "l'absence de symptôme devient absence de risque",
+          "Il n'est pas fatigué, donc il n'y a rien à traiter."
+        ],
+        [
+          "l'attente devient une stratégie",
+          "On attend qu'il n'arrive plus à suivre pour intervenir."
+        ]
+      ],
+      "fin": "La prévention primaire intervient <b>avant</b> l'aggravation. On peut changer des horaires, des modalités de consultation ou une procédure sans attendre un diagnostic."
+    }
+  ],
+  "exo": {
+    "titre": "Une exposition ou un diagnostic ?",
+    "intro": "Choisis le raisonnement qui permet d'agir, sans sauter du signal à la conclusion.",
+    "situations": [
+      {
+        "q": "Sam se sent bien mais dit qu'il subit des humiliations répétées.",
+        "choix": [
+          "Aucun sujet : ses jauges ne sont pas hautes.",
+          "C'est forcément un harcèlement établi par le questionnaire.",
+          "C'est une situation à examiner et à protéger, même sans manifestation d'épuisement."
+        ],
+        "bonne": 2,
+        "fb": [
+          "Les expositions existent avant les symptômes.",
+          "Un questionnaire ne qualifie pas juridiquement des faits ; il déclenche une vérification appropriée.",
+          "Oui. Rechercher les faits, protéger et mobiliser les bons interlocuteurs sans attendre un score élevé."
+        ]
+      },
+      {
+        "q": "Une salariée répond « souvent » à la question sur les émotions à cacher, mais son épuisement est bas.",
+        "choix": [
+          "Elle déclare du travail émotionnel ; vérifier contexte, intensité, marges de manœuvre.",
+          "Cette réponse prouve qu'elle va faire un burn-out.",
+          "Cette réponse prouve qu'elle s'est trompée sur sa fatigue."
+        ],
+        "bonne": 0,
+        "fb": [
+          "Oui. C'est une exposition déclarée, pas une prédiction individuelle.",
+          "On ignore la probabilité de maladie ; aucun seuil n'est validé.",
+          "Une exposition et un symptôme sont deux objets différents."
+        ]
+      },
+      {
+        "q": "Dans une entreprise, les six familles sont en bas d'un questionnaire individuel.",
+        "choix": [
+          "Le DUERP peut déclarer l'absence de RPS.",
+          "Il faut compléter par l'observation, les échanges collectifs et les données de travail.",
+          "Le seul bon indicateur est le nombre d'arrêts maladie."
+        ],
+        "bonne": 1,
+        "fb": [
+          "Le questionnaire d'une personne ne remplace pas l'analyse collective du travail.",
+          "Exact. L'INRS recommande plusieurs sources et une démarche collective adaptée à l'activité.",
+          "Les arrêts sont des conséquences indirectes, pas une cartographie exhaustive des expositions."
+        ]
+      }
+    ]
+  },
+  "sources": [
+    [
+      "Gollac & Bodier (2011) · Rapport du collège d'expertise",
+      "https://travail-emploi.gouv.fr/IMG/pdf/rapport_SRPST_definitif_rectifie_11_05_10.pdf"
+    ],
+    [
+      "INRS · Les six familles de facteurs RPS",
+      "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"
+    ],
+    [
+      "INRS (2025) · Effets sur la santé, synthèse de plus de 800 études",
+      "https://www.inrs.fr/header/presse/cp-expositions-psychosociales-effets-sante.html"
+    ],
+    [
+      "INRS · Les questionnaires doivent être complétés par d'autres méthodes",
+      "https://www.inrs.fr/risques/psychosociaux/questionnaires.html"
+    ],
+    [
+      "COPSOQ III (2019) · Dimensions du travail psychosocial",
+      "https://www.copsoq-network.org/assets/Uploads/The-Third-Version-of-the-Copenhagen-Psychosocial-Questionnaire.pdf"
+    ]
+  ],
+  "nechange": "Un test individuel ne remplace ni une démarche d'évaluation collective des RPS, ni le DUERP, ni une enquête sur les situations de travail. <b>Rendre visible n'est pas valider psychométriquement.</b>",
+  "piece": {
+    "nom": "Les six pastilles",
+    "texte": "Pas de boîte en plus : les six familles se posent en pastilles numérotées sur la colonne LE TRAVAIL, et s’allument quand tes réponses les signalent.",
+    "rapport": "la carte des six familles, avec pour chacune ce que tes réponses en disent, ce qu’elles ne disent pas, et une question pour agir."
+  },
+  "suite": "On sait maintenant où chercher les expositions. Le chapitre suivant aide à transformer ces signaux en <b>arbitrages concrets</b> sur le travail."
+};
+// Chapitre 5 : l’absurde (écrit avec le fil « chapitre sur l’absurde »), entre Siegrist et « c’est perso ».
+const PIPEAU = `<svg viewBox="0 0 320 170" role="img" aria-label="Un pipeau d'où sortent trois notes : KPI, pré-COPIL, vFinale">
+  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(-20 150 110)"><rect x="60" y="100" width="170" height="24" rx="12"/><path d="M230 100 l26 -5 v34 l-26 -5"/></g>
+    <path d="M259 62 v-30 l14 -4 M291 40 v-26 M228 42 v-22"/>
+  </g>
+  <g fill="currentColor"><circle cx="95" cy="124" r="4"/><circle cx="125" cy="113" r="4"/><circle cx="155" cy="102" r="4"/><circle cx="185" cy="91" r="4"/>
+    <circle cx="253" cy="62" r="7"/><circle cx="285" cy="40" r="7"/><circle cx="222" cy="42" r="6"/></g>
+  <g font-family="Poppins, system-ui, sans-serif" font-weight="600" font-size="14" fill="currentColor"><text x="182" y="24">KPI</text><text x="232" y="92">pré-COPIL</text><text x="258" y="14">vFinale</text></g>
+</svg>`;
+
+const SISYPHE = `<svg viewBox="0 0 320 180" role="img" aria-label="Sisyphe pousse en haut d'une colline un rocher marqué vFinale">
+  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 170 L230 40 L310 40"/><circle cx="168" cy="58" r="26"/>
+    <circle cx="122" cy="80" r="8"/><path d="M118 88 L110 118 M112 96 L140 82 M112 100 L142 92 M110 118 L120 140 M110 118 L94 134"/>
+  </g>
+  <g font-family="Poppins, system-ui, sans-serif" font-weight="600" fill="currentColor"><text x="146" y="63" font-size="13">vFinale</text><text x="16" y="28" font-size="13">Il faut imaginer Sam heureux ?</text></g>
+</svg>`;
+
+const chapitreAbsurde = {
+  temps: 1,
+  court: "L’absurde",
+  titre: "L’absurde : en rire, en souffrir, ou les deux",
+  duree: 10,
+  savoir: [
+    "Distinguer un emploi jugé inutile, des tâches vides dans un métier qui a du sens, et un discours creux.",
+    "Comprendre pourquoi l’absurde use : c’est une exigence qui gêne, un effort sans retour, et une petite vexation à chaque fois.",
+    "Lire ta réaction à l’absurde (rire, agacement, rumination, indifférence) sans en faire un test de caractère.",
+  ],
+  arrive: "« Mon travail, c’est du bullshit. » Ou l’inverse : « Faut pas tout prendre au sérieux, ris-en. » La première phrase accuse sans rien changer. La seconde demande de sourire pendant que la situation use. Ce chapitre cherche ce qu’il y a entre les deux.",
+  retenir: "L’absurde au travail n’est pas un détail comique : c’est une <b>exigence qui gêne</b>, sans rien rapporter, et elle use, parfois plus que la charge elle-même. Ce qui compte aussi, c’est <b>ce que tu en fais</b> : en rire et passer à autre chose protège ; ruminer le soir ou ne plus réagir du tout sont des signaux. On peut en rire. On peut aussi le retirer.",
+  blocs: [
+    { t: "fig", svg: PIPEAU, cap: "Le pipeau : un instrument, et un mot pour le discours creux. Dans ton rapport, c’est l’icône de l’absurde, dans la colonne « Ton travail »." },
+
+    { t: "h", texte: "Sam et le comité qui prépare le comité" },
+    { t: "exemple", titre: "Mardi, 9 h", html: "Sam reçoit une demande urgente : « Peux-tu préparer une vision transverse consolidée, simple mais exhaustive, pour alignement avant le pré-COPIL ? » Il pose une question raisonnable : <b>« Quelle décision doit-on prendre ? »</b> Silence. On lui demande d’abord une première version. Mercredi, 18 h : 28 diapositives, trois changements de couleurs, et deux réunions pour préparer une réunion qui doit décider <b>s’il faut organiser une réunion</b>.", note: "Sam n’est pas incompétent. C’est le but de son travail qui a disparu derrière les moyens de le montrer." },
+    { t: "p", html: "Attention, ce travail n’est pas forcément inutile. Contrôler un risque, coordonner des équipes ou garder une trace peut éviter des erreurs graves, et ces bénéfices sont souvent <b>invisibles précisément parce que l’incident n’a pas eu lieu</b>. La bonne question n’est donc pas « combien de slides ? », mais : <b>qui s’en sert, pour décider quoi, et que se passerait-il si on arrêtait ?</b>" },
+
+    { t: "h", texte: "D’où vient l’expression « bullshit jobs »" },
+    { t: "p", html: "En 2013, l’anthropologue <b>David Graeber</b> publie dans un petit magazine londonien un essai qui fait le tour du monde. Il remarque que beaucoup de gens jugent <b>eux-mêmes</b> que leur emploi ne sert à rien, et que les gains de productivité n’ont pas libéré le temps promis. En 2018, il en tire un livre, <i>Bullshit Jobs</i>. C’est une thèse nourrie de témoignages, pas une statistique." },
+    { t: "table", titre: "Les cinq personnages de Graeber, avec leur contre-exemple", cols: ["Personnage", "L’idée", "Attention"], rows: [
+      ["Le faire-valoir", "Être là pour que le chef ait l’air important.", "Un vrai accueil rend service."],
+      ["Le gros bras", "Faire parce que le concurrent fait pareil.", "Un avocat peut défendre de vrais droits."],
+      ["Le rafistoleur", "Réparer chaque semaine la même rustine au lieu de corriger le défaut.", "Une solution de secours est parfois nécessaire."],
+      ["Le cocheur de cases", "Prouver qu’on a agi plutôt que vérifier que ça sert.", "La traçabilité est parfois obligatoire, et utile."],
+      ["Le contremaître", "Créer du travail pour les autres, ou un comité pour suivre le comité.", "Coordonner des équipes peut être indispensable."],
+    ] },
+    { t: "principe", html: "Une tâche difficile à voir n’est pas forcément inutile. Un beau livrable n’est pas forcément utile. Aucun métier n’est absurde par nature." },
+
+    { t: "h", texte: "Quatre formes d’absurde à ne pas confondre" },
+    { t: "cartes", items: [
+      ["Un emploi jugé inutile", "« Si mon poste disparaissait, manquerait-il quelque chose ? » C’est la question de Graeber. On peut se tromper : les bénéficiaires sont parfois loin."],
+      ["Des tâches vides dans un métier utile", "L’infirmière qui aime son métier et passe une heure par jour sur des formulaires que personne ne lit. Le poste garde son sens ; une partie du quotidien, non."],
+      ["Le discours creux", "« Renforcer la dynamique transverse d’appropriation. » André Spicer montre que ce langage se répand parce qu’il donne l’air compétent, souvent sans mensonge conscient."],
+      ["Les tâches illégitimes", "La forme la mieux étudiée : des tâches <b>inutiles</b> (« pourquoi faire ça du tout ? ») et des tâches <b>déraisonnables</b> (« pourquoi est-ce à moi de le faire ? »)."],
+    ] },
+    { t: "p", html: "Depuis 2010, l’équipe du psychologue <b>Norbert Semmer</b>, à l’université de Berne, mesure ces tâches illégitimes avec un court questionnaire validé. Les études les relient au stress, à l’irritation et à l’épuisement, <b>même quand on tient compte de la charge totale</b>. Autrement dit : ce n’est pas seulement qu’on en fait trop, c’est qu’on fait ce qui ne devrait pas exister, ou pas par soi." },
+    { t: "principe", html: "« Ton travail ne sert à rien » est une accusation. « Cette procédure prend du temps sans qu’on sache quelle décision elle améliore » est une hypothèse qu’on peut vérifier." },
+
+    { t: "h", texte: "Combien de bullshit jobs ? Les chiffres se contredisent" },
+    { t: "table", titre: "Quatre chiffres célèbres, quatre questions différentes", cols: ["Source", "Chiffre", "Ce qu’on a vraiment demandé"], rows: [
+      ["Sondage YouGov, Royaume-Uni, 2015", "37 %", "Mon travail n’apporte rien de significatif au monde."],
+      ["Dur et van Lent, 47 pays, 2019", "8 %", "Mon emploi est socialement inutile (17 % hésitent)."],
+      ["Soffia, Wood et Burchell, Europe, 2022", "4,8 %", "Je n’ai jamais ou rarement le sentiment de faire un travail utile (7,8 % en 2005)."],
+      ["Walo, États-Unis, 2023", "19 %", "Je contribue rarement ou jamais positivement à la société."],
+    ] },
+    { t: "rappel", chap: 6, html: "Un chiffre ne vaut que par la question posée. Ces quatre pourcentages en sont l’exemple parfait : <b>il n’existe pas de pourcentage universel du bullshit</b>. Ce qui tient d’une étude à l’autre : le sentiment d’inutilité est réel, il existe aussi dans des emplois utiles, et il va de pair avec plus de mal-être." },
+
+    { t: "h", texte: "Comment une organisation fabrique de l’absurde, sans méchant" },
+    { t: "deux", items: [
+      ["Ce qui l’installe", [
+        "<b>Le moyen devient le but.</b> L’indicateur servait à décider ; on finit par travailler pour qu’il soit beau. Le sociologue Robert Merton l’avait décrit dès 1940.",
+        "<b>Montrer qu’on agit remplace agir.</b> Une procédure rassure et signale le sérieux, même quand elle ne change rien (Meyer et Rowan, 1977).",
+        "<b>Le langage protège le flou.</b> Une phrase sans qui, sans quoi et sans quand ne peut pas échouer.",
+      ]],
+      ["Ce qui le rend invisible", [
+        "<b>Personne ne voit le résultat complet.</b> Avec les livrables intermédiaires et la sous-traitance, l’utilité existe parfois, mais loin de soi.",
+        "<b>La qualité empêchée.</b> Tu sais ce que serait un travail bien fait, et on ne te laisse pas le faire. Ce n’est pas la tâche qui est inutile : c’est de ne pas pouvoir la faire utilement.",
+        "<b>Le temporaire qui dure.</b> Une rustine installée « pour trois semaines » devient un poste à temps partiel.",
+      ]],
+    ] },
+    { t: "p", html: "Les experts réunis par Michel Gollac rangent le travail jugé inutile et la qualité empêchée parmi les <b>conflits de valeurs</b>, l’une des six familles de risques psychosociaux. On y revient dans le chapitre sur les six familles." },
+
+    { t: "h", texte: "L’absurde, vu par les modèles que tu connais" },
+    { t: "rappel", chap: 1, html: "Sam soupirait : « de toute façon, ils changeront encore d’avis ». La distance protège, puis se retourne. <b>L’absurde répété est l’une des portes de la distance</b> : à force de faire ce qui ne sert pas, on cesse d’attendre que ça serve. Maslach et Leiter citent d’ailleurs le désaccord de valeurs parmi les six terrains qui usent." },
+    { t: "rappel", chap: 2, html: "Toutes les exigences ne se valent pas. Les recherches distinguent celles qui <b>stimulent</b> (un défi, une responsabilité) et celles qui <b>gênent</b> (paperasse, flou, procédures sans but). Les secondes usent nettement plus, et ne motivent jamais. L’absurde est une exigence qui gêne. Et le dossier de Marc, posé sur le bureau de Sam, est une tâche « déraisonnable » : ce n’était pas la sienne." },
+    { t: "rappel", chap: 3, html: "Une slide que personne ne lit est un effort au <b>retour nul par construction</b> : ni estime, ni utilité, ni perspective. Et la personne qui surinvestit est souvent celle qui peaufine trois fois le document inutile." },
+    { t: "p", html: "C’est pour cela que l’absurde a sa place <b>dans la jauge de ton travail</b>, à côté de la balance et de la bascule : dans ton rapport, c’est une quatrième famille, mesurée par le bullshitomètre." },
+
+    { t: "h", texte: "Le cœur de l’affaire : ce que l’absurde te fait" },
+    { t: "p", html: "La même phrase (« on a fait une réunion pour planifier le comité d’alignement ») fait rire l’un, met l’autre en colère, et rend un troisième triste. Ce n’est pas un test de caractère. Mais ça dit quelque chose." },
+    { t: "p", html: "<b>Pourquoi ça vexe autant.</b> Semmer parle de « stress comme offense à soi ». Une tâche absurde ne fatigue pas seulement : elle dit quelque chose de la place qu’on te donne. <i>« On me fait faire ça, à moi ? »</i> C’est pour ça qu’une tâche de dix minutes peut gâcher une journée, et que la réaction émotionnelle compte plus que la durée." },
+    { t: "p", html: "<b>Pourquoi on en rit.</b> Une situation devient drôle quand elle bouscule une règle tout en restant assez peu menaçante (McGraw et Warren, 2010). Si elle te touche de trop près, elle cesse d’être drôle. Et rire et peine peuvent arriver ensemble : « c’est drôle parce que c’est vrai »." },
+    { t: "fig", svg: SISYPHE, cap: "Camus, Le Mythe de Sisyphe (1942) : on ne choisit pas toujours l’absurde, on choisit un peu ce qu’on en fait." },
+    { t: "p", html: "Dans <i>Le Mythe de Sisyphe</i>, Albert Camus appelle absurde le choc entre notre besoin de sens et un monde qui n’en donne pas. Sisyphe pousse son rocher pour rien, et Camus conclut : « il faut imaginer Sisyphe heureux ». On ne demande à personne d’être heureux de pousser des slides. Mais l’idée tient : <b>ta réaction à l’absurde est une information</b>, sur toi et sur ce que le travail te coûte." },
+    { t: "table", titre: "Trois choses qui se ressemblent, et ne sont pas pareilles", cols: ["", "Ce que c’est", "Ce que ça fait"], rows: [
+      ["Le recul", "Tu en ris, tu vois la situation autrement, tu passes à autre chose.", "Ça protège."],
+      ["La récupération", "Le soir, tu n’y penses plus, tu te reposes vraiment.", "Ça protège. C’est « Ta récupération », dans ton rapport."],
+      ["Le cynisme", "Tu ne réagis plus parce que tu as cessé d’attendre que ça ait du sens.", "Ça soulage un temps, mais c’est l’un des trois signes d’usure."],
+    ] },
+    { t: "mythes", titre: "Trois idées reçues sur l’humour au travail", items: [
+      ["« Celui qui rit de tout est le plus solide »", "Peut-être. Ou il a appris à en rire pour ne pas en pleurer. Ou il aime juste les bonnes blagues. Un rire seul ne permet pas de trancher : il faut regarder aussi la récupération et la distance."],
+      ["« Celui que ça agace manque d’humour »", "S’agacer devant l’absurde, puis lâcher, est une réaction saine : on est heurté parce que le travail bien fait compte. C’est le même piège que « c’est perso » : la réaction est personnelle, l’absurde est organisationnel."],
+      ["« Ne plus réagir, c’est avoir pris du recul »", "Parfois. Mais ne plus attendre de sens, c’est aussi la définition de la distance du chapitre 2. La différence se voit à une question : ton travail garde-t-il du sens pour toi ?"],
+    ] },
+    { t: "p", html: "<b>Ce que fait le test.</b> Treize questions pour repérer l’absurde dans ton quotidien, sur les quatre dernières semaines. Puis on regarde ta réaction : aux blagues du test, et surtout aux absurdités de ta vraie vie, et si l’on peut en rire à plusieurs autour de toi. Le rapport croise ta réaction avec ta récupération et ta distance, et te la décrit en une phrase, <b>sans note</b> : ton humour te protège-t-il, ou cache-t-il une usure ?" },
+    { t: "rappel", chap: 10, html: "Pouvoir <b>en rire avec un collègue</b> est déjà un appui. Rire seul dans son coin protège beaucoup moins : le rire partagé rapproche, le rire en solo isole." },
+
+    { t: "h", texte: "Que faire de l’absurde ?" },
+    { t: "trames", titre: "Trois questions à poser au travail", items: [
+      ["La décision", "Qu’est-ce que cette slide, cet indicateur ou ce comité doit nous permettre de décider ?"],
+      ["Le destinataire", "Qui va utiliser le résultat, et qu’en fera-t-il ?"],
+      ["L’arbitrage", "Si on garde cette demande, qu’est-ce qu’on retire, reporte ou simplifie ?"],
+    ] },
+    { t: "rappel", chap: 8, html: "Retirer, reporter, simplifier. L’absurde est <b>ce qu’on retire le plus facilement</b> : personne ne regrette un rapport que personne ne lisait. Le reporting de Sam qui passe de trois pages à cinq lignes est une victoire contre l’absurde." },
+    { t: "piege", titre: "Le piège · de « c’est absurde » à « ça ne sert à rien de parler »", depart: "Sam trouve son pré-COPIL absurde.", etapes: [
+      ["l’absurde devient une blague", "On en rit à la machine à café, et on recommence lundi."],
+      ["la blague devient une fatalité", "« De toute façon, c’est comme ça ici. »"],
+      ["la fatalité devient du silence", "Plus personne ne demande à quoi sert le comité."],
+    ], fin: "Le rire est précieux, mais il ne retire rien. Agir commence quand on remplace « c’est du bullshit » par <b>« voici le processus à changer, la décision attendue et la personne qui peut trancher »</b>." },
+  ],
+  exo: {
+    titre: "Le test de la chaise vide",
+    intro: "Trois situations. Pour chacune, quelle est la lecture la plus juste ?",
+    situations: [
+      { q: "Un comité de 9 personnes passe une heure sur 18 indicateurs. Trois personnes ont préparé deux heures chacune. Rien n’est décidé. Faut-il le supprimer ?", choix: [
+        "Oui : un comité qui ne décide rien ne sert à rien.",
+        "Non : toute coordination est nécessaire.",
+        "Avant de trancher : à quoi devait-il servir, qui utilise l’information, que se passerait-il sans lui pendant un mois ?",
+      ], bonne: 2, fb: [
+        "Trop vite. Un comité peut partager des alertes utiles sans rien décider en séance.",
+        "Trop vite aussi. 15 heures de travail par séance (6 de préparation, 9 de réunion) méritent au moins une question.",
+        "Oui. C’est le test de la chaise vide : « si ça disparaissait un mois, qui manquerait de quoi ? ». On cherche une conséquence vérifiable, pas une condamnation.",
+      ] },
+      { q: "Depuis le départ de Marc, Sam gère aussi les commandes de fournitures de tout l’étage. Ça ne prend qu’une heure par semaine, mais ça l’agace énormément. Que retenir ?", choix: [
+        "Une heure, ce n’est rien : Sam exagère.",
+        "C’est une tâche « déraisonnable » : ce n’est pas son travail. Ce type de tâche use plus que sa durée ne le laisse croire.",
+        "Sam devrait apprendre à relativiser.",
+      ], bonne: 1, fb: [
+        "La durée n’est pas tout. Une tâche qui ne devrait pas être la sienne dit quelque chose de la place qu’on lui donne : c’est ce qui vexe.",
+        "Oui. C’est l’autre moitié des tâches illégitimes. La question utile : à qui revient-elle vraiment, et qui peut le décider ?",
+        "Son agacement est une information, pas un défaut. Le relativiser ne retire pas la tâche.",
+      ] },
+      { q: "Léa rit de toutes les absurdités du service. Depuis deux mois, elle ne réagit même plus, ne propose plus rien et dort mal. Que retenir ?", choix: [
+        "Elle a pris du recul : c’est une bonne nouvelle.",
+        "Ne plus réagir et mal dormir peuvent signaler une distance qui s’installe et une récupération qui se dégrade : c’est à regarder.",
+        "Elle manque de sérieux.",
+      ], bonne: 1, fb: [
+        "Peut-être au début. Mais ne plus rien proposer et mal dormir ne ressemblent pas à du recul : plutôt à la distance du chapitre 2.",
+        "Oui. Le rire seul ne dit pas tout : c’est son association avec la distance et le sommeil qui alerte.",
+        "Rire n’est pas un manque de sérieux. Ici, c’est le changement qui compte, pas l’humour.",
+      ] },
+    ],
+  },
+  sources: [
+    ["Graeber (2018) · Bullshit Jobs: A Theory", "https://davidgraeber.org/books/bullshit-jobs/"],
+    ["Semmer et al. (2015) · Illegitimate tasks as a source of work stress, Work & Stress", "https://doi.org/10.1080/02678373.2014.1003996"],
+    ["LePine, Podsakoff & LePine (2005) · Challenge and hindrance stressors, Academy of Management Journal", "https://doi.org/10.5465/amj.2005.18803921"],
+    ["Dur & van Lent (2019) · Socially useless jobs, Industrial Relations", "https://doi.org/10.1111/irel.12227"],
+    ["Soffia, Wood & Burchell (2022) · Alienation is not “bullshit”, Work, Employment and Society", "https://doi.org/10.1177/09500170211015067"],
+    ["Walo (2023) · “Bullshit” after all? Work, Employment and Society", "https://doi.org/10.1177/09500170231175771"],
+    ["Spicer (2020) · Playing the bullshit game, Organization Theory", "https://doi.org/10.1177/2631787720929704"],
+    ["McGraw & Warren (2010) · Benign violations, Psychological Science", "https://doi.org/10.1177/0956797610376073"],
+    ["Sonnentag & Fritz (2007) · The Recovery Experience Questionnaire", "https://doi.org/10.1037/1076-8998.12.3.204"],
+    ["INRS · facteurs de risques psychosociaux (conflits de valeurs)", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
+  ],
+  nechange: "Rire de l’absurde n’oblige pas à l’accepter, et s’en agacer n’est pas un défaut. Dans les deux cas, la question reste la même : qu’est-ce qu’on peut retirer ?",
+  piece: { nom: "L’absurde", texte: "Ton rapport ajoute l’absurde comme quatrième famille de « Ton travail », et décrit dans « Toi » ta façon de le prendre.", rapport: "la boîte « L’absurde » (pipeau) dans la jauge du travail, la case « Ton recul face à l’absurde » dans « Toi », et l’étape 5 du rapport, qui détaille tes réponses au bullshitomètre." },
+  suite: "L’absurde vient de l’organisation. Et quand, en plus, la vie personnelle de Sam se complique ? C’est le piège du chapitre suivant.",
+};
+
+// Ordre final : 1–4, 5 l’absurde, 6 « c’est perso », 7 les mesures, 8 les six familles, 9 agir, 10 la loi, 11 les portes.
+chapitres.splice(6, 0, chapitreRPS);
+chapitres.splice(4, 0, chapitreAbsurde);
+plusLoin.splice(6, 0, {
+  "titre": "les six familles de RPS, leur origine et leurs limites",
+  "html": "<h3>Un référentiel de facteurs, pas une nouvelle maladie</h3><p>Le collège d'expertise réuni à la demande du ministère du Travail (rapport Gollac/Bodier, 2011) regroupe les facteurs psychosociaux en six familles. L'INRS les utilise pour guider l'observation et la prévention <b>dans des situations de travail réelles</b>.</p><p>Ces catégories ne sont ni mutuellement exclusives ni un score de diagnostic. Une faible fréquence déclarée peut masquer un événement rare mais grave ; une réponse élevée doit être confrontée aux horaires, procédures, moyens et interactions.</p><h3>Pourquoi seulement six questions supplémentaires ?</h3><p>Bull-Out pose déjà des questions sur charge, soutien, autonomie, reconnaissance, insécurité de l'emploi, qualité empêchée et conflit éthique. Les six questions ajoutées (repos, émotions cachées, changements imposés, décisions prises sans toi, agressivité ou détresse d'autrui, compétences inemployées) complètent ces lacunes, <b>sans créer un total RPS</b>. Elles ne reproduisent ni le COPSOQ III ni une échelle validée.</p><p>Dans une organisation, l'INRS recommande de confronter questionnaires, entretiens, observations et données sur le travail. Le rapport individuel Bull-Out ne permet pas d'établir un DUERP.</p>"
+});
+plusLoin.splice(4, 0, { titre: "les tâches illégitimes, et ce que mesure vraiment le bullshitomètre", html: `
+    <p>Le questionnaire de Semmer (Bern Illegitimate Tasks Scale) compte huit questions : quatre sur les tâches <b>inutiles</b> (« des tâches dont on se demande pourquoi elles existent »), quatre sur les tâches <b>déraisonnables</b> (« des tâches qui devraient être faites par quelqu’un d’autre »). Bull-Out ne reprend pas cette échelle : il garde l’humour du « Grand Test du Bullshit Job », mais réécrit ses questions pour qu’elles portent sur des faits des quatre dernières semaines, et ajoute une question sur les tâches qui ne sont pas les tiennes.</p>
+    <p>Ce que le bullshitomètre <b>montre</b> : la part de situations absurdes que tu reconnais dans ton quotidien, en quatre thèmes (réunions, indicateurs, travail sans destinataire, tâches qui ne sont pas les tiennes). Ce qu’il <b>ne montre pas</b> : qu’un processus est objectivement inutile, ni qu’il a causé à lui seul ta fatigue. Les poids des réponses sont des conventions, à relire avec les psychologues du projet.</p>
+    <p>Et ta réaction ? Les deux questions « dans la vraie vie » ne donnent pas de points : ruminer le soir est déjà mesuré par ta récupération, et ne plus réagir par ta distance. Les compter deux fois gonflerait ton score.</p>` });
 chapitres.forEach((c, i) => { c.plusLoin = plusLoin[i]; });
