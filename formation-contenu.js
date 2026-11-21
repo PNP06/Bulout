@@ -1484,7 +1484,7 @@ const chapitreAbsurde = {
     ["INRS · facteurs de risques psychosociaux (conflits de valeurs)", "https://www.inrs.fr/risques/psychosociaux/facteurs-risques.html"],
   ],
   nechange: "Rire de l’absurde n’oblige pas à l’accepter, et s’en agacer n’est pas un défaut. Dans les deux cas, la question reste la même : qu’est-ce qu’on peut retirer ?",
-  piece: { nom: "L’absurde", texte: "Ton rapport ajoute l’absurde comme quatrième famille de « Ton travail », et décrit dans « Toi » ta façon de le prendre.", rapport: "la boîte « L’absurde » (pipeau) dans la jauge du travail, la case « Ta façon de prendre l’absurde », et la page du bullshitomètre." },
+  piece: { nom: "L’absurde", texte: "Ton rapport ajoute l’absurde comme quatrième famille de « Ton travail », et décrit dans « Toi » ta façon de le prendre.", rapport: "la boîte « L’absurde » (pipeau) dans la jauge du travail, la case « Ton recul face à l’absurde » dans « Toi », et l’étape 5 du rapport, qui détaille tes réponses au bullshitomètre." },
   suite: "L’absurde vient de l’organisation. Et quand, en plus, la vie personnelle de Sam se complique ? C’est le piège du chapitre suivant.",
 };
 
