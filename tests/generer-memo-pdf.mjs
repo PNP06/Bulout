@@ -1,7 +1,7 @@
 // Génère bull-out-memo.pdf (le mémo de fin de formation) à partir de memo.html, via Chromium.
 // Exécution : npm i --no-save --no-package-lock playwright && node tests/generer-memo-pdf.mjs
 // À relancer après chaque modification de memo.html ou memo.css.
-// Le script échoue si une feuille déborde de sa page A4 : le PDF a une page par feuille (.feuille).
+// Le script échoue si un contenu déborde de sa feuille A4 ou si le dossier ne fait pas exactement six pages.
 import { createServer } from "node:http";
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -43,7 +43,10 @@ try {
   if (!polices.some((p) => p.includes("Poppins")) || !polices.some((p) => p.includes("Inter"))) throw new Error("Les polices Poppins et Inter ne sont pas chargées : " + polices.join(", "));
   if (erreurs.length) throw new Error(erreurs.join("\n"));
 
-  const feuilles = await page.$$eval(".feuille", (f) => f.length);
+  const feuilles = await page.$eval(".feuille", (f) => f.length);
+  if (feuilles !== 6) throw new Error(`Le dossier doit comporter six planches A4 et en contient ${feuilles}.`);
+  const chapitres = await page.$eval(".chap-heading", (items) => items.length);
+  if (chapitres !== 11) throw new Error(`Le dossier doit reprendre onze chapitres et en contient ${chapitres}.`);
   const pdf = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
   const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
   if (pages !== feuilles) throw new Error(`Le PDF fait ${pages} page(s) pour ${feuilles} feuille(s).`);
