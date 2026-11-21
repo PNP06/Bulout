@@ -10,5 +10,5 @@
 ## Évaluer et agir
 - [Questionnaire Bull-Out](https://bullout.ddlab.fr/test.html) : questionnaire personnel, accessible après la formation, et rapport d’orientation non diagnostique.
 - [Actions et interlocuteurs](https://bullout.ddlab.fr/agir.html) : leviers, interlocuteurs et reprise après un arrêt.
-- [Mémo de poche](https://bullout.ddlab.fr/memo.html) : feuille A4 recto verso remise avec le diplôme (idées clefs, signaux, logigramme « je doute, je fais quoi », mantras, contacts vérifiés en France), aussi en PDF.
+- [Dossier stagiaire illustré](https://bullout.ddlab.fr/memo.html) : six pages A4 pour retrouver les onze chapitres, les quatre modèles, les risques psychosociaux et les leviers d'action, avec schémas et exemples. PDF téléchargeable ; distinct de la routine personnalisée du rapport.
 - [Présentation en quinze minutes](https://bullout.ddlab.fr/presentation.html) : support de sensibilisation.
