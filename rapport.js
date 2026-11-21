@@ -1027,6 +1027,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
         <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
         <a href="#questionnaire">Revoir mes réponses</a>
+        <a href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Mon mémo de poche (PDF)</a>
       </div>
       <p class="rp-prive">Rien ne quitte ton navigateur automatiquement. <b>Le résumé copié et les PDF essentiel/complet contiennent des informations personnelles.</b> Pour parler au travail sans communiquer tes réponses de santé, choisis « Fiche travail ». Dans la fenêtre d'impression, sélectionne « Enregistrer au format PDF ».</p>
     </header>
