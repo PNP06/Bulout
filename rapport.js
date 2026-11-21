@@ -4,7 +4,7 @@
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 
-const VERSION = "2026.11.3";
+const VERSION = "2026.11.4-rps";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -51,7 +51,7 @@ const APPUIS = {
   G2: ["Décrocher", "Tu sais décrocher du travail", "Le détachement est le premier moteur de la récupération : garde ce temps non négociable, surtout quand la charge monte.", "Choisis un moment fixe sans messages du travail, même court, et tiens-le une semaine."],
   G3: ["Proches", "Des proches à qui parler", "Mettre des mots avec quelqu'un aide à ne pas rester seul·e et à voir plus clair : continue.", "Choisis une personne à qui raconter ta semaine, sans chercher de solution."],
   G4: ["Ressourcement", "Des activités qui te ressourcent", "Ne les sacrifie pas quand la charge monte : c'est souvent la première chose qu'on supprime, et celle qui manque le plus.", "Remets une activité qui te faisait du bien, une fois cette semaine, à heure fixe."],
-  G5: ["Demander de l'aide", "Tu sais demander de l'aide", "C'est un levier d'action : utilise-le pour demander un arbitrage précis, pas seulement un encouragement.", "Prépare une demande précise : une tâche, un délai, une personne. Le chapitre 7 donne des phrases prêtes."],
+  G5: ["Demander de l'aide", "Tu sais demander de l'aide", "C'est un levier d'action : utilise-le pour demander un arbitrage précis, pas seulement un encouragement.", "Prépare une demande précise : une tâche, un délai, une personne. Le chapitre 8 donne des phrases prêtes."],
   G6: ["Poser des limites", "Tu sais poser des limites", "Garde ce réflexe : retirer, reporter, simplifier. C'est la base du plan (pièce 7).", "Entraîne-toi sur une petite demande : « Je peux le faire jeudi, pas aujourd'hui. »"]
 };
 
@@ -424,27 +424,32 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
 
 // L'INRS retient six familles RPS. Cette lecture indique la couverture des items
   // Bull-Out, pas un dépistage exhaustif ni une validation de l'exposition.
+  const rpsAnswers = r.rpsAnswers || [];
+  const rpsFortes = rpsAnswers.filter((a) => a.value >= 3);
   const rpsFamilles = [
-    { nom: "Intensité et temps de travail", ids: ["D1", "D2", "D6"], limite: "Le temps de travail et les horaires ne sont pas demandés directement." },
-    { nom: "Exigences émotionnelles", ids: ["D5"], limite: "Une seule question, très générale ; les situations relationnelles précises restent inconnues." },
-    { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4"], limite: "Les ressources et l'autorité sont abordées, mais pas toutes les marges de décision." },
+    { nom: "Intensité et temps de travail", ids: ["D1", "D2", "D6", "RPS1"], limite: "Le temps de travail et les horaires ne sont pas demandés directement." },
+    { nom: "Exigences émotionnelles", ids: ["D5", "RPS2"], limite: "Une seule question, très générale ; les situations relationnelles précises restent inconnues." },
+    { nom: "Autonomie et marges de manœuvre", ids: ["E1", "D4", "RPS4"], limite: "Les ressources et l'autorité sont abordées, mais pas toutes les marges de décision." },
     { nom: "Rapports sociaux au travail", ids: ["E2", "E3", "E5", "E6"], limite: "Le soutien, l'arbitrage, la reconnaissance et l'équité sont partiellement interrogés." },
     { nom: "Conflits de valeurs", ids: [], contexte: "ethicalConflict", limite: "Le conflit éthique est interrogé par oui/non et la qualité empêchée par une fréquence T4 ; les situations précises restent à documenter." },
-    { nom: "Insécurité professionnelle", ids: [], retour: "R3", limite: "Une seule question sur la stabilité perçue ; les changements imposés restent peu explorés." }
+    { nom: "Insécurité professionnelle", ids: [], retour: "R3", rps: "RPS3", limite: "Une seule question sur la stabilité perçue ; les changements imposés restent peu explorés." }
   ];
   const rpsCartes = rpsFamilles.map((famille) => {
-    const signaux = famille.ids.map((id) => item(id)).filter((a) => a.riskScore >= 3);
+    const signaux = famille.ids.map((id) => id.startsWith("RPS")
+      ? rpsAnswers.find((a) => a.id === id && a.value >= 3)
+      : item(id)).filter((a) => a && (a.riskScore ?? a.value) >= 3);
     const ouiContexte = famille.contexte && (r.contextAnswers || []).some((a) => a.id === famille.contexte && a.yes);
     const qualiteFrequente = famille.contexte === "ethicalConflict" && qualiteEmpechee >= 3;
     const retourBas = famille.retour && rep[famille.retour]?.value <= 1;
-    const signale = signaux.length > 0 || ouiContexte || retourBas || qualiteFrequente;
+    const changementSubi = famille.rps && rpsAnswers.some((a) => a.id === famille.rps && a.value >= 3);
+    const signale = signaux.length > 0 || ouiContexte || retourBas || qualiteFrequente || changementSubi;
     const detail = signaux.length
       ? signaux.map((a) => `<span class="rp-id">${esc(a.id)}</span> ${esc(a.question)}`).join(" ; ")
-      : qualiteFrequente ? "La qualité empêchée est déclarée fréquemment (T4, hors score)." : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
+      : changementSubi ? "Des changements imposés sans préparation suffisante sont signalés (RPS3)." : qualiteFrequente ? "La qualité empêchée est déclarée fréquemment (T4, hors score)." : ouiContexte ? "Un conflit éthique a été déclaré dans le contexte."
         : retourBas ? "La stabilité ou la sécurité d'emploi est peu ressentie (R3)."
-          : "Aucun signal fréquent dans les questions retenues pour ce thème.";
+          : "Aucun signal fréquent parmi les éléments interrogés, ce qui n’exclut pas une exposition.";
     return `<article class="rp-rps-famille ${signale ? "is-signal" : ""}">
-      <div><h5>${famille.nom}</h5><span class="rp-rps-status">${signale ? "Élément à éclaircir" : "Peu ou pas exploré dans ces réponses"}</span></div>
+      <div><h5>${famille.nom}</h5><span class="rp-rps-status">${signale ? "Élément à éclaircir" : "Pas de signal marqué dans les réponses retenues"}</span></div>
       <p>${detail}</p><p class="rp-rps-limite">${famille.limite}</p></article>`;
   }).join("");
   const grilleRPS = `<section class="rp-rps" aria-labelledby="rp-rps-title"><h4 class="rp-h" id="rp-rps-title">Six familles de facteurs psychosociaux</h4>
@@ -452,7 +457,12 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     <div class="rp-rps-grille">${rpsCartes}</div>
     <p class="rp-legende">Une absence de signal n'exclut pas une exposition réelle : certains thèmes ne disposent que d'une question et aucun détail sur l'organisation du travail n'a été vérifié.</p></section>`;
 
-  // ───────── Les 9 étapes (une par pièce de la formation)
+  const rpsLecture = rpsFortes.length || ctxOui.some((a) => ["harassment", "ethicalConflict"].includes(a.id)) || qualiteEmpechee >= 3
+    ? "Des facteurs psychosociaux sont déclarés, même si les signes d’usure peuvent rester faibles. Il faut chercher les situations concrètes, pas un diagnostic."
+    : "Les quatre nouvelles questions ne font pas ressortir de fréquence élevée. D’autres expositions restent possibles.";
+  const listeRPS = `<ol class="rp-items">${rpsAnswers.map((a) => `<li class="${a.value >= 3 ? "haut" : ""}"><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${Number.isInteger(a.value) ? jauge(a.value) : ""}<span>${Number.isInteger(a.value) ? esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, "")) : "Non renseigné"}</span></span></li>`).join("")}</ol>`;
+
+  // ───────── Les dix étapes (une par pièce de la formation)
   const pieces = chapitres.map((c) => c.piece.nom);
   const etapes = [
     {
@@ -488,7 +498,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       corps: `<div class="rp-duo"><div>${balance(sr.D.score, ressources, 24, "Exigences", "Ressources", `Balance : exigences ${sr.D.score}, ressources ${ressources} sur 24`)}<p class="rp-legende">Les ressources sont tes réponses E telles quelles (plus elles sont présentes, plus le plateau est lourd). Dans le score « Manque de ressources », elles sont comptées à l'envers.</p></div>
         <div>${r.modelReadings[1].lines.map((l) => `<p>${esc(l)}</p>`).join("")}</div></div>
         <h4 class="rp-h">Exigences ${tag(sr.D)}</h4>${reponses(sr.D, sec.D, ratingLabels, r)}
-        <h4 class="rp-h">Manque de ressources ${tag(sr.E)}</h4>${reponses(sr.E, sec.E, ratingLabels, r)}${grilleRPS}`,
+        <h4 class="rp-h">Manque de ressources ${tag(sr.E)}</h4>${reponses(sr.E, sec.E, ratingLabels, r)}<p><button type="button" class="rp-lien" data-aller="rps">Voir les six familles de facteurs RPS, hors du score d’usure</button></p>`,
       comprendre: pourComprendre("Pourquoi les ressources comptent autant que la charge", `<p>Karasek (1979) a montré que la tension au travail vient de la combinaison d'une forte demande et d'une faible latitude de décision ; le soutien social a ensuite été ajouté comme troisième facteur. Le modèle JD-R généralise : toute exigence coûte de l'énergie, toute ressource (autonomie, soutien, clarté, reconnaissance) aide à y faire face et protège de l'usure.</p><p>En pratique, plusieurs leviers peuvent être étudiés : réduire des contraintes, restaurer de l’autonomie ou améliorer les moyens. Leur efficacité dépend du travail réel ; elle ne se déduit pas d’une différence entre scores.</p>`, chapLien(3)),
       garder: "La balance aide à distinguer des expositions et des ressources, pas à calculer une compensation. La lecture de Siegrist examine ensuite l’effort et les récompenses."
     },
@@ -533,7 +543,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Les réponses donnent des indices, pas des normes individuelles. Il reste à choisir quoi vérifier et comment agir."
     },
     {
-      id: "plan", chap: 7, titre: "Le plan", q: "Que faire dans les 72 heures, puis dans les deux semaines ?",
+      id: "rps", chap: 7, titre: "Les six familles de RPS", q: "Quelles expositions professionnelles examiner, même si tu tiens encore ?",
+      intro: "Gollac et l’INRS regroupent les facteurs de risques psychosociaux en six familles. Ce sont des caractéristiques du travail, non des symptômes ni six nouvelles échelles de burn-out.",
+      bref: rpsLecture,
+      corps: `${grilleRPS}<h4 class="rp-h">Quatre repères complémentaires · hors score</h4>${listeRPS}
+        <p class="rp-cle"><b>Un signal n’est pas une preuve et une absence de signal n’est pas une absence de risque.</b> Les situations rares mais graves (humiliations, violences) demandent une lecture indépendante de leur fréquence et de ton épuisement.</p>
+        <p>À partir de tes réponses : <b>décris une situation datée</b>, identifie la procédure ou l’arbitrage concerné, puis cherche un interlocuteur sûr. La démarche collective d’évaluation des RPS et le DUERP ne sont pas réalisés par ce questionnaire individuel.</p>`,
+      comprendre: pourComprendre("Pourquoi les six familles ne sont pas un score", `<p>Le collège présidé par Michel Gollac a classé en 2011 les expositions en six familles : intensité et temps, exigences émotionnelles, autonomie, rapports sociaux, conflits de valeurs, insécurité. Leur combinaison et leur durée peuvent contribuer au risque ; leur présence ne permet pas de prédire une maladie chez toi.</p><p>Les questions D/E/R/T et le contexte couvrent partiellement ces familles. Les items RPS1 à RPS4 complètent quatre lacunes. Ils sont <b>originaux, non étalonnés et sans seuil validé</b>. L’INRS rappelle que questionnaires, observations et entretiens doivent être confrontés.</p>`, chapLien(7)),
+      garder: "Repérer l’exposition ouvre une piste. La suite transforme une piste en action sur le travail réel."
+    },
+    {
+      id: "plan", chap: 8, titre: "Le plan", q: "Que faire dans les 72 heures, puis dans les deux semaines ?",
       intro: "On commence par le travail réel : retirer, reporter, simplifier. Optimiser sa respiration ne règle pas une surcharge non arbitrée. Choisis une ou deux actions, pas douze.",
       bref: `D'abord : ${esc(liste(r.actions.slice(0, 2).map((a) => a.title.toLowerCase())))}.${forts.length || ressPresentes.length ? ` Pour le mener, appuie-toi sur ${esc(liste([...forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()), ...ressPresentes.slice(0, 1).map((id) => RESSOURCES[id][0].toLowerCase())]))}.` : ""}`,
       corps: `<h4 class="rp-h">Actions prioritaires</h4><ol class="rp-actions">${r.actions.map((a) => `<li><b>${esc(a.title)}</b><span>${esc(a.text)}</span></li>`).join("")}</ol>
@@ -545,7 +565,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Une demande compte davantage quand elle laisse une trace. La pièce suivante t'aide à l'écrire."
     },
     {
-      id: "traces", chap: 8, titre: "Les traces", q: "Comment garder une trace utile, sans parler de ta santé ?",
+      id: "traces", chap: 9, titre: "Les traces", q: "Comment garder une trace utile, sans parler de ta santé ?",
       intro: "Ce qui protège, toi comme ton manager, c'est d'avoir agi et de pouvoir le montrer : des faits, des dates, des demandes précises. Jamais tes scores ni ta santé.",
       bref: faits.length ? `Ta trace peut s'appuyer sur ${faits.length} fait${faits.length > 1 ? "s" : ""} de travail tiré${faits.length > 1 ? "s" : ""} de tes réponses, et une demande : ${esc(demande)}.` : `Aucun fait de travail ne ressort fortement ; un journal de bord court suffit pour l'instant.`,
       corps: `<div class="rp-duo">${carte("Ce que tu écris", ul(["des faits de travail datés : volumes, délais, urgences, demandes contradictoires", "ce que tu as demandé, à qui, quand", "les réponses obtenues, ou leur absence"]), "fort")}
@@ -559,7 +579,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       garder: "Une trace se lit mieux à deux. Dernière pièce : à qui en parler."
     },
     {
-      id: "portes", chap: 9, titre: "Les portes", q: "À qui en parler, et pour quoi faire ?",
+      id: "portes", chap: 10, titre: "Les portes", q: "À qui en parler, et pour quoi faire ?",
       intro: "Chaque interlocuteur ouvre une porte différente : soin, santé au travail, arbitrage de la charge, appui collectif. Les informations médicales restent chez les soignants ; ton manager n'a pas à connaître tes scores.",
       bref: `Proposés d'après tes réponses : ${esc(liste(r.stakeholderRecommendations.map((x) => minus(x.stakeholder.name))))}.`,
       corps: `<div class="rp-portes">${r.stakeholderRecommendations.map((x) => carte(esc(x.stakeholder.name), `<p class="rp-pourquoi">${esc(x.why)}</p><p><b>Son rôle :</b> ${esc(x.stakeholder.shortRole)}</p><p class="rp-phrase">« ${esc(x.stakeholder.script)} »</p><a href="agir.html${x.stakeholder.anchor}">Fiche détaillée</a>`, x.key === "emergency" ? "urgence" : "")).join("")}</div>
@@ -732,9 +752,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       : item("D6").riskScore >= 3
         ? "Quels dysfonctionnements peuvent être corrigés pour ne plus dépendre d'une compensation individuelle ?"
         : "Quels sont les objectifs prioritaires, les ressources disponibles et les modalités d'arbitrage ?";
+  const rpsFaitsTravail = rpsFortes.map((a) => `<li><b>${esc(a.id)} :</b> ${esc(a.question)}</li>`).join("");
   const ficheTravail = `<header class="rp-travail-head"><p class="rp-n">Document facultatif · conditions de travail</p>
       <h2 tabindex="-1">Préparer une discussion sur le travail réel</h2><p>Cette fiche reprend <b>uniquement des réponses relatives aux conditions de travail</b>. Ni les questions de santé, ni les alertes, ni les consommations, ni les événements personnels, ni les scores ne sont reproduits.</p></header>
     <section class="rp-travail-bloc"><h3>Contraintes à vérifier</h3>${prouverAuTravail(dFaits, "Aucune contrainte de cette liste n'a été déclarée « souvent » ou « presque toujours ». Cela n'exclut pas d'autres situations.")}</section>
+    <section class="rp-travail-bloc"><h3>Repères RPS supplémentaires</h3>${rpsFaitsTravail ? `<ul>${rpsFaitsTravail}</ul>` : "<p>Pas de signal élevé parmi les quatre questions complémentaires.</p>"}</section>
     <section class="rp-travail-bloc"><h3>Ressources à examiner</h3>${prouverAuTravail(eFaits, "Aucun manque de ressource n'est particulièrement déclaré parmi les six éléments explorés.")}</section>
     ${qualiteEmpechee !== null ? `<section class="rp-travail-bloc"><h3>Qualité du travail empêchée</h3><p>Réponse à l'item T4 : <b>${esc(repere("T4").answer)}</b>.</p><p>À préciser à partir d'un exemple : qualité souhaitée, moyens nécessaires et contraintes constatées. Il ne s'agit pas d'une mesure objective.</p></section>` : ""}
     <section class="rp-travail-demande"><h3>Proposition de question pour la discussion</h3><p><b>${esc(demandeOrganisation)}</b></p>
@@ -870,6 +892,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <p class="rp-syn-principe"><b>Trois lectures, une distinction :</b> ce qui se manifeste chez toi, les conditions que tu déclares au travail et les appuis disponibles. Aucune n'est une preuve de causalité à elle seule.</p></header>
     ${securite}
     ${tete}
+    <section class="rp-cle" aria-label="RPS : lecture indépendante"><p><b>Conditions de travail, indépendamment des symptômes :</b> ${esc(rpsLecture)} <button type="button" class="rp-lien" data-aller="rps">Voir le chapitre RPS</button></p></section>
     <section class="rp-syn-priorites" aria-labelledby="rp-priorites-titre">
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
         <p>${r.actions.length ? `<b>${esc(r.actions[0].title)}.</b> ${esc(r.actions[0].text)}` : "Partir d'un fait de travail récent et d'une difficulté concrète à éclaircir."}</p></div>
@@ -912,7 +935,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <div class="rp-box ${L.fiable ? "ok" : "attention"}"><p class="k">État de tes réponses</p><p><b>${L.fiable ? "Réponses variées." : "Réponses répétitives ou extrêmes."}</b> ${L.fiable ? "La répartition des réponses est variée, sans constituer une preuve de fiabilité." : `${cap(L.prudence.join(" ; "))}. C'est possible, mais cela rend les écarts entre dimensions moins parlants.`} Ces contrôles décrivent uniquement la forme des réponses ; ils ne mesurent ni leur sincérité, ni leur qualité clinique.</p>
     ${L.paires.length ? `<p class="k">Points à clarifier</p><ul>${L.paires.map(([, , t, q]) => `<li>${esc(t)} <i>${esc(q)}</i></li>`).join("")}</ul><p>Ce ne sont pas des erreurs : deux réponses qui surprennent côte à côte sont souvent les plus utiles à discuter.</p>` : ""}</div>
     <ol class="rp-construit">
-      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), les 12 questions du bullshitomètre (satiriques, à choix) et 4 questions sur la façon dont tu as reçu cet humour, 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
+      <li><b>Les questions.</b> 36 questions notées de 0 (jamais ou presque) à 4 (presque toujours), sur les quatre dernières semaines, en six parties de six (A à F). Puis, hors score : 6 questions sur ce que tu donnes et ce qui revient (R, modèle de Siegrist), 4 questions supplémentaires sur les expositions RPS, les 12 questions du bullshitomètre (satiriques, à choix) et 4 questions sur la façon dont tu as reçu cet humour, 6 questions sur ce qui t'aide (G). Puis 4 questions de repérage temporel et de qualité empêchée (T), hors score. Enfin 8 questions de contexte et 3 questions d’alerte, en oui ou non.</li>
       <li><b>Le score d'une dimension.</b> La somme de ses six réponses, de 0 à 24. Les questions E décrivent des ressources : elles sont comptées à l'envers (4 moins la réponse) pour que, partout, un score haut signale une difficulté.</li>
       <li><b>Les niveaux.</b> 0 à 6 bas, 7 à 12 à surveiller, 13 à 18 élevé, 19 à 24 très élevé : quatre quarts de l'échelle, choisis pour la lecture, sans étalonnage.</li>
       <li><b>La lecture d'ensemble.</b> Seule une réponse positive aux trois questions de sécurité déclenche un message spécifique d'orientation. Les autres profils sont des regroupements descriptifs internes, sensibles aux seuils de commodité (13/24 notamment), sans valeur diagnostique. Le total A–F n'est pas interprété cliniquement.</li>
@@ -926,6 +949,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     ${sections.map((s) => `<h4 class="rp-h">${esc(s.title.replace(/ - score inversé$/, ""))} · ${sr[s.id].score}/24 ${tag(sr[s.id])}</h4>${reponses(sr[s.id], s, ratingLabels, r)}`).join("")}
     <h4 class="rp-h">${esc(strengthPart.title)} · hors score</h4><ol class="rp-items">${g.map((a) => `<li class="${a.value >= 3 ? "fort" : ""}"><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(a.value)}<span>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}</span></span></li>`).join("")}</ol>
     <h4 class="rp-h">${esc(exchangePart.title)} · hors score</h4><ol class="rp-items">${(r.exchangeAnswers || []).map((a) => `<li><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(a.value)}<span>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}</span></span></li>`).join("")}</ol>
+    ${rpsAnswers.length ? `<h4 class="rp-h">Repères RPS · hors score</h4>${listeRPS}` : ""}
     ${temps.length ? `<h4 class="rp-h">Chronologie et qualité empêchée · hors score</h4>
       <ol class="rp-items">${temps.map((a) => `<li><span class="rp-id">${esc(a.id)}</span><span class="rp-q">${esc(a.question)}</span>
       <span class="rp-a"><span>${esc(a.answer || "Sans réponse")}</span></span></li>`).join("")}</ol>` : ""}
@@ -942,6 +966,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <table class="rp-table rp-sources"><thead><tr><th scope="col">Partie</th><th scope="col">Ce qu'elle explore</th><th scope="col">Inspirée de</th></tr></thead><tbody>
     ${sections.map((s) => `<tr><th scope="row"><span class="rp-id">${s.id}</span> ${NOMS[s.id]}</th><td>${esc(cap(s.explore))}</td><td>${esc(cap(s.sources))}.</td></tr>`).join("")}
     <tr><th scope="row"><span class="rp-id">R</span> Ce qui revient</th><td>${esc(cap(exchangePart.explore))}</td><td>${esc(cap(exchangePart.sources))}.</td></tr>
+    <tr><th scope="row"><span class="rp-id">RPS</span> Quatre repères complémentaires</th><td>Temps, émotions masquées, changements non préparés, participation aux décisions.</td><td>Gollac / INRS, inspiration COPSOQ III, formulations originales non validées.</td></tr>
     <tr><th scope="row"><span class="rp-id">T</span> Durée et évolution</th><td>Repères de temporalité et qualité empêchée, hors scores.</td><td>Questions originales Bull-Out, inspirées du repérage clinique HAS et des six familles RPS INRS, non validées.</td></tr>
     <tr><th scope="row"><span class="rp-id">BS</span> Bullshitomètre</th><td>${esc(cap(bullshitPart.explore))}</td><td>${esc(cap(bullshitPart.sources))}.</td></tr>
     <tr><th scope="row"><span class="rp-id">G</span> Ce qui t'aide</th><td>${esc(cap(strengthPart.explore))}</td><td>${esc(cap(strengthPart.sources))}.</td></tr>
@@ -949,6 +974,8 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     <h4 class="rp-h">Références</h4><ul class="rp-refs">
       <li>Organisation mondiale de la santé (2019). CIM-11, QD85 : burn-out, phénomène lié au travail.</li>
       <li>Haute Autorité de santé (2017). Repérage et prise en charge cliniques du syndrome d'épuisement professionnel ou burnout.</li>
+      <li>Gollac, M., Bodier, M. (2011). <i>Mesurer les facteurs psychosociaux de risque au travail pour les maîtriser.</i> Collège d’expertise.</li>
+      <li>INRS (2025). Effets des expositions psychosociales sur la santé des salariés : synthèse de plus de 800 études.</li>
       <li>INRS. Épuisement professionnel ou burnout ; prévention des risques psychosociaux.</li>
       <li>Maslach, C., Jackson, S. E. (1981). The measurement of experienced burnout. <i>Journal of Occupational Behaviour</i>, 2(2), 99-113.</li>
       <li>Schaufeli, W. B., De Witte, H., Desart, S. (2020). <i>Burnout Assessment Tool (BAT), manuel</i>. KU Leuven.</li>
