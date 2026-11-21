@@ -40,9 +40,12 @@ jobs:
           path: bull-out-memo.pdf
       - name: Synchroniser le PDF après génération
         run: |
+          # Identité nécessaire pour le commit ET pour le rebase qui suit.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add bull-out-memo.pdf
           if ! git diff --cached --quiet; then
-            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Mettre à jour le PDF du dossier Bull-Out"
+            git commit -m "Mettre à jour le PDF du dossier Bull-Out"
             git fetch origin "$GITHUB_REF_NAME"
             git rebase "origin/$GITHUB_REF_NAME"
             git push origin "HEAD:$GITHUB_REF_NAME"
