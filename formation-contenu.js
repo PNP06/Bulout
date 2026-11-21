@@ -123,7 +123,7 @@ export const chapitres = [
       ["INRS · épuisement professionnel ou burnout", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Que ce ne soit « pas encore » un burn-out ne veut pas dire que tout va bien. Une fatigue qui ne passe plus mérite qu’on agisse maintenant, pas quand elle aura un nom.",
-    piece: { nom: "Épuisement et récupération", texte: "Ton rapport regarde d’abord deux choses, séparément : ce que le travail te prend (l’épuisement, partie A) et ce que le repos te rend (la récupération, partie F).", rapport: "la synthèse, le niveau d’action, et les dimensions « Épuisement » et « Récupération »." },
+    piece: { nom: "Ta fatigue", texte: "Ton rapport regarde d’abord deux choses, séparément : à quel point tu es vidé (l’épuisement) et à quel point le repos ne te répare plus (mal à récupérer : sommeil, décrocher, corps).", rapport: "la synthèse, le cadran « Ta fatigue », et les dimensions « Épuisement » et « Mal à récupérer »." },
     suite: "Si le burn-out a trois signes, pourquoi ne regarde-t-on souvent que la fatigue ? C’est la question du chapitre suivant.",
   },
 
@@ -214,7 +214,7 @@ export const chapitres = [
       ["INRS · les manifestations de l’épuisement professionnel", "https://www.inrs.fr/risques/epuisement-burnout/ce-qu-il-faut-retenir.html"],
     ],
     nechange: "Repérer un signe ne t’oblige à rien. Mais un cynisme qui s’installe ou des erreurs inhabituelles sont des informations, pas des défauts à cacher.",
-    piece: { nom: "Les trois jauges", texte: "Ton rapport regarde séparément l’épuisement, la distance et l’efficacité, pour ne pas réduire l’usure à la fatigue.", rapport: "les dimensions « Épuisement », « Distance mentale » et « Efficacité et sens », et la lecture Maslach." },
+    piece: { nom: "Les trois jauges", texte: "Ton rapport regarde séparément l’épuisement, la distance et l’efficacité, pour ne pas réduire l’usure à la fatigue.", rapport: "les dimensions « Épuisement », « Distance mentale » et « Perte d’efficacité et de sens », et la lecture Maslach." },
     suite: "Ces trois signes décrivent ce que tu vis. Ils ne disent pas ce qui, dans le travail, les produit. C’est le rôle du chapitre suivant.",
   },
 
@@ -484,7 +484,7 @@ export const chapitres = [
       ["Ameli · risques psychosociaux et obligation de prévention", "https://www.ameli.fr/entreprise/sante-travail/risques/risques-psychosociaux-rps"],
     ],
     nechange: "Ta vie personnelle t’appartient. Tu n’as pas à la raconter pour qu’on regarde ta charge de travail.",
-    piece: { nom: "Le contexte", texte: "Ton rapport note ce qui se passe autour (situation personnelle lourde, collègues touchés, peur de parler) : cela change la lecture, sans changer le score.", rapport: "les éléments de contexte, et les interlocuteurs qu’ils font proposer." },
+    piece: { nom: "Le contexte et l’absurde", texte: "Ton rapport note ce qui se passe autour (situation personnelle lourde, collègues touchés, peur de parler) et ce que dit le bullshitomètre (réunions, reporting, livrables que personne ne lit). Les deux changent la lecture, sans changer le score.", rapport: "les éléments de contexte, la page du bullshitomètre, et les interlocuteurs qu’ils font proposer." },
     suite: "Et si un test sanguin pouvait trancher ? Le chapitre suivant regarde ce que valent les mesures, cortisol compris.",
   },
 
@@ -668,7 +668,7 @@ export const chapitres = [
       ["INRS · réglementation en matière de risques psychosociaux", "https://www.inrs.fr/risques/psychosociaux/reglementation.html"],
     ],
     nechange: "Agir sur le travail ne veut pas dire que tout dépend de toi. Si tu n’as pas la main, ta part est de dire clairement ce qui ne tient pas, et à qui.",
-    piece: { nom: "Le plan", texte: "Ton rapport propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "les actions à arrêter, clarifier, demander et surveiller." },
+    piece: { nom: "Les trois cadrans et le plan", texte: "Ton rapport commence par trois cadrans (ton travail, ta fatigue, ce qui se voit), puis propose des actions à 72 heures et à deux semaines, avec des phrases prêtes à l’emploi.", rapport: "les actions à arrêter, clarifier, demander et surveiller." },
     suite: "Agir sur le travail, c’est aussi ce que la loi attend. Que dit-elle exactement, et comment se protéger ? C’est le chapitre suivant.",
   },
 

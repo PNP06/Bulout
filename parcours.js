@@ -32,13 +32,13 @@ const plusLoin = `<details class="fo-details fo-plusloin"><summary>Pour aller pl
 const minutes = chapitres.reduce((s, c) => s + c.duree, 0);
 // Ce que chaque chapitre ajoute au schéma du rapport (formation-illustrations.js, schemaRapport), comme le papillon de Papillon.
 const SCHEMA_TEXTE = [
-  "Au centre, ton vécu en deux colonnes. <b>Épuisement</b> : la partie A du questionnaire (vidé, à bout, le repos ne suffit plus). <b>Récupération difficile</b> : la partie F (mal dormir, ne plus décrocher, symptômes). Plus une colonne est haute et orange, plus ça use. On les regarde séparément : c’est quand les deux montent ensemble que la fatigue devient de l’usure. À droite, ce que dit le corps.",
-  "À droite, les trois signes de Maslach : l’épuisement, la distance, l’efficacité et le sens. Lus séparément, pour ne pas réduire l’usure à la fatigue.",
-  "À gauche, la balance du modèle exigences-ressources : ce que le travail demande, ce qui aide à le faire. Sous le centre, tes appuis.",
-  "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
-  "À gauche, en pointillés, le contexte : ce qui se passe autour de toi. Il change la lecture, pas le score.",
+  "Au centre, <b>ta fatigue</b>, en deux colonnes. <b>Épuisement</b> : à quel point tu es vidé, à bout. <b>Mal à récupérer</b> : à quel point le repos ne te répare plus (sommeil, décrocher, corps). Les deux se lisent pareil : <b>plus la colonne est haute et orange, plus ça use</b>. C’est quand les deux montent ensemble que la fatigue devient de l’usure. À droite, ce que dit le corps.",
+  "À droite, <b>ce qui se voit</b> : les trois signes de Maslach, l’épuisement, la distance, la perte d’efficacité et de sens. Lus séparément, pour ne pas réduire l’usure à la fatigue.",
+  "À gauche, <b>ton travail</b>, avec la balance exigences-ressources : ce que le travail demande, ce qui aide à le faire. Des ressources rares sont orange : elles usent. Sous le centre, tes appuis.",
+  "À gauche, le retour selon Siegrist : l’effort, la récompense, le surengagement. Une récompense faible est orange. Il reprend cinq questions de la balance : <b>deux angles, pas deux preuves</b>.",
+  "À gauche, en pointillés, ce qui pèse autour : <b>le contexte</b> (ce qui se passe autour de toi) et <b>l’absurde</b>, mesuré par le bullshitomètre, la pause humour du questionnaire. Ils changent la lecture, pas le score.",
   "Les fils relient les colonnes, plus épais quand tes réponses sont hautes. <b>Ce sont des liens à vérifier avec ta chronologie, jamais des causes prouvées.</b>",
-  "En tête, trois cadrans : ce qui tire, ce qui reste, ce qui lâche. Ton rapport commence par là, pour savoir où agir.",
+  "En tête, trois cadrans, un par zone du schéma : <b>ton travail, ta fatigue, ce qui se voit</b>. L’aiguille à droite et orange, ça use. Ton rapport commence par là, pour savoir où agir.",
   "Pas de nouvelle pièce : ce chapitre t’aide à garder la trace de ce que montre le schéma, avec des faits et des dates, jamais ta santé.",
   "Dernière pièce : la sécurité. Si tu coches un signal, ton rapport l’affiche à part, avec les bonnes portes. <b>Ton schéma est complet : tu sais le lire.</b>",
 ];
@@ -113,7 +113,7 @@ function intro() {
     <figure class="fo-fig">${illustrations.modeles}<figcaption>Deux modèles regardent le travail, un regarde la personne. Garde cette image en tête : c’est la carte de toute la formation.</figcaption></figure>
     <h3 class="fo-h3">Ton rapport, pièce par pièce</h3>
     <p>Ces trois modèles se retrouvent dans <b>un seul schéma</b> : celui de ton rapport. Pour l’instant, il est vide. <b>À la fin de chaque chapitre, une pièce s’y pose</b>, avec l’exemple de Sam. Quand tu ouvriras ton rapport, tu sauras le lire.</p>
-    <figure class="fo-piece-fig fo-piece-vide">${schemaRapport(-1, { titre: "Le schéma de ton rapport, encore vide : chaque chapitre y ajoutera une pièce." })}<figcaption>À gauche le travail, au centre toi, à droite ce qui se voit. Les cases en pointillés se rempliront au fil des chapitres.</figcaption></figure>
+    <figure class="fo-piece-fig fo-piece-vide">${schemaRapport(-1, { titre: "Le schéma de ton rapport, encore vide : chaque chapitre y ajoutera une pièce." })}<figcaption>À gauche ton travail, au centre toi (ta fatigue, tes appuis), à droite ce qui se voit. Les cases en pointillés se rempliront au fil des chapitres.</figcaption></figure>
     <h2 id="s-essentiel" class="fo-h-label">Avant de lire : l’essentiel en ${nb(introduction.essentiel.length)} idées</h2>
     <ol class="fo-essentiel">${introduction.essentiel.map((x, i) => `<li><span class="fo-ess-n">${String(i + 1).padStart(2, "0")}</span><p>${x}</p><a href="${ancre(i)}">Lire le chapitre ${i + 1}</a></li>`).join("")}</ol>
     <h2 id="s-programme" class="fo-h-label">Le programme</h2>
@@ -152,7 +152,7 @@ function chapitre(i) {
     <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
     <details class="fo-sources"><summary>Sources de ce chapitre</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
     <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
-    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra. <b>La couleur dit l’effet pour Sam</b> : vert, ça protège ; orange, ça use. Une ressource rare est donc orange.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <aside class="fo-piece" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(i)}<figcaption>Exemple fictif : Sam. En anis, ce que ce chapitre ajoute ; en pointillés, ce qui viendra. <b>La couleur dit l’effet pour Sam, jamais si le chiffre est haut</b> : vert, ça protège ; orange, ça use. Une ressource rare est donc orange, une ressource solide verte.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · chapitre ${i + 1} sur ${chapitres.length}</p><p>${SCHEMA_TEXTE[i]}</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
     <div class="fo-pause"><p>Tu peux t’arrêter ici. « Enregistrer ma progression » télécharge un petit fichier pour reprendre plus tard, sur cet appareil ou un autre.</p>${garder}${statut}</div>
     <p class="fo-suite">${c.suite}</p>
     <nav class="fo-pager" aria-label="Chapitres">${avant}${apres}</nav>`;

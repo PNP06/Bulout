@@ -133,8 +133,14 @@ test("les six niveaux restent des seuils descriptifs internes", () => {
 for (const value of [0, 1, 2, 3, 4]) {
   test("le rapport se compose avec toutes les réponses à " + value, () => {
     const html = composer(fixture(value));
-    assert.match(html, /Deux repères déclarés/);
-    assert.match(html, /CONDITIONS ET RESSOURCES DÉCLARÉES/);
+    // Mêmes trois zones partout (accueil, formation, rapport), sans lettres de questionnaire dans le schéma.
+    assert.match(html, /TON TRAVAIL/);
+    assert.match(html, /CE QUI SE VOIT/);
+    assert.match(html, />Ta fatigue</);
+    assert.match(html, />Mal à récupérer</);
+    assert.match(html, />L&#39;absurde<|>L'absurde</);
+    assert.match(html, /Ton travail<\/p>/);
+    assert.doesNotMatch(html, /Ce qui tire|Ce qui lâche|Deux repères déclarés|Épuisement \(A\)/);
     assert.match(html, /Les fils rapprochent des thèmes/);
     assert.doesNotMatch(html, /≈\s*\d+\s*% de charge/i);
     assert.doesNotMatch(html, /Batterie à environ\s*\d+\s*%/);
@@ -196,7 +202,8 @@ test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
   assert.match(html, /id="bo-fill-a"/);
   assert.match(html, /id="bo-fill-f"/);
   assert.match(html, />Épuisement</);
-  assert.match(html, /difficile · F/);
+  assert.match(html, />Mal à récupérer</);
+  assert.doesNotMatch(html, /partie A|· F</);
   assert.match(html, /class="bo-legende"/);
   assert.doesNotMatch(html, /id="bo-pct"[^>]*>\d+ %/);
 });

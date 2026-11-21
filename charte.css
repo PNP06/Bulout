@@ -428,19 +428,20 @@ mark { padding: 0 .12em; color: var(--sapin-deep); background: var(--anis); box-
 .bo-caption strong { color: var(--anis); font-weight: 600; }
 
 /* Batterie */
-.bo-battery { transition: opacity .6s, transform .8s var(--ease); transform-box: view-box; transform-origin: 97px 160px; }
+.bo-battery { transition: opacity .6s, transform .8s var(--ease); transform-box: view-box; transform-origin: 87px 160px; }
 /* Deux colonnes (épuisement A, récupération difficile F) qui montent quand ça use : même logique et même code couleur que le rapport. */
 .bo-col-track { fill: rgba(246, 239, 226, .08); stroke: rgba(246, 239, 226, .7); stroke-width: 2.5; }
 .bo-col-fill { fill: #6fbf8f; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(var(--lvl, .15)); transition: transform 1.4s var(--ease), fill 1.2s; }
 .bo-bat-pct { fill: var(--creme); font: 800 15px/1 var(--title) !important; font-family: var(--title) !important; }
-.bo-bat-lbl { fill: rgba(246, 239, 226, .9); font-size: 11.5px; font-weight: 700; }
+.bo-bat-lbl { fill: rgba(246, 239, 226, .9); font-size: 10.5px; font-weight: 700; }
 .bo-bat-sub { fill: rgba(246, 239, 226, .65); font-size: 11px; font-weight: 500; }
+.bo-bat-niv { fill: #f6efe2; font-size: 10.5px; font-weight: 600; opacity: .85; }
 .bo-scene[data-act="2"] .bo-battery { animation: bo-shake .5s 1.2s 2; }
 .bo-scene[data-act="4"] .bo-battery { opacity: .18; transform: scale(.82) translateX(-10px); }
 .bo-legende { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; font-size: 12.5px; color: rgba(246, 239, 226, .8); }
 .bo-legende span { display: inline-flex; align-items: center; gap: 6px; }
 .bo-legende i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.bo-legende .c0 { background: #6fbf8f; } .bo-legende .c1 { background: #e0b13c; } .bo-legende .c2 { background: #e8794f; } .bo-legende .c3 { background: #d0602c; }
+.bo-legende .c0 { background: #6fbf8f; } .bo-legende .c1 { background: #e0b13c; } .bo-legende .c2 { background: #e8794f; } .bo-legende .c3 { background: #b9481f; }
 @keyframes bo-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
 /* Demandes qui s'empilent, ressources qui disparaissent */

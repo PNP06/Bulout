@@ -166,7 +166,7 @@ export const illustrations = {
         ${t(64, 220, nom, { a: "middle", cls: "b" })}${t(64, 240, qui, { a: "middle", cls: "s", c: C.muted })}</g>`;
     }).join("") + `<g transform="translate(34,308)"><rect width="572" height="44" rx="22" fill="${C.sapin}"/>${t(286, 28, "Danger immédiat : 15 ou 112   ·   Idées suicidaires : 3114, 24 h/24", { a: "middle", c: C.anis, cls: "b" })}</g>`),
   modeles: svg("Les trois modèles en une image",
-    "À gauche, dans le travail, les causes : la balance exigences ressources (JD-R) et la bascule effort retour (Siegrist). Des flèches mènent à Sam, au centre : deux colonnes hautes, son épuisement (partie A du questionnaire) et ses difficultés de récupération (partie F). Une flèche mène à droite, dans la personne, les effets : les trois jauges de Maslach, épuisement, distance mentale et efficacité réduite. En bas : on agit à gauche, on mesure à droite.",
+    "À gauche, dans le travail, les causes : la balance exigences ressources (JD-R) et la bascule effort retour (Siegrist). Des flèches mènent à Sam, au centre : deux colonnes hautes : son épuisement, et le mal qu’il a à récupérer. Une flèche mène à droite, dans la personne, les effets : les trois jauges de Maslach, épuisement, distance mentale et efficacité réduite. En bas : on agit à gauche, on mesure à droite.",
     720, 436, `
     <defs><marker id="fo-fleche" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${C.sapin}"/></marker></defs>
     ${t(135, 34, "DANS LE TRAVAIL", { a: "middle", cls: "k", c: C.ink })}${t(135, 52, "les causes", { a: "middle", cls: "s" })}
@@ -175,15 +175,15 @@ export const illustrations = {
       <g transform="translate(115,44)"><path d="M0 -2l-14 30h28z" fill="${C.sapin}"/><path d="M-46 8L46 -10" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="10" width="34" height="14" rx="5" fill="${C.orange}"/><rect x="-60" y="-4" width="26" height="12" rx="5" fill="${C.orange}"/><rect x="30" y="-24" width="30" height="11" rx="5" fill="none" stroke="${C.mid}" stroke-width="2" stroke-dasharray="4 3"/></g>
       ${t(115, 98, "La balance · JD-R", { a: "middle", cls: "b" })}${t(115, 117, "ce qui pèse, ce qui aide", { a: "middle", cls: "s" })}${t(115, 135, "Demerouti, Bakker et al., 2001", { a: "middle", cls: "s", c: C.muted })}</g>
     <g transform="translate(20,232)"><rect width="230" height="146" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
-      <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${C.anis}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
+      <g transform="translate(115,44)"><path d="M0 4l-12 24h24z" fill="${C.sapin}"/><path d="M-60 14L60 -8" stroke="${C.sapin}" stroke-width="5" stroke-linecap="round"/><rect x="-62" y="-14" width="40" height="26" rx="9" fill="${C.orange}" transform="rotate(-10 -42 0)"/><circle cx="32" cy="-14" r="9" fill="${VERT}" stroke="${C.sapin}" stroke-width="2"/><circle cx="54" cy="-18" r="9" fill="none" stroke="${C.sapin}" stroke-width="2" stroke-dasharray="4 3"/></g>
       ${t(115, 98, "Le retour · Siegrist", { a: "middle", cls: "b" })}${t(115, 117, "ce que je donne, ce que je reçois", { a: "middle", cls: "s" })}${t(115, 135, "Siegrist, 1996", { a: "middle", cls: "s", c: C.muted })}</g>
     <path d="M254 142C292 142 300 190 326 196" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <path d="M254 306C292 306 300 254 326 246" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <g transform="translate(326,150)"><rect width="68" height="130" rx="14" fill="${C.card}" stroke="${C.sapin}" stroke-width="3"/>
       <rect x="12" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="12" y="${14 + 96 * .25}" width="18" height="${96 * .75}" rx="6" fill="${C.orange}"/>
       <rect x="38" y="14" width="18" height="96" rx="6" fill="${C.piste}"/><rect x="38" y="${14 + 96 * .4}" width="18" height="${96 * .6}" rx="6" fill="${C.orange}"/>
-      ${t(21, 124, "A", { a: "middle", cls: "n" })}${t(47, 124, "F", { a: "middle", cls: "n" })}</g>
-    ${t(360, 302, "Sam", { a: "middle", cls: "t" })}${t(360, 320, "A : épuisement", { a: "middle", cls: "s", c: C.muted })}${t(360, 336, "F : récupération", { a: "middle", cls: "s", c: C.muted })}
+</g>
+    ${t(360, 302, "Sam", { a: "middle", cls: "t" })}${t(360, 320, "épuisement", { a: "middle", cls: "s", c: C.muted })}${t(360, 336, "mal à récupérer", { a: "middle", cls: "s", c: C.muted })}
     <path d="M396 222H462" fill="none" stroke="${C.sapin}" stroke-width="3" marker-end="url(#fo-fleche)"/>
     <g transform="translate(470,68)"><rect width="230" height="310" rx="18" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".2"/>
       ${[["Épuisement", .8, C.orange, 45], ["Distance", .65, C.orange, 115], ["Perte d'eff.", .55, "#d9a21b", 185]].map(([n, v, c, x]) => `<rect x="${x - 22}" y="26" width="44" height="160" rx="22" fill="${C.soft}" stroke="${C.sapin}" stroke-width="2.5"/><rect x="${x - 15}" y="${33 + 146 * (1 - v)}" width="30" height="${146 * v}" rx="15" fill="${c}"/>${t(x, 210, n, { a: "middle", cls: "s" })}`).join("")}
@@ -203,22 +203,23 @@ export const illustrations = {
 };
 
 // ───────── Le schéma du rapport, construit au fil des chapitres (comme le papillon de Papillon).
-// Même disposition que la vue d'ensemble du rapport (rapport.js, vueEnsemble) : à gauche les conditions
-// de travail, au centre deux indices du vécu (A et F), à droite les manifestations. Données : Sam, fictif.
+// Même disposition et mêmes mots que la vue d'ensemble du rapport (rapport.js, vueEnsemble) :
+// à gauche TON TRAVAIL, au centre TOI (ta fatigue, tes appuis), à droite CE QUI SE VOIT. Données : Sam, fictif.
 // Chaque chapitre allume ses pièces ; les pièces à venir restent en pointillés, sans contenu.
 export const PIECES_SCHEMA = [
-  ["vecu", "corps"],          // 1 · fatigue ou usure : épuisement (A), récupération (F), signaux du corps
+  ["fatigue", "corps"],       // 1 · fatigue ou usure : épuisement, mal à récupérer, signaux du corps
   ["signes"],                 // 2 · les trois signes (Maslach)
   ["balance", "appuis"],      // 3 · la balance exigences-ressources (JD-R)
   ["retour"],                 // 4 · effort et récompense (Siegrist)
-  ["contexte"],               // 5 · le contexte, hors score
+  ["contexte", "absurde"],    // 5 · ce qui pèse autour : le contexte et l'absurde (bullshitomètre), hors score
   ["fils"],                   // 6 · ce que valent les mesures : des liens, pas des causes
-  ["bandeau"],                // 7 · agir : ce qui tire, ce qui reste, ce qui lâche
+  ["bandeau"],                // 7 · agir : les trois cadrans, ton travail, ta fatigue, ce qui se voit
   [],                         // 8 · la loi : pas de nouvelle pièce, la trace de ce que montre le schéma
   ["securite"],               // 9 · à qui en parler : la porte d'urgence
 ];
-// Même code couleur que le rapport : la couleur dit l'effet pour la personne (vert protège ou ça va, jaune à surveiller, orange use, orange foncé use beaucoup).
-const NIVC = [C.mid, "#d9a21b", C.orange, "#a8401c"];
+// Même code couleur que le rapport : la couleur dit l'effet pour la personne (vert ça va ou ça protège, jaune à surveiller, orange ça use, orange foncé ça use beaucoup).
+export const NIVC = [C.mid, "#d9a21b", C.orange, "#a8401c"];
+export const NIVMOTS = ["ça va", "à surveiller", "ça use", "ça use beaucoup"];
 
 // Sans argument : le schéma complet, sans pièce surlignée.
 export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = {}) {
@@ -231,59 +232,53 @@ export function schemaRapport(chapitre = PIECES_SCHEMA.length, { titre = "" } = 
     const e = etat(id);
     if (e === "avenir") return `<g opacity=".5"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="none" stroke="${C.sapin}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="5 5"/>${T(x + w / 2, y + h / 2 + 5, nom, { a: "middle", c: C.muted, w: 500, size: 13 })}</g>`;
     return `<g>${e === "ici" ? `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="16" fill="${C.anis}"/>` : ""}
-      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"${o.tirets ? ' stroke-dasharray="5 4"' : ""}/>
-      ${T(x + 12, y + 21, nom, { titre: true, w: 800, size: 14.5 })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .75 }) : ""}${contenu}</g>`;
+      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${o.fond || C.card}" stroke="${C.sapin}" stroke-opacity="${o.bord || .25}" stroke-width="${o.epais || 1.5}"${o.tirets ? ' stroke-dasharray="5 4"' : ""}/>
+      ${T(x + (o.centre ? w / 2 : 12), y + 21, nom, { titre: true, w: 800, size: 14.5, a: o.centre ? "middle" : "start" })}${modele ? T(x + 12, y + 37, modele, { size: 11.5, w: 500, op: .75 }) : ""}${contenu}</g>`;
   };
   const ligne = (x, y, w, label, mot, n) => `<circle cx="${x + 18}" cy="${y - 4}" r="5" fill="${NIVC[n]}"/>${T(x + 30, y, label, { size: 12.5, w: 500 })}${T(x + w - 10, y, mot, { a: "end", size: 12, w: 700, c: n >= 2 ? C.ink : C.muted })}`;
   const barre = (x, y, w, label, v, n) => `${T(x + 12, y, label, { size: 12.5, w: 500 })}<rect x="${x + 12}" y="${y + 5}" width="${w - 24}" height="7" rx="3.5" fill="${C.piste}"/><rect x="${x + 12}" y="${y + 5}" width="${Math.round((w - 24) * v)}" height="7" rx="3.5" fill="${NIVC[n]}"/>`;
-  const W = 660, L = 12, R = W - 12 - 196, lw = 196, cx = W / 2;
+  const W = 660, L = 12, R = W - 12 - 196, lw = 196, cx = W / 2, bw = 200;
   const top = etat("bandeau") === "avenir" ? 34 : 112;
   let s = "";
-  // Bandeau : trois cadrans, comme en tête du rapport.
+  // Bandeau : trois cadrans, comme en tête du rapport, avec les mêmes trois zones que le schéma.
   if (etat("bandeau") !== "avenir") {
-    const cad = (x, k, mot, n, bon) => {
-      const arc = (j) => { const a0 = Math.PI * (1 - j / 4), a1 = Math.PI * (1 - (j + 1) / 4) + .05; const p = (a) => `${(x + 34 * Math.cos(a)).toFixed(1)} ${(60 - 34 * Math.sin(a)).toFixed(1)}`; const col = bon ? [...NIVC].reverse()[j] : NIVC[j]; return `<path d="M${p(a0)} A34 34 0 0 1 ${p(a1)}" fill="none" stroke="${col}" stroke-width="9" opacity="${j === (bon ? 3 - n : n) ? 1 : .3}"/>`; };
+    const cad = (x, k, mot, n) => {
+      const arc = (j) => { const a0 = Math.PI * (1 - j / 4), a1 = Math.PI * (1 - (j + 1) / 4) + .05; const p = (a) => `${(x + 34 * Math.cos(a)).toFixed(1)} ${(60 - 34 * Math.sin(a)).toFixed(1)}`; return `<path d="M${p(a0)} A34 34 0 0 1 ${p(a1)}" fill="none" stroke="${NIVC[j]}" stroke-width="9" opacity="${j === n ? 1 : .3}"/>`; };
       return `${[0, 1, 2, 3].map(arc).join("")}${T(x + 44, 40, k, { size: 11, w: 700, c: C.ink })}${T(x + 44, 58, mot, { titre: true, w: 800, size: 14 })}`;
     };
     s += `<g>${etat("bandeau") === "ici" ? `<rect x="6" y="6" width="${W - 12}" height="78" rx="16" fill="${C.anis}"/>` : ""}<rect x="12" y="12" width="${W - 24}" height="66" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>
-      ${cad(70, "CE QUI TIRE", "élevé", 2, false)}${cad(285, "CE QUI RESTE", "récup. basse", 2, true)}${cad(500, "CE QUI LÂCHE", "élevé", 2, false)}</g>`;
+      ${cad(60, "TON TRAVAIL", "lourd", 2)}${cad(275, "TA FATIGUE", "forte", 2)}${cad(480, "CE QUI SE VOIT", "nets", 2)}</g>`;
   }
-  s += T(L, top - 12, "LE TRAVAIL", { titre: true, w: 800, size: 11.5, c: C.ink }) + T(cx, top - 12, "TOI", { titre: true, w: 800, size: 11.5, c: C.muted, a: "middle" }) + T(W - 12, top - 12, "CE QUI SE VOIT", { titre: true, w: 800, size: 11.5, c: C.ink, a: "end" });
+  s += T(L, top - 12, "TON TRAVAIL", { titre: true, w: 800, size: 11.5, c: C.ink }) + T(cx, top - 12, "TOI", { titre: true, w: 800, size: 11.5, c: C.ink, a: "middle" }) + T(W - 12, top - 12, "CE QUI SE VOIT", { titre: true, w: 800, size: 11.5, c: C.ink, a: "end" });
   // Positions (pour les fils).
-  const yB = top, yR = top + 96, yC = top + 222, hB = 84, hR = 116, hC = 64;
+  const yB = top, yR = top + 96, yC = top + 224, yX = top + 296, hB = 84, hR = 116, hC = 60;
   const yS = top, hS = 132, yCo = top + 144, hCo = 70, ySe = top + 226, hSe = 40;
-  const bTop = top + 20, bH = 150, aTop = top + 196, aH = 66;
+  const bTop = top + 20, bH = 170, aTop = top + 214, aH = 66;
   if (etat("fils") !== "avenir") {
     const op = etat("fils") === "ici" ? 1 : .8;
     const f = (x1, y1, x2, y2, w, c) => `<path d="M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
-    s += `<g>${f(L + lw, yB + hB / 2, cx - 85, bTop + 40, 7, C.orange)}${f(L + lw, yR + hR / 2, cx - 85, bTop + 80, 5, C.orange)}${f(L + lw, yC + hC / 2, cx - 85, bTop + 120, 2.5, C.orange)}
-      ${f(cx + 85, bTop + 50, R, yS + hS / 2, 7, C.orange)}${f(cx + 85, bTop + 110, R, yCo + hCo / 2, 4, C.orange)}
+    s += `<g>${f(L + lw, yB + hB / 2, cx - bw / 2, bTop + 40, 7, C.orange)}${f(L + lw, yR + hR / 2, cx - bw / 2, bTop + 75, 5, C.orange)}${f(L + lw, yC + hC / 2, cx - bw / 2, bTop + 110, 2.5, C.orange)}${f(L + lw, yX + hC / 2, cx - bw / 2, bTop + 140, 4, C.orange)}
+      ${f(cx + bw / 2, bTop + 55, R, yS + hS / 2, 7, C.orange)}${f(cx + bw / 2, bTop + 120, R, yCo + hCo / 2, 4, C.orange)}
       <path d="M${cx} ${aTop} V${bTop + bH}" stroke="${C.mid}" stroke-width="3" opacity="${op}"/>
       ${etat("fils") === "ici" ? T(cx, aTop + aH + 22, "des liens à vérifier, pas des causes", { a: "middle", size: 12, w: 700, c: C.ink }) : ""}</g>`;
   }
-  // Gauche : la balance (JD-R), le retour (Siegrist), le contexte.
+  // Ton travail : la balance (JD-R), le retour (Siegrist), le contexte et l'absurde (hors score).
   s += boite("balance", L, yB, lw, hB, "La balance", "JD-R · chapitre 3", ligne(L, yB + 58, lw, "Exigences", "élevées", 2) + ligne(L, yB + 76, lw, "Ressources", "limitées", 1));
   s += boite("retour", L, yR, lw, hR, "Le retour", "Siegrist · chapitre 4", ligne(L, yR + 58, lw, "Effort", "élevé", 2) + ligne(L, yR + 78, lw, "Récompense", "faible", 2) + ligne(L, yR + 98, lw, "Surengagement", "moyen", 1));
-  s += boite("contexte", L, yC, lw, hC, "Le contexte", "hors score · chapitre 5", ligne(L, yC + 56, lw, "Collègue parti", "signalé", 1), { tirets: true });
-  // Centre : deux indices du vécu, et les appuis.
-  const eB = etat("vecu");
-  if (eB === "avenir") s += boite("vecu", cx - 85, bTop, 170, bH, "Ton vécu", "", "");
-  else {
-    // Deux colonnes nommées en clair : épuisement (partie A) et récupération (partie F). Pas une batterie.
-    const col = (x, l1, l2, v, n) => `<rect x="${x}" y="${bTop + 30}" width="34" height="80" rx="6" fill="${C.piste}"/><rect x="${x}" y="${bTop + 30 + 80 * (1 - v)}" width="34" height="${80 * v}" rx="6" fill="${NIVC[n]}"/>${T(x + 17, bTop + 126, l1, { a: "middle", w: 700, size: 11.5 })}${T(x + 17, bTop + 140, l2, { a: "middle", w: 500, size: 10.5, op: .8 })}`;
-    s += `<g>${eB === "ici" ? `<rect x="${cx - 91}" y="${bTop - 6}" width="182" height="${bH + 12}" rx="20" fill="${C.anis}"/>` : ""}<rect x="${cx - 85}" y="${bTop}" width="170" height="${bH}" rx="16" fill="${C.card}" stroke="${C.sapin}" stroke-width="2"/>
-      ${T(cx, bTop + 20, "Ton vécu", { a: "middle", titre: true, w: 800, size: 13 })}${col(cx - 62, "Épuisement", "partie A", .7, 2)}${col(cx + 28, "Récupération", "difficile · F", .58, 2)}</g>`;
-  }
+  s += boite("contexte", L, yC, lw, hC, "Le contexte", "hors score · chapitre 5", ligne(L, yC + 52, lw, "Collègue parti", "signalé", 1), { tirets: true });
+  s += boite("absurde", L, yX, lw, hC, "L'absurde", "bullshitomètre · hors score", ligne(L, yX + 52, lw, "Réunions vides", "ça use", 2), { tirets: true });
+  // Toi : ta fatigue en deux colonnes nommées en clair (plus haute et plus orange = ça use plus), et tes appuis.
+  const col = (x, nom, v, n) => `<rect x="${x - 17}" y="${bTop + 34}" width="34" height="84" rx="6" fill="${C.piste}"/><rect x="${x - 17}" y="${bTop + 34 + 84 * (1 - v)}" width="34" height="${84 * v}" rx="6" fill="${NIVC[n]}"/>${T(x, bTop + 136, nom, { a: "middle", w: 700, size: 11.5 })}${T(x, bTop + 154, NIVMOTS[n], { a: "middle", w: 700, size: 11, c: n >= 2 ? C.ink : C.muted })}`;
+  s += boite("fatigue", cx - bw / 2, bTop, bw, bH, "Ta fatigue", "", etat("fatigue") === "avenir" ? "" : col(cx - 48, "Épuisement", .7, 2) + col(cx + 48, "Mal à récupérer", .82, 3), { centre: true, bord: .8, epais: 2 });
   s += boite("appuis", cx - 70, aTop, 140, aH, "Tes appuis", "chapitre 3", T(cx - 58, aTop + 56, "décrocher : fragile", { size: 12, w: 500 }), { fond: "#e3eee9" });
-  // Droite : les trois signes (Maslach), les autres signaux, la sécurité.
-  s += boite("signes", R, yS, lw, hS, "Les trois signes", "Maslach · chapitre 2", barre(R, yS + 60, lw, "Épuisement", .7, 2) + barre(R, yS + 88, lw, "Distance", .5, 1) + barre(R, yS + 116, lw, "Perte d'efficacité, de sens", .3, 1));
-  s += boite("corps", R, yCo, lw, hCo, "Le corps", "récupération · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
+  // Ce qui se voit : les trois signes (Maslach), le corps, la sécurité.
+  s += boite("signes", R, yS, lw, hS, "Les trois signes", "Maslach · chapitre 2", barre(R, yS + 60, lw, "Épuisement", .7, 2) + barre(R, yS + 88, lw, "Distance, cynisme", .5, 1) + barre(R, yS + 116, lw, "Perte d'efficacité, de sens", .3, 1));
+  s += boite("corps", R, yCo, lw, hCo, "Le corps", "sommeil, santé · chapitre 1", ligne(R, yCo + 58, lw, "Sommeil perturbé", "souvent", 2));
   s += etat("securite") === "avenir" ? boite("securite", R, ySe, lw, hSe, "La sécurité", "", "")
     : `<g>${etat("securite") === "ici" ? `<rect x="${R - 6}" y="${ySe - 6}" width="${lw + 12}" height="${hSe + 12}" rx="16" fill="${C.anis}"/>` : ""}<rect x="${R}" y="${ySe}" width="${lw}" height="${hSe}" rx="12" fill="${C.card}" stroke="${C.sapin}" stroke-opacity=".3" stroke-dasharray="4 4"/>${T(R + 12, ySe + 25, "Sécurité : rien de coché", { size: 12.5, w: 600 })}</g>`;
-  // Légende du code couleur, la même que dans le rapport.
-  const leg = [[NIVC[0], "ça va, ça protège"], [NIVC[1], "à surveiller"], [NIVC[2], "ça use"], [NIVC[3], "ça use beaucoup"]];
-  s += leg.map(([c, l], i) => `<circle cx="${L + 8 + i * 160}" cy="${top + 306}" r="6" fill="${c}"/>${T(L + 20 + i * 160, top + 311, l, { size: 12.5, w: 600 })}`).join("");
-  const H = top + 324;
+  // Légende du code couleur, la même que dans le rapport et sur l'accueil.
+  s += NIVC.map((c, i) => `<circle cx="${L + 8 + i * 160}" cy="${top + 382}" r="6" fill="${c}"/>${T(L + 20 + i * 160, top + 387, NIVMOTS[i] === "ça va" ? "ça va, ça protège" : NIVMOTS[i], { size: 12.5, w: 600 })}`).join("");
+  const H = top + 400;
   const n = PIECES_SCHEMA.slice(0, chapitre + 1).filter((p) => p.length).length;
   // (chapitre = PIECES_SCHEMA.length : toutes les pièces posées.)
   const label = titre || `Le schéma de ton rapport, avec l'exemple de Sam : ${n} pièce${n > 1 ? "s" : ""} posée${n > 1 ? "s" : ""} sur ${PIECES_SCHEMA.filter((p) => p.length).length}.`;

@@ -1999,12 +1999,14 @@
     const scene = document.querySelector("#bo-scene");
     if (!scene) return;
     // Niveaux graphiques illustratifs : aucun pourcentage physiologique n’est calculé.
-    // Deux colonnes, comme au centre du schéma du rapport : épuisement (A) et récupération difficile (F).
+    // Deux colonnes, comme « Ta fatigue » au centre du schéma du rapport : épuisement, et mal à récupérer.
     // Elles montent quand ça use ; la couleur suit le code unique (vert ça va, jaune à surveiller, orange ça use).
     const NIV_A = [.15, .42, .74, .7, .7];
     const NIV_F = [.1, .3, .55, .82, .82];
-    const TEINTES = ["#6fbf8f", "#e0b13c", "#e8794f", "#d0602c"];
-    const teinte = (v) => TEINTES[v < .25 ? 0 : v < .5 ? 1 : v < .78 ? 2 : 3];
+    const TEINTES = ["#6fbf8f", "#e0b13c", "#e8794f", "#b9481f"];
+    const MOTS_NIV = ["ça va", "à surveiller", "ça use", "ça use beaucoup"];
+    const cran = (v) => (v < .25 ? 0 : v < .5 ? 1 : v < .78 ? 2 : 3);
+    const teinte = (v) => TEINTES[cran(v)];
     const LABELS = ["Ça va", "Fatigué", "Saturé", "Ne récupère plus", "Sous tension"];
     const CAPS = [
       "Lundi, Sam commence sa semaine <strong>avec de l'énergie</strong>. 42 mails, 3 urgences : la pression monte.",
@@ -2015,6 +2017,8 @@
     ];
     const fillA = scene.querySelector("#bo-fill-a");
     const fillF = scene.querySelector("#bo-fill-f");
+    const nivA = scene.querySelector("#bo-niv-a");
+    const nivF = scene.querySelector("#bo-niv-f");
     const pct = scene.querySelector("#bo-pct");
     const caption = scene.querySelector("#bo-caption");
     const chips = [...scene.querySelectorAll("#bo-acts button")];
@@ -2033,6 +2037,8 @@
       fillF.style.setProperty("--lvl", String(NIV_F[act]));
       fillA.style.fill = teinte(NIV_A[act]);
       fillF.style.fill = teinte(NIV_F[act]);
+      if (nivA) { nivA.textContent = MOTS_NIV[cran(NIV_A[act])]; }
+      if (nivF) { nivF.textContent = MOTS_NIV[cran(NIV_F[act])]; }
       pct.textContent = LABELS[act];
       demands.forEach((d) => {
         const visible = Number(d.dataset.in) <= Math.min(act, 2);
