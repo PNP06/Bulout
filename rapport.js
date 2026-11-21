@@ -4,6 +4,7 @@
 // Rien n'est envoyé : tout est calculé et affiché dans cet onglet.
 import { chapitres } from "./formation-contenu.js";
 import { schemaDouble } from "./schema.js";
+import { produireRoutine } from "./routine.js";
 
 const VERSION = "2026.11.4-rps";
 const C = { sapin: "#123a33", mid: "#1d5c50", creme: "#f6efe2", card: "#fffdf8", anis: "#d8f25c", orange: "#e8794f", ink: "#b4512b", piste: "#e3dccd", rouge: "#b3261e" };
@@ -884,7 +885,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <div><p class="k">La suite</p><h3 id="rp-priorites-titre">Par quoi commencer ?</h3>
         <p>${r.actions.length ? `<b>${esc(r.actions[0].title)}.</b> ${esc(r.actions[0].text)}` : "Partir d'un fait de travail récent et d'une difficulté concrète à éclaircir."}</p></div>
       <div class="rp-priorites-liens"><button type="button" class="button primary" data-aller="plan">Voir mon plan →</button>
-        <button type="button" class="button secondary" data-aller="portes">À qui en parler ?</button></div>
+        <button type="button" class="button secondary" data-aller="portes">À qui en parler ?</button><button type="button" class="button secondary" data-aller="routine">Ma routine hebdomadaire</button></div>
     </section>
     <details class="rp-syn-detail"><summary>Lire en détail : les quatre modèles, tes réponses en mots, la qualité des réponses</summary>
       ${modelesLus}
@@ -898,7 +899,17 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     <div class="rp-syn-suite"><p><b>Tu peux t'arrêter à cette synthèse.</b> Le plan et les interlocuteurs viennent ensuite. Si tu veux comprendre les modèles, les onze pièces et les réponses détaillées sont accessibles dans « Approfondir ».</p>
       <button type="button" class="button secondary" data-aller="travail">Préparer une discussion sur le travail réel</button></div>`;
 
-const carnetFait = travailRessort[0]?.question || "Une situation de travail à choisir après une observation concrète";
+  // Page personnelle distincte du dossier stagiaire : observations qualitatives, sans nouveau score.
+  const routine = produireRoutine({
+    travail: travailRessort[0]?.question || "Une situation de travail à choisir",
+    signe: manifs[0]?.question || "Un effet ressenti sur ma récupération, mon engagement ou ma vie",
+    appui: forts[0] ? APPUIS[forts[0].id][1] :
+      (ressPresentes[0] ? RESSOURCES[ressPresentes[0]][0] : "Un temps, un soutien ou une marge de manœuvre à préserver"),
+    action: r.actions[0]?.title || "Clarifier une priorité",
+    actionDetail: r.actions[0]?.text || "Demander ce qu'il faut retirer, reporter ou simplifier."
+  });
+
+  const carnetFait = travailRessort[0]?.question || "Une situation de travail à choisir après une observation concrète";
   const carnetVécu = manifs[0]?.question || "Une difficulté de vie ou de récupération à observer, si elle existe";
   const carnet = `<header class="rp-etape-head"><p class="rp-n">Outil facultatif · aucune donnée transmise</p>
       <h2 tabindex="-1">Un carnet pour voir ce qui change</h2><p class="rp-question">Qu'est-ce qui évolue réellement après une action ?</p>
@@ -992,13 +1003,14 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
         ${bref(e.bref)}<div class="rp-corps">${e.corps}</div>${e.comprendre}${garder(e.garder, i === etapes.length - 1)}`
     })),
     { id: "travail", court: "Fiche travail", html: ficheTravail },
+    { id: "routine", court: "Routine hebdomadaire", html: routine },
     { id: "carnet", court: "Carnet de suivi", html: carnet },
     { id: "annexes", court: "Annexes", html: `<header class="rp-etape-head"><p class="rp-n">Annexes</p><h2 tabindex="-1">Comment lire, ce que tu as répondu, d'où viennent les questions</h2></header>
       <section class="rp-annexe" id="annexe-1">${definitions}</section><section class="rp-annexe" id="annexe-2">${annexeReponses}</section><section class="rp-annexe" id="annexe-3">${annexeSources}</section>` }
   ];
 
   // Lire dans l'ordre utile : synthèse, plan, interlocuteurs ; approfondir ensuite.
-  const ordrePages = ["synthese", "plan", "portes", "travail", "carnet", "appuis",
+  const ordrePages = ["synthese", "plan", "portes", "routine", "travail", "carnet", "appuis",
     ...etapes.filter((e) => !["plan", "portes"].includes(e.id)).map((e) => e.id), "annexes"];
   pages.sort((a, b) => ordrePages.indexOf(a.id) - ordrePages.indexOf(b.id));
 
@@ -1019,7 +1031,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
         <p>Les questions s'inspirent d'outils de recherche reconnus, mais le questionnaire Bull-Out n'a pas été validé scientifiquement. Il aide à comprendre et à préparer une discussion ; il ne pose pas de diagnostic.</p></div>
       <div class="parcours-tools rp-outils">
         <fieldset class="rp-pdf"><legend>Ce que contient le PDF</legend>
-          <label><input type="radio" name="rp-pdf" value="court" checked> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
+          <label><input type="radio" name="rp-pdf" value="court" checked> <b>Essentiel</b> : synthèse, plan, interlocuteurs et routine hebdomadaire</label>
           <label><input type="radio" name="rp-pdf" value="complet"> <b>Complet</b> : explications, modèles et annexes</label>
           <label><input type="radio" name="rp-pdf" value="travail"> <b>Fiche travail</b> : contraintes et demandes, sans réponses médicales</label>
           <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
@@ -1027,15 +1039,15 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
         <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
         <a href="#questionnaire">Revoir mes réponses</a>
-        <a href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Mon mémo de poche (PDF)</a>
+        <a href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Mon dossier stagiaire (PDF)</a>
       </div>
       <p class="rp-prive">Rien ne quitte ton navigateur automatiquement. <b>Le résumé copié et les PDF essentiel/complet contiennent des informations personnelles.</b> Pour parler au travail sans communiquer tes réponses de santé, choisis « Fiche travail ». Dans la fenêtre d'impression, sélectionne « Enregistrer au format PDF ».</p>
     </header>
 <nav class="rapport-nav rp-nav" aria-label="Sommaire du rapport">
       <div class="rp-nav-essentiel"><span class="rp-nav-label">À lire d'abord</span>
-        ${pages.filter((p) => ["synthese", "plan", "portes", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
+        ${pages.filter((p) => ["synthese", "plan", "portes", "routine", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
       <details class="rp-nav-detail"><summary>Approfondir · modèles, appuis, annexes</summary>
-        <div class="rp-nav-list">${pages.filter((p) => !["synthese", "plan", "portes", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
+        <div class="rp-nav-list">${pages.filter((p) => !["synthese", "plan", "portes", "routine", "travail"].includes(p.id)).map((p) => `<button type="button" data-aller="${p.id}">${esc(p.court)}</button>`).join("")}</div>
       </details>
     </nav>
     ${pages.map((p, i) => `<section class="rp-page${p.etape !== undefined ? " rp-etape" : ""}" id="rapport-${p.id}" data-page="${p.id}" aria-label="${esc(p.court)}">${p.html}${nav(i)}</section>`).join("")}
@@ -1052,7 +1064,7 @@ function montrer(id, focus = true) {
   courante = id;
   pages.forEach((p) => { p.hidden = p.dataset.page !== id; });
   const detail = racine.querySelector(".rp-nav-detail");
-  if (detail && !["synthese", "plan", "portes", "travail"].includes(id)) detail.open = true;
+  if (detail && !["synthese", "plan", "portes", "routine", "travail"].includes(id)) detail.open = true;
   racine.querySelectorAll(".rp-nav button").forEach((b) => {
     if (b.dataset.aller === id) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
   });
