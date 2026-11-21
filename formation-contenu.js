@@ -1,4 +1,4 @@
-// Formation Bull-Out : neuf chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
+// Formation Bull-Out : dix chapitres progressifs, un fil rouge (Sam, 38 ans), un exercice par chapitre.
 // Chaque chapitre suit le même gabarit : ce que tu sauras faire, l’idée reçue de départ, l’essentiel,
 // des exemples concrets, le piège de raisonnement, l’exercice, et la pièce du rapport qu’il éclaire.
 // Le contenu de l’ancienne page « Managers » est intégré aux chapitres 5, 7, 8 et 9 : il concerne tout le monde.
@@ -939,7 +939,7 @@ export const examen = [
 
 // ───────────────────────────── Synthèse : les trois modèles, les idées clefs, et « pour aller plus loin ».
 export const synthese = {
-  chapo: "Neuf chapitres, trois modèles principaux et trois éclairages complémentaires. Avant le test final, compare leurs questions sur une même histoire : la distinction entre <b>ce que Sam ressent</b>, <b>ce que le travail lui demande</b> et <b>ce qu’il reçoit en retour</b> rend les décisions plus précises.",
+  chapo: "Dix chapitres, trois modèles principaux et trois éclairages complémentaires. Avant le test final, compare leurs questions sur une même histoire : la distinction entre <b>ce que Sam ressent</b>, <b>ce que le travail lui demande</b> et <b>ce qu’il reçoit en retour</b> rend les décisions plus précises.",
   modeles: [
     { nom: "Maslach", question: "Qu’est-ce que l’usure fait à la personne ?", image: "Les trois jauges", idee: "Le burn-out, ce sont trois signes : l’épuisement, la distance mentale, la baisse d’efficacité. La fatigue n’est que le premier.", agir: "Regarder les trois jauges, pas seulement la fatigue. Le cynisme et le doute de soi sont des signaux, pas des défauts.", chap: 1 },
     { nom: "JD-R", question: "Quelles conditions favorisent l’usure ?", image: "La balance", idee: "Des exigences fortes ou durables peuvent favoriser l’épuisement ; des ressources adaptées soutiennent le travail et l’engagement. Les effets varient selon la situation.", agir: "Réduire une exigence ou renforcer une ressource réelle : arbitrer un dossier, ajouter un relais, préserver du temps ou de l’autonomie.", chap: 2 },
@@ -1042,7 +1042,7 @@ export const plusLoin = [
     <h3>Ce que montrent les études</h3>
     <p>Des méta-analyses trouvent des liens entre certains traits de personnalité (comme une forte sensibilité émotionnelle) et le burn-out. Mais les facteurs liés au travail pèsent au moins autant. Christina Maslach et Michael Leiter en décrivent six : la charge, le contrôle, la reconnaissance, la qualité du collectif, l’équité et l’accord avec les valeurs du travail. Ce sont des leviers sur lesquels on peut agir, contrairement à la personnalité.</p>
     <h3>Ce que ça change en pratique</h3>
-    <p>La prévention commence par ce qui est modifiable et touche tout le monde : l’organisation du travail. C’est aussi ce que demande la loi (chapitre 8). Soutenir une personne fragilisée reste utile, mais en plus, pas à la place.</p>` },
+    <p>La prévention commence par ce qui est modifiable et touche tout le monde : l’organisation du travail. C’est aussi ce que demande la loi (chapitre 9). Soutenir une personne fragilisée reste utile, mais en plus, pas à la place.</p>` },
   // 6
   { titre: "biomarqueurs, questionnaires et seuils", html: `
     <h3>Le cortisol</h3>
