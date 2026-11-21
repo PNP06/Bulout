@@ -1,7 +1,9 @@
-// Bullshitomètre Bull-Out : 12 questions satiriques du questionnaire d'origine.
-// BS1–BS8 restent dans leur ordre historique pour la compatibilité des réponses sauvegardées.
-// BS9–BS12 ajoutent les quatre questions manquantes, sans modifier les huit autres.
-// Indices = conventions humoristiques internes, ni psychométrie ni preuve causale.
+// Bullshitomètre Bull-Out, version 3 (13 questions).
+// Les chutes satiriques du test d'origine sont gardées ; chaque question porte sur un fait des 4 dernières semaines.
+// Option 5 « Pas concerné·e » : w = null, la question sort du calcul (ni score, ni maximum).
+// BS13 couvre les tâches « déraisonnables » (qui ne devraient pas être les tiennes), l'autre moitié des tâches illégitimes (Semmer et al., 2015).
+// Les poids restent des conventions internes : l'indice alimente une famille de la jauge « Ton travail » (voir absurde.js), sans prétention psychométrique.
+// Les réponses des versions précédentes ne sont pas réutilisées (les questions ont changé de sens) : voir parcours.js.
 window.BULLOUT_BS = {
   "dims": [
     [
@@ -17,386 +19,462 @@ window.BULLOUT_BS = {
       "Contribution fantôme"
     ],
     [
+      "notmine",
+      "Pas ton boulot"
+    ],
+    [
       "absurd",
       "Absurdité globale"
     ]
   ],
   "questions": [
     {
-      "text": "Quand on te demande ce que tu as produit aujourd’hui, ta réponse la plus honnête ressemble à :",
-      "sub": "Ne compte pas les mails transférés comme production industrielle.",
+      "text": "Ce que tu as livré ces dernières semaines, quelqu’un s’en est servi ?",
+      "sub": "Éviter une catastrophe compte. Transférer un mail, non.",
       "options": [
         {
-          "text": "Un vrai livrable identifiable par un être humain sobre.",
+          "text": "Oui, et j’ai vu la personne s’en servir. Spécimen rare, mais documenté.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Un compte-rendu d’une réunion préparant une autre réunion.",
+          "text": "Indirectement : ça a évité un problème, donc personne ne l’a remarqué.",
+          "w": {
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "Il est parti « pour info » vers une liste de diffusion de 40 personnes.",
           "w": {
             "absurd": 3,
-            "meeting": 4,
-            "dashboard": 0,
-            "ghost": 1
-          }
-        },
-        {
-          "text": "Une slide qui reformule une slide précédente avec plus de flèches.",
-          "w": {
-            "absurd": 4,
             "meeting": 1,
-            "dashboard": 2,
-            "ghost": 2
+            "dashboard": 0,
+            "ghost": 3,
+            "notmine": 0
           }
         },
         {
-          "text": "Une sensation diffuse d’avoir déplacé de l’air à haut niveau.",
+          "text": "Il dort dans un dossier nommé vFinale_DEF_v3_OK_relu.",
           "w": {
             "absurd": 5,
-            "meeting": 2,
-            "dashboard": 0,
-            "ghost": 3
+            "meeting": 0,
+            "dashboard": 1,
+            "ghost": 5,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Combien de réunions pourraient être remplacées par un mail de 6 lignes ?",
-      "sub": "Réponse intuitive autorisée. La réalité est probablement pire.",
+      "text": "Tes réunions de ces 4 dernières semaines ont surtout débouché sur :",
+      "sub": "Un compte rendu qui fixe la date de la prochaine réunion n’est pas une décision.",
       "options": [
         {
-          "text": "Moins de 20 %. Mon agenda a encore une fonction biologique.",
+          "text": "Des décisions, avec un nom et une date à côté.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Environ la moitié, mais on perdrait le plaisir du tour de table.",
+          "text": "Des infos utiles, entre deux tours de table légendaires.",
           "w": {
-            "absurd": 2,
-            "meeting": 3,
+            "absurd": 1,
+            "meeting": 2,
             "dashboard": 0,
-            "ghost": 1
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Les trois quarts, surtout celles avec “alignement” dans le titre.",
+          "text": "« On se refait un point », avec un enthousiasme modéré.",
           "w": {
-            "absurd": 4,
-            "meeting": 5,
+            "absurd": 3,
+            "meeting": 4,
             "dashboard": 0,
-            "ghost": 2
+            "ghost": 1,
+            "notmine": 0
           }
         },
         {
-          "text": "Toutes, sauf celle où quelqu’un partage son écran sans trouver l’onglet.",
+          "text": "Une réunion pour préparer la réunion qui décidera s’il faut se réunir.",
           "w": {
             "absurd": 5,
             "meeting": 6,
             "dashboard": 0,
-            "ghost": 2
+            "ghost": 2,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Ton outil de pilotage principal sert surtout à :",
-      "sub": "PowerPoint, Excel, Power BI, Oracle, ou autre totem organisationnel accepté.",
+      "text": "Le dernier tableau de bord que tu as alimenté a changé quoi ?",
+      "sub": "Pas de tableau de bord ? Choisis « pas concerné·e » et savoure ta chance.",
       "options": [
         {
-          "text": "Décider. Les données modifient vraiment les actions.",
+          "text": "Une décision : on a corrigé quelque chose grâce à lui.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Rassurer. Le graphe est beau, donc le réel est sous contrôle.",
+          "text": "Il a aidé à comprendre ; la décision est en route.",
+          "w": {
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 1,
+            "ghost": 0,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "On l’a regardé. Longtemps. On a surtout parlé des couleurs.",
           "w": {
             "absurd": 3,
             "meeting": 1,
             "dashboard": 4,
-            "ghost": 1
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Montrer qu’on pilote, même quand personne ne sait quoi faire.",
-          "w": {
-            "absurd": 4,
-            "meeting": 2,
-            "dashboard": 5,
-            "ghost": 2
-          }
-        },
-        {
-          "text": "Créer de nouveaux indicateurs qui justifient d’autres indicateurs.",
+          "text": "Rien, mais il est passé du vert pomme au vert sapin : grosse semaine.",
           "w": {
             "absurd": 5,
-            "meeting": 1,
+            "meeting": 0,
             "dashboard": 6,
-            "ghost": 2
+            "ghost": 1,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "La phrase “il faut qu’on se cale” signifie généralement :",
-      "sub": "Indice : personne ne sait encore sur quoi.",
+      "text": "Après le dernier « il faut qu’on se cale », il s’est passé quoi ?",
+      "sub": "Indice : regarde s’il y a eu un responsable.",
       "options": [
         {
-          "text": "Fixer une décision claire avec un responsable et une échéance.",
+          "text": "Un besoin clarifié, un responsable, une échéance. Rideau.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Planifier une discussion pour comprendre pourquoi on discute.",
-          "w": {
-            "absurd": 3,
-            "meeting": 4,
-            "dashboard": 0,
-            "ghost": 1
-          }
-        },
-        {
-          "text": "Créer un groupe Teams qui mourra dans 8 jours.",
-          "w": {
-            "absurd": 4,
-            "meeting": 3,
-            "dashboard": 0,
-            "ghost": 3
-          }
-        },
-        {
-          "text": "Éviter de dire qu’on n’a ni mandat, ni données, ni envie.",
-          "w": {
-            "absurd": 5,
-            "meeting": 2,
-            "dashboard": 1,
-            "ghost": 4
-          }
-        }
-      ]
-    },
-    {
-      "text": "Ton niveau d’impact réel sur les décisions importantes est :",
-      "sub": "On parle d’impact causal, pas de présence en copie.",
-      "options": [
-        {
-          "text": "Direct : mes analyses changent des décisions.",
-          "w": {
-            "absurd": 0,
-            "meeting": 0,
-            "dashboard": 0,
-            "ghost": 0
-          }
-        },
-        {
-          "text": "Indirect : je prépare le terrain, parfois utilement.",
+          "text": "Une bonne discussion, puis une décision repoussée d’une semaine.",
           "w": {
             "absurd": 1,
-            "meeting": 1,
-            "dashboard": 1,
-            "ghost": 1
-          }
-        },
-        {
-          "text": "Décoratif : je fournis la texture cognitive autour de décisions déjà prises.",
-          "w": {
-            "absurd": 4,
             "meeting": 2,
-            "dashboard": 2,
-            "ghost": 4
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Archéologique : je documente après coup pourquoi personne n’a décidé.",
+          "text": "Un groupe Teams, mort de solitude au bout de 8 jours.",
+          "w": {
+            "absurd": 3,
+            "meeting": 3,
+            "dashboard": 0,
+            "ghost": 3,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "On s’est recalés trois fois. Le calendrier dirige désormais l’équipe.",
           "w": {
             "absurd": 5,
-            "meeting": 2,
-            "dashboard": 3,
-            "ghost": 5
+            "meeting": 5,
+            "dashboard": 0,
+            "ghost": 2,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Quelle proportion de tes livrables est relue pour le fond ?",
-      "sub": "Les commentaires sur la couleur des flèches ne comptent pas.",
+      "text": "Quand tu cherches ce que ton travail a changé, tu trouves :",
+      "sub": "L’impact indirect compte. Un risque évité aussi, même s’il ne fait pas de bruit.",
       "options": [
         {
-          "text": "La majorité : le contenu est discuté sérieusement.",
+          "text": "Une décision, un risque évité ou quelqu’un d’aidé. Je peux le nommer.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Une partie : surtout les chiffres, parfois le raisonnement.",
+          "text": "Un effet indirect mais réel : je prépare le terrain pour d’autres.",
           "w": {
             "absurd": 1,
             "meeting": 0,
-            "dashboard": 1,
-            "ghost": 1
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 0
           }
         },
         {
-          "text": "Peu : on corrige surtout la forme et les formulations molles.",
+          "text": "Du brouillard : je transmets, puis plus de nouvelles.",
           "w": {
-            "absurd": 4,
-            "meeting": 1,
-            "dashboard": 2,
-            "ghost": 4
+            "absurd": 3,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 4,
+            "notmine": 0
           }
         },
         {
-          "text": "Aucune idée : ils sont envoyés dans une grotte SharePoint.",
+          "text": "Une case dans l’organigramme, très bien tenue.",
           "w": {
             "absurd": 5,
             "meeting": 0,
-            "dashboard": 3,
-            "ghost": 6
+            "dashboard": 1,
+            "ghost": 5,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Le mot “transverse” dans ton environnement veut dire :",
-      "sub": "Mot polymorphe à haute valeur décorative.",
+      "text": "Ce que tu livres (analyses, dossiers, comptes rendus), on en fait quoi ?",
+      "sub": "Pas de commentaire ne veut pas dire pas lu. Les remarques sur la couleur des flèches, en revanche…",
       "options": [
         {
-          "text": "Coordination utile entre métiers interdépendants.",
+          "text": "On s’en sert, même si personne ne dit merci.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Responsabilité diluée entre personnes très occupées.",
+          "text": "Une partie sert, le reste vit sa petite vie documentaire.",
+          "w": {
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 2,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "On me fait surtout reprendre la mise en page.",
           "w": {
             "absurd": 3,
-            "meeting": 2,
-            "dashboard": 1,
-            "ghost": 3
+            "meeting": 0,
+            "dashboard": 2,
+            "ghost": 3,
+            "notmine": 0
           }
         },
         {
-          "text": "Personne ne tranche, donc tout le monde est consulté.",
+          "text": "Ça part dans une grotte SharePoint, pour une vie monastique sans lecteur.",
+          "w": {
+            "absurd": 5,
+            "meeting": 0,
+            "dashboard": 1,
+            "ghost": 6,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
+        }
+      ]
+    },
+    {
+      "text": "Dans tes projets à plusieurs équipes, qui tranche à la fin ?",
+      "sub": "Coordonner, c’est utile. Consulter tout le monde pour ne fâcher personne, c’est autre chose.",
+      "options": [
+        {
+          "text": "C’est clair : chacun contribue, quelqu’un arbitre.",
+          "w": {
+            "absurd": 0,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "C’est clair… après deux réunions de clarification.",
+          "w": {
+            "absurd": 1,
+            "meeting": 2,
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "Tout le monde valide, personne ne décide.",
+          "w": {
+            "absurd": 4,
+            "meeting": 4,
+            "dashboard": 0,
+            "ghost": 3,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "La décision est une créature mythologique : tout le monde en parle, personne ne l’a vue.",
           "w": {
             "absurd": 5,
             "meeting": 4,
-            "dashboard": 1,
-            "ghost": 4
+            "dashboard": 0,
+            "ghost": 4,
+            "notmine": 0
           }
         },
         {
-          "text": "Un tunnel administratif avec des livrables sur les côtés.",
-          "w": {
-            "absurd": 5,
-            "meeting": 3,
-            "dashboard": 3,
-            "ghost": 5
-          }
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "À la fin d’une semaine, tu as surtout l’impression :",
-      "sub": "Lecture satirique non remboursée par la médecine du travail.",
+      "text": "À la fin d’une semaine chargée, peux-tu citer une chose utile que tu as faite ?",
+      "sub": "La question n’est pas « es-tu épuisé·e ». C’est « à quoi ça a servi ».",
       "options": [
         {
-          "text": "D’avoir avancé sur des sujets concrets.",
+          "text": "Oui : j’ai fait avancer ou sécurisé un vrai sujet.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "D’avoir évité quelques dégâts invisibles.",
+          "text": "Oui, mais il faut la chercher sous la pile administrative.",
           "w": {
-            "absurd": 2,
-            "meeting": 1,
-            "dashboard": 1,
-            "ghost": 2
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 0
           }
         },
         {
-          "text": "D’avoir été très occupé sans pouvoir prouver pourquoi.",
+          "text": "J’ai beaucoup fait tourner la machine. Sur quoi, c’est flou.",
           "w": {
             "absurd": 4,
-            "meeting": 3,
-            "dashboard": 2,
-            "ghost": 4
+            "meeting": 2,
+            "dashboard": 0,
+            "ghost": 4,
+            "notmine": 0
           }
         },
         {
-          "text": "D’avoir participé à une simulation sociale appelée “organisation”.",
+          "text": "J’ai participé à une simulation sociale appelée « organisation ».",
           "w": {
             "absurd": 6,
             "meeting": 3,
-            "dashboard": 3,
-            "ghost": 5
+            "dashboard": 2,
+            "ghost": 5,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Quand un directeur demande une slide pour demain, tu penses :",
-      "sub": "Le test mesure ici le réflexe pavlovien du cadre moderne.",
+      "text": "La dernière demande « pour demain », c’était pour quoi faire ?",
+      "sub": "Une vraie urgence, ça existe. Une urgence sans raison, aussi. Le dieu Template, lui, a toujours soif.",
       "options": [
         {
-          "text": "Très bien, le besoin est clair, je fais une réponse ciblée.",
+          "text": "Un vrai besoin, une vraie échéance. J’ai compris pourquoi.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Je vais faire 4 versions, car le flou est une forme de gouvernance.",
+          "text": "Je ne savais pas, j’ai demandé, on m’a répondu.",
           "w": {
-            "absurd": 4,
-            "meeting": 2,
-            "dashboard": 1,
-            "ghost": 2
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 0
           }
         },
         {
-          "text": "Je vais surtout chercher à deviner l’angoisse du demandeur.",
+          "text": "Le délai est arrivé bien avant le pourquoi.",
           "w": {
-            "absurd": 4,
-            "meeting": 1,
+            "absurd": 3,
+            "meeting": 0,
             "dashboard": 1,
-            "ghost": 4
+            "ghost": 3,
+            "notmine": 0
           }
         },
         {
-          "text": "Je vais transformer ma soirée en sacrifice rituel au dieu Template.",
+          "text": "Elle a été ouverte trois semaines plus tard. Ou jamais. Le mystère reste entier.",
           "w": {
             "absurd": 5,
-            "meeting": 1,
+            "meeting": 0,
             "dashboard": 2,
-            "ghost": 4
+            "ghost": 4,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
@@ -410,119 +488,193 @@ window.BULLOUT_BS = {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Il faudrait un truc simple, mais complet, pour tout expliquer en 2 minutes.",
+          "text": "« Un truc simple, mais complet », et on finit par clarifier.",
           "w": {
-            "absurd": 3,
-            "meeting": 1,
+            "absurd": 2,
+            "meeting": 0,
             "dashboard": 1,
-            "ghost": 2
+            "ghost": 1,
+            "notmine": 0
           }
         },
         {
-          "text": "On veut une vision synthétique exhaustive, mais pas trop chargée.",
+          "text": "« Synthétique mais exhaustif, et pas trop chargé », sans plus de précision.",
           "w": {
             "absurd": 4,
-            "meeting": 2,
+            "meeting": 0,
             "dashboard": 2,
-            "ghost": 3
+            "ghost": 3,
+            "notmine": 0
           }
         },
         {
-          "text": "Tu peux faire une analyse robuste à partir d’informations absentes ?",
+          "text": "« Une analyse robuste à partir d’informations absentes. Pour hier. »",
           "w": {
             "absurd": 5,
-            "meeting": 1,
+            "meeting": 0,
             "dashboard": 3,
-            "ghost": 4
+            "ghost": 4,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Ton agenda contient principalement :",
+      "text": "Ces dernières semaines, ton agenda t’a laissé du temps pour faire le travail ?",
       "sub": "Le calendrier est parfois le scanner cérébral de l’organisation.",
       "options": [
         {
-          "text": "Des plages de production et quelques points utiles.",
+          "text": "Oui : des plages pour avancer, quelques points utiles.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Des réunions de synchronisation qui désynchronisent ma journée.",
+          "text": "À peu près, en regroupant les réunions comme je peux.",
+          "w": {
+            "absurd": 1,
+            "meeting": 2,
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "Le vrai travail commence quand le calendrier s’endort.",
           "w": {
             "absurd": 3,
             "meeting": 5,
             "dashboard": 0,
-            "ghost": 1
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Des comités où chacun expose son absence de marge de manœuvre.",
-          "w": {
-            "absurd": 4,
-            "meeting": 5,
-            "dashboard": 2,
-            "ghost": 2
-          }
-        },
-        {
-          "text": "Des invitations dont je découvre l’objet après avoir accepté.",
+          "text": "Pour finir le travail, il faudrait sécher le point « suivi du travail ».",
           "w": {
             "absurd": 5,
             "meeting": 6,
             "dashboard": 1,
-            "ghost": 3
+            "ghost": 0,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     },
     {
-      "text": "Ton rapport aux KPI est le suivant :",
+      "text": "Quand un indicateur ne sert plus à rien, que devient-il ?",
       "sub": "Un KPI peut éclairer le réel. Il peut aussi le maquiller avec autorité.",
       "options": [
         {
-          "text": "Ils servent à arbitrer et à corriger la trajectoire.",
+          "text": "On le supprime. Paix à son âme.",
           "w": {
             "absurd": 0,
             "meeting": 0,
             "dashboard": 0,
-            "ghost": 0
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Ils servent parfois, mais on les commente plus qu’on ne les utilise.",
+          "text": "Il traîne un moment, puis quelqu’un finit par le retirer.",
           "w": {
-            "absurd": 2,
-            "meeting": 1,
-            "dashboard": 3,
-            "ghost": 1
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 2,
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Ils servent à prouver qu’on a regardé quelque chose.",
+          "text": "On continue de le remplir, au cas où quelqu’un le regarderait.",
           "w": {
             "absurd": 4,
-            "meeting": 1,
+            "meeting": 0,
             "dashboard": 5,
-            "ghost": 2
+            "ghost": 0,
+            "notmine": 0
           }
         },
         {
-          "text": "Ils se reproduisent entre eux quand on ferme le fichier.",
+          "text": "Il se reproduit : il a désormais deux petits KPI qui lui ressemblent.",
           "w": {
             "absurd": 5,
             "meeting": 0,
             "dashboard": 6,
-            "ghost": 2
+            "ghost": 0,
+            "notmine": 0
           }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
+        }
+      ]
+    },
+    {
+      "text": "Ces dernières semaines, on t’a confié des tâches qui ne devraient pas être les tiennes ?",
+      "sub": "Aider un collègue, c’est normal. Devenir le service informatique officieux, moins.",
+      "options": [
+        {
+          "text": "Non, je fais mon métier.",
+          "w": {
+            "absurd": 0,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 0
+          }
+        },
+        {
+          "text": "Parfois, pour dépanner, et c’est réciproque.",
+          "w": {
+            "absurd": 1,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 0,
+            "notmine": 2
+          }
+        },
+        {
+          "text": "Souvent : je fais aussi le travail d’un poste jamais remplacé.",
+          "w": {
+            "absurd": 3,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 5
+          }
+        },
+        {
+          "text": "Je suis désormais aussi standardiste, archiviste et responsable de la machine à café.",
+          "w": {
+            "absurd": 5,
+            "meeting": 0,
+            "dashboard": 0,
+            "ghost": 1,
+            "notmine": 6
+          }
+        },
+        {
+          "text": "Pas concerné·e : ça n’existe pas dans mon travail.",
+          "w": null
         }
       ]
     }
@@ -553,20 +705,7 @@ window.BULLOUT_BS = {
       "phrase": "Je peux produire ça, mais sans clarification de l’usage, on risque surtout de fabriquer un artefact de confort."
     }
   ],
-  "version": "2026-11-bs-v2",
-  "questionSourceOrder": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    7,
-    10,
-    12,
-    6,
-    8,
-    9,
-    11
-  ],
-  "origin": "Grand Test du Bullshit Job, 12 questions; BS1–BS8 inchangées, BS9–BS12 ajoutées"
+  "version": "2026-11-bs-v3",
+  "consigne": "Pense à tes 4 dernières semaines. Choisis ce qui arrive le plus souvent, pas la vanne la plus drôle (on sait, c’est dur).",
+  "origin": "Grand Test du Bullshit Job de Bull-Out, réécrit en V3 (13 questions) : mêmes chutes, questions ancrées sur 4 semaines, prévention et coordination non pénalisées, BS13 sur les tâches déraisonnables (Semmer, tâches illégitimes)."
 };

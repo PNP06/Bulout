@@ -1,6 +1,6 @@
 # Bull-Out · prévention burn-out sans bullshit
 
-Site éducatif de prévention du burn-out : une formation en dix chapitres, un questionnaire de 83 questions et un rapport personnel. Tout se calcule dans le navigateur : rien n'est envoyé.
+Site éducatif de prévention du burn-out : une formation en dix chapitres, un questionnaire de 86 questions et un rapport personnel. Tout se calcule dans le navigateur : rien n'est envoyé.
 En ligne : [bullout.ddlab.fr](https://bullout.ddlab.fr) (l'ancienne adresse bull-out.netlify.app reste active).
 
 Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Ce n'est pas un outil de diagnostic, et le questionnaire n'est pas validé scientifiquement : voir [Méthode et limites](methode.html).

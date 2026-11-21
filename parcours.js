@@ -1,5 +1,6 @@
 import { illustrations, schemaRapport } from "./formation-illustrations.js";
 import { chapitres, examen, introduction, synthese, temps } from "./formation-contenu.js";
+import { interludeAbsurde } from "./formation-absurde.js";
 import { dateLocale, dessiner, exporterPNG, lireDiplome } from "./diplome.js";
 
 const $ = (s, root = document) => root.querySelector(s);
@@ -9,7 +10,7 @@ const questionnaire = $("#questionnaire");
 const rapport = $("#results");
 const form = $("#burnout-form");
 const vues = [formation, porte, questionnaire, rapport];
-const format = "bull-out-progression-10";
+const format = "bull-out-progression-11";
 const reponsesReformulees = new Set(["A2","B1","B2","C2","C6","D2","D5","E6","F2","F4","F5","F6","G6","R3","R6"]);
 let acquis = new Set();
 let bonnes = 0;
@@ -56,7 +57,7 @@ function rail(actif) {
   let html = `<li class="${actif === "#formation" ? "ici" : ""}"><a href="#formation" ${actif === "#formation" ? 'aria-current="step"' : ""}><span class="fo-num">·</span><span>Introduction</span></a></li>`;
   temps.forEach((tp, k) => {
     html += `<li class="fo-rail-temps" aria-hidden="true">${tp.split("·")[1].trim()}</li>`;
-    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les quatre modèles, ensemble", false); } });
+    chapitres.forEach((c, i) => { if (c.temps === k) { html += item(ancre(i), String(i + 1).padStart(2, "0"), c.court, acquis.has(i)); if (i === 3) html += item("#modeles-resume", "↔", "Les quatre modèles, ensemble", false) + item("#absurde", "♪", "Interlude · " + interludeAbsurde.court, false); } });
   });
   html += item("#synthese", "★", "Synthèse", false) + item("#quiz-final", "?", "Test final", bonnes === examen.length) + item("#diplome", "◇", "Ton diplôme", Boolean(dateDiplome));
   return `<aside class="fo-rail" aria-label="Sommaire de la formation"><p class="fo-rail-titre">La formation</p><ol>${html}</ol>
@@ -80,7 +81,8 @@ function bloc(b, titres) {
   switch (b.t) {
     case "h": { const id = "s-" + slug(b.texte); titres.push([id, b.texte]); return `<h2 id="${id}" class="fo-h">${b.texte}</h2>`; }
     case "p": return `<p>${b.html}</p>`;
-    case "fig": return `<figure class="fo-fig">${illustrations[b.ill]}<figcaption>${b.cap}</figcaption></figure>`;
+    case "fig": return `<figure class="fo-fig">${b.svg || illustrations[b.ill]}<figcaption>${b.cap}</figcaption></figure>`;
+    case "rappel": return `<aside class="fo-exemple fo-rappel"><p class="fo-label">${b.chap <= 3 ? "Tu te souviens ?" : "Tu le verras plus loin"} · <a href="${ancre(b.chap)}">chapitre ${b.chap + 1} · ${chapitres[b.chap].court}</a></p><p>${b.html}</p></aside>`;
     case "exemple": return `<aside class="fo-exemple"><p class="fo-label">Exemple · ${b.titre}</p><p>${b.html}</p>${b.note ? `<p class="fo-exemple-note">${b.note}</p>` : ""}</aside>`;
     case "cartes": return `<div class="fo-cartes" style="--n:${b.items.length}">${b.items.map(([k, v]) => `<div class="fo-carte"><h3>${k}</h3><p>${v}</p></div>`).join("")}</div>`;
     case "mythes": { const id = "s-" + slug(b.titre); titres.push([id, b.titre]); return `<h2 id="${id}" class="fo-h">${b.titre}</h2><div class="fo-mythes">${b.items.map(([q, r]) => `<details class="fo-mythe"><summary>${q}</summary><p>${r}</p></details>`).join("")}</div>`; }
@@ -125,15 +127,13 @@ function intro() {
 }
 
 // ───────── Chapitre
-function exerciceHTML(i) {
-  const e = chapitres[i].exo;
-  const fait = acquis.has(i);
+function exerciceHTML(i, e = chapitres[i].exo, fait = acquis.has(i)) {
   return `<section class="fo-exo" aria-labelledby="exo-titre"><h2 id="exo-titre" class="fo-h">À toi de jouer</h2>
     <p class="fo-exo-t"><b>${e.titre}${/[?!]$/.test(e.titre) ? "" : "."}</b> ${e.intro}</p>
     <ol class="fo-sits">${e.situations.map((s, k) => `<li class="fo-sit" data-sit="${k}"><p class="fo-sit-q"><span class="fo-label">Situation ${k + 1} sur ${e.situations.length}</span>${s.q}</p>
       <div class="fo-choix" role="group" aria-label="Réponses de la situation ${k + 1}">${s.choix.map((c, j) => `<button type="button" data-sit="${k}" data-choix="${j}" aria-pressed="${fait && j === s.bonne}" class="${fait && j === s.bonne ? "juste" : ""}"><b>${lettre(j)}</b><span>${c}</span></button>`).join("")}</div>
       <p class="fo-fb ${fait ? "ok" : ""}" aria-live="polite" ${fait ? "" : "hidden"}>${fait ? s.fb[s.bonne] : ""}</p></li>`).join("")}</ol>
-    <p class="fo-exo-note" role="status">${fait ? "Exercice réussi : le chapitre est validé." : "Choisis une réponse : l’explication s’affiche tout de suite. Le chapitre est validé quand les trois situations sont résolues. Rien n’est noté ni envoyé."}</p></section>`;
+    <p class="fo-exo-note" role="status">${fait ? "Exercice réussi : le chapitre est validé." : i < 0 ? "Choisis une réponse : l’explication s’affiche tout de suite. Cet interlude ne conditionne pas le diplôme. Rien n’est noté ni envoyé." : "Choisis une réponse : l’explication s’affiche tout de suite. Le chapitre est validé quand les trois situations sont résolues. Rien n’est noté ni envoyé."}</p></section>`;
 }
 
 function chapitre(i) {
@@ -141,7 +141,7 @@ function chapitre(i) {
   const titres = [];
   const corps = c.blocs.map(b => bloc(b, titres)).join("");
   titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
-  const avant = i === 4 ? `<a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>La synthèse des quatre modèles</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
+  const avant = i === 4 ? `<a class="fo-pager-prev" href="#absurde"><small>← Retour à</small><b>Interlude · ${interludeAbsurde.court}</b></a>` : i > 0 ? `<a class="fo-pager-prev" href="${ancre(i - 1)}"><small>← Retour à</small><b>${i} · ${chapitres[i - 1].court}</b></a>` : `<a class="fo-pager-prev" href="#formation"><small>← Retour à</small><b>Introduction</b></a>`;
   const apres = i === 3 ? `<a class="fo-pager-next" href="#modeles-resume"><small>Étape suivante →</small><b>Les quatre modèles, ensemble</b></a>` : i + 1 < chapitres.length ? `<a class="fo-pager-next" href="${ancre(i + 1)}"><small>Chapitre suivant →</small><b>${i + 2} · ${chapitres[i + 1].court}</b></a>` : `<a class="fo-pager-next" href="#synthese"><small>Pour finir →</small><b>La synthèse</b></a>`;
   const contenu = `
     <p class="fo-temps-k">${temps[c.temps]}</p>
@@ -180,8 +180,32 @@ function resumeModelesPage() {
     <h2 id="resume-limites" class="fo-h">Quatre angles ne font pas quatre preuves</h2>
     <p>${synthese.casCommun.conclusion} <b>Le niveau de preuve ne se multiplie pas avec le nombre de théories</b> : certaines interprètent les mêmes réponses, et le cas de Sam ne suffit pas à identifier une cause.</p>
     <p>La synthèse de fin de formation reviendra sur ces modèles et présentera trois éclairages supplémentaires : <b>Hobfoll</b>, <b>Gollac / INRS</b> et <b>Clot</b> (la qualité empêchée).</p>
-    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="#chapitre-5"><small>Continuer →</small><b>5 · Le piège du « c’est perso »</b></a></nav>`;
+    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#chapitre-4"><small>← Revenir à</small><b>4 · Effort et retour</b></a><a class="fo-pager-next" href="#absurde"><small>Continuer →</small><b>Interlude · ${interludeAbsurde.court}</b></a></nav>`;
   return cadre("#modeles-resume", contenu, titres);
+}
+
+// Interlude sur l'absurde : même gabarit qu'un chapitre, hors du tableau `chapitres` (aucun index ne bouge).
+function absurdePage() {
+  const c = interludeAbsurde;
+  const titres = [];
+  const corps = c.blocs.map(b => bloc(b, titres)).join("");
+  titres.push(["exo-titre", "À toi de jouer"], ["s-plusloin", "Pour aller plus loin"]);
+  const pipeau = window.BullOutAbsurde ? `<svg viewBox="0 0 48 48" class="fo-chap-picto" aria-hidden="true">${window.BullOutAbsurde.pictoPipeau(2, 2, 44)}</svg>` : "♪";
+  const contenu = `
+    <p class="fo-temps-k">${temps[1]}</p>
+    <header class="fo-chap-tete"><span class="fo-chap-n">${pipeau}</span><div><p class="fo-chap-meta">Interlude, après le chapitre 4 · environ ${c.duree} minutes</p><h1 tabindex="-1">${c.titre}</h1></div></header>
+    <section class="fo-savoir"><p class="fo-label">Ce que tu sauras faire</p><ul>${c.savoir.map(s => `<li>${s}</li>`).join("")}</ul></section>
+    <aside class="fo-arrive"><p class="fo-label">Tu arrives peut-être avec</p><p>${c.arrive}</p></aside>
+    <aside class="fo-retenir"><p class="fo-label">À retenir</p><p>${c.retenir}</p></aside>
+    ${corps}
+    ${exerciceHTML(-1, c.exo, false)}
+    <details id="s-plusloin" class="fo-details fo-plusloin"><summary>Pour aller plus loin : ${c.plusLoin.titre}</summary>${c.plusLoin.html}</details>
+    <details class="fo-sources"><summary>Sources de cet interlude</summary><ul>${c.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t} ↗</a></li>`).join("")}</ul></details>
+    <aside class="fo-nechange"><p class="fo-label">Ce que ça ne change pas</p><p>${c.nechange}</p></aside>
+    <aside class="fo-piece fo-piece-absurde" aria-label="Le schéma de ton rapport"><figure class="fo-piece-fig">${schemaRapport(3)}<figcaption>Exemple fictif : Sam. L’absurde et ton recul face à lui sont posés à gauche avec la seconde pesée. <b>L’absurde compte dans la jauge « Ton travail »</b> ; ton recul colore la lecture, sans ajouter de point.</figcaption></figure><div><p class="fo-label">Le schéma de ton rapport · interlude</p><p class="fo-piece-ou"><b>${c.piece.nom}</b> · ${c.piece.texte} Dans ton rapport : ${c.piece.rapport}</p></div></aside>
+    <p class="fo-suite">${c.suite}</p>
+    <nav class="fo-pager" aria-label="Chapitres"><a class="fo-pager-prev" href="#modeles-resume"><small>← Retour à</small><b>Les quatre modèles, ensemble</b></a><a class="fo-pager-next" href="${ancre(4)}"><small>Chapitre suivant →</small><b>5 · ${chapitres[4].court}</b></a></nav>`;
+  return cadre("#absurde", contenu, titres);
 }
 // ───────── Test final et diplôme
 function quiz() {
@@ -269,7 +293,7 @@ function afficher(focus = true) {
   const hash = location.hash || "#questionnaire";
   const numero = /^#chapitre-([1-9])$/.exec(hash);
   const valide = numero && Number(numero[1]) <= chapitres.length;
-  const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#synthese", "#quiz-final", "#diplome"].includes(hash);
+  const enFormation = Boolean(valide) || ["#formation", "#modeles-resume", "#absurde", "#synthese", "#quiz-final", "#diplome"].includes(hash);
   const demandeRapport = hash === "#results" || hash === "#rapport" || hash.startsWith("#rapport-");
   if (numero && !valide) { location.replace("#chapitre-" + chapitres.length); return; }
   const vue = enFormation ? formation : !ouvert ? porte : demandeRapport && rapport.dataset.ready ? rapport : questionnaire;
@@ -285,7 +309,7 @@ function afficher(focus = true) {
   });
   if (enFormation) {
     if (page !== ancien) justes = new Set();
-    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#modeles-resume" ? resumeModelesPage() : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
+    const html = valide ? chapitre(Number(numero[1]) - 1) : hash === "#modeles-resume" ? resumeModelesPage() : hash === "#absurde" ? absurdePage() : hash === "#synthese" ? synthesePage() : hash === "#quiz-final" ? quiz() : hash === "#diplome" ? diplome() : intro();
     formation.innerHTML = html;
     if ($("#prenom")) {
       $("#prenom").value = prenom;
@@ -340,7 +364,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v3", versionReactionHumour: "2026-11-hr-v2", versionReactionAbsurde: "2026-11-ra-v1", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -368,6 +392,25 @@ function migrerBullshitometreV7(reponses) {
 
 // HR3 a changé de question. Une valeur V9 ne peut pas devenir une réponse V10.
 // Une ancienne abstention explicite (valeur 5) peut être conservée.
+// V10 → V11 : le bullshitomètre passe en V3 (13 questions réécrites, option « pas concerné·e »).
+// Une réponse à l'ancienne formulation n'a plus le même sens : on la retire, sans en inventer.
+// Un saut complet volontaire (anciennes versions) est prolongé aux 13 questions, à HR et à RA.
+function migrerBullshitometreV10(reponses) {
+  const anciennes = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
+  const resultat = {};
+  let retirees = 0;
+  for (const [nom, valeur] of Object.entries(anciennes)) {
+    if (/^BS\d+$/.test(nom)) retirees += 1; else resultat[nom] = valeur;
+  }
+  const sautees = Array.from({ length: 12 }, (_, i) => anciennes[`BS${i + 1}`] === "skip").every(Boolean);
+  if (sautees) {
+    for (let i = 1; i <= 13; i += 1) resultat[`BS${i}`] = "skip";
+    for (let i = 1; i <= 2; i += 1) resultat[`RA${i}`] = "4";
+    return { reponses: resultat, reponsesARelire: 0 };
+  }
+  return { reponses: resultat, reponsesARelire: retirees };
+}
+
 function migrerReactionHumourV9(reponses) {
   const ancien = reponses && typeof reponses === "object" && !Array.isArray(reponses) ? reponses : {};
   const nouveau = { ...ancien };
@@ -426,6 +469,12 @@ function restaurer(p) {
     const sautBS = Array.from({ length: 12 }, (_, i) => reponses[`BS${i + 1}`] === "skip").every(Boolean);
     if (sautBS) for (let i = 1; i <= 4; i++) reponses[`HR${i}`] = "5";
     p = { ...p, reponses, versionReactionHumour: "2026-11-hr-v2" };
+  }
+  // V11 : bullshitomètre V3. Concerne toute sauvegarde antérieure (déjà ramenée au format courant ci-dessus, ou en V10).
+  if (formatOriginal !== format && (p?.format === format || p?.format === "bull-out-progression-10")) {
+    const migrationBS = migrerBullshitometreV10(p.reponses);
+    reponsesARelire += migrationBS.reponsesARelire;
+    p = { ...p, format, versionBullshitometre: "2026-11-bs-v3", versionReactionAbsurde: "2026-11-ra-v1", reponses: migrationBS.reponses };
   }
   // Ajout du chapitre 7 (six familles de risques) : préserver les acquis 1–6 et décaler les anciens 7–9.
   // Les diplômes déjà délivrés restent reconnus, sans inventer de réponses RPS.
@@ -493,9 +542,11 @@ async function importer(input) {
 
 // Exercice d’un chapitre : chaque situation affiche son explication tout de suite.
 function repondreSituation(btn) {
-  const i = Number(page.split("-")[1]) - 1;
+  const interlude = page === "#absurde";
+  const i = interlude ? -1 : Number(page.split("-")[1]) - 1;
+  const exo = interlude ? interludeAbsurde.exo : chapitres[i].exo;
   const k = Number(btn.dataset.sit), j = Number(btn.dataset.choix);
-  const s = chapitres[i].exo.situations[k];
+  const s = exo.situations[k];
   const li = btn.closest(".fo-sit");
   const ok = j === s.bonne;
   li.querySelectorAll("button").forEach(b => { b.classList.remove("juste", "a-revoir"); b.setAttribute("aria-pressed", "false"); });
@@ -506,7 +557,11 @@ function repondreSituation(btn) {
   fb.className = "fo-fb " + (ok ? "ok" : "ko");
   fb.textContent = (ok ? "Oui. " : "Pas tout à fait. ") + s.fb[j].replace(/^Oui\. /, "") + (ok ? "" : " Essaie une autre réponse.");
   if (ok) justes.add(k);
-  if (justes.size === chapitres[i].exo.situations.length && !acquis.has(i)) {
+  if (interlude) {
+    if (justes.size === exo.situations.length) $(".fo-exo-note", formation).textContent = "Exercice réussi. Tu as tous les outils pour démasquer le pipeau.";
+    return;
+  }
+  if (justes.size === exo.situations.length && !acquis.has(i)) {
     acquis.add(i);
     $(".fo-exo-note", formation).textContent = "Exercice réussi : le chapitre est validé.";
     $(".fo-rail", formation).outerHTML = rail(page);

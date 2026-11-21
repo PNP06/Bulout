@@ -828,3 +828,7 @@ svg.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
 /* Schéma Bull-Out (schema.js) : deux mises en page, la large sur ordinateur, l'étroite sur téléphone. */
 .fo-schema.etroit { display: none; }
 @media (max-width: 640px) { .fo-schema.large { display: none; } .fo-schema.etroit { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; } }
+
+/* Bullshitomètre V3 et RA : la dernière option (« pas concerné·e », « je préfère ne pas répondre ») est en retrait. */
+.choices-retrait .choice:last-child .opt { border-style: dashed; background: transparent; }
+.choices-retrait .choice:last-child .opt-t { color: var(--muted); font-style: italic; }

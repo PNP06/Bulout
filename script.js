@@ -182,13 +182,15 @@
     ]
   };
   // Partie BS : le bullshitomètre (données dans bullshitometre-data.js). Satirique, hors score.
+  // Partie BS : le bullshitomètre (données dans bullshitometre-data.js). Satirique dans la forme,
+  // sérieux dans le fond : son niveau devient une famille de la jauge « Ton travail » (voir absurde.js).
   const BS = window.BULLOUT_BS || { questions: [], dims: [], profils: [] };
   const bullshitPart = {
     id: "BS",
     title: "Le bullshitomètre",
-    explore: "la part d'absurde dans ton travail : réunions, tableaux de bord, livrables que personne ne lit. Pour rire, et pour voir si l'absurde t'amuse ou t'use.",
-    sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
-    chapitres: [2, 4],
+    explore: "la part d'absurde dans ton travail : réunions sans décision, tableaux de bord sans usage, livrables que personne ne lit, tâches qui ne devraient pas être les tiennes. On en rit, et on le compte : c'est une exigence qui use.",
+    sources: "« Grand Test du Bullshit Job » de Bull-Out, d'après Graeber (Bullshit Jobs, 2018) ; tâches illégitimes (Semmer et al., 2015) ; le sentiment d'inutilité au travail est lié au mal-être (Soffia, Wood et Burchell, 2022)",
+    chapitres: [3, 4],
     questions: BS.questions
   };
 
@@ -210,6 +212,37 @@
       { text: "Certaines questions m'ont fait de la peine ou mis·e mal à l'aise.", options: humorReactionOptions },
       { text: "J’ai eu l’impression que ces blagues minimisaient les difficultés que je rencontre.", options: humorReactionOptions },
       { text: "Sur le moment, ces questions m'ont aidé·e à prendre un peu de recul sur mon travail.", options: humorReactionOptions }
+    ]
+  };
+
+  // RA1–RA2 : ta façon de prendre l'absurde dans la vraie vie (et plus seulement face à nos blagues).
+  // Aucun point : la rumination est déjà mesurée par la récupération (F), le désengagement par la distance (B).
+  // La lecture croisée (portrait en une phrase) est faite par absurde.js.
+  const absurdeReactionPart = {
+    id: "RA",
+    title: "Et dans la vraie vie, l'absurde, tu en fais quoi ?",
+    explore: "ta façon habituelle de réagir à une absurdité au travail : en rire et passer à autre chose, s'agacer puis lâcher, ruminer, ou ne plus réagir. Et si l'on peut en rire à plusieurs.",
+    sources: "questions originales Bull-Out ; recul, rumination et détachement psychologique (Sonnentag et Fritz, 2007) ; humour partagé et soutien entre collègues. Aucune validation psychométrique",
+    chapitres: [2, 3],
+    questions: [
+      { text: "Quand une absurdité te tombe dessus au travail, le plus souvent :",
+        sub: "Pas celle d'aujourd'hui. Celle de d'habitude.",
+        options: [
+          { text: "J'en ris avec quelqu'un, et je passe à autre chose." },
+          { text: "Ça m'agace sur le moment, puis ça redescend." },
+          { text: "J'y repense le soir. Parfois à 3 h du matin, en version longue." },
+          { text: "Je ne réagis plus. J'ai arrêté d'attendre que ça ait du sens." },
+          { text: "Je préfère ne pas répondre" }
+        ] },
+      { text: "Autour de toi, peut-on en rire ensemble ?",
+        sub: "Le rire de couloir compte. Le rire jaune en réunion, moins.",
+        options: [
+          { text: "Oui, et ça soude l'équipe." },
+          { text: "Avec un ou deux collègues, discrètement." },
+          { text: "Pas vraiment : ici, on ne plaisante pas avec le COPIL." },
+          { text: "Je ris seul·e, ce qui inquiète un peu la machine à café." },
+          { text: "Je préfère ne pas répondre" }
+        ] }
     ]
   };
 
@@ -577,8 +610,8 @@
       "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie n'entre pas dans les six scores A à F.",
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
       about(exchangePart.explore, exchangePart.sources, exchangePart.chapitres));
-    if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, "Pause humour : la réponse la plus proche de ton quotidien.",
-      "Cette partie est satirique. Son pourcentage ne mesure ni la santé ni l'effet protecteur de l'humour.",
+    if (bullshitPart.questions.length) addPart("BS", bullshitPart.title, BS.consigne || "Pause humour : la réponse la plus proche de ton quotidien.",
+      "Le ton est satirique, la question est sérieuse : l'absurde est une exigence qui use, et il compte dans la jauge de ton travail. Si une situation n'existe pas chez toi, choisis « pas concerné·e ».",
       bullshitPart.questions.map((question, qIndex) => createChoiceQuestion(bullshitPart, question, qIndex)), index++,
       about(bullshitPart.explore, bullshitPart.sources, bullshitPart.chapitres));
     if (bullshitPart.questions.length) addPart("HR", humorReactionPart.title,
@@ -586,6 +619,11 @@
       "Tu peux avoir ri et avoir eu de la peine : ces réactions ne sont pas exclusives. Elles n’entrent dans aucun score, et chaque question admet « Je préfère ne pas répondre ».",
       humorReactionPart.questions.map((question, qIndex) => createChoiceQuestion(humorReactionPart, question, qIndex)),
       index++, about(humorReactionPart.explore, humorReactionPart.sources, humorReactionPart.chapitres));
+    if (bullshitPart.questions.length) addPart("RA", absurdeReactionPart.title,
+      "Ta façon habituelle de faire, pas celle d'aujourd'hui.",
+      "Deux questions sans points : elles servent à lire ton rapport à l'absurde, à côté de ta récupération et de ta distance au travail.",
+      absurdeReactionPart.questions.map((question, qIndex) => createChoiceQuestion(absurdeReactionPart, question, qIndex)),
+      index++, about(absurdeReactionPart.explore, absurdeReactionPart.sources, absurdeReactionPart.chapitres));
     scored("F");
     addPart("G", strengthPart.title, "Sur les 4 dernières semaines. Ne compte pas dans les scores de risque.",
       "Ici, une réponse haute est une bonne nouvelle : ce sont tes points d'appui. Ils forment une page à part dans ton rapport.",
@@ -604,7 +642,7 @@
       alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + rpsPart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + rpsPart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + absurdeReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -637,7 +675,7 @@
     const item = questionShell(name, question.text);
     if (question.sub) item.querySelector(".q-head").insertAdjacentHTML("beforeend", `<p class="q-sub">${question.sub}</p>`);
     const choices = question.options.map((option, value) => `<label class="choice"><input type="radio" name="${name}" value="${value}" required><span class="opt"><kbd class="opt-k" aria-hidden="true">${section.id === "T" && index === 3 ? value : value + 1}</kbd><span class="opt-t">${option.text}</span></span></label>`).join("");
-    const choicesClass = section.id === "HR" ? "choices choices-humor" : "choices choices-4";
+    const choicesClass = section.id === "HR" ? "choices choices-humor" : section.id === "BS" || section.id === "RA" ? "choices choices-4 choices-retrait" : "choices choices-4";
     item.insertAdjacentHTML("beforeend", `<fieldset class="${choicesClass}" role="radiogroup" aria-labelledby="${name}-label">${choices}</fieldset>${section.id === "BS" ? `<input type="radio" name="${name}" value="skip" hidden aria-hidden="true" tabindex="-1">` : ""}`);
     return item;
   }
@@ -1118,6 +1156,23 @@
     return { skipped: answers.every((answer) => answer.value === null), answers };
   }
 
+  // RA1–RA2 : choix unique ; la dernière option (index 4) signifie « ne pas répondre ».
+  function getAbsurdeReactionAnswers() {
+    if (!bullshitPart.questions.length) return { skipped: true, answers: [] };
+    const answers = absurdeReactionPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="RA${index + 1}"]:checked`);
+      const choice = selected && selected.value !== "skip" ? Number(selected.value) : null;
+      return {
+        id: `RA${index + 1}`, question: question.text,
+        answered: choice !== null,
+        value: choice !== null && choice >= 0 && choice <= 3 ? choice : null,
+        answer: choice !== null ? question.options[choice]?.text || null : null
+      };
+    });
+    if (answers.some((answer) => !answer.answered)) return null;
+    return { skipped: answers.every((answer) => answer.value === null), answers };
+  }
+
   function interpretHumorReaction(feedback) {
     if (!feedback || feedback.skipped) return null;
     const level = (index) => feedback.answers[index]?.value;
@@ -1589,6 +1644,12 @@
       humorReaction.answers = [];
     }
     humorReaction.interpretation = interpretHumorReaction(humorReaction);
+    const reactionAbsurde = getAbsurdeReactionAnswers();
+    if (reactionAbsurde === null) return null;
+    if (bullshit?.skipped) {
+      reactionAbsurde.skipped = true;
+      reactionAbsurde.answers = [];
+    }
     if (bullshit === null) {
       return null;
     }
@@ -1617,9 +1678,11 @@
       rpsAnswers,
       temporalInsight,
       questionnaireVersion: "2026-11-rps-v1",
-      bullshitometreVersion: "2026-11-bs-v2",
+      bullshitometreVersion: BS.version || "2026-11-bs-v3",
       humorReactionVersion: "2026-11-hr-v2",
+      reactionAbsurdeVersion: "2026-11-ra-v1",
       humorReaction,
+      reactionAbsurde,
       bullshit,
       totalScore,
       totalLevel,
@@ -1633,6 +1696,9 @@
       stakeholderRecommendations,
       summary
     };
+    // Lecture de l'absurde (absurde.js) : niveau pour la jauge « Ton travail » et portrait du recul pour « Toi ».
+    const lecteurAbsurde = window.BullOutAbsurde;
+    if (lecteurAbsurde) result.lectureAbsurde = { score: lecteurAbsurde.scoreAbsurde(result), recul: lecteurAbsurde.reculAbsurde(result) };
     console.debug("Résultat global calculé", result);
     return result;
   }
@@ -1697,31 +1763,38 @@
     const score = Object.fromEntries(keys.map((key) => [key, 0]));
     const max = Object.fromEntries(keys.map((key) => [key, 0]));
     const answers = [];
+    let concerned = 0;
     for (const [index, question] of bullshitPart.questions.entries()) {
       const choice = Number(selections[index].value);
       const option = question.options[choice];
       if (!Number.isInteger(choice) || !option) return null;
-      for (const key of keys) {
-        score[key] += option.w[key] || 0;
-        max[key] += Math.max(...question.options.map((o) => o.w[key] || 0));
+      // « Pas concerné·e » (w = null) : la question sort du calcul, ni score ni maximum.
+      const notConcerned = !option.w;
+      if (!notConcerned) {
+        concerned += 1;
+        for (const key of keys) {
+          score[key] += option.w[key] || 0;
+          max[key] += Math.max(...question.options.filter((o) => o.w).map((o) => o.w[key] || 0));
+        }
       }
       answers.push({
         id: `BS${index + 1}`, question: question.text, value: choice, answer: option.text,
-        poidsAbsurde: option.w.absurd || 0
+        poidsAbsurde: notConcerned ? 0 : option.w.absurd || 0, notConcerned
       });
     }
     const dims = Object.fromEntries(keys.map((key) =>
       [key, max[key] ? Math.round(100 * score[key] / max[key]) : 0]));
-    // L'indice général et la barre « absurdité globale » décrivent enfin la même quantité.
-    const percent = dims.absurd;
-    const profil = BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
+    // L'indice général et la barre « absurdité globale » décrivent la même quantité.
+    // Si aucune question ne concerne la personne, il n'y a rien à mesurer.
+    const percent = concerned ? dims.absurd : null;
+    const profil = percent === null ? null : BS.profils[percent < 25 ? 0 : percent < 50 ? 1 : percent < 75 ? 2 : 3];
     const classements = keys.filter((key) => key !== "absurd")
       .sort((a, b) => dims[b] - dims[a]);
     const dominantTheme = classements.length && dims[classements[0]] > 0 ? classements[0] : null;
     const highlights = answers.filter((a) => a.poidsAbsurde >= 3)
       .sort((a, b) => b.poidsAbsurde - a.poidsAbsurde).slice(0, 2);
     return {
-      skipped: false, version: BS.version || null, count: answers.length,
+      skipped: false, version: BS.version || null, count: answers.length, concerned,
       answers, percent, dims, profil, dominantTheme, highlights
     };
   }
@@ -1827,6 +1900,14 @@
         ? ["- Lecture descriptive : " + result.humorReaction.interpretation.title,
           result.humorReaction.interpretation.text,
           "Ce ressenti n'établit pas un effet durable de l'humour."]
+        : []),
+      "",
+      "Ta façon de prendre l'absurde dans la vraie vie (RA, sans points) :",
+      ...(result.reactionAbsurde?.skipped
+        ? ["- Cette partie n'a pas été renseignée."]
+        : (result.reactionAbsurde?.answers || []).map((answer) => `- ${answer.question} ${answer.answer || "Non renseigné"}`)),
+      ...(result.lectureAbsurde?.recul
+        ? ["- Lecture : " + result.lectureAbsurde.recul.titre, result.lectureAbsurde.recul.texte]
         : []),
       "",
       "Repères supplémentaires (T, hors scores et sans valeur diagnostique) :",
@@ -2279,6 +2360,8 @@
     getTemporalInsight,
     bullshitPart,
     humorReactionPart,
+    absurdeReactionPart,
+    getAbsurdeReactionAnswers,
     getHumorReactionAnswers,
     interpretHumorReaction,
     analyseBullshitMatrix,
