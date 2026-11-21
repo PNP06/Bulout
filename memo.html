@@ -3,169 +3,169 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Le mémo de poche · Bull-Out</title>
-    <meta name="description" content="Le mémo à garder après la formation Bull-Out : quatre modèles pour comprendre, six familles de risques, les signaux à repérer et une méthode pour agir.">
+    <title>Le point du vendredi · Bull-Out</title>
+    <meta name="description" content="Une minute chaque vendredi pour repérer ce qui use au travail, ce qui protège et ce qu’on peut changer. Un aide-mémoire Bull-Out illustré.">
     <link rel="canonical" href="https://bullout.ddlab.fr/memo.html">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bull-Out">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="Le mémo de poche · Bull-Out">
-    <meta property="og:description" content="Quatre modèles, six risques, trois portes pour agir : le mémo Bull-Out à consulter après la formation.">
+    <meta property="og:title" content="Le point du vendredi · Bull-Out">
+    <meta property="og:description" content="Le rituel Bull-Out d’une minute chaque vendredi : quatre questions, des schémas et une chose à changer lundi.">
     <meta property="og:url" content="https://bullout.ddlab.fr/memo.html">
     <meta property="og:image" content="https://bullout.ddlab.fr/bull-out-social.png">
     <link rel="stylesheet" href="memo.css">
   </head>
   <body>
     <!--
-      Le mémo de fin de formation. Un A4 recto verso, le même pour tout le monde :
+      Le point du vendredi. Une page A4, la même pour tout le monde :
       aucune donnée personnelle, aucune réponse au questionnaire.
       Après toute modification de ce fichier, régénérer le PDF :
         node tests/generer-memo-pdf.mjs
-      Le script vérifie que le mémo tient sur deux pages A4 et écrit bull-out-memo.pdf.
+      Le script vérifie que le mémo tient sur une seule page A4 et écrit bull-out-memo.pdf.
       Les numéros ont été vérifiés le 21/11/2026 (sante.fr, service-public.fr, DREETS,
       monparcourshandicap.gouv.fr) : revérifier avant de changer la date du pied de page.
     -->
     <header class="memo-outils">
       <p class="slogan">Prévention burn-out sans bullshit</p>
-      <h1>Ton mémo de poche</h1>
-      <p>Une feuille A4 recto verso à garder sous la main : les modèles et les risques au recto, les décisions et les contacts au verso. Elle ne contient aucune de tes réponses : tu peux l’imprimer, l’afficher ou la montrer.</p>
+      <h1>Le point du vendredi</h1>
+      <p>Une page illustrée à ressortir chaque vendredi avant le week-end : quatre questions, les repères de la formation et une décision pour lundi. Aucune réponse personnelle n’est enregistrée.</p>
       <div class="memo-boutons">
-        <a class="memo-btn principal" href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Télécharger le mémo (PDF)</a>
+        <a class="memo-btn principal" href="bull-out-memo.pdf" download="memo-bull-out.pdf" type="application/pdf">Garder la fiche (PDF)</a>
         <a class="memo-btn" href="test.html#diplome">Retour à mon diplôme</a>
         <a href="agir.html#aide">Besoin d’aide maintenant ?</a>
       </div>
     </header>
 
     <main class="memo">
-      <!-- RECTO : retrouver les mécanismes, sans relire la formation -->
-      <article class="feuille" aria-label="Recto : comprendre et repérer">
+      <article class="feuille" aria-label="Le point du vendredi : mémo Bull-Out d'une page">
         <header class="entete">
-          <div><p class="marque">DD LAB / BULL-OUT · RECTO</p><h1>Comprendre. Repérer.</h1></div>
-          <span class="sl">Le mémo à ressortir dans six mois</span>
+          <div class="entete-texte">
+            <p class="marque">BULL-OUT <span aria-hidden="true">/</span> À GARDER SOUS LA MAIN</p>
+            <h1>Le point du <em>vendredi.</em></h1>
+            <p class="sous-titre">Avant de fermer l’ordinateur : <b>une minute</b> pour relire ta semaine autrement.</p>
+          </div>
+          <div class="horloge" aria-label="Une minute, une fois par semaine">
+            <svg viewBox="0 0 92 92" role="img" aria-label="Cadran d'une minute">
+              <circle cx="46" cy="46" r="35" fill="none" stroke="#d8f25c" stroke-width="5" stroke-dasharray="177 44" stroke-linecap="round" transform="rotate(-90 46 46)"/>
+              <circle cx="46" cy="46" r="27" fill="#234c43"/>
+              <path d="M46 28v19l14 9" fill="none" stroke="#f8f7ed" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="46" cy="46" r="3" fill="#d8f25c"/>
+            </svg>
+            <span>1 min</span>
+          </div>
         </header>
-        <p class="accroche"><b>Le réflexe Bull-Out :</b> regarder <b>ce qui se passe au travail</b>, <b>comment tu récupères</b> et <b>ce que cela change dans ta vie</b>. Trois angles à confronter, pas une chaîne de causes prouvées.</p>
 
-        <section class="bloc" aria-labelledby="m-schema">
-          <h2 id="m-schema" class="titre-bloc">01 · Les trois jauges <small>la carte, pas le diagnostic</small></h2>
-          <div class="jauges">
-            <div class="jauge"><b>TON TRAVAIL</b>Charge, moyens, reconnaissance, absurdité, relations.</div>
-            <span class="fleche" aria-hidden="true">→</span>
-            <div class="jauge"><b>TA FATIGUE</b>Épuisement, difficulté à décrocher et à récupérer.</div>
-            <span class="fleche" aria-hidden="true">→</span>
-            <div class="jauge"><b>LES IMPACTS</b>Distance au travail, efficacité ressentie, corps, vie hors travail.</div>
+        <section class="bloc" aria-labelledby="m-carte">
+          <div class="ligne-titre"><h2 id="m-carte">La carte à garder en tête</h2><span class="repere">3 angles · pas 3 diagnostics</span></div>
+          <div class="trois-zones">
+            <div class="zone">
+              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Une balance entre les demandes du travail et les moyens disponibles">
+                <path d="M71 15v35M53 51h36M43 20h56" stroke="#123a33" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <circle cx="71" cy="17" r="6" fill="#1d5c50"/>
+                <path d="M43 20 24 48h38L43 20Zm56 0L80 41h38L99 20Z" fill="#e8794f" opacity=".83"/>
+                <path d="M43 20 26 48h34M99 20 82 41h34" fill="none" stroke="#123a33" stroke-width="2" stroke-linejoin="round"/>
+                <rect x="16" y="48" width="53" height="5" rx="2" fill="#123a33"/><rect x="73" y="41" width="53" height="5" rx="2" fill="#123a33"/>
+              </svg>
+              <h3>LE TRAVAIL</h3>
+              <p>Ce qu’il me demande.<br><b>Ce qu’il me donne pour y arriver.</b></p>
+            </div>
+            <div class="zone">
+              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Une boucle d'effort et de récupération">
+                <path d="M23 35c0-13 12-22 27-22 16 0 26 8 28 21" fill="none" stroke="#1d5c50" stroke-width="5" stroke-linecap="round"/>
+                <path d="m68 27 11 9 7-13" fill="none" stroke="#1d5c50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M119 32c0 13-12 22-27 22-16 0-26-8-28-21" fill="none" stroke="#e8794f" stroke-width="5" stroke-linecap="round" stroke-dasharray="8 6"/>
+                <path d="m74 41-11-9-7 13" fill="none" stroke="#e8794f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h3>MA FATIGUE</h3>
+              <p>Ce que la semaine me coûte.<br><b>Ce que le repos me rend.</b></p>
+            </div>
+            <div class="zone">
+              <svg class="zone-dessin" viewBox="0 0 142 62" role="img" aria-label="Trois cercles représentant le travail, la santé et la vie personnelle">
+                <circle cx="54" cy="26" r="18" fill="#d8f25c" stroke="#123a33" stroke-width="2.3"/>
+                <circle cx="83" cy="26" r="18" fill="#e3eee9" stroke="#123a33" stroke-width="2.3"/>
+                <circle cx="69" cy="43" r="18" fill="#fde6da" stroke="#123a33" stroke-width="2.3"/>
+                <path d="M54 23v7m-3-3h6M80 22l7 7m0-7-7 7M65 43h9" stroke="#123a33" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <h3>LES IMPACTS</h3>
+              <p>Ma relation au travail.<br><b>Ma santé et ma vie hors boulot.</b></p>
+            </div>
           </div>
-          <p class="regle"><b>On cherche des leviers sur le travail, sans attendre de s'effondrer.</b> Prendre soin de sa santé ne remplace pas la prévention au travail.</p>
+          <p class="regle"><b>Le réflexe :</b> chercher ce qui use <b>dans le travail</b>, sans négliger la santé. Des liens à examiner, pas une preuve de causalité.</p>
         </section>
 
-        <section class="bloc" aria-labelledby="m-modeles">
-          <h2 id="m-modeles" class="titre-bloc">02 · Quatre modèles, quatre questions <small>à quoi chacun sert-il ?</small></h2>
-          <div class="modeles">
-            <div class="modele"><h3>Effort–récupération</h3><p><b>Est-ce que je repars avant d'avoir récupéré ?</b> Une fatigue qui s'accumule et revient avec le travail mérite d'être explorée. Le repos est un indice, pas un test.</p></div>
-            <div class="modele"><h3>Maslach · les trois signes</h3><p><b>Épuisement, distance mentale, efficacité réduite.</b> Ils décrivent le vécu du burn-out ; un symptôme isolé ne permet pas de conclure.</p></div>
-            <div class="modele"><h3>JD-R · exigences / ressources</h3><p><b>Qu'est-ce qu'on demande, et qu'est-ce qui aide ?</b> Réduire la charge, mais aussi rendre du temps, de l'autonomie et du soutien.</p></div>
-            <div class="modele"><h3>Siegrist · effort / récompense</h3><p><b>Qu'est-ce que je donne et reçois ?</b> Salaire, estime, perspectives. Le surengagement peut compliquer le recul.</p></div>
-          </div>
-          <p class="note-modele">Ces modèles <b>se complètent et se recoupent</b> : ils ouvrent des pistes, ils ne démontrent pas la cause d'une situation individuelle.</p>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-familles">
-          <h2 id="m-familles" class="titre-bloc">03 · Six familles de risques <small>les chercher même quand « tu tiens »</small></h2>
-          <ol class="familles">
-            <li><span><b>Intensité / temps :</b> urgences, charge, horaires.</span></li>
-            <li><span><b>Exigences émotionnelles :</b> cacher ce qu'on ressent.</span></li>
-            <li><span><b>Autonomie :</b> aucune marge pour bien faire.</span></li>
-            <li><span><b>Rapports sociaux :</b> isolement, conflits, violences.</span></li>
-            <li><span><b>Conflits de valeurs :</b> travail absurde ou bâclé.</span></li>
-            <li><span><b>Insécurité :</b> avenir incertain, changements subis.</span></li>
-          </ol>
-          <p class="regle"><b>Le bullshit n'est pas qu'une blague :</b> une tâche vide de sens peut user. <b>En rire ne prouve ni qu'on va bien, ni qu'on va mal.</b></p>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-pieges">
-          <h2 id="m-pieges" class="titre-bloc">04 · Trois pièges à éviter <small>pour ne pas rater le problème</small></h2>
-          <div class="pieges">
-            <p><b>« C'est perso. »</b> La vie hors travail compte, sans effacer les conditions de travail.</p>
-            <p><b>« Le score dit tout. »</b> Aucun questionnaire ni dosage de cortisol ne diagnostique, à lui seul, un burn-out.</p>
-            <p><b>« Je tiens, donc ça va. »</b> Des expositions problématiques existent aussi avant les symptômes.</p>
-          </div>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-signaux">
-          <h2 id="m-signaux" class="titre-bloc">05 · Ce que tu observes <small>pas un barème médical</small></h2>
-          <div class="feux">
-            <div class="feu vert"><h3>Ça protège</h3><p>Repos réparateur, droit de dire non, soutien réel.</p><p class="alors">→ Préserve ces ressources.</p></div>
-            <div class="feu jaune"><h3>À surveiller</h3><p>Fatigue qui revient, ruminations, urgences permanentes.</p><p class="alors">→ Note les faits, fais le point.</p></div>
-            <div class="feu orange"><h3>Ça use</h3><p>Sommeil perturbé, retrait, erreurs ou symptômes persistants.</p><p class="alors">→ Demande de l'aide, sans attendre un score.</p></div>
-          </div>
-          <div class="securite"><span class="etiquette">Sécurité</span><p><b>Idées suicidaires :</b> 3114 (gratuit, 24 h/24). <b>Danger immédiat ou urgence médicale :</b> 15 / 112. Ne reste pas seul·e face à l'urgence.</p></div>
-        </section>
-        <footer class="pied"><p>Repères éducatifs, ni diagnostic ni évaluation des risques de l'entreprise. <a href="methode.html">Méthode et limites</a>.</p><p>bullout.ddlab.fr · 1/2</p></footer>
-      </article>
-
-      <!-- VERSO : sélectionner une action selon la situation, sans parcours imposé -->
-      <article class="feuille" aria-label="Verso : agir et retrouver ses contacts">
-        <header class="entete">
-          <div><p class="marque">DD LAB / BULL-OUT · VERSO</p><h1>Et maintenant, j'agis.</h1></div>
-          <span class="sl">Trois portes à ouvrir, au besoin en même temps</span>
-        </header>
-        <p class="accroche"><b>Pas besoin d'attendre « d'aller vraiment mal ».</b> Les problèmes de santé, de charge et de protection appellent des réponses différentes. Tu peux agir sur plusieurs fronts.</p>
-
-        <section class="bloc" aria-labelledby="m-portesaction">
-          <h2 id="m-portesaction" class="titre-bloc">01 · À quel problème je réponds ? <small>choisis une ou plusieurs voies</small></h2>
-          <div class="actions">
-            <div class="action"><h3>Ma santé se dégrade</h3><p><b>Médecin traitant</b> pour évaluer et soigner ; <b>médecin du travail</b> pour agir sur le poste. Tu peux demander une visite sans accord préalable de l'employeur. <b>N'attends pas deux semaines</b> si les symptômes t'inquiètent.</p></div>
-            <div class="action"><h3>Le travail ne tient plus</h3><p>Demande un <b>arbitrage concret</b> : quoi retirer, reporter, simplifier ou renforcer ? Adresse-le à la personne qui décide et conserve la réponse. Le problème n'est pas « mieux s'organiser » si tout reste prioritaire.</p></div>
-            <div class="action"><h3>Je ne me sens pas en sécurité pour en parler</h3><p><b>CSE / représentants, service de prévention et de santé au travail, syndicat</b> : ces portes sont aussi directes. Si le manager est en cause (violence, harcèlement présumé), <b>ne passe pas obligatoirement par lui</b>. Signale les faits aux interlocuteurs compétents.</p></div>
-          </div>
-          <div class="securite"><span class="etiquette">Urgence</span><p><b>3114</b> si tu as des idées suicidaires ou t'inquiètes pour un proche. <b>15 / 112</b> en cas de danger immédiat ou d'urgence médicale. Ces numéros ne sont pas une étape à remettre à plus tard.</p></div>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-demande">
-          <h2 id="m-demande" class="titre-bloc">02 · Formuler une demande qui débouche sur une décision</h2>
-          <div class="formule">
-            <p><b>Fait daté :</b> « Depuis [date], [tâches / changements / contraintes observables]. »</p>
-            <p><b>Effet sur le travail :</b> « Cela compromet [délai / qualité / faisabilité]. »</p>
-            <p><b>Décision attendue :</b> « Entre A et B, que priorise-t-on ? Que retire-t-on ? Réponse souhaitée avant le [date]. »</p>
-          </div>
-          <p class="regle"><b>Trace les faits et les demandes, pas les diagnostics.</b> Tu n'as pas à envoyer tes informations médicales à ta hiérarchie. Une trace écrite aide à suivre les décisions ; elle ne garantit pas, à elle seule, une protection juridique.</p>
-        </section>
-
-        <section class="bloc" aria-labelledby="m-suivi">
-          <h2 id="m-suivi" class="titre-bloc">03 · Le contrôle à deux semaines <small>ou plus tôt si ça s'aggrave</small></h2>
-          <div class="rappel">
-            <p><b>Travail :</b> qu'a-t-on réellement retiré, changé ou rendu possible ?</p>
-            <p><b>Récupération :</b> est-ce que je décroche et récupère davantage ?</p>
-            <p><b>Vie / santé :</b> sommeil, erreurs, relations : qu'est-ce qui bouge ?</p>
-            <p><b>Suite :</b> qui recontacter si rien ne change ?</p>
+        <section class="bloc" aria-labelledby="m-questions">
+          <div class="ligne-titre"><h2 id="m-questions">Les 4 questions du vendredi</h2><span class="repere">Les modèles, sans réciter le cours</span></div>
+          <div class="questions">
+            <div class="question q1">
+              <svg viewBox="0 0 52 52" role="img" aria-label="Flèches formant un cycle">
+                <path d="M10 27a16 16 0 0 1 29-9M42 25a16 16 0 0 1-29 9" fill="none" stroke="#1d5c50" stroke-width="4" stroke-linecap="round"/>
+                <path d="m38 9 1 11-11-1M14 43l-1-11 11 1" fill="none" stroke="#1d5c50" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div><span class="modele">EFFORT–RÉCUPÉRATION</span><h3>Est-ce que je récupère vraiment ?</h3><p>Le repos est un indice. S’il ne suffit plus, je m’interroge.</p></div>
+            </div>
+            <div class="question q2">
+              <svg viewBox="0 0 52 52" role="img" aria-label="Trois voyants qui représentent les signes décrits par Maslach">
+                <circle cx="11" cy="26" r="8" fill="#e8794f"/><circle cx="26" cy="26" r="8" fill="#f2c76a"/><circle cx="41" cy="26" r="8" fill="#e3eee9" stroke="#1d5c50" stroke-width="2"/>
+                <path d="M11 23v5m15-5v5m15-5v5" stroke="#123a33" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <div><span class="modele">MASLACH</span><h3>Plus vidé, plus distant, moins sûr de moi ?</h3><p>Trois signes possibles. Aucun ne suffit à diagnostiquer.</p></div>
+            </div>
+            <div class="question q3">
+              <svg viewBox="0 0 52 52" role="img" aria-label="Deux plateaux d'une balance demandes-ressources">
+                <path d="M26 7v36M12 43h28M8 17h36" fill="none" stroke="#1d5c50" stroke-width="3.3" stroke-linecap="round"/>
+                <path d="M12 17 5 33h15L12 17Zm28 0-7 16h15L40 17Z" fill="#d8f25c" stroke="#123a33" stroke-width="1.6"/>
+              </svg>
+              <div><span class="modele">JD-R · DEMANDES / RESSOURCES</span><h3>On m’en demande trop, ou on m’aide trop peu ?</h3><p>Temps, moyens, autonomie et soutien comptent aussi.</p></div>
+            </div>
+            <div class="question q4">
+              <svg viewBox="0 0 52 52" role="img" aria-label="Deux mains stylisées qui échangent">
+                <rect x="6" y="12" width="26" height="11" rx="5.5" fill="#d8f25c" stroke="#123a33" stroke-width="1.8"/>
+                <path d="m31 17 10 0-5-5m5 5-5 5M21 35H11l5-5m-5 5 5 5" fill="none" stroke="#1d5c50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="20" y="29" width="26" height="11" rx="5.5" fill="#e3eee9" stroke="#123a33" stroke-width="1.8"/>
+              </svg>
+              <div><span class="modele">SIEGRIST · EFFORT / RETOUR</span><h3>Je donne beaucoup. Qu’est-ce que je reçois ?</h3><p>Reconnaissance, salaire, perspectives et sécurité.</p></div>
+            </div>
           </div>
         </section>
 
-        <section class="bloc" aria-labelledby="m-contacts">
-          <h2 id="m-contacts" class="titre-bloc">04 · Mes portes d'entrée <small>France · repères vérifiés le 21/11/2026</small></h2>
-          <div class="portes">
-            <div class="porte"><h3>Soin / écoute</h3><p><b>Médecin traitant.</b> <a href="https://www.ameli.fr/assure/remboursements/rembourse/remboursement-seance-psychologue-mon-soutien-psy">Mon soutien psy</a> : jusqu'à 12 séances par an selon la situation, accès direct, prise en charge Assurance maladie 60 %, complémentaire éventuelle. <b>3114</b> pour les idées suicidaires.</p></div>
-            <div class="porte"><h3>Poste / prévention</h3><p><b>Médecin du travail</b> : santé et aménagements, secret médical. <b>Infirmier·e en santé au travail</b> : premier échange. Contacts via ton service de santé au travail.</p></div>
-            <div class="porte"><h3>Charge / décision</h3><p><b>Responsable, hiérarchie ou RH</b> lorsque ces voies sont sûres. Demande un arbitrage daté ; fais confirmer les décisions.</p></div>
-            <div class="porte"><h3>Droits / protection</h3><p><b>CSE, représentants, syndicat, inspection du travail.</b> Renseignements droit du travail : <b>0 806 000 126</b> (service gratuit + prix d'appel). Discrimination : Défenseur des droits <b>3928</b>.</p></div>
+        <section class="absurde" aria-label="Une question sur les tâches absurdes">
+          <svg viewBox="0 0 118 64" role="img" aria-label="Pile de dossiers inutiles et petit tampon urgent">
+            <rect x="13" y="39" width="63" height="14" rx="3" fill="#f8f7ed" stroke="#123a33" stroke-width="2"/>
+            <rect x="23" y="26" width="63" height="14" rx="3" fill="#e3eee9" stroke="#123a33" stroke-width="2"/>
+            <rect x="33" y="13" width="63" height="14" rx="3" fill="#d8f25c" stroke="#123a33" stroke-width="2"/>
+            <path d="M42 20h25m-35 13h25m-34 13h25" stroke="#1d5c50" stroke-width="2.3" stroke-linecap="round"/>
+            <circle cx="100" cy="45" r="12" fill="#e8794f" stroke="#123a33" stroke-width="1.6"/>
+            <path d="m95 40 10 10m0-10-10 10" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+          </svg>
+          <div><h2>Et le bullshit de la semaine ?</h2><p><b>Qu’est-ce qui m’a pris du temps sans produire de valeur ?</b> L’absurde peut user. En rire peut aider sur le moment ; ça ne règle pas l’organisation.</p></div>
+        </section>
+
+        <section class="bloc" aria-labelledby="m-six">
+          <div class="ligne-titre"><h2 id="m-six">Les 6 endroits où chercher les risques</h2><span class="repere">Même si, pour l’instant, « ça va »</span></div>
+          <div class="familles" aria-label="Six familles de facteurs de risques psychosociaux">
+            <span><i aria-hidden="true">◷</i> Charge / temps</span>
+            <span><i aria-hidden="true">♡</i> Émotions</span>
+            <span><i aria-hidden="true">↔</i> Autonomie</span>
+            <span><i aria-hidden="true">◎</i> Relations</span>
+            <span><i aria-hidden="true">◇</i> Valeurs</span>
+            <span><i aria-hidden="true">△</i> Insécurité</span>
           </div>
         </section>
 
-        <section class="bloc" aria-labelledby="m-phrases">
-          <h2 id="m-phrases" class="titre-bloc">À garder en tête <small>l'humour, sans minimiser</small></h2>
-          <div class="phrases">
-            <p>« Tout est prioritaire » n'est pas une priorité.</p>
-            <p>Un tableau de bord ne supprime aucune tâche.</p>
-            <p>Rire du bullshit n'oblige pas à le supporter.</p>
+        <section class="fin-semaine" aria-labelledby="m-decision">
+          <div class="ligne-titre"><h2 id="m-decision">Et lundi ? Une décision suffit pour commencer.</h2><span class="repere">À noter si tu veux, sans score</span></div>
+          <div class="trois-decisions">
+            <div><span class="pastille">01</span><b>Ce qui m’aide</b><p>Je le garde.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
+            <div><span class="pastille">02</span><b>Ce qui m’use</b><p>Je le fais discuter / arbitrer.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
+            <div><span class="pastille">03</span><b>Si ça persiste</b><p>Je n’attends pas d’être à bout.</p><span class="trait-ecriture" aria-hidden="true"></span></div>
           </div>
         </section>
-        <section class="mes-contacts" aria-label="Mes contacts, à remplir si je le souhaite">
-          <b>Mon pense-bête personnel · à remplir sur papier</b>
-          <p>Service de santé au travail : <span></span></p>
-          <p>Représentant·e / personne de confiance : <span></span></p>
-          <p>Prochaine action et date : <span></span></p>
-        </section>
-        <footer class="pied"><p>Ce mémo ne stocke aucune réponse du questionnaire. Pour approfondir : <a href="agir.html">Agir</a> et <a href="methode.html">Méthode</a>.</p><p>bullout.ddlab.fr · 2/2</p></footer>
+
+        <footer class="pied">
+          <div><b>Besoin d’aide ?</b> Médecin traitant ou médecin du travail (visite à ta demande). <b>Idées suicidaires :</b> 3114. <b>Urgence :</b> 15 / 112.</div>
+          <div class="pied-bas"><span>Un rappel, pas un diagnostic ni une évaluation RPS · <a href="methode.html">Méthode</a> · <a href="agir.html">Agir</a></span><b>bullout.ddlab.fr</b></div>
+        </footer>
       </article>
     </main>
   </body>
