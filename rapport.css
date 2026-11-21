@@ -702,3 +702,159 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
 }
 .rp-syn-priorites .button.primary { background: var(--anis); color: var(--sapin); border-color: var(--anis); }
 .rp-etape h2 { text-wrap: balance; }
+
+/* ---------- V4.1 : étapes au niveau psytest (fil d'Ariane, sous-question, pont, En bref, fils) ---------- */
+.rp-ariane ol { list-style: none; margin: 0 0 6px; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
+.rp-ariane button { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 5px; padding: 7px 0 0; border: 0; border-top: 5px solid var(--piste); background: none; font: 600 11.5px/1.2 var(--font); color: var(--muted); text-align: left; cursor: pointer; }
+.rp-ariane .num { font: 800 11px/1 var(--title); }
+.rp-ariane .nom { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-ariane i { width: 7px; height: 7px; border-radius: 50%; }
+.rp-ariane .fait button { border-top-color: var(--sapin-mid); color: var(--fg); }
+.rp-ariane .ici button { border-top-color: var(--orange); color: var(--orange-ink); font-weight: 800; }
+.rp-ariane button:hover .nom { text-decoration: underline; }
+@media (max-width: 900px) { .rp-ariane .nom, .rp-ariane i { display: none; } .rp-ariane .ici .nom { display: inline; } .rp-ariane ol { grid-template-columns: repeat(9, auto); } .rp-ariane .ici { grid-column: span 1; } }
+.rp-etape-head > .rp-n { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rp-etape-head > .rp-n .rp-mini { width: 40px; height: 26px; }
+.rp-etape-head > .rp-n .rp-approche { font: 600 12px/1.3 var(--font); letter-spacing: 0; text-transform: none; color: var(--muted); }
+.rp-sq { margin: 0; font: 700 clamp(16px, 2vw, 19px)/1.35 var(--title); color: #5b3fd1; }
+.rp-pont { margin: 0; padding: 10px 14px; border: 1.5px dashed var(--line); border-radius: 12px; display: grid; gap: 2px; }
+.rp-pont .k { margin: 0; color: var(--sapin-mid); }
+.rp-pont p:last-child { margin: 0; color: var(--muted); font-size: 14.5px; }
+.rp-etape .rp-bref { background: var(--creme); color: var(--fg); border-left: 6px solid var(--sapin); border-radius: 4px 14px 14px 4px; }
+.rp-etape .rp-bref .k { color: var(--muted); }
+.rp-etape .rp-bref p:last-child { font-weight: 650; }
+.rp-etape .rp-bref b { color: var(--sapin); font-weight: 850; }
+.rp-fils { display: grid; gap: 12px; }
+.rp-fils > .rp-legende { margin-top: -6px; }
+.rp-filcarte { display: grid; gap: 8px; padding: 16px 18px; border: 1px solid var(--line-soft); border-left: 6px solid var(--c); border-radius: 6px 16px 16px 6px; background: var(--card); }
+.rp-filcarte header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; }
+.rp-filcarte h4 { margin: 0; font: 800 17px/1.2 var(--title); color: var(--sapin); }
+.rp-filniv { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; }
+.rp-filbarre { display: inline-flex; gap: 3px; }
+.rp-filbarre i { width: 16px; height: 7px; border-radius: 3px; background: var(--piste); }
+.rp-filverdict { margin: 0; font-weight: 700; }
+.rp-filexplique { margin: 0; color: var(--muted); font-size: 14.5px; }
+.rp-filchips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.rp-filchips li { display: inline-flex; gap: 6px; align-items: baseline; padding: 5px 11px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line-soft); font-size: 13.5px; }
+.rp-filchips li span { color: var(--muted); font-size: 12.5px; }
+.rp-filagir { margin: 0; padding: 8px 12px; border-radius: 10px; background: #eef4e6; font-size: 14.5px; }
+.rp-filcarte .rp-rep { padding: 6px 12px; }
+.rp-filcarte .rp-rep > summary { font-size: 14px; }
+.rp-etape .rp-pc > summary .k { color: #5b3fd1; }
+@media print {
+  .rp-ariane button { font-size: 7pt; padding-top: 3pt; border-top-width: 3pt; }
+  .rp-ariane i { display: inline-block; }
+  .rp-sq { font-size: 11pt; }
+  .rp-filcarte { break-inside: avoid; padding: 8pt 10pt; }
+  .rp-etape .rp-bref { background: #f6efe2; border: 0; border-left: 4pt solid #123a33; }
+  .pdf-sans-reponses .rp-filcarte .rp-rep { display: none !important; }
+  .rp-pont { break-inside: avoid; }
+}
+
+/* Avant de lire : accompagnement à la lecture, sommaire à points de conduite. */
+.rp-lead { margin: 0; padding-left: 16px; border-left: 4px solid var(--orange); font-size: 17px; line-height: 1.55; max-width: 72ch; }
+.rp-lire-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.rp-lire-box { padding: 18px 20px; border-radius: 16px; display: grid; gap: 8px; align-content: start; }
+.rp-lire-box .k { margin: 0; padding-top: 10px; border-top: 4px solid var(--orange); width: fit-content; font: 800 13px/1.3 var(--title); letter-spacing: .1em; text-transform: uppercase; }
+.rp-lire-box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 7px; font-size: 14.5px; line-height: 1.5; }
+.rp-lire-box.sombre { background: var(--sapin); color: var(--creme); }
+.rp-lire-box.sombre .k, .rp-lire-box.sombre b { color: var(--anis); }
+.rp-lire-box.clair { background: var(--creme); }
+.rp-lire-box.clair .k { color: var(--orange-ink); }
+.rp-anatomie ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.rp-anatomie li { display: grid; gap: 4px; align-content: start; padding: 12px; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--card); font-size: 13.5px; line-height: 1.4; }
+.rp-anatomie li > span:last-child { color: var(--muted); }
+.rp-anat-vis { display: flex; align-items: center; justify-content: center; height: 34px; margin-bottom: 4px; border-radius: 8px; background: var(--bg); font: 800 18px/1 var(--title); }
+.rp-anat-vis.a { gap: 3px; } .rp-anat-vis.a i { width: 16px; height: 5px; border-radius: 3px; background: var(--sapin-mid); } .rp-anat-vis.a i.o { background: var(--orange); }
+.rp-anat-vis.q { color: #5b3fd1; }
+.rp-anat-vis.b { background: var(--creme); border-left: 6px solid var(--sapin); }
+.rp-anat-vis.f { background: var(--card); border: 1px solid var(--line-soft); border-left: 6px solid var(--orange); }
+.rp-anat-vis.p { color: #5b3fd1; border: 1px solid var(--line-soft); }
+@media (max-width: 900px) { .rp-anatomie ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rp-lire-duo { grid-template-columns: minmax(0, 1fr); } }
+.rp-sommaire2 h3 { margin: 0 0 6px; font: 800 26px/1.2 var(--title); color: var(--sapin); }
+.rp-som-titre { margin: 14px 0 4px; padding-bottom: 4px; border-bottom: 1.5px solid var(--sapin); font: 700 15px/1.3 var(--title); color: var(--orange-ink); }
+.rp-som-titre span { color: var(--sapin); margin-left: 8px; }
+.rp-som-bloc { list-style: none; margin: 0; padding: 0; }
+.rp-som-bloc button { width: 100%; display: grid; grid-template-columns: 92px auto minmax(20px, 1fr) auto; align-items: baseline; gap: 8px; padding: 6px 0; border: 0; background: none; font: inherit; color: var(--fg); text-align: left; cursor: pointer; }
+.rp-som-bloc .n { font: 700 13.5px/1.3 var(--title); color: var(--orange-ink); }
+.rp-som-bloc .t { font-weight: 650; font-size: 14.5px; }
+.rp-som-bloc .t .rp-niv { margin-left: 6px; }
+.rp-som-bloc .pts { border-bottom: 1.5px dotted var(--line); transform: translateY(-4px); }
+.rp-som-bloc .d { font-size: 12.5px; color: var(--muted); text-align: right; max-width: 30ch; }
+.rp-som-bloc button:hover .t { text-decoration: underline; }
+@media (max-width: 700px) { .rp-som-bloc button { grid-template-columns: 70px 1fr; } .rp-som-bloc .pts { display: none; } .rp-som-bloc .d { grid-column: 2; text-align: left; } }
+
+/* Pour aller plus loin : trois sites, comme psytest. */
+.rp-sites { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rp-site { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line-soft); border-top: 6px solid var(--c, var(--sapin)); }
+.rp-site.papillon { --c: #6b4fd8; } .rp-site.bonheur { --c: #e8794f; } .rp-site.traite { --c: #1d5c50; }
+.rp-site .k { margin: 0; font: 800 11.5px/1.3 var(--title); letter-spacing: .1em; text-transform: uppercase; color: var(--orange-ink); }
+.rp-site h3 { margin: 0; font: 800 22px/1.15 var(--title); color: var(--sapin); }
+.rp-site-acc { margin: 0; font: 700 15px/1.35 var(--title); color: var(--c); }
+.rp-site p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.rp-site ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 14px; }
+.rp-site-toi { padding: 10px 12px; border-radius: 10px; background: var(--creme); }
+.rp-site-lien { font: 800 15px/1.2 var(--title); color: var(--sapin); }
+@media (max-width: 900px) { .rp-sites { grid-template-columns: minmax(0, 1fr); } }
+.rp-apres ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+@media print {
+  .rp-lire-duo, .rp-sites { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8pt; }
+  .rp-sites { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rp-lire-box.sombre { background: #123a33 !important; color: #f6efe2 !important; }
+  .rp-lire-box.sombre .k, .rp-lire-box.sombre b { color: #d8f25c !important; }
+  .rp-lire-box, .rp-site, .rp-anatomie li { break-inside: avoid; padding: 9pt; }
+  .rp-lire-box ul, .rp-site p, .rp-site ul, .rp-anatomie li { font-size: 8.5pt; }
+  .rp-anatomie ol { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6pt; }
+  .rp-som-bloc button { display: grid !important; padding: 2.5pt 0; }
+  .rp-som-bloc .t { font-size: 9.5pt; } .rp-som-bloc .d { font-size: 8pt; } .rp-som-bloc .n { font-size: 9pt; }
+  .rp-sommaire2 { break-before: page; }
+  .rp-site h3 { font-size: 14pt; }
+}
+@media print {
+  .rapport .rp-som-bloc button, .rapport .rp-ariane button { display: grid !important; }
+  body:has(.rp-layout) { background: white !important; }
+  body:has(.rp-layout) .site-header, body:has(.rp-layout) .site-footer { display: none !important; }
+}
+
+/* Page de garde : écran (carte sapin, pastille, accent anis) et PDF pleine page (@page plein). */
+.rp-pill { justify-self: start; width: fit-content; margin: 0; padding: 5px 14px; border: 1.5px solid var(--anis); border-radius: 999px; font: 800 11.5px/1.2 var(--title); letter-spacing: .14em; text-transform: uppercase; color: var(--anis); }
+.rapport-cover .rp-accent { display: block; color: var(--anis); }
+.rp-pdf-options { border: 1px solid rgb(246 239 226 / .3); border-radius: 14px; padding: 8px 14px; }
+.rp-pdf-options > summary { cursor: pointer; font-weight: 700; }
+.rp-pdf-options .rp-pdf-choix { color: var(--anis); }
+.rp-pdf-options fieldset { border: 0; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.rp-couv, .rp-dos { display: none; }
+@media print {
+  @page plein { margin: 0; @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+  .rapport .rapport-cover { display: none !important; }
+  .rapport .rp-couv, .rapport .rp-dos { page: plein; display: flex !important; flex-direction: column; width: 210mm; height: 296.5mm; box-sizing: border-box; overflow: hidden; background: #123a33 !important; color: #f6efe2; break-after: page; }
+  .rp-couv { padding: 20mm 18mm 14mm; gap: 6mm; }
+  .rp-couv .rp-pill { border-color: #d8f25c; color: #d8f25c; font-size: 8pt; padding: 3pt 10pt; }
+  .rp-couv-titre { margin: 2mm 0 0; font: 800 40pt/1.02 Poppins, Arial, sans-serif; letter-spacing: -.035em; color: #f6efe2; }
+  .rp-couv-titre span { color: #d8f25c; }
+  .rp-couv-date { margin: 0; font: 700 12pt/1.3 Poppins, Arial, sans-serif; color: #d8f25c; }
+  .rp-couv-schema { margin-top: 4mm; padding: 5mm; border-radius: 5mm; background: #f6efe2 !important; color: #123a33; }
+  .rp-couv-schema .rp-ensemble.large { display: block !important; }
+  .rp-couv-schema .rp-ensemble.etroit { display: none !important; }
+  .rp-couv-schema svg { width: 100%; height: auto; max-height: 112mm; }
+  .rp-couv-desc { margin: 0; font-size: 11pt; line-height: 1.5; max-width: 150mm; }
+  .rp-couv-pied { margin: auto 0 0; display: flex; justify-content: space-between; font: 800 7.5pt/1 Poppins, Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #d8f25c; }
+  .rapport .rp-dos { break-before: page; break-after: auto; align-items: center; justify-content: center; text-align: center; gap: 4mm; padding: 20mm; }
+  .rp-dos-logo { display: grid; place-items: center; width: 26mm; height: 26mm; border-radius: 7mm; background: #d8f25c; color: #123a33; font: 800 22pt/1 Poppins, Arial, sans-serif; margin-bottom: 4mm; }
+  .rp-dos-nom { margin: 0; font: 800 30pt/1.1 Poppins, Arial, sans-serif; }
+  .rp-dos-slogan { margin: 0; font: 700 13pt/1.3 Poppins, Arial, sans-serif; color: #e8794f; text-transform: uppercase; letter-spacing: .04em; }
+  .rp-dos-url { margin: 0 0 10mm; font: 800 12pt/1 Poppins, Arial, sans-serif; color: #d8f25c; }
+  .rp-dos-urg, .rp-dos-res { margin: 0; font-size: 10pt; }
+  .rp-dos-urg b, .rp-dos-res b { color: #d8f25c; }
+  .rp-dos-mini { margin: 8mm 0 0; max-width: 130mm; font-size: 8pt; line-height: 1.5; opacity: .85; }
+  .rapport .rp-fin { display: none !important; }
+  .rapport.pdf-travail .rp-couv, .rapport.pdf-travail .rp-dos { display: none !important; }
+  .rapport .rp-page[data-page="synthese"] { break-before: auto; }
+}
+@media print {
+  .rapport .rp-couv .rp-couv-titre { font-size: 44pt; line-height: 1.02; }
+  .rp-couv-pied { gap: 6mm; white-space: nowrap; }
+  .rp-ariane ol { grid-template-columns: repeat(9, minmax(0, 1fr)) !important; }
+  .rp-ariane .nom { display: inline !important; }
+  .rp-ariane i { display: inline-block !important; }
+}

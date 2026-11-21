@@ -628,6 +628,58 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     </div>
     <p class="rp-legende">Au bout de quatre semaines, relis tes vendredis : ce qui a changé dans le travail compte plus qu'un nouveau score.</p></section>`;
 
+  // ───────── Les fils de chaque étape (modèle psytest) : un thème, son niveau en mots, ce qui ressort, les réponses repliées.
+  const SQ = {
+    fatigue: "D'abord : la fatigue se répare-t-elle encore ?",
+    signes: "Épuisement, distance, doute : qu'est-ce qui change, et à quel point ?",
+    balance: "Ce qu'on te demande, face à ce qui t'aide à le faire.",
+    retour: "Effort, estime, salaire, perspectives : l'échange tient-il ?",
+    absurde: "Les tâches inutiles usent aussi : qu'en dit ton humour ?",
+    rps: "Six familles de risques, lues comme des conditions de travail.",
+    autour: "Ce qui ne compte dans aucun score, mais change la lecture.",
+    plan: "Une ou deux actions sur le travail réel, pas douze.",
+    portes: "Le bon interlocuteur, et une trace qui protège."
+  };
+  const nFil = (ids) => nv24(relatif24(ids.reduce((s, id) => s + item(id).riskScore, 0), ids.length * 4));
+  const listeItems = (ids) => `<ol class="rp-items">${ids.map((id) => { const a = item(id); return `<li class="${a.riskScore >= 3 ? "haut" : ""}"><span class="rp-id">${id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(a.riskScore)}<span>${esc(ratingLabels[a.rawScore].replace(/^\d+\s*-\s*/, ""))}${id.startsWith("E") ? " <small>(compté à l'envers)</small>" : ""}</span></span></li>`; }).join("")}</ol>`;
+  const fil = ({ titre, ids, explique, agir = "", n = nFil(ids), mot = NIVMOTS[n], plus = "", extra = "" }) => {
+    const hauts = ids.map(item).filter((a) => a.riskScore >= 3).sort((a, b) => b.riskScore - a.riskScore);
+    const verdict = hauts.length
+      ? `Ce qui ressort : ${esc(liste(hauts.slice(0, 3).map((a) => a.humanLabel)))}.`
+      : "Aucune réponse fréquente dans ce fil.";
+    return `<article class="rp-filcarte" style="--c:${COUL[n]}">
+      <header><h4>${titre}</h4><span class="rp-filniv"><span class="rp-filbarre" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i${k <= n ? ` style="background:${COUL[n]}"` : ""}></i>`).join("")}</span><b>${esc(mot)}</b></span></header>
+      <p class="rp-filverdict">${verdict}</p>
+      <p class="rp-filexplique">${explique}</p>
+      ${hauts.length ? `<ul class="rp-filchips">${hauts.map((a) => `<li><b>${esc(cap(a.humanLabel))}</b><span>${a.id.startsWith("E") ? "aide présente : " : ""}${esc(ratingLabels[a.rawScore].replace(/^\d+\s*-\s*/, "").toLowerCase())}</span></li>`).join("")}</ul>` : ""}
+      ${extra}
+      ${agir ? `<p class="rp-filagir"><b>Pour agir :</b> ${agir}</p>` : ""}
+      <details class="rp-rep"><summary>Voir les ${ids.length + (plus ? 3 : 0)} réponses de ce fil</summary><div class="rp-rep-corps">${listeItems(ids)}${plus}</div></details>
+    </article>`;
+  };
+  const listeR = (ks) => `<ol class="rp-items">${(r.exchangeAnswers || []).filter((_, k) => ks.includes(k)).map((a) => { const k = r.exchangeAnswers.indexOf(a); const risque = k < 3 ? 4 - a.value : a.value; return `<li class="${risque >= 3 ? "haut" : ""}"><span class="rp-id">${a.id}</span><span class="rp-q">${esc(a.question)}</span><span class="rp-a">${jauge(risque)}<span>${esc(ratingLabels[a.value].replace(/^\d+\s*-\s*/, ""))}${k < 3 ? " <small>(compté à l'envers)</small>" : ""}</span></span></li>`; }).join("")}</ol>`;
+  const FILS = {
+    fatigue: [
+      fil({ titre: "Le repos", ids: ["F1", "F2", "F3"], explique: "Décrocher le soir, dormir, garder ses loisirs : c'est là que la fatigue se répare, ou pas.", agir: "protège un moment fixe sans messages du travail, et tiens-le une semaine." }),
+      fil({ titre: "L'épuisement", ids: ["A1", "A2", "A3", "A4", "A5", "A6"], explique: "Être vidé·e, ne plus récupérer même après un repos court : le premier des trois signes.", agir: "regarde ce qui, dans le travail, empêche la récupération avant de chercher à « tenir mieux »." }),
+      fil({ titre: "Le corps et la sécurité", ids: ["F4", "F5", "F6"], explique: "Symptômes physiques, stratégies pour tenir ou dormir, erreurs liées à la fatigue : des signaux à ne pas laisser seuls.", agir: haut("F5") || haut("F6") ? "parles-en à un médecin, sans attendre un nouveau score." : "" })
+    ],
+    signes: [
+      fil({ titre: "La distance", ids: ["B1", "B2", "B3", "B4", "B5", "B6"], explique: "Le cynisme, le retrait, l'envie de ne plus s'impliquer. Elle protège parfois, elle signale souvent." }),
+      fil({ titre: "L'efficacité", ids: ["C1", "C2", "C4", "C6"], explique: "Le doute sur ce que tu fais et sur ta compétence. Il vient souvent de conditions qui empêchent de bien faire." }),
+      fil({ titre: "Le sens", ids: ["C3", "C5"], explique: "Finir ses journées en ayant été utile, se reconnaître dans son travail. Il se relit à l'étape de l'absurde." })
+    ],
+    balance: [
+      fil({ titre: "Ce qu'on te demande", ids: ["D1", "D2", "D3", "D4", "D5", "D6"], explique: "Quantité, urgences, priorités, responsabilités sans moyens, charge émotionnelle, dysfonctionnements à compenser.", agir: "liste tes tâches et demande ce qui sort, ce qui attend, qui arbitre." }),
+      fil({ titre: "Ce qui t'aide", ids: ["E1", "E2", "E3", "E4"], explique: "Ta marge, ton manager, tes collègues, la clarté des objectifs. Ici, une réponse haute veut dire que l'aide manque.", agir: manqueRessource.riskScore >= 3 ? `« ${esc(Q_RESSOURCE[manqueRessource.id])} »` : "" })
+    ],
+    retour: [
+      fil({ titre: "Ce que tu donnes", ids: ["D1", "D4", "D6"], explique: "La quantité, les responsabilités, et ce que tu compenses pour que ça tienne." }),
+      fil({ titre: "Ce que tu reçois", ids: ["E5", "E6"], explique: "L'estime et l'équité, puis le salaire, les perspectives et la sécurité (R1 à R3). Ici, une réponse haute veut dire que le retour manque.", extra: manqueRetour.length ? `<ul class="rp-filchips">${manqueRetour.map((m) => `<li><b>${esc(cap(m))}</b><span>jugé insuffisant</span></li>`).join("")}</ul>` : "", plus: listeR([0, 1, 2]) }),
+      fil({ titre: "Le surengagement", ids: ["F1"], n: nv24(surengagement), mot: MOTS[nv24(surengagement)], explique: "Ne pas savoir refuser, vouloir prouver, penser au travail dès le réveil : ce qui fait tenir, et ce qui cache le déséquilibre.", agir: "fixe une heure de fin à une journée, et note si tu as pu la tenir.", plus: listeR([3, 4, 5]) })
+    ]
+  };
+
   const etapes = [
     {
       id: "fatigue", chap: 1, col: "toi", court: "Ta fatigue", approche: "Approche 1 · effort-récupération",
@@ -895,14 +947,37 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       <button type="button" class="button primary" data-aller="lire">Lire mon rapport étape par étape →</button></div>`;
 
   // « Avant de lire » : comment lire, le sommaire, et tout ce qui relève de la méthode, regroupé ici.
+  const sommaireLigne = (id, n, titre, desc, extra = "") => `<li><button type="button" data-aller="${id}"><span class="n">${n}</span><span class="t">${titre}${extra}</span><span class="pts" aria-hidden="true"></span><span class="d">${desc}</span></button></li>`;
   const avantLire = `<header class="rp-etape-head"><p class="rp-n">Avant de lire</p><h2 tabindex="-1">Comment lire ton rapport</h2>
-      <p class="rp-intro">Neuf étapes, dans l'ordre de la formation. Chacune pose <b>une question</b>, y répond <b>en mots</b> (« En bref »), montre ce qui compte, puis garde tes réponses repliées. Le fil d'Ariane, à gauche, dit où tu en es.</p></header>
-    <div class="rp-lire"><ol>
-      <li><b>Ce que tu as répondu.</b> Tes déclarations sur quatre semaines : elles font foi, personne ne les a observées à ta place.</li>
-      <li><b>Ce que Bull-Out calcule.</b> Des niveaux en mots (ça va, à surveiller, ça use, ça use beaucoup), fixés sur des quarts de l'échelle : des repères, pas des normes.</li>
-      <li><b>Ce que le rapport en déduit.</b> Des pistes et des hypothèses, à vérifier en parlant avec quelqu'un. Jamais un diagnostic.</li></ol></div>
+      <p class="rp-lead">Ce rapport fait le point sur tes réponses à ${r.answers.length + (r.exchangeAnswers || []).length + g.length + rpsAnswers.length + temps.length + (bs.skipped ? 0 : bs.answers.length)} questions, sur tes <b>quatre dernières semaines</b>. Il se lit comme la formation : <b>neuf étapes</b>, chacune avec une question, une réponse en mots, et ce que tu peux en faire.</p></header>
+    <div class="rp-lire-duo">
+      <section class="rp-lire-box sombre"><p class="k">Ce qu'il t'apporte</p><ul>
+        <li><b>Une vue d'ensemble</b> : ta fatigue, ce que ton travail te demande, ce qu'il te rend, et ce qui t'aide, lus ensemble.</li>
+        <li><b>Un ordre</b> : d'abord ce que tu vis, puis ce que le travail te fait porter, puis quoi faire.</li>
+        <li><b>Des mots plutôt que des chiffres</b> : ça va, à surveiller, ça use, ça use beaucoup.</li>
+        <li><b>Des outils à emporter</b> : un plan pour la semaine, deux rituels, un brouillon de demande écrite, la fiche travail.</li></ul></section>
+      <section class="rp-lire-box clair"><p class="k">Comment il est construit</p><ul>
+        <li>Chaque résultat renvoie aux réponses qui l'ont produit : tu peux tout vérifier.</li>
+        <li>Les niveaux sont fixés sur des quarts de l'échelle : des repères, pas des normes.</li>
+        <li>Les pistes sont des hypothèses, à vérifier en parlant avec quelqu'un. Jamais un diagnostic.</li>
+        <li>Rien n'est envoyé : tes réponses restent dans ton navigateur et dans les fichiers que tu enregistres.</li></ul></section>
+    </div>
+    <section class="rp-anatomie" aria-labelledby="rp-anat-t"><h3 id="rp-anat-t" class="rp-h">Comment se lit une étape</h3>
+      <ol>
+        <li><span class="rp-anat-vis a" aria-hidden="true"><i></i><i></i><i class="o"></i><i></i></span><b>Le fil d'Ariane</b><span>En haut : où tu en es dans les neuf étapes. Clique pour sauter d'une étape à l'autre.</span></li>
+        <li><span class="rp-anat-vis q" aria-hidden="true">?</span><b>Une question</b><span>Le titre pose la question de l'étape ; la ligne violette dit ce qu'on regarde.</span></li>
+        <li><span class="rp-anat-vis b" aria-hidden="true"></span><b>En bref</b><span>La réponse en une ou deux phrases. Si tu n'as que deux minutes, lis seulement les « En bref ».</span></li>
+        <li><span class="rp-anat-vis f" aria-hidden="true"></span><b>Les fils</b><span>Un thème, son niveau, ce qui ressort, et tes réponses repliées.</span></li>
+        <li><span class="rp-anat-vis p" aria-hidden="true">+</span><b>Pour comprendre</b><span>Les études derrière l'étape, et le chapitre de la formation où on l'a vu.</span></li>
+      </ol></section>
     ${LEGENDE_COULEURS}
-    <section class="rp-sommaire" aria-label="Sommaire"><ol>${etapes.map((e, i) => `<li><button type="button" data-aller="${e.id}"><span class="n">${i + 1}</span><span><b>${esc(e.q)}</b> ${pastille(e.n, e.mot)}<small>${esc(e.approche)} · colonne ${COLNOMS[COLS[e.col]]}</small></span></button></li>`).join("")}</ol></section>
+    <section class="rp-sommaire2" aria-labelledby="rp-som-t"><h3 id="rp-som-t">Sommaire</h3>
+      <ol class="rp-som-bloc">${sommaireLigne("synthese", "Synthèse", "Ton rapport en une page", "l'essentiel, en deux minutes")}${sommaireLigne("lire", "Avant de lire", "Comment lire ton rapport", "ce qu'il apporte, comment il est construit")}</ol>
+      <p class="rp-som-titre">Pas à pas <span>${etapes.length} étapes</span></p>
+      <ol class="rp-som-bloc">${etapes.map((e, i) => sommaireLigne(e.id, `Étape ${i + 1}`, esc(e.q), esc(e.approche), pastille(e.n, e.mot))).join("")}</ol>
+      <p class="rp-som-titre">Ensuite</p>
+      <ol class="rp-som-bloc">${sommaireLigne("ressources", "Plus loin", "Des ressources pour aller plus loin", "Papillon, Bonheur, Traité RDR")}${sommaireLigne("travail", "Outil", "La fiche travail", "sans aucune réponse de santé")}${sommaireLigne("carnet", "Outil", "Le carnet de suivi", "deux et quatre semaines")}${sommaireLigne("annexes", "Annexes", "Méthode, réponses, sources", "tout vérifier")}</ol>
+    </section>
     <details class="rp-pc rp-methode"><summary><span class="k">Côté méthode</span>Ce qui est mesuré, ce qui ne l'est pas, et la qualité de tes réponses</summary><div>
       <p><b>Directement déclaré :</b> les réponses A à F (0 à 4), les appuis G, les récompenses R et les éléments de contexte.</p>
       <p><b>Recalculé :</b> sommes A–F (0 à 24), indices partiels d'efficacité et de sens, effort, récompense et surengagement construits à partir de questions réutilisées, indice satirique du bullshitomètre.</p>
@@ -992,22 +1067,61 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <li>Sonnentag, S., Fritz, C. (2007). The Recovery Experience Questionnaire. <i>Journal of Occupational Health Psychology</i>, 12(3), 204-221.</li>
     </ul><p>Pour le détail et les limites : <a href="methode.html">Méthode et limites</a>.</p>`;
 
+  // ───────── Pour aller plus loin (modèle psytest) : trois sites DD Lab, rangés selon tes réponses.
+  const pSommeil = item("F2").riskScore, pTenir = item("F5").riskScore, pLiens = item("F3").riskScore;
+  const SITES = [
+    { id: "papillon", nom: "La méthode Papillon", url: "https://papillon.ddlab.fr", accroche: "Faire le point sur le sommeil, l'humeur, l'anxiété, l'attention",
+      sert: "Bull-Out regarde le travail. Papillon regarde le reste : ce qui, dans ta tête et ton corps, peut brouiller la lecture ou s'ajouter à l'épuisement.",
+      trouve: ["Un questionnaire inspiré de tests utilisés en clinique", "Un rapport du même genre que celui-ci, étape par étape", "Le sommeil, l'humeur, l'anxiété, l'attention et les consommations, lus ensemble"],
+      score: pSommeil * 2 + nFatigue + (sr.A.score >= 13 ? 2 : 0),
+      pourToi: pSommeil >= 3 ? `ton sommeil est perturbé ${freq("F2")}. Papillon regarde ce qui l'abîme, et ce qui se joue à côté du travail.` : nFatigue >= 2 ? "ta fatigue est marquée. Papillon aide à voir si d'autres choses que le travail s'y ajoutent." : "" },
+    { id: "bonheur", nom: "Bonheur", url: "https://bonheur.ddlab.fr", accroche: "Prendre du recul : ce qui rend vraiment heureux",
+      sert: "Ce rapport regarde ce qui use. Bonheur regarde l'autre moitié : ce qui fait qu'une vie va bien, en dehors du travail aussi.",
+      trouve: ["Ce que des centaines de chercheurs, et des philosophes d'Aristote aux stoïciens, ont montré", "Un questionnaire pour repérer les domaines de ta vie « en rouge »", "Un plan d'action pour les 7 prochains jours"],
+      score: pLiens * 2 + (forts.length <= 1 ? 3 : 0) + nv24(relatif24(perteSens, 8)),
+      pourToi: pLiens >= 3 ? `tes loisirs et tes liens se réduisent (réponse : ${freq("F3")}). Bonheur aide à remettre ce qui recharge au bon endroit dans la semaine.` : forts.length <= 1 ? "peu d'appuis ressortent de tes réponses. Bonheur aide à repérer ce qui en redonne." : "" },
+    { id: "traite", nom: "Traité RDR", url: "https://traiterdr.ddlab.fr", accroche: "Comprendre le cerveau, les substances et les médicaments",
+      sert: "Pour comprendre ce que fait un produit ou un médicament à ton cerveau, à ton sommeil et à ta fatigue, et comment réduire les risques.",
+      trouve: ["Écrit avec des médecins et des associations", "La psychologie, la pharmacologie et les neurosciences, en détail", "Utile aussi pour comprendre un traitement qu'on te propose"],
+      score: pTenir * 3,
+      pourToi: pTenir >= 3 ? `tu déclares ${freq("F5")} des consommations pour tenir ou dormir. Le traité explique ce qu'elles font, et comment réduire les risques sans arrêter seul·e d'un coup.` : "" }
+  ].sort((a, b) => b.score - a.score);
+  const plusLoin = `<header class="rp-etape-head"><p class="rp-n">Pour aller plus loin</p><h2 tabindex="-1">Des ressources pour agir</h2>
+      <p class="rp-sq">Trois sites gratuits, rangés selon tes réponses : celui qui te concerne le plus est en premier.</p>
+      <p class="rp-intro">Ils sont faits avec la même démarche que Bull-Out : partir des études, dire ce qui est solide et ce qui ne l'est pas, et ne rien envoyer de tes réponses.</p></header>
+    <div class="rp-sites">${SITES.map((x, k) => `<article class="rp-site ${x.id}"><p class="k">${k === 0 && x.pourToi ? "Le plus utile pour toi" : esc(new URL(x.url).host)}</p>
+      <h3>${esc(x.nom)}</h3><p class="rp-site-acc">${esc(x.accroche)}</p><p>${esc(x.sert)}</p>
+      ${x.pourToi ? `<p class="rp-site-toi"><b>Pour toi :</b> ${esc(x.pourToi)}</p>` : ""}
+      <p class="k">Ce que tu peux y faire</p>${ul(x.trouve.map(esc))}
+      <a class="rp-site-lien" href="${x.url}" target="_blank" rel="noopener">${esc(new URL(x.url).host)} →</a></article>`).join("")}</div>
+    <section class="rp-apres"><h3 class="rp-h">Et après ?</h3><p>Le rapport n'est pas une fin. Voici ce que tu peux en faire :</p><ol>
+      <li><b>Relis l'essentiel</b> (la synthèse et les « En bref ») et choisis <b>une seule</b> action du plan, pas douze.</li>
+      <li><b>Tiens les deux rituels</b> pendant quatre semaines : vendredi soir, lundi matin, dix minutes.</li>
+      <li><b>Garde une trace</b> des faits de travail et de tes demandes, avec le brouillon de l'étape 9.</li>
+      <li><b>Parles-en</b> : la fiche travail pour ton manager, le rapport complet pour un médecin, si tu le souhaites.</li>
+      <li><b>Refais le questionnaire</b> dans deux à quatre semaines : c'est la trajectoire qui compte.</li></ol>
+      <p class="rp-urgences"><b>Toujours valable :</b> idées suicidaires, <a href="tel:3114">3114</a> (gratuit, 24 h/24). Danger immédiat : <a href="tel:15">15</a> ou <a href="tel:112">112</a>.</p></section>`;
+
   // ───────── Pages : synthèse, avant de lire, neuf étapes, puis les outils et les annexes.
   const N = etapes.length;
+  // Le fil d'Ariane de chaque étape, à l'écran comme dans le PDF : neuf jalons, celui du jour en orange.
+  const ariane = (i) => `<nav class="rp-ariane" aria-label="Où tu en es"><ol>${etapes.map((x, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"${j === i ? ' aria-current="step"' : ""}><button type="button" data-aller="${x.id}"><span class="num">${j + 1}</span><span class="nom">${esc(x.court)}</span>${x.n !== null && x.n !== undefined ? `<i style="background:${COUL[x.n]}"></i>` : ""}</button></li>`).join("")}</ol></nav>`;
   const pages = [
     { id: "synthese", court: "Synthèse", tete: "SYNTHÈSE", html: synthese },
     { id: "lire", court: "Avant de lire", tete: "AVANT DE LIRE", html: avantLire },
     ...etapes.map((e, i) => ({
       id: e.id, court: e.court, etape: i, n: e.n, tete: `ÉTAPE ${i + 1} SUR ${N} · ${e.q.toUpperCase()}`,
-      html: `<header class="rp-etape-head"><div class="rp-stepper">${miniSchema(e.col)}<div><p class="rp-n">Étape ${i + 1} sur ${N} · colonne ${COLNOMS[COLS[e.col]]}</p><ol aria-hidden="true">${etapes.map((_, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"></li>`).join("")}</ol></div></div>
-        <p class="rp-approche">${esc(e.approche)}</p>
-        <h2 tabindex="-1">${esc(e.q)}</h2><p class="rp-intro">${e.intro}</p></header>
+      html: `<header class="rp-etape-head">${ariane(i)}
+        <p class="rp-n">${miniSchema(e.col)}<span>Étape ${i + 1} sur ${N}</span><span class="rp-approche">${esc(e.approche)}</span></p>
+        <h2 tabindex="-1">${esc(e.q)}</h2><p class="rp-sq">${esc(SQ[e.id] || "")}</p><p class="rp-intro">${e.intro}</p></header>
+        ${i > 0 ? `<aside class="rp-pont"><p class="k">Ce qu'on garde de l'étape ${i} · ${esc(etapes[i - 1].court)}</p><p>${etapes[i - 1].garder}</p></aside>` : ""}
         ${r.hasAlert ? `<p class="rp-securite-mini" role="note">Un signal de sécurité a été coché. Consulte le message de la synthèse ; le score ne détermine pas l’urgence.</p>` : ""}
         <div class="rp-bref"><p class="k">En bref ${pastille(e.n, e.mot)}</p><p>${e.bref}</p></div>
         <div class="rp-corps">${e.corps}</div>
-        ${e.reponses ? repliees("Les réponses derrière cette étape", e.reponses) : ""}
-        ${e.comprendre}${garder(e.garder, i === N - 1)}`
+        ${FILS[e.id] ? `<section class="rp-fils"><h3 class="rp-h">Les fils de cette étape</h3><p class="rp-legende">Chaque fil regroupe quelques questions sur un même thème. La barre donne son niveau en mots ; les réponses sont repliées.</p>${FILS[e.id].join("")}</section>` : e.reponses ? repliees("Les réponses derrière cette étape", e.reponses) : ""}
+        ${e.comprendre}${i === N - 1 ? garder(e.garder, true) : ""}`
     })),
+    { id: "ressources", court: "Pour aller plus loin", tete: "POUR ALLER PLUS LOIN", html: plusLoin },
     { id: "travail", court: "Fiche travail", annexe: true, tete: "OUTIL · FICHE TRAVAIL", html: ficheTravail },
     { id: "carnet", court: "Carnet de suivi", annexe: true, tete: "OUTIL · CARNET DE SUIVI", html: carnet },
     { id: "annexes", court: "Annexes", annexe: true, tete: "ANNEXES", html: `<header class="rp-etape-head"><p class="rp-n">Annexes</p><h2 tabindex="-1">Comment le rapport est construit, ce que tu as répondu, d'où viennent les questions</h2></header>
@@ -1030,23 +1144,43 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
   const filItems = `<ol class="rp-fil">${pages.filter((p) => !p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num">${p.etape !== undefined ? p.etape + 1 : ""}</span><span>${esc(p.court)}</span>${p.n !== undefined && p.n !== null ? `<i style="background:${COUL[p.n]}" aria-hidden="true"></i>` : ""}</button></li>`).join("")}</ol>
     <p class="rp-fil-titre">Outils et annexes</p><ol class="rp-fil">${pages.filter((p) => p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num"></span><span>${esc(p.court)}</span></button></li>`).join("")}</ol>`;
 
-  return `<header class="rapport-cover">
-      <p class="course-eyebrow">Étape 3 · Rapport personnel</p>
-      <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out</h1>
+  // Page de garde et quatrième de couverture du PDF, pleine page (modèle psytest) : invisibles à l'écran.
+  const couv = `<section class="rp-couv" aria-hidden="true">
+      <p class="rp-pill">Rapport · Bull-Out</p>
+      <h1 class="rp-couv-titre">Ton rapport<br>Bull-Out<br><span>Point d'étape</span></h1>
+      <p class="rp-couv-date">${esc(date)} · tes quatre dernières semaines</p>
+      <div class="rp-couv-schema">${schemaDouble({ d: dSchema, classe: "rp-ensemble rp-couv-svg", jauges: false, titre: "Le schéma de tes réponses" })}</div>
+      <p class="rp-couv-desc">Ce que tes réponses disent de ta fatigue, de ce que ton travail te demande et te rend, de ce qui t'aide, et par où commencer. Questions inspirées d'outils reconnus (Maslach, JD-R, Siegrist, Gollac et INRS).</p>
+      <p class="rp-couv-pied"><span>bullout.ddlab.fr</span><span>Prévention burn-out sans bullshit</span><span>Version ${esc(VERSION)}</span></p>
+    </section>`;
+  const dos = `<section class="rp-dos" aria-hidden="true">
+      <div class="rp-dos-logo" aria-hidden="true">BO</div>
+      <p class="rp-dos-nom">Bull-Out</p>
+      <p class="rp-dos-slogan">Prévention burn-out sans bullshit</p>
+      <p class="rp-dos-url">bullout.ddlab.fr</p>
+      <p class="rp-dos-urg">Idées suicidaires : <b>3114</b>, gratuit, 24 h/24 · Danger immédiat : <b>15</b> ou <b>112</b></p>
+      <p class="rp-dos-res">Pour aller plus loin : <b>papillon.ddlab.fr</b> · <b>bonheur.ddlab.fr</b> · <b>traiterdr.ddlab.fr</b></p>
+      <p class="rp-dos-mini">Un projet DD Lab, développé avec deux psys, et en discussion avec un juge aux prud'hommes. Version du questionnaire et du calcul : ${esc(VERSION)}. Rien de ce rapport n'est enregistré ailleurs que sur ton appareil.</p>
+    </section>`;
+
+  return `${couv}<header class="rapport-cover">
+      <p class="rp-pill">Rapport · ${esc(date)}</p>
+      <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out <span class="rp-accent">Point d'étape</span></h1>
       <p class="rp-slogan">Prévention burn-out sans bullshit</p>
-      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse, puis neuf étapes dans l'ordre de la formation.</p>
+      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse en une page, puis neuf étapes dans l'ordre de la formation, et des ressources pour aller plus loin.</p>
       <div class="parcours-tools rp-outils">
-        <fieldset class="rp-pdf"><legend>Ce que contient le PDF</legend>
-          <label><input type="radio" name="rp-pdf" value="complet" checked> <b>Complet</b> : synthèse, neuf étapes, outils et annexes</label>
+        <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
+        <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
+        <a href="dossier.html" target="_blank" rel="noopener">Le dossier stagiaire (PDF à emporter)</a>
+        <a href="#questionnaire">Revoir mes réponses</a>
+      </div>
+      <details class="rp-pdf-options"><summary>Ce que contient le PDF : <span class="rp-pdf-choix">complet</span></summary>
+        <fieldset class="rp-pdf"><legend class="sr-only">Ce que contient le PDF</legend>
+          <label><input type="radio" name="rp-pdf" value="complet" checked> <b>Complet</b> : synthèse, neuf étapes, ressources, outils et annexes</label>
           <label><input type="radio" name="rp-pdf" value="court"> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
           <label><input type="radio" name="rp-pdf" value="travail"> <b>Fiche travail</b> : contraintes et demandes, sans réponses médicales</label>
           <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
-        </fieldset>
-        <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
-        <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
-        <a href="dossier.html" target="_blank" rel="noopener">Le dossier stagiaire (4 pages)</a>
-        <a href="#questionnaire">Revoir mes réponses</a>
-      </div>
+        </fieldset></details>
       <p class="rp-prive">Rien ne quitte ton navigateur automatiquement. <b>Le résumé copié et les PDF complet et essentiel contiennent des informations personnelles.</b> Pour parler au travail sans communiquer tes réponses de santé, choisis « Fiche travail ». Dans la fenêtre d'impression, sélectionne « Enregistrer au format PDF ».</p>
     </header>
     <div class="rp-layout" data-date="${esc(date)}">
@@ -1056,7 +1190,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
         ${pages.map((p, i) => `<section class="rp-page${p.etape !== undefined ? " rp-etape" : ""}" id="rapport-${p.id}" data-page="${p.id}" data-tete="${esc(p.tete)}" aria-label="${esc(p.court)}">${p.html}${nav(i)}</section>`).join("")}
       </div>
     </div>
-    <footer class="rp-fin"><p><b>Bull-Out</b> · Prévention burn-out sans bullshit · bullout.ddlab.fr</p><p>Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Version du questionnaire et du calcul : ${VERSION}.</p></footer>`;
+    ${dos}<footer class="rp-fin"><p><b>Bull-Out</b> · Prévention burn-out sans bullshit · bullout.ddlab.fr</p><p>Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Version du questionnaire et du calcul : ${VERSION}.</p></footer>`;
 }
 
 // ───────── Affichage : une page à la fois à l'écran, tout le rapport à l'impression
@@ -1104,6 +1238,8 @@ function optionsPDF() {
   racine.classList.toggle("pdf-court", mode === "court");
   racine.classList.toggle("pdf-travail", mode === "travail");
   racine.classList.toggle("pdf-sans-reponses", !racine.querySelector('[name="rp-reponses"]')?.checked);
+  const choix = racine.querySelector(".rp-pdf-choix");
+  if (choix) choix.textContent = { complet: "complet", court: "essentiel", travail: "fiche travail" }[mode];
 }
 
 document.addEventListener("bullout:rapport", (event) => {

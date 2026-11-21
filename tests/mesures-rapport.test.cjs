@@ -1123,9 +1123,9 @@ test("l'absurde est le chapitre 5, avec sa pièce, ses rappels et l'ancienne adr
 });
 
 // ───────── V4 : le dossier stagiaire, donné après la synthèse et avec le diplôme.
-test("le dossier stagiaire tient en quatre feuilles, garde les urgences et est annoncé partout", () => {
+test("le dossier stagiaire tient en huit feuilles, garde les urgences et est annoncé partout", () => {
   const html = read("dossier.html");
-  assert.equal((html.match(/<section class="feuille"/g) || []).length, 4);
+  assert.equal((html.match(/<section class="feuille/g) || []).length, 8);
   for (const x of ["3114", ">15<", ">112<", "09 72 39 40 50", "0 806 000 126", "Vendredi soir", "Lundi matin", "Prévention burn-out"]) assert.ok(html.includes(x), "Absent : " + x);
   assert.match(html, /bull-out-dossier\.pdf/);
   assert.ok(require("node:fs").existsSync(require("node:path").join(__dirname, "..", "bull-out-dossier.pdf")), "PDF du dossier absent");
