@@ -136,7 +136,7 @@
     title: "G. Ce qui t'aide à tenir",
     explore: "tes points d'appui : ce qui te recharge, ce qui te soutient, ce que tu sais déjà faire pour te protéger.",
     sources: "Recovery Experience Questionnaire de Sonnentag et Fritz (détachement, relaxation, maîtrise), ressources personnelles du modèle JD-R (Xanthopoulou et al.), soutien social (Karasek), stratégies d'ajustement (Lazarus et Folkman)",
-    chapitres: [3, 7],
+    chapitres: [3, 8],
     questions: [
       "Je vis au travail des moments où je me sens utile et à la hauteur.",
       "J'arrive à décrocher vraiment du travail au moins une soirée ou une journée par semaine.",
@@ -167,6 +167,20 @@
     ]
   };
 
+  // Repères RPS complémentaires : expositions auto-déclarées, hors score A–F.
+  // Quatre lacunes du référentiel Gollac/INRS, sans prétention psychométrique.
+  const rpsPart = {
+    id: "RPS", title: "Ton travail au quotidien : quatre repères de plus",
+    explore: "quatre risques du travail que les autres questions voient mal : le repos grignoté, les émotions à cacher, les changements imposés, les décisions prises sans toi.",
+    sources: "Gollac et Bodier (2011), INRS (six familles de RPS), COPSOQ III (dimensions, sans reproduction de son échelle)",
+    chapitres: [7],
+    questions: [
+      "Mes horaires, changements de planning ou sollicitations professionnelles empiètent sur mes temps de repos ou ma vie personnelle.",
+      "Je dois masquer ou simuler ce que je ressens dans mes interactions professionnelles pour faire mon travail.",
+      "Des changements dans mon travail me sont imposés sans visibilité ni préparation suffisantes.",
+      "Des décisions qui modifient directement mon travail sont prises sans que je puisse faire entendre mon point de vue."
+    ]
+  };
   // Partie BS : le bullshitomètre (données dans bullshitometre-data.js). Satirique, hors score.
   const BS = window.BULLOUT_BS || { questions: [], dims: [], profils: [] };
   const bullshitPart = {
@@ -496,6 +510,7 @@
     E: "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z",
     F: "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z",
     R: "M7 10h14l-4-4M17 14H3l4 4",
+    RPS: "M3 20h18M5 16l4-4 4 3 6-8M4 4h16",
     BS: "M19 5 5 19M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
     HR: "M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9 10h.01M15 10h.01M8 14c2 3 6 3 8 0",
     G: "M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.5l7.1-.6z",
@@ -521,7 +536,7 @@
 
   function buildQuestionnaire() {
     const fragment = document.createDocumentFragment();
-    const total = sections.length + 5 + (BS.questions.length ? 2 : 0);
+    const total = sections.length + 6 + (BS.questions.length ? 2 : 0);
     questionNumber = 0;
 
     const chapLinks = (list) => list.map((n) => `<a href="test.html#chapitre-${n}" target="_blank" rel="noopener">chapitre ${n}</a>`).join(" et ");
@@ -544,7 +559,7 @@
       fragment.appendChild(part);
     };
 
-    // Ordre : la personne (A-C), le travail (D, E, R), l'absurde (BS), la récupération (F), les appuis (G), puis contexte et alertes.
+    // Ordre : la personne (A-C), le travail (D, E, RPS, R), l'absurde (BS), la récupération (F), les appuis (G), puis contexte et alertes.
     const PERIOD = "Sur les 4 dernières semaines, sauf événement exceptionnel majeur.";
     let index = 0;
     const scored = (id) => {
@@ -554,6 +569,10 @@
         about(section.explore, section.sources, section.chapitres));
     };
     ["A", "B", "C", "D", "E"].forEach(scored);
+    addPart("RPS", rpsPart.title, PERIOD,
+      "Quatre questions de plus sur ton travail au quotidien. Elles n'entrent dans aucun score : une réponse haute appelle un exemple concret, pas une étiquette.",
+      rpsPart.questions.map((question, qIndex) => createRatingQuestion(rpsPart, question, qIndex)), index++,
+      about(rpsPart.explore, rpsPart.sources, rpsPart.chapitres));
     addPart("R", exchangePart.title, PERIOD,
       "Les trois premières questions décrivent ce qui revient : une réponse haute est une bonne nouvelle. Les trois suivantes décrivent ta façon de t'engager. Cette partie n'entre pas dans les six scores A à F.",
       exchangePart.questions.map((question, qIndex) => createRatingQuestion(exchangePart, question, qIndex)), index++,
@@ -585,7 +604,7 @@
       alertQuestions.map((question, i) => createYesNoQuestion(question, i, "alert")), index++);
 
     questionnaireRoot.appendChild(fragment);
-    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
+    progressTotal.textContent = String(sections.length * 6 + exchangePart.questions.length + rpsPart.questions.length + bullshitPart.questions.length + humorReactionPart.questions.length + strengthPart.questions.length + temporalPart.questions.length + contextQuestions.length + alertQuestions.length);
     console.debug("Questionnaire initialisé", { sections: sections.length, contextQuestions: contextQuestions.length, alertQuestions: alertQuestions.length });
   }
 
@@ -1072,6 +1091,15 @@
     };
   }
 
+  function getRpsAnswers() {
+    return rpsPart.questions.map((question, index) => {
+      const selected = form.querySelector(`input[name="RPS${index + 1}"]:checked`);
+      const value = selected ? Number(selected.value) : null;
+      return { id: `RPS${index + 1}`, question, value,
+        answered: value !== null, answer: value === null ? null : ratingLabels[value] };
+    });
+  }
+
   // Réaction à la satire : quatre questions indépendantes sur l'instant présent.
   // La cinquième valeur numérique du choix (index 5) signifie « ne pas répondre ».
   function getHumorReactionAnswers() {
@@ -1547,6 +1575,8 @@
     if (exchangeAnswers.some((answer) => answer.value === null)) {
       return null;
     }
+    const rpsAnswers = getRpsAnswers();
+    if (rpsAnswers.some((answer) => !answer.answered)) return null;
     const temporalAnswers = getTemporalAnswers();
     if (temporalAnswers.some((answer) => answer.value === null)) return null;
     const temporalInsight = getTemporalInsight(temporalAnswers);
@@ -1584,8 +1614,9 @@
       strengthAnswers,
       exchangeAnswers,
       temporalAnswers,
+      rpsAnswers,
       temporalInsight,
-      questionnaireVersion: "2026-11-v2",
+      questionnaireVersion: "2026-11-rps-v1",
       bullshitometreVersion: "2026-11-bs-v2",
       humorReactionVersion: "2026-11-hr-v2",
       humorReaction,
@@ -2242,6 +2273,8 @@
     getRecommendedStakeholders,
     strengthPart,
     exchangePart,
+    rpsPart,
+    getRpsAnswers,
     temporalPart,
     getTemporalInsight,
     bullshitPart,

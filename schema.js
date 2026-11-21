@@ -24,9 +24,10 @@ export const PIECES = [
   ["pesee2", "investi", "absurde", "recul"],// 4 · ce que tu donnes est-il payé ? (Siegrist) ; l'absurde, du travail pour rien, et ton recul face à lui
   ["appuis", "vie"],                        // 5 · « c'est perso » : ce qui te tient, ce que tu sacrifies
   ["jauges"],                               // 6 · ce que valent les mesures : trois jauges, trois mots, pas un pourcentage
-  ["leviers"],                              // 7 · agir : on agit sur le travail, on prend soin de soi, on suit l'impact
-  ["temps"],                                // 8 · la loi et la trace : une carte se lit avec des dates
-  ["portes"],                               // 9 · à qui en parler : une porte par zone, et la sécurité à part
+  ["familles"],                             // 7 · les six familles de risques (Gollac, INRS) : des pastilles sur LE TRAVAIL, l'exposition avant l'usure
+  ["leviers"],                              // 8 · agir : on agit sur le travail, on prend soin de soi, on suit l'impact
+  ["temps"],                                // 9 · la loi et la trace : une carte se lit avec des dates
+  ["portes"],                               // 10 · à qui en parler : une porte par zone, et la sécurité à part
 ];
 export const NOMS_PIECES = {
   fatigue: "Ta fatigue", corps: "Ton corps", relation: "Ta relation au travail", pesee1: "Ton travail t'aide-t-il assez ?",
@@ -35,8 +36,8 @@ export const NOMS_PIECES = {
   familles: "Les six familles de risques",
 };
 // Les six familles de risques psychosociaux (Gollac, INRS) décrivent la colonne LE TRAVAIL : pas de case à elles,
-// mais une pastille numérotée sur la case qui les mesure. La pièce « familles » n'est pas dans PIECES ici :
-// le chapitre RPS l'insère à son index. d.familles = numéros des familles qui ressortent (allumées).
+// mais une pastille numérotée sur la case qui les mesure. La pièce « familles » est posée au chapitre 7.
+// d.familles = numéros des familles qui ressortent (allumées).
 export const FAMILLES = ["", "Intensité et temps de travail", "Exigences émotionnelles", "Autonomie", "Rapports sociaux", "Conflits de valeurs", "Insécurité"];
 
 // Sam, 38 ans, coordinateur logistique : l'exemple fictif de la formation et de l'accueil.
@@ -72,7 +73,7 @@ const JAUGES = [["Ton travail", "LE TRAVAIL", "Que te demande-t-il ? Que te rend
 
 /**
  * Dessine le schéma.
- * d : données (SAM par défaut) ; chapitre : -1 = vide, 0 à 8 = construit jusqu'à ce chapitre (sa pièce en anis), absent = complet.
+ * d : données (SAM par défaut) ; chapitre : -1 = vide, 0 à 9 = construit jusqu'à ce chapitre (sa pièce en anis), absent = complet.
  * etroit : mise en page téléphone (colonne unique). couches : classes rp-layer pour la lecture pas à pas du rapport.
  * jauges : false pour ne pas redessiner les jauges quand la page les montre déjà juste au-dessus (rapport).
  */
@@ -177,18 +178,18 @@ export function schema({ d = SAM, chapitre = PIECES.length, etroit = false, titr
     s += g("person", fatigue(X[1], y0, w) + investi(X[1], y0 + 200, w) + recul(X[1], y0 + 274, w));
     s += g("support", appuis(X[1], y0 + 384, w));
     s += g("manifest", relation(X[2], y0, w) + corps(X[2], y0 + 200, w) + vie(X[2], y0 + 320, w));
-    // Où agir (chapitre 7) : sous chaque zone.
+    // Où agir (chapitre 8) : sous chaque zone.
     const yA = y0 + 520;
     s += vu("leviers") ? g("leviers", X.map((x, i) => `${halo("leviers", x, yA, w, 48)}<rect x="${x}" y="${yA}" width="${w}" height="48" rx="12" fill="${i === 0 ? C.mid : C.card}" stroke="${C.sapin}" stroke-opacity=".25" stroke-width="1.5"/>${T(x + w / 2, yA + 20, AGIR[i][0], { a: "middle", titre: true, w: 800, size: 12, c: i === 0 ? "#fff" : C.sapin })}${T(x + w / 2, yA + 38, AGIR[i][1], { a: "middle", size: 11.5, w: 600, c: i === 0 ? C.anis : C.muted })}`).join(""))
       : X.map((x, i) => attente(x, yA, w, 48, i === 1 ? "Où agir" : "")).join("");
-    // Depuis quand (chapitre 8).
+    // Depuis quand (chapitre 9).
     const yT = yA + 62, Wt = W - 36;
     if (vu("temps")) {
       const c3 = [["DEPUIS", t.duree], ["ÉVOLUTION", t.evolution], ["EN CONGÉ", t.conge]];
       s += g("temps", `${halo("temps", 18, yT, Wt, 56)}${cadre(18, yT, Wt, 56)}<path d="M30 ${yT + 46} H${W - 36}" stroke="${C.sapin}" stroke-opacity=".3" stroke-width="2"/><path d="M${W - 42} ${yT + 41} L${W - 34} ${yT + 46} L${W - 42} ${yT + 51}" fill="none" stroke="${C.sapin}" stroke-opacity=".4" stroke-width="2"/>
         ${T(32, yT + 24, "Depuis quand ?", { titre: true, w: 800, size: 14 })}${c3.map(([k, v], i) => `${T(250 + i * 210, yT + 20, k, { size: 10.5, w: 800, c: C.ink })}${T(250 + i * 210, yT + 36, v || "—", { size: 12.5, w: 600 })}`).join("")}`);
     } else s += attente(18, yT, Wt, 56, "Depuis quand ?");
-    // Les portes et la sécurité (chapitre 9).
+    // Les portes et la sécurité (chapitre 10).
     const yP = yT + 70;
     if (vu("portes")) {
       s += g("portes", `${halo("portes", 18, yP, Wt, 92)}${cadre(18, yP, Wt, 92)}${X.map((x, i) => `${T(x + 12, yP + 20, PORTES[i][0], { size: 10.5, w: 800, c: C.ink })}${T(x + 12, yP + 37, PORTES[i][1], { size: 12.5, w: 600 })}`).join("")}${securite(30, yP + 48, Wt - 24)}`);

@@ -24,7 +24,7 @@ jobs:
           google-chrome --version
       - name: Installer le pilote de Chromium
         run: npm install --no-save --no-package-lock playwright
-      - name: Exécuter les 79 réponses fictives dans le vrai moteur et imprimer les PDF
+      - name: Exécuter les 83 réponses fictives dans le vrai moteur et imprimer les PDF
         run: node tests/generer-pdf-exemple.mjs
       - name: Publier les PDF, la capture et les données de contrôle
         uses: actions/upload-artifact@v4

@@ -39,6 +39,7 @@ const SCHEMA_TEXTE = [
   "Une seconde pesée : <b>ce que tu donnes est-il payé ?</b> Ce que tu donnes, c’est ta charge vue comme un échange ; ce que tu reçois, c’est l’estime, l’équité, le salaire, l’avenir (Siegrist). Au centre, <b>trop investi·e ?</b> Et <b>l’absurde</b> : les tâches qui ne servent à rien et la qualité empêchée, avec, chez toi, <b>ton recul face à l’absurde</b>. <b>Règle : chaque réponse n’a qu’une place.</b>",
   "Au centre, <b>tes appuis</b> : ce qui te tient, et en pointillés ce que tu portes à côté (une séparation, un deuil, un proche malade). À droite, <b>ta vie hors travail</b> : ce que le travail te fait sacrifier. <b>Règle : ce qui est perso change la lecture, jamais le score, et ne remplace pas le travail.</b>",
   "En haut, <b>les trois jauges</b> : ton travail, ta fatigue, les impacts. Chacune résume sa colonne en un mot. <b>Règle : un mot, pas un pourcentage ; une tendance, pas un diagnostic.</b> On regarde d’abord les jauges, puis la colonne sous la plus orange. L’ordre des colonnes n’est pas une preuve : c’est une piste à vérifier avec ta chronologie.",
+  "Sur la colonne du travail, <b>six pastilles</b> : les six familles de risques du travail (Gollac, INRS). <b>Règle : la jauge du travail dit à quoi tu es exposé·e, les deux autres ce que ça te fait.</b> Une famille allumée avec une fatigue verte reste à traiter : on n’attend pas d’être épuisé·e pour changer le travail.",
   "Sous les colonnes, <b>où agir</b>. <b>Règle : on agit d’abord sur le travail (retirer, reporter, simplifier). On prend soin de soi, sans tout porter seul. On suit l’impact, pour voir si ça bouge, pas pour juger.</b>",
   "En bas, <b>depuis quand ?</b> La durée, le sens de l’évolution, et ce que change un congé. <b>Règle : une carte se lit avec des dates.</b> C’est aussi ce que la loi regarde : des faits datés, jamais ta santé.",
   "Dernière pièce : <b>les portes</b>, une par zone. Pour le travail, ton manager, les RH, le CSE ; pour toi, ton médecin, un psy ; entre les deux, le médecin du travail. La sécurité reste à part, toujours visible. <b>Ton schéma est complet : tu sais le lire.</b>",
@@ -339,7 +340,7 @@ function telecharger(blob, nom) {
 const controles = () => [...form.querySelectorAll('input[type="radio"]')].filter(r => !r.name.startsWith("alert"));
 function enregistrer(btn) {
   const reponses = questionnaire.hidden ? {} : Object.fromEntries(controles().filter(r => r.checked).map(r => [r.name, r.value]));
-  const progression = { format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
+  const progression = { format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: [...acquis], bonnes, dateDiplome, ouvert, reponses };
   telecharger(new Blob([JSON.stringify(progression)], { type: "application/json" }), "bull-out-progression.json");
   message(btn, "Progression téléchargée. Garde ce fichier pour reprendre.");
 }
@@ -425,6 +426,16 @@ function restaurer(p) {
     const sautBS = Array.from({ length: 12 }, (_, i) => reponses[`BS${i + 1}`] === "skip").every(Boolean);
     if (sautBS) for (let i = 1; i <= 4; i++) reponses[`HR${i}`] = "5";
     p = { ...p, reponses, versionReactionHumour: "2026-11-hr-v2" };
+  }
+  // Ajout du chapitre 7 (six familles de risques) : préserver les acquis 1–6 et décaler les anciens 7–9.
+  // Les diplômes déjà délivrés restent reconnus, sans inventer de réponses RPS.
+  if (p?.format === format && p.versionFormation !== "2026-11-rps-10-chapitres" &&
+      Array.isArray(p.chapitres) && p.chapitres.every(i => i < 9)) {
+    const ancienDiplome = p.bonnes === examen.length && dateValide(p.dateDiplome);
+    const remappes = p.chapitres.map(i => i >= 6 ? i + 1 : i);
+    p = { ...p, versionFormation: "2026-11-rps-10-chapitres",
+      chapitres: ancienDiplome ? [...new Set([...remappes, 6])].sort((x, y) => x - y) : remappes,
+      versionQuestions: "2026-11-rps-v1" };
   }
   const sansErreur = p?.format === format && Array.isArray(p.chapitres) && p.chapitres.length <= chapitres.length &&
     p.chapitres.every(i => Number.isInteger(i) && i >= 0 && i < chapitres.length) &&

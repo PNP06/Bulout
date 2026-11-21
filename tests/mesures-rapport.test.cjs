@@ -46,7 +46,7 @@ function composerRapport() {
   const root = { addEventListener() {}, querySelectorAll() { return []; }, querySelector() { return null; } };
   const document = { querySelector() { return root; }, addEventListener() {} };
   const window = { addEventListener() {} };
-  const chapitres = Array.from({ length: 9 }, (_, i) => ({
+  const chapitres = Array.from({ length: 10 }, (_, i) => ({
     court: "Chapitre " + (i + 1), piece: { nom: "Pièce " + (i + 1) }
   }));
   return new Function("document", "window", "chapitres", code + "\nreturn composer;")(document, window, chapitres);
@@ -86,7 +86,8 @@ function fixture(value, alertes = [false, false, false]) {
       contextAnswers: api.contextQuestions.map((context) => ({ ...context, yes: false, answered: true })),
       strengthAnswers: api.strengthPart.questions.map((question, i) => ({ id: "G" + (i + 1), question, value })),
       exchangeAnswers: api.exchangePart.questions.map((question, i) => ({ id: "R" + (i + 1), question, value })),
-      temporalAnswers: api.temporalPart.questions.map((question, i) => {
+      rpsAnswers: api.rpsPart.questions.map((question, i) => ({ id: "RPS" + (i + 1), question, value })),
+       temporalAnswers: api.temporalPart.questions.map((question, i) => {
         const n = i === 0 ? 2 : i === 1 ? 1 : i === 2 ? 0 : value;
         return { id: "T" + (i + 1), question: question.text, value: n, answer: question.options[n].text };
       }),
@@ -100,13 +101,13 @@ function fixture(value, alertes = [false, false, false]) {
         twoWeeks: [{ title: "À deux semaines", items: ["Réexaminer"] }] }
     },
     sections: api.sections, strengthPart: api.strengthPart, exchangePart: api.exchangePart,
-    temporalPart: api.temporalPart,
+    temporalPart: api.temporalPart, rpsPart: api.rpsPart,
     bullshitPart: api.bullshitPart, bsDims: [["meeting", "Réunionite"]],
     ratingLabels
   };
 }
 
-test("le questionnaire compte 79 questions, dont 12 satiriques et 4 réactions non notées", () => {
+test("le questionnaire compte 83 questions, dont 12 satiriques et 4 réactions non notées", () => {
   assert.equal(api.sections.length, 6);
   assert.ok(api.sections.every((s) => s.questions.length === 6));
   assert.equal(api.strengthPart.questions.length, 6);
@@ -116,7 +117,8 @@ test("le questionnaire compte 79 questions, dont 12 satiriques et 4 réactions n
   assert.equal(api.contextQuestions.length, 8);
   assert.equal(api.alertQuestions.length, 3);
   assert.equal(api.temporalPart.questions.length, 4);
-  assert.equal(6 * 6 + 6 + 6 + 12 + 4 + 8 + 3 + 4, 79);
+  assert.equal(api.rpsPart.questions.length, 4);
+  assert.equal(6 * 6 + 6 + 6 + 4 + 12 + 4 + 8 + 3 + 4, 83);
 });
 
 test("un total maximal ne déclenche pas d'alerte à lui seul", () => {
@@ -207,7 +209,8 @@ test("une difficulté de fonctionnement seule ne suggère pas automatiquement le
 test("les réponses aux questions d'alerte restent exclues du fichier de progression", () => {
   const src = read("parcours.js");
   assert.match(src, /filter\(r => !r\.name\.startsWith\("alert"\)\)/);
-  assert.match(src, /const progression = \{ format, versionQuestions: "2026-11-v2", versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
+  assert.match(src, /const progression = \{ format, versionFormation: "2026-11-rps-10-chapitres", versionQuestions: "2026-11-rps-v1"/);
+  assert.match(src, /versionBullshitometre: "2026-11-bs-v2", versionReactionHumour: "2026-11-hr-v2", chapitres: \[\.\.\.acquis\], bonnes, dateDiplome, ouvert, reponses \}/);
 });
 
 test("l'exemple d'accueil ne simule plus de pourcentage d'énergie", () => {
@@ -270,13 +273,13 @@ test("les sous-groupes efficacité et sens restent sur leurs dénominateurs rée
 
 test("la grille INRS couvre six familles sans score RPS inventé", () => {
   const html = composer(fixture(2));
-  const bloc = pageDuRapport(html, "balance");
+  const bloc = pageDuRapport(html, "rps");
   for (const categorie of [
     "Intensité et temps de travail", "Exigences émotionnelles",
     "Autonomie et marges de manœuvre", "Rapports sociaux au travail",
     "Conflits de valeurs", "Insécurité professionnelle"
   ]) assert.ok(bloc.includes(categorie), categorie);
-  assert.match(bloc, /sans fabriquer de six nouveaux scores/);
+  assert.match(bloc, /aucun total|six nouvelles échelles|hors score/i);
 });
 
 test("un signal D3 isolé déclenche une action d'arbitrage même si le total D reste bas", () => {
@@ -515,6 +518,7 @@ function completeAnswers(options = {}) {
   for (let i = 0; i < source.strengthPart.questions.length; i++) inputs["G" + (i + 1)] = 2;
   for (let i = 0; i < source.exchangePart.questions.length; i++) inputs["R" + (i + 1)] = 2;
   for (let i = 0; i < source.temporalPart.questions.length; i++) inputs["T" + (i + 1)] = 1;
+  for (let i = 0; i < source.rpsPart.questions.length; i++) inputs["RPS" + (i + 1)] = 0;
   for (let i = 0; i < source.contextQuestions.length; i++) inputs["context" + (i + 1)] = "no";
   for (let i = 0; i < source.alertQuestions.length; i++) inputs["alert" + (i + 1)] = "no";
   for (let i = 0; i < source.bullshitPart.questions.length; i++) {
@@ -526,14 +530,15 @@ function completeAnswers(options = {}) {
   return { ...inputs, ...(options.overrides || {}) };
 }
 
-test("le moteur exécute les 79 réponses avec la pause satirique passée", () => {
+test("le moteur exécute les 83 réponses avec la pause satirique passée", () => {
   const data = completeAnswers({ skipBS: true });
   const engine = debugApi(data);
   const result = engine.calculateResults();
   assert.ok(result);
   assert.equal(result.totalScore, 0);
   assert.equal(result.temporalAnswers.length, 4);
-  assert.equal(result.questionnaireVersion, "2026-11-v2");
+  assert.equal(result.questionnaireVersion, "2026-11-rps-v1");
+  assert.equal(result.rpsAnswers.length, 4);
   assert.equal(result.bullshit.skipped, true);
   assert.equal(result.bullshit.percent, null);
   assert.equal(result.hasAlert, false);
@@ -833,7 +838,8 @@ test("les six réponses au ressenti humoristique sont lisibles sur mobile et acc
 test("la formation conserve trois modèles principaux et explique leur origine et leurs limites", () => {
   const code = read("formation-contenu.js").replace(/^export const /gm, "const ");
   const {chapitres} = new Function(code + "\nreturn {chapitres};")();
-  assert.equal(chapitres.length, 9);
+  assert.equal(chapitres.length, 10);
+  assert.match(chapitres[6].titre, /six familles de risques/i);
   for(const i of [1,2,3]) {
     const c=chapitres[i];
     const prose=c.blocs.filter(b=>b.t==="p").map(b=>b.html).join(" ");
@@ -891,18 +897,18 @@ test("la page Méthode détaille la construction, les hypothèses testables et l
   for(let i=1;i<=6;i++)assert.match(html,new RegExp("H"+i+" ·"));
   assert.match(html,/sensibilité, spécificité, fidélité/i);
   assert.match(html,/pas des versions officielles validées/);
-  assert.match(html,/Les 79 questions/);
+  assert.match(html,/Les 83 questions/);
   assert.match(html,/traduction automatique fournie par Google/);
   assert.match(html,/une simulation réussie valide un comportement du programme/i);
 });
 
-test("le test PDF couvre vraiment 79 réponses fictives et ne collecte aucune donnée réelle", () => {
+test("le test PDF couvre vraiment 83 réponses fictives et ne collecte aucune donnée réelle", () => {
   const js=read("tests/generer-pdf-exemple.mjs");
   const yml=read(".github/workflows/rapport-fictif.yml");
   for(const x of ["#burnout-form","calculateResults()","submit","page.pdf(","rapport-essentiel-fictif.pdf","rapport-complet-fictif.pdf","fiche-travail-fictive.pdf"]) {
     assert.ok(js.includes(x),`Élément absent du test navigateur : ${x}`);
   }
-  assert.match(js,/synth\.items!==79/);
+  assert.match(js,/synth\.items!==83/);
   assert.match(js,/if\(synth\.alertes\)/);
   assert.match(js,/pageErrors\.length/);
   assert.match(yml,/actions\/upload-artifact@v4/);
@@ -927,7 +933,7 @@ function schemaApi() {
 
 test("chaque chapitre pose sa pièce et sa règle, comme le papillon de Papillon", () => {
   const { schema, PIECES } = schemaApi();
-  assert.equal(PIECES.length, 9, "une entrée par chapitre");
+  assert.equal(PIECES.length, 10, "une entrée par chapitre");
   assert.ok(PIECES.every((p) => p.length > 0), "aucun chapitre sans pièce");
   const halos = (svg) => (svg.match(/<rect [^>]*fill="#d8f25c"/g) || []).length;
   // Schéma vide : aucune pièce posée, aucune surlignée ; le cadre est déjà là.
@@ -942,6 +948,9 @@ test("chaque chapitre pose sa pièce et sa règle, comme le papillon de Papillon
   assert.doesNotMatch(ch3, /Tu reçois/);
   // Chapitre 4 : Siegrist en deux moitiés (la pesée donner/recevoir, trop investi·e ?), l'absurde et ton recul.
   assert.equal(halos(schema({ chapitre: 3 })), 4);
+  // Chapitre 7 : les six familles de risques, en pastilles sur LE TRAVAIL (pas de boîte en plus).
+  assert.match(schema({ chapitre: 6 }), /<title>Conflits de valeurs<\/title>/);
+  assert.doesNotMatch(schema({ chapitre: 5 }), /<title>Conflits de valeurs<\/title>/);
   // Chapitre 6 : les trois jauges.
   assert.match(schema({ chapitre: 5 }), /Les impacts/);
   assert.doesNotMatch(schema({ chapitre: 4 }), />Les impacts</);
@@ -950,7 +959,7 @@ test("chaque chapitre pose sa pièce et sa règle, comme le papillon de Papillon
   assert.equal(halos(complet), 0);
   assert.match(complet, /Sécurité, toujours à part/);
   assert.equal((complet.match(/>Épuisement</g) || []).length, 1);
-  for (let i = -1; i <= 9; i++) for (const etroit of [false, true]) assert.doesNotMatch(schema({ chapitre: i, etroit }), /undefined|NaN/);
+  for (let i = -1; i <= 10; i++) for (const etroit of [false, true]) assert.doesNotMatch(schema({ chapitre: i, etroit }), /undefined|NaN/);
 });
 
 test("la formation et l'accueil montrent le schéma du rapport", () => {
@@ -959,4 +968,36 @@ test("la formation et l'accueil montrent le schéma du rapport", () => {
   assert.match(parcours, /schemaRapport\(-1/);
   assert.match(read("index.html"), /import \{ schemaRapport \} from "\.\/formation-illustrations\.js"/);
   assert.match(read("index.html"), /Quatre façons de regarder le burn-out/);
+});
+
+test("les quatre compléments RPS sont hors score et exigent une réponse explicite", () => {
+  const a = completeAnswers({ skipBS: true, overrides: { RPS1: 4, RPS2: 4, RPS3: 4, RPS4: 4 } });
+  const result = debugApi(a).calculateResults();
+  assert.ok(result);
+  assert.equal(result.totalScore, 0, "les RPS ne modifient pas A–F");
+  assert.equal(result.rpsAnswers.filter((r) => r.value === 4).length, 4);
+  delete a.RPS3;
+  assert.equal(debugApi(a).calculateResults(), null, "une nouvelle question requise manquante bloque le rapport");
+});
+
+test("RPS et humiliation restent visibles même quand les manifestations A–F sont basses", () => {
+  const f = fixture(0);
+  f.result.contextAnswers = f.result.contextAnswers.map((x) => ({...x, yes: x.id === "harassment"}));
+  f.result.rpsAnswers = api.rpsPart.questions.map((question, i) => ({ id: "RPS" + (i + 1), question, value: i === 2 ? 4 : 0 }));
+  const report = composer(f);
+  // Violences déclarées : la synthèse le dit même quand l'usure est basse.
+  assert.match(pageDuRapport(report, "synthese"), /À ne pas laisser de côté/);
+  assert.match(pageDuRapport(report, "synthese"), /humiliations ou des violences/);
+  assert.match(pageDuRapport(report, "rps"), /Les six familles de risques du travail/);
+  assert.match(pageDuRapport(report, "rps"), /RPS3/);
+  assert.match(pageDuRapport(report, "rps"), /Rapports sociaux au travail/);
+  assert.match(pageDuRapport(report, "travail"), /RPS3/);
+});
+
+test("la synthèse ne répète pas la lecture exposition/usure quand elle ne change rien", () => {
+  // Toutes les réponses au maximum : le travail pèse ET la personne est usée ; la phrase n'apporte rien.
+  const f = fixture(4);
+  f.result.contextAnswers = f.result.contextAnswers.map((x) => ({...x, yes: false}));
+  f.result.rpsAnswers = api.rpsPart.questions.map((question, i) => ({ id: "RPS" + (i + 1), question, value: 0 }));
+  assert.doesNotMatch(pageDuRapport(composer(f), "synthese"), /À ne pas laisser de côté/);
 });
