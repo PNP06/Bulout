@@ -1113,3 +1113,18 @@ test("l'absurde est le chapitre 5, avec sa pièce, ses rappels et l'ancienne adr
   assert.doesNotMatch(render, /formation-absurde/);
   assert.match(absurde.pictoPipeau(0, 0, 40), /^<g class="picto-pipeau"/);
 });
+
+test("le mémo de poche existe en page et en PDF de deux pages, sans donnée personnelle, avec les contacts vérifiés", () => {
+  const memo = read("memo.html");
+  for (const n of ["3114", "15", "112", "09 72 39 40 50", "0 800 858 858", "0 806 000 126", "3928"]) assert.ok(memo.includes(n), "contact attendu : " + n);
+  assert.match(memo, /Prévention burn-out sans bullshit/i);
+  assert.match(memo, /Je doute\. Je fais quoi/);
+  assert.equal((memo.match(/class="feuille"/g) || []).length, 2, "un recto et un verso");
+  assert.doesNotMatch(memo, /<script/i, "le mémo ne lit aucune réponse");
+  const pdf = fs.readFileSync(path.join(ROOT, "bull-out-memo.pdf"));
+  assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+  assert.equal((pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length, 2, "deux pages A4 : relancer node tests/generer-memo-pdf.mjs");
+  assert.match(read("parcours.js"), /href="bull-out-memo\.pdf" download/, "bouton à côté du diplôme");
+  assert.match(read("rapport.js"), /href="bull-out-memo\.pdf"/, "lien dans le rapport");
+  assert.match(read("memo.css"), /--rouge:/);
+});

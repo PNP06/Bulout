@@ -1,0 +1,138 @@
+/* Mémo de fin de formation Bull-Out : une feuille A4 recto verso.
+   À l'écran : les deux feuilles posées sur le fond crème, avec une barre d'outils.
+   À l'impression et dans bull-out-memo.pdf : deux pages A4, sans marges ajoutées.
+   Le mémo est toujours « papier clair », quel que soit le thème du navigateur.
+   Code couleur du site : vert protège, jaune à surveiller, orange use, rouge = sécurité seulement. */
+@font-face { font-family: "Poppins"; font-weight: 600; font-style: normal; font-display: swap; src: url(fonts/poppins-semibold.woff2) format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 800; font-style: normal; font-display: swap; src: url(fonts/poppins-extrabold.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap; src: url(fonts/inter-regular.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; font-display: swap; src: url(fonts/inter-semibold.woff2) format("woff2"); }
+
+:root {
+  --sapin: #123a33; --mid: #1d5c50; --creme: #fbf7ef; --fond: #efe9dc; --papier: #fffdf8;
+  --anis: #d8f25c; --orange: #e8794f; --ink: #b4512b; --muted: #4a5f5a; --trait: rgba(18, 58, 51, .16);
+  --vert: #1d5c50; --jaune: #d9a21b; --use: #e8794f; --rouge: #b3261e;
+  --vert-bg: #e3eee9; --jaune-bg: #fbf0d2; --use-bg: #fde6da; --rouge-bg: #fbe3e1; --anis-bg: #f4f8df;
+  --display: "Poppins", system-ui, sans-serif;
+  --texte: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; background: var(--fond); color: var(--sapin); font: 400 15px/1.5 var(--texte); }
+b, strong { font-weight: 600; }
+h1, h2, h3 { margin: 0; font-family: var(--display); text-wrap: balance; }
+a { color: var(--ink); }
+
+/* ───────── Barre d'outils (écran seulement) */
+.memo-outils { max-width: 210mm; margin: 0 auto; padding: 20px 16px 8px; display: grid; gap: 10px; }
+.memo-outils p { margin: 0; color: var(--muted); max-width: 65ch; }
+.memo-outils .slogan { font: 600 12px/1 var(--texte); letter-spacing: .08em; text-transform: uppercase; color: var(--mid); }
+.memo-outils h1 { font-size: 28px; line-height: 1.15; }
+.memo-boutons { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.memo-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border-radius: 999px; font: 600 15px var(--texte); text-decoration: none; border: 2px solid var(--sapin); color: var(--sapin); background: transparent; }
+.memo-btn.principal { background: var(--anis); border-color: var(--anis); color: var(--sapin); }
+.memo-btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+/* ───────── Les feuilles */
+.memo { display: grid; gap: 24px; justify-content: center; padding: 16px 16px 48px; }
+.feuille { width: 210mm; min-height: 297mm; max-width: 100%; background: var(--papier); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(18,58,51,.14);
+  padding: 11mm 12mm 9mm; display: flex; flex-direction: column; gap: 4.2mm; }
+.feuille > .pied { margin-top: auto; }
+.feuille h2.titre-bloc { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.feuille h2.titre-bloc small { font: 400 11px var(--texte); text-transform: none; letter-spacing: 0; color: var(--muted); }
+.feuille p, .feuille li { font-size: 11px; line-height: 1.4; }
+.feuille ul, .feuille ol { margin: 0; }
+.bloc { display: grid; gap: 2mm; }
+.deux-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.deux-col > * { min-width: 0; }
+
+/* En-tête */
+.entete { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap; border-bottom: 3px solid var(--anis); padding-bottom: 3mm; }
+.entete .marque { font: 600 10px var(--texte); letter-spacing: .14em; color: var(--mid); }
+.entete h1 { font-size: 24px; line-height: 1.1; font-weight: 800; }
+.entete .sl { font: 600 10px var(--texte); letter-spacing: .06em; text-transform: uppercase; background: var(--sapin); color: var(--anis); padding: 5px 8px; border-radius: 3px; }
+
+/* Le schéma en une ligne */
+.jauges { display: grid; grid-template-columns: 1.35fr auto 1fr auto 1fr; gap: 5px; align-items: stretch; }
+.jauge { border: 1.5px solid var(--sapin); border-radius: 7px; padding: 5px 8px; font-size: 10.5px; line-height: 1.35; }
+.jauge b { display: block; font: 800 10.5px var(--display); letter-spacing: .06em; }
+.fleche { align-self: center; font-weight: 600; color: var(--muted); }
+.regle { margin: 0; }
+
+/* Idées clefs */
+.clefs { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px 5mm; counter-reset: clef; }
+.clefs li { display: grid; grid-template-columns: 18px 1fr; gap: 4px; font-size: 10.5px; }
+.clefs li::before { counter-increment: clef; content: counter(clef, decimal-leading-zero); font: 600 10px/1.45 var(--texte); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* Les signaux : trois feux */
+.feux { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+.feu { border-radius: 7px; padding: 6px 8px; border-top: 5px solid; }
+.feu h3 { font: 800 11.5px var(--display); }
+.feu ul { padding-left: 14px; margin-top: 3px; }
+.feu li { font-size: 10.5px; margin-bottom: 1px; }
+.feu .alors { font-weight: 600; font-size: 10.5px; margin: 4px 0 0; }
+.feu.vert { background: var(--vert-bg); border-color: var(--vert); }
+.feu.jaune { background: var(--jaune-bg); border-color: var(--jaune); }
+.feu.orange { background: var(--use-bg); border-color: var(--use); }
+
+/* Sécurité : le seul rouge */
+.securite { background: var(--rouge-bg); border: 2px solid var(--rouge); border-radius: 7px; padding: 6px 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.securite .etiquette { font: 800 12px var(--display); color: var(--rouge); }
+.securite p { margin: 0; flex: 1 1 200px; }
+.numeros { display: flex; gap: 5px; flex-wrap: wrap; }
+.numero { font: 800 14px var(--display); background: #fff; border: 1.5px solid var(--rouge); color: var(--rouge); border-radius: 5px; padding: 1px 7px; font-variant-numeric: tabular-nums; }
+
+/* Logigramme « Je doute. Je fais quoi ? » */
+.logi { display: grid; gap: 4px; }
+.logi p, .mantras p { margin: 0; }
+.logi-etape { display: grid; grid-template-columns: minmax(0, 1.05fr) 30px minmax(0, 1fr); gap: 5px; align-items: center; }
+.logi-q { border: 1.5px solid var(--sapin); border-radius: 7px; padding: 5px 9px; font-size: 11px; font-weight: 600; background: #fff; }
+.logi-depart { border-radius: 7px; padding: 5px 9px; background: var(--sapin); color: var(--creme); text-align: center; font-size: 11px; font-weight: 600; }
+.logi-oui { font: 600 10px var(--texte); color: var(--muted); text-align: center; }
+.logi-a { border-radius: 7px; padding: 5px 9px; font-size: 10.5px; line-height: 1.35; border: 1.5px solid; }
+.logi-a.rouge { background: var(--rouge-bg); border-color: var(--rouge); }
+.logi-a.orange { background: var(--use-bg); border-color: var(--use); }
+.logi-a.jaune { background: var(--jaune-bg); border-color: var(--jaune); }
+.logi-a.vert { background: var(--vert-bg); border-color: var(--vert); }
+.logi-non { font: 600 10px/1.7 var(--texte); color: var(--muted); margin-left: 20px; padding-left: 10px; border-left: 2px solid var(--sapin); }
+.logi-fin { border: 1.5px dashed var(--sapin); border-radius: 7px; padding: 5px 9px; font-size: 11px; text-align: center; }
+
+/* Questions et mantras */
+.questions { padding-left: 16px; }
+.questions li { margin-bottom: 2px; }
+.mantras { display: grid; gap: 4px; }
+.mantra { font: 600 11.5px/1.3 var(--display); border-left: 4px solid var(--anis); background: var(--anis-bg); padding: 4px 8px; border-radius: 0 5px 5px 0; margin: 0; }
+
+/* Contacts */
+.portes { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 5mm; }
+.porte h3 { font: 800 10.5px var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--mid); margin-bottom: 1px; }
+.porte ul { padding-left: 13px; }
+.porte li { font-size: 10.5px; margin-bottom: 1px; }
+.tel { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mes-contacts { border: 1.5px dashed var(--muted); border-radius: 7px; padding: 6px 10px; display: grid; gap: 6px; font-size: 11px; }
+.mes-contacts p { margin: 0; display: flex; gap: 8px; align-items: flex-end; }
+.mes-contacts p span { flex: 1; border-bottom: 1px dotted var(--muted); min-height: 1em; }
+.pied { font-size: 9.5px; color: var(--muted); border-top: 1px solid var(--trait); padding-top: 2mm; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.pied p { font-size: 9.5px; margin: 0; }
+
+/* ───────── Téléphone : les feuilles deviennent des cartes qui défilent */
+@media screen and (max-width: 820px) {
+  .feuille { width: 100%; min-height: 0; padding: 20px 16px; gap: 16px; }
+  .feuille p, .feuille li, .clefs li, .feu li, .porte li, .logi-a { font-size: 13.5px; }
+  .deux-col, .clefs, .feux, .portes { grid-template-columns: 1fr; }
+  .jauges { grid-template-columns: 1fr; }
+  .fleche { transform: rotate(90deg); justify-self: center; }
+  .logi-etape { grid-template-columns: 1fr; }
+  .logi-oui { text-align: left; }
+}
+
+/* ───────── Impression et PDF : deux pages A4, rien d'autre */
+@page { size: A4; margin: 0; }
+@media print {
+  body { background: #fff; }
+  .memo-outils { display: none; }
+  .memo { display: block; padding: 0; }
+  .feuille { width: 210mm; height: 297mm; min-height: 0; max-width: none; box-shadow: none; overflow: hidden; break-after: page; page-break-after: always; }
+  .feuille:last-child { break-after: auto; page-break-after: auto; }
+}

@@ -235,6 +235,9 @@
 .fo-trois { background: var(--sapin); color: var(--creme, #f6efe2); border-radius: 20px; padding: 22px 26px; }
 .fo-trois .fo-label { color: var(--anis); }
 .fo-trois ol { margin: 8px 0 0; padding-left: 1.4em; display: grid; gap: 8px; }
+.fo-memo { border: 2px solid var(--line-strong); border-radius: 20px; padding: 20px 24px; display: grid; gap: 8px; margin-top: 20px; background: var(--card, #fffdf8); }
+.fo-memo h2 { margin: 0; }
+.fo-memo p { margin: 0; max-width: 65ch; }
 .fo-trois li { font: 800 clamp(18px, 2.4vw, 22px)/1.3 var(--title); letter-spacing: -.01em; }
 .fo-trois li::marker { color: var(--anis); }
 .fo-clefs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: none; }
