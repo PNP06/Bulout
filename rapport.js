@@ -246,10 +246,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     E5: "Qu'est-ce qui, dans mon travail de ces dernières semaines, a été vu ?",
     E6: "Sur quels critères la charge et les décisions sont-elles réparties ?"
   };
+  const discussionRisquee = ctxOui.some((a) => a.id === "harassment" || a.id === "fearToSpeak");
   const questions = [
-    ["Pour toi", top ? `Qu'est-ce qui, dans mon travail réel, explique « ${top.humanLabel} » ?` : "Qu'est-ce qui me protège aujourd'hui, et comment le garder ?"],
+    ["Pour toi", top ? `Quel fait concret accompagne « ${top.humanLabel} » et comment vérifier son évolution ?` : "Qu'est-ce qui me protège aujourd'hui, et comment le garder ?"],
     ["Pour ton médecin ou le médecin du travail", sr.F.score >= 13 || sr.A.score >= 13 ? "Mes réponses signalent des difficultés : quelles causes et quels aménagements faudrait-il examiner ?" : "Qu'est-ce qui pourrait être aménagé pour que mon travail reste soutenable ?"],
-    ["Pour ton manager", sr.D.score >= 13 ? "Qu'est-ce qu'on retire, reporte ou simplifie cette semaine ?" : manqueRessource.riskScore >= 3 ? Q_RESSOURCE[manqueRessource.id] : "Quelle est la priorité de la semaine, et qu'est-ce qui peut attendre ?"]
+    [discussionRisquee ? "Pour un interlocuteur sûr" : "Pour ton manager", discussionRisquee ? "À qui puis-je décrire les faits et demander conseil sans devoir passer par mon manager ?" : sr.D.score >= 13 ? "Qu’est-ce qu’on retire, reporte ou simplifie cette semaine ?" : manqueRessource.riskScore >= 3 ? Q_RESSOURCE[manqueRessource.id] : "Quelle est la priorité de la semaine, et qu’est-ce qui peut attendre ?"]
   ];
 
   // ───────── Tes appuis
@@ -896,18 +897,18 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   // Le moteur de lecture : quatre phrases en mots, puis une conclusion qui dépend du croisement travail / usure.
   const usureN = Math.max(nFatigue, lache);
   const histoire = [
-    { n: tire, k: "Ton travail", aller: etapeTravail, t: tire >= 2 ? `Ton travail pèse ${JAUGE_MOTS.travail[tire] === "très lourd" ? "très lourd" : "lourd"}, surtout ${enTete(tireListe, tire)}. ${pesee1.penche > 0 ? "On te demande plus que ce qui t'aide." : ""} ${pesee2.penche > 0 ? "Et tu donnes plus que tu ne reçois." : ""}`
+    { n: tire, k: "Ton travail", aller: etapeTravail, t: tire >= 2 ? `Ton travail pèse ${JAUGE_MOTS.travail[tire] === "très lourd" ? "très lourd" : "lourd"}, surtout ${enTete(tireListe, tire)}. ${pesee1.penche > 0 ? "Dans ces questions, les exigences déclarées dépassent les ressources rapportées." : ""} ${pesee2.penche > 0 ? "La lecture effort–récompense penche aussi vers les efforts déclarés." : ""}`
         : tire === 1 ? `Ton travail est à surveiller${enTete(tireListe, tire) ? `, surtout ${enTete(tireListe, tire)}` : ""}, sans peser fort.` : "Ton travail ne pèse pas fort dans tes réponses." },
     { n: nFatigue, k: "Ta fatigue", aller: "fatigue", t: `Ta fatigue est ${JAUGE_MOTS.fatigue[nFatigue]} : ${MOTS_RECUP[nRecup]}.${haut("F1") ? " Tu as du mal à décrocher le soir." : ""}` },
     { n: lache, k: "Ce que ça change", aller: "signes", t: lache ? `L'usure se voit, surtout ${enTete(lacheListe, lache)}.${coeurHauts.length ? ` Parmi les trois signes, ${coeurHauts.length > 1 ? "ressortent" : "ressort"} ${liste(coeurHauts.map((d) => NOMS[d.id].toLowerCase()))}.` : ""}` : "L'usure ne se voit pas nettement sur ta relation au travail, ton corps ou ta vie." },
-    { n: null, k: "Ce qui tient", aller: "autour", t: `${forts.length ? `Tu peux t'appuyer sur ${liste(forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()))}.` : "Peu d'appuis nets aujourd'hui : c'est fréquent quand l'usure s'installe."}${dSchema.temps.duree ? ` Cela dure depuis ${dSchema.temps.duree}${dSchema.temps.evolution ? `, ${dSchema.temps.evolution}` : ""}.` : ""}` }
+    { n: null, k: "Ce qui tient", aller: "autour", t: `${forts.length ? `Tu peux t'appuyer sur ${liste(forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()))}.` : "Les questions proposées ne font pas ressortir d'appui solide ; d'autres appuis restent possibles."}${dSchema.temps.duree ? ` Cela dure depuis ${dSchema.temps.duree}${dSchema.temps.evolution ? `, ${dSchema.temps.evolution}` : ""}.` : ""}` }
   ];
   const donc = r.hasAlert ? "Commence par le message de sécurité : il passe avant tout le reste."
     : tire >= 2 && usureN >= 2 ? "Le travail pèse et l'usure se voit. C'est le moment d'agir sur le travail, cette semaine, et d'en parler à un médecin."
-      : tire >= 2 ? "Le travail pèse, mais tu tiens encore. On n'attend pas d'être usé·e pour changer le travail : c'est le meilleur moment pour agir."
+      : tire >= 2 ? "Des contraintes ressortent dans tes réponses, avec moins de manifestations d'usure déclarées. Tu peux agir sur le travail sans attendre une aggravation."
         : usureN >= 2 ? "L'usure se voit plus que la charge déclarée. Regarde aussi ce que le questionnaire voit mal : la vie hors travail, la santé, l'histoire du poste. Et parles-en à un médecin."
           : "Peu de signaux. Garde ce qui te protège, et refais le point dans quelques semaines.";
-  const histoireHTML = `<section class="rp-histoire" aria-labelledby="rp-histoire-titre"><p class="k">Ta lecture en mots</p><h3 id="rp-histoire-titre">Ton histoire en quatre phrases</h3>
+  const histoireHTML = `<section class="rp-histoire" aria-labelledby="rp-histoire-titre"><p class="k">Ta lecture en mots</p><h3 id="rp-histoire-titre">Quatre constats à examiner ensemble</h3><p class="rp-histoire-cadre">Des réponses mises en regard, sans prétendre démontrer ce qui cause quoi.</p>
     <ol>${histoire.map((h) => `<li style="--c:${h.n === null ? C.mid : COUL[h.n]}"><button type="button" data-aller="${h.aller}"><span class="k">${h.k}</span><span class="t">${esc(h.t.replace(/\s+/g, " ").trim())}</span></button></li>`).join("")}</ol>
     <p class="rp-donc"><b>Donc :</b> ${esc(donc)}</p></section>`;
 
@@ -940,7 +941,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ${filChips}
     <section class="rp-syn-schema" aria-labelledby="rp-schema-titre">
       <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Le schéma de la formation, avec tes réponses</h3>
-        <p>Le même schéma que celui de Sam : les trois jauges ci-dessus, et sous chacune, ce qui les explique.</p></div>
+        <p>Le même schéma que celui de Sam : les trois jauges ci-dessus, et sous chacune, les réponses qui les composent.</p></div>
       ${ensemble}
     </section>
     <div class="rp-syn-suite"><p><b>Pour comprendre d'où vient chaque mot</b>, lis le rapport étape par étape : une question à la fois, comme dans la formation.</p>
@@ -964,7 +965,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     </div>
     <section class="rp-anatomie" aria-labelledby="rp-anat-t"><h3 id="rp-anat-t" class="rp-h">Comment se lit une étape</h3>
       <ol>
-        <li><span class="rp-anat-vis a" aria-hidden="true"><i></i><i></i><i class="o"></i><i></i></span><b>Le fil d'Ariane</b><span>En haut : où tu en es dans les neuf étapes. Clique pour sauter d'une étape à l'autre.</span></li>
+        <li><span class="rp-anat-vis a" aria-hidden="true"><i></i><i></i><i class="o"></i><i></i></span><b>Le fil d'Ariane</b><span>À gauche sur ordinateur, dans le menu « Le parcours » sur mobile et dans la marge des PDF : ton avancement dans les étapes.</span></li>
         <li><span class="rp-anat-vis q" aria-hidden="true">?</span><b>Une question</b><span>Le titre pose la question de l'étape ; la ligne violette dit ce qu'on regarde.</span></li>
         <li><span class="rp-anat-vis b" aria-hidden="true"></span><b>En bref</b><span>La réponse en une ou deux phrases. Si tu n'as que deux minutes, lis seulement les « En bref ».</span></li>
         <li><span class="rp-anat-vis f" aria-hidden="true"></span><b>Les fils</b><span>Un thème, son niveau, ce qui ressort, et tes réponses repliées.</span></li>
@@ -972,7 +973,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       </ol></section>
     ${LEGENDE_COULEURS}
     <section class="rp-sommaire2" aria-labelledby="rp-som-t"><h3 id="rp-som-t">Sommaire</h3>
-      <ol class="rp-som-bloc">${sommaireLigne("synthese", "Synthèse", "Ton rapport en une page", "l'essentiel, en deux minutes")}${sommaireLigne("lire", "Avant de lire", "Comment lire ton rapport", "ce qu'il apporte, comment il est construit")}</ol>
+      <ol class="rp-som-bloc">${sommaireLigne("synthese", "Synthèse", "L'essentiel, sans les détails", "l'essentiel, en deux minutes")}${sommaireLigne("lire", "Avant de lire", "Comment lire ton rapport", "ce qu'il apporte, comment il est construit")}</ol>
       <p class="rp-som-titre">Pas à pas <span>${etapes.length} étapes</span></p>
       <ol class="rp-som-bloc">${etapes.map((e, i) => sommaireLigne(e.id, `Étape ${i + 1}`, esc(e.q), esc(e.approche), pastille(e.n, e.mot))).join("")}</ol>
       <p class="rp-som-titre">Ensuite</p>
@@ -1105,14 +1106,12 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
   // ───────── Pages : synthèse, avant de lire, neuf étapes, puis les outils et les annexes.
   const N = etapes.length;
   const ARI = { fatigue: "Fatigue", signes: "Signes", balance: "Balance", retour: "Échange", absurde: "Absurde", rps: "Risques", autour: "Appuis", plan: "Plan", portes: "Portes" };
-  // Le fil d'Ariane de chaque étape, à l'écran comme dans le PDF : neuf jalons, celui du jour en orange.
-  const ariane = (i) => `<nav class="rp-ariane" aria-label="Où tu en es"><ol>${etapes.map((x, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"${j === i ? ' aria-current="step"' : ""}><button type="button" data-aller="${x.id}"><span class="num">${j + 1}</span><span class="nom">${esc(ARI[x.id] || x.court)}</span>${x.n !== null && x.n !== undefined ? `<i style="background:${COUL[x.n]}"></i>` : ""}</button></li>`).join("")}</ol></nav>`;
   const pages = [
     { id: "synthese", court: "Synthèse", tete: "SYNTHÈSE", html: synthese },
     { id: "lire", court: "Avant de lire", tete: "AVANT DE LIRE", html: avantLire },
     ...etapes.map((e, i) => ({
       id: e.id, court: e.court, etape: i, n: e.n, tete: `ÉTAPE ${i + 1} SUR ${N} · ${e.q.toUpperCase()}`,
-      html: `<header class="rp-etape-head">${ariane(i)}
+      html: `<header class="rp-etape-head">
         <p class="rp-n">${miniSchema(e.col)}<span>Étape ${i + 1} sur ${N}</span><span class="rp-approche">${esc(e.approche)}</span></p>
         <h2 tabindex="-1">${esc(e.q)}</h2><p class="rp-sq">${esc(SQ[e.id] || "")}</p><p class="rp-intro">${e.intro}</p></header>
         ${i > 0 ? `<aside class="rp-pont"><p class="k">Ce qu'on garde de l'étape ${i} · ${esc(etapes[i - 1].court)}</p><p>${etapes[i - 1].garder}</p></aside>` : ""}
@@ -1141,7 +1140,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     const lib = (p) => (p.etape !== undefined ? `Étape ${p.etape + 1} · ${p.court}` : p.court);
     return `<nav class="rp-pager" aria-label="Pages du rapport">${prev ? `<button type="button" class="button secondary" data-aller="${prev.id}">← ${esc(lib(prev))}</button>` : "<span></span>"}${next ? `<button type="button" class="button primary" data-aller="${next.id}">${esc(lib(next))} →</button>` : `<a class="button primary" href="agir.html">Explorer les leviers d'action</a>`}</nav>`;
   };
-  // Le fil d'Ariane (modèle psytest) : à gauche sur grand écran, replié en haut sur petit écran.
+  // Fil d’Ariane : piste verticale à gauche sur ordinateur, menu compact sur mobile ; marge en PDF.
   const filItems = `<ol class="rp-fil">${pages.filter((p) => !p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num">${p.etape !== undefined ? p.etape + 1 : ""}</span><span>${esc(p.court)}</span>${p.n !== undefined && p.n !== null ? `<i style="background:${COUL[p.n]}" aria-hidden="true"></i>` : ""}</button></li>`).join("")}</ol>
     <p class="rp-fil-titre">Outils et annexes</p><ol class="rp-fil">${pages.filter((p) => p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num"></span><span>${esc(p.court)}</span></button></li>`).join("")}</ol>`;
 
@@ -1168,7 +1167,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <p class="rp-pill">Rapport · ${esc(date)}</p>
       <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out <span class="rp-accent">Point d'étape</span></h1>
       <p class="rp-slogan">Prévention burn-out sans bullshit</p>
-      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse en une page, puis neuf étapes dans l'ordre de la formation, et des ressources pour aller plus loin.</p>
+      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse de tes réponses, puis neuf étapes dans l'ordre de la formation, et des ressources pour aller plus loin.</p>
       <div class="parcours-tools rp-outils">
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
         <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
@@ -1178,6 +1177,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <details class="rp-pdf-options"><summary>Ce que contient le PDF : <span class="rp-pdf-choix">complet</span></summary>
         <fieldset class="rp-pdf"><legend class="sr-only">Ce que contient le PDF</legend>
           <label><input type="radio" name="rp-pdf" value="complet" checked> <b>Complet</b> : synthèse, neuf étapes, ressources, outils et annexes</label>
+          <label><input type="radio" name="rp-pdf" value="synthese"> <b>Synthèse seule</b> : résultats principaux, questions et première action</label>
           <label><input type="radio" name="rp-pdf" value="court"> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
           <label><input type="radio" name="rp-pdf" value="travail"> <b>Fiche travail</b> : contraintes et demandes, sans réponses médicales</label>
           <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
@@ -1221,26 +1221,61 @@ function montrer(id, focus = true) {
   }
 }
 
-// PDF : chaque page du rapport reçoit sa page nommée (@page), avec en haut « ÉTAPE 3 SUR 9 · LA QUESTION » et la date.
+// PDF : en-têtes nommés et fil d’Ariane vertical dans la marge gauche,
+// sur le modèle du rapport Papillon et du gabarit du Traité RDR.
 const cssStr = (t) => `"${String(t).replace(/["\\]/g, "\\$&").replace(/\n/g, " ")}"`;
+const railXML = (t) => String(t).replace(/[&<>"\']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" }[c]));
+function railMargePDF(etapes, position) {
+  const hMax = 250, ecart = 1.3, ratio = .55;
+  const taille = Math.max(1.85, Math.min(2.5, (hMax - (etapes.length - 1) * ecart - etapes.length * 3) / (etapes.reduce((n, t) => n + t.length, 0) * ratio)));
+  const naturel = etapes.map((t) => t.length * taille * ratio + 3);
+  const total = naturel.reduce((n, x) => n + x, 0) + (etapes.length - 1) * ecart;
+  const surplus = Math.max(0, hMax - total) / etapes.length;
+  const coef = Math.min(1, (hMax - (etapes.length - 1) * ecart) / (naturel.reduce((n, x) => n + x, 0) + surplus * etapes.length));
+  let y = 0;
+  const contenu = etapes.map((titre, i) => {
+    const etat = i < position ? "passe" : i === position ? "ici" : "apres";
+    const ligne = { passe: "#123a33", ici: "#e8794f", apres: "#d9d3c7" }[etat];
+    const couleur = { passe: "#123a33", ici: "#b4512b", apres: "#7f817a" }[etat];
+    const hauteur = (naturel[i] + surplus) * coef;
+    const max = Math.max(2, Math.floor((hauteur - 2) / (taille * ratio)));
+    const texte = titre.length > max ? titre.slice(0, max - 1) + "…" : titre;
+    const segment = `<rect x="6" y="${y.toFixed(2)}" width="1.5" height="${hauteur.toFixed(2)}" rx=".5" fill="${ligne}"/><text transform="translate(4.3 ${(y + 1).toFixed(2)}) rotate(90)" font-family="Poppins,Arial,sans-serif" font-size="${taille.toFixed(2)}" font-weight="${etat === "ici" ? "800" : "600"}" fill="${couleur}">${railXML(texte)}</text>`;
+    y += hauteur + ecart;
+    return segment;
+  }).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="8mm" height="${hMax}mm" viewBox="0 0 8 ${hMax}">${contenu}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
 function enTetesPDF() {
   const date = racine.querySelector(".rp-layout")?.dataset.date || "";
+  const pages = [...racine.querySelectorAll(".rp-page")];
+  const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "complet";
+  const retenues = pages.filter((p) => mode === "complet" ||
+    mode === "synthese" && p.dataset.page === "synthese" ||
+    mode === "court" && ["synthese", "plan", "portes"].includes(p.dataset.page) ||
+    mode === "travail" && p.dataset.page === "travail");
+  const titreRail = (p) => ({ synthese: "Synthèse", lire: "Avant de lire", ressources: "Ressources", travail: "Outils et annexes", carnet: "Outils et annexes", annexes: "Outils et annexes" }[p.dataset.page] ||
+    `${pages.indexOf(p) - 1}. ${p.getAttribute("aria-label")}`);
+  const titres = [...new Set(retenues.map(titreRail))];
   let css = `@page { @top-right { content: ${cssStr(`Rapport du ${date}`)}; } }\n`;
-  racine.querySelectorAll(".rp-page").forEach((p) => {
-    css += `@page p-${p.dataset.page} { @top-left { content: ${cssStr(p.dataset.tete)}; } }\n#rapport-${p.dataset.page} { page: p-${p.dataset.page}; }\n`;
+  pages.forEach((p) => {
+    const ici = titres.indexOf(titreRail(p));
+    const rail = titres.length > 1 && ici >= 0 && mode !== "travail" ? railMargePDF(titres, ici) : "none";
+    css += `@page p-${p.dataset.page} { @top-left { content: ${cssStr(p.dataset.tete)}; } @left-middle { content: ${rail}; vertical-align: middle; } }\n#rapport-${p.dataset.page} { page: p-${p.dataset.page}; }\n`;
   });
   let st = document.getElementById("rp-entetes");
   if (!st) { st = Object.assign(document.createElement("style"), { id: "rp-entetes", media: "print" }); document.head.append(st); }
   st.textContent = css;
 }
-
 function optionsPDF() {
   const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "complet";
   racine.classList.toggle("pdf-court", mode === "court");
+  racine.classList.toggle("pdf-synthese", mode === "synthese");
   racine.classList.toggle("pdf-travail", mode === "travail");
   racine.classList.toggle("pdf-sans-reponses", !racine.querySelector('[name="rp-reponses"]')?.checked);
   const choix = racine.querySelector(".rp-pdf-choix");
-  if (choix) choix.textContent = { complet: "complet", court: "essentiel", travail: "fiche travail" }[mode];
+  if (choix) choix.textContent = { complet: "complet", synthese: "synthèse seule", court: "essentiel", travail: "fiche travail" }[mode];
 }
 
 document.addEventListener("bullout:rapport", (event) => {
@@ -1285,7 +1320,7 @@ window.addEventListener("beforeprint", () => {
   if (!racine.querySelector(".rp-page")) return;
   enTetesPDF();
   racine.querySelectorAll(".rp-page").forEach((p) => { p.hidden = false; });
-  if (racine.classList.contains("pdf-court")) return;
+  if (racine.classList.contains("pdf-court") || racine.classList.contains("pdf-synthese")) return;
   const avecReponses = !racine.classList.contains("pdf-sans-reponses");
   racine.querySelectorAll(".rp-page details:not([open])").forEach((d) => {
     if (d.classList.contains("rp-rep") && !avecReponses) return;

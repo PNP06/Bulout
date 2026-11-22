@@ -619,13 +619,14 @@
 .rp-rail > .rp-fil-titre:first-child { margin-top: 0; }
 .rp-fil { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
 .rp-fil button { position: relative; display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: baseline; width: 100%; padding: 6px 8px 6px 16px; border: 0; border-radius: 8px; background: transparent; text-align: left; font: 600 13.5px/1.35 var(--font); color: var(--muted); cursor: pointer; }
-.rp-fil button::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 4px; border-radius: 2px; background: var(--piste); }
+.rp-fil button::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 2px; background: linear-gradient(to bottom, var(--sapin-mid) var(--p, 0%), var(--piste) var(--p, 0%)); }
 .rp-fil button:hover { background: var(--creme); color: var(--fg); }
 .rp-fil .num { font-variant-numeric: tabular-nums; opacity: .8; }
 .rp-fil i { align-self: center; width: 9px; height: 9px; border-radius: 50%; }
 .rp-fil .past > button { color: var(--fg); }
-.rp-fil .past > button::before { background: var(--sapin-mid); }
+.rp-fil .past > button { --p: 100%; }
 .rp-fil .here > button { color: var(--orange-ink); font-weight: 800; background: #fdf1e7; }
+.rp-fil .here > button { --p: 100%; }
 .rp-fil .here > button::before { background: var(--orange); }
 .rp-fil button:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 .rp-fil-menu { position: sticky; top: calc(var(--head-h) + 4px); z-index: 5; border: 1px solid var(--line-soft); border-radius: 14px; background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(8px); padding: 8px 12px; }
@@ -704,15 +705,7 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
 .rp-etape h2 { text-wrap: balance; }
 
 /* ---------- V4.1 : étapes au niveau psytest (fil d'Ariane, sous-question, pont, En bref, fils) ---------- */
-.rp-ariane ol { list-style: none; margin: 0 0 6px; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
-.rp-ariane button { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 5px; padding: 7px 0 0; border: 0; border-top: 5px solid var(--piste); background: none; font: 600 11.5px/1.2 var(--font); color: var(--muted); text-align: left; cursor: pointer; }
-.rp-ariane .num { font: 800 11px/1 var(--title); }
-.rp-ariane .nom { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rp-ariane i { width: 7px; height: 7px; border-radius: 50%; }
-.rp-ariane .fait button { border-top-color: var(--sapin-mid); color: var(--fg); }
-.rp-ariane .ici button { border-top-color: var(--orange); color: var(--orange-ink); font-weight: 800; }
-.rp-ariane button:hover .nom { text-decoration: underline; }
-@media (max-width: 900px) { .rp-ariane .nom, .rp-ariane i { display: none; } .rp-ariane .ici .nom { display: inline; } .rp-ariane ol { grid-template-columns: repeat(9, auto); } .rp-ariane .ici { grid-column: span 1; } }
+/* Le parcours est désormais dans la marge latérale : pas de bandeau horizontal sur les étapes. */
 .rp-etape-head > .rp-n { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .rp-etape-head > .rp-n .rp-mini { width: 40px; height: 26px; }
 .rp-etape-head > .rp-n .rp-approche { font: 600 12px/1.3 var(--font); letter-spacing: 0; text-transform: none; color: var(--muted); }
@@ -742,8 +735,6 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
 .rp-filcarte .rp-rep > summary { font-size: 14px; }
 .rp-etape .rp-pc > summary .k { color: #5b3fd1; }
 @media print {
-  .rp-ariane button { font-size: 7pt; padding-top: 3pt; border-top-width: 3pt; }
-  .rp-ariane i { display: inline-block; }
   .rp-sq { font-size: 11pt; }
   .rp-filcarte { break-inside: avoid; padding: 8pt 10pt; }
   .rp-etape .rp-bref { background: #f6efe2; border: 0; border-left: 4pt solid #123a33; }
@@ -811,7 +802,7 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
   .rp-site h3 { font-size: 14pt; }
 }
 @media print {
-  .rapport .rp-som-bloc button, .rapport .rp-ariane button { display: grid !important; }
+  .rapport .rp-som-bloc button { display: grid !important; }
   body:has(.rp-layout) { background: white !important; }
   body:has(.rp-layout) .site-header, body:has(.rp-layout) .site-footer { display: none !important; }
 }
@@ -854,9 +845,6 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
 @media print {
   .rapport .rp-couv .rp-couv-titre { font-size: 44pt; line-height: 1.02; }
   .rp-couv-pied { gap: 6mm; white-space: nowrap; }
-  .rp-ariane ol { grid-template-columns: repeat(9, minmax(0, 1fr)) !important; }
-  .rp-ariane .nom { display: inline !important; }
-  .rp-ariane i { display: inline-block !important; }
 }
 /* Mise en page PDF : pas de titre orphelin en bas de page, le schéma d'ensemble sur sa propre page. */
 @media print {
@@ -883,8 +871,6 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
 .rp-annexe > *, .rp-corps > *, .rp-fils > * { min-width: 0; max-width: 100%; }
 .rp-bs-metres div { grid-template-columns: minmax(0, 8.5em) minmax(40px, 1fr) 3.2em; }
 .rp-bs-metres .rp-barre { width: auto; min-width: 0; }
-.rp-ariane button { grid-template-columns: auto auto minmax(0, 1fr); }
-.rp-ariane i { order: -1; }
 @media print {
   .rp-fils, .rp-rituels, .rp-annexe { display: block !important; }
   .rp-fils > * + *, .rp-rituels > * + *, .rp-annexe > * + * { margin-top: 8pt; }
@@ -895,4 +881,27 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
   .rapport .rp-main { display: block !important; }
   .rapport .rp-page { margin: 0 !important; padding-bottom: 0 !important; }
   .rapport .rp-page > :last-child, .rp-corps > :last-child { margin-bottom: 0 !important; }
+}
+
+
+/* Lecture courte autonome du rapport, sans supprimer d'information du rapport complet.
+   Le mode « Synthèse seule » garde les alertes, les observations, le premier geste
+   et les trois questions. Il ne reprend ni les annexes, ni le schéma grand format. */
+.rp-histoire-cadre { margin: -2px 0 2px; max-width: 66ch; font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media print {
+  .rapport.pdf-synthese .rp-couv,
+  .rapport.pdf-synthese .rp-dos,
+  .rapport.pdf-synthese .rp-page:not([data-page="synthese"]),
+  .rapport.pdf-synthese .rp-syn-schema { display: none !important; }
+  .rapport.pdf-synthese .rp-page[data-page="synthese"] { break-before: auto !important; }
+  .rapport.pdf-synthese .rp-syn-head p { font-size: 9pt; }
+  .rapport.pdf-synthese .rp-tete,
+  .rapport.pdf-synthese .rp-histoire { gap: 5pt; }
+  .rapport.pdf-synthese .rp-histoire { padding: 8pt 10pt; }
+  .rapport.pdf-synthese .rp-histoire li button { padding: 4pt 6pt; }
+  .rapport.pdf-synthese .rp-histoire .t { font-size: 9pt; line-height: 1.35; }
+  .rapport.pdf-synthese .rp-histoire-cadre { font-size: 8pt; }
+  .rapport.pdf-synthese .rp-donc { font-size: 9pt; padding: 7pt 8pt; }
+  .rapport.pdf-synthese .rp-syn-priorites { padding: 9pt 11pt; }
+  .rapport.pdf-synthese .rp-syn-questions { break-inside: avoid; }
 }
