@@ -72,8 +72,8 @@ export const illustrations = {
     ${t(540, 40, "RESSOURCES", { a: "middle", cls: "k", c: C.mid })}${t(540, 60, "ce qui aide à le faire", { a: "middle", cls: "s" })}
     ${t(540, 250, "retirées dans la semaine", { a: "middle", cls: "s", c: C.ink })}`),
 
-  bascule: svg("La bascule entre l’effort de Sam et ce qu’il reçoit",
-    "Une planche bascule vers la gauche sous un gros sac marqué « effort » : le dossier de Marc, les soirées, les appels en congé. Un ressort marqué « surengagement » appuie encore dessus. À droite, en l’air, quatre jetons de retour : le salaire est présent, l’estime, les perspectives et la sécurité sont en pointillés.",
+  bascule: svg("L’échange entre ce que Sam donne et ce qu’il reçoit",
+    "Une planche bascule vers la gauche sous un gros sac marqué « effort » : le dossier de Marc, les soirées, les appels en congé. Une flèche marquée « surengagement » appuie encore dessus : Sam dit oui à tout et répond le soir. À droite, en l’air, quatre jetons de retour : le salaire est présent, l’estime, les perspectives et la sécurité sont en pointillés.",
     640, 340, `
     <path d="M320 214L282 300H358Z" fill="${C.sapin}"/>
     <path d="M70 262L570 166" stroke="${C.sapin}" stroke-width="10" stroke-linecap="round"/>
@@ -82,10 +82,11 @@ export const illustrations = {
       ${t(160, 166, "EFFORT", { a: "middle", cls: "k" })}
       ${t(160, 190, "dossier de Marc", { a: "middle", cls: "s" })}${t(160, 210, "soirées, congés", { a: "middle", cls: "s" })}${t(160, 230, "appels du dimanche", { a: "middle", cls: "s" })}
       <path d="M160 128v-14m-14 0h28m-28 0l6-10h16l6 10" fill="none" stroke="${C.sapin}" stroke-width="3"/>
-      <path d="M160 100c-8-6 8-12 0-18s8-12 0-18s8-12 0-18" fill="none" stroke="${C.violet}" stroke-width="5" stroke-linecap="round"/>
     </g>
-    ${t(92, 30, "surengagement", { cls: "b", c: C.violet })}
-    ${t(92, 48, "du mal à dire non, à couper", { cls: "s", c: C.violet })}
+    <path d="M160 34V112" stroke="${C.ink}" stroke-width="7" stroke-linecap="round" marker-end="url(#fo-appui)"/>
+    <defs><marker id="fo-appui" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10z" fill="${C.ink}"/></marker></defs>
+    ${t(176, 40, "le surengagement appuie encore", { cls: "b", c: C.ink })}
+    ${t(176, 58, "Sam dit oui à tout, répond le soir", { cls: "s", c: C.ink })}
     ${[["Salaire", false, 404], ["Estime", true, 468], ["Perspectives", true, 532], ["Sécurité", true, 596]].map(([n, absent, x], i) => {
       const y = 166 - (x - 320) * 0.192 - 28;
       return `<circle cx="${x}" cy="${y}" r="22" fill="${absent ? "none" : VERT}" stroke="${C.sapin}" stroke-width="2.5" ${absent ? 'stroke-dasharray="5 5"' : ""}/>${t(x, i % 2 ? y - 32 : y + 42, n, { a: "middle", cls: "s" })}`;
@@ -202,6 +203,65 @@ export const illustrations = {
       ${t(80, 32, titre, { c: accent, cls: "k" })}${t(80, 56, ex, { c: encre, cls: "b" })}</g>`).join("") +
     `<g transform="translate(24,300)">${t(296, 14, "Article L4121-2 du Code du travail : on commence par le niveau 1. Les autres complètent.", { a: "middle", cls: "s", c: C.muted })}</g>`),
 };
+
+
+// Les quatre approches autour de Sam : chacune pose sa question, et apprend quelque chose de différent sur lui.
+// lecons = true : on écrit ce que chaque approche apprend sur Sam (après le chapitre 4 et dans la synthèse).
+function lignes(x, y, texte, max, opt = {}) {
+  const mots = texte.split(" "), out = [];
+  let l = "";
+  for (const m of mots) { if ((l + " " + m).trim().length > max) { out.push(l); l = m; } else l = (l + " " + m).trim(); }
+  if (l) out.push(l);
+  const h = opt.h || 17;
+  return out.map((x2, i) => t(x, y + i * h, x2, opt)).join("");
+}
+const ICONES = {
+  boucle: (c) => `<path d="M-14 4a14 14 0 1 1 6 11" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/><path d="M-12 18l4-3-5-3" fill="none" stroke="${c}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  signes: (c) => [-12, 0, 12].map((x, i) => `<rect x="${x - 4}" y="-16" width="8" height="32" rx="4" fill="${C.piste}"/><rect x="${x - 4}" y="${-16 + [6, 12, 16][i]}" width="8" height="${32 - [6, 12, 16][i]}" rx="4" fill="${c}"/>`).join(""),
+  balance: (c) => `<path d="M0 -14v26M-10 14h20M-18 -8h36" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/><path d="M-18 -8l-6 12h12zM18 -8l-6 12h12z" fill="${c}"/>`,
+  echange: (c) => `<path d="M-16 -6h26l-6 -6M16 6h-26l6 6" fill="none" stroke="${c}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+};
+export function quatreApproches(lecons = false, modeles = []) {
+  const W = 760, H = lecons ? 600 : 440;
+  const cartes = [
+    { n: 3, nom: "Demandes et aides", sous: "JD-R · la balance", q: "Ce que le travail demande pèse-t-il plus que ce qui aide ?", ic: "balance", x: 20, y: 74, c: C.ink, chap: 3 },
+    { n: 4, nom: "Donner et recevoir", sous: "Siegrist · l’échange", q: "Ce que Sam reçoit est-il à la hauteur de ce qu’il donne ?", ic: "echange", x: 20, y: lecons ? 314 : 250, c: C.ink, chap: 4 },
+    { n: 1, nom: "La récupération", sous: "effort-récupération · la boucle", q: "Le repos répare-t-il encore sa fatigue ?", ic: "boucle", x: 500, y: 74, c: C.mid, chap: 1 },
+    { n: 2, nom: "Les trois signes", sous: "Maslach · les signes", q: "Qu’est-ce que l’usure change chez lui ?", ic: "signes", x: 500, y: lecons ? 314 : 250, c: C.mid, chap: 2 },
+  ];
+  const sam = Object.fromEntries(modeles.map((m, i) => [[1, 2, 3, 4][i], m.sam]));
+  const hc = lecons ? 220 : 160;
+  const carte = (k) => `<g transform="translate(${k.x},${k.y})"><rect width="240" height="${hc}" rx="18" fill="${C.card}" stroke="${k.c}" stroke-opacity=".35" stroke-width="2"/>
+      <g transform="translate(34,34)"><circle r="22" fill="${C.creme}"/>${ICONES[k.ic](k.c)}</g>
+      ${t(66, 30, `Approche ${k.n}`, { cls: "k", c: k.c })}${t(66, 50, k.nom, { cls: "b" })}
+      ${t(16, 78, k.sous, { cls: "s", c: C.muted })}
+      ${lignes(16, 100, k.q, 34, { cls: "s" })}
+      ${lecons && sam[k.n] ? `<rect x="10" y="${hc - 94}" width="220" height="84" rx="12" fill="${k.c === C.ink ? "#fbe3d6" : "#e3eee9"}"/>${t(20, hc - 74, "Chez Sam :", { cls: "k", c: k.c })}${lignes(20, hc - 54, sam[k.n], 31, { cls: "b", h: 16 })}` : ""}</g>`;
+  const cy = lecons ? 304 : 236;
+  const fils = cartes.map((k) => { const x1 = k.x < 300 ? k.x + 240 : k.x, y1 = k.y + hc / 2; return `<path d="M${x1} ${y1}C${(x1 + 380) / 2} ${y1} ${(x1 + 380) / 2} ${cy} ${x1 < 380 ? 318 : 442} ${cy}" fill="none" stroke="${k.c}" stroke-width="3" stroke-dasharray="${k.c === C.mid ? "0" : "0"}" stroke-opacity=".55"/>`; }).join("");
+  const desc = lecons
+    ? "Sam au centre. Autour de lui, quatre approches. À gauche, deux regardent son travail : demandes et aides (JD-R, la balance) et donner et recevoir (Siegrist, l’échange). À droite, deux regardent ce qu’il vit : la récupération (la boucle) et les trois signes (Maslach). Sous chacune, ce qu’elle apprend sur Sam : " + modeles.map((m) => m.sam).join(" ")
+    : "Sam au centre. Autour de lui, quatre approches, chacune avec sa question. À gauche, deux regardent son travail : demandes et aides (JD-R) et donner et recevoir (Siegrist). À droite, deux regardent ce qu’il vit : la récupération et les trois signes (Maslach).";
+  return svg("Les quatre approches autour de Sam", desc, W, H, `
+    ${t(140, 40, "CE QUE SON TRAVAIL LUI FAIT PORTER", { a: "middle", cls: "k", c: C.ink })}
+    ${t(620, 40, "CE QUE SAM VIT", { a: "middle", cls: "k", c: C.mid })}
+    ${fils}
+    <g transform="translate(380,${cy})"><circle r="62" fill="${C.sapin}"/><circle r="62" fill="none" stroke="${C.anis}" stroke-width="4"/>
+      <circle cy="-16" r="16" fill="${C.orange}"/><path d="M-26 26c4-20 48-20 52 0" fill="${C.orange}"/>
+      ${t(0, 90, "Sam, 38 ans", { a: "middle", cls: "t" })}${t(0, 110, "coordinateur logistique", { a: "middle", cls: "s", c: C.muted })}</g>
+    ${cartes.map(carte).join("")}
+    <g transform="translate(20,${H - 54})"><rect width="${W - 40}" height="38" rx="19" fill="${C.sapin}"/>${t((W - 40) / 2, 25, lecons ? "Quatre questions sur la même personne : chacune voit ce que les autres ne voient pas." : "Quatre questions sur la même personne. Aucune ne suffit seule.", { a: "middle", cls: "b", c: C.anis })}</g>`);
+}
+
+// Six familles de risques : où Bull-Out les regarde, et avec quelle précision.
+export const COUVERTURE = [
+  [1, "Intensité et temps de travail", "Trop de travail, des urgences, des horaires qui débordent.", "Pesée « on te demande » (D1, D2, D6) + RPS1 : le travail qui déborde sur le repos.", 3, "Tes horaires réels : Bull-Out ne les compte pas."],
+  [2, "Exigences émotionnelles", "Cacher ses émotions, faire face à la colère ou à la détresse.", "D5 + RPS2 (émotions à cacher) + RPS5 (agressivité, détresse des autres).", 2, "Les violences : seulement un oui ou non, sans qualifier les faits."],
+  [3, "Autonomie", "Pouvoir décider de sa façon de faire, utiliser ses compétences.", "Pesée « ce qui t’aide » (E1, D4) + RPS4 (décisions sans toi) + RPS6 (tu n’apprends plus).", 3, "Le contenu précis de ton poste."],
+  [4, "Rapports sociaux", "Soutien, reconnaissance, équité, conflits.", "Pesée « ce qui t’aide » (E2, E3) + « tu reçois » (E5, E6) + contexte (humiliations, violences).", 2, "Ce qui se passe vraiment entre les personnes : il faut des faits datés."],
+  [5, "Conflits de valeurs", "Travail inutile, qualité empêchée, ce qui va contre ce que tu crois juste.", "L’absurde (bullshitomètre) + T4 (qualité empêchée) + contexte (conflit éthique).", 2, "Les circonstances : à raconter avec un exemple."],
+  [6, "Insécurité", "Emploi, revenus, changements imposés, avenir du métier.", "« Tu reçois » (R3, sécurité de l’emploi) + RPS3 (changements sans préparation).", 1, "Les autres formes de précarité (contrat, revenus)."],
+];
 
 // ───────── Le schéma du rapport, construit au fil des chapitres (comme le papillon de Papillon).
 // Un seul dessin pour l'accueil, la formation et le rapport : schema.js. Ici, l'exemple fictif de Sam.

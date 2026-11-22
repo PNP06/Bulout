@@ -19,7 +19,10 @@
 .start-tips li { counter-increment: tip; display: grid; grid-template-columns: 30px 1fr; gap: 2px 10px; }
 .start-tips li::before { content: counter(tip); grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--anis); color: var(--sapin); font: 800 13px/1 var(--title); }
 .start-tips span { color: var(--muted); }
-.start-kbd { margin: 0; font-size: 14px; color: var(--muted); }
+.start-kbd { display: flex; gap: 12px; align-items: flex-start; margin: 0; padding: 12px 14px; border-radius: 14px; background: #eef5d6; font-size: 15px; line-height: 1.5; color: var(--ink); }
+@media (hover: none) { .start-kbd { display: none; } }
+.start-kbd p { margin: 0; }
+.start-kbd-ic { flex: none; font-size: 26px; line-height: 1; color: var(--sapin); }
 .start-kbd kbd { font: 600 12px/1 var(--font); padding: 3px 6px; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 6px; background: var(--card); }
 .start-note { padding: 12px 14px; border-radius: 12px; background: #fdf1d8; border-left: 4px solid var(--orange); }
 .start-note p { margin: 0; font-size: 14.5px; }
@@ -602,3 +605,303 @@
 .rp-depuis div { background: var(--card, #fffdf8); border: 1px solid var(--line-soft); border-radius: 12px; padding: 10px 14px; }
 .rp-depuis dt { font: 700 11px/1.2 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink, #b4512b); }
 .rp-depuis dd { margin: 4px 0 0; font-weight: 600; }
+
+/* ---------- V4 : le rapport se lit comme la formation (modèle psytest) ---------- */
+.rp-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; margin-top: 18px; scroll-margin-top: calc(var(--head-h) + 8px); }
+.rp-main { display: grid; gap: 16px; min-width: 0; }
+.rp-rail { display: none; }
+@media (min-width: 1100px) {
+  .rp-layout { grid-template-columns: 220px minmax(0, 1fr); }
+  .rp-rail { display: block; position: sticky; top: calc(var(--head-h) + 20px); align-self: start; max-height: calc(100vh - var(--head-h) - 40px); overflow-y: auto; padding: 18px 2px 12px; scrollbar-width: thin; }
+  .rp-fil-menu { display: none; }
+}
+.rp-fil-titre { margin: 14px 0 8px; font: 700 11px/1.4 var(--title); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.rp-rail > .rp-fil-titre:first-child { margin-top: 0; }
+.rp-fil { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.rp-fil button { position: relative; display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: baseline; width: 100%; padding: 6px 8px 6px 16px; border: 0; border-radius: 8px; background: transparent; text-align: left; font: 600 13.5px/1.35 var(--font); color: var(--muted); cursor: pointer; }
+.rp-fil button::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 2px; background: linear-gradient(to bottom, var(--sapin-mid) var(--p, 0%), var(--piste) var(--p, 0%)); }
+.rp-fil button:hover { background: var(--creme); color: var(--fg); }
+.rp-fil .num { font-variant-numeric: tabular-nums; opacity: .8; }
+.rp-fil i { align-self: center; width: 9px; height: 9px; border-radius: 50%; }
+.rp-fil .past > button { color: var(--fg); }
+.rp-fil .past > button { --p: 100%; }
+.rp-fil .here > button { color: var(--orange-ink); font-weight: 800; background: #fdf1e7; }
+.rp-fil .here > button { --p: 100%; }
+.rp-fil .here > button::before { background: var(--orange); }
+.rp-fil button:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.rp-fil-menu { position: sticky; top: calc(var(--head-h) + 4px); z-index: 5; border: 1px solid var(--line-soft); border-radius: 14px; background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(8px); padding: 8px 12px; }
+.rp-fil-menu > summary { cursor: pointer; display: flex; gap: 10px; align-items: baseline; font-weight: 700; }
+.rp-fil-menu > summary .rp-fil-ici { color: var(--sapin); }
+.rp-fil-menu[open] { max-height: 75vh; overflow-y: auto; }
+.rp-fil-menu[open] > .rp-fil:first-of-type { margin-top: 8px; }
+
+.rp-stepper { gap: 14px; }
+.rp-stepper > div { display: grid; gap: 6px; }
+.rp-mini { width: 62px; height: 40px; flex: none; }
+.rp-approche { margin: 2px 0 0; font: 700 13px/1.3 var(--font); color: var(--sapin-mid); }
+.rp-etape h2 { font: 800 clamp(26px, 3.6vw, 38px)/1.12 var(--title); letter-spacing: -.03em; color: var(--sapin); }
+.rp-bref .k .rp-niv { margin-left: 6px; vertical-align: 1px; }
+.rp-bref p:last-child { font-size: 16.5px; line-height: 1.55; }
+.rp-bref b { color: var(--anis); }
+.rp-rep { border: 1px solid var(--line-soft); border-radius: 14px; background: var(--bg); padding: 10px 16px; }
+.rp-rep > summary { cursor: pointer; font-weight: 700; color: var(--sapin); }
+.rp-rep-corps { margin-top: 10px; display: grid; gap: 8px; }
+
+/* Synthèse : les cadrans ouvrent leur étape. */
+button.rp-cadran { font: inherit; color: inherit; cursor: pointer; transition: border-color .2s var(--ease), transform .2s var(--ease); }
+button.rp-cadran:hover { border-color: var(--sapin-mid); transform: translateY(-2px); }
+button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.rp-cadran-lien { display: block; margin-top: 6px; font: 700 12.5px/1 var(--font); color: var(--sapin-mid); }
+.rp-histoire { display: grid; gap: 10px; padding: 20px 22px; border-radius: 18px; background: var(--bg); border: 1px solid var(--line-soft); }
+.rp-histoire h3 { margin: 0; }
+.rp-histoire ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: h; }
+.rp-histoire li button { counter-increment: h; width: 100%; display: grid; grid-template-columns: 34px 1fr; column-gap: 12px; align-items: start; text-align: left; padding: 12px 14px; border: 0; border-left: 6px solid var(--c); border-radius: 12px; background: var(--card); font: inherit; color: var(--fg); cursor: pointer; }
+.rp-histoire li button::before { content: counter(h); grid-row: span 2; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--sapin); color: var(--anis); font: 800 13px/1 var(--title); }
+.rp-histoire li button:hover { background: #fdf8ee; }
+.rp-histoire .t { font-size: 16px; line-height: 1.5; }
+.rp-donc { margin: 4px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--sapin); color: var(--creme); font-size: 15.5px; line-height: 1.5; }
+.rp-donc b { color: var(--anis); }
+.rp-fil-syn { display: grid; gap: 10px; }
+.rp-fil-syn h3 { margin: 0; }
+.rp-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.rp-chips button { display: inline-flex; align-items: baseline; gap: 8px; padding: 7px 14px; border: 0; border-left: 6px solid var(--c); border-radius: 999px; background: var(--bg); font: inherit; color: var(--fg); cursor: pointer; }
+.rp-chips button:hover { background: var(--creme); }
+.rp-chips .n { font: 800 12px/1 var(--title); color: var(--muted); }
+.rp-chips b { font: 800 14.5px/1.2 var(--title); }
+.rp-chips span:not(.n) { font-size: 13px; color: var(--muted); }
+.rp-sommaire b { font-weight: 750; }
+.rp-sommaire .rp-niv { margin-left: 4px; }
+.rp-methode { margin: 0; }
+
+/* Les deux rituels de la semaine. */
+.rp-rituels { display: grid; gap: 10px; }
+.rp-rituels-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.rp-rituel { padding: 18px 20px; border-radius: 18px; display: grid; gap: 10px; align-content: start; }
+.rp-rituel.soir { background: var(--sapin); color: var(--creme); }
+.rp-rituel.soir .k { color: var(--anis); }
+.rp-rituel.soir b { color: var(--anis); }
+.rp-rituel.matin { background: #fdf1e7; border: 1px solid #f3d3bd; }
+.rp-rituel-tete { display: flex; gap: 12px; align-items: center; }
+.rp-rituel-tete svg { width: 40px; height: 40px; flex: none; }
+.rp-rituel h4 { margin: 2px 0 0; font: 800 19px/1.2 var(--title); color: inherit; }
+.rp-rituel ol { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; }
+@media (max-width: 760px) { .rp-rituels-duo { grid-template-columns: minmax(0, 1fr); } }
+
+@media print {
+  .rp-rail, .rp-fil-menu, .rp-cadran-lien, .rp-fil-syn, .rp-syn-suite { display: none !important; }
+  .rp-layout { display: block; margin: 0; }
+  @page { @top-left { font: 800 7.5pt/1 Poppins, Arial, sans-serif; letter-spacing: .1em; color: #123a33; vertical-align: bottom; padding-bottom: 3mm; } @top-right { font: 600 7.5pt/1 Poppins, Arial, sans-serif; letter-spacing: .06em; color: #e8794f; vertical-align: bottom; padding-bottom: 3mm; } }
+  .rp-histoire li button { border: 0; border-left: 5px solid var(--c); padding: 6pt 8pt; }
+  .rp-histoire, .rp-rituel, .rp-donc, .rp-bref { break-inside: avoid; }
+  .rp-rituels-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rp-rituel.soir { background: white; color: #123a33; border: 1.5px solid #123a33; }
+  .rp-rituel.soir .k, .rp-rituel.soir b { color: #b4512b; }
+  .rp-bref b { color: #123a33; }
+  .pdf-sans-reponses .rp-rep { display: none !important; }
+  .rp-rep { border: 0; padding: 0; background: none; }
+  .rp-rep > summary { list-style: none; }
+}
+.rp-syn-priorites .button.primary { background: var(--anis); color: var(--sapin); border-color: var(--anis); }
+.rp-etape h2 { text-wrap: balance; }
+
+/* ---------- V4.1 : étapes au niveau psytest (fil d'Ariane, sous-question, pont, En bref, fils) ---------- */
+/* Le parcours est désormais dans la marge latérale : pas de bandeau horizontal sur les étapes. */
+.rp-etape-head > .rp-n { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rp-etape-head > .rp-n .rp-mini { width: 40px; height: 26px; }
+.rp-etape-head > .rp-n .rp-approche { font: 600 12px/1.3 var(--font); letter-spacing: 0; text-transform: none; color: var(--muted); }
+.rp-sq { margin: 0; font: 700 clamp(16px, 2vw, 19px)/1.35 var(--title); color: #5b3fd1; }
+.rp-pont { margin: 0; padding: 10px 14px; border: 1.5px dashed var(--line); border-radius: 12px; display: grid; gap: 2px; }
+.rp-pont .k { margin: 0; color: var(--sapin-mid); }
+.rp-pont p:last-child { margin: 0; color: var(--muted); font-size: 14.5px; }
+.rp-etape .rp-bref { background: var(--creme); color: var(--fg); border-left: 6px solid var(--sapin); border-radius: 4px 14px 14px 4px; }
+.rp-etape .rp-bref .k { color: var(--muted); }
+.rp-etape .rp-bref p:last-child { font-weight: 650; }
+.rp-etape .rp-bref b { color: var(--sapin); font-weight: 850; }
+.rp-fils { display: grid; gap: 12px; }
+.rp-fils > .rp-legende { margin-top: -6px; }
+.rp-filcarte { display: grid; gap: 8px; padding: 16px 18px; border: 1px solid var(--line-soft); border-left: 6px solid var(--c); border-radius: 6px 16px 16px 6px; background: var(--card); }
+.rp-filcarte header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; }
+.rp-filcarte h4 { margin: 0; font: 800 17px/1.2 var(--title); color: var(--sapin); }
+.rp-filniv { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; }
+.rp-filbarre { display: inline-flex; gap: 3px; }
+.rp-filbarre i { width: 16px; height: 7px; border-radius: 3px; background: var(--piste); }
+.rp-filverdict { margin: 0; font-weight: 700; }
+.rp-filexplique { margin: 0; color: var(--muted); font-size: 14.5px; }
+.rp-filchips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.rp-filchips li { display: inline-flex; gap: 6px; align-items: baseline; padding: 5px 11px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line-soft); font-size: 13.5px; }
+.rp-filchips li span { color: var(--muted); font-size: 12.5px; }
+.rp-filagir { margin: 0; padding: 8px 12px; border-radius: 10px; background: #eef4e6; font-size: 14.5px; }
+.rp-filcarte .rp-rep { padding: 6px 12px; }
+.rp-filcarte .rp-rep > summary { font-size: 14px; }
+.rp-etape .rp-pc > summary .k { color: #5b3fd1; }
+@media print {
+  .rp-sq { font-size: 11pt; }
+  .rp-filcarte { break-inside: avoid; padding: 8pt 10pt; }
+  .rp-etape .rp-bref { background: #f6efe2; border: 0; border-left: 4pt solid #123a33; }
+  .pdf-sans-reponses .rp-filcarte .rp-rep { display: none !important; }
+  .rp-pont { break-inside: avoid; }
+}
+
+/* Avant de lire : accompagnement à la lecture, sommaire à points de conduite. */
+.rp-lead { margin: 0; padding-left: 16px; border-left: 4px solid var(--orange); font-size: 17px; line-height: 1.55; max-width: 72ch; }
+.rp-lire-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.rp-lire-box { padding: 18px 20px; border-radius: 16px; display: grid; gap: 8px; align-content: start; }
+.rp-lire-box .k { margin: 0; padding-top: 10px; border-top: 4px solid var(--orange); width: fit-content; font: 800 13px/1.3 var(--title); letter-spacing: .1em; text-transform: uppercase; }
+.rp-lire-box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 7px; font-size: 14.5px; line-height: 1.5; }
+.rp-lire-box.sombre { background: var(--sapin); color: var(--creme); }
+.rp-lire-box.sombre .k, .rp-lire-box.sombre b { color: var(--anis); }
+.rp-lire-box.clair { background: var(--creme); }
+.rp-lire-box.clair .k { color: var(--orange-ink); }
+.rp-anatomie ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.rp-anatomie li { display: grid; gap: 4px; align-content: start; padding: 12px; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--card); font-size: 13.5px; line-height: 1.4; }
+.rp-anatomie li > span:last-child { color: var(--muted); }
+.rp-anat-vis { display: flex; align-items: center; justify-content: center; height: 34px; margin-bottom: 4px; border-radius: 8px; background: var(--bg); font: 800 18px/1 var(--title); }
+.rp-anat-vis.a { gap: 3px; } .rp-anat-vis.a i { width: 16px; height: 5px; border-radius: 3px; background: var(--sapin-mid); } .rp-anat-vis.a i.o { background: var(--orange); }
+.rp-anat-vis.q { color: #5b3fd1; }
+.rp-anat-vis.b { background: var(--creme); border-left: 6px solid var(--sapin); }
+.rp-anat-vis.f { background: var(--card); border: 1px solid var(--line-soft); border-left: 6px solid var(--orange); }
+.rp-anat-vis.p { color: #5b3fd1; border: 1px solid var(--line-soft); }
+@media (max-width: 900px) { .rp-anatomie ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rp-lire-duo { grid-template-columns: minmax(0, 1fr); } }
+.rp-sommaire2 h3 { margin: 0 0 6px; font: 800 26px/1.2 var(--title); color: var(--sapin); }
+.rp-som-titre { margin: 14px 0 4px; padding-bottom: 4px; border-bottom: 1.5px solid var(--sapin); font: 700 15px/1.3 var(--title); color: var(--orange-ink); }
+.rp-som-titre span { color: var(--sapin); margin-left: 8px; }
+.rp-som-bloc { list-style: none; margin: 0; padding: 0; }
+.rp-som-bloc button { width: 100%; display: grid; grid-template-columns: 92px auto minmax(20px, 1fr) auto; align-items: baseline; gap: 8px; padding: 6px 0; border: 0; background: none; font: inherit; color: var(--fg); text-align: left; cursor: pointer; }
+.rp-som-bloc .n { font: 700 13.5px/1.3 var(--title); color: var(--orange-ink); }
+.rp-som-bloc .t { font-weight: 650; font-size: 14.5px; }
+.rp-som-bloc .t .rp-niv { margin-left: 6px; }
+.rp-som-bloc .pts { border-bottom: 1.5px dotted var(--line); transform: translateY(-4px); }
+.rp-som-bloc .d { font-size: 12.5px; color: var(--muted); text-align: right; max-width: 30ch; }
+.rp-som-bloc button:hover .t { text-decoration: underline; }
+@media (max-width: 700px) { .rp-som-bloc button { grid-template-columns: 70px 1fr; } .rp-som-bloc .pts { display: none; } .rp-som-bloc .d { grid-column: 2; text-align: left; } }
+
+/* Pour aller plus loin : trois sites, comme psytest. */
+.rp-sites { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rp-site { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line-soft); border-top: 6px solid var(--c, var(--sapin)); }
+.rp-site.papillon { --c: #6b4fd8; } .rp-site.bonheur { --c: #e8794f; } .rp-site.traite { --c: #1d5c50; }
+.rp-site .k { margin: 0; font: 800 11.5px/1.3 var(--title); letter-spacing: .1em; text-transform: uppercase; color: var(--orange-ink); }
+.rp-site h3 { margin: 0; font: 800 22px/1.15 var(--title); color: var(--sapin); }
+.rp-site-acc { margin: 0; font: 700 15px/1.35 var(--title); color: var(--c); }
+.rp-site p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.rp-site ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 14px; }
+.rp-site-toi { padding: 10px 12px; border-radius: 10px; background: var(--creme); }
+.rp-site-lien { font: 800 15px/1.2 var(--title); color: var(--sapin); }
+@media (max-width: 900px) { .rp-sites { grid-template-columns: minmax(0, 1fr); } }
+.rp-apres ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+@media print {
+  .rp-lire-duo, .rp-sites { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8pt; }
+  .rp-sites { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rp-lire-box.sombre { background: #123a33 !important; color: #f6efe2 !important; }
+  .rp-lire-box.sombre .k, .rp-lire-box.sombre b { color: #d8f25c !important; }
+  .rp-lire-box, .rp-site, .rp-anatomie li { break-inside: avoid; padding: 9pt; }
+  .rp-lire-box ul, .rp-site p, .rp-site ul, .rp-anatomie li { font-size: 8.5pt; }
+  .rp-anatomie ol { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6pt; }
+  .rp-som-bloc button { display: grid !important; padding: 2.5pt 0; }
+  .rp-som-bloc .t { font-size: 9.5pt; } .rp-som-bloc .d { font-size: 8pt; } .rp-som-bloc .n { font-size: 9pt; }
+  .rp-sommaire2 { break-before: page; }
+  .rp-site h3 { font-size: 14pt; }
+}
+@media print {
+  .rapport .rp-som-bloc button { display: grid !important; }
+  body:has(.rp-layout) { background: white !important; }
+  body:has(.rp-layout) .site-header, body:has(.rp-layout) .site-footer { display: none !important; }
+}
+
+/* Page de garde : écran (carte sapin, pastille, accent anis) et PDF pleine page (@page plein). */
+.rp-pill { justify-self: start; width: fit-content; margin: 0; padding: 5px 14px; border: 1.5px solid var(--anis); border-radius: 999px; font: 800 11.5px/1.2 var(--title); letter-spacing: .14em; text-transform: uppercase; color: var(--anis); }
+.rapport-cover .rp-accent { display: block; color: var(--anis); }
+.rp-pdf-options { border: 1px solid rgb(246 239 226 / .3); border-radius: 14px; padding: 8px 14px; }
+.rp-pdf-options > summary { cursor: pointer; font-weight: 700; }
+.rp-pdf-options .rp-pdf-choix { color: var(--anis); }
+.rp-pdf-options fieldset { border: 0; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.rp-couv, .rp-dos { display: none; }
+@media print {
+  @page plein { margin: 0; @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+  .rapport .rapport-cover { display: none !important; }
+  .rapport .rp-couv, .rapport .rp-dos { page: plein; display: flex !important; flex-direction: column; width: 210mm; height: 296.5mm; box-sizing: border-box; overflow: hidden; background: #123a33 !important; color: #f6efe2; break-after: page; }
+  .rp-couv { padding: 20mm 18mm 14mm; gap: 6mm; }
+  .rp-couv .rp-pill { border-color: #d8f25c; color: #d8f25c; font-size: 8pt; padding: 3pt 10pt; }
+  .rp-couv-titre { margin: 2mm 0 0; font: 800 40pt/1.02 Poppins, Arial, sans-serif; letter-spacing: -.035em; color: #f6efe2; }
+  .rp-couv-titre span { color: #d8f25c; }
+  .rp-couv-date { margin: 0; font: 700 12pt/1.3 Poppins, Arial, sans-serif; color: #d8f25c; }
+  .rp-couv-schema { margin-top: 4mm; padding: 5mm; border-radius: 5mm; background: #f6efe2 !important; color: #123a33; }
+  .rp-couv-schema .rp-ensemble.large { display: block !important; }
+  .rp-couv-schema .rp-ensemble.etroit { display: none !important; }
+  .rp-couv-schema svg { width: 100%; height: auto; max-height: 112mm; }
+  .rp-couv-desc { margin: 0; font-size: 11pt; line-height: 1.5; max-width: 150mm; }
+  .rp-couv-pied { margin: auto 0 0; display: flex; justify-content: space-between; font: 800 7.5pt/1 Poppins, Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #d8f25c; }
+  .rapport .rp-dos { break-before: page; break-after: auto; align-items: center; justify-content: center; text-align: center; gap: 4mm; padding: 20mm; }
+  .rp-dos-logo { display: grid; place-items: center; width: 26mm; height: 26mm; border-radius: 7mm; background: #d8f25c; color: #123a33; font: 800 22pt/1 Poppins, Arial, sans-serif; margin-bottom: 4mm; }
+  .rp-dos-nom { margin: 0; font: 800 30pt/1.1 Poppins, Arial, sans-serif; }
+  .rp-dos-slogan { margin: 0; font: 700 13pt/1.3 Poppins, Arial, sans-serif; color: #e8794f; text-transform: uppercase; letter-spacing: .04em; }
+  .rp-dos-url { margin: 0 0 10mm; font: 800 12pt/1 Poppins, Arial, sans-serif; color: #d8f25c; }
+  .rp-dos-urg, .rp-dos-res { margin: 0; font-size: 10pt; }
+  .rp-dos-urg b, .rp-dos-res b { color: #d8f25c; }
+  .rp-dos-mini { margin: 8mm 0 0; max-width: 130mm; font-size: 8pt; line-height: 1.5; opacity: .85; }
+  .rapport .rp-fin { display: none !important; }
+  .rapport.pdf-travail .rp-couv, .rapport.pdf-travail .rp-dos { display: none !important; }
+  .rapport .rp-page[data-page="synthese"] { break-before: auto; }
+}
+@media print {
+  .rapport .rp-couv .rp-couv-titre { font-size: 44pt; line-height: 1.02; }
+  .rp-couv-pied { gap: 6mm; white-space: nowrap; }
+}
+/* Mise en page PDF : pas de titre orphelin en bas de page, le schéma d'ensemble sur sa propre page. */
+@media print {
+  .rp-fils > h3, .rp-fils > .rp-legende, .rp-schema-intro, .rp-syn-questions h3, .rp-histoire h3, .rp-filcarte header { break-after: avoid; }
+  .rp-syn-schema { break-before: page; }
+  .rp-histoire li button, .rp-chips button { display: grid !important; }
+  .rp-cadran { break-inside: avoid; }
+}
+@media print {
+  .rapport .rp-syn-questions { display: block !important; break-inside: avoid; }
+  .rp-q3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6pt; }
+  .rapport .rp-sommaire2 { break-before: auto; }
+  .rp-som-bloc li { break-inside: avoid; }
+  .rp-sommaire2 h3, .rp-som-titre { break-after: avoid; }
+}
+/* Réponses : la question garde toujours au moins la moitié de la largeur, même avec une réponse longue. */
+@media (min-width: 701px), print { .rp-items li { grid-template-columns: 34px minmax(0, 1.25fr) minmax(0, 1fr); } }
+/* Petit écran : aucune page ne déborde ; les tableaux larges défilent dans leur cadre. */
+.rp-page { grid-template-columns: minmax(0, 1fr); }
+.rp-page > *, .rp-annexe { min-width: 0; }
+@media (max-width: 700px) { .rp-annexe .rp-table { display: block; overflow-x: auto; } }
+.rp-main { grid-template-columns: minmax(0, 1fr); }
+.rp-annexe, .rp-corps, .rp-fils, .rp-rep-corps { grid-template-columns: minmax(0, 1fr); }
+.rp-annexe > *, .rp-corps > *, .rp-fils > * { min-width: 0; max-width: 100%; }
+.rp-bs-metres div { grid-template-columns: minmax(0, 8.5em) minmax(40px, 1fr) 3.2em; }
+.rp-bs-metres .rp-barre { width: auto; min-width: 0; }
+@media print {
+  .rp-fils, .rp-rituels, .rp-annexe { display: block !important; }
+  .rp-fils > * + *, .rp-rituels > * + *, .rp-annexe > * + * { margin-top: 8pt; }
+}
+@media print { .rp-fils > h3, .rp-fils > .rp-legende { display: none !important; } }
+@media print { .rapport.pdf-sans-reponses #annexe-2 { display: none !important; } }
+@media print {
+  .rapport .rp-main { display: block !important; }
+  .rapport .rp-page { margin: 0 !important; padding-bottom: 0 !important; }
+  .rapport .rp-page > :last-child, .rp-corps > :last-child { margin-bottom: 0 !important; }
+}
+
+
+/* Lecture courte autonome du rapport, sans supprimer d'information du rapport complet.
+   Le mode « Synthèse seule » garde les alertes, les observations, le premier geste
+   et les trois questions. Il ne reprend ni les annexes, ni le schéma grand format. */
+.rp-histoire-cadre { margin: -2px 0 2px; max-width: 66ch; font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media print {
+  .rapport.pdf-synthese .rp-couv,
+  .rapport.pdf-synthese .rp-dos,
+  .rapport.pdf-synthese .rp-page:not([data-page="synthese"]),
+  .rapport.pdf-synthese .rp-syn-schema { display: none !important; }
+  .rapport.pdf-synthese .rp-page[data-page="synthese"] { break-before: auto !important; }
+  .rapport.pdf-synthese .rp-syn-head p { font-size: 9pt; }
+  .rapport.pdf-synthese .rp-tete,
+  .rapport.pdf-synthese .rp-histoire { gap: 5pt; }
+  .rapport.pdf-synthese .rp-histoire { padding: 8pt 10pt; }
+  .rapport.pdf-synthese .rp-histoire li button { padding: 4pt 6pt; }
+  .rapport.pdf-synthese .rp-histoire .t { font-size: 9pt; line-height: 1.35; }
+  .rapport.pdf-synthese .rp-histoire-cadre { font-size: 8pt; }
+  .rapport.pdf-synthese .rp-donc { font-size: 9pt; padding: 7pt 8pt; }
+  .rapport.pdf-synthese .rp-syn-priorites { padding: 9pt 11pt; }
+  .rapport.pdf-synthese .rp-syn-questions { break-inside: avoid; }
+}
