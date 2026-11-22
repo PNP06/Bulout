@@ -94,6 +94,18 @@ try {
     #results {display:block !important;}
   }`});
   await page.screenshot({path:join(OUT,"capture-synthese.png"),fullPage:true});
+  // Contrôler la véritable synthèse du rapport sur téléphone, et non seulement la formation.
+  await page.setViewportSize({width:390,height:844});
+  const mobileReport = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    documentWidth: document.documentElement.scrollWidth,
+    reportWidth: Math.round(document.querySelector("#results").getBoundingClientRect().width)
+  }));
+  if (mobileReport.documentWidth > mobileReport.viewport + 2)
+    throw new Error("Rapport mobile : débordement horizontal " + mobileReport.documentWidth + " > " + mobileReport.viewport);
+  await page.screenshot({path:join(OUT,"rapport-synthese-mobile.png"),fullPage:true});
+  await writeFile(join(OUT,"verification-rapport-mobile.json"),JSON.stringify(mobileReport,null,2),"utf8");
+  await page.setViewportSize({width:1280,height:900});
   const modes=[["synthese","rapport-synthese-seule-fictif.pdf"],["court","rapport-essentiel-fictif.pdf"],["complet","rapport-complet-fictif.pdf"],["travail","fiche-travail-fictive.pdf"]];
   for(const [mode,file] of modes){
     await page.evaluate(value=>{
