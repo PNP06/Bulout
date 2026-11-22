@@ -94,7 +94,7 @@ try {
     #results {display:block !important;}
   }`});
   await page.screenshot({path:join(OUT,"capture-synthese.png"),fullPage:true});
-  const modes=[["court","rapport-essentiel-fictif.pdf"],["complet","rapport-complet-fictif.pdf"],["travail","fiche-travail-fictive.pdf"]];
+  const modes=[["synthese","rapport-synthese-seule-fictif.pdf"],["court","rapport-essentiel-fictif.pdf"],["complet","rapport-complet-fictif.pdf"],["travail","fiche-travail-fictive.pdf"]];
   for(const [mode,file] of modes){
     await page.evaluate(value=>{
       const e=document.querySelector(`input[name="rp-pdf"][value="${value}"]`);
@@ -155,7 +155,7 @@ try {
   console.log("FORMATION_METHODE_VISUAL_CHECKS="+JSON.stringify(visualChecks));
   await writeFile(join(OUT,"resultat-moteur.json"),JSON.stringify(synth,null,2),"utf8");
   console.log("BULLOUT_RESULT_JSON="+JSON.stringify(synth));
-  console.log("PDF_VALIDES=3;REPONSES_FICTIVES="+synth.items+";ERREURS_JS="+pageErrors.length);
+  console.log("PDF_VALIDES=4;REPONSES_FICTIVES="+synth.items+";ERREURS_JS="+pageErrors.length);
 }finally{
   if(browser)await browser.close();
   await new Promise(resolve=>serve.close(resolve));
