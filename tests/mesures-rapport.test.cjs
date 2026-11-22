@@ -1157,6 +1157,20 @@ test("la synthèse sépare observations et attribution causale non démontrée",
   assert.match(synthese, /Quel fait concret accompagne/);
 });
 
+test("le fil d’Ariane reste latéral sur ordinateur, compact sur mobile et vertical dans les marges PDF", () => {
+  const html = composer(fixture(2));
+  const js = read("rapport.js");
+  const css = read("rapport.css");
+  assert.match(html, /<aside class="rp-rail" aria-label="Le parcours du rapport">/);
+  assert.match(html, /<details class="rp-fil-menu">/);
+  assert.doesNotMatch(html, /class="rp-ariane"/, "pas de fil horizontal dans les étapes");
+  assert.match(css, /@media \(min-width: 1100px\)/);
+  assert.match(css, /\.rp-rail \{ display: block; position: sticky/);
+  assert.match(css, /\.rp-fil-menu \{ position: sticky/);
+  assert.match(js, /function railMargePDF\(/);
+  assert.match(js, /@left-middle \{ content: \$\{rail\}; vertical-align: middle; \}/);
+  assert.match(js, /mode !== "travail"/, "la fiche à partager ne doit pas afficher la navigation du rapport personnel");
+});
 test("l'export Synthèse seule est distinct du PDF essentiel et exclut les annexes et le schéma", () => {
   const html = composer(fixture(2));
   const css = read("rapport.css");
