@@ -24,7 +24,12 @@ jobs:
           google-chrome --version
       - name: Installer le pilote de Chromium
         run: npm install --no-save --no-package-lock playwright
-      - name: Exécuter les 83 réponses fictives dans le vrai moteur et imprimer les PDF
+      - name: Installer la vérification du contenu des PDF
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftotext -v
+      - name: Exécuter 5 profils fictifs et contrôler 9 PDF imprimés
         run: node tests/generer-pdf-exemple.mjs
       - name: Publier les PDF, la capture et les données de contrôle
         uses: actions/upload-artifact@v4
