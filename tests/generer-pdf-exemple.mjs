@@ -119,6 +119,101 @@ try {
     if(buffer.byteLength<10000 || buffer.subarray(0,5).toString()!=="%PDF-")
       throw new Error("PDF manquant ou invalide: "+file);
   }
+  // Matrice de vérification du vrai moteur : tous les calculs, le rendu et l'impression
+  // sont rejoués avec des profils fictifs contrastés, sans changer l'algorithme.
+  const scenarios = [
+    {id:"stable",niveau:"bas",alertes:[],contextes:[],skipBS:true,formats:["synthese"]},
+    {id:"exposition-forte",niveau:"haut",alertes:[],contextes:[7],skipBS:false,formats:["synthese"]},
+    {id:"alerte-score-bas",niveau:"bas",alertes:[2],contextes:[],skipBS:false,formats:["synthese"]},
+    {id:"alertes-contexte-risque",niveau:"haut",alertes:[1,3],contextes:[1,7],skipBS:false,formats:["synthese","travail"]}
+  ];
+  const controlesScenarios=[];
+  for(const scenario of scenarios) {
+    const resultat=await page.evaluate((c)=>{
+      const Q=window.BullOutDebug, form=document.querySelector("#burnout-form");
+      const choisir=(name,value)=>{
+        const el=form.querySelector('input[name="'+name+'"][value="'+String(value)+'"]');
+        if(!el)throw new Error("Option manquante : "+name+"="+value);
+        el.checked=true;
+      };
+      for(const id of ["A","B","C","D","E","F"])
+        for(let i=1;i<=6;i++) choisir(id+i,c.niveau==="haut" ? (id==="E"?0:4) : (id==="E"?4:0));
+      for(let i=1;i<=6;i++){
+        choisir("G"+i,c.niveau==="haut"?0:4);
+        choisir("R"+i,c.niveau==="haut"?4:0);
+        choisir("RPS"+i,c.niveau==="haut"?4:0);
+      }
+      choisir("T1",c.niveau==="haut"?4:0);
+      choisir("T2",c.niveau==="haut"?2:5);
+      choisir("T3",c.niveau==="haut"?3:5);
+      choisir("T4",c.niveau==="haut"?4:0);
+      for(let i=1;i<=13;i++)choisir("BS"+i,c.skipBS?"skip":c.niveau==="haut"?3:0);
+      for(let i=1;i<=4;i++)choisir("HR"+i,c.skipBS?5:0);
+      for(let i=1;i<=2;i++)choisir("RA"+i,c.skipBS?4:0);
+      Q.contextQuestions.forEach((_,i)=>choisir("context"+(i+1),c.contextes.includes(i+1)?"yes":"no"));
+      Q.alertQuestions.forEach((_,i)=>choisir("alert"+(i+1),c.alertes.includes(i+1)?"yes":"no"));
+      document.querySelector("#questionnaire").hidden=false;
+      const r=Q.calculateResults();
+      if(!r)throw new Error(c.id+": moteur n'a pas retourné de résultat");
+      form.dispatchEvent(new Event("submit",{bubbles:true,cancelable:true}));
+      const root=document.querySelector("#results");
+      const synthesis=root.querySelector("#rapport-synthese");
+      if(!synthesis || root.dataset.ready!=="true")throw new Error(c.id+": rapport non rendu");
+      document.querySelector("#questionnaire").hidden=true;
+      root.hidden=false;
+      const qtexte=synthesis.querySelector(".rp-syn-questions")?.textContent || "";
+      const securite=synthesis.querySelector(".rp-securite")?.textContent || "";
+      const pages=[...root.querySelectorAll(".rp-page")];
+      return {
+        id:c.id,score:r.totalScore,profil:r.profile?.key,
+        hasAlert:r.hasAlert,skipBS:r.bullshit.skipped,
+        pages:pages.length,
+        alerteSecurite:securite.length>0,
+        orientation3114:securite.includes("3114"),
+        orientationFonctionnement:securite.includes("Fonctionnement très perturbé"),
+        orientationPhysique:securite.includes("Symptômes physiques préoccupants"),
+        questionsManager:qtexte.includes("Pour ton manager"),
+        questionsSur:qtexte.includes("Pour un interlocuteur sûr"),
+        rail:!!root.querySelector(".rp-rail"),
+        menuMobile:!!root.querySelector(".rp-fil-menu"),
+        bandeauHorizontal:!!root.querySelector(".rp-ariane")
+      };
+    },scenario);
+    if(resultat.hasAlert!==(scenario.alertes.length>0))throw new Error(scenario.id+": alerte incohérente");
+    if(resultat.skipBS!==scenario.skipBS)throw new Error(scenario.id+": choix de passer le bullshitomètre non respecté");
+    if(resultat.pages!==15)throw new Error(scenario.id+": pages HTML manquantes ("+resultat.pages+")");
+    if(!resultat.rail||!resultat.menuMobile||resultat.bandeauHorizontal)
+      throw new Error(scenario.id+": navigation latérale ou mobile régressée");
+    if(resultat.alerteSecurite!==resultat.hasAlert)
+      throw new Error(scenario.id+": bandeau de sécurité incohérent");
+    if(scenario.alertes.includes(1)&&!resultat.orientation3114)
+      throw new Error(scenario.id+": orientation suicidaire 3114 absente");
+    if(scenario.alertes.includes(2)&&!resultat.orientationFonctionnement)
+      throw new Error(scenario.id+": orientation de fonctionnement absente");
+    if(scenario.alertes.includes(3)&&!resultat.orientationPhysique)
+      throw new Error(scenario.id+": orientation de santé physique absente");
+    if(scenario.contextes.includes(1)||scenario.contextes.includes(7)){
+      if(!resultat.questionsSur||resultat.questionsManager)
+        throw new Error(scenario.id+": proposition de parler au manager dans un contexte risqué");
+    }
+    for(const mode of scenario.formats) {
+      await page.evaluate(value=>{
+        const choix=document.querySelector('input[name="rp-pdf"][value="'+value+'"]');
+        if(!choix)throw new Error("Mode d'impression absent : "+value);
+        choix.checked=true;
+        choix.dispatchEvent(new Event("change",{bubbles:true}));
+      },mode);
+      const fichier=join(OUT,"controle-"+scenario.id+"-"+mode+".pdf");
+      await page.pdf({path:fichier,format:"A4",printBackground:true,preferCSSPageSize:true,displayHeaderFooter:false});
+      const buffer=await readFile(fichier);
+      if(buffer.byteLength<10000||buffer.subarray(0,5).toString()!=="%PDF-")
+        throw new Error(scenario.id+": PDF "+mode+" invalide");
+    }
+    controlesScenarios.push(resultat);
+    if(pageErrors.length)throw new Error(scenario.id+": erreur JavaScript : "+pageErrors.join(" ; "));
+  }
+  await writeFile(join(OUT,"verification-scenarios-moteur.json"),JSON.stringify(controlesScenarios,null,2),"utf8");
+  console.log("MATRICE_PROFILS="+JSON.stringify(controlesScenarios));
   // Recette visuelle minimale des deux zones nouvellement développées.
   // Le navigateur charge ici le parcours normal : seul l'essai du questionnaire
   // désactive localement le verrou du diplôme, jamais le site servi au public.
