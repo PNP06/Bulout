@@ -896,3 +896,26 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
   .rapport .rp-page { margin: 0 !important; padding-bottom: 0 !important; }
   .rapport .rp-page > :last-child, .rp-corps > :last-child { margin-bottom: 0 !important; }
 }
+
+
+/* Lecture courte autonome du rapport, sans supprimer d'information du rapport complet.
+   Le mode « Synthèse seule » garde les alertes, les observations, le premier geste
+   et les trois questions. Il ne reprend ni les annexes, ni le schéma grand format. */
+.rp-histoire-cadre { margin: -2px 0 2px; max-width: 66ch; font-size: 14px; line-height: 1.5; color: var(--muted); }
+@media print {
+  .rapport.pdf-synthese .rp-couv,
+  .rapport.pdf-synthese .rp-dos,
+  .rapport.pdf-synthese .rp-page:not([data-page="synthese"]),
+  .rapport.pdf-synthese .rp-syn-schema { display: none !important; }
+  .rapport.pdf-synthese .rp-page[data-page="synthese"] { break-before: auto !important; }
+  .rapport.pdf-synthese .rp-syn-head p { font-size: 9pt; }
+  .rapport.pdf-synthese .rp-tete,
+  .rapport.pdf-synthese .rp-histoire { gap: 5pt; }
+  .rapport.pdf-synthese .rp-histoire { padding: 8pt 10pt; }
+  .rapport.pdf-synthese .rp-histoire li button { padding: 4pt 6pt; }
+  .rapport.pdf-synthese .rp-histoire .t { font-size: 9pt; line-height: 1.35; }
+  .rapport.pdf-synthese .rp-histoire-cadre { font-size: 8pt; }
+  .rapport.pdf-synthese .rp-donc { font-size: 9pt; padding: 7pt 8pt; }
+  .rapport.pdf-synthese .rp-syn-priorites { padding: 9pt 11pt; }
+  .rapport.pdf-synthese .rp-syn-questions { break-inside: avoid; }
+}
