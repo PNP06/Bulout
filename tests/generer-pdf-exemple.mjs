@@ -2,6 +2,7 @@
 // Exécution : npm i --no-save --no-package-lock playwright && node tests/generer-pdf-exemple.mjs
 // Génère le rapport réel Bull-Out (moteur script.js + rapport.js) via Chromium.
 import { createServer } from "node:http";
+import { execFileSync } from "node:child_process";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, dirname, extname, resolve, sep } from "node:path";
@@ -118,6 +119,11 @@ try {
     const buffer=await readFile(join(OUT,file));
     if(buffer.byteLength<10000 || buffer.subarray(0,5).toString()!=="%PDF-")
       throw new Error("PDF manquant ou invalide: "+file);
+    const textePdf=execFileSync("pdftotext",["-layout",join(OUT,file),"-"],{encoding:"utf8"});
+    if(textePdf.trim().length<1000 || !textePdf.includes("Bull-Out"))
+      throw new Error("PDF vide ou contenu du rapport non extractible: "+file);
+    if(mode==="travail" && !textePdf.includes("Préparer une discussion"))
+      throw new Error("La fiche travail n'imprime pas ses informations.");
   }
   // Matrice de vérification du vrai moteur : tous les calculs, le rendu et l'impression
   // sont rejoués avec des profils fictifs contrastés, sans changer l'algorithme.
@@ -208,6 +214,15 @@ try {
       const buffer=await readFile(fichier);
       if(buffer.byteLength<10000||buffer.subarray(0,5).toString()!=="%PDF-")
         throw new Error(scenario.id+": PDF "+mode+" invalide");
+      const textePdf=execFileSync("pdftotext",["-layout",fichier,"-"],{encoding:"utf8"});
+      if(textePdf.trim().length<700)throw new Error(scenario.id+": PDF "+mode+" sans contenu lisible");
+      if(mode==="synthese" && resultat.hasAlert &&
+         !/Un signal de sécurité est déclaré/i.test(textePdf))
+        throw new Error(scenario.id+": alerte absente du vrai PDF");
+      if(mode==="travail" &&
+         (!textePdf.includes("Préparer une discussion") ||
+          /3114|idées noires|suicidaires|symptômes physiques préoccupants|Un signal de sécurité est déclaré/i.test(textePdf)))
+        throw new Error(scenario.id+": fuite de santé ou contenu manquant dans le PDF de travail");
     }
     controlesScenarios.push(resultat);
     if(pageErrors.length)throw new Error(scenario.id+": erreur JavaScript : "+pageErrors.join(" ; "));
