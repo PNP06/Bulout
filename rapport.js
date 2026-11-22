@@ -965,7 +965,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     </div>
     <section class="rp-anatomie" aria-labelledby="rp-anat-t"><h3 id="rp-anat-t" class="rp-h">Comment se lit une étape</h3>
       <ol>
-        <li><span class="rp-anat-vis a" aria-hidden="true"><i></i><i></i><i class="o"></i><i></i></span><b>Le fil d'Ariane</b><span>En haut : où tu en es dans les neuf étapes. Clique pour sauter d'une étape à l'autre.</span></li>
+        <li><span class="rp-anat-vis a" aria-hidden="true"><i></i><i></i><i class="o"></i><i></i></span><b>Le fil d'Ariane</b><span>À gauche sur ordinateur, dans le menu « Le parcours » sur mobile et dans la marge des PDF : ton avancement dans les étapes.</span></li>
         <li><span class="rp-anat-vis q" aria-hidden="true">?</span><b>Une question</b><span>Le titre pose la question de l'étape ; la ligne violette dit ce qu'on regarde.</span></li>
         <li><span class="rp-anat-vis b" aria-hidden="true"></span><b>En bref</b><span>La réponse en une ou deux phrases. Si tu n'as que deux minutes, lis seulement les « En bref ».</span></li>
         <li><span class="rp-anat-vis f" aria-hidden="true"></span><b>Les fils</b><span>Un thème, son niveau, ce qui ressort, et tes réponses repliées.</span></li>
@@ -1106,14 +1106,12 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
   // ───────── Pages : synthèse, avant de lire, neuf étapes, puis les outils et les annexes.
   const N = etapes.length;
   const ARI = { fatigue: "Fatigue", signes: "Signes", balance: "Balance", retour: "Échange", absurde: "Absurde", rps: "Risques", autour: "Appuis", plan: "Plan", portes: "Portes" };
-  // Le fil d'Ariane de chaque étape, à l'écran comme dans le PDF : neuf jalons, celui du jour en orange.
-  const ariane = (i) => `<nav class="rp-ariane" aria-label="Où tu en es"><ol>${etapes.map((x, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"${j === i ? ' aria-current="step"' : ""}><button type="button" data-aller="${x.id}"><span class="num">${j + 1}</span><span class="nom">${esc(ARI[x.id] || x.court)}</span>${x.n !== null && x.n !== undefined ? `<i style="background:${COUL[x.n]}"></i>` : ""}</button></li>`).join("")}</ol></nav>`;
   const pages = [
     { id: "synthese", court: "Synthèse", tete: "SYNTHÈSE", html: synthese },
     { id: "lire", court: "Avant de lire", tete: "AVANT DE LIRE", html: avantLire },
     ...etapes.map((e, i) => ({
       id: e.id, court: e.court, etape: i, n: e.n, tete: `ÉTAPE ${i + 1} SUR ${N} · ${e.q.toUpperCase()}`,
-      html: `<header class="rp-etape-head">${ariane(i)}
+      html: `<header class="rp-etape-head">
         <p class="rp-n">${miniSchema(e.col)}<span>Étape ${i + 1} sur ${N}</span><span class="rp-approche">${esc(e.approche)}</span></p>
         <h2 tabindex="-1">${esc(e.q)}</h2><p class="rp-sq">${esc(SQ[e.id] || "")}</p><p class="rp-intro">${e.intro}</p></header>
         ${i > 0 ? `<aside class="rp-pont"><p class="k">Ce qu'on garde de l'étape ${i} · ${esc(etapes[i - 1].court)}</p><p>${etapes[i - 1].garder}</p></aside>` : ""}
@@ -1142,7 +1140,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
     const lib = (p) => (p.etape !== undefined ? `Étape ${p.etape + 1} · ${p.court}` : p.court);
     return `<nav class="rp-pager" aria-label="Pages du rapport">${prev ? `<button type="button" class="button secondary" data-aller="${prev.id}">← ${esc(lib(prev))}</button>` : "<span></span>"}${next ? `<button type="button" class="button primary" data-aller="${next.id}">${esc(lib(next))} →</button>` : `<a class="button primary" href="agir.html">Explorer les leviers d'action</a>`}</nav>`;
   };
-  // Le fil d'Ariane (modèle psytest) : à gauche sur grand écran, replié en haut sur petit écran.
+  // Fil d’Ariane : piste verticale à gauche sur ordinateur, menu compact sur mobile ; marge en PDF.
   const filItems = `<ol class="rp-fil">${pages.filter((p) => !p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num">${p.etape !== undefined ? p.etape + 1 : ""}</span><span>${esc(p.court)}</span>${p.n !== undefined && p.n !== null ? `<i style="background:${COUL[p.n]}" aria-hidden="true"></i>` : ""}</button></li>`).join("")}</ol>
     <p class="rp-fil-titre">Outils et annexes</p><ol class="rp-fil">${pages.filter((p) => p.annexe).map((p) => `<li data-fil="${p.id}"><button type="button" data-aller="${p.id}"><span class="num"></span><span>${esc(p.court)}</span></button></li>`).join("")}</ol>`;
 
@@ -1223,19 +1221,53 @@ function montrer(id, focus = true) {
   }
 }
 
-// PDF : chaque page du rapport reçoit sa page nommée (@page), avec en haut « ÉTAPE 3 SUR 9 · LA QUESTION » et la date.
+// PDF : en-têtes nommés et fil d’Ariane vertical dans la marge gauche,
+// sur le modèle du rapport Papillon et du gabarit du Traité RDR.
 const cssStr = (t) => `"${String(t).replace(/["\\]/g, "\\$&").replace(/\n/g, " ")}"`;
+const railXML = (t) => String(t).replace(/[&<>"\']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" }[c]));
+function railMargePDF(etapes, position) {
+  const hMax = 250, ecart = 1.3, ratio = .55;
+  const taille = Math.max(1.85, Math.min(2.5, (hMax - (etapes.length - 1) * ecart - etapes.length * 3) / (etapes.reduce((n, t) => n + t.length, 0) * ratio)));
+  const naturel = etapes.map((t) => t.length * taille * ratio + 3);
+  const total = naturel.reduce((n, x) => n + x, 0) + (etapes.length - 1) * ecart;
+  const surplus = Math.max(0, hMax - total) / etapes.length;
+  const coef = Math.min(1, (hMax - (etapes.length - 1) * ecart) / (naturel.reduce((n, x) => n + x, 0) + surplus * etapes.length));
+  let y = 0;
+  const contenu = etapes.map((titre, i) => {
+    const etat = i < position ? "passe" : i === position ? "ici" : "apres";
+    const ligne = { passe: "#123a33", ici: "#e8794f", apres: "#d9d3c7" }[etat];
+    const couleur = { passe: "#123a33", ici: "#b4512b", apres: "#7f817a" }[etat];
+    const hauteur = (naturel[i] + surplus) * coef;
+    const max = Math.max(2, Math.floor((hauteur - 2) / (taille * ratio)));
+    const texte = titre.length > max ? titre.slice(0, max - 1) + "…" : titre;
+    const segment = `<rect x="6" y="${y.toFixed(2)}" width="1.5" height="${hauteur.toFixed(2)}" rx=".5" fill="${ligne}"/><text transform="translate(4.3 ${(y + 1).toFixed(2)}) rotate(90)" font-family="Poppins,Arial,sans-serif" font-size="${taille.toFixed(2)}" font-weight="${etat === "ici" ? "800" : "600"}" fill="${couleur}">${railXML(texte)}</text>`;
+    y += hauteur + ecart;
+    return segment;
+  }).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="8mm" height="${hMax}mm" viewBox="0 0 8 ${hMax}">${contenu}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
 function enTetesPDF() {
   const date = racine.querySelector(".rp-layout")?.dataset.date || "";
+  const pages = [...racine.querySelectorAll(".rp-page")];
+  const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "complet";
+  const retenues = pages.filter((p) => mode === "complet" ||
+    mode === "synthese" && p.dataset.page === "synthese" ||
+    mode === "court" && ["synthese", "plan", "portes"].includes(p.dataset.page) ||
+    mode === "travail" && p.dataset.page === "travail");
+  const titreRail = (p) => ({ synthese: "Synthèse", lire: "Avant de lire", ressources: "Ressources", travail: "Outils et annexes", carnet: "Outils et annexes", annexes: "Outils et annexes" }[p.dataset.page] ||
+    `${pages.indexOf(p) - 1}. ${p.getAttribute("aria-label")}`);
+  const titres = [...new Set(retenues.map(titreRail))];
   let css = `@page { @top-right { content: ${cssStr(`Rapport du ${date}`)}; } }\n`;
-  racine.querySelectorAll(".rp-page").forEach((p) => {
-    css += `@page p-${p.dataset.page} { @top-left { content: ${cssStr(p.dataset.tete)}; } }\n#rapport-${p.dataset.page} { page: p-${p.dataset.page}; }\n`;
+  pages.forEach((p) => {
+    const ici = titres.indexOf(titreRail(p));
+    const rail = titres.length > 1 && ici >= 0 && mode !== "travail" ? railMargePDF(titres, ici) : "none";
+    css += `@page p-${p.dataset.page} { @top-left { content: ${cssStr(p.dataset.tete)}; } @left-middle { content: ${rail}; vertical-align: middle; } }\n#rapport-${p.dataset.page} { page: p-${p.dataset.page}; }\n`;
   });
   let st = document.getElementById("rp-entetes");
   if (!st) { st = Object.assign(document.createElement("style"), { id: "rp-entetes", media: "print" }); document.head.append(st); }
   st.textContent = css;
 }
-
 function optionsPDF() {
   const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "complet";
   racine.classList.toggle("pdf-court", mode === "court");
