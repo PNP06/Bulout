@@ -246,10 +246,11 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     E5: "Qu'est-ce qui, dans mon travail de ces dernières semaines, a été vu ?",
     E6: "Sur quels critères la charge et les décisions sont-elles réparties ?"
   };
+  const discussionRisquee = ctxOui.some((a) => a.id === "harassment" || a.id === "fearToSpeak");
   const questions = [
-    ["Pour toi", top ? `Qu'est-ce qui, dans mon travail réel, explique « ${top.humanLabel} » ?` : "Qu'est-ce qui me protège aujourd'hui, et comment le garder ?"],
+    ["Pour toi", top ? `Quel fait concret accompagne « ${top.humanLabel} » et comment vérifier son évolution ?` : "Qu'est-ce qui me protège aujourd'hui, et comment le garder ?"],
     ["Pour ton médecin ou le médecin du travail", sr.F.score >= 13 || sr.A.score >= 13 ? "Mes réponses signalent des difficultés : quelles causes et quels aménagements faudrait-il examiner ?" : "Qu'est-ce qui pourrait être aménagé pour que mon travail reste soutenable ?"],
-    ["Pour ton manager", sr.D.score >= 13 ? "Qu'est-ce qu'on retire, reporte ou simplifie cette semaine ?" : manqueRessource.riskScore >= 3 ? Q_RESSOURCE[manqueRessource.id] : "Quelle est la priorité de la semaine, et qu'est-ce qui peut attendre ?"]
+    [discussionRisquee ? "Pour un interlocuteur sûr" : "Pour ton manager", discussionRisquee ? "À qui puis-je décrire les faits et demander conseil sans devoir passer par mon manager ?" : sr.D.score >= 13 ? "Qu’est-ce qu’on retire, reporte ou simplifie cette semaine ?" : manqueRessource.riskScore >= 3 ? Q_RESSOURCE[manqueRessource.id] : "Quelle est la priorité de la semaine, et qu’est-ce qui peut attendre ?"]
   ];
 
   // ───────── Tes appuis
@@ -896,18 +897,18 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
   // Le moteur de lecture : quatre phrases en mots, puis une conclusion qui dépend du croisement travail / usure.
   const usureN = Math.max(nFatigue, lache);
   const histoire = [
-    { n: tire, k: "Ton travail", aller: etapeTravail, t: tire >= 2 ? `Ton travail pèse ${JAUGE_MOTS.travail[tire] === "très lourd" ? "très lourd" : "lourd"}, surtout ${enTete(tireListe, tire)}. ${pesee1.penche > 0 ? "On te demande plus que ce qui t'aide." : ""} ${pesee2.penche > 0 ? "Et tu donnes plus que tu ne reçois." : ""}`
+    { n: tire, k: "Ton travail", aller: etapeTravail, t: tire >= 2 ? `Ton travail pèse ${JAUGE_MOTS.travail[tire] === "très lourd" ? "très lourd" : "lourd"}, surtout ${enTete(tireListe, tire)}. ${pesee1.penche > 0 ? "Dans ces questions, les exigences déclarées dépassent les ressources rapportées." : ""} ${pesee2.penche > 0 ? "La lecture effort–récompense penche aussi vers les efforts déclarés." : ""}`
         : tire === 1 ? `Ton travail est à surveiller${enTete(tireListe, tire) ? `, surtout ${enTete(tireListe, tire)}` : ""}, sans peser fort.` : "Ton travail ne pèse pas fort dans tes réponses." },
     { n: nFatigue, k: "Ta fatigue", aller: "fatigue", t: `Ta fatigue est ${JAUGE_MOTS.fatigue[nFatigue]} : ${MOTS_RECUP[nRecup]}.${haut("F1") ? " Tu as du mal à décrocher le soir." : ""}` },
     { n: lache, k: "Ce que ça change", aller: "signes", t: lache ? `L'usure se voit, surtout ${enTete(lacheListe, lache)}.${coeurHauts.length ? ` Parmi les trois signes, ${coeurHauts.length > 1 ? "ressortent" : "ressort"} ${liste(coeurHauts.map((d) => NOMS[d.id].toLowerCase()))}.` : ""}` : "L'usure ne se voit pas nettement sur ta relation au travail, ton corps ou ta vie." },
-    { n: null, k: "Ce qui tient", aller: "autour", t: `${forts.length ? `Tu peux t'appuyer sur ${liste(forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()))}.` : "Peu d'appuis nets aujourd'hui : c'est fréquent quand l'usure s'installe."}${dSchema.temps.duree ? ` Cela dure depuis ${dSchema.temps.duree}${dSchema.temps.evolution ? `, ${dSchema.temps.evolution}` : ""}.` : ""}` }
+    { n: null, k: "Ce qui tient", aller: "autour", t: `${forts.length ? `Tu peux t'appuyer sur ${liste(forts.slice(0, 2).map((a) => APPUIS[a.id][1].toLowerCase()))}.` : "Les questions proposées ne font pas ressortir d'appui solide ; d'autres appuis restent possibles."}${dSchema.temps.duree ? ` Cela dure depuis ${dSchema.temps.duree}${dSchema.temps.evolution ? `, ${dSchema.temps.evolution}` : ""}.` : ""}` }
   ];
   const donc = r.hasAlert ? "Commence par le message de sécurité : il passe avant tout le reste."
     : tire >= 2 && usureN >= 2 ? "Le travail pèse et l'usure se voit. C'est le moment d'agir sur le travail, cette semaine, et d'en parler à un médecin."
-      : tire >= 2 ? "Le travail pèse, mais tu tiens encore. On n'attend pas d'être usé·e pour changer le travail : c'est le meilleur moment pour agir."
+      : tire >= 2 ? "Des contraintes ressortent dans tes réponses, avec moins de manifestations d'usure déclarées. Tu peux agir sur le travail sans attendre une aggravation."
         : usureN >= 2 ? "L'usure se voit plus que la charge déclarée. Regarde aussi ce que le questionnaire voit mal : la vie hors travail, la santé, l'histoire du poste. Et parles-en à un médecin."
           : "Peu de signaux. Garde ce qui te protège, et refais le point dans quelques semaines.";
-  const histoireHTML = `<section class="rp-histoire" aria-labelledby="rp-histoire-titre"><p class="k">Ta lecture en mots</p><h3 id="rp-histoire-titre">Ton histoire en quatre phrases</h3>
+  const histoireHTML = `<section class="rp-histoire" aria-labelledby="rp-histoire-titre"><p class="k">Ta lecture en mots</p><h3 id="rp-histoire-titre">Quatre constats à examiner ensemble</h3><p class="rp-histoire-cadre">Des réponses mises en regard, sans prétendre démontrer ce qui cause quoi.</p>
     <ol>${histoire.map((h) => `<li style="--c:${h.n === null ? C.mid : COUL[h.n]}"><button type="button" data-aller="${h.aller}"><span class="k">${h.k}</span><span class="t">${esc(h.t.replace(/\s+/g, " ").trim())}</span></button></li>`).join("")}</ol>
     <p class="rp-donc"><b>Donc :</b> ${esc(donc)}</p></section>`;
 
@@ -1178,6 +1179,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <details class="rp-pdf-options"><summary>Ce que contient le PDF : <span class="rp-pdf-choix">complet</span></summary>
         <fieldset class="rp-pdf"><legend class="sr-only">Ce que contient le PDF</legend>
           <label><input type="radio" name="rp-pdf" value="complet" checked> <b>Complet</b> : synthèse, neuf étapes, ressources, outils et annexes</label>
+          <label><input type="radio" name="rp-pdf" value="synthese"> <b>Synthèse seule</b> : résultats principaux, questions et première action</label>
           <label><input type="radio" name="rp-pdf" value="court"> <b>Essentiel</b> : synthèse, plan et interlocuteurs</label>
           <label><input type="radio" name="rp-pdf" value="travail"> <b>Fiche travail</b> : contraintes et demandes, sans réponses médicales</label>
           <label><input type="checkbox" name="rp-reponses"> Inclure mes réponses détaillées (rapport complet uniquement)</label>
@@ -1237,10 +1239,11 @@ function enTetesPDF() {
 function optionsPDF() {
   const mode = racine.querySelector('[name="rp-pdf"]:checked')?.value || "complet";
   racine.classList.toggle("pdf-court", mode === "court");
+  racine.classList.toggle("pdf-synthese", mode === "synthese");
   racine.classList.toggle("pdf-travail", mode === "travail");
   racine.classList.toggle("pdf-sans-reponses", !racine.querySelector('[name="rp-reponses"]')?.checked);
   const choix = racine.querySelector(".rp-pdf-choix");
-  if (choix) choix.textContent = { complet: "complet", court: "essentiel", travail: "fiche travail" }[mode];
+  if (choix) choix.textContent = { complet: "complet", synthese: "synthèse seule", court: "essentiel", travail: "fiche travail" }[mode];
 }
 
 document.addEventListener("bullout:rapport", (event) => {
@@ -1285,7 +1288,7 @@ window.addEventListener("beforeprint", () => {
   if (!racine.querySelector(".rp-page")) return;
   enTetesPDF();
   racine.querySelectorAll(".rp-page").forEach((p) => { p.hidden = false; });
-  if (racine.classList.contains("pdf-court")) return;
+  if (racine.classList.contains("pdf-court") || racine.classList.contains("pdf-synthese")) return;
   const avecReponses = !racine.classList.contains("pdf-sans-reponses");
   racine.querySelectorAll(".rp-page details:not([open])").forEach((d) => {
     if (d.classList.contains("rp-rep") && !avecReponses) return;
