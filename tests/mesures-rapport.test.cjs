@@ -241,7 +241,7 @@ test("le rapport se lit comme la formation : synthèse, avant de lire, neuf éta
   assert.ok(positions.every((n, i) => i === 0 || n > positions[i - 1]), "Parcours mal ordonné");
   assert.match(html, /class="rp-rail"/);
   assert.match(html, /Le parcours/);
-  assert.match(html, /Ton histoire en quatre phrases/);
+  assert.match(html, /Quatre constats à examiner ensemble/);
   assert.match(html, /Étape 3 sur 9/);
   assert.match(html, /data-tete="ÉTAPE 3 SUR 9 · TON TRAVAIL T'AIDE-T-IL ASSEZ \?"/);
   // Les deux rituels de la semaine, dans l'étape « plan ».
@@ -404,7 +404,7 @@ test("les réponses uniformes sont signalées dans la synthèse sans invalider l
   assert.match(lire, /Ces réponses se lisent-elles facilement/);
   assert.match(lire, /Certains contrastes sont peu informatifs/);
   assert.match(lire, /ne mesure ni la sincérité ni la validité clinique/);
-  assert.match(pageDuRapport(html, "synthese"), /Ton histoire en quatre phrases/);
+  assert.match(pageDuRapport(html, "synthese"), /Quatre constats à examiner ensemble/);
 });
 
 test("les différences entre dimensions restent descriptives, même lorsque les réponses varient", () => {
@@ -473,7 +473,7 @@ test("la pause satirique peut être entièrement passée sans créer de faux sco
   assert.match(bsPage, /aucun indice calculé/);
   assert.doesNotMatch(bsPage, /null\s*%|0\s*% du barème/);
   assert.doesNotMatch(bsPage, /Profil fictif|À sortir en réunion/);
-  assert.match(html, /Ton histoire en quatre phrases/);
+  assert.match(html, /Quatre constats à examiner ensemble/);
 });
 
 test("le bullshitomètre fait partie du parcours, les anciennes sauvegardes « passées » restent lisibles", () => {
@@ -1133,4 +1133,39 @@ test("le dossier stagiaire tient en huit feuilles, garde les urgences et est ann
   assert.match(parcours, /const dossierHTML = /);
   assert.match(read("index.html"), /dossier stagiaire/);
   assert.match(read("rapport.js"), /href="dossier\.html"/);
+});
+
+
+test("les questions de synthèse évitent le manager quand le climat est déclaré risqué", () => {
+  for (const id of ["harassment", "fearToSpeak"]) {
+    const f = fixture(2);
+    const contexte = f.result.contextAnswers.find((x) => x.id === id);
+    assert.ok(contexte, "Contexte manquant : " + id);
+    contexte.yes = true;
+    const synthese = pageDuRapport(composer(f), "synthese");
+    assert.match(synthese, /Pour un interlocuteur sûr/);
+    assert.doesNotMatch(synthese, /<span class="k">Pour ton manager<\/span>/);
+    assert.match(synthese, /sans devoir passer par mon manager/);
+  }
+});
+
+test("la synthèse sépare observations et attribution causale non démontrée", () => {
+  const synthese = pageDuRapport(composer(fixture(2)), "synthese");
+  assert.match(synthese, /Quatre constats à examiner ensemble/);
+  assert.match(synthese, /sans prétendre démontrer ce qui cause quoi/);
+  assert.doesNotMatch(synthese, /c'est fréquent quand l'usure s'installe/);
+  assert.match(synthese, /Quel fait concret accompagne/);
+});
+
+test("l'export Synthèse seule est distinct du PDF essentiel et exclut les annexes et le schéma", () => {
+  const html = composer(fixture(2));
+  const css = read("rapport.css");
+  const js = read("rapport.js");
+  assert.match(html, /name="rp-pdf" value="synthese"/);
+  assert.match(html, /name="rp-pdf" value="court"/);
+  assert.match(html, /name="rp-pdf" value="complet" checked/);
+  assert.match(js, /classList\.toggle\("pdf-synthese", mode === "synthese"\)/);
+  assert.match(css, /\.rapport\.pdf-synthese \.rp-page:not\(\[data-page="synthese"\]\)/);
+  assert.match(css, /\.rapport\.pdf-synthese \.rp-syn-schema/);
+  assert.match(css, /\.rapport\.pdf-synthese \.rp-couv/);
 });
