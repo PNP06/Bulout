@@ -1104,8 +1104,9 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
 
   // ───────── Pages : synthèse, avant de lire, neuf étapes, puis les outils et les annexes.
   const N = etapes.length;
+  const ARI = { fatigue: "Fatigue", signes: "Signes", balance: "Balance", retour: "Échange", absurde: "Absurde", rps: "Risques", autour: "Appuis", plan: "Plan", portes: "Portes" };
   // Le fil d'Ariane de chaque étape, à l'écran comme dans le PDF : neuf jalons, celui du jour en orange.
-  const ariane = (i) => `<nav class="rp-ariane" aria-label="Où tu en es"><ol>${etapes.map((x, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"${j === i ? ' aria-current="step"' : ""}><button type="button" data-aller="${x.id}"><span class="num">${j + 1}</span><span class="nom">${esc(x.court)}</span>${x.n !== null && x.n !== undefined ? `<i style="background:${COUL[x.n]}"></i>` : ""}</button></li>`).join("")}</ol></nav>`;
+  const ariane = (i) => `<nav class="rp-ariane" aria-label="Où tu en es"><ol>${etapes.map((x, j) => `<li class="${j < i ? "fait" : j === i ? "ici" : ""}"${j === i ? ' aria-current="step"' : ""}><button type="button" data-aller="${x.id}"><span class="num">${j + 1}</span><span class="nom">${esc(ARI[x.id] || x.court)}</span>${x.n !== null && x.n !== undefined ? `<i style="background:${COUL[x.n]}"></i>` : ""}</button></li>`).join("")}</ol></nav>`;
   const pages = [
     { id: "synthese", court: "Synthèse", tete: "SYNTHÈSE", html: synthese },
     { id: "lire", court: "Avant de lire", tete: "AVANT DE LIRE", html: avantLire },

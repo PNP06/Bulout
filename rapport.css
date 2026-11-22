@@ -858,3 +858,41 @@ button.rp-cadran:focus-visible { outline: 3px solid var(--orange); outline-offse
   .rp-ariane .nom { display: inline !important; }
   .rp-ariane i { display: inline-block !important; }
 }
+/* Mise en page PDF : pas de titre orphelin en bas de page, le schéma d'ensemble sur sa propre page. */
+@media print {
+  .rp-fils > h3, .rp-fils > .rp-legende, .rp-schema-intro, .rp-syn-questions h3, .rp-histoire h3, .rp-filcarte header { break-after: avoid; }
+  .rp-syn-schema { break-before: page; }
+  .rp-histoire li button, .rp-chips button { display: grid !important; }
+  .rp-cadran { break-inside: avoid; }
+}
+@media print {
+  .rapport .rp-syn-questions { display: block !important; break-inside: avoid; }
+  .rp-q3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6pt; }
+  .rapport .rp-sommaire2 { break-before: auto; }
+  .rp-som-bloc li { break-inside: avoid; }
+  .rp-sommaire2 h3, .rp-som-titre { break-after: avoid; }
+}
+/* Réponses : la question garde toujours au moins la moitié de la largeur, même avec une réponse longue. */
+@media (min-width: 701px), print { .rp-items li { grid-template-columns: 34px minmax(0, 1.25fr) minmax(0, 1fr); } }
+/* Petit écran : aucune page ne déborde ; les tableaux larges défilent dans leur cadre. */
+.rp-page { grid-template-columns: minmax(0, 1fr); }
+.rp-page > *, .rp-annexe { min-width: 0; }
+@media (max-width: 700px) { .rp-annexe .rp-table { display: block; overflow-x: auto; } }
+.rp-main { grid-template-columns: minmax(0, 1fr); }
+.rp-annexe, .rp-corps, .rp-fils, .rp-rep-corps { grid-template-columns: minmax(0, 1fr); }
+.rp-annexe > *, .rp-corps > *, .rp-fils > * { min-width: 0; max-width: 100%; }
+.rp-bs-metres div { grid-template-columns: minmax(0, 8.5em) minmax(40px, 1fr) 3.2em; }
+.rp-bs-metres .rp-barre { width: auto; min-width: 0; }
+.rp-ariane button { grid-template-columns: auto auto minmax(0, 1fr); }
+.rp-ariane i { order: -1; }
+@media print {
+  .rp-fils, .rp-rituels, .rp-annexe { display: block !important; }
+  .rp-fils > * + *, .rp-rituels > * + *, .rp-annexe > * + * { margin-top: 8pt; }
+}
+@media print { .rp-fils > h3, .rp-fils > .rp-legende { display: none !important; } }
+@media print { .rapport.pdf-sans-reponses #annexe-2 { display: none !important; } }
+@media print {
+  .rapport .rp-main { display: block !important; }
+  .rapport .rp-page { margin: 0 !important; padding-bottom: 0 !important; }
+  .rapport .rp-page > :last-child, .rp-corps > :last-child { margin-bottom: 0 !important; }
+}
