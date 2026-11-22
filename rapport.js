@@ -941,7 +941,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
     ${filChips}
     <section class="rp-syn-schema" aria-labelledby="rp-schema-titre">
       <div class="rp-schema-intro"><p class="k">Vue d'ensemble</p><h3 id="rp-schema-titre">Le schéma de la formation, avec tes réponses</h3>
-        <p>Le même schéma que celui de Sam : les trois jauges ci-dessus, et sous chacune, ce qui les explique.</p></div>
+        <p>Le même schéma que celui de Sam : les trois jauges ci-dessus, et sous chacune, les réponses qui les composent.</p></div>
       ${ensemble}
     </section>
     <div class="rp-syn-suite"><p><b>Pour comprendre d'où vient chaque mot</b>, lis le rapport étape par étape : une question à la fois, comme dans la formation.</p>
@@ -973,7 +973,7 @@ function composer({ result: r, sections, strengthPart, exchangePart, temporalPar
       </ol></section>
     ${LEGENDE_COULEURS}
     <section class="rp-sommaire2" aria-labelledby="rp-som-t"><h3 id="rp-som-t">Sommaire</h3>
-      <ol class="rp-som-bloc">${sommaireLigne("synthese", "Synthèse", "Ton rapport en une page", "l'essentiel, en deux minutes")}${sommaireLigne("lire", "Avant de lire", "Comment lire ton rapport", "ce qu'il apporte, comment il est construit")}</ol>
+      <ol class="rp-som-bloc">${sommaireLigne("synthese", "Synthèse", "L'essentiel, sans les détails", "l'essentiel, en deux minutes")}${sommaireLigne("lire", "Avant de lire", "Comment lire ton rapport", "ce qu'il apporte, comment il est construit")}</ol>
       <p class="rp-som-titre">Pas à pas <span>${etapes.length} étapes</span></p>
       <ol class="rp-som-bloc">${etapes.map((e, i) => sommaireLigne(e.id, `Étape ${i + 1}`, esc(e.q), esc(e.approche), pastille(e.n, e.mot))).join("")}</ol>
       <p class="rp-som-titre">Ensuite</p>
@@ -1169,7 +1169,7 @@ const carnetFait = travailRessort[0]?.question || "Une situation de travail à c
       <p class="rp-pill">Rapport · ${esc(date)}</p>
       <h1 id="rapport-titre" tabindex="-1">Ton rapport Bull-Out <span class="rp-accent">Point d'étape</span></h1>
       <p class="rp-slogan">Prévention burn-out sans bullshit</p>
-      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse en une page, puis neuf étapes dans l'ordre de la formation, et des ressources pour aller plus loin.</p>
+      <p id="rapport-date">Établi le ${date}, sur tes quatre dernières semaines. Une synthèse de tes réponses, puis neuf étapes dans l'ordre de la formation, et des ressources pour aller plus loin.</p>
       <div class="parcours-tools rp-outils">
         <button class="button anis" type="button" id="imprimer">Enregistrer en PDF</button>
         <button class="button secondary" type="button" id="copy-results">Copier le résumé personnel</button>
