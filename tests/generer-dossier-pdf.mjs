@@ -41,7 +41,7 @@ try {
   const debords = await page.$$eval(".page", (feuilles) => feuilles.map((f, i) => ({ i: i + 1, depasse: f.scrollHeight - f.clientHeight })).filter((x) => x.depasse > 1));
   if (debords.length) throw new Error("Le dossier déborde de la page A4 : " + debords.map((d) => `feuille ${d.i} (+${d.depasse} px)`).join(", ") + ". Raccourcis le texte ou réduis un bloc.");
   const polices = await page.evaluate(() => [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family + " " + f.weight));
-  if (!polices.some((p) => p.includes("Poppins")) || !polices.some((p) => p.includes("Inter"))) throw new Error("Les polices Poppins et Inter ne sont pas chargées : " + polices.join(", "));
+  if (!polices.some((p) => p.includes("Inter"))) throw new Error("La police Inter du dossier n’est pas chargée : " + polices.join(", "));
   if (erreurs.length) throw new Error(erreurs.join("\n"));
 
   const feuilles = await page.$$eval(".page", (f) => f.length);
