@@ -10,7 +10,7 @@ Développé avec deux psys, et en discussion avec un juge aux prud'hommes. Ce n'
 1. **La formation** (`test.html#formation`) : onze chapitres avec Sam en fil rouge, un exercice par chapitre, les quatre approches réunies autour de Sam après le chapitre 4, une synthèse finale suivie du dossier stagiaire, un test final et un diplôme. À la fin de chaque chapitre, une pièce du schéma du rapport se pose.
 2. **Le questionnaire** (`test.html#questionnaire`) : six parties notées A à F (0 à 24), puis des parties hors score (retour Siegrist, six repères RPS, bullshitomètre et réaction à l'humour, appuis, durée et évolution, contexte, sécurité).
 3. **Le rapport** (V4, sur le modèle de psytest) : une synthèse (feu, trois cadrans, « ton histoire en quatre phrases », par quoi commencer, trois questions, schéma), « Avant de lire » (sommaire et méthode regroupée), puis neuf étapes dans l'ordre de la formation, chacune avec sa question, son « En bref » en mots et ses réponses repliées, et un fil d'Ariane à gauche. L'étape « plan » propose deux rituels personnalisés (vendredi soir, lundi matin). PDF complet par défaut (en-têtes « Étape 3 sur 9 · … »), essentiel, ou fiche travail sans données de santé.
-4. **Le dossier stagiaire** (`dossier.html`, `bull-out-dossier.pdf`) : huit feuilles A4 illustrées (les quatre approches en images, notions et principes, risques et signaux, agir, tenir dans la durée, portes et urgences, ressources Papillon, Bonheur et Traité RDR), données après la synthèse, avec le diplôme et depuis le rapport.
+4. **Le dossier stagiaire** (`dossier.html`, `bull-out-dossier.pdf`) : cinq pages pratiques selon la V2 validée, orientées **questions à se poser**. Pages 1–2 : quatre modèles en schémas, deux questions par modèle et mise en situation de Sam ; page 3 : onze chapitres cliquables ; page 4 : six familles de RPS (exemples, questions, leviers) ; page 5 : décider, demander, choisir un interlocuteur sûr. Les rituels personnalisés restent dans le rapport. Le PDF est généré depuis le HTML par Chromium.
 
 ## Les fichiers
 
@@ -37,4 +37,4 @@ npm i --no-save --no-package-lock playwright && node tests/generer-pdf-exemple.m
 node tests/generer-dossier-pdf.mjs                # régénère bull-out-dossier.pdf (échoue si une feuille déborde)
 ```
 
-Les deux tournent dans GitHub Actions à chaque PR. Toute fusion dans `main` part en ligne en 5 minutes environ.
+La synchronisation du PDF du dossier est assurée par le workflow `dossier-pdf.yml`. Les vérifications du rapport tournent dans GitHub Actions à chaque PR. Toute fusion dans `main` part en ligne en 5 minutes environ.

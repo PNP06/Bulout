@@ -1,0 +1,44 @@
+name: Dossier stagiaire · PDF synchronisé
+
+on:
+  push:
+    branches:
+      - main
+      - chatgpt/dossier-stagiaire-pratique-v2
+    paths:
+      - dossier.html
+      - dossier.css
+      - tests/generer-dossier-pdf.mjs
+      - .github/workflows/dossier-pdf.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dossier-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Vérifier Chrome
+        run: google-chrome --version
+      - name: Installer Playwright
+        run: npm install --no-save --no-package-lock playwright
+      - name: Régénérer et valider le PDF (5 pages)
+        run: node tests/generer-dossier-pdf.mjs
+      - name: Synchroniser le PDF dans la branche
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bull-out-dossier.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: synchroniser le PDF du dossier stagiaire (5 pages)"
+            git push
+          fi

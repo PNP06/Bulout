@@ -1,7 +1,7 @@
 // Génère bull-out-dossier.pdf (le dossier stagiaire, remis après la synthèse et avec le diplôme) à partir de dossier.html, via Chromium.
 // Exécution : npm i --no-save --no-package-lock playwright && node tests/generer-dossier-pdf.mjs
-// À relancer après chaque modification de dossier.html, dossier.css ou formation-contenu.js (idées clefs).
-// Le script échoue si un contenu déborde de sa feuille A4 ou si le dossier ne fait pas exactement huit pages.
+// À relancer après chaque modification de dossier.html ou dossier.css.
+// Le script échoue si un contenu déborde de sa feuille A4 ou si le dossier ne fait pas exactement cinq pages.
 import { createServer } from "node:http";
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -33,23 +33,29 @@ try {
   page.on("pageerror", (e) => erreurs.push(e.message));
   page.on("requestfailed", (r) => erreurs.push("Ressource manquante : " + r.url()));
   await page.goto(`http://127.0.0.1:${serveur.address().port}/dossier.html`, { waitUntil: "networkidle" });
-  await page.waitForFunction(() => document.body.dataset.pret === "1");
+  await page.waitForFunction(() => document.querySelectorAll(".page").length === 5);
   await page.emulateMedia({ media: "print" });
   await page.evaluate(() => document.fonts.ready);
 
   // Chaque feuille doit tenir dans sa page A4 (297 mm) : sinon le texte serait coupé.
-  const debords = await page.$$eval(".feuille", (feuilles) => feuilles.map((f, i) => ({ i: i + 1, depasse: f.scrollHeight - f.clientHeight })).filter((x) => x.depasse > 1));
+  const debords = await page.$$eval(".page", (feuilles) => feuilles.map((f, i) => ({ i: i + 1, depasse: f.scrollHeight - f.clientHeight })).filter((x) => x.depasse > 1));
   if (debords.length) throw new Error("Le dossier déborde de la page A4 : " + debords.map((d) => `feuille ${d.i} (+${d.depasse} px)`).join(", ") + ". Raccourcis le texte ou réduis un bloc.");
   const polices = await page.evaluate(() => [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family + " " + f.weight));
-  if (!polices.some((p) => p.includes("Poppins")) || !polices.some((p) => p.includes("Inter"))) throw new Error("Les polices Poppins et Inter ne sont pas chargées : " + polices.join(", "));
+  if (!polices.some((p) => p.includes("Inter"))) throw new Error("La police Inter du dossier n’est pas chargée : " + polices.join(", "));
   if (erreurs.length) throw new Error(erreurs.join("\n"));
 
-  const feuilles = await page.$$eval(".feuille", (f) => f.length);
-  if (feuilles !== 8) throw new Error(`Le dossier doit comporter huit planches A4 et en contient ${feuilles}.`);
-  const chapitres = await page.$$eval("#clefs li", (items) => items.length);
+  const feuilles = await page.$$eval(".page", (f) => f.length);
+  if (feuilles !== 5) throw new Error(`Le dossier doit comporter cinq pages A4 et en contient ${feuilles}.`);
+  const chapitres = await page.$$eval(".keyitem", (items) => items.length);
   if (chapitres !== 11) throw new Error(`Le dossier doit reprendre onze idées clefs et en contient ${chapitres}.`);
   const texte = await page.evaluate(() => document.body.textContent);
-  for (const n of ["3114", "15", "112", "Vendredi soir", "Lundi matin", "Prévention burn-out sans bullshit", "papillon.ddlab.fr", "bonheur.ddlab.fr", "traiterdr.ddlab.fr", "pré-reprise", "Six principes"]) if (!texte.includes(n)) throw new Error("Absent du dossier : " + n);
+  for (const n of ["3114", "15", "112", "JD-R", "Siegrist", "Maslach", "Conflits de valeurs", "Intensité et temps", "À qui poser ma question"]) if (!texte.includes(n)) throw new Error("Absent du dossier : " + n);
+  // Le dossier doit également se consulter sur un écran étroit sans défilement horizontal.
+  await page.emulateMedia({ media: "screen" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobile = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  if (mobile > 1) throw new Error("Débordement horizontal sur mobile : +" + mobile + " px");
+  await page.emulateMedia({ media: "print" });
   const pdf = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
   const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
   if (pages !== feuilles) throw new Error(`Le PDF fait ${pages} page(s) pour ${feuilles} feuille(s).`);
